@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Amebis
+
+    This file is part of ZRCola.
+
+    ZRCola is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    ZRCola is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <IntDir>temp\$(ProjectName).$(Platform).$(Configuration).$(PlatformToolset)\</IntDir>
+    <_PropertySheetDisplayName>ZRCola Common</_PropertySheetDisplayName>
+    <OutDir>temp\$(ProjectName).$(Platform).$(Configuration).$(PlatformToolset)\</OutDir>
+    <IncludePath>$(WX_INSTALL_PATH)\include\msvc;$(WX_INSTALL_PATH)\include;$(IncludePath)</IncludePath>
+    <SourcePath>$(WX_INSTALL_PATH)\src\aui;$(WX_INSTALL_PATH)\src\cocoa;$(WX_INSTALL_PATH)\src\common;$(WX_INSTALL_PATH)\src\dfb;$(WX_INSTALL_PATH)\src\expat;$(WX_INSTALL_PATH)\src\generic;$(WX_INSTALL_PATH)\src\gtk;$(WX_INSTALL_PATH)\src\gtk1;$(WX_INSTALL_PATH)\src\html;$(WX_INSTALL_PATH)\src\jpeg;$(WX_INSTALL_PATH)\src\motif;$(WX_INSTALL_PATH)\src\msdos;$(WX_INSTALL_PATH)\src\msw;$(WX_INSTALL_PATH)\src\os2;$(WX_INSTALL_PATH)\src\osx;$(WX_INSTALL_PATH)\src\png;$(WX_INSTALL_PATH)\src\propgrid;$(WX_INSTALL_PATH)\src\regex;$(WX_INSTALL_PATH)\src\ribbon;$(WX_INSTALL_PATH)\src\richtext;$(WX_INSTALL_PATH)\src\stc;$(WX_INSTALL_PATH)\src\tiff;$(WX_INSTALL_PATH)\src\univ;$(WX_INSTALL_PATH)\src\unix;$(WX_INSTALL_PATH)\src\x11;$(WX_INSTALL_PATH)\src\xml;$(WX_INSTALL_PATH)\src\xrc;$(WX_INSTALL_PATH)\src\zlib;$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>NTDDI_VERSION=NTDDI_WINXP;_WIN32_WINNT=_WIN32_WINNT_WINXP;wxMSVC_VERSION_AUTO;WXUSINGDLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <StringPooling>true</StringPooling>
+      <DisableSpecificWarnings>4100;4505</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WINVER=0x0501;_WIN32_WINNT=0x0501;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>

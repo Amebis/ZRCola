@@ -1,0 +1,9 @@
+/ipch
+/output/Win32.Debug
+/output/Win32.Release
+/output/x64.Debug
+/output/x64.Release
+/*.sdf
+/*.suo
+*.user
+temp
