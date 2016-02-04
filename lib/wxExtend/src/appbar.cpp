@@ -535,10 +535,11 @@ WXLRESULT wxAppBar::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lPar
 
     case WM_ENTERSIZEMOVE:
         m_stateDesired = m_state;
+        return wxFrame::MSWWindowProc(message, wParam, lParam);
 
-        return 0;
+    case WM_EXITSIZEMOVE: {
+        WXLRESULT lResult = wxFrame::MSWWindowProc(message, wParam, lParam);
 
-    case WM_EXITSIZEMOVE:
         // Clean previous docking/auto-hide settings if required.
         if (IsDocked(m_state) &&
             (m_stateDesired == wxSTATE_FLOAT || m_stateDesired != m_state && IsDocked(m_stateDesired)))
@@ -566,7 +567,8 @@ WXLRESULT wxAppBar::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lPar
         m_state = m_stateDesired;
         m_stateDesired = wxSTATE_UNKNOWN;
 
-        return 0;
+        return lResult;
+    }
 
     case WM_MOVING: {
         WXLRESULT lResult = wxFrame::MSWWindowProc(message, wParam, lParam);
