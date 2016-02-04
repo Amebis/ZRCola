@@ -53,29 +53,31 @@ public:
     /// Application bar flags
     ///
     enum wxFlags {
-        wxFLAG_ALLOWFLOAT                  = 1 <<  0,  ///< Is floating application bar allowed?
-        wxFLAG_ALLOWDOCKTOP                = 1 <<  1,  ///< Is docking on top of the screen allowed?
-        wxFLAG_ALLOWDOCKBOTTOM             = 1 <<  2,  ///< Is docking on bottom of the screen allowed?
-        wxFLAG_ALLOWDOCKLEFT               = 1 <<  3,  ///< Is docking left of the screen allowed?
-        wxFLAG_ALLOWDOCKRIGHT              = 1 <<  4,  ///< Is docking right of the screen allowed?
+        wxFLAG_ALLOWFLOAT                  = 1 <<  0,                                                                                       ///< Is floating application bar allowed?
+        wxFLAG_ALLOWDOCKTOP                = 1 <<  1,                                                                                       ///< Is docking on top of the screen allowed?
+        wxFLAG_ALLOWDOCKBOTTOM             = 1 <<  2,                                                                                       ///< Is docking on bottom of the screen allowed?
+        wxFLAG_ALLOWDOCKLEFT               = 1 <<  3,                                                                                       ///< Is docking left of the screen allowed?
+        wxFLAG_ALLOWDOCKRIGHT              = 1 <<  4,                                                                                       ///< Is docking right of the screen allowed?
+        wxFLAG_ALLOWDOCKANY                = (wxFLAG_ALLOWDOCKTOP | wxFLAG_ALLOWDOCKBOTTOM | wxFLAG_ALLOWDOCKLEFT | wxFLAG_ALLOWDOCKRIGHT), ///< Is docking at any edge of the screen allowed?
+        wxFLAG_ALLOWDOCKHORIZONTAL         = (wxFLAG_ALLOWDOCKTOP | wxFLAG_ALLOWDOCKBOTTOM),                                                ///< Is docking on top or bottom of the screen allowed?
+        wxFLAG_ALLOWDOCKVERTICAL           = (wxFLAG_ALLOWDOCKLEFT | wxFLAG_ALLOWDOCKRIGHT),                                                ///< Is docking left or right of the screen allowed?
+        wxFLAG_ALLOWANY                    = (wxFLAG_ALLOWFLOAT | wxFLAG_ALLOWDOCKANY),                                                     ///< Is floating and docking at any edge of the screen allowed?
+
         wxFLAG_ALWAYSONTOP                 = 1 <<  5,  ///< Is application bar always on top?
         wxFLAG_ALWAYSONTOPTASKBAR          = 1 <<  6,  ///< Does application bar follow always on top state of the system taskbar?
+
         wxFLAG_AUTOHIDE                    = 1 <<  7,  ///< Is application bar setup for auto-hide?
         wxFLAG_AUTOHIDETASKBAR             = 1 <<  8,  ///< Does application bar follow auto-hide state of the system taskbar?
+
         wxFLAG_ALLOWSIZING                 = 1 <<  9,  ///< Is application bar's sizing allowed?
-        wxFLAG_HIDETASKBARTABWHENFLOATING  = 1 << 10,  ///< Should application bar's tab on the system taskbar hide when floating?
-        wxFLAG_HIDETASKBARTABWHENDOCKED    = 1 << 11,  ///< Should application bar's tab on the system taskbar hide when docked?
+
+        wxFLAG_HIDETASKBARTABWHENFLOATING  = 1 << 10,                                                                                       ///< Should application bar's tab on the system taskbar hide when floating?
+        wxFLAG_HIDETASKBARTABWHENDOCKED    = 1 << 11,                                                                                       ///< Should application bar's tab on the system taskbar hide when docked?
+        wxFLAG_ALWAYSHIDETASKBARTAB        = (wxFLAG_HIDETASKBARTABWHENFLOATING | wxFLAG_HIDETASKBARTABWHENDOCKED),                         ///< Should application bar's tab on the system taskbar hide always?
 
         // Internal flags
         wxFLAG_FULLSCREENAPPOPEN           = 1 << 12,  ///< Is full-screen application open?
         wxFLAG_AUTOHIDDEN                  = 1 << 13,  ///< Is application bar auto-hidden right now?
-        wxFLAG_POSITIONSET                 = 1 << 14,  ///< Is application bar's position correct?
-
-        wxFLAG_ALLOWDOCKANY                = (wxFLAG_ALLOWDOCKTOP | wxFLAG_ALLOWDOCKBOTTOM | wxFLAG_ALLOWDOCKLEFT | wxFLAG_ALLOWDOCKRIGHT),  ///< Is docking at any edge of the screen allowed?
-        wxFLAG_ALLOWDOCKHORIZONTAL         = (wxFLAG_ALLOWDOCKTOP | wxFLAG_ALLOWDOCKBOTTOM),                                               ///< Is docking on top or bottom of the screen allowed?
-        wxFLAG_ALLOWDOCKVERTICAL           = (wxFLAG_ALLOWDOCKLEFT | wxFLAG_ALLOWDOCKRIGHT),                                               ///< Is docking left or right of the screen allowed?
-        wxFLAG_ALLOWANY                    = (wxFLAG_ALLOWFLOAT | wxFLAG_ALLOWDOCKANY),                                                    ///< Is floating and docking at any edge of the screen allowed?
-        wxFLAG_ALWAYSHIDETASKBARTAB        = (wxFLAG_HIDETASKBARTABWHENFLOATING | wxFLAG_HIDETASKBARTABWHENDOCKED),                        ///< Should application bar's tab on the system taskbar hide always?
     };
 
 public:
@@ -173,10 +175,10 @@ public:
     ///
     /// Minimize application bar to the edge of the desktop.
     ///
-    /// \param[in] state The edge at which to dock. Must be either of: wxSTATE_LEFT, wxSTATE_TOP, wxSTATE_RIGHT, or wxSTATE_BOTTOM.
+    /// \param[in] edge The edge at which to dock. Must be either of: wxSTATE_LEFT, wxSTATE_TOP, wxSTATE_RIGHT, or wxSTATE_BOTTOM.
     /// \param[in] wnd When the undocked and docked window is different, this parameter denotes the undocked version.
     ///
-    void MinimiseToEdge(wxState state, wxWindow* wnd = NULL);
+    void MinimiseToEdge(wxState edge, wxWindow* wnd = NULL);
 
     ///
     /// Restore application bar from the edge of the desktop.
@@ -262,7 +264,6 @@ protected:
     wxState m_stateDesired;         ///< Desired state of the application bar while moving/resizing
     int m_flags;                    ///< Flags describing application bar's behaviour
 
-    RECT m_rect;                    ///< Window rectangle
     SIZE m_sizeFloat;               ///< Window size when floating (we need it to restore floating size, when we undock)
     SIZE m_sizeDocked;              ///< Size of the window when docked (height when wxSTATE_TOP or wxSTATE_BOTTOM, width when wxSTATE_LEFT or wxSTATE_RIGHT)
     SIZE m_sizeMin;                 ///< Minimum window size
@@ -297,7 +298,7 @@ inline bool wxAppBar::SetAlwaysOnTop(bool alwaysOnTop)
         m_flags &= ~wxFLAG_ALWAYSONTOP;
 
     if (::IsWindowVisible(m_hWnd)) {
-        // Set the Z-order. SWP_NOSENDCHANGING flag prevents our OnWindowPosChanging() method to be called, since moving is not necessary.
+        // Set the Z-order.
         wxCHECK(::SetWindowPos(m_hWnd, GetZWnd(m_state, m_flags), 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE | SWP_NOSENDCHANGING), false);
     }
 
@@ -371,19 +372,11 @@ inline bool wxAppBar::DockAppBar(wxState state)
 {
     wxASSERT(IsDocked(state));
 
-    APPBARDATA abd = {
-        sizeof(abd),
-        m_hWnd,
-        0,
-        state
-    };
-
     // Calculate docked window rect and dock the window there.
+    APPBARDATA abd = { sizeof(abd), m_hWnd, 0, state };
     GetDockedRect(state, &(abd.rc));
     wxCHECK(::SHAppBarMessage(ABM_SETPOS, &abd), false);
-    m_flags |= wxFLAG_POSITIONSET;
-    m_rect = abd.rc;
-    wxCHECK(::SetWindowPos(m_hWnd, GetZWnd(state, m_flags), 0, 0, 0, 0, SWP_NOACTIVATE | SWP_DRAWFRAME | SWP_FRAMECHANGED), false);
+    wxCHECK(::SetWindowPos(m_hWnd, GetZWnd(state, m_flags), abd.rc.left, abd.rc.top, abd.rc.right - abd.rc.left, abd.rc.bottom - abd.rc.top, SWP_NOACTIVATE | SWP_DRAWFRAME | SWP_FRAMECHANGED), false);
 
     return true;
 }
@@ -391,14 +384,8 @@ inline bool wxAppBar::DockAppBar(wxState state)
 
 inline bool wxAppBar::UndockAppBar()
 {
-    APPBARDATA abd = {
-        sizeof(abd),
-        m_hWnd,
-        0,
-        wxSTATE_LEFT
-    };
-
     // Free application bar's space to undock.
+    APPBARDATA abd = { sizeof(abd), m_hWnd, 0, wxSTATE_LEFT };
     wxASSERT(!abd.rc.left && !abd.rc.top && !abd.rc.right && !abd.rc.bottom);
     wxCHECK(::SHAppBarMessage(ABM_SETPOS, &abd), false);
 
@@ -410,16 +397,8 @@ inline bool wxAppBar::RegisterAutoHide(wxState state)
 {
     wxASSERT(IsDocked(state));
 
-    APPBARDATA abd = {
-        sizeof(abd),
-        m_hWnd,
-        0,
-        state,
-        {},
-        (LPARAM)true
-    };
-
     // Register application bar as auto-hide.
+    APPBARDATA abd = { sizeof(abd), m_hWnd, 0, state, {}, (LPARAM)true };
     if (::SHAppBarMessage(ABM_SETAUTOHIDEBAR, &abd)) {
         // Auto-hide succeeded.
         m_flags |=  wxFLAG_AUTOHIDE;
@@ -427,9 +406,7 @@ inline bool wxAppBar::RegisterAutoHide(wxState state)
 
         // Calculate auto-hidden window rect and move the window there.
         GetAutoHideRect(state, false, &(abd.rc));
-        m_flags |= wxFLAG_POSITIONSET;
-        m_rect = abd.rc;
-        wxCHECK(::SetWindowPos(m_hWnd, GetZWnd(state, m_flags), 0, 0, 0, 0, SWP_NOACTIVATE | SWP_DRAWFRAME | SWP_FRAMECHANGED), false);
+        wxCHECK(::SetWindowPos(m_hWnd, GetZWnd(state, m_flags), abd.rc.left, abd.rc.top, abd.rc.right - abd.rc.left, abd.rc.bottom - abd.rc.top, SWP_NOACTIVATE | SWP_DRAWFRAME | SWP_FRAMECHANGED), false);
 
         // Reset auto-hide timer.
         m_timerID = ::SetTimer(m_hWnd, wxABT_AUTOHIDETIMERID, wxABT_AUTOHIDETIMERINTERVAL, NULL);
@@ -451,16 +428,8 @@ inline bool wxAppBar::UnregisterAutoHide(wxState state)
 {
     wxASSERT(IsDocked(state));
 
-    APPBARDATA abd = {
-        sizeof(abd),
-        m_hWnd,
-        0,
-        state,
-        {},
-        (LPARAM)false
-    };
-
     // Unregister application bar as auto-hide.
+    APPBARDATA abd = { sizeof(abd), m_hWnd, 0, state, {}, (LPARAM)false };
     wxCHECK(::SHAppBarMessage(ABM_SETAUTOHIDEBAR, &abd), false);
     m_flags &= ~wxFLAG_AUTOHIDDEN;
 
@@ -479,20 +448,8 @@ inline bool wxAppBar::GetDockedRect(wxState state, LPRECT rect) const
     wxASSERT(rect);
     wxASSERT(IsDocked(state));
 
-    APPBARDATA abd = {
-        sizeof(abd),
-        m_hWnd,
-        0,
-        state,
-        {
-            // Set dimensions to full screen.
-            0,
-            0,
-            ::GetSystemMetrics(SM_CXSCREEN),
-            ::GetSystemMetrics(SM_CYSCREEN)
-        }
-    };
-
+    // Set dimensions to full screen.
+    APPBARDATA abd = { sizeof(abd), m_hWnd, 0, state, { 0, 0, ::GetSystemMetrics(SM_CXSCREEN), ::GetSystemMetrics(SM_CYSCREEN) } };
     wxCHECK(::SHAppBarMessage(ABM_QUERYPOS, &abd), false);
 
     // Correct our dimensions accordingly.
@@ -658,6 +615,5 @@ inline WXHWND wxAppBar::GetZWnd(wxState state, int flags)
 inline UINT_PTR wxAppBar::GetTaskBarState()
 {
     APPBARDATA abd = { sizeof(abd) };
-
     return ::SHAppBarMessage(ABM_GETSTATE, &abd);
 }

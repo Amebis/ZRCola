@@ -46,12 +46,6 @@ wxAppBar::wxAppBar(wxWindow *parent, wxWindowID id, const wxString& title, wxSta
 
 bool wxAppBar::Create(wxWindow *parent, wxWindowID id, const wxString& title, wxState state, int flags, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
-    // Save initial window rectangle.
-    m_rect.left   = pos.x;
-    m_rect.top    = pos.y;
-    m_rect.right  = pos.x + size.x;
-    m_rect.bottom = pos.y + size.y;
-
     // Save initial floating window size.
     m_sizeFloat.cx = size.x;
     m_sizeFloat.cy = size.y;
@@ -70,14 +64,32 @@ bool wxAppBar::Create(wxWindow *parent, wxWindowID id, const wxString& title, wx
     wxCHECK(SUCCEEDED(m_taskbarList->HrInit()), false);
 
     // If any taskbar list tab's hiding is in affect, set application bar's style as tool window to avoid being displayed on the taskbar initially.
-    if (m_flags & wxFLAG_ALWAYSHIDETASKBARTAB)
-        style |= wxFRAME_TOOL_WINDOW;
+    if (state == wxSTATE_FLOAT) {
+        if (flags & wxFLAG_HIDETASKBARTABWHENFLOATING) {
+            // Hide our application bar's entry on the Windows's taskbar.
+            style |= wxFRAME_TOOL_WINDOW;
+        } else if (flags & wxFLAG_HIDETASKBARTABWHENDOCKED) {
+            // Show our application bar's entry on the Windows's taskbar.
+            style &= ~wxFRAME_TOOL_WINDOW;
+        }
+    } else if (IsDocked(state)) {
+        if (flags & wxFLAG_HIDETASKBARTABWHENDOCKED) {
+            // Hide our application bar's entry on the Windows's taskbar.
+            style |= wxFRAME_TOOL_WINDOW;
+        } else if (flags & wxFLAG_HIDETASKBARTABWHENFLOATING) {
+            // Show our application bar's entry on the Windows's taskbar.
+            style &= ~wxFRAME_TOOL_WINDOW;
+        }
+    } else {
+        // Unknown state.
+        wxFAIL;
+    }
 
     // Create frame.
     wxCHECK(wxFrame::Create(parent, id, title, pos, size, style, name), false);
 
     // Register our application bar.
-    APPBARDATA abd = { sizeof(abd), m_hWnd, WM_AB_NOTIFY, m_state, };
+    APPBARDATA abd = { sizeof(abd), m_hWnd, WM_AB_NOTIFY, m_state };
     wxCHECK(::SHAppBarMessage(ABM_NEW, &abd), false);
 
     // Get the state of the Windows taskbar.
@@ -102,10 +114,7 @@ wxAppBar::~wxAppBar()
     wxASSERT(m_timerID == 0);
 
     // Remove the application bar.
-    APPBARDATA abd = {
-        sizeof(abd),
-        m_hWnd
-    };
+    APPBARDATA abd = { sizeof(abd), m_hWnd };
     wxVERIFY(::SHAppBarMessage(ABM_REMOVE, &abd));
 
     if (m_taskbarList)
@@ -189,16 +198,17 @@ wxAppBar::~wxAppBar()
 //}
 
 
-void wxAppBar::MinimiseToEdge(wxState state, wxWindow *wnd)
+void wxAppBar::MinimiseToEdge(wxState edge, wxWindow *wnd)
 {
-    wxASSERT(IsDocked(state));
+    wxASSERT(IsDocked(edge));
 
+    WXHWND hWnd;
     if (!wnd) {
         // No other window was specified. Minimize ourself.
-        wnd = this;
-    }
-
-    WXHWND hWnd = wnd->GetHWND();
+        wnd  = this;
+        hWnd = m_hWnd;
+    } else
+        hWnd = wnd->GetHWND();
 
     // If our window is hidden, there's nothing we can do.
     if (hWnd == m_hWnd && !::IsWindowVisible(m_hWnd))
@@ -206,36 +216,28 @@ void wxAppBar::MinimiseToEdge(wxState state, wxWindow *wnd)
 
     if (m_state == wxSTATE_FLOAT) {
         // Remember the last floating size.
-        m_sizeFloat.cx = m_rect.right  - m_rect.left;
-        m_sizeFloat.cy = m_rect.bottom - m_rect.top;
+        RECT rect = {};
+        wxVERIFY(::GetWindowRect(hWnd, &rect));
+        m_sizeFloat.cx = rect.right  - rect.left;
+        m_sizeFloat.cy = rect.bottom - rect.top;
     }
 
     RECT rectTo;
     if (IsAutoHide())
-        GetAutoHideRect(state, false, &rectTo);
+        GetAutoHideRect(edge, false, &rectTo);
     else
-        GetDockedRect(state, &rectTo);
+        GetDockedRect(edge, &rectTo);
 
     if (::wxGetDoWndAnimation()) {
-        RECT rectFrom;
-
-        // Calculate source and destination rectangles.
-        if (hWnd != m_hWnd)
-            ::GetWindowRect(hWnd, &rectFrom);
-        else
-            rectFrom = m_rect;
-
         // Do the animation.
+        RECT rectFrom;
+        wxVERIFY(::GetWindowRect(hWnd, &rectFrom));
         wxVERIFY(::DrawAnimatedRects(hWnd, IDANI_CAPTION, &rectFrom, &rectTo));
     }
 
-    // Set the window rect.
-    m_flags |= wxFLAG_POSITIONSET;
-    m_rect = rectTo;
-
     // Notify about the change of state.
-    OnChangeState(state);
-    m_state = state;
+    OnChangeState(edge);
+    m_state = edge;
 
     if (hWnd != m_hWnd) {
         // Hide the source window.
@@ -247,10 +249,10 @@ void wxAppBar::MinimiseToEdge(wxState state, wxWindow *wnd)
     } else {
         if (IsAutoHide()) {
             // Register auto-hide application bar.
-            RegisterAutoHide(state);
+            RegisterAutoHide(edge);
         } else {
             // Auto-hide failed or wasn't desired at all.
-            DockAppBar(state);
+            DockAppBar(edge);
         }
     }
 
@@ -262,16 +264,16 @@ void wxAppBar::MaximiseFromEdge(const RECT* rect)
 {
     wxASSERT(::IsWindowVisible(m_hWnd));
 
-    RECT rc;
+    RECT rectTo;
 
     if (!rect) {
         // Calculate the destination rect.
-        rc.left   = (::GetSystemMetrics(SM_CXSCREEN) - m_sizeFloat.cx) / 2;
-        rc.top    = (::GetSystemMetrics(SM_CYSCREEN) - m_sizeFloat.cy) / 2;
-        rc.right  = rc.left + m_sizeFloat.cx;
-        rc.bottom = rc.top  + m_sizeFloat.cy;
+        rectTo.left   = (::GetSystemMetrics(SM_CXSCREEN) - m_sizeFloat.cx) / 2;
+        rectTo.top    = (::GetSystemMetrics(SM_CYSCREEN) - m_sizeFloat.cy) / 2;
+        rectTo.right  = rectTo.left + m_sizeFloat.cx;
+        rectTo.bottom = rectTo.top  + m_sizeFloat.cy;
 
-        rect = &rc;
+        rect = &rectTo;
     } else {
         m_sizeFloat.cx = rect->right  - rect->left;
         m_sizeFloat.cy = rect->bottom - rect->top;
@@ -279,7 +281,9 @@ void wxAppBar::MaximiseFromEdge(const RECT* rect)
 
     if (::wxGetDoWndAnimation()) {
         // Do the animation.
-        wxVERIFY(::DrawAnimatedRects(m_hWnd, IDANI_CAPTION, &m_rect, rect));
+        RECT rectFrom;
+        wxVERIFY(::GetWindowRect(m_hWnd, &rectFrom));
+        wxVERIFY(::DrawAnimatedRects(m_hWnd, IDANI_CAPTION, &rectFrom, rect));
     }
 
     // Clean previous docking/auto-hide settings if required.
@@ -290,15 +294,11 @@ void wxAppBar::MaximiseFromEdge(const RECT* rect)
             UndockAppBar();
     }
 
-    // Set the window rect.
-    m_flags |= wxFLAG_POSITIONSET;
-    m_rect = *rect;
-
     // Notify about the change of state.
     OnChangeState(wxSTATE_FLOAT);
     m_state = wxSTATE_FLOAT;
 
-    ::SetWindowPos(m_hWnd, GetZWnd(wxSTATE_FLOAT, m_flags), 0, 0, 0, 0, SWP_NOACTIVATE | SWP_DRAWFRAME | SWP_FRAMECHANGED);
+    wxVERIFY(::SetWindowPos(m_hWnd, GetZWnd(wxSTATE_FLOAT, m_flags), rect->left, rect->top, rect->right - rect->left, rect->bottom - rect->top, SWP_NOACTIVATE | SWP_DRAWFRAME | SWP_FRAMECHANGED));
 }
 
 
@@ -308,20 +308,21 @@ void wxAppBar::MaximiseFromEdge(wxWindow *wnd)
     wxASSERT(::IsWindowVisible(m_hWnd));
 
     WXHWND hWnd = wnd->GetHWND();
-    RECT rectTo;
 
-    ::GetWindowRect(hWnd, &rectTo);
+    RECT rectTo = {};
+    wxVERIFY(::GetWindowRect(hWnd, &rectTo));
     m_sizeFloat.cx = rectTo.right  - rectTo.left;
     m_sizeFloat.cy = rectTo.bottom - rectTo.top;
 
     if (::wxGetDoWndAnimation()) {
         // Do the animation.
-        wxVERIFY(::DrawAnimatedRects(hWnd, IDANI_CAPTION, &m_rect, &rectTo));
+        RECT rectFrom;
+        wxVERIFY(::GetWindowRect(m_hWnd, &rectFrom));
+        wxVERIFY(::DrawAnimatedRects(hWnd, IDANI_CAPTION, &rectFrom, &rectTo));
     }
 
+    // Hide our window and show the destination window.
     Hide();
-
-    // Show the destination window.
     wnd->Show();
     // ::SetWindowLong(hWnd, GWL_STYLE, GetWindowLong(hWnd, GWL_STYLE) | WS_VISIBLE);
     wxVERIFY(::SetForegroundWindow(hWnd));
@@ -368,25 +369,20 @@ void wxAppBar::ShowAutoHideAppBar(bool bShow)
             rcDelta.right  = rcEnd.right  - rcStart.right;
             rcDelta.bottom = rcEnd.bottom - rcStart.bottom;
 
-            m_flags |= wxFLAG_POSITIONSET;
-
             while ((dwTimeElapsed = ::GetTickCount() - dwTimeStart) < wxABT_AUTOHIDETIME) {
                 // Do the linear interpolation.
-                m_rect.left   = rcStart.left   + ::MulDiv(rcDelta.left,   dwTimeElapsed, wxABT_AUTOHIDETIME);
-                m_rect.top    = rcStart.top    + ::MulDiv(rcDelta.top,    dwTimeElapsed, wxABT_AUTOHIDETIME);
-                m_rect.right  = rcStart.right  + ::MulDiv(rcDelta.right,  dwTimeElapsed, wxABT_AUTOHIDETIME);
-                m_rect.bottom = rcStart.bottom + ::MulDiv(rcDelta.bottom, dwTimeElapsed, wxABT_AUTOHIDETIME);
+                RECT rect;
+                rect.left   = rcStart.left   + ::MulDiv(rcDelta.left,   dwTimeElapsed, wxABT_AUTOHIDETIME);
+                rect.top    = rcStart.top    + ::MulDiv(rcDelta.top,    dwTimeElapsed, wxABT_AUTOHIDETIME);
+                rect.right  = rcStart.right  + ::MulDiv(rcDelta.right,  dwTimeElapsed, wxABT_AUTOHIDETIME);
+                rect.bottom = rcStart.bottom + ::MulDiv(rcDelta.bottom, dwTimeElapsed, wxABT_AUTOHIDETIME);
 
                 // Show the window at its changed position
-                ::SetWindowPos(m_hWnd, NULL, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOACTIVATE);
-                ::UpdateWindow(m_hWnd);
+                wxVERIFY(::SetWindowPos(m_hWnd, NULL, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, SWP_NOZORDER | SWP_NOACTIVATE));
+                wxVERIFY(::UpdateWindow(m_hWnd));
             }
         }
     }
-
-    // Make sure that the window is at its final position
-    m_flags |= wxFLAG_POSITIONSET;
-    m_rect = rcEnd;
 
     if (bShow)
         m_flags &= ~wxFLAG_AUTOHIDDEN;
@@ -394,8 +390,8 @@ void wxAppBar::ShowAutoHideAppBar(bool bShow)
         m_flags |= wxFLAG_AUTOHIDDEN;
 
     if (bVisible) {
-        ::SetWindowPos(m_hWnd, NULL, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOACTIVATE);
-        ::UpdateWindow(m_hWnd);
+        wxVERIFY(::SetWindowPos(m_hWnd, NULL, rcEnd.left, rcEnd.top, rcEnd.right - rcEnd.left, rcEnd.bottom - rcEnd.top, SWP_NOZORDER | SWP_NOACTIVATE));
+        wxVERIFY(::UpdateWindow(m_hWnd));
         // Reset auto-hide timer.
         m_timerID = ::SetTimer(m_hWnd, wxABT_AUTOHIDETIMERID, wxABT_AUTOHIDETIMERINTERVAL, NULL);
     }
@@ -505,40 +501,14 @@ WXLRESULT wxAppBar::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lPar
             return lResult;
         }
 
-    case WM_WINDOWPOSCHANGING: {
-        wxASSERT(lParam);
-        LPWINDOWPOS lpwndpos = (LPWINDOWPOS)lParam;
-
-        // Sync to our window rect.
-        if (!(m_flags & wxFLAG_POSITIONSET) && !(lpwndpos->flags & SWP_NOMOVE)) {
-            // Get the window position first time the SetWindowPos() is called.
-            m_rect.right  = lpwndpos->x + m_rect.right  - m_rect.left;
-            m_rect.bottom = lpwndpos->y + m_rect.bottom - m_rect.top;
-            m_rect.left   = lpwndpos->x;
-            m_rect.top    = lpwndpos->y;
-            m_flags |= wxFLAG_POSITIONSET;
-        } else {
-            lpwndpos->x = m_rect.left;
-            lpwndpos->y = m_rect.top;
-        }
-        lpwndpos->cx = m_rect.right - m_rect.left;
-        lpwndpos->cy = m_rect.bottom - m_rect.top;
-        lpwndpos->flags &= ~(SWP_NOMOVE | SWP_NOSIZE);
-        return wxFrame::MSWWindowProc(message, wParam, lParam);
-    }
-
     case WM_WINDOWPOSCHANGED: {
         WXLRESULT lResult = wxFrame::MSWWindowProc(message, wParam, lParam);
 
         if (IsDocked(m_state)) {
-            APPBARDATA abd = {
-                sizeof(abd),
-                m_hWnd
-            };
-
             // When our window changes position, tell the Shell so that any
             // auto-hidden application bar on our edge stays on top of our window making it
             // always accessible to the user.
+            APPBARDATA abd = { sizeof(abd), m_hWnd };
             wxVERIFY(::SHAppBarMessage(ABM_WINDOWPOSCHANGED, &abd));
         }
 
@@ -656,10 +626,6 @@ WXLRESULT wxAppBar::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lPar
             wxFAIL;
         }
 
-        // Set the window rect.
-        m_flags |= wxFLAG_POSITIONSET;
-        m_rect = *lpRect;
-
         if (m_stateDesired != uStateDesiredPrev) {
             // Notify about the proposed change of state, but don't change the state yet.
             OnChangeState(m_stateDesired);
@@ -670,11 +636,7 @@ WXLRESULT wxAppBar::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lPar
 
     case WM_SIZING: {
         wxASSERT(lParam);
-
         LPRECT lpRect = (LPRECT)lParam;
-
-        m_flags |= wxFLAG_POSITIONSET;
-        m_rect = *lpRect;
 
         if (m_stateDesired == wxSTATE_FLOAT) {
             // Remember the floating window size.
@@ -701,11 +663,13 @@ WXLRESULT wxAppBar::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lPar
         LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
 
         // Convert client size to window size.
-        RECT rc = {};
-        wxVERIFY(::GetClientRect(m_hWnd, &rc));
-        if (rc.right - rc.left && rc.bottom - rc.top) {
-            lpMMI->ptMinTrackSize.x = m_sizeMin.cx + (m_rect.right  - m_rect.left) - (rc.right  - rc.left);
-            lpMMI->ptMinTrackSize.y = m_sizeMin.cy + (m_rect.bottom - m_rect.top ) - (rc.bottom - rc.top );
+        RECT rectClient = {};
+        wxVERIFY(::GetClientRect(m_hWnd, &rectClient));
+        if (rectClient.right - rectClient.left && rectClient.bottom - rectClient.top) {
+            RECT rectWindow = {};
+            wxVERIFY(::GetWindowRect(m_hWnd, &rectWindow));
+            lpMMI->ptMinTrackSize.x = m_sizeMin.cx + (rectWindow.right  - rectWindow.left) - (rectClient.right  - rectClient.left);
+            lpMMI->ptMinTrackSize.y = m_sizeMin.cy + (rectWindow.bottom - rectWindow.top ) - (rectClient.bottom - rectClient.top );
         }
 
         return lResult;
@@ -761,14 +725,10 @@ WXLRESULT wxAppBar::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lPar
         WXLRESULT lResult = wxFrame::MSWWindowProc(message, wParam, lParam);
 
         if (IsDocked(m_state)) {
-            APPBARDATA abd = {
-                sizeof(abd),
-                m_hWnd
-            };
-
             // When our window changes activation state, tell the Shell so that any
             // auto-hidden application bar on our edge stays on top of our window making it
             // always accessible to the user.
+            APPBARDATA abd = { sizeof(abd), m_hWnd };
             wxVERIFY(::SHAppBarMessage(ABM_ACTIVATE, &abd));
 
             if (LOWORD(wParam) == WA_INACTIVE && IsAutoHide()) {
@@ -789,12 +749,14 @@ WXLRESULT wxAppBar::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lPar
                 // Get the position of the mouse and the application bar's position
                 // Everything must be in screen coordinates.
                 DWORD dwPoint = ::GetMessagePos();
-                wxPoint pt(GET_X_LPARAM(dwPoint), GET_Y_LPARAM(dwPoint));
-                wxRect rc(m_rect.left, m_rect.top, m_rect.right - m_rect.left, m_rect.bottom - m_rect.top);
+                wxPoint pointMouse(GET_X_LPARAM(dwPoint), GET_Y_LPARAM(dwPoint));
+                RECT rect = {};
+                wxVERIFY(::GetWindowRect(m_hWnd, &rect));
+                wxRect rectBounds(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
 
                 // Add a little margin around the application bar
-                rc.Inflate(2 * ::GetSystemMetrics(SM_CXDOUBLECLK), 2 * ::GetSystemMetrics(SM_CYDOUBLECLK));
-                if (!rc.Contains(pt)) {
+                rectBounds.Inflate(2 * ::GetSystemMetrics(SM_CXDOUBLECLK), 2 * ::GetSystemMetrics(SM_CYDOUBLECLK));
+                if (!rectBounds.Contains(pointMouse)) {
                     // If the mouse is NOT over or near the application bar, hide it.
                     ShowAutoHideAppBar(false);
                 }
@@ -815,7 +777,7 @@ WXLRESULT wxAppBar::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lPar
                     OnChangeTaskBarState(GetTaskBarState());
 
                     if (::IsWindowVisible(m_hWnd)) {
-                        // Set the Z-order. SWP_NOSENDCHANGING flag prevents our OnWindowPosChanging() method to be called, since moving is not desired.
+                        // Set the Z-order.
                         wxVERIFY(::SetWindowPos(m_hWnd, GetZWnd(m_state, m_flags), 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE | SWP_NOSENDCHANGING));
                     }
                     break;
