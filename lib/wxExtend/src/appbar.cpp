@@ -501,6 +501,24 @@ WXLRESULT wxAppBar::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lPar
             return lResult;
         }
 
+    case WM_WINDOWPOSCHANGING: {
+        if (m_state != m_stateDesired && IsDocked(m_stateDesired)) {
+            wxASSERT(lParam);
+            LPWINDOWPOS lpwndpos = (LPWINDOWPOS)lParam;
+
+            // When about to get docked, fix position and size to avoid Aero Snap interfering with window size.
+            RECT rect;
+            GetDockedRect(m_stateDesired, &rect);
+            lpwndpos->x  = rect.left;
+            lpwndpos->y  = rect.top;
+            lpwndpos->cx = rect.right  - rect.left;
+            lpwndpos->cy = rect.bottom - rect.top;
+            lpwndpos->flags &= ~(SWP_NOMOVE | SWP_NOSIZE);
+        }
+
+        return wxFrame::MSWWindowProc(message, wParam, lParam);
+    }
+
     case WM_WINDOWPOSCHANGED: {
         WXLRESULT lResult = wxFrame::MSWWindowProc(message, wParam, lParam);
 
