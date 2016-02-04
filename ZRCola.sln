@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZRCola", "ZRCola\ZRCola.vcxproj", "{CD9E4170-92DD-440E-980C-D15F62032249}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{6D85AD6A-69D6-40EB-BF0C-7495479DDCE5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wxExtend", "lib\wxExtend\build\wxExtend.vcxproj", "{A3A36689-AC35-4026-93DA-A3BA0C0E767C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -19,8 +23,19 @@ Global
 		{CD9E4170-92DD-440E-980C-D15F62032249}.Release|Win32.Build.0 = Release|Win32
 		{CD9E4170-92DD-440E-980C-D15F62032249}.Release|x64.ActiveCfg = Release|x64
 		{CD9E4170-92DD-440E-980C-D15F62032249}.Release|x64.Build.0 = Release|x64
+		{A3A36689-AC35-4026-93DA-A3BA0C0E767C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A3A36689-AC35-4026-93DA-A3BA0C0E767C}.Debug|Win32.Build.0 = Debug|Win32
+		{A3A36689-AC35-4026-93DA-A3BA0C0E767C}.Debug|x64.ActiveCfg = Debug|x64
+		{A3A36689-AC35-4026-93DA-A3BA0C0E767C}.Debug|x64.Build.0 = Debug|x64
+		{A3A36689-AC35-4026-93DA-A3BA0C0E767C}.Release|Win32.ActiveCfg = Release|Win32
+		{A3A36689-AC35-4026-93DA-A3BA0C0E767C}.Release|Win32.Build.0 = Release|Win32
+		{A3A36689-AC35-4026-93DA-A3BA0C0E767C}.Release|x64.ActiveCfg = Release|x64
+		{A3A36689-AC35-4026-93DA-A3BA0C0E767C}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A3A36689-AC35-4026-93DA-A3BA0C0E767C} = {6D85AD6A-69D6-40EB-BF0C-7495479DDCE5}
 	EndGlobalSection
 EndGlobal

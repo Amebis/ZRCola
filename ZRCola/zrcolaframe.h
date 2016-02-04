@@ -19,14 +19,13 @@
 
 #pragma once
 
-#include <wx/wx.h>
+#include <wxex/appbar.h>
 
 
-//////////////////////////////////////////////////////////////////////////
-// ZRColaFrame
-//////////////////////////////////////////////////////////////////////////
-
-class ZRColaFrame : public wxFrame
+///
+/// ZRCola main frame
+///
+class ZRColaFrame : public wxAppBar
 {
 public:
     ZRColaFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
@@ -40,18 +39,4 @@ protected:
     void OnExit(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     wxDECLARE_EVENT_TABLE();
-};
-
-
-//////////////////////////////////////////////////////////////////////////
-// ZRColaApp
-//////////////////////////////////////////////////////////////////////////
-
-class ZRColaApp: public wxApp
-{
-public:
-    virtual bool OnInit();
-
-protected:
-    wxLocale m_locale;
 };

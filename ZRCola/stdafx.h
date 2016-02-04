@@ -20,4 +20,9 @@
 #pragma once
 
 #include "../include/ZRCola.h"
-#include "ZRCola.h"
+#include "zrcolaapp.h"
+#include "zrcolaframe.h"
+
+#include <wx/menu.h>
+#include <wx/msgdlg.h>
+#include <wxex/common.h>

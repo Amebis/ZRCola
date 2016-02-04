@@ -21,10 +21,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ZRColaFrame.cpp">
+    <ClCompile Include="zrcolaapp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ZRColaApp.cpp">
+    <ClCompile Include="zrcolaframe.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,7 +35,10 @@
     <ClInclude Include="..\include\ZRCola.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ZRCola.h">
+    <ClInclude Include="zrcolaapp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zrcolaframe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

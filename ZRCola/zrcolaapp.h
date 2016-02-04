@@ -18,3 +18,18 @@
 */
 
 #pragma once
+
+#include <wx/app.h>
+
+
+///
+/// ZRCola application
+///
+class ZRColaApp: public wxApp
+{
+public:
+    virtual bool OnInit();
+
+protected:
+    wxLocale m_locale;
+};

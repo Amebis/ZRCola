@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-02-02 15:49+0100\n"
-"PO-Revision-Date: 2016-02-02 16:35+0100\n"
+"POT-Creation-Date: 2016-02-04 12:19+0100\n"
+"PO-Revision-Date: 2016-02-04 12:19+0100\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: sl_SI\n"
@@ -17,38 +17,37 @@ msgstr ""
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: main.cpp:48
-msgid "&Hello...\tShift+H"
-msgstr "&Pozdrav ...\t⇧+H"
+#: zrcolaapp.cpp:40
+msgid "Hello World"
+msgstr "Zdravo svet"
 
-#: main.cpp:48
+#: zrcolaframe.cpp:37
+msgid "&Hello...\tCtrl+H"
+msgstr "&Pozdrav ...\tCtrl+H"
+
+#: zrcolaframe.cpp:37
 msgid "Help string shown in status bar for this menu item"
 msgstr "Niz s pomočjo prikazan v statusni vrstici za to točko menija"
 
-#: main.cpp:56
+#: zrcolaframe.cpp:45
 msgid "&File"
 msgstr "&Datoteka"
 
-#: main.cpp:57
+#: zrcolaframe.cpp:46
 msgid "&Help"
 msgstr "&Pomoč"
 
-#: main.cpp:61
-msgid "Welcome to wxWidgets!"
-msgstr "Dobrodošli v wxWidgets!"
-
-#: main.cpp:71
+#: zrcolaframe.cpp:62
 msgid "This is a wxWidgets' Hello world sample"
 msgstr "To je primer Zdravo svet v wxWidgets"
 
-#: main.cpp:71
+#: zrcolaframe.cpp:62
 msgid "About Hello World"
 msgstr "O Zdravo svet"
 
-#: main.cpp:76
+#: zrcolaframe.cpp:68
 msgid "Hello world from wxWidgets!"
 msgstr "Zdravo svet iz wxWidgets!"
 
-#: main.cpp:99
-msgid "Hello World"
-msgstr "Zdravo svet"
+#~ msgid "Welcome to wxWidgets!"
+#~ msgstr "Dobrodošli v wxWidgets!"

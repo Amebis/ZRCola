@@ -33,8 +33,8 @@ bool ZRColaApp::OnInit()
         wxString sPath(wxPathOnly(argv[0]));
         sPath << wxT("\\..\\locale");
         m_locale.AddCatalogLookupPathPrefix(sPath);
-        averify(m_locale.Init(wxLANGUAGE_SLOVENIAN));
-        averify(m_locale.AddCatalog(wxT("ZRCola")));
+        wxVERIFY(m_locale.Init(wxLANGUAGE_SLOVENIAN));
+        wxVERIFY(m_locale.AddCatalog(wxT("ZRCola")));
     }
 
     ZRColaFrame *frame = new ZRColaFrame(_("Hello World"), wxPoint(50, 50), wxSize(450, 340));
