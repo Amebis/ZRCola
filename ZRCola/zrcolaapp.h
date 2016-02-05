@@ -19,17 +19,14 @@
 
 #pragma once
 
-#include <wx/app.h>
+#include <wxex/appex.h>
 
 
 ///
 /// ZRCola application
 ///
-class ZRColaApp: public wxApp
+class ZRColaApp : public wxAppEx
 {
 public:
     virtual bool OnInit();
-
-protected:
-    wxLocale m_locale;
 };

@@ -29,13 +29,8 @@ wxIMPLEMENT_APP(ZRColaApp);
 
 bool ZRColaApp::OnInit()
 {
-    if (wxLocale::IsAvailable(wxLANGUAGE_SLOVENIAN)) {
-        wxString sPath(wxPathOnly(argv[0]));
-        sPath << wxT("\\..\\locale");
-        m_locale.AddCatalogLookupPathPrefix(sPath);
-        wxVERIFY(m_locale.Init(wxLANGUAGE_SLOVENIAN));
-        wxVERIFY(m_locale.AddCatalog(wxT("ZRCola")));
-    }
+    if (!wxAppEx::OnInit())
+        return false;
 
     ZRColaFrame *frame = new ZRColaFrame(_("Hello World"), wxPoint(50, 50), wxSize(450, 340));
     frame->Show(true);
