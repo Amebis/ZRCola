@@ -24,30 +24,27 @@
 // ZRColaFrame
 //////////////////////////////////////////////////////////////////////////
 
-wxBEGIN_EVENT_TABLE(ZRColaFrame, wxAppBar)
-    EVT_MENU(ZRColaFrame::ID_Hello, ZRColaFrame::OnHello)
-    EVT_MENU(wxID_EXIT,             ZRColaFrame::OnExit)
-    EVT_MENU(wxID_ABOUT,            ZRColaFrame::OnAbout)
+wxBEGIN_EVENT_TABLE(ZRColaFrame, wxAppBarFrame)
+    EVT_MENU(wxID_EXIT,  ZRColaFrame::OnExit)
+    EVT_MENU(wxID_ABOUT, ZRColaFrame::OnAbout)
 wxEND_EVENT_TABLE()
 
 
-ZRColaFrame::ZRColaFrame(const wxString& title, const wxPoint& pos, const wxSize& size) : wxAppBar(NULL, wxID_ANY, title, wxSTATE_FLOAT, wxFLAG_ALLOWFLOAT | wxFLAG_ALLOWDOCKHORIZONTAL | wxFLAG_ALLOWSIZING | wxFLAG_HIDETASKBARTABWHENDOCKED, pos, size)
+ZRColaFrame::ZRColaFrame() : wxAppBarFrame(NULL, wxID_ANY, _("ZRCola"), wxABS_FLOAT, wxABF_ALLOWFLOAT | wxABF_ALLOWDOCKHORIZONTAL | wxABF_ALLOWSIZING | wxABF_HIDETASKBARTABWHENDOCKED, wxDefaultPosition, wxSize(400, 100))
 {
-    wxMenu *menuFile = new wxMenu;
-    menuFile->Append(ZRColaFrame::ID_Hello, _("&Hello...\tCtrl+H"), _("Help string shown in status bar for this menu item"));
-    menuFile->AppendSeparator();
-    menuFile->Append(wxID_EXIT);
+    wxBoxSizer* bSizer1;
+    bSizer1 = new wxBoxSizer( wxHORIZONTAL );
 
-    wxMenu *menuHelp = new wxMenu;
-    menuHelp->Append(wxID_ABOUT);
+    m_preview = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_MULTILINE|wxTE_WORDWRAP );
+    m_preview->SetFont( wxFont( 20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("00 ZRCola") ) );
+    bSizer1->Add( m_preview, 1, wxEXPAND, 5 );
 
-    wxMenuBar *menuBar = new wxMenuBar;
-    menuBar->Append(menuFile, _("&File"));
-    menuBar->Append(menuHelp, _("&Help"));
-    SetMenuBar(menuBar);
+    m_btnSend = new wxButton( this, wxID_ANY, wxT("&Send"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_btnSend->SetDefault(); 
+    bSizer1->Add( m_btnSend, 0, wxEXPAND, 5 );
 
-    //CreateStatusBar();
-    //SetStatusText(_("Welcome to wxWidgets!"));
+    SetSizer( bSizer1 );
+    Layout();
 }
 
 
@@ -59,11 +56,5 @@ void ZRColaFrame::OnExit(wxCommandEvent& event)
 
 void ZRColaFrame::OnAbout(wxCommandEvent& event)
 {
-    wxMessageBox(_("This is a wxWidgets' Hello world sample"), _("About Hello World"), wxOK | wxICON_INFORMATION);
-}
-
-
-void ZRColaFrame::OnHello(wxCommandEvent& event)
-{
-    wxLogMessage(_("Hello world from wxWidgets!"));
+    wxMessageBox(wxString::Format(_("ZRCola v%s\nCopyright 2016 Amebis"), wxT(ZRCOLA_VERSION_STR)), _("About ZRCola"), wxOK | wxICON_INFORMATION);
 }

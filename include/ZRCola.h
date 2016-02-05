@@ -18,3 +18,5 @@
 */
 
 #pragma once
+
+#define ZRCOLA_VERSION_STR  "2.0-alpha"

@@ -32,7 +32,8 @@ bool ZRColaApp::OnInit()
     if (!wxAppEx::OnInit())
         return false;
 
-    ZRColaFrame *frame = new ZRColaFrame(_("Hello World"), wxPoint(50, 50), wxSize(450, 340));
-    frame->Show(true);
+    ZRColaFrame *frame = new ZRColaFrame();
+    frame->Show();
+
     return true;
 }

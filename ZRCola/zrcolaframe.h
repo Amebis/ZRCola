@@ -20,23 +20,29 @@
 #pragma once
 
 #include <wxex/appbar.h>
+#include <wx/button.h>
+#include <wx/textctrl.h>
 
 
 ///
 /// ZRCola main frame
 ///
-class ZRColaFrame : public wxAppBar
+class ZRColaFrame : public wxAppBarFrame
 {
 public:
-    ZRColaFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
-
-    enum {
-        ID_Hello = 1
-    };
+    ZRColaFrame();
 
 protected:
-    void OnHello(wxCommandEvent& event);
+    enum {
+        ID_Hello,
+    };
+
     void OnExit(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
+    void OnHello(wxCommandEvent& event);
     wxDECLARE_EVENT_TABLE();
+
+protected:
+    wxTextCtrl* m_preview;  ///< Preview edit box
+    wxButton* m_btnSend;    ///< Send button
 };
