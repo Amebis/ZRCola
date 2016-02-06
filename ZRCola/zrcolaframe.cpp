@@ -1,5 +1,5 @@
 /*
-    Copyright 2016 Amebis
+    Copyright 2015-2016 Amebis
 
     This file is part of ZRCola.
 
@@ -77,5 +77,5 @@ bool wxZRColaFrame::Create()
 
 void wxZRColaFrame::OnAbout(wxCommandEvent& event)
 {
-    wxMessageBox(wxString::Format(_("ZRCola v%s\nCopyright 2016 Amebis"), wxT(ZRCOLA_VERSION_STR)), _("About ZRCola"), wxOK | wxICON_INFORMATION);
+    wxMessageBox(wxString::Format(_("ZRCola v%s\nCopyright 2015-%s Amebis"), wxT(ZRCOLA_VERSION_STR), wxT(ZRCOLA_BUILD_YEAR_STR)), _("About ZRCola"), wxOK | wxICON_INFORMATION);
 }
