@@ -21,40 +21,61 @@
 
 
 //////////////////////////////////////////////////////////////////////////
-// ZRColaFrame
+// wxZRColaFrame
 //////////////////////////////////////////////////////////////////////////
 
-wxBEGIN_EVENT_TABLE(ZRColaFrame, wxAppBarFrame)
-    EVT_MENU(wxID_EXIT,  ZRColaFrame::OnExit)
-    EVT_MENU(wxID_ABOUT, ZRColaFrame::OnAbout)
+wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxAppBarFrame)
+    EVT_MENU(wxID_ABOUT, wxZRColaFrame::OnAbout)
 wxEND_EVENT_TABLE()
 
 
-ZRColaFrame::ZRColaFrame() : wxAppBarFrame(NULL, wxID_ANY, _("ZRCola"), wxABS_FLOAT, wxABF_ALLOWFLOAT | wxABF_ALLOWDOCKHORIZONTAL | wxABF_ALLOWSIZING | wxABF_HIDETASKBARTABWHENDOCKED, wxDefaultPosition, wxSize(400, 100))
+wxZRColaFrame::wxZRColaFrame() : wxAppBarFrame()
 {
-    wxBoxSizer* bSizer1;
-    bSizer1 = new wxBoxSizer( wxHORIZONTAL );
+}
 
-    m_preview = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_MULTILINE|wxTE_WORDWRAP );
-    m_preview->SetFont( wxFont( 20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("00 ZRCola") ) );
-    bSizer1->Add( m_preview, 1, wxEXPAND, 5 );
 
-    m_btnSend = new wxButton( this, wxID_ANY, wxT("&Send"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_btnSend->SetDefault(); 
-    bSizer1->Add( m_btnSend, 0, wxEXPAND, 5 );
+bool wxZRColaFrame::Create()
+{
+    wxImage::AddHandler(new wxICOHandler);
 
-    SetSizer( bSizer1 );
+    wxCHECK(wxAppBarFrame::Create(NULL, wxID_ANY, _("ZRCola"), wxABS_FLOAT, wxABF_ALLOWFLOAT | wxABF_ALLOWDOCKHORIZONTAL | wxABF_ALLOWSIZING | wxABF_HIDETASKBARTABWHENDOCKED, wxDefaultPosition, wxSize(400, 100)), false);
+
+    wxFont fontZRCola(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("00 ZRCola"));
+
+    wxCHECK(m_preview.Create(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE), false);
+    m_preview.Wrap(-1);
+    m_preview.SetFont(fontZRCola);
+
+    wxCHECK(m_composer.Create(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_MULTILINE), false);
+    m_composer.SetFont(fontZRCola);
+
+    wxBoxSizer
+        //*boxH = new wxBoxSizer(wxHORIZONTAL),
+        *boxV = new wxBoxSizer(wxVERTICAL);
+
+    boxV->Add(&m_preview,  1, wxEXPAND, 5);
+    boxV->Add(&m_composer, 1, wxEXPAND, 5);
+    //boxH->Add(boxV, 1, wxEXPAND, 5);
+
+    //m_toolBar.Create(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL);
+    //m_toolBar.AddTool(wxID_ABOUT, _("About"), wxBitmap(wxIcon(wxICON(send.ico))));
+    //m_toolBar.AddTool(wxID_ABOUT, _("About"), wxBitmap(wxIcon(wxICON(send.ico))));
+    //m_toolBar.AddTool(wxID_ABOUT, _("About"), wxBitmap(wxIcon(wxICON(send.ico))));
+    //m_toolBar.AddTool(wxID_ABOUT, _("About"), wxBitmap(wxIcon(wxICON(send.ico))));
+    //m_toolBar.Realize();
+    //Connect(wxID_ABOUT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(wxZRColaFrame::OnAbout));
+
+    //boxH->Add(&m_toolBar, 0, wxEXPAND, 5);
+
+    SetSizer(boxV);
+    //SetSizer(boxH);
     Layout();
+
+    return true;
 }
 
 
-void ZRColaFrame::OnExit(wxCommandEvent& event)
-{
-    Close(true);
-}
-
-
-void ZRColaFrame::OnAbout(wxCommandEvent& event)
+void wxZRColaFrame::OnAbout(wxCommandEvent& event)
 {
     wxMessageBox(wxString::Format(_("ZRCola v%s\nCopyright 2016 Amebis"), wxT(ZRCOLA_VERSION_STR)), _("About ZRCola"), wxOK | wxICON_INFORMATION);
 }

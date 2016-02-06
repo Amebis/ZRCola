@@ -28,5 +28,11 @@
 class ZRColaApp : public wxAppEx
 {
 public:
+    ///
+    /// Called when application initializes.
+    ///
+    /// \returns
+    /// - true if initialization succeeded
+    /// - false otherwise
     virtual bool OnInit();
 };

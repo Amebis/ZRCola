@@ -23,6 +23,7 @@
 #include "zrcolaapp.h"
 #include "zrcolaframe.h"
 
+#include <wx/font.h>
 #include <wx/msgdlg.h>
 #include <wx/sizer.h>
 #include <wxex/common.h>

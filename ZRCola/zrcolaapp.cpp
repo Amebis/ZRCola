@@ -32,8 +32,16 @@ bool ZRColaApp::OnInit()
     if (!wxAppEx::OnInit())
         return false;
 
-    ZRColaFrame *frame = new ZRColaFrame();
-    frame->Show();
+    if (wxLocale::IsAvailable(wxLANGUAGE_SLOVENIAN))
+        wxVERIFY(m_locale.AddCatalog(wxT("ZRCola")));
+
+    wxZRColaFrame* mainFrame = new wxZRColaFrame();
+    if (!mainFrame->Create()) {
+        delete mainFrame;
+        return false;
+    }
+
+    mainFrame->Show();
 
     return true;
 }
