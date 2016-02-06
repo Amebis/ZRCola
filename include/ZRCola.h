@@ -19,4 +19,37 @@
 
 #pragma once
 
-#define ZRCOLA_VERSION_STR  "2.0-alpha"
+//
+// Product version as a single DWORD
+// Note: Used for version comparison within C/C++ code.
+//
+#define ZRCOLA_VERSION          0x01ff0000
+
+//
+// Product version by components
+// Note: Resource Compiler has limited preprocessing capability,
+// thus we need to specify major, minor and other version components
+// separately.
+//
+#define ZRCOLA_VERSION_MAJ      1
+#define ZRCOLA_VERSION_MIN      255
+#define ZRCOLA_VERSION_REV      0
+#define ZRCOLA_VERSION_BUILD    0
+
+//
+// Human readable product version and build year for UI
+//
+#define ZRCOLA_VERSION_STR      "2.0-alpha"
+#define ZRCOLA_BUILD_YEAR_STR   "2016"
+
+//
+// Numerical version presentation for ProductVersion propery in
+// MSI packages (syntax: N.N[.N[.N]])
+//
+#define ZRCOLA_VERSION_INST     "1.255"
+
+//
+// The product code for ProductCode property in MSI packages
+// Replace with new on every version change, regardless how minor it is.
+//
+#define ZRCOLA_VERSION_GUID     "{F0ECB49B-1EF8-487F-9BE3-B0CC3CADE8AE}"
