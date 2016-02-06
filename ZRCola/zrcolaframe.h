@@ -20,9 +20,14 @@
 #pragma once
 
 #include <wxex/appbar.h>
-#include <wx/stattext.h>
 #include <wx/textctrl.h>
 #include <wx/toolbar.h>
+
+
+///
+/// Global hotkey message identifiers
+///
+#define wxZRColaHKID_INVOKE 0
 
 
 ///
@@ -30,16 +35,31 @@
 ///
 class wxZRColaFrame : public wxAppBarFrame
 {
+protected:
+    enum {
+        wxID_SEND,
+        wxID_COMPOSER,
+    };
+
 public:
     wxZRColaFrame();
     bool Create();
+    virtual bool Destroy();
 
 protected:
+    void OnCompose(wxCommandEvent& event);
+    void OnSendUpdate(wxUpdateUIEvent& event);
+    void OnSend(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     wxDECLARE_EVENT_TABLE();
 
 protected:
-    wxStaticText m_preview;
+    virtual WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
+
+protected:
+    wxTextCtrl m_preview;
     wxTextCtrl m_composer;
     wxToolBar m_toolBar;
+
+    WXHWND m_hWndSource;    ///< handle of the active window, when the ZRCola hotkey was pressed
 };

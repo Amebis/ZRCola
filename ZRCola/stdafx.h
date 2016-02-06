@@ -27,3 +27,5 @@
 #include <wx/msgdlg.h>
 #include <wx/sizer.h>
 #include <wxex/common.h>
+
+#include <vector>
