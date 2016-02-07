@@ -99,7 +99,7 @@
     <None Include="res\send.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\ZRCola.rc" />
+    <ResourceCompile Include="ZRCola.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
