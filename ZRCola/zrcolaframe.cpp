@@ -70,6 +70,7 @@ bool wxZRColaFrame::Create()
 
     SetSizer(boxH);
     Layout();
+    Centre(wxBOTH);
 
     // Register global hotkey(s).
     if (!RegisterHotKey(wxZRColaHKID_INVOKE, MOD_ALT | MOD_CONTROL, 'Z'))
