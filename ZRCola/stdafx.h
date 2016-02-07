@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "../include/ZRCola.h"
+#include "../include/zrcola.h"
 #include "zrcolaapp.h"
 #include "zrcoladlg.h"
 

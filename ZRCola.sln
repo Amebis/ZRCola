@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wxExtend", "lib\wxExtend\bu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CFEBC17E-C840-4507-BDE6-1EF5B52DDCC5}"
 	ProjectSection(SolutionItems) = preProject
-		include\ZRCola.h = include\ZRCola.h
+		include\zrcola.h = include\zrcola.h
 	EndProjectSection
 EndProject
 Global
