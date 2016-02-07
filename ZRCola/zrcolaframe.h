@@ -37,9 +37,10 @@ class wxZRColaFrame : public wxAppBarFrame
 {
 protected:
     enum {
-        wxID_SEND,
-        wxID_ABORT,
-        wxID_COMPOSER,
+        wxID_SEND_COMPOSED = wxID_HIGHEST,
+        wxID_SEND_ABORT,
+        wxID_DECOMPOSED,
+        wxID_COMPOSED,
     };
 
 public:
@@ -48,10 +49,11 @@ public:
     virtual bool Destroy();
 
 protected:
-    void OnCompose(wxCommandEvent& event);
-    void OnSendUpdate(wxUpdateUIEvent& event);
-    void OnSend(wxCommandEvent& event);
-    void OnAbort(wxCommandEvent& event);
+    void OnDecomposedText(wxCommandEvent& event);
+    void OnComposedText(wxCommandEvent& event);
+    void OnSendComposedUpdate(wxUpdateUIEvent& event);
+    void OnSendComposed(wxCommandEvent& event);
+    void OnSendAbort(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     wxDECLARE_EVENT_TABLE();
 
@@ -59,9 +61,9 @@ protected:
     virtual WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
 
 protected:
-    wxTextCtrl m_preview;
-    wxTextCtrl m_composer;
-    wxToolBar m_toolBar;
+    wxTextCtrl m_decomposed;    ///< ZRCola decomposed text window
+    wxTextCtrl m_composed;      ///< ZRCola composed text window
+    wxToolBar m_toolBar;        ///< The toolbar
 
-    WXHWND m_hWndSource;    ///< handle of the active window, when the ZRCola hotkey was pressed
+    WXHWND m_hWndSource;        ///< handle of the active window, when the ZRCola hotkey was pressed
 };

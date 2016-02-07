@@ -25,11 +25,12 @@
 //////////////////////////////////////////////////////////////////////////
 
 wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxAppBarFrame)
-    EVT_TEXT     (wxZRColaFrame::wxID_COMPOSER, wxZRColaFrame::OnCompose   )
-    EVT_UPDATE_UI(wxZRColaFrame::wxID_SEND    , wxZRColaFrame::OnSendUpdate)
-    EVT_MENU     (wxZRColaFrame::wxID_SEND    , wxZRColaFrame::OnSend      )
-    EVT_MENU     (wxZRColaFrame::wxID_ABORT   , wxZRColaFrame::OnAbort     )
-    EVT_MENU     (               wxID_ABOUT   , wxZRColaFrame::OnAbout     )
+    EVT_TEXT     (wxZRColaFrame::wxID_DECOMPOSED   , wxZRColaFrame::OnDecomposedText    )
+    EVT_TEXT     (wxZRColaFrame::wxID_COMPOSED     , wxZRColaFrame::OnComposedText      )
+    EVT_UPDATE_UI(wxZRColaFrame::wxID_SEND_COMPOSED, wxZRColaFrame::OnSendComposedUpdate)
+    EVT_MENU     (wxZRColaFrame::wxID_SEND_COMPOSED, wxZRColaFrame::OnSendComposed      )
+    EVT_MENU     (wxZRColaFrame::wxID_SEND_ABORT   , wxZRColaFrame::OnSendAbort         )
+    EVT_MENU     (               wxID_ABOUT        , wxZRColaFrame::OnAbout             )
 wxEND_EVENT_TABLE()
 
 
@@ -48,22 +49,22 @@ bool wxZRColaFrame::Create()
 
     wxFont fontZRCola(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("00 ZRCola"));
 
-    wxCHECK(m_preview.Create(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_READONLY), false);
-    m_preview.SetFont(fontZRCola);
+    wxCHECK(m_decomposed.Create(this, wxID_DECOMPOSED, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE), false);
+    m_decomposed.SetFont(fontZRCola);
 
-    wxCHECK(m_composer.Create(this, wxID_COMPOSER, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE), false);
-    m_composer.SetFont(fontZRCola);
+    wxCHECK(m_composed.Create(this, wxID_COMPOSED, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE), false);
+    m_composed.SetFont(fontZRCola);
 
     wxBoxSizer
         *boxH = new wxBoxSizer(wxHORIZONTAL),
         *boxV = new wxBoxSizer(wxVERTICAL);
 
-    boxV->Add(&m_preview,  1, wxEXPAND, 5);
-    boxV->Add(&m_composer, 1, wxEXPAND, 5);
+    boxV->Add(&m_decomposed, 1, wxEXPAND, 5);
+    boxV->Add(&m_composed,  1, wxEXPAND, 5);
     boxH->Add(boxV, 1, wxEXPAND, 5);
 
     m_toolBar.Create(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL);
-    m_toolBar.AddTool(wxID_SEND, _("Send"), wxBitmap(wxIcon(wxICON(send.ico))));
+    m_toolBar.AddTool(wxID_SEND_COMPOSED, _("Send"), wxBitmap(wxIcon(wxICON(send.ico))));
     m_toolBar.Realize();
 
     boxH->Add(&m_toolBar, 0, wxEXPAND, 5);
@@ -79,8 +80,8 @@ bool wxZRColaFrame::Create()
     // Register frame specific hotkey(s).
     {
         wxAcceleratorEntry entries[2];
-        entries[0].Set(wxACCEL_NORMAL, WXK_RETURN, wxID_SEND);
-        entries[1].Set(wxACCEL_NORMAL, WXK_ESCAPE, wxID_ABORT);
+        entries[0].Set(wxACCEL_NORMAL, WXK_RETURN, wxID_SEND_COMPOSED);
+        entries[1].Set(wxACCEL_NORMAL, WXK_ESCAPE, wxID_SEND_ABORT);
         SetAcceleratorTable(wxAcceleratorTable(_countof(entries), entries));
     }
 
@@ -97,26 +98,35 @@ bool wxZRColaFrame::Destroy()
 }
 
 
-void wxZRColaFrame::OnCompose(wxCommandEvent& event)
+void wxZRColaFrame::OnDecomposedText(wxCommandEvent& event)
 {
     // TODO: Do the real ZRCola composition here.
-    m_preview.SetValue(m_composer.GetValue());
+    m_composed.SetValue(m_decomposed.GetValue());
 
     event.Skip();
 }
 
 
-void wxZRColaFrame::OnSendUpdate(wxUpdateUIEvent& event)
+void wxZRColaFrame::OnComposedText(wxCommandEvent& event)
+{
+    // TODO: Do the real ZRCola decomposition here.
+    m_decomposed.SetValue(m_composed.GetValue());
+
+    event.Skip();
+}
+
+
+void wxZRColaFrame::OnSendComposedUpdate(wxUpdateUIEvent& event)
 {
     event.Enable(m_hWndSource ? true : false);
 }
 
 
-void wxZRColaFrame::OnSend(wxCommandEvent& event)
+void wxZRColaFrame::OnSendComposed(wxCommandEvent& event)
 {
     if (m_hWndSource) {
         // Get text and its length (in Unicode characters). Prepare the INPUT table.
-        wxString text = m_preview.GetValue();
+        wxString text = m_composed.GetValue();
         std::vector<INPUT>::size_type i = 0, n = text.length();
         wxString::const_iterator i_text = text.begin();
         std::vector<INPUT> input(n);
@@ -137,14 +147,15 @@ void wxZRColaFrame::OnSend(wxCommandEvent& event)
         m_hWndSource = NULL;
 
         // Select all input in composer to prepare for the overwrite next time.
-        m_composer.SelectAll();
+        m_decomposed.SelectAll();
+        m_composed.SelectAll();
     }
 
     event.Skip();
 }
 
 
-void wxZRColaFrame::OnAbort(wxCommandEvent& event)
+void wxZRColaFrame::OnSendAbort(wxCommandEvent& event)
 {
     if (m_hWndSource) {
         // Return focus to the source window.
@@ -153,7 +164,8 @@ void wxZRColaFrame::OnAbort(wxCommandEvent& event)
         m_hWndSource = NULL;
 
         // Select all input in composer to prepare for the overwrite next time.
-        m_composer.SelectAll();
+        m_decomposed.SelectAll();
+        m_composed.SelectAll();
     }
 
     event.Skip();
@@ -172,7 +184,7 @@ WXLRESULT wxZRColaFrame::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM
         // ZRCola hotkey was pressed. Remember the source window and focus ours.
         m_hWndSource = ::GetForegroundWindow();
 
-        m_composer.SetFocus();
+        m_decomposed.SetFocus();
         if (m_state == wxABS_FLOAT) {
             if (IsIconized()) {
                 ::SendMessage(m_hWnd, WM_SYSCOMMAND, SC_RESTORE, 0);
