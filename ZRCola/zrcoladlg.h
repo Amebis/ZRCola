@@ -19,10 +19,7 @@
 
 #pragma once
 
-#include <wxex/appbar.h>
-#include <wx/textctrl.h>
-#include <wx/toolbar.h>
-
+#include "zrcolagui.h"
 
 ///
 /// Global hotkey message identifiers
@@ -33,24 +30,23 @@
 ///
 /// ZRCola main frame
 ///
-class wxZRColaFrame : public wxAppBarFrame
+class wxZRColaDialog : public wxZRColaDialogBase
 {
 protected:
     enum {
         wxID_SEND_COMPOSED = wxID_HIGHEST,
         wxID_SEND_ABORT,
-        wxID_DECOMPOSED,
-        wxID_COMPOSED,
     };
 
 public:
-    wxZRColaFrame();
-    bool Create();
-    virtual bool Destroy();
+    wxZRColaDialog();
+    virtual ~wxZRColaDialog();
 
 protected:
-    void OnDecomposedText(wxCommandEvent& event);
-    void OnComposedText(wxCommandEvent& event);
+    virtual void OnClose(wxCloseEvent& event);
+    virtual void OnDecomposedText(wxCommandEvent& event);
+    virtual void OnComposedText(wxCommandEvent& event);
+
     void OnSendComposedUpdate(wxUpdateUIEvent& event);
     void OnSendComposed(wxCommandEvent& event);
     void OnSendAbort(wxCommandEvent& event);
@@ -61,9 +57,5 @@ protected:
     virtual WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
 
 protected:
-    wxTextCtrl m_decomposed;    ///< ZRCola decomposed text window
-    wxTextCtrl m_composed;      ///< ZRCola composed text window
-    wxToolBar m_toolBar;        ///< The toolbar
-
     WXHWND m_hWndSource;        ///< handle of the active window, when the ZRCola hotkey was pressed
 };

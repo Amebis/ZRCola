@@ -21,11 +21,9 @@
 
 #include "../include/ZRCola.h"
 #include "zrcolaapp.h"
-#include "zrcolaframe.h"
+#include "zrcoladlg.h"
 
-#include <wx/font.h>
 #include <wx/msgdlg.h>
-#include <wx/sizer.h>
 #include <wxex/common.h>
 
 #include <vector>

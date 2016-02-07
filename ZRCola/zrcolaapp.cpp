@@ -35,11 +35,7 @@ bool ZRColaApp::OnInit()
     if (wxLocale::IsAvailable(wxLANGUAGE_SLOVENIAN))
         wxVERIFY(m_locale.AddCatalog(wxT("ZRCola")));
 
-    wxZRColaFrame* mainFrame = new wxZRColaFrame();
-    if (!mainFrame->Create()) {
-        delete mainFrame;
-        return false;
-    }
+    wxZRColaDialog* mainFrame = new wxZRColaDialog();
 
     mainFrame->Show();
 

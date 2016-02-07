@@ -18,13 +18,13 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="zrcolaapp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="zrcolaframe.cpp">
+    <ClCompile Include="zrcolagui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zrcoladlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,7 +35,10 @@
     <ClInclude Include="zrcolaapp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="zrcolaframe.h">
+    <ClInclude Include="zrcolagui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zrcoladlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
