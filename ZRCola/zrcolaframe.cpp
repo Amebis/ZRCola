@@ -28,6 +28,7 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxAppBarFrame)
     EVT_TEXT     (wxZRColaFrame::wxID_COMPOSER, wxZRColaFrame::OnCompose   )
     EVT_UPDATE_UI(wxZRColaFrame::wxID_SEND    , wxZRColaFrame::OnSendUpdate)
     EVT_MENU     (wxZRColaFrame::wxID_SEND    , wxZRColaFrame::OnSend      )
+    EVT_MENU     (wxZRColaFrame::wxID_ABORT   , wxZRColaFrame::OnAbort     )
     EVT_MENU     (               wxID_ABOUT   , wxZRColaFrame::OnAbout     )
 wxEND_EVENT_TABLE()
 
@@ -76,8 +77,9 @@ bool wxZRColaFrame::Create()
 
     // Register frame specific hotkey(s).
     {
-        wxAcceleratorEntry entries[1];
+        wxAcceleratorEntry entries[2];
         entries[0].Set(wxACCEL_NORMAL, WXK_RETURN, wxID_SEND);
+        entries[1].Set(wxACCEL_NORMAL, WXK_ESCAPE, wxID_ABORT);
         SetAcceleratorTable(wxAcceleratorTable(_countof(entries), entries));
     }
 
@@ -131,6 +133,22 @@ void wxZRColaFrame::OnSend(wxCommandEvent& event)
         ::SetActiveWindow(m_hWndSource);
         ::SetForegroundWindow(m_hWndSource);
         ::SendInput(n, &input[0], sizeof(INPUT));
+        m_hWndSource = NULL;
+
+        // Select all input in composer to prepare for the overwrite next time.
+        m_composer.SelectAll();
+    }
+
+    event.Skip();
+}
+
+
+void wxZRColaFrame::OnAbort(wxCommandEvent& event)
+{
+    if (m_hWndSource) {
+        // Return focus to the source window.
+        ::SetActiveWindow(m_hWndSource);
+        ::SetForegroundWindow(m_hWndSource);
         m_hWndSource = NULL;
 
         // Select all input in composer to prepare for the overwrite next time.

@@ -38,6 +38,7 @@ class wxZRColaFrame : public wxAppBarFrame
 protected:
     enum {
         wxID_SEND,
+        wxID_ABORT,
         wxID_COMPOSER,
     };
 
@@ -50,6 +51,7 @@ protected:
     void OnCompose(wxCommandEvent& event);
     void OnSendUpdate(wxUpdateUIEvent& event);
     void OnSend(wxCommandEvent& event);
+    void OnAbort(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     wxDECLARE_EVENT_TABLE();
 
