@@ -36,7 +36,15 @@ wxZRColaDialog::wxZRColaDialog() :
     m_hWndSource(NULL),
     wxZRColaDialogBase(NULL)
 {
-    SetIcon(wxIcon(wxICON(send.ico)));
+    // Load main window icons.
+#ifdef __WINDOWS__
+    wxIconBundle icons;
+    icons.AddIcon(wxIcon(wxT("00_zrcola.ico"), wxBITMAP_TYPE_ICO_RESOURCE, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON)));
+    icons.AddIcon(wxIcon(wxT("00_zrcola.ico"), wxBITMAP_TYPE_ICO_RESOURCE, ::GetSystemMetrics(SM_CXICON  ), ::GetSystemMetrics(SM_CYICON  )));
+    SetIcons(icons);
+#else
+    SetIcon(wxICON(00_zrcola.ico));
+#endif
 
     // Register global hotkey(s).
     if (!RegisterHotKey(wxZRColaHKID_INVOKE, MOD_ALT | MOD_CONTROL, 'Z'))
