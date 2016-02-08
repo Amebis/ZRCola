@@ -42,9 +42,12 @@ void wxZRColaComposerPanel::OnDecomposedText(wxCommandEvent& event)
         // We are being updated by wxZRColaComposerPanel::OnComposedText()
         event.Skip();
     } else {
-        // TODO: Do the real ZRCola composition here.
+        std::wstring composed;
+        ZRCola::Compose(m_decomposed->GetValue(), (size_t)-1, composed);
+
+        // Update composed text.
         m_progress = true;
-        m_composed->SetValue(m_decomposed->GetValue());
+        m_composed->SetValue(composed);
         event.Skip();
         m_progress = false;
     }
@@ -57,9 +60,12 @@ void wxZRColaComposerPanel::OnComposedText(wxCommandEvent& event)
         // We are being updated by wxZRColaComposerPanel::OnDecomposedText()
         event.Skip();
     } else {
-        // TODO: Do the real ZRCola decomposition here.
+        std::wstring decomposed;
+        ZRCola::Decompose(m_composed->GetValue(), (size_t)-1, decomposed);
+
+        // Update decomposed text.
         m_progress = true;
-        m_decomposed->SetValue(m_composed->GetValue());
+        m_decomposed->SetValue(decomposed);
         event.Skip();
         m_progress = false;
     }
