@@ -22,10 +22,12 @@
 #include "zrcolagui.h"
 #include "zrcolacomppnl.h"
 
+
 ///
 /// Global hotkey message identifiers
 ///
-#define wxZRColaHKID_INVOKE 0
+#define wxZRColaHKID_INVOKE_COMPOSE     0
+#define wxZRColaHKID_INVOKE_DECOMPOSE   1
 
 
 ///
@@ -35,7 +37,9 @@ class wxZRColaFrame : public wxZRColaFrameBase
 {
 protected:
     enum {
-        wxID_SEND_COMPOSED = wxID_HIGHEST,
+        wxID_SEND = wxID_HIGHEST,
+        wxID_SEND_COMPOSED,
+        wxID_SEND_DECOMPOSED,
         wxID_SEND_ABORT,
     };
 
@@ -44,8 +48,10 @@ public:
     virtual ~wxZRColaFrame();
 
 protected:
-    void OnSendComposedUpdate(wxUpdateUIEvent& event);
+    void OnSendUpdate(wxUpdateUIEvent& event);
+    void OnSend(wxCommandEvent& event);
     void OnSendComposed(wxCommandEvent& event);
+    void OnSendDecomposed(wxCommandEvent& event);
     void OnSendAbort(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     wxDECLARE_EVENT_TABLE();
@@ -55,5 +61,6 @@ protected:
 
 protected:
     WXHWND m_hWndSource;            ///< handle of the active window, when the ZRCola hotkey was pressed
+    int m_hotkey;                   ///< hotkey ID that was pressed
     wxZRColaComposerPanel *m_panel; ///< composer panel
 };

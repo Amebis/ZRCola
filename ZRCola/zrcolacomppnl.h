@@ -23,12 +23,6 @@
 
 
 ///
-/// Global hotkey message identifiers
-///
-#define wxZRColaHKID_INVOKE 0
-
-
-///
 /// ZRCola composer panel
 ///
 class wxZRColaComposerPanel : public wxZRColaComposerPanelBase
