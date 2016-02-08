@@ -43,4 +43,7 @@ public:
 protected:
     virtual void OnDecomposedText(wxCommandEvent& event);
     virtual void OnComposedText(wxCommandEvent& event);
+
+protected:
+    bool m_progress;    ///< A boolean flag to avoid recursive updates of composed and decomposed text controls
 };

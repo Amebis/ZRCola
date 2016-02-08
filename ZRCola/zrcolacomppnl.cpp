@@ -24,7 +24,9 @@
 // wxZRColaComposerPanel
 //////////////////////////////////////////////////////////////////////////
 
-wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) : wxZRColaComposerPanelBase(parent)
+wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
+    m_progress(false),
+    wxZRColaComposerPanelBase(parent)
 {
 }
 
@@ -36,17 +38,29 @@ wxZRColaComposerPanel::~wxZRColaComposerPanel()
 
 void wxZRColaComposerPanel::OnDecomposedText(wxCommandEvent& event)
 {
-    // TODO: Do the real ZRCola composition here.
-    m_composed->SetValue(m_decomposed->GetValue());
-
-    event.Skip();
+    if (m_progress) {
+        // We are being updated by wxZRColaComposerPanel::OnComposedText()
+        event.Skip();
+    } else {
+        // TODO: Do the real ZRCola composition here.
+        m_progress = true;
+        m_composed->SetValue(m_decomposed->GetValue());
+        event.Skip();
+        m_progress = false;
+    }
 }
 
 
 void wxZRColaComposerPanel::OnComposedText(wxCommandEvent& event)
 {
-    // TODO: Do the real ZRCola decomposition here.
-    m_decomposed->SetValue(m_composed->GetValue());
-
-    event.Skip();
+    if (m_progress) {
+        // We are being updated by wxZRColaComposerPanel::OnDecomposedText()
+        event.Skip();
+    } else {
+        // TODO: Do the real ZRCola decomposition here.
+        m_progress = true;
+        m_decomposed->SetValue(m_composed->GetValue());
+        event.Skip();
+        m_progress = false;
+    }
 }
