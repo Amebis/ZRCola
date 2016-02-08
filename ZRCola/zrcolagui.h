@@ -13,20 +13,38 @@
 #include <wx/cshelp.h>
 #include <wx/intl.h>
 #include <wx/string.h>
-#include <wx/textctrl.h>
+#include <wx/frame.h>
 #include <wx/gdicmn.h>
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
+#include <wx/textctrl.h>
 #include <wx/sizer.h>
-#include <wx/dialog.h>
+#include <wx/panel.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
-/// Class wxZRColaDialogBase
+/// Class wxZRColaFrameBase
 ///////////////////////////////////////////////////////////////////////////////
-class wxZRColaDialogBase : public wxDialog 
+class wxZRColaFrameBase : public wxFrame 
+{
+	private:
+	
+	protected:
+	
+	public:
+		
+		wxZRColaFrameBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("ZRCola"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,200 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		
+		~wxZRColaFrameBase();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class wxZRColaComposerPanelBase
+///////////////////////////////////////////////////////////////////////////////
+class wxZRColaComposerPanelBase : public wxPanel 
 {
 	private:
 	
@@ -41,15 +59,14 @@ class wxZRColaDialogBase : public wxDialog
 		wxTextCtrl* m_composed;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
 		virtual void OnDecomposedText( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnComposedText( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		
-		wxZRColaDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("ZRCola"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,200 ), long style = wxCAPTION|wxCLOSE_BOX|wxMAXIMIZE_BOX|wxMINIMIZE_BOX|wxRESIZE_BORDER|wxSYSTEM_MENU ); 
-		~wxZRColaDialogBase();
+		wxZRColaComposerPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
+		~wxZRColaComposerPanelBase();
 	
 };
 

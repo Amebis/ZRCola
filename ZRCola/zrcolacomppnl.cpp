@@ -21,23 +21,32 @@
 
 
 //////////////////////////////////////////////////////////////////////////
-// ZRColaApp
+// wxZRColaComposerPanel
 //////////////////////////////////////////////////////////////////////////
 
-wxIMPLEMENT_APP(ZRColaApp);
-
-
-bool ZRColaApp::OnInit()
+wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) : wxZRColaComposerPanelBase(parent)
 {
-    if (!wxAppEx::OnInit())
-        return false;
+}
 
-    if (wxLocale::IsAvailable(wxLANGUAGE_SLOVENIAN))
-        wxVERIFY(m_locale.AddCatalog(wxT("ZRCola")));
 
-    wxZRColaFrame* mainFrame = new wxZRColaFrame();
+wxZRColaComposerPanel::~wxZRColaComposerPanel()
+{
+}
 
-    mainFrame->Show();
 
-    return true;
+void wxZRColaComposerPanel::OnDecomposedText(wxCommandEvent& event)
+{
+    // TODO: Do the real ZRCola composition here.
+    m_composed->SetValue(m_decomposed->GetValue());
+
+    event.Skip();
+}
+
+
+void wxZRColaComposerPanel::OnComposedText(wxCommandEvent& event)
+{
+    // TODO: Do the real ZRCola decomposition here.
+    m_decomposed->SetValue(m_composed->GetValue());
+
+    event.Skip();
 }

@@ -22,14 +22,23 @@ wxHelpProvider::Set( new wxHelpControllerHelpProvider );
 static wxFBContextSensitiveHelpSetter s_wxFBSetTheHelpProvider;
 ///////////////////////////////////////////////////////////////////////////
 
-wxZRColaDialogBase::wxZRColaDialogBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	this->SetSizeHints( wxSize( 100,100 ), wxDefaultSize );
 	
+	
+	this->Centre( wxBOTH );
+}
+
+wxZRColaFrameBase::~wxZRColaFrameBase()
+{
+}
+
+wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
 	wxBoxSizer* bSizerEditor;
 	bSizerEditor = new wxBoxSizer( wxVERTICAL );
 	
-	bSizerEditor->SetMinSize( wxSize( 100,100 ) ); 
 	m_decomposed = new wxTextCtrl( this, wxID_DECOMPOSED, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE );
 	m_decomposed->SetFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
 	
@@ -43,20 +52,17 @@ wxZRColaDialogBase::wxZRColaDialogBase( wxWindow* parent, wxWindowID id, const w
 	
 	this->SetSizer( bSizerEditor );
 	this->Layout();
-	
-	this->Centre( wxBOTH );
+	bSizerEditor->Fit( this );
 	
 	// Connect Events
-	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( wxZRColaDialogBase::OnClose ) );
-	m_decomposed->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaDialogBase::OnDecomposedText ), NULL, this );
-	m_composed->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaDialogBase::OnComposedText ), NULL, this );
+	m_decomposed->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnDecomposedText ), NULL, this );
+	m_composed->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnComposedText ), NULL, this );
 }
 
-wxZRColaDialogBase::~wxZRColaDialogBase()
+wxZRColaComposerPanelBase::~wxZRColaComposerPanelBase()
 {
 	// Disconnect Events
-	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( wxZRColaDialogBase::OnClose ) );
-	m_decomposed->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaDialogBase::OnDecomposedText ), NULL, this );
-	m_composed->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaDialogBase::OnComposedText ), NULL, this );
+	m_decomposed->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnDecomposedText ), NULL, this );
+	m_composed->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnComposedText ), NULL, this );
 	
 }

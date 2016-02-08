@@ -20,6 +20,7 @@
 #pragma once
 
 #include "zrcolagui.h"
+#include "zrcolacomppnl.h"
 
 ///
 /// Global hotkey message identifiers
@@ -30,7 +31,7 @@
 ///
 /// ZRCola main frame
 ///
-class wxZRColaDialog : public wxZRColaDialogBase
+class wxZRColaFrame : public wxZRColaFrameBase
 {
 protected:
     enum {
@@ -39,14 +40,10 @@ protected:
     };
 
 public:
-    wxZRColaDialog();
-    virtual ~wxZRColaDialog();
+    wxZRColaFrame();
+    virtual ~wxZRColaFrame();
 
 protected:
-    virtual void OnClose(wxCloseEvent& event);
-    virtual void OnDecomposedText(wxCommandEvent& event);
-    virtual void OnComposedText(wxCommandEvent& event);
-
     void OnSendComposedUpdate(wxUpdateUIEvent& event);
     void OnSendComposed(wxCommandEvent& event);
     void OnSendAbort(wxCommandEvent& event);
@@ -57,5 +54,6 @@ protected:
     virtual WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
 
 protected:
-    WXHWND m_hWndSource;        ///< handle of the active window, when the ZRCola hotkey was pressed
+    WXHWND m_hWndSource;            ///< handle of the active window, when the ZRCola hotkey was pressed
+    wxZRColaComposerPanel *m_panel; ///< composer panel
 };

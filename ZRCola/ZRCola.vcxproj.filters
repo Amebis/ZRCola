@@ -28,7 +28,10 @@
     <ClCompile Include="zrcolagui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="zrcoladlg.cpp">
+    <ClCompile Include="zrcolacomppnl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zrcolafrm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -42,7 +45,10 @@
     <ClInclude Include="zrcolagui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="zrcoladlg.h">
+    <ClInclude Include="zrcolacomppnl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zrcolafrm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

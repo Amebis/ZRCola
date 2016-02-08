@@ -21,7 +21,8 @@
 
 #include "../include/zrcola.h"
 #include "zrcolaapp.h"
-#include "zrcoladlg.h"
+#include "zrcolacomppnl.h"
+#include "zrcolafrm.h"
 
 #include <wx/msgdlg.h>
 #include <wxex/common.h>

@@ -17,27 +17,30 @@
     along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "stdafx.h"
+#pragma once
+
+#include "zrcolagui.h"
 
 
-//////////////////////////////////////////////////////////////////////////
-// ZRColaApp
-//////////////////////////////////////////////////////////////////////////
+///
+/// Global hotkey message identifiers
+///
+#define wxZRColaHKID_INVOKE 0
 
-wxIMPLEMENT_APP(ZRColaApp);
 
-
-bool ZRColaApp::OnInit()
+///
+/// ZRCola composer panel
+///
+class wxZRColaComposerPanel : public wxZRColaComposerPanelBase
 {
-    if (!wxAppEx::OnInit())
-        return false;
+public:
+    wxZRColaComposerPanel(wxWindow* parent);
+    virtual ~wxZRColaComposerPanel();
 
-    if (wxLocale::IsAvailable(wxLANGUAGE_SLOVENIAN))
-        wxVERIFY(m_locale.AddCatalog(wxT("ZRCola")));
+    // Allow main frame direct access to our members.
+    friend class wxZRColaFrame;
 
-    wxZRColaFrame* mainFrame = new wxZRColaFrame();
-
-    mainFrame->Show();
-
-    return true;
-}
+protected:
+    virtual void OnDecomposedText(wxCommandEvent& event);
+    virtual void OnComposedText(wxCommandEvent& event);
+};
