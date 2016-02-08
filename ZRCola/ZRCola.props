@@ -6,9 +6,6 @@
     <OutDir>..\output\$(Platform).$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
-    <POCompile>
-      <OutputFile>..\output\locale\%(Filename)\$(ProjectName).mo</OutputFile>
-    </POCompile>
     <ClCompile>
       <AdditionalIncludeDirectories>..\lib\wxExtend\include;..\lib\libZRCola\include</AdditionalIncludeDirectories>
     </ClCompile>
