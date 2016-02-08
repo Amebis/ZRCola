@@ -46,6 +46,9 @@
     <None Include="res\send.ico">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\zrcola.ico">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZRCola.rc">
