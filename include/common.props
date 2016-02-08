@@ -18,7 +18,9 @@
     along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ImportGroup Label="PropertySheets" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="xgettext.props" />
+  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <IntDir>temp\$(ProjectName).$(Platform).$(Configuration).$(PlatformToolset)\</IntDir>
@@ -45,6 +47,9 @@
     <ResourceCompile>
       <PreprocessorDefinitions>WINVER=0x0501;_WIN32_WINNT=0x0501;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
+    <POCompile>
+      <CheckAccel>Amperstand</CheckAccel>
+    </POCompile>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>
