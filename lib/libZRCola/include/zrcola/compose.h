@@ -34,5 +34,5 @@ namespace ZRCola {
     /// \param[out] output    Output string (UTF-16)
     /// \param[out] map       The vector of source to destination index mappings (optional)
     ///
-    void ZRCOLA_API Compose(_In_z_count_(inputMax) const wchar_t *input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL);
+    void ZRCOLA_API Compose(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL);
 };

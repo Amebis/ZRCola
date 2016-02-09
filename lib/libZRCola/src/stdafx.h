@@ -25,6 +25,14 @@
 
 
 namespace ZRCola {
+    struct composition {
+        const wchar_t *src;
+        wchar_t dst;
+    };
+
+    extern const composition* compositions;
+    extern const size_t compositionsCount;
+
     struct decomposition {
         wchar_t src;
         const wchar_t *dst;
