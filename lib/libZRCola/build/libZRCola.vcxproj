@@ -20,8 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\compose.cpp" />
-    <ClCompile Include="..\src\data.cpp" />
     <ClCompile Include="..\src\decompose.cpp" />
+    <ClCompile Include="..\src\decompositions.cpp" />
     <ClCompile Include="..\src\mapping.cpp" />
     <ClCompile Include="..\src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

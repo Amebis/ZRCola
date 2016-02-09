@@ -24,10 +24,10 @@
     <ClCompile Include="..\src\compose.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\data.cpp">
+    <ClCompile Include="..\src\mapping.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\mapping.cpp">
+    <ClCompile Include="..\src\decompositions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

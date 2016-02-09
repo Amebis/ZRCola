@@ -39,7 +39,7 @@ namespace ZRCola {
     ///
     /// Composed-decomposed index transformation mapping
     ///
-    class ZRCOLA_NOVTABLE mapping {
+    class ZRCOLA_NOVTABLE ZRCOLA_API mapping {
     public:
         size_t cmp;     ///< Character index in composed string
         size_t decmp;   ///< Character index in decomposed string
