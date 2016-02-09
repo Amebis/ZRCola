@@ -58,10 +58,10 @@ wxZRColaFrame::wxZRColaFrame() :
     m_panel->m_decomposed->SetFocus();
 
     // Register global hotkey(s).
-    if (!RegisterHotKey(wxZRColaHKID_INVOKE_COMPOSE, MOD_ALT | MOD_CONTROL, 'Z'))
-        wxMessageBox(_("ZRCola keyboard shortcut Ctrl+Alt+Z could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
-    if (!RegisterHotKey(wxZRColaHKID_INVOKE_DECOMPOSE, MOD_ALT | MOD_CONTROL | MOD_SHIFT, 'Z'))
-        wxMessageBox(_("ZRCola keyboard shortcut Ctrl+Alt+Shift+Z could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
+    if (!RegisterHotKey(wxZRColaHKID_INVOKE_COMPOSE, MOD_WIN, 'Z'))
+        wxMessageBox(_("ZRCola keyboard shortcut Win+Z could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
+    if (!RegisterHotKey(wxZRColaHKID_INVOKE_DECOMPOSE, MOD_WIN | MOD_SHIFT, 'Z'))
+        wxMessageBox(_("ZRCola keyboard shortcut Win+Shift+Z could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
 
     // Register frame specific hotkey(s).
     {
@@ -119,6 +119,7 @@ void wxZRColaFrame::OnSendComposed(wxCommandEvent& event)
             // Return focus to the source window and send the input.
             ::SetActiveWindow(m_hWndSource);
             ::SetForegroundWindow(m_hWndSource);
+            ::Sleep(200);
             ::SendInput(n, input.data(), sizeof(INPUT));
             m_hWndSource = NULL;
             m_hotkey = -1;
@@ -155,6 +156,7 @@ void wxZRColaFrame::OnSendDecomposed(wxCommandEvent& event)
             // Return focus to the source window and send the input.
             ::SetActiveWindow(m_hWndSource);
             ::SetForegroundWindow(m_hWndSource);
+            ::Sleep(200);
             ::SendInput(n, input.data(), sizeof(INPUT));
             m_hWndSource = NULL;
             m_hotkey = -1;
