@@ -35,6 +35,9 @@
     <ClInclude Include="..\include\zrcola\decompose.h" />
     <ClInclude Include="..\src\stdafx.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\res\libZRCola.rc" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3C61929E-7289-4101-8D0A-DA22D6E1AEA8}</ProjectGuid>
     <RootNamespace>libZRCola</RootNamespace>
