@@ -62,7 +62,7 @@ wxZRColaFrame::wxZRColaFrame() :
     // Register frame specific hotkey(s).
     {
         wxAcceleratorEntry entries[2];
-        entries[0].Set(wxACCEL_NORMAL, WXK_RETURN, wxID_SEND);
+        entries[0].Set(wxACCEL_CTRL  , WXK_RETURN, wxID_SEND);
         entries[1].Set(wxACCEL_NORMAL, WXK_ESCAPE, wxID_SEND_ABORT);
         SetAcceleratorTable(wxAcceleratorTable(_countof(entries), entries));
     }
