@@ -24,8 +24,8 @@
 #include "zrcolacomppnl.h"
 #include "zrcolafrm.h"
 
-#include <zrcola\compose.h>
-#include <zrcola\decompose.h>
+#include <zrcola/compose.h>
+#include <zrcola/decompose.h>
 
 #include <wx/msgdlg.h>
 #include <wxex/common.h>

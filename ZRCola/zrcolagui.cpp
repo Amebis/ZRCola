@@ -39,12 +39,12 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	wxBoxSizer* bSizerEditor;
 	bSizerEditor = new wxBoxSizer( wxVERTICAL );
 	
-	m_decomposed = new wxTextCtrl( this, wxID_DECOMPOSED, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE );
+	m_decomposed = new wxTextCtrl( this, wxID_DECOMPOSED, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_MULTILINE );
 	m_decomposed->SetFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
 	
 	bSizerEditor->Add( m_decomposed, 50, wxALL|wxEXPAND, 5 );
 	
-	m_composed = new wxTextCtrl( this, wxID_COMPOSED, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE );
+	m_composed = new wxTextCtrl( this, wxID_COMPOSED, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_MULTILINE );
 	m_composed->SetFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
 	
 	bSizerEditor->Add( m_composed, 50, wxALL|wxEXPAND, 5 );
@@ -55,14 +55,18 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	bSizerEditor->Fit( this );
 	
 	// Connect Events
+	m_decomposed->Connect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnDecomposedPaint ), NULL, this );
 	m_decomposed->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnDecomposedText ), NULL, this );
+	m_composed->Connect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnComposedPaint ), NULL, this );
 	m_composed->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnComposedText ), NULL, this );
 }
 
 wxZRColaComposerPanelBase::~wxZRColaComposerPanelBase()
 {
 	// Disconnect Events
+	m_decomposed->Disconnect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnDecomposedPaint ), NULL, this );
 	m_decomposed->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnDecomposedText ), NULL, this );
+	m_composed->Disconnect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnComposedPaint ), NULL, this );
 	m_composed->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnComposedText ), NULL, this );
 	
 }

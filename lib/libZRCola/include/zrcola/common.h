@@ -19,22 +19,59 @@
 
 #pragma once
 
+#include <vector>
+
+
+///
+/// Public function calling convention
+///
 #ifdef LIBZRCOLA
-#define ZRCOLA_API  __declspec(dllexport)
+#define ZRCOLA_API      __declspec(dllexport)
 #else
-#define ZRCOLA_API  __declspec(dllimport)
+#define ZRCOLA_API      __declspec(dllimport)
 #endif
+#define ZRCOLA_NOVTABLE __declspec(novtable)
+#pragma warning(push)
+#pragma warning(disable: 4251)
+
 
 namespace ZRCola {
     ///
-    /// Source-destination index mapping
+    /// Composed-decomposed index transformation mapping
     ///
-    class mapping {
+    class ZRCOLA_NOVTABLE mapping {
     public:
-        size_t src; ///< Source index
-        size_t dst; ///< Destination index
+        size_t cmp;     ///< Character index in composed string
+        size_t decmp;   ///< Character index in decomposed string
 
         inline mapping() {};
-        inline mapping(size_t s, size_t d) : src(s), dst(d) {}
+        inline mapping(_In_ size_t c, _In_ size_t d) : cmp(c), decmp(d) {}
+    };
+
+
+    ///
+    /// A vector for composed-decomposed index transformation mapping
+    ///
+    class ZRCOLA_API mapping_vector : public std::vector<mapping> {
+    public:
+        ///
+        /// Transforms character index of decomposed to composed string
+        ///
+        /// \param[in] decmp  Character index in decomposed string
+        ///
+        /// \returns  Character index in composed string
+        ///
+        size_t to_composed(_In_ size_t decmp) const;
+
+        ///
+        /// Transforms destination index to source index
+        ///
+        /// \param[in] cmp  Character index in composed string
+        ///
+        /// \returns  Character index in decomposed string
+        ///
+        size_t to_decomposed(_In_ size_t cmp) const;
     };
 };
+
+#pragma warning(pop)

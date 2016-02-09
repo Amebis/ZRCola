@@ -59,7 +59,9 @@ class wxZRColaComposerPanelBase : public wxPanel
 		wxTextCtrl* m_composed;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void OnDecomposedPaint( wxPaintEvent& event ) { event.Skip(); }
 		virtual void OnDecomposedText( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnComposedPaint( wxPaintEvent& event ) { event.Skip(); }
 		virtual void OnComposedText( wxCommandEvent& event ) { event.Skip(); }
 		
 	

@@ -20,6 +20,8 @@
 #pragma once
 
 #include "zrcolagui.h"
+#include <zrcola/common.h>
+#include <utility>
 
 
 ///
@@ -35,9 +37,15 @@ public:
     friend class wxZRColaFrame;
 
 protected:
+    virtual void OnDecomposedPaint(wxPaintEvent& event);
     virtual void OnDecomposedText(wxCommandEvent& event);
+    virtual void OnComposedPaint(wxPaintEvent& event);
     virtual void OnComposedText(wxCommandEvent& event);
 
 protected:
-    bool m_progress;    ///< A boolean flag to avoid recursive updates of composed and decomposed text controls
+    bool m_progress;                    ///< Boolean flag to avoid recursive updates of composed and decomposed text controls
+    ZRCola::mapping_vector m_mapping;   ///< Character index mapping vector between composed and decomposed text
+    std::pair<long, long>
+        m_selDecomposed,                ///< Character index of selected text in decomposed text control
+        m_selComposed;                  ///< Character index of selected text in composed text control
 };

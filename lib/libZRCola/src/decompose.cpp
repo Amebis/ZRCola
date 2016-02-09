@@ -31,6 +31,8 @@ void ZRCOLA_API ZRCola::Decompose(_In_z_count_(inputMax) const wchar_t *input, _
     // Since decomposition expands the string, let's keep our fingers crossed to avoid reallocation later.
     output.clear();
     output.reserve(inputMax * 2);
+    if (map)
+        map->clear();
 
     for (size_t i = 0; i < inputMax;) {
         // Find whether the character can be decomposed.
@@ -57,10 +59,5 @@ void ZRCOLA_API ZRCola::Decompose(_In_z_count_(inputMax) const wchar_t *input, _
                 break;
             }
         }
-    }
-
-    if (map) {
-        // Add final mapping.
-        map->push_back(mapping(inputMax, output.length()));
     }
 }
