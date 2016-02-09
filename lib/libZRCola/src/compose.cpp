@@ -82,7 +82,7 @@ static inline void Compose(
 
                 if (l >= r) {
                     // The search area is empty.
-                    if (j && wcslen(compositions[l_prev].src) == j) {
+                    if (j && l_prev < compositionsCount && compositions[l_prev].src[j] == 0) {
                         // The first composition of the previous run was a match.
                         output += compositions[l_prev].dst;
                         i = ii;
@@ -100,7 +100,7 @@ static inline void Compose(
             } else {
                 // End of input reached.
 
-                if (l && wcslen(compositions[l - 1].src) == j) {
+                if (l < compositionsCount && compositions[l].src[j] == 0) {
                     // The first composition of the previous run was a match.
                     output += compositions[l].dst;
                     i = ii;
