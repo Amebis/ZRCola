@@ -19,28 +19,17 @@
 
 #pragma once
 
-#include "../../../include/zrcola.h"
-#include "../include/zrcola/compose.h"
-#include "../include/zrcola/decompose.h"
-#include "../include/zrcola/normalize.h"
+#include "common.h"
 
 
 namespace ZRCola {
-    struct composition {
-        const wchar_t *src;
-        wchar_t dst;
-    };
-
-    extern const composition* compositions;
-    extern const size_t compositionsCount;
-
-    struct decomposition {
-        wchar_t src;
-        const wchar_t *dst;
-    };
-
-    extern const decomposition* decompositions;
-    extern const size_t decompositionsCount;
-}
-
-#include <assert.h>
+    ///
+    /// Normalizes a decomposed string
+    ///
+    /// \param[in]  input     Input string (UTF-16)
+    /// \param[in]  inputMax  Length of the input string in characters. Can be (size_t)-1 if \p input is zero terminated.
+    /// \param[out] output    Output string (UTF-16)
+    /// \param[out] map       The vector of source to destination index mappings (optional)
+    ///
+    void ZRCOLA_API Normalize(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL);
+};

@@ -17,30 +17,9 @@
     along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
-
-#include "../../../include/zrcola.h"
-#include "../include/zrcola/compose.h"
-#include "../include/zrcola/decompose.h"
-#include "../include/zrcola/normalize.h"
+#include "stdafx.h"
 
 
-namespace ZRCola {
-    struct composition {
-        const wchar_t *src;
-        wchar_t dst;
-    };
-
-    extern const composition* compositions;
-    extern const size_t compositionsCount;
-
-    struct decomposition {
-        wchar_t src;
-        const wchar_t *dst;
-    };
-
-    extern const decomposition* decompositions;
-    extern const size_t decompositionsCount;
+void ZRCOLA_API ZRCola::Normalize(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map)
+{
 }
-
-#include <assert.h>

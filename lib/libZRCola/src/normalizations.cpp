@@ -17,30 +17,4 @@
     along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
-
-#include "../../../include/zrcola.h"
-#include "../include/zrcola/compose.h"
-#include "../include/zrcola/decompose.h"
-#include "../include/zrcola/normalize.h"
-
-
-namespace ZRCola {
-    struct composition {
-        const wchar_t *src;
-        wchar_t dst;
-    };
-
-    extern const composition* compositions;
-    extern const size_t compositionsCount;
-
-    struct decomposition {
-        wchar_t src;
-        const wchar_t *dst;
-    };
-
-    extern const decomposition* decompositions;
-    extern const size_t decompositionsCount;
-}
-
-#include <assert.h>
+#include "stdafx.h"
