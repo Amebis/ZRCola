@@ -17,6 +17,12 @@
     along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 */
 
+///
+/// Forward declarations
+///
+class wxZRColaComposerPanel;
+
+
 #pragma once
 
 #include "zrcolagui.h"

@@ -13,13 +13,18 @@
 #include <wx/cshelp.h>
 #include <wx/intl.h>
 #include <wx/string.h>
-#include <wx/frame.h>
+#include <wx/bitmap.h>
+#include <wx/image.h>
+#include <wx/icon.h>
+#include <wx/menu.h>
 #include <wx/gdicmn.h>
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
-#include <wx/textctrl.h>
+#include "zrcolacomppnl.h"
 #include <wx/sizer.h>
+#include <wx/frame.h>
+#include <wx/textctrl.h>
 #include <wx/panel.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -32,10 +37,23 @@ class wxZRColaFrameBase : public wxFrame
 	private:
 	
 	protected:
+		enum
+		{
+			wxID_INSERT_GRAVE = 1000,
+			wxID_INSERT_ACUTE,
+			wxID_INSERT_CIRCUMFLEX,
+			wxID_INSERT_INV_BREVE_BELOW
+		};
+		
+		wxMenuBar* m_menubar;
+		wxMenu* m_menuFile;
+		wxMenu* m_menuAccents;
+		wxMenu* m_menuHelp;
+		wxZRColaComposerPanel* m_panel;
 	
 	public:
 		
-		wxZRColaFrameBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("ZRCola"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,200 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		wxZRColaFrameBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("ZRCola"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 600,400 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~wxZRColaFrameBase();
 	

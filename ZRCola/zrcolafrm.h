@@ -17,10 +17,16 @@
     along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 */
 
+
+///
+/// Forward declarations
+///
+class wxZRColaFrame;
+
+
 #pragma once
 
 #include "zrcolagui.h"
-#include "zrcolacomppnl.h"
 
 
 ///
@@ -53,6 +59,11 @@ protected:
     void OnSendComposed(wxCommandEvent& event);
     void OnSendDecomposed(wxCommandEvent& event);
     void OnSendAbort(wxCommandEvent& event);
+    void OnExit(wxCommandEvent& event);
+    void OnInsertGrave(wxCommandEvent& event);
+    void OnInsertAcute(wxCommandEvent& event);
+    void OnInsertCircumflex(wxCommandEvent& event);
+    void OnInsertInvertedBreveBelow(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     wxDECLARE_EVENT_TABLE();
 
@@ -62,5 +73,4 @@ protected:
 protected:
     WXHWND m_hWndSource;            ///< handle of the active window, when the ZRCola hotkey was pressed
     int m_hotkey;                   ///< hotkey ID that was pressed
-    wxZRColaComposerPanel *m_panel; ///< composer panel
 };
