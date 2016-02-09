@@ -20,8 +20,15 @@
 #include "stdafx.h"
 
 
-void ZRCOLA_API ZRCola::Decompose(_In_z_count_(inputMax) const wchar_t *input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map)
+static inline void Decompose(
+    _In_count_(decompositionsCount) const ZRCola::decomposition* decompositions,
+    _In_                            const size_t decompositionsCount,
+    _In_z_count_(inputMax)          const wchar_t* input,
+    _In_                            size_t inputMax,
+    _Out_                           std::wstring &output,
+    _Out_opt_                       std::vector<ZRCola::mapping>* map)
 {
+    assert(decompositions || decompositionsCount == 0);
     assert(input || inputMax == 0);
 
     // Trim inputMax to actual length.
@@ -37,6 +44,7 @@ void ZRCOLA_API ZRCola::Decompose(_In_z_count_(inputMax) const wchar_t *input, _
     for (size_t i = 0; i < inputMax;) {
         // Find whether the character can be decomposed.
         wchar_t c = input[i];
+
         for (size_t l = 0, r = decompositionsCount;; ) {
             if (l < r) {
                 size_t m = (l + r) / 2;
@@ -48,7 +56,7 @@ void ZRCOLA_API ZRCola::Decompose(_In_z_count_(inputMax) const wchar_t *input, _
                     i++;
                     if (map) {
                         // Mapping changed.
-                        map->push_back(mapping(i, output.length()));
+                        map->push_back(ZRCola::mapping(i, output.length()));
                     }
                     break;
                 }
@@ -60,4 +68,10 @@ void ZRCOLA_API ZRCola::Decompose(_In_z_count_(inputMax) const wchar_t *input, _
             }
         }
     }
+}
+
+
+void ZRCOLA_API ZRCola::Decompose(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map)
+{
+    ::Decompose(decompositions, decompositionsCount, input, inputMax, output, map);
 }
