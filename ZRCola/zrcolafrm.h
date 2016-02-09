@@ -67,6 +67,9 @@ protected:
     void OnAbout(wxCommandEvent& event);
     wxDECLARE_EVENT_TABLE();
 
+private:
+    void DoSend(const wxString& str);
+
 protected:
     virtual WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
 

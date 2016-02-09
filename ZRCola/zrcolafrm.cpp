@@ -99,36 +99,8 @@ void wxZRColaFrame::OnSend(wxCommandEvent& event)
 
 void wxZRColaFrame::OnSendComposed(wxCommandEvent& event)
 {
-    if (m_hWndSource) {
-        // Get text and its length (in Unicode characters). Prepare the INPUT table.
-        wxString text = m_panel->m_composed->GetValue();
-        std::vector<INPUT>::size_type n = text.length();
-        if (n) {
-            wxString::const_iterator i_text = text.begin();
-            std::vector<INPUT> input(n);
-            for (std::vector<INPUT>::size_type i = 0; i < n; i++, i_text++) {
-                INPUT &inp = input[i];
-                inp.type           = INPUT_KEYBOARD;
-                inp.ki.wVk         = 0;
-                inp.ki.wScan       = *i_text;
-                inp.ki.dwFlags     = KEYEVENTF_UNICODE;
-                inp.ki.time        = 0;
-                inp.ki.dwExtraInfo = 0;
-            }
-
-            // Return focus to the source window and send the input.
-            ::SetActiveWindow(m_hWndSource);
-            ::SetForegroundWindow(m_hWndSource);
-            ::Sleep(200);
-            ::SendInput(n, input.data(), sizeof(INPUT));
-            m_hWndSource = NULL;
-            m_hotkey = -1;
-
-            // Select all input in composer and decomposed to prepare for the overwrite next time.
-            m_panel->m_decomposed->SelectAll();
-            m_panel->m_composed->SelectAll();
-        }
-    }
+    if (m_hWndSource)
+        DoSend(m_panel->m_composed->GetValue());
 
     event.Skip();
 }
@@ -136,36 +108,8 @@ void wxZRColaFrame::OnSendComposed(wxCommandEvent& event)
 
 void wxZRColaFrame::OnSendDecomposed(wxCommandEvent& event)
 {
-    if (m_hWndSource) {
-        // Get text and its length (in Unicode characters). Prepare the INPUT table.
-        wxString text = m_panel->m_decomposed->GetValue();
-        std::vector<INPUT>::size_type n = text.length();
-        if (n) {
-            wxString::const_iterator i_text = text.begin();
-            std::vector<INPUT> input(n);
-            for (std::vector<INPUT>::size_type i = 0; i < n; i++, i_text++) {
-                INPUT &inp = input[i];
-                inp.type           = INPUT_KEYBOARD;
-                inp.ki.wVk         = 0;
-                inp.ki.wScan       = *i_text;
-                inp.ki.dwFlags     = KEYEVENTF_UNICODE;
-                inp.ki.time        = 0;
-                inp.ki.dwExtraInfo = 0;
-            }
-
-            // Return focus to the source window and send the input.
-            ::SetActiveWindow(m_hWndSource);
-            ::SetForegroundWindow(m_hWndSource);
-            ::Sleep(200);
-            ::SendInput(n, input.data(), sizeof(INPUT));
-            m_hWndSource = NULL;
-            m_hotkey = -1;
-
-            // Select all input in composer and decomposed to prepare for the overwrite next time.
-            m_panel->m_decomposed->SelectAll();
-            m_panel->m_composed->SelectAll();
-        }
-    }
+    if (m_hWndSource)
+        DoSend(m_panel->m_decomposed->GetValue());
 
     event.Skip();
 }
@@ -222,6 +166,51 @@ void wxZRColaFrame::OnInsertInvertedBreveBelow(wxCommandEvent& event)
 void wxZRColaFrame::OnAbout(wxCommandEvent& event)
 {
     wxMessageBox(wxString::Format(_("ZRCola v%s\nCopyright 2015-%s Amebis"), wxT(ZRCOLA_VERSION_STR), wxT(ZRCOLA_BUILD_YEAR_STR)), _("About ZRCola"), wxOK | wxICON_INFORMATION);
+}
+
+
+void wxZRColaFrame::DoSend(const wxString& str)
+{
+    // Prepare the INPUT table.
+    wxString::size_type n = str.length();
+    wxString::const_iterator i_str = str.begin();
+    std::vector<INPUT> input(n);
+    for (std::vector<INPUT>::size_type i = 0; i < n; i++, i_str++) {
+        wxString::char_type c = *i_str;
+        INPUT &inp = input[i];
+        inp.type           = INPUT_KEYBOARD;
+        inp.ki.dwFlags     = KEYEVENTF_UNICODE;
+        inp.ki.time        = 0;
+        inp.ki.dwExtraInfo = 0;
+        if (c == L'\n') {
+            // Enter (Return) key is sent as CR virtual key code.
+            inp.ki.wVk   = VK_RETURN;
+            inp.ki.wScan = L'\r';
+        } else if (L'a' <= c && c <= L'z') {
+            // Small letters have the same virtual key code as their uppercase counterparts.
+            inp.ki.wVk   = (WORD)c + L'A' - L'a';
+            inp.ki.wScan = c;
+        } else if (L'A' <= c && c <= L'Z' || L'0' <= c && c <= L'0' || c == L' ') {
+            // Letters and symbols with matching virtual key codes.
+            inp.ki.wVk   = c;
+            inp.ki.wScan = c;
+        } else {
+            inp.ki.wVk   = 0;
+            inp.ki.wScan = c;
+        }
+    }
+
+    // Return focus to the source window and send the input.
+    ::SetActiveWindow(m_hWndSource);
+    ::SetForegroundWindow(m_hWndSource);
+    ::Sleep(200);
+    ::SendInput(input.size(), input.data(), sizeof(INPUT));
+    m_hWndSource = NULL;
+    m_hotkey = -1;
+
+    // Select all input in composer and decomposed to prepare for the overwrite next time.
+    m_panel->m_decomposed->SelectAll();
+    m_panel->m_composed->SelectAll();
 }
 
 
