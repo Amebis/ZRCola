@@ -9,5 +9,7 @@
 temp
 /*.opensdf
 /ZRCola/locale/*.mo
+/ZRColaCompile/locale/*.mo
 /output/locale/sl/ZRCola.mo
+/output/locale/sl/ZRColaCompile.mo
 /output/locale/sl/wxExtend.mo
