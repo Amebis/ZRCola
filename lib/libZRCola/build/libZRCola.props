@@ -6,7 +6,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <OutDir>..\..\..\output\$(Platform).$(Configuration)\</OutDir>
-    <TargetName>$(ProjectName)$(libZRColaVersion)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
