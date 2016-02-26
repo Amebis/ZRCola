@@ -19,18 +19,39 @@
 
 #pragma once
 
-#include "../include/zrcola.h"
-#include "dbsource.h"
+#include <wx/string.h>
 
-#include <wx/app.h>
-#include <wx/cmdline.h>
-#include <wx/intl.h>
+#include <atlbase.h>
 
-#include <wxex/common.h>
-#include <wxex/comutils.h>
-
-#include <initguid.h> // GUID helper to prevent LNK2001 errors (unresolved external symbol IID_IADO...)
 #include <adoint.h>
-#include <adoid.h>
 
-#include <tchar.h>
+
+namespace ZRCola {
+    ///
+    /// Source database
+    ///
+    class DBSource {
+    public:
+        DBSource();
+        virtual ~DBSource();
+
+        ///
+        /// Opens the database
+        ///
+        /// \param[in] filename  File name of the MDB database.
+        ///
+        /// \returns
+        /// - true when open succeeds
+        /// - false otherwise
+        ///
+        bool Open(const wxString& filename);
+
+        ///
+        /// Logs errors in database connections
+        ///
+        void LogErrors() const;
+
+    protected:
+        ATL::CComPtr<ADOConnection> m_db;    ///< the database
+    };
+};

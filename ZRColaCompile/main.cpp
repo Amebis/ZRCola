@@ -20,16 +20,22 @@
 #include "stdafx.h"
 
 
+///
+/// Main function
+///
 int _tmain(int argc, _TCHAR *argv[])
 {
     wxApp::CheckBuildOptions(WX_BUILD_OPTIONS_SIGNATURE, "program");
 
+    // Inizialize wxWidgets.
     wxInitializer initializer;
     if (!initializer) {
         _ftprintf(stderr, wxT("Failed to initialize the wxWidgets library, aborting.\n"));
         return -1;
     }
 
+    // Set desired locale.
+    // TODO: Check user language setting and select the language accordingly.
     wxLocale locale;
     if (wxLocale::IsAvailable(wxLANGUAGE_SLOVENIAN)) {
         wxString sPath(wxPathOnly(argv[0]));
@@ -39,6 +45,7 @@ int _tmain(int argc, _TCHAR *argv[])
         wxVERIFY(locale.AddCatalog(wxT("ZRColaCompile")));
     }
 
+    // Parse command line.
     static const wxCmdLineEntryDesc cmdLineDesc[] =
     {
         { wxCMD_LINE_SWITCH, "h"  , "help", _("Show this help message"), wxCMD_LINE_VAL_NONE  , wxCMD_LINE_OPTION_HELP      },
@@ -60,6 +67,20 @@ int _tmain(int argc, _TCHAR *argv[])
     default:
         wxLogMessage(_("Syntax error detected, aborting."));
         return -1;
+    }
+
+    // Initialize COM (CoInitialize).
+    wxCoInitializer initializerOLE(COINIT_MULTITHREADED | COINIT_SPEED_OVER_MEMORY);
+    if (!initializerOLE) {
+        _ftprintf(stderr, _("Error initializing OLE.\n"));
+        return -1;
+    }
+
+    ZRCola::DBSource src;
+    const wxString& filenameIn = parser.GetParam(0);
+    if (!src.Open(filenameIn)) {
+        _ftprintf(stderr, _("Error opening %s input file.\n"), filenameIn.fn_str());
+        return 1;
     }
 
     return 0;
