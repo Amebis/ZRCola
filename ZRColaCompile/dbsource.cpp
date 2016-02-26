@@ -52,12 +52,12 @@ bool ZRCola::DBSource::Open(const wxString& filename)
             // Database open and ready.
             return true;
         } else {
-            wxLogMessage(_("Could not open database %s (%x)."), filename.c_str(), hr);
+            wxLogMessage(wxT("Could not open database %s (0x%x)."), filename.c_str(), hr);
             LogErrors();
         }
         m_db.Release();
     } else
-        wxLogMessage(_("Creating ADOConnection object failed (%x)."), hr);
+        wxLogMessage(wxT("Creating ADOConnection object failed (0x%x)."), hr);
 
     return false;
 }
@@ -72,7 +72,7 @@ void ZRCola::DBSource::LogErrors() const
     if (SUCCEEDED(m_db->get_Errors(&errors))) {
         // Get number of errors.
         long n = 0;
-        errors->get_Count(&n);
+        wxVERIFY(SUCCEEDED(errors->get_Count(&n)));
 
         // Iterate the errors.
         for (long i = 0; i < n; i++) {
@@ -80,12 +80,12 @@ void ZRCola::DBSource::LogErrors() const
             if (SUCCEEDED(errors->get_Item(ATL::CComVariant(i), &err))) {
                 // Write error number and description to the log.
                 long num = 0;
-                err->get_Number(&num);
+                wxVERIFY(SUCCEEDED(err->get_Number(&num)));
 
                 ATL::CComBSTR desc;
-                err->get_Description(&desc);
+                wxVERIFY(SUCCEEDED(err->get_Description(&desc)));
 
-                wxLogMessage(_("ADO Error 0x%x: %ls"), num, (BSTR)desc);
+                wxLogMessage(wxT("ADO Error 0x%x: %ls"), num, (BSTR)desc);
 
                 err->Release();
             }
@@ -93,4 +93,20 @@ void ZRCola::DBSource::LogErrors() const
 
         errors->Release();
     }
+}
+
+
+bool ZRCola::DBSource::SelectCompositions(ATL::CComPtr<ADORecordset> &rs) const
+{
+    // Create a new recordset.
+    if (rs) rs.Release();
+    wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
+
+    // Open it.
+    if (FAILED(rs->Open(ATL::CComVariant(L"SELECT [komb], [znak] FROM [VRS_ReplChar] WHERE [rang_komb]=1 ORDER BY [komb] ASC"), ATL::CComVariant(m_db), adOpenForwardOnly, adLockReadOnly, adCmdText))) {
+        LogErrors();
+        return false;
+    }
+
+    return true;
 }

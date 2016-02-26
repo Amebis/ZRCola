@@ -51,6 +51,17 @@ namespace ZRCola {
         ///
         void LogErrors() const;
 
+        ///
+        /// Returns ordered decomposed to composed character translations
+        ///
+        /// \param[out] rs  Recordset with results
+        ///
+        /// \returns
+        /// - true when query succeeds
+        /// - false otherwise
+        ///
+        bool SelectCompositions(ATL::CComPtr<ADORecordset> &rs) const;
+
     protected:
         ATL::CComPtr<ADOConnection> m_db;    ///< the database
     };

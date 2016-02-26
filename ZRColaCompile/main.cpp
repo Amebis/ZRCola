@@ -65,14 +65,14 @@ int _tmain(int argc, _TCHAR *argv[])
         break;
 
     default:
-        wxLogMessage(_("Syntax error detected, aborting."));
+        wxLogMessage(wxT("Syntax error detected, aborting."));
         return -1;
     }
 
     // Initialize COM (CoInitialize).
     wxCoInitializer initializerOLE(COINIT_MULTITHREADED | COINIT_SPEED_OVER_MEMORY);
     if (!initializerOLE) {
-        _ftprintf(stderr, _("Error initializing OLE.\n"));
+        _ftprintf(stderr, _("Error initializing COM.\n"));
         return -1;
     }
 
@@ -80,6 +80,19 @@ int _tmain(int argc, _TCHAR *argv[])
     const wxString& filenameIn = parser.GetParam(0);
     if (!src.Open(filenameIn)) {
         _ftprintf(stderr, _("Error opening %s input file.\n"), filenameIn.fn_str());
+        return 1;
+    }
+
+    wxFile dst;
+    const wxString& filenameOut = parser.GetParam(1);
+    if (!dst.Create(filenameOut, true, wxS_IRUSR | wxS_IWUSR | wxS_IRGRP | wxS_IWGRP | wxS_IROTH)) {
+        _ftprintf(stderr, _("Error opening %s output file.\n"), filenameOut.fn_str());
+        return 1;
+    }
+
+    ATL::CComPtr<ADORecordset> rs_comp;
+    if (!src.SelectCompositions(rs_comp)) {
+        _ftprintf(stderr, _("Error loading compositions from %s input file. Please make sure the input file is ZRCola.zrc compatible.\n"), filenameIn.fn_str());
         return 1;
     }
 
