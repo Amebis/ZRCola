@@ -27,6 +27,8 @@ ZRCola::DBSource::DBSource()
 
 ZRCola::DBSource::~DBSource()
 {
+    if (m_db)
+        m_db->Close();
 }
 
 
@@ -41,22 +43,18 @@ bool ZRCola::DBSource::Open(const wxString& filename)
     if (SUCCEEDED(hr)) {
         // Open the database.
         std::wstring cn;
-//#ifdef __WIN64__
-//        cn  = L"jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};";
-//#else
         cn  = L"Driver={Microsoft Access Driver (*.mdb)};";
-//#endif
         cn += L"Dbq=";
         cn += filename.c_str();
         cn += L";Uid=;Pwd=;";
         hr = m_db->Open(ATL::CComBSTR(cn.c_str()));
         if (SUCCEEDED(hr)) {
+            // Database open and ready.
             return true;
-
-            m_db->Close();
-        } else
+        } else {
+            wxLogMessage(_("Could not open database %s (%x)."), filename.c_str(), hr);
             LogErrors();
-        wxLogMessage(_("Could not open database %s (%x)."), filename.c_str(), hr);
+        }
         m_db.Release();
     } else
         wxLogMessage(_("Creating ADOConnection object failed (%x)."), hr);
