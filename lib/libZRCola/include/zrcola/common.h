@@ -35,7 +35,39 @@
 #pragma warning(disable: 4251)
 
 
+///
+/// Data records alignment
+///
+#define ZRCOLA_RECORD_ALIGN 1
+
+///
+/// Database IDs
+///
+#define ZRCOLA_DB_ID                ((ZRCola::recordid_t)0x0043525a)
+#define ZRCOLA_DB_COMPOSITIONS_ID   ((ZRCola::recordid_t)0x00000001)
+#define ZRCOLA_DB_DECOMPOSITIONS_ID ((ZRCola::recordid_t)0x00000002)
+
+
 namespace ZRCola {
+    typedef unsigned __int32 recordid_t;
+    typedef unsigned __int32 recordsize_t;
+
+
+#pragma pack(push)
+#pragma pack(4)
+
+    ///
+    /// Translation index
+    ///
+    struct translation_index {
+        unsigned __int32 start; ///< Composed character offset
+        unsigned __int32 end;   ///< Decomposed string end offset
+    };
+
+#pragma pack(pop)
+
+
+
     ///
     /// Composed-decomposed index transformation mapping
     ///

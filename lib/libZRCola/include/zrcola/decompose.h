@@ -27,6 +27,15 @@
 
 namespace ZRCola {
     ///
+    /// Decomposition
+    ///
+    struct decomposition {
+        wchar_t src;        ///< composed character
+        const wchar_t *dst; ///< decomposed string
+    };
+
+
+    ///
     /// Decomposes string
     ///
     /// \param[in]  input     Input string (UTF-16)

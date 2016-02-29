@@ -19,21 +19,31 @@
 
 #pragma once
 
-#include <wx/string.h>
-
 #include <atlbase.h>
-
 #include <adoint.h>
+#include <string>
 
 
 namespace ZRCola {
     ///
     /// Source database
     ///
-    class DBSource {
+    class DBSource
+    {
+    public:
+        ///
+        /// Translation
+        ///
+        class translation {
+        public:
+            wchar_t chr;        ///< composed character
+            std::wstring str;   ///< decomposed string
+        };
+
     public:
         DBSource();
         virtual ~DBSource();
+
 
         ///
         /// Opens the database
@@ -44,15 +54,73 @@ namespace ZRCola {
         /// - true when open succeeds
         /// - false otherwise
         ///
-        bool Open(const wxString& filename);
+        bool Open(LPCTSTR filename);
+
 
         ///
         /// Logs errors in database connections
         ///
         void LogErrors() const;
 
+
         ///
-        /// Returns ordered decomposed to composed character translations
+        /// Is recordset at end
+        ///
+        /// \param[out] rs  Recordset with results
+        ///
+        /// \returns
+        /// - true when at end
+        /// - false otherwise
+        ///
+        static inline bool IsEOF(const ATL::CComPtr<ADORecordset>& rs)
+        {
+            VARIANT_BOOL eof = VARIANT_TRUE;
+            return FAILED(rs->get_EOF(&eof)) || eof ? true : false;
+        }
+
+
+        ///
+        /// Gets number of records in a recordset
+        ///
+        /// \param[out] rs  Recordset with results
+        ///
+        /// \returns Number of records
+        ///
+        static inline size_t GetRecordsetCount(const ATL::CComPtr<ADORecordset>& rs)
+        {
+            ADO_LONGPTR count;
+            return SUCCEEDED(rs->get_RecordCount(&count)) ? count : (size_t)-1;
+        }
+
+
+        ///
+        /// Gets encoded Unicode string from ZRCola.zrc database
+        ///
+        /// \param[in]  f    Data field
+        /// \param[out] str  Output string
+        ///
+        /// \returns
+        /// - true when successful
+        /// - false otherwise
+        ///
+        bool GetUnicodeString(const CComPtr<ADOField>& f, std::wstring& str) const;
+
+
+        ///
+        /// Gets encoded Unicode character from ZRCola.zrc database
+        ///
+        /// \param[in]  f    Data field
+        /// \param[out] chr  Output character
+        ///
+        /// \returns
+        /// - true when successful
+        /// - false otherwise
+        ///
+        bool GetUnicodeCharacter(const CComPtr<ADOField>& f, wchar_t& chr) const;
+
+
+        ///
+        /// Returns character translations
         ///
         /// \param[out] rs  Recordset with results
         ///
@@ -60,9 +128,23 @@ namespace ZRCola {
         /// - true when query succeeds
         /// - false otherwise
         ///
-        bool SelectCompositions(ATL::CComPtr<ADORecordset> &rs) const;
+        bool SelectTranslations(ATL::CComPtr<ADORecordset>& rs) const;
+
+
+        ///
+        /// Returns translation data
+        ///
+        /// \param[in]  rs  Recordset with results
+        /// \param[out] t   Translation
+        ///
+        /// \returns
+        /// - true when succeeded
+        /// - false otherwise
+        ///
+        bool GetTranslation(const ATL::CComPtr<ADORecordset>& rs, translation& t) const;
 
     protected:
-        ATL::CComPtr<ADOConnection> m_db;    ///< the database
+        std::basic_string<TCHAR> filename;  ///< the database filename
+        ATL::CComPtr<ADOConnection> m_db;   ///< the database
     };
 };
