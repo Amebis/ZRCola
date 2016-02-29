@@ -32,32 +32,31 @@ ZRCola::DBSource::~DBSource()
 }
 
 
-bool ZRCola::DBSource::Open(const wxString& filename)
+bool ZRCola::DBSource::Open(LPCTSTR _filename)
 {
     wxASSERT_MSG(!m_db, wxT("database already open"));
 
-    HRESULT hr;
-
     // Create COM object.
-    hr = ::CoCreateInstance(CLSID_CADOConnection, NULL, CLSCTX_ALL, IID_IADOConnection, (LPVOID*)&m_db);
+    HRESULT hr = ::CoCreateInstance(CLSID_CADOConnection, NULL, CLSCTX_ALL, IID_IADOConnection, (LPVOID*)&m_db);
     if (SUCCEEDED(hr)) {
         // Open the database.
         std::wstring cn;
         cn  = L"Driver={Microsoft Access Driver (*.mdb)};";
         cn += L"Dbq=";
-        cn += filename.c_str();
+        cn += _filename;
         cn += L";Uid=;Pwd=;";
         hr = m_db->Open(ATL::CComBSTR(cn.c_str()));
         if (SUCCEEDED(hr)) {
             // Database open and ready.
+            filename = _filename;
             return true;
         } else {
-            wxLogMessage(wxT("Could not open database %s (0x%x)."), filename.c_str(), hr);
+            _ftprintf(stderr, wxT("%s: error ZCC0002: Could not open database (0x%x).\n"), (LPCTSTR)_filename, hr);
             LogErrors();
         }
         m_db.Release();
     } else
-        wxLogMessage(wxT("Creating ADOConnection object failed (0x%x)."), hr);
+        _ftprintf(stderr, wxT("%s: error ZCC0001: Creating ADOConnection object failed (0x%x).\n"), (LPCTSTR)_filename, hr);
 
     return false;
 }
@@ -85,7 +84,7 @@ void ZRCola::DBSource::LogErrors() const
                 ATL::CComBSTR desc;
                 wxVERIFY(SUCCEEDED(err->get_Description(&desc)));
 
-                wxLogMessage(wxT("ADO Error 0x%x: %ls"), num, (BSTR)desc);
+                _ftprintf(stderr, wxT("    error ADO%x: %ls\n"), num, (BSTR)desc);
 
                 err->Release();
             }
@@ -103,9 +102,77 @@ bool ZRCola::DBSource::SelectCompositions(ATL::CComPtr<ADORecordset> &rs) const
     wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
 
     // Open it.
-    if (FAILED(rs->Open(ATL::CComVariant(L"SELECT [komb], [znak] FROM [VRS_ReplChar] WHERE [rang_komb]=1 ORDER BY [komb] ASC"), ATL::CComVariant(m_db), adOpenForwardOnly, adLockReadOnly, adCmdText))) {
+    if (FAILED(rs->Open(ATL::CComVariant(L"SELECT [komb], [znak] FROM [VRS_ReplChar] WHERE [rang_komb]=1 ORDER BY [komb] ASC"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText))) {
+        _ftprintf(stderr, wxT("%s: error ZCC0010: Error loading compositions from database. Please make sure the file is ZRCola.zrc compatible.\n"), filename.c_str());
         LogErrors();
         return false;
+    }
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::GetComposition(const ATL::CComPtr<ADORecordset>& rs, ZRCola::DBSource::composition& comp) const
+{
+    wxASSERT_MSG(rs, wxT("recordset is empty"));
+
+    CComPtr<ADOFields> flds;
+    wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
+
+    {
+        CComPtr<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(CComVariant(L"komb"), &f)));
+        CComVariant v;
+        wxVERIFY(SUCCEEDED(f->get_Value(&v)));
+
+        // Parse "komb" field. Must be "xxxx+xxxx+xxxx..." sequence.
+        wxVERIFY(SUCCEEDED(v.ChangeType(VT_BSTR)));
+        comp.src.clear();
+        for (UINT i = 0, n = ::SysStringLen(V_BSTR(&v)); i < n && V_BSTR(&v)[i];) {
+            // Parse Unicode code.
+            UINT j = 0;
+            wchar_t c = 0;
+            for (; i < n && V_BSTR(&v)[i]; i++, j++) {
+                     if (L'0' <= V_BSTR(&v)[i] && V_BSTR(&v)[i] <= L'9') c = c*0x10 + (V_BSTR(&v)[i] - L'0');
+                else if (L'A' <= V_BSTR(&v)[i] && V_BSTR(&v)[i] <= L'F') c = c*0x10 + (V_BSTR(&v)[i] - L'A' + 10);
+                else if (L'a' <= V_BSTR(&v)[i] && V_BSTR(&v)[i] <= L'f') c = c*0x10 + (V_BSTR(&v)[i] - L'a' + 10);
+                else break;
+            }
+            if (j <= 0 || 4 < j) {
+                _ftprintf(stderr, wxT("%s: error ZCC0020: Syntax error in \"%ls\" field (\"%.*ls\"). Unicode code must be one to four hexadecimal characters long.\n"), filename.c_str(), L"komb", n, V_BSTR(&v));
+                return false;
+            }
+            comp.src += c;
+
+            // Skip delimiter(s) and whitespace.
+            for (; i < n && V_BSTR(&v)[i] && (V_BSTR(&v)[i] == L'+' || iswspace(V_BSTR(&v)[i])); i++);
+        }
+    }
+
+    {
+        CComPtr<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(CComVariant(L"znak"), &f)));
+        CComVariant v;
+        wxVERIFY(SUCCEEDED(f->get_Value(&v)));
+
+        // Parse "znak" field. Must be exactly one Unicode code.
+        wxVERIFY(SUCCEEDED(v.ChangeType(VT_BSTR)));
+        UINT i = 0, n = ::SysStringLen(V_BSTR(&v));
+        wchar_t c = 0;
+        for (; i < n && V_BSTR(&v)[i]; i++) {
+                 if (L'0' <= V_BSTR(&v)[i] && V_BSTR(&v)[i] <= L'9') c = c*0x10 + (V_BSTR(&v)[i] - L'0');
+            else if (L'A' <= V_BSTR(&v)[i] && V_BSTR(&v)[i] <= L'F') c = c*0x10 + (V_BSTR(&v)[i] - L'A' + 10);
+            else if (L'a' <= V_BSTR(&v)[i] && V_BSTR(&v)[i] <= L'f') c = c*0x10 + (V_BSTR(&v)[i] - L'a' + 10);
+            else break;
+        }
+        if (i <= 0 && 4 < i) {
+            _ftprintf(stderr, wxT("%s: error ZCC0020: Syntax error in \"%ls\" field (\"%.*ls\"). Unicode code must be one to four hexadecimal characters long.\n"), filename.c_str(), L"znak", n, V_BSTR(&v));
+            return false;
+        } else if (i != n) {
+            _ftprintf(stderr, wxT("%s: error ZCC0021: Syntax error in \"%ls\" field (\"%.*ls\"). Extra trailing characters.\n"), filename.c_str(), L"znak", n, V_BSTR(&v));
+            return false;
+        }
+        comp.dst = c;
     }
 
     return true;

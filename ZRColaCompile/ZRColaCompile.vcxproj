@@ -60,9 +60,6 @@
     <ProjectReference Include="..\lib\libZRCola\build\libZRCola.vcxproj">
       <Project>{3c61929e-7289-4101-8d0a-da22d6e1aea8}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\lib\stdex\build\stdex.vcxproj">
-      <Project>{518777cc-0a59-4415-a12a-82751ed75343}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\lib\wxExtend\build\wxExtend.vcxproj">
       <Project>{a3a36689-ac35-4026-93da-a3ba0c0e767c}</Project>
     </ProjectReference>

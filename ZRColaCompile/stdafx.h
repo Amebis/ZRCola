@@ -22,16 +22,21 @@
 #include "../include/zrcola.h"
 #include "dbsource.h"
 
+#include <zrcola/compose.h>
+
 #include <wx/app.h>
 #include <wx/cmdline.h>
-#include <wx/file.h>
 #include <wx/intl.h>
 
 #include <wxex/common.h>
 #include <wxex/comutils.h>
+
+#include <stdex/idrec.h>
 
 #include <initguid.h> // GUID helper to prevent LNK2001 errors (unresolved external symbol IID_IADO...)
 #include <adoint.h>
 #include <adoid.h>
 
 #include <tchar.h>
+
+#include <fstream>

@@ -83,18 +83,84 @@ int _tmain(int argc, _TCHAR *argv[])
         return 1;
     }
 
-    wxFile dst;
     const wxString& filenameOut = parser.GetParam(1);
-    if (!dst.Create(filenameOut, true, wxS_IRUSR | wxS_IWUSR | wxS_IRGRP | wxS_IWGRP | wxS_IROTH)) {
+    std::fstream dst((LPCTSTR)filenameOut, std::ios_base::out | std::ios_base::trunc | std::ios_base::binary);
+    if (dst.fail()) {
         _ftprintf(stderr, _("Error opening %s output file.\n"), filenameOut.fn_str());
         return 1;
     }
 
     ATL::CComPtr<ADORecordset> rs_comp;
-    if (!src.SelectCompositions(rs_comp)) {
-        _ftprintf(stderr, _("Error loading compositions from %s input file. Please make sure the input file is ZRCola.zrc compatible.\n"), filenameIn.fn_str());
-        return 1;
+    wxCHECK(src.SelectCompositions(rs_comp), 1);
+
+    bool has_errors = false;
+
+    // Open file ID.
+    std::streamoff dst_start = stdex::idrec::open<ZRCola::recordid_t, ZRCola::recordsize_t>(dst, ZRCOLA_DB_ID);
+
+    // Get number of compositions.
+    size_t comp_count = src.GetRecordsetCount(rs_comp);
+    if (comp_count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
+        // Allocate memory.
+        std::vector<ZRCola::composition_index> comp_index;
+        comp_index.reserve(comp_count);
+        std::vector<wchar_t> comp_data;
+        comp_data.reserve(comp_count*4);
+        ZRCola::DBSource::composition comp;
+
+        // Parse compositions and build index and data.
+        while (!ZRCola::DBSource::IsEOF(rs_comp)) {
+            // Read composition from the database.
+            if (src.GetComposition(rs_comp, comp)) {
+                // Add composition to index and data.
+                ZRCola::composition_index ci;
+                ci.src = (unsigned int)comp_data.size();
+                for (std::wstring::size_type i = 0, n = comp.src.length(); i < n; i++)
+                    comp_data.push_back(comp.src[i]);
+                ci.dst = (unsigned int)comp_data.size();
+                comp_data.push_back(comp.dst);
+                comp_index.push_back(ci);
+            } else
+                has_errors = true;
+
+            wxVERIFY(SUCCEEDED(rs_comp->MoveNext()));
+        }
+
+        // Write compositions to file.
+        std::streamoff start = stdex::idrec::open<ZRCola::recordid_t, ZRCola::recordsize_t>(dst, ZRCOLA_DB_COMPOSITIONS_ID);
+        {
+            unsigned int _count = comp_count;
+            dst.write((const char*)&_count, sizeof(_count));
+            dst.write((const char*)comp_index.data(), sizeof(ZRCola::composition_index)*_count);
+        }
+        {
+            std::vector<wchar_t>::size_type count = comp_data.size();
+            if (count <= 0xffffffff) { // 4G check
+                unsigned int _count = (unsigned int)count;
+                dst.write((const char*)&_count, sizeof(_count));
+                dst.write((const char*)comp_data.data(), sizeof(wchar_t)*_count);
+            } else {
+                _ftprintf(stderr, wxT("%s: error ZCC0004: Composition data exceeds 4G. Please make sure the file is ZRCola.zrc compatible.\n"), (LPCTSTR)filenameIn.c_str());
+                has_errors = true;
+            }
+        }
+        stdex::idrec::close<ZRCola::recordid_t, ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>(dst, start);
+    } else {
+        _ftprintf(stderr, wxT("%s: error ZCC0003: Error getting composition count from database or too many compositions. Please make sure the file is ZRCola.zrc compatible.\n"), (LPCTSTR)filenameIn.c_str());
+        has_errors = true;
     }
 
-    return 0;
+    stdex::idrec::close<ZRCola::recordid_t, ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>(dst, dst_start);
+
+    if (dst.fail()) {
+        _ftprintf(stderr, wxT("Writing to %s output file failed.\n"), (LPCTSTR)filenameOut.c_str());
+        has_errors = true;
+    }
+
+    if (has_errors) {
+        dst.close();
+        wxRemoveFile(filenameOut);
+        return 1;
+    } else
+        return 0;
 }

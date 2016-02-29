@@ -10,6 +10,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>LIBZRCOLA;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\stdex\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

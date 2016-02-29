@@ -35,7 +35,22 @@
 #pragma warning(disable: 4251)
 
 
+///
+/// Data records alignment
+///
+#define ZRCOLA_RECORD_ALIGN 1
+
+///
+/// Database IDs
+///
+#define ZRCOLA_DB_ID                ((ZRCola::recordid_t)0x0043525a)
+#define ZRCOLA_DB_COMPOSITIONS_ID   ((ZRCola::recordid_t)0x00000001)
+
+
 namespace ZRCola {
+    typedef unsigned __int32 recordid_t;
+    typedef unsigned __int32 recordsize_t;
+
     ///
     /// Composed-decomposed index transformation mapping
     ///
