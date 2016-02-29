@@ -43,6 +43,11 @@
   <ItemGroup>
     <ResourceCompile Include="..\res\libZRCola.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\stdex\build\stdex.vcxproj">
+      <Project>{518777cc-0a59-4415-a12a-82751ed75343}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3C61929E-7289-4101-8D0A-DA22D6E1AEA8}</ProjectGuid>
     <RootNamespace>libZRCola</RootNamespace>

@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libZRCola", "lib\libZRCola\build\libZRCola.vcxproj", "{3C61929E-7289-4101-8D0A-DA22D6E1AEA8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stdex", "lib\stdex\build\stdex.vcxproj", "{518777CC-0A59-4415-A12A-82751ED75343}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -46,6 +48,14 @@ Global
 		{3C61929E-7289-4101-8D0A-DA22D6E1AEA8}.Release|Win32.Build.0 = Release|Win32
 		{3C61929E-7289-4101-8D0A-DA22D6E1AEA8}.Release|x64.ActiveCfg = Release|x64
 		{3C61929E-7289-4101-8D0A-DA22D6E1AEA8}.Release|x64.Build.0 = Release|x64
+		{518777CC-0A59-4415-A12A-82751ED75343}.Debug|Win32.ActiveCfg = Debug|Win32
+		{518777CC-0A59-4415-A12A-82751ED75343}.Debug|Win32.Build.0 = Debug|Win32
+		{518777CC-0A59-4415-A12A-82751ED75343}.Debug|x64.ActiveCfg = Debug|x64
+		{518777CC-0A59-4415-A12A-82751ED75343}.Debug|x64.Build.0 = Debug|x64
+		{518777CC-0A59-4415-A12A-82751ED75343}.Release|Win32.ActiveCfg = Release|Win32
+		{518777CC-0A59-4415-A12A-82751ED75343}.Release|Win32.Build.0 = Release|Win32
+		{518777CC-0A59-4415-A12A-82751ED75343}.Release|x64.ActiveCfg = Release|x64
+		{518777CC-0A59-4415-A12A-82751ED75343}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,5 +63,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A3A36689-AC35-4026-93DA-A3BA0C0E767C} = {6D85AD6A-69D6-40EB-BF0C-7495479DDCE5}
 		{3C61929E-7289-4101-8D0A-DA22D6E1AEA8} = {6D85AD6A-69D6-40EB-BF0C-7495479DDCE5}
+		{518777CC-0A59-4415-A12A-82751ED75343} = {6D85AD6A-69D6-40EB-BF0C-7495479DDCE5}
 	EndGlobalSection
 EndGlobal
