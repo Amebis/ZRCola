@@ -19,6 +19,8 @@
 
 #pragma once
 
+#include <stdex/idrec.h>
+#include <istream>
 #include <vector>
 
 
@@ -44,8 +46,7 @@
 /// Database IDs
 ///
 #define ZRCOLA_DB_ID                ((ZRCola::recordid_t)0x0043525a)
-#define ZRCOLA_DB_COMPOSITIONS_ID   ((ZRCola::recordid_t)0x00000001)
-#define ZRCOLA_DB_DECOMPOSITIONS_ID ((ZRCola::recordid_t)0x00000002)
+#define ZRCOLA_DB_TRANSLATIONS_ID   ((ZRCola::recordid_t)0x00000001)
 
 
 namespace ZRCola {
@@ -53,19 +54,29 @@ namespace ZRCola {
     typedef unsigned __int32 recordsize_t;
 
 
+    ///
+    /// Translation database
+    ///
+    class translation_db {
+    public:
 #pragma pack(push)
 #pragma pack(4)
-
-    ///
-    /// Translation index
-    ///
-    struct translation_index {
-        unsigned __int32 start; ///< Composed character offset
-        unsigned __int32 end;   ///< Decomposed string end offset
-    };
-
+        ///
+        /// Translation index
+        ///
+        struct index {
+            unsigned __int32 start; ///< Composed character offset
+            unsigned __int32 end;   ///< Decomposed string end offset
+        };
 #pragma pack(pop)
 
+        std::vector<index> comp_index;      ///< Composition index
+        std::vector<index> decomp_index;    ///< Decomposition index
+        std::vector<wchar_t> data;          ///< Transformation data
+    };
+
+
+    typedef ZRCOLA_API stdex::idrec::record<translation_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> translation_rec;
 
 
     ///
@@ -107,3 +118,44 @@ namespace ZRCola {
 };
 
 #pragma warning(pop)
+
+
+const ZRCola::recordid_t stdex::idrec::record<ZRCola::translation_db, ZRCola::recordid_t, ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>::id = ZRCOLA_DB_TRANSLATIONS_ID;
+
+
+///
+/// Reads translation database from a stream
+///
+/// \param[in]  stream  Input stream
+/// \param[out] t_db    Translation database
+///
+/// \returns The stream \p stream
+///
+inline std::istream& operator >>(std::istream& stream, ZRCola::translation_db &t_db)
+{
+    unsigned __int32 count;
+
+    // Read index count.
+    stream.read((char*)&count, sizeof(count));
+    if (!stream.good()) return stream;
+
+    // Read composition index.
+    t_db.comp_index.resize(count);
+    stream.read((char*)t_db.comp_index.data(), sizeof(ZRCola::translation_db::index)*count);
+    if (!stream.good()) return stream;
+
+    // Read decomposition index.
+    t_db.decomp_index.resize(count);
+    stream.read((char*)t_db.decomp_index.data(), sizeof(ZRCola::translation_db::index)*count);
+    if (!stream.good()) return stream;
+
+    // Read data count.
+    stream.read((char*)&count, sizeof(count));
+    if (!stream.good()) return stream;
+
+    // Read data.
+    t_db.data.resize(count);
+    stream.read((char*)t_db.data.data(), sizeof(wchar_t)*count);
+
+    return stream;
+}
