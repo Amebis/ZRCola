@@ -42,3 +42,6 @@ public:
     /// - false otherwise
     virtual bool OnInit();
 };
+
+
+wxDECLARE_APP(ZRColaApp);

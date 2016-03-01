@@ -30,5 +30,8 @@
 #include <wx/msgdlg.h>
 #include <wxex/common.h>
 
+#include <fstream>
 #include <string>
 #include <vector>
+
+#include <stdex/idrec.h>

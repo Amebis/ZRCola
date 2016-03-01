@@ -30,6 +30,30 @@ wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
     m_selComposed(0, 0),
     wxZRColaComposerPanelBase(parent)
 {
+    wxString sPath(wxPathOnly(wxTheApp->argv[0]));
+    sPath << wxT("\\..\\data\\ZRCola.zrcdb"); // TODO: Make database file configurable
+
+    std::fstream dat((LPCTSTR)sPath, std::ios_base::in | std::ios_base::binary);
+    if (dat.good()) {
+        if (stdex::idrec::find<ZRCola::recordid_t, ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>(dat, ZRCOLA_DB_ID, sizeof(ZRCola::recordid_t))) {
+            ZRCola::recordsize_t size;
+            dat.read((char*)&size, sizeof(ZRCola::recordsize_t));
+            if (dat.good()) {
+                ZRCola::translation_rec r_rec(m_t_db);
+                if (r_rec.find(dat, size)) {
+                    dat >> r_rec;
+                    if (!dat.good()) {
+                        wxFAIL_MSG(wxT("Error reading translation data from ZRCola.zrcdb."));
+                        m_t_db.  comp_index.clear();
+                        m_t_db.decomp_index.clear();
+                        m_t_db.        data.clear();
+                    }
+                } else
+                    wxFAIL_MSG(wxT("ZRCola.zrcdb has no translation data."));
+            }
+        } else
+            wxFAIL_MSG(wxT("ZRCola.zrcdb is not a valid ZRCola database."));
+    }
 }
 
 
