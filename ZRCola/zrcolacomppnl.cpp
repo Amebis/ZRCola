@@ -44,9 +44,9 @@ wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
                     dat >> r_rec;
                     if (!dat.good()) {
                         wxFAIL_MSG(wxT("Error reading translation data from ZRCola.zrcdb."));
-                        m_t_db.  comp_index.clear();
-                        m_t_db.decomp_index.clear();
-                        m_t_db.        data.clear();
+                        m_t_db.idxComp  .clear();
+                        m_t_db.idxDecomp.clear();
+                        m_t_db.data     .clear();
                     }
                 } else
                     wxFAIL_MSG(wxT("ZRCola.zrcdb has no translation data."));
@@ -94,7 +94,7 @@ void wxZRColaComposerPanel::OnDecomposedText(wxCommandEvent& event)
 #endif
 
         std::wstring dst;
-        ZRCola::Compose(src.data(), src.size(), dst, &m_mapping);
+        m_t_db.Compose(src.data(), src.size(), dst, &m_mapping);
 
         long from, to;
         m_decomposed->GetSelection(&from, &to);
@@ -141,7 +141,7 @@ void wxZRColaComposerPanel::OnComposedText(wxCommandEvent& event)
 #endif
 
         std::wstring dst;
-        ZRCola::Decompose(src.data(), src.size(), dst, &m_mapping);
+        m_t_db.Decompose(src.data(), src.size(), dst, &m_mapping);
 
         long from, to;
         m_composed->GetSelection(&from, &to);

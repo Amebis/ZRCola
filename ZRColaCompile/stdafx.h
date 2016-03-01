@@ -22,7 +22,7 @@
 #include "../include/zrcola.h"
 #include "dbsource.h"
 
-#include <zrcola/compose.h>
+#include <zrcola/translate.h>
 
 #include <wx/app.h>
 #include <wx/cmdline.h>

@@ -20,15 +20,8 @@
 #include "stdafx.h"
 
 
-static inline void Compose(
-    _In_count_(compositionsCount) const ZRCola::composition* compositions,
-    _In_                          const size_t compositionsCount,
-    _In_z_count_(inputMax)        const wchar_t* input,
-    _In_                          size_t inputMax,
-    _Out_                         std::wstring &output,
-    _Out_opt_                     std::vector<ZRCola::mapping>* map)
+void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map) const
 {
-    assert(compositions || compositionsCount == 0);
     assert(input || inputMax == 0);
 
     // Trim inputMax to actual length.
@@ -40,6 +33,8 @@ static inline void Compose(
     output.reserve(inputMax);
     if (map)
         map->clear();
+
+    std::vector<index>::size_type compositionsCount = idxComp.size();
 
     for (size_t i = 0; i < inputMax;) {
         // Start with the full search area at i-th character.
@@ -54,7 +49,7 @@ static inline void Compose(
                     // Get the j-th character of the composition.
                     // All compositions that get short on characters are lexically ordered before.
                     // Thus the j-th character is considered 0.
-                    wchar_t s = j < wcslen(compositions[m].src) ? compositions[m].src[j] : 0;
+                    wchar_t s = j < idxComp[m].GetStrLength() ? data[idxComp[m].GetStrStart() + j] : 0;
 
                     // Do the bisection test.
                          if (c < s) r = m;
@@ -65,14 +60,14 @@ static inline void Compose(
                         // Narrow the search area on the left to start at the first composition in the run.
                         for (size_t rr = m; l < rr;) {
                             size_t m = (l + rr) / 2;
-                            wchar_t s = j < wcslen(compositions[m].src) ? compositions[m].src[j] : 0;
+                            wchar_t s = j < idxComp[m].GetStrLength() ? data[idxComp[m].GetStrStart() + j] : 0;
                             if (c <= s) rr = m; else l = m + 1;
                         }
 
                         // Narrow the search area on the right to end at the first composition not in the run.
                         for (size_t ll = m + 1; ll < r;) {
                             size_t m = (ll + r) / 2;
-                            wchar_t s = j < wcslen(compositions[m].src) ? compositions[m].src[j] : 0;
+                            wchar_t s = j < idxComp[m].GetStrLength() ? data[idxComp[m].GetStrStart() + j] : 0;
                             if (s <= c) ll = m + 1; else r = m;
                         }
 
@@ -82,9 +77,9 @@ static inline void Compose(
 
                 if (l >= r) {
                     // The search area is empty.
-                    if (j && l_prev < compositionsCount && compositions[l_prev].src[j] == 0) {
+                    if (j && l_prev < compositionsCount && j == idxComp[l_prev].GetStrLength()) {
                         // The first composition of the previous run was a match.
-                        output += compositions[l_prev].dst;
+                        output += data[idxComp[l_prev].GetChrStart()];
                         i = ii;
                         if (j > 1 && map) {
                             // Mapping changed.
@@ -100,9 +95,9 @@ static inline void Compose(
             } else {
                 // End of input reached.
 
-                if (l < compositionsCount && compositions[l].src[j] == 0) {
+                if (l < compositionsCount && j == idxComp[l].GetStrLength()) {
                     // The first composition of the previous run was a match.
-                    output += compositions[l].dst;
+                    output += data[idxComp[l].GetChrStart()];
                     i = ii;
                     if (j > 1 && map) {
                         // Mapping changed.
@@ -120,7 +115,48 @@ static inline void Compose(
 }
 
 
-void ZRCOLA_API ZRCola::Compose(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map)
+void ZRCOLA_API ZRCola::translation_db::Decompose(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map) const
 {
-    ::Compose(compositions, compositionsCount, input, inputMax, output, map);
+    assert(input || inputMax == 0);
+
+    // Trim inputMax to actual length.
+    inputMax = inputMax != (size_t)-1 ? wcsnlen(input, inputMax) : wcslen(input);
+
+    // Clear the output string and preallocate at least 2*inputMax chars.
+    // Since decomposition expands the string, let's keep our fingers crossed to avoid reallocation later.
+    output.clear();
+    output.reserve(inputMax * 2);
+    if (map)
+        map->clear();
+
+    std::vector<index>::size_type decompositionsCount = idxDecomp.size();
+
+    for (size_t i = 0; i < inputMax;) {
+        // Find whether the character can be decomposed.
+        wchar_t c = input[i];
+
+        for (size_t l = 0, r = decompositionsCount;; ) {
+            if (l < r) {
+                size_t m = (l + r) / 2;
+                wchar_t decompSrc = data[idxDecomp[m].GetChrStart()];
+                     if (c < decompSrc) r = m;
+                else if (decompSrc < c) l = m + 1;
+                else {
+                    // Character found.
+                    output.append(&data[idxDecomp[m].GetStrStart()], idxDecomp[m].GetStrLength());
+                    i++;
+                    if (map) {
+                        // Mapping changed.
+                        map->push_back(ZRCola::mapping(i, output.length()));
+                    }
+                    break;
+                }
+            } else {
+                // Character not found.
+                output += c;
+                i++;
+                break;
+            }
+        }
+    }
 }

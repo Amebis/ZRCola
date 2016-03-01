@@ -20,17 +20,7 @@
 #pragma once
 
 #include "../../../include/zrcola.h"
-#include "../include/zrcola/compose.h"
-#include "../include/zrcola/decompose.h"
+#include "../include/zrcola/translate.h"
 #include "../include/zrcola/normalize.h"
-
-
-namespace ZRCola {
-    extern const composition* compositions;
-    extern const size_t compositionsCount;
-
-    extern const decomposition* decompositions;
-    extern const size_t decompositionsCount;
-}
 
 #include <assert.h>

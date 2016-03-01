@@ -30,12 +30,12 @@
 ///
 inline std::ostream& operator <<(std::ostream& stream, const ZRCola::translation_db &t_db)
 {
-    assert(t_db.comp_index.size() == t_db.decomp_index.size());
+    assert(t_db.idxComp.size() == t_db.idxDecomp.size());
 
     unsigned __int32 count;
 
     // Write index count.
-    std::vector<ZRCola::translation_db::index>::size_type trans_count = t_db.comp_index.size();
+    std::vector<ZRCola::translation_db::index>::size_type trans_count = t_db.idxComp.size();
 #if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
     // 4G check
     if (trans_count > 0xffffffff) {
@@ -49,11 +49,11 @@ inline std::ostream& operator <<(std::ostream& stream, const ZRCola::translation
 
     // Write composition index.
     if (stream.fail()) return stream;
-    stream.write((const char*)t_db.comp_index.data(), sizeof(ZRCola::translation_db::index)*count);
+    stream.write((const char*)t_db.idxComp.data(), sizeof(ZRCola::translation_db::index)*count);
 
     // Write decomposition index.
     if (stream.fail()) return stream;
-    stream.write((const char*)t_db.decomp_index.data(), sizeof(ZRCola::translation_db::index)*count);
+    stream.write((const char*)t_db.idxDecomp.data(), sizeof(ZRCola::translation_db::index)*count);
 
     // Write data count.
     std::vector<wchar_t>::size_type data_count = t_db.data.size();
@@ -258,9 +258,9 @@ int _tmain(int argc, _TCHAR *argv[])
                 ZRCola::translation_db t_db;
 
                 // Preallocate memory.
-                t_db.  comp_index.reserve(trans_count);
-                t_db.decomp_index.reserve(trans_count);
-                t_db.        data.reserve(trans_count*4);
+                t_db.idxComp  .reserve(trans_count);
+                t_db.idxDecomp.reserve(trans_count);
+                t_db.data     .reserve(trans_count*4);
 
                 // Parse translations and build index and data.
                 while (!ZRCola::DBSource::IsEOF(rs)) {
@@ -273,8 +273,8 @@ int _tmain(int argc, _TCHAR *argv[])
                         for (std::wstring::size_type i = 0, n = trans.str.length(); i < n; i++)
                             t_db.data.push_back(trans.str[i]);
                         ti.end = t_db.data.size();
-                        t_db.comp_index.push_back(ti);
-                        t_db.decomp_index.push_back(ti);
+                        t_db.idxComp  .push_back(ti);
+                        t_db.idxDecomp.push_back(ti);
                     } else
                         has_errors = true;
 
@@ -282,8 +282,8 @@ int _tmain(int argc, _TCHAR *argv[])
                 }
 
                 // Sort indices.
-                qsort_s(t_db.  comp_index.data(), trans_count, sizeof(ZRCola::translation_db::index), CompareCompositionIndex  , t_db.data.data());
-                qsort_s(t_db.decomp_index.data(), trans_count, sizeof(ZRCola::translation_db::index), CompareDecompositionIndex, t_db.data.data());
+                qsort_s(t_db.idxComp  .data(), trans_count, sizeof(ZRCola::translation_db::index), CompareCompositionIndex  , t_db.data.data());
+                qsort_s(t_db.idxDecomp.data(), trans_count, sizeof(ZRCola::translation_db::index), CompareDecompositionIndex, t_db.data.data());
 
                 // Write translations to file.
                 dst << ZRCola::translation_rec(t_db);

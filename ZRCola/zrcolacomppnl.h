@@ -26,7 +26,7 @@ class wxZRColaComposerPanel;
 #pragma once
 
 #include "zrcolagui.h"
-#include <zrcola/common.h>
+#include <zrcola/translate.h>
 #include <utility>
 
 

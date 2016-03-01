@@ -19,12 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\compose.cpp" />
-    <ClCompile Include="..\src\compositions.cpp" />
-    <ClCompile Include="..\src\decompose.cpp" />
-    <ClCompile Include="..\src\decompositions.cpp" />
     <ClCompile Include="..\src\mapping.cpp" />
-    <ClCompile Include="..\src\normalizations.cpp" />
     <ClCompile Include="..\src\normalize.cpp" />
     <ClCompile Include="..\src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -32,12 +27,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\src\translate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\zrcola\common.h" />
-    <ClInclude Include="..\include\zrcola\compose.h" />
-    <ClInclude Include="..\include\zrcola\decompose.h" />
     <ClInclude Include="..\include\zrcola\normalize.h" />
+    <ClInclude Include="..\include\zrcola\translate.h" />
     <ClInclude Include="..\src\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
