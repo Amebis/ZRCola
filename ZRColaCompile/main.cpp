@@ -225,21 +225,21 @@ int _tmain(int argc, _TCHAR *argv[])
     // Initialize COM (CoInitialize).
     wxCoInitializer initializerOLE(COINIT_MULTITHREADED | COINIT_SPEED_OVER_MEMORY);
     if (!initializerOLE) {
-        _ftprintf(stderr, _("Error initializing COM.\n"));
+        _ftprintf(stderr, wxT("Error initializing COM.\n"));
         return -1;
     }
 
     ZRCola::DBSource src;
     const wxString& filenameIn = parser.GetParam(0);
     if (!src.Open(filenameIn)) {
-        _ftprintf(stderr, _("Error opening %s input file.\n"), filenameIn.fn_str());
+        _ftprintf(stderr, wxT("%s: error ZCC0001: Error opening input file.\n"), filenameIn.fn_str());
         return 1;
     }
 
     const wxString& filenameOut = parser.GetParam(1);
     std::fstream dst((LPCTSTR)filenameOut, std::ios_base::out | std::ios_base::trunc | std::ios_base::binary);
     if (dst.fail()) {
-        _ftprintf(stderr, _("Error opening %s output file.\n"), filenameOut.fn_str());
+        _ftprintf(stderr, wxT("%s: error ZCC0002: Error opening output file.\n"), filenameOut.fn_str());
         return 1;
     }
 
@@ -300,7 +300,7 @@ int _tmain(int argc, _TCHAR *argv[])
     stdex::idrec::close<ZRCola::recordid_t, ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>(dst, dst_start);
 
     if (dst.fail()) {
-        _ftprintf(stderr, wxT("Writing to %s output file failed.\n"), (LPCTSTR)filenameOut.c_str());
+        _ftprintf(stderr, wxT("%s: error ZCC0005: Writing to output file failed.\n"), (LPCTSTR)filenameOut.c_str());
         has_errors = true;
     }
 

@@ -51,12 +51,12 @@ bool ZRCola::DBSource::Open(LPCTSTR _filename)
             filename = _filename;
             return true;
         } else {
-            _ftprintf(stderr, wxT("%s: error ZCC0002: Could not open database (0x%x).\n"), (LPCTSTR)_filename, hr);
+            _ftprintf(stderr, wxT("%s: error ZCC0011: Could not open database (0x%x).\n"), (LPCTSTR)_filename, hr);
             LogErrors();
         }
         m_db.Release();
     } else
-        _ftprintf(stderr, wxT("%s: error ZCC0001: Creating ADOConnection object failed (0x%x).\n"), (LPCTSTR)_filename, hr);
+        _ftprintf(stderr, wxT("%s: error ZCC0012: Creating ADOConnection object failed (0x%x).\n"), (LPCTSTR)_filename, hr);
 
     return false;
 }
@@ -149,11 +149,11 @@ bool ZRCola::DBSource::GetUnicodeCharacter(const CComPtr<ADOField>& f, wchar_t& 
     }
     if (i <= 0 && 4 < i) {
         CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
-        _ftprintf(stderr, wxT("%s: error ZCC0020: Syntax error in \"%.*ls\" field (\"%.*ls\"). Unicode code must be one to four hexadecimal characters long.\n"), filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
+        _ftprintf(stderr, wxT("%s: error ZCC0030: Syntax error in \"%.*ls\" field (\"%.*ls\"). Unicode code must be one to four hexadecimal characters long.\n"), filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
         return false;
     } else if (i != n) {
         CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
-        _ftprintf(stderr, wxT("%s: error ZCC0021: Syntax error in \"%.*ls\" field (\"%.*ls\"). Extra trailing characters.\n"), filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
+        _ftprintf(stderr, wxT("%s: error ZCC0031: Syntax error in \"%.*ls\" field (\"%.*ls\"). Extra trailing characters.\n"), filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
         return false;
     }
 
@@ -169,7 +169,7 @@ bool ZRCola::DBSource::SelectTranslations(ATL::CComPtr<ADORecordset> &rs) const
 
     // Open it.
     if (FAILED(rs->Open(ATL::CComVariant(L"SELECT [komb], [znak] FROM [VRS_ReplChar] WHERE [rang_komb]=1"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText))) {
-        _ftprintf(stderr, wxT("%s: error ZCC0010: Error loading compositions from database. Please make sure the file is ZRCola.zrc compatible.\n"), filename.c_str());
+        _ftprintf(stderr, wxT("%s: error ZCC0040: Error loading compositions from database. Please make sure the file is ZRCola.zrc compatible.\n"), filename.c_str());
         LogErrors();
         return false;
     }
