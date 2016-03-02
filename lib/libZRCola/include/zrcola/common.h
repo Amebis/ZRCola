@@ -43,8 +43,7 @@
 ///
 /// Database IDs
 ///
-#define ZRCOLA_DB_ID                ((ZRCola::recordid_t)0x0043525a)
-#define ZRCOLA_DB_TRANSLATIONS_ID   ((ZRCola::recordid_t)0x00000001)
+#define ZRCOLA_DB_ID    (*(ZRCola::recordid_t*)"ZRC")
 
 
 namespace ZRCola {
