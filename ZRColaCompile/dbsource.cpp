@@ -171,7 +171,6 @@ bool ZRCola::DBSource::GetKeySequence(const ATL::CComPtr<ADOField>& f, std::vect
 
     CComVariant v;
     wxVERIFY(SUCCEEDED(f->get_Value(&v)));
-
     wxVERIFY(SUCCEEDED(v.ChangeType(VT_BSTR)));
 
     // Convert to uppercase.
@@ -205,10 +204,19 @@ bool ZRCola::DBSource::GetKeySequence(const ATL::CComPtr<ADOField>& f, std::vect
             _ftprintf(stderr, wxT("%s: error ZCC0060: Syntax error in \"%.*ls\" field (\"%.*ls\"). Key sequences must be \"Ctrl+Alt+<key>\" formatted, delimited by commas and/or space.\n"), m_filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
             return false;
         }
+        if (seq.size() > 0xffff) {
+            _ftprintf(stderr, wxT("%s: warning ZCC0061: Key sequence \"%.*ls...\" too long. Ignored.\n"), (LPCTSTR)m_filename.c_str(), std::min<UINT>(n, 20), V_BSTR(&v));
+            return false;
+        }
         seq.push_back(kc);
 
         // Skip delimiter(s) and whitespace.
         for (; i < n && V_BSTR(&v)[i] && (V_BSTR(&v)[i] == L',' || _iswspace_l(V_BSTR(&v)[i], m_locale)); i++);
+    }
+
+    if (seq.empty()) {
+        _ftprintf(stderr, wxT("%s: warning ZCC0062: Empty key sequence. Ignored.\n"), (LPCTSTR)m_filename.c_str());
+        return false;
     }
 
     return true;
