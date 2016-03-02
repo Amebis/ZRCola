@@ -53,7 +53,7 @@ namespace ZRCola {
 
         std::vector<unsigned __int32> idxComp;      ///< Composition index
         std::vector<unsigned __int32> idxDecomp;    ///< Decomposition index
-        std::vector<wchar_t> data;                  ///< Transformation data
+        std::vector<unsigned __int16> data;         ///< Transformation data
 
     public:
         ///
@@ -89,11 +89,11 @@ const ZRCola::recordid_t stdex::idrec::record<ZRCola::translation_db, ZRCola::re
 /// Reads translation database from a stream
 ///
 /// \param[in]  stream  Input stream
-/// \param[out] t_db    Translation database
+/// \param[out] db      Translation database
 ///
 /// \returns The stream \p stream
 ///
-inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::translation_db &t_db)
+inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::translation_db &db)
 {
     unsigned __int32 count;
 
@@ -102,13 +102,13 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::transl
     if (!stream.good()) return stream;
 
     // Read composition index.
-    t_db.idxComp.resize(count);
-    stream.read((char*)t_db.idxComp.data(), sizeof(unsigned __int32)*count);
+    db.idxComp.resize(count);
+    stream.read((char*)db.idxComp.data(), sizeof(unsigned __int32)*count);
     if (!stream.good()) return stream;
 
     // Read decomposition index.
-    t_db.idxDecomp.resize(count);
-    stream.read((char*)t_db.idxDecomp.data(), sizeof(unsigned __int32)*count);
+    db.idxDecomp.resize(count);
+    stream.read((char*)db.idxDecomp.data(), sizeof(unsigned __int32)*count);
     if (!stream.good()) return stream;
 
     // Read data count.
@@ -116,8 +116,8 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::transl
     if (!stream.good()) return stream;
 
     // Read data.
-    t_db.data.resize(count);
-    stream.read((char*)t_db.data.data(), sizeof(wchar_t)*count);
+    db.data.resize(count);
+    stream.read((char*)db.data.data(), sizeof(unsigned __int16)*count);
 
     return stream;
 }
