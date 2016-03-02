@@ -262,7 +262,7 @@ bool ZRCola::DBSource::SelectKeySequences(ATL::CComPtr<ADORecordset> &rs) const
     wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
 
     // Open it.
-    if (FAILED(rs->Open(ATL::CComVariant(L"SELECT [Znak], [tipka] FROM [wrd_KeyCodes]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText))) {
+    if (FAILED(rs->Open(ATL::CComVariant(L"SELECT DISTINCT [Znak], [tipka] FROM [wrd_KeyCodes]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText))) {
         _ftprintf(stderr, wxT("%s: error ZCC0050: Error loading key sequences from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
         LogErrors();
         return false;

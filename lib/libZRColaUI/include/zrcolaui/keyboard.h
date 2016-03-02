@@ -63,6 +63,31 @@ namespace ZRCola {
         std::vector<unsigned __int32> idxChr;   ///< Character index
         std::vector<unsigned __int32> idxKey;   ///< Key index
         std::vector<unsigned __int16> data;     ///< Key sequences data
+
+    public:
+        ///
+        /// Get text representation of a given key sequence
+        ///
+        /// \param[in]  seq      Key sequence
+        /// \param[in]  seq_len  Number of elements in \p seq
+        /// \param[out] str     Text representation of a \p seq key sequence
+        ///
+        static void GetSequenceAsText(_In_count_(seq_len) const keyseq::key_t *seq, _In_ size_t seq_len, _Out_ std::wstring& str);
+
+        ///
+        /// Get text representation of a given key sequence
+        ///
+        /// \param[in]  seq      Key sequence
+        /// \param[in]  seq_len  Number of elements in \p seq
+        ///
+        /// \returns Text representation of a \p seq key sequence
+        ///
+        static inline std::wstring GetSequenceAsText(_In_count_(seq_len) const keyseq::key_t *seq, _In_ size_t seq_len)
+        {
+            std::wstring str;
+            GetSequenceAsText(seq, seq_len, str);
+            return str;
+        }
     };
 
 

@@ -464,6 +464,19 @@ int _tmain(int argc, _TCHAR *argv[])
                 qsort_s(db.idxChr.data(), count, sizeof(unsigned __int32), CompareKeySequenceChar, db.data.data());
                 qsort_s(db.idxKey.data(), count, sizeof(unsigned __int32), CompareKeySequenceKey , db.data.data());
 
+                // Check key sequences.
+                for (std::vector<unsigned __int32>::size_type i = 1, n = db.idxKey.size(); i < n; i++) {
+                    const ZRCola::keyseq_db::keyseq
+                        &ks1 = (const ZRCola::keyseq_db::keyseq&)db.data[db.idxKey[i - 1]],
+                        &ks2 = (const ZRCola::keyseq_db::keyseq&)db.data[db.idxKey[i    ]];
+
+                    if (CompareSequence(ks1.seq, ks1.seq_len, ks2.seq, ks2.seq_len) == 0) {
+                        std::wstring seq_str;
+                        ZRCola::keyseq_db::GetSequenceAsText(ks1.seq, ks1.seq_len, seq_str);
+                        _ftprintf(stderr, wxT("%s: warning ZCC0007: Duplicate key sequence (%ls => %04X or %04X). The keyboard behaviour will be unpredictable.\n"), (LPCTSTR)filenameIn.c_str(), seq_str.c_str(), ks1.chr, ks2.chr);
+                    }
+                }
+
                 // Write translations to file.
                 dst << ZRCola::keyseq_rec(db);
             } else {
@@ -479,7 +492,7 @@ int _tmain(int argc, _TCHAR *argv[])
     stdex::idrec::close<ZRCola::recordid_t, ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>(dst, dst_start);
 
     if (dst.fail()) {
-        _ftprintf(stderr, wxT("%s: error ZCC0007: Writing to output file failed.\n"), (LPCTSTR)filenameOut.c_str());
+        _ftprintf(stderr, wxT("%s: error ZCC1000: Writing to output file failed.\n"), (LPCTSTR)filenameOut.c_str());
         has_errors = true;
     }
 
