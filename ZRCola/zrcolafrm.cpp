@@ -32,10 +32,6 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
     EVT_MENU(wxZRColaFrame::wxID_SEND_DECOMPOSED       , wxZRColaFrame::OnSendDecomposed          )
     EVT_MENU(wxZRColaFrame::wxID_SEND_ABORT            , wxZRColaFrame::OnSendAbort               )
     EVT_MENU(               wxID_EXIT                  , wxZRColaFrame::OnExit                    )
-    EVT_MENU(               wxID_INSERT_GRAVE          , wxZRColaFrame::OnInsertGrave             )
-    EVT_MENU(               wxID_INSERT_ACUTE          , wxZRColaFrame::OnInsertAcute             )
-    EVT_MENU(               wxID_INSERT_CIRCUMFLEX     , wxZRColaFrame::OnInsertCircumflex        )
-    EVT_MENU(               wxID_INSERT_INV_BREVE_BELOW, wxZRColaFrame::OnInsertInvertedBreveBelow)
     EVT_MENU(               wxID_ABOUT                 , wxZRColaFrame::OnAbout                   )
 wxEND_EVENT_TABLE()
 
@@ -136,30 +132,6 @@ void wxZRColaFrame::OnSendAbort(wxCommandEvent& event)
 void wxZRColaFrame::OnExit(wxCommandEvent& event)
 {
     Close();
-}
-
-
-void wxZRColaFrame::OnInsertGrave(wxCommandEvent& event)
-{
-    m_panel->m_decomposed->WriteText(L"\xE000");
-}
-
-
-void wxZRColaFrame::OnInsertAcute(wxCommandEvent& event)
-{
-    m_panel->m_decomposed->WriteText(L"\xE001");
-}
-
-
-void wxZRColaFrame::OnInsertCircumflex(wxCommandEvent& event)
-{
-    m_panel->m_decomposed->WriteText(L"\xE002");
-}
-
-
-void wxZRColaFrame::OnInsertInvertedBreveBelow(wxCommandEvent& event)
-{
-    m_panel->m_decomposed->WriteText(L"\xE02F");
 }
 
 

@@ -93,6 +93,9 @@
     <ClInclude Include="zrcolagui.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\lib\libZRColaUI\build\libZRColaUI.vcxproj">
+      <Project>{c0a84bd2-3870-4cd6-b281-0ab322e3c579}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\lib\libZRCola\build\libZRCola.vcxproj">
       <Project>{3c61929e-7289-4101-8d0a-da22d6e1aea8}</Project>
     </ProjectReference>

@@ -37,17 +37,8 @@ class wxZRColaFrameBase : public wxFrame
 	private:
 	
 	protected:
-		enum
-		{
-			wxID_INSERT_GRAVE = 1000,
-			wxID_INSERT_ACUTE,
-			wxID_INSERT_CIRCUMFLEX,
-			wxID_INSERT_INV_BREVE_BELOW
-		};
-		
 		wxMenuBar* m_menubar;
 		wxMenu* m_menuFile;
-		wxMenu* m_menuAccents;
 		wxMenu* m_menuHelp;
 		wxZRColaComposerPanel* m_panel;
 	

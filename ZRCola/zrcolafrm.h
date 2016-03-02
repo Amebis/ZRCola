@@ -60,10 +60,6 @@ protected:
     void OnSendDecomposed(wxCommandEvent& event);
     void OnSendAbort(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
-    void OnInsertGrave(wxCommandEvent& event);
-    void OnInsertAcute(wxCommandEvent& event);
-    void OnInsertCircumflex(wxCommandEvent& event);
-    void OnInsertInvertedBreveBelow(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     wxDECLARE_EVENT_TABLE();
 

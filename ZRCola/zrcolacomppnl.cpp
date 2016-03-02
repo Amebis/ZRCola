@@ -21,6 +21,32 @@
 
 
 //////////////////////////////////////////////////////////////////////////
+// wxZRColaComposerPanelEvtHandler
+//////////////////////////////////////////////////////////////////////////
+
+wxZRColaComposerPanelEvtHandler::wxZRColaComposerPanelEvtHandler(wxZRColaComposerPanel *target) :
+    m_target(target),
+    wxEvtHandler()
+{
+}
+
+
+bool wxZRColaComposerPanelEvtHandler::ProcessEvent(wxEvent& event)
+{
+    if (m_target && event.IsCommandEvent()) {
+        int id = event.GetId();
+        if (wxZRColaComposerPanel::wxID_ACCEL <= id && id < wxZRColaComposerPanel::wxID_ACCEL + m_target->m_ks_db.idxKey.size()) {
+            const ZRCola::keyseq_db::keyseq &ks = (const ZRCola::keyseq_db::keyseq&)m_target->m_ks_db.data[m_target->m_ks_db.idxKey[id - wxZRColaComposerPanel::wxID_ACCEL]];
+            m_target->m_decomposed->WriteText(ks.chr);
+            return true;
+        }
+    }
+
+    return wxEvtHandler::ProcessEvent(event);
+}
+
+
+//////////////////////////////////////////////////////////////////////////
 // wxZRColaComposerPanel
 //////////////////////////////////////////////////////////////////////////
 
@@ -28,6 +54,7 @@ wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
     m_progress(false),
     m_selDecomposed(0, 0),
     m_selComposed(0, 0),
+    eh(this),
     wxZRColaComposerPanelBase(parent)
 {
     wxString sPath(wxPathOnly(wxTheApp->argv[0]));
@@ -39,26 +66,63 @@ wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
             ZRCola::recordsize_t size;
             dat.read((char*)&size, sizeof(ZRCola::recordsize_t));
             if (dat.good()) {
-                ZRCola::translation_rec r_rec(m_t_db);
-                if (r_rec.find(dat, size)) {
-                    dat >> r_rec;
-                    if (!dat.good()) {
-                        wxFAIL_MSG(wxT("Error reading translation data from ZRCola.zrcdb."));
-                        m_t_db.idxComp  .clear();
-                        m_t_db.idxDecomp.clear();
-                        m_t_db.data     .clear();
+                bool has_translation_data = false;
+
+                for (;;) {
+                    ZRCola::recordid_t id;
+                    if (!stdex::idrec::read_id(dat, id, size)) break;
+
+                    if (id == ZRCola::translation_rec::id) {
+                        dat >> ZRCola::translation_rec(m_t_db);
+                        if (dat.good()) {
+                            has_translation_data = true;
+                        } else {
+                            wxFAIL_MSG(wxT("Error reading translation data from ZRCola.zrcdb."));
+                            m_t_db.idxComp  .clear();
+                            m_t_db.idxDecomp.clear();
+                            m_t_db.data     .clear();
+                        }
+                    } else if (id == ZRCola::keyseq_rec::id) {
+                        dat >> ZRCola::keyseq_rec(m_ks_db);
+                        if (!dat.good()) {
+                            wxFAIL_MSG(wxT("Error reading key sequence data from ZRCola.zrcdb."));
+                            m_ks_db.idxChr.clear();
+                            m_ks_db.idxKey.clear();
+                            m_ks_db.data  .clear();
+                        }
                     }
-                } else
+                }
+
+                if (!has_translation_data)
                     wxFAIL_MSG(wxT("ZRCola.zrcdb has no translation data."));
             }
         } else
             wxFAIL_MSG(wxT("ZRCola.zrcdb is not a valid ZRCola database."));
     }
+
+    std::vector<unsigned __int32>::size_type n = m_ks_db.idxKey.size();
+    std::vector<wxAcceleratorEntry> entries;
+    entries.reserve(n);
+    for (std::vector<unsigned __int32>::size_type i = 0; i < n; i++) {
+        const ZRCola::keyseq_db::keyseq &ks = (const ZRCola::keyseq_db::keyseq&)m_ks_db.data[m_ks_db.idxKey[i]];
+        if (ks.seq_len == 1) {
+            // The key sequence is trivial.
+            entries.push_back(wxAcceleratorEntry(
+                ((ks.seq[0].modifiers & ZRCola::keyseq_db::keyseq::SHIFT) ? wxACCEL_SHIFT : 0) |
+                ((ks.seq[0].modifiers & ZRCola::keyseq_db::keyseq::CTRL ) ? wxACCEL_CTRL  : 0) |
+                ((ks.seq[0].modifiers & ZRCola::keyseq_db::keyseq::ALT  ) ? wxACCEL_ALT   : 0), ks.seq[0].key, wxID_ACCEL + i));
+        }
+    }
+    wxAcceleratorTable accel(entries.size(), entries.data());
+    SetAcceleratorTable(accel);
+
+    PushEventHandler(&eh);
 }
 
 
 wxZRColaComposerPanel::~wxZRColaComposerPanel()
 {
+    PopEventHandler();
 }
 
 

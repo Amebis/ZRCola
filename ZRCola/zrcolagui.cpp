@@ -34,27 +34,6 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	
 	m_menubar->Append( m_menuFile, _("&File") ); 
 	
-	m_menuAccents = new wxMenu();
-	wxMenuItem* m_menuItemGrave;
-	m_menuItemGrave = new wxMenuItem( m_menuAccents, wxID_INSERT_GRAVE, wxString( _("Grave\t&7") ) , wxEmptyString, wxITEM_NORMAL );
-	m_menuAccents->Append( m_menuItemGrave );
-	
-	wxMenuItem* m_menuItemAcute;
-	m_menuItemAcute = new wxMenuItem( m_menuAccents, wxID_INSERT_ACUTE, wxString( _("Acute\t&9") ) , wxEmptyString, wxITEM_NORMAL );
-	m_menuAccents->Append( m_menuItemAcute );
-	
-	wxMenuItem* m_menuItemCircumflex;
-	m_menuItemCircumflex = new wxMenuItem( m_menuAccents, wxID_INSERT_CIRCUMFLEX, wxString( _("Circumflex\t&3") ) , wxEmptyString, wxITEM_NORMAL );
-	m_menuAccents->Append( m_menuItemCircumflex );
-	
-	m_menuAccents->AppendSeparator();
-	
-	wxMenuItem* m_menuItemInvBreveBelow;
-	m_menuItemInvBreveBelow = new wxMenuItem( m_menuAccents, wxID_INSERT_INV_BREVE_BELOW, wxString( _("Inverted &breve") ) , wxEmptyString, wxITEM_NORMAL );
-	m_menuAccents->Append( m_menuItemInvBreveBelow );
-	
-	m_menubar->Append( m_menuAccents, _("&Accents") ); 
-	
 	m_menuHelp = new wxMenu();
 	wxMenuItem* m_menuItemAbout;
 	m_menuItemAbout = new wxMenuItem( m_menuHelp, wxID_ABOUT, wxString( _("&About") ) , wxEmptyString, wxITEM_NORMAL );
