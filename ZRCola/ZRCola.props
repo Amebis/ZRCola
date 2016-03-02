@@ -7,7 +7,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\lib\wxExtend\include;..\lib\stdex\include;..\lib\libZRCola\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib\wxExtend\include;..\lib\stdex\include;..\lib\libZRCola\include;..\lib\libZRColaUI\include</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />
