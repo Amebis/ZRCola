@@ -36,8 +36,8 @@ namespace ZRCola {
         ///
         class translation {
         public:
-            wchar_t chr;        ///< composed character
-            std::wstring str;   ///< decomposed string
+            wchar_t chr;        ///< Composed character
+            std::wstring str;   ///< Decomposed string
         };
 
     public:

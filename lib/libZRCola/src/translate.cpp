@@ -49,7 +49,7 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
                     // Get the j-th character of the composition.
                     // All compositions that get short on characters are lexically ordered before.
                     // Thus the j-th character is considered 0.
-                    wchar_t s = j < idxComp[m].GetStrLength() ? data[idxComp[m].GetStrStart() + j] : 0;
+                    wchar_t s = j < idxComp[m].GetStrLength() ? ((translation*)&data[idxComp[m].start])->str[j] : 0;
 
                     // Do the bisection test.
                          if (c < s) r = m;
@@ -60,14 +60,14 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
                         // Narrow the search area on the left to start at the first composition in the run.
                         for (size_t rr = m; l < rr;) {
                             size_t m = (l + rr) / 2;
-                            wchar_t s = j < idxComp[m].GetStrLength() ? data[idxComp[m].GetStrStart() + j] : 0;
+                            wchar_t s = j < idxComp[m].GetStrLength() ? ((translation*)&data[idxComp[m].start])->str[j] : 0;
                             if (c <= s) rr = m; else l = m + 1;
                         }
 
                         // Narrow the search area on the right to end at the first composition not in the run.
                         for (size_t ll = m + 1; ll < r;) {
                             size_t m = (ll + r) / 2;
-                            wchar_t s = j < idxComp[m].GetStrLength() ? data[idxComp[m].GetStrStart() + j] : 0;
+                            wchar_t s = j < idxComp[m].GetStrLength() ? ((translation*)&data[idxComp[m].start])->str[j] : 0;
                             if (s <= c) ll = m + 1; else r = m;
                         }
 
@@ -79,7 +79,7 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
                     // The search area is empty.
                     if (j && l_prev < compositionsCount && j == idxComp[l_prev].GetStrLength()) {
                         // The first composition of the previous run was a match.
-                        output += data[idxComp[l_prev].GetChrStart()];
+                        output += ((translation*)&data[idxComp[l_prev].start])->chr;
                         i = ii;
                         if (j > 1 && map) {
                             // Mapping changed.
@@ -97,7 +97,7 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
 
                 if (l < compositionsCount && j == idxComp[l].GetStrLength()) {
                     // The first composition of the previous run was a match.
-                    output += data[idxComp[l].GetChrStart()];
+                    output += ((translation*)&data[idxComp[l].start])->chr;
                     i = ii;
                     if (j > 1 && map) {
                         // Mapping changed.
@@ -138,12 +138,12 @@ void ZRCOLA_API ZRCola::translation_db::Decompose(_In_z_count_(inputMax) const w
         for (size_t l = 0, r = decompositionsCount;; ) {
             if (l < r) {
                 size_t m = (l + r) / 2;
-                wchar_t decompSrc = data[idxDecomp[m].GetChrStart()];
+                wchar_t decompSrc = ((translation*)&data[idxDecomp[m].start])->chr;
                      if (c < decompSrc) r = m;
                 else if (decompSrc < c) l = m + 1;
                 else {
                     // Character found.
-                    output.append(&data[idxDecomp[m].GetStrStart()], idxDecomp[m].GetStrLength());
+                    output.append(((translation*)&data[idxDecomp[m].start])->str, idxDecomp[m].GetStrLength());
                     i++;
                     if (map) {
                         // Mapping changed.

@@ -46,25 +46,29 @@ namespace ZRCola {
             unsigned __int32 end;   ///< Decomposed string end offset
 
             ///
-            /// Returns translation string start offset
-            ///
-            inline unsigned __int32 GetChrStart() const { return start; }
-
-            ///
-            /// Returns translation string start offset
-            ///
-            inline unsigned __int32 GetStrStart() const { return start + 1; }
-
-            ///
             /// Returns translation string length
             ///
             inline unsigned __int32 GetStrLength() const { return end - (start + 1); }
         };
 #pragma pack(pop)
 
+#pragma pack(push)
+#pragma pack(2)
+#pragma warning(push)
+#pragma warning(disable: 4200)
+        ///
+        /// Translation data
+        ///
+        struct translation {
+            wchar_t chr;        ///< Composed character
+            wchar_t str[];      ///< Decomposed string
+        };
+#pragma warning(pop)
+#pragma pack(pop)
+
         std::vector<index> idxComp;      ///< Composition index
         std::vector<index> idxDecomp;    ///< Decomposition index
-        std::vector<wchar_t> data;          ///< Transformation data
+        std::vector<wchar_t> data;       ///< Transformation data
 
     public:
         ///
