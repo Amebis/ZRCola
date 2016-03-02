@@ -22,6 +22,7 @@
 #include <atlbase.h>
 #include <adoint.h>
 #include <string>
+#include <vector>
 
 
 namespace ZRCola {
@@ -38,6 +39,27 @@ namespace ZRCola {
         public:
             wchar_t chr;        ///< Composed character
             std::wstring str;   ///< Decomposed string
+        };
+
+
+        ///
+        /// Key sequence
+        ///
+        class keyseq {
+        public:
+            ///
+            /// Key code
+            ///
+            struct keycode {
+                wchar_t key;            ///< Key
+                bool shift;             ///< Shift modifier
+                bool ctrl;              ///< Ctrl modifier
+                bool alt;               ///< Alt modifier
+            };
+
+        public:
+            wchar_t chr;                ///< Character
+            std::vector<keycode> seq;   ///< Key sequence
         };
 
     public:
@@ -94,19 +116,6 @@ namespace ZRCola {
 
 
         ///
-        /// Gets encoded Unicode string from ZRCola.zrc database
-        ///
-        /// \param[in]  f    Data field
-        /// \param[out] str  Output string
-        ///
-        /// \returns
-        /// - true when successful
-        /// - false otherwise
-        ///
-        bool GetUnicodeString(const CComPtr<ADOField>& f, std::wstring& str) const;
-
-
-        ///
         /// Gets encoded Unicode character from ZRCola.zrc database
         ///
         /// \param[in]  f    Data field
@@ -116,7 +125,33 @@ namespace ZRCola {
         /// - true when successful
         /// - false otherwise
         ///
-        bool GetUnicodeCharacter(const CComPtr<ADOField>& f, wchar_t& chr) const;
+        bool GetUnicodeCharacter(const ATL::CComPtr<ADOField>& f, wchar_t& chr) const;
+
+
+        ///
+        /// Gets encoded Unicode string from ZRCola.zrc database
+        ///
+        /// \param[in]  f    Data field
+        /// \param[out] str  Output string
+        ///
+        /// \returns
+        /// - true when successful
+        /// - false otherwise
+        ///
+        bool GetUnicodeString(const ATL::CComPtr<ADOField>& f, std::wstring& str) const;
+
+
+        ///
+        /// Gets encoded key sequence from ZRCola.zrc database
+        ///
+        /// \param[in]  f    Data field
+        /// \param[out] seq  Output sequence
+        ///
+        /// \returns
+        /// - true when successful
+        /// - false otherwise
+        ///
+        bool GetKeySequence(const ATL::CComPtr<ADOField>& f, std::vector<keyseq::keycode>& seq) const;
 
 
         ///
@@ -143,8 +178,34 @@ namespace ZRCola {
         ///
         bool GetTranslation(const ATL::CComPtr<ADORecordset>& rs, translation& t) const;
 
+
+        ///
+        /// Returns key sequences
+        ///
+        /// \param[out] rs  Recordset with results
+        ///
+        /// \returns
+        /// - true when query succeeds
+        /// - false otherwise
+        ///
+        bool SelectKeySequences(ATL::CComPtr<ADORecordset>& rs) const;
+
+
+        ///
+        /// Returns key sequence data
+        ///
+        /// \param[in]  rs  Recordset with results
+        /// \param[out] ks  Key sequence
+        ///
+        /// \returns
+        /// - true when succeeded
+        /// - false otherwise
+        ///
+        bool GetKeySequence(const ATL::CComPtr<ADORecordset>& rs, keyseq& ks) const;
+
     protected:
-        std::basic_string<TCHAR> filename;  ///< the database filename
-        ATL::CComPtr<ADOConnection> m_db;   ///< the database
+        std::basic_string<TCHAR> m_filename;    ///< Database filename
+        ATL::CComPtr<ADOConnection> m_db;       ///< Database
+        _locale_t m_locale;                     ///< Database locale
     };
 };

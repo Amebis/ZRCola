@@ -24,16 +24,8 @@
 /// Public function calling convention
 ///
 #ifdef LIBZRCOLAUI
-#define ZRCOLAUI_API      __declspec(dllexport)
+#define ZRCOLAUI_API    __declspec(dllexport)
 #else
-#define ZRCOLAUI_API      __declspec(dllimport)
+#define ZRCOLAUI_API    __declspec(dllimport)
 #endif
 #define ZRCOLA_NOVTABLE __declspec(novtable)
-#pragma warning(push)
-#pragma warning(disable: 4251)
-
-
-namespace ZRCola {
-};
-
-#pragma warning(pop)
