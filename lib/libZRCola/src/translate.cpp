@@ -34,7 +34,7 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
     if (map)
         map->clear();
 
-    std::vector<index>::size_type compositionsCount = idxComp.size();
+    std::vector<unsigned __int32>::size_type compositionsCount = idxComp.size();
 
     for (size_t i = 0; i < inputMax;) {
         // Start with the full search area at i-th character.
@@ -49,7 +49,8 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
                     // Get the j-th character of the composition.
                     // All compositions that get short on characters are lexically ordered before.
                     // Thus the j-th character is considered 0.
-                    wchar_t s = j < idxComp[m].GetStrLength() ? ((translation*)&data[idxComp[m].start])->str[j] : 0;
+                    const translation &trans = (const translation&)data[idxComp[m]];
+                    wchar_t s = j < trans.str_len ? trans.str[j] : 0;
 
                     // Do the bisection test.
                          if (c < s) r = m;
@@ -60,14 +61,16 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
                         // Narrow the search area on the left to start at the first composition in the run.
                         for (size_t rr = m; l < rr;) {
                             size_t m = (l + rr) / 2;
-                            wchar_t s = j < idxComp[m].GetStrLength() ? ((translation*)&data[idxComp[m].start])->str[j] : 0;
+                            const translation &trans = (const translation&)data[idxComp[m]];
+                            wchar_t s = j < trans.str_len ? trans.str[j] : 0;
                             if (c <= s) rr = m; else l = m + 1;
                         }
 
                         // Narrow the search area on the right to end at the first composition not in the run.
                         for (size_t ll = m + 1; ll < r;) {
                             size_t m = (ll + r) / 2;
-                            wchar_t s = j < idxComp[m].GetStrLength() ? ((translation*)&data[idxComp[m].start])->str[j] : 0;
+                            const translation &trans = (const translation&)data[idxComp[m]];
+                            wchar_t s = j < trans.str_len ? trans.str[j] : 0;
                             if (s <= c) ll = m + 1; else r = m;
                         }
 
@@ -77,9 +80,10 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
 
                 if (l >= r) {
                     // The search area is empty.
-                    if (j && l_prev < compositionsCount && j == idxComp[l_prev].GetStrLength()) {
+                    const translation &trans = (const translation&)data[idxComp[l_prev]];
+                    if (j && l_prev < compositionsCount && j == trans.str_len) {
                         // The first composition of the previous run was a match.
-                        output += ((translation*)&data[idxComp[l_prev].start])->chr;
+                        output += trans.chr;
                         i = ii;
                         if (j > 1 && map) {
                             // Mapping changed.
@@ -95,9 +99,10 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
             } else {
                 // End of input reached.
 
-                if (l < compositionsCount && j == idxComp[l].GetStrLength()) {
+                const translation &trans = (const translation&)data[idxComp[l]];
+                if (l < compositionsCount && j == trans.str_len) {
                     // The first composition of the previous run was a match.
-                    output += ((translation*)&data[idxComp[l].start])->chr;
+                    output += trans.chr;
                     i = ii;
                     if (j > 1 && map) {
                         // Mapping changed.
@@ -129,7 +134,7 @@ void ZRCOLA_API ZRCola::translation_db::Decompose(_In_z_count_(inputMax) const w
     if (map)
         map->clear();
 
-    std::vector<index>::size_type decompositionsCount = idxDecomp.size();
+    std::vector<unsigned __int32>::size_type decompositionsCount = idxDecomp.size();
 
     for (size_t i = 0; i < inputMax;) {
         // Find whether the character can be decomposed.
@@ -138,12 +143,13 @@ void ZRCOLA_API ZRCola::translation_db::Decompose(_In_z_count_(inputMax) const w
         for (size_t l = 0, r = decompositionsCount;; ) {
             if (l < r) {
                 size_t m = (l + r) / 2;
-                wchar_t decompSrc = ((translation*)&data[idxDecomp[m].start])->chr;
+                const translation &trans = (const translation&)data[idxDecomp[m]];
+                wchar_t decompSrc = trans.chr;
                      if (c < decompSrc) r = m;
                 else if (decompSrc < c) l = m + 1;
                 else {
                     // Character found.
-                    output.append(((translation*)&data[idxDecomp[m].start])->str, idxDecomp[m].GetStrLength());
+                    output.append(trans.str, trans.str_len);
                     i++;
                     if (map) {
                         // Mapping changed.

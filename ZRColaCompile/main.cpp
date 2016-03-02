@@ -35,7 +35,7 @@ inline std::ostream& operator <<(std::ostream& stream, const ZRCola::translation
     unsigned __int32 count;
 
     // Write index count.
-    std::vector<ZRCola::translation_db::index>::size_type trans_count = t_db.idxComp.size();
+    std::vector<unsigned __int32>::size_type trans_count = t_db.idxComp.size();
 #if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
     // 4G check
     if (trans_count > 0xffffffff) {
@@ -49,11 +49,11 @@ inline std::ostream& operator <<(std::ostream& stream, const ZRCola::translation
 
     // Write composition index.
     if (stream.fail()) return stream;
-    stream.write((const char*)t_db.idxComp.data(), sizeof(ZRCola::translation_db::index)*count);
+    stream.write((const char*)t_db.idxComp.data(), sizeof(unsigned __int32)*count);
 
     // Write decomposition index.
     if (stream.fail()) return stream;
-    stream.write((const char*)t_db.idxDecomp.data(), sizeof(ZRCola::translation_db::index)*count);
+    stream.write((const char*)t_db.idxDecomp.data(), sizeof(unsigned __int32)*count);
 
     // Write data count.
     std::vector<wchar_t>::size_type data_count = t_db.data.size();
@@ -121,21 +121,15 @@ static inline int CompareBinary(const wchar_t *str_a, size_t count_a, const wcha
 ///
 static int __cdecl CompareCompositionIndex(void *data, const void *a, const void *b)
 {
-    const wchar_t
-        *chr_a = (const wchar_t*)data + ((const ZRCola::translation_db::index*)a)->start,
-        *chr_b = (const wchar_t*)data + ((const ZRCola::translation_db::index*)b)->start;
-    const wchar_t
-        *str_a = chr_a + 1,
-        *str_b = chr_b + 1;
-    size_t
-        count_a = (const wchar_t*)data + ((const ZRCola::translation_db::index*)a)->end - str_a,
-        count_b = (const wchar_t*)data + ((const ZRCola::translation_db::index*)b)->end - str_b;
+    const ZRCola::translation_db::translation
+        &trans_a = (const ZRCola::translation_db::translation&)((const wchar_t*)data)[*(const unsigned __int32*)a],
+        &trans_b = (const ZRCola::translation_db::translation&)((const wchar_t*)data)[*(const unsigned __int32*)b];
 
-    int r = CompareBinary(str_a, count_a, str_b, count_b);
+    int r = CompareBinary(trans_a.str, trans_a.str_len, trans_b.str, trans_b.str_len);
     if (r != 0) return r;
 
-         if (*chr_a < *chr_b) return -1;
-    else if (*chr_a > *chr_b) return +1;
+         if (trans_a.chr < trans_b.chr) return -1;
+    else if (trans_a.chr > trans_b.chr) return +1;
 
     return 0;
 }
@@ -155,21 +149,14 @@ static int __cdecl CompareCompositionIndex(void *data, const void *a, const void
 ///
 static int __cdecl CompareDecompositionIndex(void *data, const void *a, const void *b)
 {
-    const wchar_t
-        *chr_a = (const wchar_t*)data + ((const ZRCola::translation_db::index*)a)->start,
-        *chr_b = (const wchar_t*)data + ((const ZRCola::translation_db::index*)b)->start;
+    const ZRCola::translation_db::translation
+        &trans_a = (const ZRCola::translation_db::translation&)((const wchar_t*)data)[*(const unsigned __int32*)a],
+        &trans_b = (const ZRCola::translation_db::translation&)((const wchar_t*)data)[*(const unsigned __int32*)b];
 
-         if (*chr_a < *chr_b) return -1;
-    else if (*chr_a > *chr_b) return +1;
+         if (trans_a.chr < trans_b.chr) return -1;
+    else if (trans_a.chr > trans_b.chr) return +1;
 
-    const wchar_t
-        *str_a = chr_a + 1,
-        *str_b = chr_b + 1;
-    size_t
-        count_a = (const wchar_t*)data + ((const ZRCola::translation_db::index*)a)->end - str_a,
-        count_b = (const wchar_t*)data + ((const ZRCola::translation_db::index*)b)->end - str_b;
-
-    return CompareBinary(str_a, count_a, str_b, count_b);
+    return CompareBinary(trans_a.str, trans_a.str_len, trans_b.str, trans_b.str_len);
 }
 
 
@@ -267,12 +254,14 @@ int _tmain(int argc, _TCHAR *argv[])
                     // Read translation from the database.
                     if (src.GetTranslation(rs, trans)) {
                         // Add translation to index and data.
-                        ZRCola::translation_db::index ti;
-                        ti.start = t_db.data.size();
+                        unsigned __int32 ti;
+                        ti = t_db.data.size();
                         t_db.data.push_back(trans.chr);
-                        for (std::wstring::size_type i = 0, n = trans.str.length(); i < n; i++)
+                        std::wstring::size_type n = trans.str.length();
+                        wxASSERT_MSG(n <= 0xffff, wxT("transformation string too long"));
+                        t_db.data.push_back((wchar_t)n);
+                        for (std::wstring::size_type i = 0; i < n; i++)
                             t_db.data.push_back(trans.str[i]);
-                        ti.end = t_db.data.size();
                         t_db.idxComp  .push_back(ti);
                         t_db.idxDecomp.push_back(ti);
                     } else
@@ -282,8 +271,8 @@ int _tmain(int argc, _TCHAR *argv[])
                 }
 
                 // Sort indices.
-                qsort_s(t_db.idxComp  .data(), trans_count, sizeof(ZRCola::translation_db::index), CompareCompositionIndex  , t_db.data.data());
-                qsort_s(t_db.idxDecomp.data(), trans_count, sizeof(ZRCola::translation_db::index), CompareDecompositionIndex, t_db.data.data());
+                qsort_s(t_db.idxComp  .data(), trans_count, sizeof(unsigned __int32), CompareCompositionIndex  , t_db.data.data());
+                qsort_s(t_db.idxDecomp.data(), trans_count, sizeof(unsigned __int32), CompareDecompositionIndex, t_db.data.data());
 
                 // Write translations to file.
                 dst << ZRCola::translation_rec(t_db);

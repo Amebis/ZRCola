@@ -37,22 +37,6 @@ namespace ZRCola {
     class ZRCOLA_API translation_db {
     public:
 #pragma pack(push)
-#pragma pack(4)
-        ///
-        /// Translation index
-        ///
-        struct index {
-            unsigned __int32 start; ///< Composed character offset
-            unsigned __int32 end;   ///< Decomposed string end offset
-
-            ///
-            /// Returns translation string length
-            ///
-            inline unsigned __int32 GetStrLength() const { return end - (start + 1); }
-        };
-#pragma pack(pop)
-
-#pragma pack(push)
 #pragma pack(2)
 #pragma warning(push)
 #pragma warning(disable: 4200)
@@ -60,15 +44,16 @@ namespace ZRCola {
         /// Translation data
         ///
         struct translation {
-            wchar_t chr;        ///< Composed character
-            wchar_t str[];      ///< Decomposed string
+            wchar_t chr;                ///< Composed character
+            unsigned __int16 str_len;   ///< \c str length (in characters)
+            wchar_t str[];              ///< Decomposed string
         };
 #pragma warning(pop)
 #pragma pack(pop)
 
-        std::vector<index> idxComp;      ///< Composition index
-        std::vector<index> idxDecomp;    ///< Decomposition index
-        std::vector<wchar_t> data;       ///< Transformation data
+        std::vector<unsigned __int32> idxComp;      ///< Composition index
+        std::vector<unsigned __int32> idxDecomp;    ///< Decomposition index
+        std::vector<wchar_t> data;                  ///< Transformation data
 
     public:
         ///
@@ -118,12 +103,12 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::transl
 
     // Read composition index.
     t_db.idxComp.resize(count);
-    stream.read((char*)t_db.idxComp.data(), sizeof(ZRCola::translation_db::index)*count);
+    stream.read((char*)t_db.idxComp.data(), sizeof(unsigned __int32)*count);
     if (!stream.good()) return stream;
 
     // Read decomposition index.
     t_db.idxDecomp.resize(count);
-    stream.read((char*)t_db.idxDecomp.data(), sizeof(ZRCola::translation_db::index)*count);
+    stream.read((char*)t_db.idxDecomp.data(), sizeof(unsigned __int32)*count);
     if (!stream.good()) return stream;
 
     // Read data count.
