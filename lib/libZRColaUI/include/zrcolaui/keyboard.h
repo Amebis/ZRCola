@@ -27,7 +27,9 @@
 #include <vector>
 
 #pragma warning(push)
+#pragma warning(disable: 4200)
 #pragma warning(disable: 4251)
+#pragma warning(disable: 4512)
 
 
 namespace ZRCola {
@@ -38,8 +40,6 @@ namespace ZRCola {
     public:
 #pragma pack(push)
 #pragma pack(2)
-#pragma warning(push)
-#pragma warning(disable: 4200)
         ///
         /// Key sequence data
         ///
@@ -56,15 +56,128 @@ namespace ZRCola {
                 wchar_t key;                    ///< Key
                 unsigned __int16 modifiers;     ///< Modifiers (bitwise combination of SHIFT, CTRL and ALT)
             } seq[];                            ///< Key sequence
+
+
+            ///
+            /// Compares two key sequences
+            ///
+            /// \param[in] seq_a    First key sequence
+            /// \param[in] count_a  Number of keys in sequence \p seq_a
+            /// \param[in] seq_b    Second key sequence
+            /// \param[in] count_b  Number of keys in sequence \p seq_b
+            ///
+            /// \returns
+            /// - <0 when seq_a <  seq_b
+            /// - =0 when seq_a == seq_b
+            /// - >0 when seq_a >  seq_b
+            ///
+            static inline int CompareSequence(const key_t *seq_a, unsigned __int16 count_a, const key_t *seq_b, unsigned __int16 count_b)
+            {
+                for (unsigned __int16 i = 0; ; i++) {
+                         if (i >= count_a && i >= count_b) return  0;
+                    else if (i >= count_a && i <  count_b) return -1;
+                    else if (i <  count_a && i >= count_b) return +1;
+                    else if (seq_a[i].key       < seq_b[i].key      ) return -1;
+                    else if (seq_a[i].key       > seq_b[i].key      ) return +1;
+                    else if (seq_a[i].modifiers < seq_b[i].modifiers) return -1;
+                    else if (seq_a[i].modifiers > seq_b[i].modifiers) return +1;
+                }
+            }
         };
-#pragma warning(pop)
 #pragma pack(pop)
 
-        std::vector<unsigned __int32> idxChr;   ///< Character index
-        std::vector<unsigned __int32> idxKey;   ///< Key index
+        ///
+        /// Character index
+        ///
+        class indexChr : public index<unsigned __int32>
+        {
+        protected:
+            std::vector<unsigned __int16> &source;  ///< Reference to source data
+
+        public:
+            ///
+            /// Constructs the index
+            ///
+            /// \param[in] d  Reference to vector holding the data
+            ///
+            indexChr(_In_ std::vector<unsigned __int16> &s) : source(s) {}
+
+            ///
+            /// Compares two key sequences by character
+            ///
+            /// \param[in] a  Pointer to key sequence
+            /// \param[in] b  Pointer to second key sequence
+            ///
+            /// \returns
+            /// - <0 when a <  b
+            /// - =0 when a == b
+            /// - >0 when a >  b
+            ///
+            virtual int compare(_In_ const void *a, _In_ const void *b) const
+            {
+                const keyseq
+                    &ks_a = (const keyseq&)source[*(const unsigned __int32*)a],
+                    &ks_b = (const keyseq&)source[*(const unsigned __int32*)b];
+
+                     if (ks_a.chr < ks_b.chr) return -1;
+                else if (ks_a.chr > ks_b.chr) return +1;
+
+                return keyseq::CompareSequence(ks_a.seq, ks_a.seq_len, ks_b.seq, ks_b.seq_len);
+            }
+        } idxChr;   ///< Character index
+
+
+        ///
+        /// Key index
+        ///
+        class indexKey : public index<unsigned __int32>
+        {
+        protected:
+            std::vector<unsigned __int16> &source;  ///< Reference to source data
+
+        public:
+            ///
+            /// Constructs the index
+            ///
+            /// \param[in] d  Reference to vector holding the data
+            ///
+            indexKey(_In_ std::vector<unsigned __int16> &s) : source(s) {}
+
+            ///
+            /// Compares two key sequences by key
+            ///
+            /// \param[in] a  Pointer to key sequence
+            /// \param[in] b  Pointer to second key sequence
+            ///
+            /// \returns
+            /// - <0 when a <  b
+            /// - =0 when a == b
+            /// - >0 when a >  b
+            ///
+            virtual int compare(_In_ const void *a, _In_ const void *b) const
+            {
+                const keyseq
+                    &ks_a = (const keyseq&)source[*(const unsigned __int32*)a],
+                    &ks_b = (const keyseq&)source[*(const unsigned __int32*)b];
+
+                int r = keyseq::CompareSequence(ks_a.seq, ks_a.seq_len, ks_b.seq, ks_b.seq_len);
+                if (r != 0) return r;
+
+                     if (ks_a.chr < ks_b.chr) return -1;
+                else if (ks_a.chr > ks_b.chr) return +1;
+
+                return 0;
+            }
+        } idxKey;   ///< Key index
+
         std::vector<unsigned __int16> data;     ///< Key sequences data
 
     public:
+        ///
+        /// Constructs the database
+        ///
+        inline keyseq_db() : idxChr(data), idxKey(data) {}
+
         ///
         /// Get text representation of a given key sequence
         ///

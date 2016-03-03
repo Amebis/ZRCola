@@ -52,6 +52,42 @@ namespace ZRCola {
 
 
     ///
+    /// Memory index
+    ///
+    template <class T = unsigned __int32>
+    class index : public std::vector<T>
+    {
+    public:
+        ///
+        /// Sorts index
+        ///
+        inline void sort()
+        {
+            qsort_s(data(), size(), sizeof(T), compare_s, this);
+        }
+
+        ///
+        /// Compares two elements
+        ///
+        /// \param[in] a  Pointer to first element
+        /// \param[in] b  Pointer to second element
+        ///
+        /// \returns
+        /// - <0 when a <  b
+        /// - =0 when a == b
+        /// - >0 when a >  b
+        ///
+        virtual int compare(_In_ const void *a, _In_ const void *b) const = 0;
+
+    private:
+        static int __cdecl compare_s(void *p, const void *a, const void *b)
+        {
+            return ((const index<T>*)p)->compare(a, b);
+        }
+    };
+
+
+    ///
     /// Composed-decomposed index transformation mapping
     ///
     class ZRCOLA_NOVTABLE ZRCOLA_API mapping {

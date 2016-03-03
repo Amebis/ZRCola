@@ -133,168 +133,6 @@ inline std::ostream& operator <<(std::ostream& stream, const ZRCola::keyseq_db &
 
 
 ///
-/// Binary compares two Unicode strings
-///
-/// \param[in] str_a    First string
-/// \param[in] count_a  Number of characters in string \p str_a
-/// \param[in] str_b    Second string
-/// \param[in] count_b  Number of characters in string \p str_b
-///
-/// \returns
-/// - <0 when str_a <  str_b
-/// - =0 when str_a == str_b
-/// - >0 when str_a >  str_b
-///
-/// \note
-/// The function does not treat \\0 characters as terminators for performance reasons.
-/// Therefore \p count_a and \p count_b must represent exact string lengths.
-///
-static inline int CompareSequence(const wchar_t *str_a, size_t count_a, const wchar_t *str_b, size_t count_b)
-{
-    for (size_t i = 0; ; i++) {
-             if (i >= count_a && i >= count_b) return  0;
-        else if (i >= count_a && i <  count_b) return -1;
-        else if (i <  count_a && i >= count_b) return +1;
-        else if (str_a[i] < str_b[i]) return -1;
-        else if (str_a[i] > str_b[i]) return +1;
-    }
-}
-
-
-///
-/// Compares two key sequences
-///
-/// \param[in] seq_a    First key sequence
-/// \param[in] count_a  Number of keys in sequence \p seq_a
-/// \param[in] seq_b    Second key sequence
-/// \param[in] count_b  Number of keys in sequence \p seq_b
-///
-/// \returns
-/// - <0 when seq_a <  seq_b
-/// - =0 when seq_a == seq_b
-/// - >0 when seq_a >  seq_b
-///
-static inline int CompareSequence(const ZRCola::keyseq_db::keyseq::key_t *seq_a, size_t count_a, const ZRCola::keyseq_db::keyseq::key_t *seq_b, size_t count_b)
-{
-    for (size_t i = 0; ; i++) {
-             if (i >= count_a && i >= count_b) return  0;
-        else if (i >= count_a && i <  count_b) return -1;
-        else if (i <  count_a && i >= count_b) return +1;
-        else if (seq_a[i].key       < seq_b[i].key      ) return -1;
-        else if (seq_a[i].key       > seq_b[i].key      ) return +1;
-        else if (seq_a[i].modifiers < seq_b[i].modifiers) return -1;
-        else if (seq_a[i].modifiers > seq_b[i].modifiers) return +1;
-    }
-}
-
-
-///
-/// Function to use in \c qsort_s for composition index sorting
-///
-/// \param[in] data  Pointer to translation data
-/// \param[in] a     Pointer to first composition index element
-/// \param[in] b     Pointer to second composition index element
-///
-/// \returns
-/// - <0 when a <  b
-/// - =0 when a == b
-/// - >0 when a >  b
-///
-static int __cdecl CompareCompositionIndex(void *data, const void *a, const void *b)
-{
-    const ZRCola::translation_db::translation
-        &trans_a = (const ZRCola::translation_db::translation&)((const unsigned __int16*)data)[*(const unsigned __int32*)a],
-        &trans_b = (const ZRCola::translation_db::translation&)((const unsigned __int16*)data)[*(const unsigned __int32*)b];
-
-    int r = CompareSequence(trans_a.str, trans_a.str_len, trans_b.str, trans_b.str_len);
-    if (r != 0) return r;
-
-         if (trans_a.chr < trans_b.chr) return -1;
-    else if (trans_a.chr > trans_b.chr) return +1;
-
-    return 0;
-}
-
-
-///
-/// Function to use in \c qsort_s for decomposition index sorting
-///
-/// \param[in] data  Pointer to translation data
-/// \param[in] a     Pointer to first decomposition index element
-/// \param[in] b     Pointer to second decomposition index element
-///
-/// \returns
-/// - <0 when a <  b
-/// - =0 when a == b
-/// - >0 when a >  b
-///
-static int __cdecl CompareDecompositionIndex(void *data, const void *a, const void *b)
-{
-    const ZRCola::translation_db::translation
-        &trans_a = (const ZRCola::translation_db::translation&)((const unsigned __int16*)data)[*(const unsigned __int32*)a],
-        &trans_b = (const ZRCola::translation_db::translation&)((const unsigned __int16*)data)[*(const unsigned __int32*)b];
-
-         if (trans_a.chr < trans_b.chr) return -1;
-    else if (trans_a.chr > trans_b.chr) return +1;
-
-    return CompareSequence(trans_a.str, trans_a.str_len, trans_b.str, trans_b.str_len);
-}
-
-
-///
-/// Function to use in \c qsort_s for key sequence index sorting
-///
-/// \param[in] data  Pointer to key sequence data
-/// \param[in] a     Pointer to first key sequence index element
-/// \param[in] b     Pointer to second key sequence index element
-///
-/// \returns
-/// - <0 when a <  b
-/// - =0 when a == b
-/// - >0 when a >  b
-///
-static int __cdecl CompareKeySequenceChar(void *data, const void *a, const void *b)
-{
-    const ZRCola::keyseq_db::keyseq
-        &ks_a = (const ZRCola::keyseq_db::keyseq&)((const unsigned __int16*)data)[*(const unsigned __int32*)a],
-        &ks_b = (const ZRCola::keyseq_db::keyseq&)((const unsigned __int16*)data)[*(const unsigned __int32*)b];
-
-         if (ks_a.chr < ks_b.chr) return -1;
-    else if (ks_a.chr > ks_b.chr) return +1;
-
-    return CompareSequence(ks_a.seq, ks_a.seq_len, ks_b.seq, ks_b.seq_len);
-}
-
-
-///
-/// Function to use in \c qsort_s for key sequence index sorting
-///
-/// \param[in] data  Pointer to key sequence data
-/// \param[in] a     Pointer to first key sequence index element
-/// \param[in] b     Pointer to second key sequence index element
-///
-/// \returns
-/// - <0 when a <  b
-/// - =0 when a == b
-/// - >0 when a >  b
-///
-static int __cdecl CompareKeySequenceKey(void *data, const void *a, const void *b)
-{
-    const ZRCola::keyseq_db::keyseq
-        &ks_a = (const ZRCola::keyseq_db::keyseq&)((const unsigned __int16*)data)[*(const unsigned __int32*)a],
-        &ks_b = (const ZRCola::keyseq_db::keyseq&)((const unsigned __int16*)data)[*(const unsigned __int32*)b];
-
-    int r = CompareSequence(ks_a.seq, ks_a.seq_len, ks_b.seq, ks_b.seq_len);
-    if (r != 0) return r;
-
-         if (ks_a.chr < ks_b.chr) return -1;
-    else if (ks_a.chr > ks_b.chr) return +1;
-
-    return 0;
-}
-
-
-///
 /// Main function
 ///
 int _tmain(int argc, _TCHAR *argv[])
@@ -404,8 +242,8 @@ int _tmain(int argc, _TCHAR *argv[])
                 }
 
                 // Sort indices.
-                qsort_s(db.idxComp  .data(), count, sizeof(unsigned __int32), CompareCompositionIndex  , db.data.data());
-                qsort_s(db.idxDecomp.data(), count, sizeof(unsigned __int32), CompareDecompositionIndex, db.data.data());
+                db.idxComp  .sort();
+                db.idxDecomp.sort();
 
                 // Write translations to file.
                 dst << ZRCola::translation_rec(db);
@@ -461,8 +299,8 @@ int _tmain(int argc, _TCHAR *argv[])
                 }
 
                 // Sort indices.
-                qsort_s(db.idxChr.data(), count, sizeof(unsigned __int32), CompareKeySequenceChar, db.data.data());
-                qsort_s(db.idxKey.data(), count, sizeof(unsigned __int32), CompareKeySequenceKey , db.data.data());
+                db.idxChr.sort();
+                db.idxKey.sort();
 
                 // Check key sequences.
                 for (std::vector<unsigned __int32>::size_type i = 1, n = db.idxKey.size(); i < n; i++) {
@@ -470,7 +308,7 @@ int _tmain(int argc, _TCHAR *argv[])
                         &ks1 = (const ZRCola::keyseq_db::keyseq&)db.data[db.idxKey[i - 1]],
                         &ks2 = (const ZRCola::keyseq_db::keyseq&)db.data[db.idxKey[i    ]];
 
-                    if (CompareSequence(ks1.seq, ks1.seq_len, ks2.seq, ks2.seq_len) == 0) {
+                    if (ZRCola::keyseq_db::keyseq::CompareSequence(ks1.seq, ks1.seq_len, ks2.seq, ks2.seq_len) == 0) {
                         std::wstring seq_str;
                         ZRCola::keyseq_db::GetSequenceAsText(ks1.seq, ks1.seq_len, seq_str);
                         _ftprintf(stderr, wxT("%s: warning ZCC0007: Duplicate key sequence (%ls => %04X or %04X). The keyboard behaviour will be unpredictable.\n"), (LPCTSTR)filenameIn.c_str(), seq_str.c_str(), ks1.chr, ks2.chr);

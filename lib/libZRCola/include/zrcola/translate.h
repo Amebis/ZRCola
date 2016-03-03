@@ -27,7 +27,9 @@
 #include <string>
 
 #pragma warning(push)
+#pragma warning(disable: 4200)
 #pragma warning(disable: 4251)
+#pragma warning(disable: 4512)
 
 
 namespace ZRCola {
@@ -38,8 +40,6 @@ namespace ZRCola {
     public:
 #pragma pack(push)
 #pragma pack(2)
-#pragma warning(push)
-#pragma warning(disable: 4200)
         ///
         /// Translation data
         ///
@@ -47,15 +47,130 @@ namespace ZRCola {
             wchar_t chr;                ///< Composed character
             unsigned __int16 str_len;   ///< \c str length (in characters)
             wchar_t str[];              ///< Decomposed string
+
+            ///
+            /// Binary compares two strings
+            ///
+            /// \param[in] str_a    First string
+            /// \param[in] count_a  Number of characters in string \p str_a
+            /// \param[in] str_b    Second string
+            /// \param[in] count_b  Number of characters in string \p str_b
+            ///
+            /// \returns
+            /// - <0 when str_a <  str_b
+            /// - =0 when str_a == str_b
+            /// - >0 when str_a >  str_b
+            ///
+            /// \note
+            /// The function does not treat \\0 characters as terminators for performance reasons.
+            /// Therefore \p count_a and \p count_b must represent exact string lengths.
+            ///
+            static inline int CompareString(const wchar_t *str_a, unsigned __int16 count_a, const wchar_t *str_b, unsigned __int16 count_b)
+            {
+                for (unsigned __int16 i = 0; ; i++) {
+                         if (i >= count_a && i >= count_b) return  0;
+                    else if (i >= count_a && i <  count_b) return -1;
+                    else if (i <  count_a && i >= count_b) return +1;
+                    else if (str_a[i] < str_b[i]) return -1;
+                    else if (str_a[i] > str_b[i]) return +1;
+                }
+            }
         };
-#pragma warning(pop)
 #pragma pack(pop)
 
-        std::vector<unsigned __int32> idxComp;      ///< Composition index
-        std::vector<unsigned __int32> idxDecomp;    ///< Decomposition index
+        ///
+        /// Composition index
+        ///
+        class indexComp : public index<unsigned __int32>
+        {
+        protected:
+            std::vector<unsigned __int16> &source;  ///< Reference to source data
+
+        public:
+            ///
+            /// Constructs the index
+            ///
+            /// \param[in] d  Reference to vector holding the data
+            ///
+            indexComp(_In_ std::vector<unsigned __int16> &s) : source(s) {}
+
+            ///
+            /// Compares two transformations by string
+            ///
+            /// \param[in] a  Pointer to key sequence
+            /// \param[in] b  Pointer to second key sequence
+            ///
+            /// \returns
+            /// - <0 when a <  b
+            /// - =0 when a == b
+            /// - >0 when a >  b
+            ///
+            virtual int compare(_In_ const void *a, _In_ const void *b) const
+            {
+                const translation
+                    &trans_a = (const translation&)source[*(const unsigned __int32*)a],
+                    &trans_b = (const translation&)source[*(const unsigned __int32*)b];
+
+                int r = translation::CompareString(trans_a.str, trans_a.str_len, trans_b.str, trans_b.str_len);
+                if (r != 0) return r;
+
+                     if (trans_a.chr < trans_b.chr) return -1;
+                else if (trans_a.chr > trans_b.chr) return +1;
+
+                return 0;
+            }
+        } idxComp;      ///< Composition index
+
+
+        ///
+        /// Decomposition index
+        ///
+        class indexDecomp : public index<unsigned __int32>
+        {
+        protected:
+            std::vector<unsigned __int16> &source;  ///< Reference to source data
+
+        public:
+            ///
+            /// Constructs the index
+            ///
+            /// \param[in] d  Reference to vector holding the data
+            ///
+            indexDecomp(_In_ std::vector<unsigned __int16> &s) : source(s) {}
+
+            ///
+            /// Compares two transformations by string
+            ///
+            /// \param[in] a  Pointer to key sequence
+            /// \param[in] b  Pointer to second key sequence
+            ///
+            /// \returns
+            /// - <0 when a <  b
+            /// - =0 when a == b
+            /// - >0 when a >  b
+            ///
+            virtual int compare(_In_ const void *a, _In_ const void *b) const
+            {
+                const translation
+                    &trans_a = (const translation&)source[*(const unsigned __int32*)a],
+                    &trans_b = (const translation&)source[*(const unsigned __int32*)b];
+
+                     if (trans_a.chr < trans_b.chr) return -1;
+                else if (trans_a.chr > trans_b.chr) return +1;
+
+                return translation::CompareString(trans_a.str, trans_a.str_len, trans_b.str, trans_b.str_len);
+            }
+        } idxDecomp;    ///< Decomposition index
+
+
         std::vector<unsigned __int16> data;         ///< Transformation data
 
     public:
+        ///
+        /// Constructs the database
+        ///
+        inline translation_db() : idxComp(data), idxDecomp(data) {}
+
         ///
         /// Composes string
         ///
