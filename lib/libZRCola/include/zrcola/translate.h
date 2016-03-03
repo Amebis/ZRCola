@@ -111,9 +111,6 @@ namespace ZRCola {
                 int r = translation::CompareString(trans_a.str, trans_a.str_len, trans_b.str, trans_b.str_len);
                 if (r != 0) return r;
 
-                     if (trans_a.chr < trans_b.chr) return -1;
-                else if (trans_a.chr > trans_b.chr) return +1;
-
                 return 0;
             }
         } idxComp;      ///< Composition index
@@ -152,7 +149,7 @@ namespace ZRCola {
                      if (trans_a.chr < trans_b.chr) return -1;
                 else if (trans_a.chr > trans_b.chr) return +1;
 
-                return translation::CompareString(trans_a.str, trans_a.str_len, trans_b.str, trans_b.str_len);
+                return 0;
             }
         } idxDecomp;    ///< Decomposition index
 

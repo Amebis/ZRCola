@@ -119,7 +119,7 @@ namespace ZRCola {
                      if (ks_a.chr < ks_b.chr) return -1;
                 else if (ks_a.chr > ks_b.chr) return +1;
 
-                return keyseq::CompareSequence(ks_a.seq, ks_a.seq_len, ks_b.seq, ks_b.seq_len);
+                return 0;
             }
         } idxChr;   ///< Character index
 
@@ -156,9 +156,6 @@ namespace ZRCola {
 
                 int r = keyseq::CompareSequence(ks_a.seq, ks_a.seq_len, ks_b.seq, ks_b.seq_len);
                 if (r != 0) return r;
-
-                     if (ks_a.chr < ks_b.chr) return -1;
-                else if (ks_a.chr > ks_b.chr) return +1;
 
                 return 0;
             }
