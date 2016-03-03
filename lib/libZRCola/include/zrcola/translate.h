@@ -81,18 +81,15 @@ namespace ZRCola {
         ///
         /// Composition index
         ///
-        class indexComp : public index<unsigned __int32>
+        class indexComp : public index<unsigned __int16, unsigned __int32>
         {
-        protected:
-            std::vector<unsigned __int16> &source;  ///< Reference to source data
-
         public:
             ///
             /// Constructs the index
             ///
-            /// \param[in] d  Reference to vector holding the data
+            /// \param[in] h  Reference to vector holding the data
             ///
-            indexComp(_In_ std::vector<unsigned __int16> &s) : source(s) {}
+            indexComp(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32>(h) {}
 
             ///
             /// Compares two transformations by string
@@ -105,11 +102,11 @@ namespace ZRCola {
             /// - =0 when a == b
             /// - >0 when a >  b
             ///
-            virtual int compare(_In_ const void *a, _In_ const void *b) const
+            virtual int compare(_In_ const unsigned __int16 &a, _In_ const unsigned __int16 &b) const
             {
                 const translation
-                    &trans_a = (const translation&)source[*(const unsigned __int32*)a],
-                    &trans_b = (const translation&)source[*(const unsigned __int32*)b];
+                    &trans_a = (const translation&)a,
+                    &trans_b = (const translation&)b;
 
                 int r = translation::CompareString(trans_a.str, trans_a.str_len, trans_b.str, trans_b.str_len);
                 if (r != 0) return r;
@@ -125,18 +122,15 @@ namespace ZRCola {
         ///
         /// Decomposition index
         ///
-        class indexDecomp : public index<unsigned __int32>
+        class indexDecomp : public index<unsigned __int16, unsigned __int32>
         {
-        protected:
-            std::vector<unsigned __int16> &source;  ///< Reference to source data
-
         public:
             ///
             /// Constructs the index
             ///
-            /// \param[in] d  Reference to vector holding the data
+            /// \param[in] h  Reference to vector holding the data
             ///
-            indexDecomp(_In_ std::vector<unsigned __int16> &s) : source(s) {}
+            indexDecomp(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32>(h) {}
 
             ///
             /// Compares two transformations by string
@@ -149,11 +143,11 @@ namespace ZRCola {
             /// - =0 when a == b
             /// - >0 when a >  b
             ///
-            virtual int compare(_In_ const void *a, _In_ const void *b) const
+            virtual int compare(_In_ const unsigned __int16 &a, _In_ const unsigned __int16 &b) const
             {
                 const translation
-                    &trans_a = (const translation&)source[*(const unsigned __int32*)a],
-                    &trans_b = (const translation&)source[*(const unsigned __int32*)b];
+                    &trans_a = (const translation&)a,
+                    &trans_b = (const translation&)b;
 
                      if (trans_a.chr < trans_b.chr) return -1;
                 else if (trans_a.chr > trans_b.chr) return +1;

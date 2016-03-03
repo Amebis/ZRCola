@@ -33,6 +33,7 @@
 #define ZRCOLA_NOVTABLE __declspec(novtable)
 #pragma warning(push)
 #pragma warning(disable: 4251)
+#pragma warning(disable: 4512)
 
 
 ///
@@ -54,16 +55,26 @@ namespace ZRCola {
     ///
     /// Memory index
     ///
-    template <class T = unsigned __int32>
-    class index : public std::vector<T>
+    template <class T, class T_idx = unsigned __int32>
+    class index : public std::vector<T_idx>
     {
+    protected:
+        std::vector<T> &host;  ///< Reference to host data
+
     public:
+        ///
+        /// Constructs the index
+        ///
+        /// \param[in] h  Reference to vector holding the data
+        ///
+        index(_In_ std::vector<T> &h) : host(h) {}
+
         ///
         /// Sorts index
         ///
         inline void sort()
         {
-            qsort_s(data(), size(), sizeof(T), compare_s, this);
+            qsort_s(data(), size(), sizeof(T_idx), compare_s, this);
         }
 
         ///
@@ -77,12 +88,13 @@ namespace ZRCola {
         /// - =0 when a == b
         /// - >0 when a >  b
         ///
-        virtual int compare(_In_ const void *a, _In_ const void *b) const = 0;
+        virtual int compare(_In_ const T &a, _In_ const T &b) const = 0;
 
     private:
         static int __cdecl compare_s(void *p, const void *a, const void *b)
         {
-            return ((const index<T>*)p)->compare(a, b);
+            const index<T, T_idx> *t = (const index<T, T_idx>*)p;
+            return t->compare(t->host[*(const T_idx*)a], t->host[*(const T_idx*)b]);
         }
     };
 

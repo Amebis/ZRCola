@@ -89,18 +89,15 @@ namespace ZRCola {
         ///
         /// Character index
         ///
-        class indexChr : public index<unsigned __int32>
+        class indexChr : public index<unsigned __int16, unsigned __int32>
         {
-        protected:
-            std::vector<unsigned __int16> &source;  ///< Reference to source data
-
         public:
             ///
             /// Constructs the index
             ///
-            /// \param[in] d  Reference to vector holding the data
+            /// \param[in] h  Reference to vector holding the data
             ///
-            indexChr(_In_ std::vector<unsigned __int16> &s) : source(s) {}
+            indexChr(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32>(h) {}
 
             ///
             /// Compares two key sequences by character
@@ -113,11 +110,11 @@ namespace ZRCola {
             /// - =0 when a == b
             /// - >0 when a >  b
             ///
-            virtual int compare(_In_ const void *a, _In_ const void *b) const
+            virtual int compare(_In_ const unsigned __int16 &a, _In_ const unsigned __int16 &b) const
             {
                 const keyseq
-                    &ks_a = (const keyseq&)source[*(const unsigned __int32*)a],
-                    &ks_b = (const keyseq&)source[*(const unsigned __int32*)b];
+                    &ks_a = (const keyseq&)a,
+                    &ks_b = (const keyseq&)b;
 
                      if (ks_a.chr < ks_b.chr) return -1;
                 else if (ks_a.chr > ks_b.chr) return +1;
@@ -130,18 +127,15 @@ namespace ZRCola {
         ///
         /// Key index
         ///
-        class indexKey : public index<unsigned __int32>
+        class indexKey : public index<unsigned __int16, unsigned __int32>
         {
-        protected:
-            std::vector<unsigned __int16> &source;  ///< Reference to source data
-
         public:
             ///
             /// Constructs the index
             ///
-            /// \param[in] d  Reference to vector holding the data
+            /// \param[in] h  Reference to vector holding the data
             ///
-            indexKey(_In_ std::vector<unsigned __int16> &s) : source(s) {}
+            indexKey(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32>(h) {}
 
             ///
             /// Compares two key sequences by key
@@ -154,11 +148,11 @@ namespace ZRCola {
             /// - =0 when a == b
             /// - >0 when a >  b
             ///
-            virtual int compare(_In_ const void *a, _In_ const void *b) const
+            virtual int compare(_In_ const unsigned __int16 &a, _In_ const unsigned __int16 &b) const
             {
                 const keyseq
-                    &ks_a = (const keyseq&)source[*(const unsigned __int32*)a],
-                    &ks_b = (const keyseq&)source[*(const unsigned __int32*)b];
+                    &ks_a = (const keyseq&)a,
+                    &ks_b = (const keyseq&)b;
 
                 int r = keyseq::CompareSequence(ks_a.seq, ks_a.seq_len, ks_b.seq, ks_b.seq_len);
                 if (r != 0) return r;
