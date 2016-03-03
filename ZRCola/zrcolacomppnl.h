@@ -20,31 +20,15 @@
 ///
 /// Forward declarations
 ///
-class wxZRColaComposerPanelEvtHandler;
 class wxZRColaComposerPanel;
 
 
 #pragma once
 
 #include "zrcolagui.h"
+#include "zrcolakeyhndlr.h"
 #include <zrcola/translate.h>
-#include <zrcolaui/keyboard.h>
 #include <utility>
-
-
-///
-/// ZRCola composer panel event handler
-///
-class wxZRColaComposerPanelEvtHandler : public wxEvtHandler
-{
-public:
-    wxZRColaComposerPanelEvtHandler(wxZRColaComposerPanel *target);
-
-    virtual bool ProcessEvent(wxEvent& event);
-
-public:
-    wxZRColaComposerPanel *m_target;    ///< Composer panel window
-};
 
 
 ///
@@ -52,16 +36,11 @@ public:
 ///
 class wxZRColaComposerPanel : public wxZRColaComposerPanelBase
 {
-    enum {
-        wxID_ACCEL = wxID_HIGHEST
-    };
-
 public:
     wxZRColaComposerPanel(wxWindow* parent);
     virtual ~wxZRColaComposerPanel();
 
     friend class wxZRColaFrame; // Allow main frame direct access to our members.
-    friend class wxZRColaComposerPanelEvtHandler; // Allow own event handler direct access to our members.
 
 protected:
     virtual void OnDecomposedPaint(wxPaintEvent& event);
@@ -71,11 +50,10 @@ protected:
 
 protected:
     ZRCola::translation_db m_t_db;      ///< Translation database
-    ZRCola::keyseq_db m_ks_db;          ///< Key sequence database
     bool m_progress;                    ///< Boolean flag to avoid recursive updates of composed and decomposed text controls
     ZRCola::mapping_vector m_mapping;   ///< Character index mapping vector between composed and decomposed text
     std::pair<long, long>
         m_selDecomposed,                ///< Character index of selected text in decomposed text control
         m_selComposed;                  ///< Character index of selected text in composed text control
-    wxZRColaComposerPanelEvtHandler eh; ///< Event handler
+    wxZRColaKeyHandler m_keyhandler;    ///< Key handler for decomposed window
 };

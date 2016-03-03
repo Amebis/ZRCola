@@ -84,6 +84,7 @@
     <ClCompile Include="zrcolacomppnl.cpp" />
     <ClCompile Include="zrcolafrm.cpp" />
     <ClCompile Include="zrcolagui.cpp" />
+    <ClCompile Include="zrcolakeyhndlr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -91,6 +92,7 @@
     <ClInclude Include="zrcolacomppnl.h" />
     <ClInclude Include="zrcolafrm.h" />
     <ClInclude Include="zrcolagui.h" />
+    <ClInclude Include="zrcolakeyhndlr.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\lib\libZRColaUI\build\libZRColaUI.vcxproj">

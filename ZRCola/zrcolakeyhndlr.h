@@ -17,19 +17,28 @@
     along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 */
 
+///
+/// Forward declarations
+///
+class wxZRColaKeyHandler;
+
+
 #pragma once
 
-#include "../include/zrcola.h"
-#include "zrcolaapp.h"
-#include "zrcolacomppnl.h"
-#include "zrcolafrm.h"
-#include "zrcolakeyhndlr.h"
+#include <zrcolaui/keyboard.h>
+#include <wx/event.h>
 
-#include <wx/msgdlg.h>
-#include <wxex/common.h>
 
-#include <fstream>
-#include <string>
-#include <vector>
+///
+/// ZRCola keyboard event handler
+///
+class wxZRColaKeyHandler : public wxEvtHandler
+{
+public:
+    wxZRColaKeyHandler();
 
-#include <stdex/idrec.h>
+    virtual bool ProcessEvent(wxEvent& event);
+
+protected:
+    ZRCola::keyseq_db m_ks_db;  ///< Key sequence database
+};
