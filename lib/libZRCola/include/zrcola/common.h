@@ -69,6 +69,7 @@ namespace ZRCola {
         ///
         index(_In_ std::vector<T> &h) : host(h) {}
 
+
         ///
         /// Sorts index
         ///
@@ -76,6 +77,7 @@ namespace ZRCola {
         {
             qsort_s(data(), size(), sizeof(T_idx), compare_s, this);
         }
+
 
         ///
         /// Compares two elements
@@ -89,6 +91,49 @@ namespace ZRCola {
         /// - >0 when a >  b
         ///
         virtual int compare(_In_ const T &a, _In_ const T &b) const = 0;
+
+
+        ///
+        /// Search for the element in the index
+        /// The elements matching \p el are located on the interval [\p start, \p end) in the index.
+        ///
+        /// \param[in]  el     Element we are looking for (needle)
+        /// \param[out] start  Index of the first matching element found
+        /// \param[out] end    Index of the first non-matching element found
+        ///
+        /// \returns
+        /// - true if found
+        /// - false otherwise
+        ///
+        bool find(_In_ const T &el, _Out_ size_type &start, _Out_ size_type &end) const
+        {
+            // Start with the full search area.
+            for (start = 0, end = size(); start < end; ) {
+                size_type m = (start + end) / 2;
+                int r = compare(el, host[at(m)]);
+                     if (r < 0) end = m;
+                else if (r > 0) start = m + 1;
+                else {
+                    // Narrow the search area on the left to start at the first element in the run.
+                    for (size_type end2 = m; start < end2;) {
+                        size_type m = (start + end2) / 2;
+                        int r = compare(el, host[at(m)]);
+                        if (r <= 0) end2 = m; else start = m + 1;
+                    }
+
+                    // Narrow the search area on the right to end at the first element not in the run.
+                    for (size_type start2 = m + 1; start2 < end;) {
+                        size_type m = (start2 + end) / 2;
+                        int r = compare(el, host[at(m)]);
+                        if (0 <= r) start2 = m + 1; else end = m;
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
     private:
         static int __cdecl compare_s(void *p, const void *a, const void *b)
