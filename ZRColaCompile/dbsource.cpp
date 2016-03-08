@@ -103,7 +103,7 @@ bool ZRCola::DBSource::GetUnicodeCharacter(const ATL::CComPtr<ADOField>& f, wcha
 {
     wxASSERT_MSG(f, wxT("field is empty"));
 
-    CComVariant v;
+    ATL::CComVariant v;
     wxVERIFY(SUCCEEDED(f->get_Value(&v)));
 
     // Parse the field. Must be exactly one Unicode code.
@@ -117,11 +117,11 @@ bool ZRCola::DBSource::GetUnicodeCharacter(const ATL::CComPtr<ADOField>& f, wcha
         else break;
     }
     if (i <= 0 && 4 < i) {
-        CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
+        ATL::CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
         _ftprintf(stderr, wxT("%s: error ZCC0030: Syntax error in \"%.*ls\" field (\"%.*ls\"). Unicode code must be one to four hexadecimal characters long.\n"), m_filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
         return false;
     } else if (i != n) {
-        CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
+        ATL::CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
         _ftprintf(stderr, wxT("%s: error ZCC0031: Syntax error in \"%.*ls\" field (\"%.*ls\"). Extra trailing characters.\n"), m_filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
         return false;
     }
@@ -134,7 +134,7 @@ bool ZRCola::DBSource::GetUnicodeString(const ATL::CComPtr<ADOField>& f, std::ws
 {
     wxASSERT_MSG(f, wxT("field is empty"));
 
-    CComVariant v;
+    ATL::CComVariant v;
     wxVERIFY(SUCCEEDED(f->get_Value(&v)));
 
     // Parse the field. Must be "xxxx+xxxx+xxxx..." sequence.
@@ -151,7 +151,7 @@ bool ZRCola::DBSource::GetUnicodeString(const ATL::CComPtr<ADOField>& f, std::ws
             else break;
         }
         if (j <= 0 || 4 < j) {
-            CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
+            ATL::CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
             _ftprintf(stderr, wxT("%s: error ZCC0020: Syntax error in \"%.*ls\" field (\"%.*ls\"). Unicode code must be one to four hexadecimal characters long.\n"), m_filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
             return false;
         }
@@ -169,7 +169,7 @@ bool ZRCola::DBSource::GetKeySequence(const ATL::CComPtr<ADOField>& f, std::vect
 {
     wxASSERT_MSG(f, wxT("field is empty"));
 
-    CComVariant v;
+    ATL::CComVariant v;
     wxVERIFY(SUCCEEDED(f->get_Value(&v)));
     wxVERIFY(SUCCEEDED(v.ChangeType(VT_BSTR)));
 
@@ -200,7 +200,7 @@ bool ZRCola::DBSource::GetKeySequence(const ATL::CComPtr<ADOField>& f, std::vect
             }
         }
         if (i < n && V_BSTR(&v)[i] && V_BSTR(&v)[i] != L',' && !_iswspace_l(V_BSTR(&v)[i], m_locale)) {
-            CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
+            ATL::CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
             _ftprintf(stderr, wxT("%s: error ZCC0060: Syntax error in \"%.*ls\" field (\"%.*ls\"). Key sequences must be \"Ctrl+Alt+<key>\" formatted, delimited by commas and/or space.\n"), m_filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
             return false;
         }
@@ -249,13 +249,13 @@ bool ZRCola::DBSource::GetTranslation(const ATL::CComPtr<ADORecordset>& rs, ZRCo
 
     {
         ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(CComVariant(L"komb"), &f)));
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"komb"), &f)));
         wxCHECK(GetUnicodeString(f, t.str), false);
     }
 
     {
         ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(CComVariant(L"znak"), &f)));
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"znak"), &f)));
         wxCHECK(GetUnicodeCharacter(f, t.chr), false);
     }
 
@@ -289,13 +289,13 @@ bool ZRCola::DBSource::GetKeySequence(const ATL::CComPtr<ADORecordset>& rs, ZRCo
 
     {
         ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(CComVariant(L"Znak"), &f)));
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"Znak"), &f)));
         wxCHECK(GetUnicodeCharacter(f, ks.chr), false);
     }
 
     {
         ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(CComVariant(L"tipka"), &f)));
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"tipka"), &f)));
         wxCHECK(GetKeySequence(f, ks.seq), false);
     }
 

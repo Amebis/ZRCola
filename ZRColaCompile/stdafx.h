@@ -19,6 +19,8 @@
 
 #pragma once
 
+#define _ATL_NO_AUTOMATIC_NAMESPACE
+
 #include "../include/zrcola.h"
 #include "dbsource.h"
 
