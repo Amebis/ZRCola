@@ -35,7 +35,7 @@ inline std::ostream& operator <<(std::ostream& stream, const ZRCola::translation
     unsigned __int32 count;
 
     // Write index count.
-    std::vector<unsigned __int32>::size_type trans_count = db.idxComp.size();
+    ZRCola::translation_db::indexComp::size_type trans_count = db.idxComp.size();
 #if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
     // 4G check
     if (trans_count > 0xffffffff) {
@@ -91,7 +91,7 @@ inline std::ostream& operator <<(std::ostream& stream, const ZRCola::keyseq_db &
     unsigned __int32 count;
 
     // Write index count.
-    std::vector<unsigned __int32>::size_type ks_count = db.idxChr.size();
+    ZRCola::keyseq_db::indexChr::size_type ks_count = db.idxChr.size();
 #if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
     // 4G check
     if (ks_count > 0xffffffff) {
@@ -303,7 +303,7 @@ int _tmain(int argc, _TCHAR *argv[])
                 db.idxKey.sort();
 
                 // Check key sequences.
-                for (std::vector<unsigned __int32>::size_type i = 1, n = db.idxKey.size(); i < n; i++) {
+                for (ZRCola::keyseq_db::indexKey::size_type i = 1, n = db.idxKey.size(); i < n; i++) {
                     const ZRCola::keyseq_db::keyseq
                         &ks1 = db.idxKey[i - 1],
                         &ks2 = db.idxKey[i    ];

@@ -34,7 +34,7 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
     if (map)
         map->clear();
 
-    std::vector<unsigned __int32>::size_type compositionsCount = idxComp.size();
+    indexComp::size_type compositionsCount = idxComp.size();
 
     for (size_t i = 0; i < inputMax;) {
         // Start with the full search area at i-th character.
@@ -134,7 +134,7 @@ void ZRCOLA_API ZRCola::translation_db::Decompose(_In_z_count_(inputMax) const w
     if (map)
         map->clear();
 
-    std::vector<unsigned __int32>::size_type decompositionsCount = idxDecomp.size();
+    indexDecomp::size_type decompositionsCount = idxDecomp.size();
 
     for (size_t i = 0; i < inputMax;) {
         // Find whether the character can be decomposed.
