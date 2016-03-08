@@ -76,13 +76,13 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
             ks->chr = 0;
             ks->seq_len = n;
             memcpy(ks->seq, m_seq.data(), sizeof(ZRCola::keyseq_db::keyseq::key_t)*n);
-            found = m_ks_db.idxKey.find((const unsigned __int16&)*ks, start, end);
+            found = m_ks_db.idxKey.find(*ks, start, end);
             delete ks;
         }
 
         if (found) {
             // The exact key sequence found.
-            const ZRCola::keyseq_db::keyseq &ks = (const ZRCola::keyseq_db::keyseq&)m_ks_db.data[m_ks_db.idxKey[start]];
+            const ZRCola::keyseq_db::keyseq &ks = m_ks_db.idxKey[start];
             m_seq.clear();
 
             wxObject *obj = event.GetEventObject();
@@ -95,7 +95,7 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
                 return true;
             }
         } else if (start < m_ks_db.idxKey.size() &&
-            ZRCola::keyseq_db::keyseq::CompareSequence(m_seq.data(), m_seq.size(), ((const ZRCola::keyseq_db::keyseq&)m_ks_db.data[m_ks_db.idxKey[start]]).seq, std::min<unsigned __int16>(((const ZRCola::keyseq_db::keyseq&)m_ks_db.data[m_ks_db.idxKey[start]]).seq_len, m_seq.size())) == 0)
+            ZRCola::keyseq_db::keyseq::CompareSequence(m_seq.data(), m_seq.size(), m_ks_db.idxKey[start].seq, std::min<unsigned __int16>(m_ks_db.idxKey[start].seq_len, m_seq.size())) == 0)
         {
             // The sequence is a partial match. Continue watching.
             event.StopPropagation();

@@ -305,8 +305,8 @@ int _tmain(int argc, _TCHAR *argv[])
                 // Check key sequences.
                 for (std::vector<unsigned __int32>::size_type i = 1, n = db.idxKey.size(); i < n; i++) {
                     const ZRCola::keyseq_db::keyseq
-                        &ks1 = (const ZRCola::keyseq_db::keyseq&)db.data[db.idxKey[i - 1]],
-                        &ks2 = (const ZRCola::keyseq_db::keyseq&)db.data[db.idxKey[i    ]];
+                        &ks1 = db.idxKey[i - 1],
+                        &ks2 = db.idxKey[i    ];
 
                     if (ZRCola::keyseq_db::keyseq::CompareSequence(ks1.seq, ks1.seq_len, ks2.seq, ks2.seq_len) == 0) {
                         std::wstring seq_str;

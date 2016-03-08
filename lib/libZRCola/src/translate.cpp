@@ -49,7 +49,7 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
                     // Get the j-th character of the composition.
                     // All compositions that get short on characters are lexically ordered before.
                     // Thus the j-th character is considered 0.
-                    const translation &trans = (const translation&)data[idxComp[m]];
+                    const translation &trans = idxComp[m];
                     wchar_t s = j < trans.str_len ? trans.str[j] : 0;
 
                     // Do the bisection test.
@@ -61,7 +61,7 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
                         // Narrow the search area on the left to start at the first composition in the run.
                         for (size_t rr = m; l < rr;) {
                             size_t m = (l + rr) / 2;
-                            const translation &trans = (const translation&)data[idxComp[m]];
+                            const translation &trans = idxComp[m];
                             wchar_t s = j < trans.str_len ? trans.str[j] : 0;
                             if (c <= s) rr = m; else l = m + 1;
                         }
@@ -69,7 +69,7 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
                         // Narrow the search area on the right to end at the first composition not in the run.
                         for (size_t ll = m + 1; ll < r;) {
                             size_t m = (ll + r) / 2;
-                            const translation &trans = (const translation&)data[idxComp[m]];
+                            const translation &trans = idxComp[m];
                             wchar_t s = j < trans.str_len ? trans.str[j] : 0;
                             if (s <= c) ll = m + 1; else r = m;
                         }
@@ -80,7 +80,7 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
 
                 if (l >= r) {
                     // The search area is empty.
-                    const translation &trans = (const translation&)data[idxComp[l_prev]];
+                    const translation &trans = idxComp[l_prev];
                     if (j && l_prev < compositionsCount && j == trans.str_len) {
                         // The first composition of the previous run was a match.
                         output += trans.chr;
@@ -99,7 +99,7 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
             } else {
                 // End of input reached.
 
-                const translation &trans = (const translation&)data[idxComp[l]];
+                const translation &trans = idxComp[l];
                 if (l < compositionsCount && j == trans.str_len) {
                     // The first composition of the previous run was a match.
                     output += trans.chr;
@@ -143,7 +143,7 @@ void ZRCOLA_API ZRCola::translation_db::Decompose(_In_z_count_(inputMax) const w
         for (size_t l = 0, r = decompositionsCount;; ) {
             if (l < r) {
                 size_t m = (l + r) / 2;
-                const translation &trans = (const translation&)data[idxDecomp[m]];
+                const translation &trans = idxDecomp[m];
                 wchar_t decompSrc = trans.chr;
                      if (c < decompSrc) r = m;
                 else if (decompSrc < c) l = m + 1;

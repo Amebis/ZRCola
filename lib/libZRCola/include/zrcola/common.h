@@ -55,7 +55,7 @@ namespace ZRCola {
     ///
     /// Memory index
     ///
-    template <class T, class T_idx = unsigned __int32>
+    template <class T, class T_idx = unsigned __int32, class T_data = T>
     class index : public std::vector<T_idx>
     {
     protected:
@@ -68,6 +68,58 @@ namespace ZRCola {
         /// \param[in] h  Reference to vector holding the data
         ///
         index(_In_ std::vector<T> &h) : host(h) {}
+
+
+        ///
+        /// Returns data at given position according to the index
+        ///
+        /// \param[in] pos  Position
+        ///
+        /// \returns Data reference
+        ///
+        inline const T_data& at(size_type pos) const
+        {
+            return (const T_data&)host.at(std::vector<T_idx>::at(pos));
+        }
+
+
+        ///
+        /// Returns data at given position according to the index
+        ///
+        /// \param[in] pos  Position
+        ///
+        /// \returns Data reference
+        ///
+        inline T_data& at(size_type pos)
+        {
+            return (T_data&)host.at(std::vector<T_idx>::at(pos));
+        }
+
+
+        ///
+        /// Returns data at given position according to the index
+        ///
+        /// \param[in] pos  Position
+        ///
+        /// \returns Data reference
+        ///
+        inline const T_data& operator[](size_type pos) const
+        {
+            return (const T_data&)host[std::vector<T_idx>::at(pos)];
+        }
+
+
+        ///
+        /// Returns data at given position according to the index
+        ///
+        /// \param[in] pos  Position
+        ///
+        /// \returns Data reference
+        ///
+        inline T_data& operator[](size_type pos)
+        {
+            return (T_data&)host[std::vector<T_idx>::at(pos)];
+        }
 
 
         ///
@@ -90,7 +142,7 @@ namespace ZRCola {
         /// - =0 when a == b
         /// - >0 when a >  b
         ///
-        virtual int compare(_In_ const T &a, _In_ const T &b) const = 0;
+        virtual int compare(_In_ const T_data &a, _In_ const T_data &b) const = 0;
 
 
         ///
@@ -104,7 +156,7 @@ namespace ZRCola {
         /// - =0 when a == b
         /// - >0 when a >  b
         ///
-        virtual int compare_sort(_In_ const T &a, _In_ const T &b) const = 0;
+        virtual int compare_sort(_In_ const T_data &a, _In_ const T_data &b) const = 0;
 
 
         ///
@@ -119,26 +171,26 @@ namespace ZRCola {
         /// - true if found
         /// - false otherwise
         ///
-        bool find(_In_ const T &el, _Out_ size_type &start, _Out_ size_type &end) const
+        bool find(_In_ const T_data &el, _Out_ size_type &start, _Out_ size_type &end) const
         {
             // Start with the full search area.
             for (start = 0, end = size(); start < end; ) {
                 size_type m = (start + end) / 2;
-                int r = compare(el, host[at(m)]);
+                int r = compare(el, at(m));
                      if (r < 0) end = m;
                 else if (r > 0) start = m + 1;
                 else {
                     // Narrow the search area on the left to start at the first element in the run.
                     for (size_type end2 = m; start < end2;) {
                         size_type m = (start + end2) / 2;
-                        int r = compare(el, host[at(m)]);
+                        int r = compare(el, at(m));
                         if (r <= 0) end2 = m; else start = m + 1;
                     }
 
                     // Narrow the search area on the right to end at the first element not in the run.
                     for (size_type start2 = m + 1; start2 < end;) {
                         size_type m = (start2 + end) / 2;
-                        int r = compare(el, host[at(m)]);
+                        int r = compare(el, at(m));
                         if (0 <= r) start2 = m + 1; else end = m;
                     }
 
@@ -152,8 +204,8 @@ namespace ZRCola {
     private:
         static int __cdecl compare_s(void *p, const void *a, const void *b)
         {
-            const index<T, T_idx> *t = (const index<T, T_idx>*)p;
-            return t->compare_sort(t->host[*(const T_idx*)a], t->host[*(const T_idx*)b]);
+            const index<T, T_idx, T_data> *t = (const index<T, T_idx, T_data>*)p;
+            return t->compare_sort((const T_data&)t->host[*(const T_idx*)a], (const T_data&)t->host[*(const T_idx*)b]);
         }
     };
 

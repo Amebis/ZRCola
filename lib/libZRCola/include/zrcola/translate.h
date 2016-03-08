@@ -81,7 +81,7 @@ namespace ZRCola {
         ///
         /// Composition index
         ///
-        class indexComp : public index<unsigned __int16, unsigned __int32>
+        class indexComp : public index<unsigned __int16, unsigned __int32, translation>
         {
         public:
             ///
@@ -89,7 +89,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexComp(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32>(h) {}
+            indexComp(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, translation>(h) {}
 
             ///
             /// Compares two transformations by string (for searching)
@@ -102,13 +102,9 @@ namespace ZRCola {
             /// - =0 when a == b
             /// - >0 when a >  b
             ///
-            virtual int compare(_In_ const unsigned __int16 &a, _In_ const unsigned __int16 &b) const
+            virtual int compare(_In_ const translation &a, _In_ const translation &b) const
             {
-                const translation
-                    &trans_a = (const translation&)a,
-                    &trans_b = (const translation&)b;
-
-                int r = translation::CompareString(trans_a.str, trans_a.str_len, trans_b.str, trans_b.str_len);
+                int r = translation::CompareString(a.str, a.str_len, b.str, b.str_len);
                 if (r != 0) return r;
 
                 return 0;
@@ -125,17 +121,13 @@ namespace ZRCola {
             /// - =0 when a == b
             /// - >0 when a >  b
             ///
-            virtual int compare_sort(_In_ const unsigned __int16 &a, _In_ const unsigned __int16 &b) const
+            virtual int compare_sort(_In_ const translation &a, _In_ const translation &b) const
             {
-                const translation
-                    &trans_a = (const translation&)a,
-                    &trans_b = (const translation&)b;
-
-                int r = translation::CompareString(trans_a.str, trans_a.str_len, trans_b.str, trans_b.str_len);
+                int r = translation::CompareString(a.str, a.str_len, b.str, b.str_len);
                 if (r != 0) return r;
 
-                     if (trans_a.chr < trans_b.chr) return -1;
-                else if (trans_a.chr > trans_b.chr) return +1;
+                     if (a.chr < b.chr) return -1;
+                else if (a.chr > b.chr) return +1;
 
                 return 0;
             }
@@ -145,7 +137,7 @@ namespace ZRCola {
         ///
         /// Decomposition index
         ///
-        class indexDecomp : public index<unsigned __int16, unsigned __int32>
+        class indexDecomp : public index<unsigned __int16, unsigned __int32, translation>
         {
         public:
             ///
@@ -153,7 +145,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexDecomp(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32>(h) {}
+            indexDecomp(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, translation>(h) {}
 
             ///
             /// Compares two transformations by character (for searching)
@@ -166,14 +158,10 @@ namespace ZRCola {
             /// - =0 when a == b
             /// - >0 when a >  b
             ///
-            virtual int compare(_In_ const unsigned __int16 &a, _In_ const unsigned __int16 &b) const
+            virtual int compare(_In_ const translation &a, _In_ const translation &b) const
             {
-                const translation
-                    &trans_a = (const translation&)a,
-                    &trans_b = (const translation&)b;
-
-                     if (trans_a.chr < trans_b.chr) return -1;
-                else if (trans_a.chr > trans_b.chr) return +1;
+                     if (a.chr < b.chr) return -1;
+                else if (a.chr > b.chr) return +1;
 
                 return 0;
             }
@@ -189,16 +177,12 @@ namespace ZRCola {
             /// - =0 when a == b
             /// - >0 when a >  b
             ///
-            virtual int compare_sort(_In_ const unsigned __int16 &a, _In_ const unsigned __int16 &b) const
+            virtual int compare_sort(_In_ const translation &a, _In_ const translation &b) const
             {
-                const translation
-                    &trans_a = (const translation&)a,
-                    &trans_b = (const translation&)b;
+                     if (a.chr < b.chr) return -1;
+                else if (a.chr > b.chr) return +1;
 
-                     if (trans_a.chr < trans_b.chr) return -1;
-                else if (trans_a.chr > trans_b.chr) return +1;
-
-                int r = translation::CompareString(trans_a.str, trans_a.str_len, trans_b.str, trans_b.str_len);
+                int r = translation::CompareString(a.str, a.str_len, b.str, b.str_len);
                 if (r != 0) return r;
 
                 return 0;
