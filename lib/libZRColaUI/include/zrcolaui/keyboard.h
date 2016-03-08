@@ -100,7 +100,7 @@ namespace ZRCola {
             indexChr(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32>(h) {}
 
             ///
-            /// Compares two key sequences by character
+            /// Compares two key sequences by character (for searching)
             ///
             /// \param[in] a  Pointer to key sequence
             /// \param[in] b  Pointer to second key sequence
@@ -121,6 +121,32 @@ namespace ZRCola {
 
                 return 0;
             }
+
+            ///
+            /// Compares two key sequences by character (for sorting)
+            ///
+            /// \param[in] a  Pointer to key sequence
+            /// \param[in] b  Pointer to second key sequence
+            ///
+            /// \returns
+            /// - <0 when a <  b
+            /// - =0 when a == b
+            /// - >0 when a >  b
+            ///
+            virtual int compare_sort(_In_ const unsigned __int16 &a, _In_ const unsigned __int16 &b) const
+            {
+                const keyseq
+                    &ks_a = (const keyseq&)a,
+                    &ks_b = (const keyseq&)b;
+
+                     if (ks_a.chr < ks_b.chr) return -1;
+                else if (ks_a.chr > ks_b.chr) return +1;
+
+                int r = keyseq::CompareSequence(ks_a.seq, ks_a.seq_len, ks_b.seq, ks_b.seq_len);
+                if (r != 0) return r;
+
+                return 0;
+            }
         } idxChr;   ///< Character index
 
 
@@ -138,7 +164,7 @@ namespace ZRCola {
             indexKey(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32>(h) {}
 
             ///
-            /// Compares two key sequences by key
+            /// Compares two key sequences by key (for searching)
             ///
             /// \param[in] a  Pointer to key sequence
             /// \param[in] b  Pointer to second key sequence
@@ -156,6 +182,32 @@ namespace ZRCola {
 
                 int r = keyseq::CompareSequence(ks_a.seq, ks_a.seq_len, ks_b.seq, ks_b.seq_len);
                 if (r != 0) return r;
+
+                return 0;
+            }
+
+            ///
+            /// Compares two key sequences by key (for sorting)
+            ///
+            /// \param[in] a  Pointer to key sequence
+            /// \param[in] b  Pointer to second key sequence
+            ///
+            /// \returns
+            /// - <0 when a <  b
+            /// - =0 when a == b
+            /// - >0 when a >  b
+            ///
+            virtual int compare_sort(_In_ const unsigned __int16 &a, _In_ const unsigned __int16 &b) const
+            {
+                const keyseq
+                    &ks_a = (const keyseq&)a,
+                    &ks_b = (const keyseq&)b;
+
+                int r = keyseq::CompareSequence(ks_a.seq, ks_a.seq_len, ks_b.seq, ks_b.seq_len);
+                if (r != 0) return r;
+
+                     if (ks_a.chr < ks_b.chr) return -1;
+                else if (ks_a.chr > ks_b.chr) return +1;
 
                 return 0;
             }

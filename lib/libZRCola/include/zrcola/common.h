@@ -80,7 +80,7 @@ namespace ZRCola {
 
 
         ///
-        /// Compares two elements
+        /// Compares two elements (for searching)
         ///
         /// \param[in] a  Pointer to first element
         /// \param[in] b  Pointer to second element
@@ -91,6 +91,20 @@ namespace ZRCola {
         /// - >0 when a >  b
         ///
         virtual int compare(_In_ const T &a, _In_ const T &b) const = 0;
+
+
+        ///
+        /// Compares two elements (for sorting)
+        ///
+        /// \param[in] a  Pointer to first element
+        /// \param[in] b  Pointer to second element
+        ///
+        /// \returns
+        /// - <0 when a <  b
+        /// - =0 when a == b
+        /// - >0 when a >  b
+        ///
+        virtual int compare_sort(_In_ const T &a, _In_ const T &b) const = 0;
 
 
         ///
@@ -139,7 +153,7 @@ namespace ZRCola {
         static int __cdecl compare_s(void *p, const void *a, const void *b)
         {
             const index<T, T_idx> *t = (const index<T, T_idx>*)p;
-            return t->compare(t->host[*(const T_idx*)a], t->host[*(const T_idx*)b]);
+            return t->compare_sort(t->host[*(const T_idx*)a], t->host[*(const T_idx*)b]);
         }
     };
 
