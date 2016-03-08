@@ -61,21 +61,29 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
         bool found;
 
         {
+            // Parse key event and save it at the end of the key sequence.
             wxKeyEvent &e = (wxKeyEvent&)event;
-            ZRCola::keyseq_db::keyseq *ks = (ZRCola::keyseq_db::keyseq*)new char[sizeof(ZRCola::keyseq_db::keyseq) + sizeof(ZRCola::keyseq_db::keyseq::key_t)*1];
-            ks->chr = 0;
-            ks->seq_len = 1;
-            ks->seq[0].key = wxToupper(e.m_uniChar);
-            ks->seq[0].modifiers =
+            ZRCola::keyseq_db::keyseq::key_t key;
+            key.key = wxToupper(e.m_uniChar);
+            key.modifiers =
                 (e.ShiftDown()   ? ZRCola::keyseq_db::keyseq::SHIFT : 0) |
                 (e.ControlDown() ? ZRCola::keyseq_db::keyseq::CTRL  : 0) |
                 (e.AltDown()     ? ZRCola::keyseq_db::keyseq::ALT   : 0);
+            m_seq.push_back(key);
+
+            std::vector<ZRCola::keyseq_db::keyseq::key_t>::size_type n = m_seq.size();
+            ZRCola::keyseq_db::keyseq *ks = (ZRCola::keyseq_db::keyseq*)new char[sizeof(ZRCola::keyseq_db::keyseq) + sizeof(ZRCola::keyseq_db::keyseq::key_t)*n];
+            ks->chr = 0;
+            ks->seq_len = n;
+            memcpy(ks->seq, m_seq.data(), sizeof(ZRCola::keyseq_db::keyseq::key_t)*n);
             found = m_ks_db.idxKey.find((const unsigned __int16&)*ks, start, end);
             delete ks;
         }
 
         if (found) {
+            // The exact key sequence found.
             const ZRCola::keyseq_db::keyseq &ks = (const ZRCola::keyseq_db::keyseq&)m_ks_db.data[m_ks_db.idxKey[start]];
+            m_seq.clear();
 
             wxObject *obj = event.GetEventObject();
             if (obj && obj->IsKindOf(wxCLASSINFO(wxTextCtrl))) {
@@ -86,6 +94,15 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
                 event.StopPropagation();
                 return true;
             }
+        } else if (start < m_ks_db.idxKey.size() &&
+            ZRCola::keyseq_db::keyseq::CompareSequence(m_seq.data(), m_seq.size(), ((const ZRCola::keyseq_db::keyseq&)m_ks_db.data[m_ks_db.idxKey[start]]).seq, std::min<unsigned __int16>(((const ZRCola::keyseq_db::keyseq&)m_ks_db.data[m_ks_db.idxKey[start]]).seq_len, m_seq.size())) == 0)
+        {
+            // The sequence is a partial match. Continue watching.
+            event.StopPropagation();
+            return true;
+        } else {
+            // The key sequence has no future chance to match. Start all over again.
+            m_seq.clear();
         }
     }
 
