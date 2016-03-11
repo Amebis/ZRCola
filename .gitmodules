@@ -4,3 +4,9 @@
 [submodule "lib/stdex"]
 	path = lib/stdex
 	url = https://github.com/Amebis/stdex.git
+[submodule "MSI/MSIBuild"]
+	path = MSI/MSIBuild
+	url = https://github.com/Amebis/MSIBuild.git
+[submodule "MSI/MSICA"]
+	path = MSI/MSICA
+	url = https://github.com/Amebis/MSICA.git
