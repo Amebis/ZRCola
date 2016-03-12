@@ -111,17 +111,25 @@ SetupDebug : \
 	"$(OUTPUT_DIR)\Setup\ZRColaSl64D.msi"
 
 Register :: \
+	RegisterSettings \
 	RegisterShortcuts
 
 Unregister :: \
-	UnregisterShortcuts
+	UnregisterShortcuts \
+	UnregisterSettings
 
-RegisterShortcuts : \
-	"$(ALLUSERSPROFILE)\Microsoft\Windows\Start Menu\Programs\ZRCola" \
-	"$(ALLUSERSPROFILE)\Microsoft\Windows\Start Menu\Programs\ZRCola\ZRCola.lnk"
+RegisterSettings ::
+	reg.exe add "HKCU\Software\Amebis\ZRCola" /v "LocalizationRepositoryPath" /t REG_SZ /d "$(MAKEDIR)\$(OUTPUT_DIR)\locale" /f > NUL
 
-UnregisterShortcuts :
-	-if exist "$(ALLUSERSPROFILE)\Microsoft\Windows\Start Menu\Programs\ZRCola" rd /s /q "$(ALLUSERSPROFILE)\Microsoft\Windows\Start Menu\Programs\ZRCola"
+UnregisterSettings ::
+	-reg.exe delete "HKCU\Software\Amebis\ZRCola" /v "LocalizationRepositoryPath" /f > NUL
+
+RegisterShortcuts :: \
+	"$(APPDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" \
+	"$(APPDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola\ZRCola.lnk"
+
+UnregisterShortcuts ::
+	-if exist "$(APPDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" rd /s /q "$(APPDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola"
 
 
 ######################################################################
@@ -130,7 +138,7 @@ UnregisterShortcuts :
 
 "$(OUTPUT_DIR)" \
 "$(OUTPUT_DIR)\Setup" \
-"$(ALLUSERSPROFILE)\Microsoft\Windows\Start Menu\Programs\ZRCola" :
+"$(APPDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" :
 	if not exist $@ md $@
 
 "$(OUTPUT_DIR)\Setup" : "$(OUTPUT_DIR)"
@@ -177,8 +185,8 @@ $(REDIST_SL_X64) : "$(OUTPUT_DIR)\ZRColaSl64D.3.msi"
 # Shortcut creation
 ######################################################################
 
-"$(ALLUSERSPROFILE)\Microsoft\Windows\Start Menu\Programs\ZRCola\ZRCola.lnk" : "$(OUTPUT_DIR)\$(PLAT).Debug\ZRCola.exe"
-	cscript.exe "bin\MkLnk.wsf" //Nologo $@ $**
+"$(APPDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola\ZRCola.lnk" : "$(OUTPUT_DIR)\$(PLAT).Debug\ZRCola.exe"
+	cscript.exe "bin\MkLnk.wsf" //Nologo $@ "$(MAKEDIR)\$(OUTPUT_DIR)\$(PLAT).Debug\ZRCola.exe" /S:"CTRL+ALT+Z"
 
 
 ######################################################################
