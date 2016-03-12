@@ -16,6 +16,3 @@
 [submodule "lib/MSICALib"]
 	path = lib/MSICALib
 	url = https://github.com/Amebis/MSICALib.git
-[submodule "MSI/wxMSM"]
-	path = MSI/wxMSM
-	url = https://github.com/Amebis/wxMSM.git
