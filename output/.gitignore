@@ -1,0 +1,15 @@
+/System (64-bit) Folder
+/System Folder
+/Win32.Debug
+/Win32.Release
+/x64.Debug
+/x64.Release
+/Setup
+/PackageGUID.mak
+/ZRCola*.cab
+/ZRCola*.ddf
+/ZRCola*.dep
+/ZRCola*.inf
+/ZRCola*.msi
+/ZRCola*.out
+/ZRCola*.rpt
