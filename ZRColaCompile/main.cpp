@@ -146,16 +146,17 @@ int _tmain(int argc, _TCHAR *argv[])
         return -1;
     }
 
+    wxConfig config(wxT(ZRCOLA_CFG_APPLICATION), wxT(ZRCOLA_CFG_VENDOR));
+
     // Set desired locale.
-    // TODO: Check user language setting and select the language accordingly.
     wxLocale locale;
-    if (wxLocale::IsAvailable(wxLANGUAGE_SLOVENIAN)) {
-        wxString sPath(wxPathOnly(argv[0]));
-        sPath << wxT("\\..\\locale");
-        locale.AddCatalogLookupPathPrefix(sPath);
-        wxVERIFY(locale.Init(wxLANGUAGE_SLOVENIAN));
-        wxVERIFY(locale.AddCatalog(wxT("ZRColaCompile")));
+    {
+        wxString sPath;
+        if (config.Read(wxT("LocalizationRepositoryPath"), &sPath))
+            locale.AddCatalogLookupPathPrefix(sPath);
     }
+    wxVERIFY(locale.Init(config.Read(wxT("Language"), wxLANGUAGE_DEFAULT)));
+    wxVERIFY(locale.AddCatalog(wxT("ZRColaCompile")));
 
     // Parse command line.
     static const wxCmdLineEntryDesc cmdLineDesc[] =

@@ -53,3 +53,9 @@
 // Replace with new on every version change, regardless how minor it is.
 //
 #define ZRCOLA_VERSION_GUID     "{F0ECB49B-1EF8-487F-9BE3-B0CC3CADE8AE}"
+
+//
+// The product vendor and application name for configuration keeping.
+//
+#define ZRCOLA_CFG_VENDOR       "Amebis"
+#define ZRCOLA_CFG_APPLICATION  "ZRCola"

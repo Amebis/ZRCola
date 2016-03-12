@@ -29,6 +29,7 @@
 
 #include <wx/app.h>
 #include <wx/cmdline.h>
+#include <wx/config.h>
 #include <wx/intl.h>
 
 #include <wxex/common.h>
