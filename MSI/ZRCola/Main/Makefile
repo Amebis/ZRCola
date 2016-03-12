@@ -23,23 +23,6 @@ MSIBUILD_IS_LOCALIZEABLE=1
 
 
 ######################################################################
-# AppSearch
-
-All :: "$(LANG).$(PLAT).$(CFG).AppSearch-1.idt"
-
-"$(LANG).$(PLAT).$(CFG).AppSearch-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
-	move /y << $@ > NUL
-Property	Signature_
-s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)
-AppSearch	Property	Signature_
-OLDZRCOLADIR	cllibZRCola10u_vc100.dll.$(PLAT)
-OLDZRCOLADIR	cllibZRColaUI10u_vc100.dll.$(PLAT)
-OLDZRCOLADIR	clZRCola.exe.$(PLAT)
-<<NOKEEP
-
-
-######################################################################
 # Binary
 
 All :: \
@@ -57,54 +40,6 @@ binUIHeader.bmp	UIHeader.bmp
 
 "$(LANG).$(PLAT).$(CFG).Binary-1\UIHeader.bmp" : "Binary\UIHeader.bmp"
 	copy /y $** $@ > NUL
-
-
-######################################################################
-# CompLocator
-
-All :: "$(LANG).$(PLAT).$(CFG).CompLocator-1.idt"
-
-"$(LANG).$(PLAT).$(CFG).CompLocator-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
-	move /y << $@ > NUL
-Signature_	ComponentId	Type
-s$(MSIBUILD_LENGTH_ID)	s38	I2
-CompLocator	Signature_
-!IF "$(PLAT)" == "Win32"
-cllibZRCola10u_vc100.dll.Win32	{2251DF13-062A-4955-BEEE-CAB1A7041E93}	1
-cllibZRColaUI10u_vc100.dll.Win32	{D9A5BF44-DDFE-4A22-89F4-14D291581829}	1
-clZRCola.exe.Win32	{F30B6545-6203-4B7D-8575-85245A0F90E5}	1
-!ENDIF
-!IF "$(PLAT)" == "x64"
-cllibZRCola10u_vc100.dll.x64	{23078D23-1397-4FD7-BB32-E012FEF8645A}	1
-cllibZRColaUI10u_vc100.dll.x64	{360E78E5-9560-4C52-B806-45EDC682BB17}	1
-clZRCola.exe.x64	{D45B105D-2303-459A-AF4B-52AC3AAD5510}	1
-!ENDIF
-<<NOKEEP
-
-
-######################################################################
-# Component
-
-All :: "$(LANG).$(PLAT).$(CFG).Component-1.idt"
-
-"$(LANG).$(PLAT).$(CFG).Component-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
-	move /y << $@ > NUL
-Component	ComponentId	Directory_	Attributes	Condition	KeyPath
-s$(MSIBUILD_LENGTH_ID)	S38	s$(MSIBUILD_LENGTH_ID)	i2	S255	S$(MSIBUILD_LENGTH_ID)
-Component	Component
-!IF "$(PLAT)" == "Win32"
-complibZRCola.dll.Win32	{2251DF13-062A-4955-BEEE-CAB1A7041E93}	ZRCOLABINDIR	0		filelibZRCola.dll.Win32
-complibZRColaUI.dll.Win32	{D9A5BF44-DDFE-4A22-89F4-14D291581829}	ZRCOLABINDIR	0		filelibZRColaUI.dll.Win32
-compZRCola.exe.Win32	{F30B6545-6203-4B7D-8575-85245A0F90E5}	ZRCOLABINDIR	0		fileZRCola.exe.Win32
-!ENDIF
-!IF "$(PLAT)" == "x64"
-complibZRCola.dll.x64	{23078D23-1397-4FD7-BB32-E012FEF8645A}	ZRCOLABINDIR	256		filelibZRCola.dll.x64
-complibZRColaUI.dll.x64	{360E78E5-9560-4C52-B806-45EDC682BB17}	ZRCOLABINDIR	256		filelibZRColaUI.dll.x64
-compZRCola.exe.x64	{D45B105D-2303-459A-AF4B-52AC3AAD5510}	ZRCOLABINDIR	256		fileZRCola.exe.x64
-!ENDIF
-<<NOKEEP
 
 
 ######################################################################
@@ -207,105 +142,6 @@ ZRCOLADIR	PROGRAMFILESDIR	ZRCola:.
 
 
 ######################################################################
-# Feature
-
-All :: "$(LANG).$(PLAT).$(CFG).Feature-2.idt"
-
-"En.$(PLAT).$(CFG).Feature-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
-	move /y << $@ > NUL
-Feature	Feature_Parent	Title	Description	Display	Level	Directory_	Attributes
-s$(MSIBUILD_LENGTH_ID)	S$(MSIBUILD_LENGTH_ID)	L64	L255	I2	i2	S$(MSIBUILD_LENGTH_ID)	i2
-1252	Feature	Feature
-featZRCola		ZRCola	Input system for linguistic use	1	1	ZRCOLADIR	8
-<<NOKEEP
-
-"De.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\de_DE.po"
-	rcxgettext.exe idtp $@ $**
-
-"En.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx"
-	copy /y $** $@ > NUL
-
-"It.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\it_IT.po"
-	rcxgettext.exe idtp $@ $**
-
-"Sl.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\sl_SI.po"
-	rcxgettext.exe idtp $@ $**
-
-
-######################################################################
-# FeatureComponents
-
-All :: "$(LANG).$(PLAT).$(CFG).FeatureComponents-1.idt"
-
-"$(LANG).$(PLAT).$(CFG).FeatureComponents-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
-	move /y << $@ > NUL
-Feature_	Component_
-s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)
-FeatureComponents	Feature_	Component_
-featZRCola	complibZRCola.dll.$(PLAT)
-featZRCola	complibZRColaUI.dll.$(PLAT)
-featZRCola	compZRCola.exe.$(PLAT)
-<<NOKEEP
-
-
-######################################################################
-# File
-
-All :: "$(LANG).$(PLAT).$(CFG).File-1.idt"
-
-"$(LANG).$(PLAT).$(CFG).File-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
-	move /y << $@ > NUL
-File	Component_	FileName	FileSize	Version	Language	Attributes	Sequence
-s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l255	i4	S$(MSIBUILD_LENGTH_ID)	S20	I2	i2
-File	File
-!IF "$(PLAT)" == "Win32"
-!IF "$(CFG)" == "Release"
-filelibZRCola.dll.Win32	complibZRCola.dll.Win32	LIBZRC~1.DLL|libZRCola10u_vc100.dll	0		0	1536	1
-filelibZRColaUI.dll.Win32	complibZRColaUI.dll.Win32	LIBZRC~2.DLL|libZRColaUI10u_vc100.dll	0		0	1536	1
-!ENDIF
-!IF "$(CFG)" == "Debug"
-filelibZRCola.dll.Win32	complibZRCola.dll.Win32	LIBZRC~3.DLL|libZRCola10ud_vc100.dll	0		0	1536	1
-filelibZRColaUI.dll.Win32	complibZRColaUI.dll.Win32	LIBZRC~4.DLL|libZRColaUI10ud_vc100.dll	0		0	1536	1
-!ENDIF
-!ENDIF
-!IF "$(PLAT)" == "x64"
-!IF "$(CFG)" == "Release"
-filelibZRCola.dll.x64	complibZRCola.dll.x64	LIBZRC~5.DLL|libZRCola10u_vc100_x64.dll	0		0	1536	1
-filelibZRColaUI.dll.x64	complibZRColaUI.dll.x64	LIBZRC~6.DLL|libZRColaUI10u_vc100_x64.dll	0		0	1536	1
-!ENDIF
-!IF "$(CFG)" == "Debug"
-filelibZRCola.dll.x64	complibZRCola.dll.x64	LIBZRC~7.DLL|libZRCola10ud_vc100_x64.dll	0		0	1536	1
-filelibZRColaUI.dll.x64	complibZRColaUI.dll.x64	LIBZRC~8.DLL|libZRColaUI10ud_vc100_x64.dll	0		0	1536	1
-!ENDIF
-!ENDIF
-fileZRCola.exe.$(PLAT)	compZRCola.exe.$(PLAT)	AL_MON~1.EXE|ZRCola.exe	0		0	1536	1
-<<NOKEEP
-
-
-######################################################################
-# Icon
-
-All :: \
-	"$(LANG).$(PLAT).$(CFG).Icon-1.idt" \
-	"$(LANG).$(PLAT).$(CFG).Icon-1\ZRCola.ico"
-
-"$(LANG).$(PLAT).$(CFG).Icon-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak" "$(LANG).$(PLAT).$(CFG).Icon-1"
-	-if exist $@ del /f /q $@
-	move /y << $@ > NUL
-Name	Data
-s$(MSIBUILD_LENGTH_ID)	v0
-Icon	Name
-iconZRCola.ico	ZRCola.ico
-<<NOKEEP
-
-"$(LANG).$(PLAT).$(CFG).Icon-1\ZRCola.ico" : "..\..\..\ZRCola\res\zrcola.ico"
-	copy /y $** $@ > NUL
-
-
-######################################################################
 # InstallExecuteSequence
 
 All :: "$(LANG).$(PLAT).$(CFG).InstallExecuteSequence-1.idt"
@@ -369,48 +205,6 @@ INSTALLLEVEL	3
 InstallMode	Typical
 SecureCustomProperties	OLDPRODUCTFOUND;NEWPRODUCTFOUND
 <<NOKEEP
-
-
-######################################################################
-# RemoveFile
-
-All :: "$(LANG).$(PLAT).$(CFG).RemoveFile-1.idt"
-
-"$(LANG).$(PLAT).$(CFG).RemoveFile-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
-	move /y << $@ > NUL
-FileKey	Component_	FileName	DirProperty	InstallMode
-s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	L255	s$(MSIBUILD_LENGTH_ID)	i2
-RemoveFile	FileKey
-rmfiZRCola	compZRCola.exe.$(PLAT)		ZRColaShortcutDir	2
-<<NOKEEP
-
-
-######################################################################
-# Shortcut
-
-All :: "$(LANG).$(PLAT).$(CFG).Shortcut-2.idt"
-
-"En.$(PLAT).$(CFG).Shortcut-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
-	move /y << $@ > NUL
-Shortcut	Directory_	Name	Component_	Target	Arguments	Description	Hotkey	Icon_	IconIndex	ShowCmd	WkDir
-s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l128	s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	S255	L255	I2	S$(MSIBUILD_LENGTH_ID)	I2	I2	S$(MSIBUILD_LENGTH_ID)
-1252	Shortcut	Shortcut
-shctZRCola	ZRColaShortcutDir	ZRCola	compZRCola.exe.$(PLAT)	featZRCola		Authentication progress real time monitor		iconZRCola.ico			ZRCOLABINDIR
-<<NOKEEP
-
-"De.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\de_DE.po"
-	rcxgettext.exe idtp $@ $**
-
-"En.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx"
-	copy /y $** $@ > NUL
-
-"It.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\it_IT.po"
-	rcxgettext.exe idtp $@ $**
-
-"Sl.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\sl_SI.po"
-	rcxgettext.exe idtp $@ $**
 
 
 ######################################################################

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola MSI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-12 13:18+0100\n"
+"POT-Creation-Date: 2016-03-12 14:44+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <simon.rozman@amebis.si>\n"
@@ -20,7 +20,7 @@ msgstr ""
 # 1. Translate as a separate RTF document.
 # 2. Remove ALL line breaks from RTF file.
 # 3. Paste translation.
-#: En.Win32.Debug.Control-2.idtx:4 En.Win32.Release.Control-2.idtx:4 En.x64.Debug.Control-2.idtx:4 En.x64.Release.Control-2.idtx:4
+#: En.Win32.Release.Control-2.idtx:4 En.x64.Release.Control-2.idtx:4
 msgid ""
 "{\\rtf1\\adeflang1025\\ansi"
 "\\ansicpg1250\\uc1\\adeff0\\deff0\\stshfdbch31505\\stshfloch31506\\stshfhich31506\\stshfbi31507\\deflang1060\\deflangfe1060\themelang1060\themelangfe0\themelangcs0{\\fonttbl{\\f0\\fbidi "
@@ -1493,29 +1493,22 @@ msgstr ""
 "0105000002000000180000004d73786d6c322e534158584d4c5265616465722e362e3000000000000000000000060000d0cf11e0a1b11ae1000000000000000000000000000000003e000300feff090006000000000000000000000001000000010000000000000000100000feffffff00000000feffffff0000000000000000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdfffffffeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff52006f006f007400200045006e00740072007900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016000500ffffffffffffffffffffffff0c6ad98892f1d411a65f0040963251e5000000000000000000000000c0ef044c8850cf01feffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000105000000000000}}"
 
 # Windows charset for this language (decimal)
-#: En.Win32.Debug.Control-2.idtx:3 En.Win32.Debug.Directory-2.idtx:3 En.Win32.Debug.Feature-2.idtx:3 En.Win32.Debug.Shortcut-2.idtx:3 En.Win32.Release.Control-2.idtx:3
-#: En.Win32.Release.Directory-2.idtx:3 En.Win32.Release.Feature-2.idtx:3 En.Win32.Release.Shortcut-2.idtx:3 En.x64.Debug.Control-2.idtx:3 En.x64.Debug.Directory-2.idtx:3
-#: En.x64.Debug.Feature-2.idtx:3 En.x64.Debug.Shortcut-2.idtx:3 En.x64.Release.Control-2.idtx:3 En.x64.Release.Directory-2.idtx:3 En.x64.Release.Feature-2.idtx:3
-#: En.x64.Release.Shortcut-2.idtx:3
+#: En.Win32.Release.Control-2.idtx:3 En.Win32.Release.Directory-2.idtx:3 En.x64.Release.Control-2.idtx:3 En.x64.Release.Directory-2.idtx:3
 msgid "1252"
 msgstr "1250"
 
-#: En.Win32.Debug.Shortcut-2.idtx:4 En.Win32.Release.Shortcut-2.idtx:4 En.x64.Debug.Shortcut-2.idtx:4 En.x64.Release.Shortcut-2.idtx:4
-msgid "Authentication progress real time monitor"
-msgstr "Nadzira postopek overovljanja v realnem času"
-
-#: En.Win32.Debug.Feature-2.idtx:4 En.Win32.Release.Feature-2.idtx:4 En.x64.Debug.Feature-2.idtx:4 En.x64.Release.Feature-2.idtx:4
-msgid "Input system for linguistic use"
-msgstr "Vnašalni sistem za jezikoslovno rabo"
-
-#: En.Win32.Debug.Feature-2.idtx:4 En.Win32.Debug.Shortcut-2.idtx:4 En.Win32.Release.Feature-2.idtx:4 En.Win32.Release.Shortcut-2.idtx:4 En.x64.Debug.Feature-2.idtx:4
-#: En.x64.Debug.Shortcut-2.idtx:4 En.x64.Release.Feature-2.idtx:4 En.x64.Release.Shortcut-2.idtx:4
-msgid "ZRCola"
-msgstr "ZRCola"
-
-#: En.Win32.Debug.Directory-2.idtx:4 En.Win32.Release.Directory-2.idtx:4 En.x64.Debug.Directory-2.idtx:4 En.x64.Release.Directory-2.idtx:4
+#: En.Win32.Release.Directory-2.idtx:4 En.x64.Release.Directory-2.idtx:4
 msgid "ZRCola:."
 msgstr "ZRCola:."
+
+#~ msgid "Authentication progress real time monitor"
+#~ msgstr "Nadzira postopek overovljanja v realnem času"
+
+#~ msgid "Input system for linguistic use"
+#~ msgstr "Vnašalni sistem za jezikoslovno rabo"
+
+#~ msgid "ZRCola"
+#~ msgstr "ZRCola"
 
 #~ msgid "EAP-PEAP"
 #~ msgstr "EAP-PEAP"
