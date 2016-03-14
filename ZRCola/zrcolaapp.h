@@ -25,15 +25,19 @@ class ZRColaApp;
 
 #pragma once
 
-#include <wxex/appex.h>
+#include <wx/app.h>
+#include <wx/config.h>
+#include <wx/intl.h>
 
 
 ///
 /// ZRCola application
 ///
-class ZRColaApp : public wxAppEx
+class ZRColaApp : public wxApp
 {
 public:
+    ZRColaApp();
+
     ///
     /// Called when application initializes.
     ///
@@ -41,6 +45,10 @@ public:
     /// - true if initialization succeeded
     /// - false otherwise
     virtual bool OnInit();
+
+protected:
+    wxConfig m_config;  ///< Application configuration
+    wxLocale m_locale;  ///< Current locale
 };
 
 

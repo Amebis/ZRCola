@@ -150,13 +150,14 @@ int _tmain(int argc, _TCHAR *argv[])
 
     // Set desired locale.
     wxLocale locale;
-    {
+    wxLanguage language = (wxLanguage)config.Read(wxT("Language"), wxLANGUAGE_DEFAULT);
+    if (wxLocale::IsAvailable(language)) {
         wxString sPath;
         if (config.Read(wxT("LocalizationRepositoryPath"), &sPath))
             locale.AddCatalogLookupPathPrefix(sPath);
+        wxVERIFY(locale.Init(language));
+        wxVERIFY(locale.AddCatalog(wxT("ZRColaCompile")));
     }
-    wxVERIFY(locale.Init(config.Read(wxT("Language"), wxLANGUAGE_DEFAULT)));
-    wxVERIFY(locale.AddCatalog(wxT("ZRColaCompile")));
 
     // Parse command line.
     static const wxCmdLineEntryDesc cmdLineDesc[] =

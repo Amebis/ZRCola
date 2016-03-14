@@ -27,13 +27,29 @@
 wxIMPLEMENT_APP(ZRColaApp);
 
 
+ZRColaApp::ZRColaApp() :
+    m_config(wxT(ZRCOLA_CFG_APPLICATION), wxT(ZRCOLA_CFG_VENDOR)),
+    wxApp()
+{
+}
+
+
 bool ZRColaApp::OnInit()
 {
-    if (!wxAppEx::OnInit())
+    if (!wxApp::OnInit())
         return false;
 
-    if (wxLocale::IsAvailable(wxLANGUAGE_SLOVENIAN))
+    // Set desired locale.
+    wxLanguage language = (wxLanguage)m_config.Read(wxT("Language"), wxLANGUAGE_DEFAULT);
+    if (wxLocale::IsAvailable(language)) {
+        wxString sPath;
+        if (m_config.Read(wxT("LocalizationRepositoryPath"), &sPath))
+            m_locale.AddCatalogLookupPathPrefix(sPath);
+        wxVERIFY(m_locale.Init(language));
+        wxVERIFY(m_locale.AddCatalog(wxT("wxExtend")));
+        wxVERIFY(m_locale.AddCatalog(wxT("ZRColaCompile")));
         wxVERIFY(m_locale.AddCatalog(wxT("ZRCola")));
+    }
 
     wxZRColaFrame* mainFrame = new wxZRColaFrame();
 
