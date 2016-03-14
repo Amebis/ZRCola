@@ -43,6 +43,23 @@ binUIHeader.bmp	UIHeader.bmp
 
 
 ######################################################################
+# Component
+
+All :: "$(LANG).$(PLAT).$(CFG).Component-1.idt"
+
+"$(LANG).$(PLAT).$(CFG).Component-1.idt" : "Makefile" "..\..\..\MSI\include\MSIBuildCfg.mak"
+	-if exist $@ del /f /q $@
+	move /y << $@ > NUL
+Component	ComponentId	Directory_	Attributes	Condition	KeyPath
+s$(MSIBUILD_LENGTH_ID)	S38	s$(MSIBUILD_LENGTH_ID)	i2	S255	S$(MSIBUILD_LENGTH_ID)
+Component	Component
+compwxstd.mo.sl_SI	{A5FEEA94-08CA-4E12-993F-A115601EF258}	ZRCOLALOCSLSIDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		filewxstd.mo.sl_SI
+compLocalizationRepositoryPath	{0E96110A-C38D-4600-9AE2-B8B59AF53A00}	ZRCOLALOCDIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		regLocalizationRepositoryPath
+compLanguage	{B78359AC-9484-402C-8384-3A4595B39389}	ZRCOLALOCDIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		regLanguage
+<<NOKEEP
+
+
+######################################################################
 # Control
 
 All :: "$(LANG).$(PLAT).$(CFG).Control-2.idt"
@@ -117,6 +134,8 @@ ZRCOLABINDIR	ZRCOLADIR	.:X64~1.DEB|x64.Debug
 !ELSEIF "$(PLAT)" == "x64"   && "$(CFG)" == "Release"
 ZRCOLABINDIR	ZRCOLADIR	.:X64~1.REL|x64.Release
 !ENDIF
+ZRCOLALOCDIR	ZRCOLADIR	locale
+ZRCOLALOCSLSIDIR	ZRCOLALOCDIR	sl_SI
 <<NOKEEP
 
 "En.$(PLAT).$(CFG).Directory-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
@@ -139,6 +158,21 @@ ZRCOLADIR	PROGRAMFILESDIR	ZRCola:.
 
 "Sl.$(PLAT).$(CFG).Directory-2.idt" : "En.$(PLAT).$(CFG).Directory-2.idtx" "..\locale\sl_SI.po"
 	rcxgettext.exe idtp $@ $**
+
+
+######################################################################
+# File
+
+All :: "$(LANG).$(PLAT).$(CFG).File-1.idt"
+
+"$(LANG).$(PLAT).$(CFG).File-1.idt" : "Makefile" "..\..\..\MSI\include\MSIBuildCfg.mak"
+	-if exist $@ del /f /q $@
+	move /y << $@ > NUL
+File	Component_	FileName	FileSize	Version	Language	Attributes	Sequence
+s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l255	i4	S$(MSIBUILD_LENGTH_ID)	S20	I2	i2
+File	File
+filewxstd.mo.sl_SI	compwxstd.mo.sl_SI	wxstd.mo	0		0	0	1
+<<NOKEEP
 
 
 ######################################################################
@@ -205,6 +239,44 @@ INSTALLLEVEL	3
 InstallMode	Typical
 SecureCustomProperties	OLDPRODUCTFOUND;NEWPRODUCTFOUND
 <<NOKEEP
+
+
+######################################################################
+# Registry
+
+All :: \
+	"$(LANG).$(PLAT).$(CFG).Registry-1.idt" \
+	"$(LANG).$(PLAT).$(CFG).Registry-2.idt"
+
+"$(LANG).$(PLAT).$(CFG).Registry-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+	-if exist $@ del /f /q $@
+	move /y << $@ > NUL
+Registry	Root	Key	Name	Value	Component_
+s$(MSIBUILD_LENGTH_ID)	i2	l255	L255	L0	s$(MSIBUILD_LENGTH_ID)
+Registry	Registry
+regLocalizationRepositoryPath	2	SOFTWARE\Amebis\ZRCola	LocalizationRepositoryPath	[ZRCOLALOCDIR]	compLocalizationRepositoryPath
+<<NOKEEP
+
+"En.$(PLAT).$(CFG).Registry-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+	-if exist $@ del /f /q $@
+	move /y << $@ > NUL
+Registry	Root	Key	Name	Value	Component_
+s$(MSIBUILD_LENGTH_ID)	i2	l255	L255	L0	s$(MSIBUILD_LENGTH_ID)
+1252	Registry	Registry
+regLanguage	1	SOFTWARE\Amebis\ZRCola	Language	#58	compLanguage
+<<NOKEEP
+
+"De.$(PLAT).$(CFG).Registry-2.idt" : "En.$(PLAT).$(CFG).Registry-2.idtx" "..\locale\de_DE.po"
+	rcxgettext.exe idtp $@ $**
+
+"En.$(PLAT).$(CFG).Registry-2.idt" : "En.$(PLAT).$(CFG).Registry-2.idtx"
+	copy /y $** $@ > NUL
+
+"It.$(PLAT).$(CFG).Registry-2.idt" : "En.$(PLAT).$(CFG).Registry-2.idtx" "..\locale\it_IT.po"
+	rcxgettext.exe idtp $@ $**
+
+"Sl.$(PLAT).$(CFG).Registry-2.idt" : "En.$(PLAT).$(CFG).Registry-2.idtx" "..\locale\sl_SI.po"
+	rcxgettext.exe idtp $@ $**
 
 
 ######################################################################
