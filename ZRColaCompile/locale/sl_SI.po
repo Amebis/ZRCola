@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRColaCompile\n"
-"POT-Creation-Date: 2016-03-01 15:40+0100\n"
-"PO-Revision-Date: 2016-03-01 15:40+0100\n"
+"POT-Creation-Date: 2016-03-14 17:18+0100\n"
+"PO-Revision-Date: 2016-03-14 17:18+0100\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.7\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
 "%100==4 ? 2 : 3);\n"
@@ -17,133 +17,14 @@ msgstr ""
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: main.cpp:204
+#: main.cpp:165
 msgid "Show this help message"
 msgstr "Pokaži to sporočilo pomoči"
 
-#: main.cpp:205
+#: main.cpp:166
 msgid "input file"
 msgstr "vhodna datoteka"
 
-#: main.cpp:206
+#: main.cpp:167
 msgid "output file"
 msgstr "izhodna datoteka"
-
-#~ msgid "Error initializing COM.\n"
-#~ msgstr "Napaka pri vzpostavitvi COM.\n"
-
-#~ msgid "Error opening %s input file.\n"
-#~ msgstr "Pri odpiranju vhodne datoteke %s je prišlo do napake.\n"
-
-#~ msgid "Error opening %s output file.\n"
-#~ msgstr "Pri odpiranju izhodne datoteke %s je prišlo do napake.\n"
-
-#~ msgid ""
-#~ "Error loading compositions from %s input file. Please make sure the input "
-#~ "file is ZRCola.zrc compatible.\n"
-#~ msgstr ""
-#~ "Pri nalaganju sestavljank iz vhodne datoteke %s je prišlo do napake. "
-#~ "Preverite, ali je vhodna datoteka res združljiva z ZRCola.zrc.\n"
-
-#, fuzzy
-#~ msgid "Could not open database %s (0x%x)."
-#~ msgstr "Ne morem odpreti podatkovne baze %s (%x)."
-
-#~ msgid "Creating ADOConnection object failed (0x%x)."
-#~ msgstr "Stvaritev objekta ADOConnection ni uspela (0x%x)."
-
-#~ msgid "ADO Error 0x%x: %ls"
-#~ msgstr "Napaka ADO 0x%x: %ls"
-
-#~ msgid "Syntax error detected, aborting."
-#~ msgstr "Zaznana napaka v sintaksi, prekinjam."
-
-#~ msgid "Help was given, terminating."
-#~ msgstr "Pomoč prikazana, zaključujem."
-
-#~ msgid ""
-#~ "ZRCola keyboard shortcut Ctrl+Alt+Z could not be registered. Some "
-#~ "functionality will not be available."
-#~ msgstr ""
-#~ "ZRColine bližnjice na tipkovnici Ctrl+Alt+Z ni mogoče registrirati. Nekaj "
-#~ "funkcionalnosti ne bo na voljo."
-
-#~ msgid "Warning"
-#~ msgstr "Opozorilo"
-
-#~ msgid ""
-#~ "ZRCola keyboard shortcut Ctrl+Alt+Shift+Z could not be registered. Some "
-#~ "functionality will not be available."
-#~ msgstr ""
-#~ "ZRColine bližnjice na tipkovnici Ctrl+Alt+Shift+Z ni mogoče registrirati. "
-#~ "Nekaj funkcionalnosti ne bo na voljo."
-
-#~ msgid ""
-#~ "ZRCola v%s\n"
-#~ "Copyright 2015-%s Amebis"
-#~ msgstr ""
-#~ "ZRCola v%s\n"
-#~ "Vse pravice pridržane 2015-%s Amebis"
-
-#~ msgid "About ZRCola"
-#~ msgstr "O ZRColi"
-
-#~ msgid "E&xit"
-#~ msgstr "I&zhod"
-
-#~ msgid "&File"
-#~ msgstr "&Datoteka"
-
-#~ msgid "Grave\t&7"
-#~ msgstr "Krativec\t&7"
-
-#~ msgid "Acute\t&9"
-#~ msgstr "Ostrivec\t&9"
-
-#~ msgid "Circumflex\t&3"
-#~ msgstr "Cirkumfleks\t&3"
-
-#~ msgid "Inverted &breve"
-#~ msgstr "O&brnjen polkrog"
-
-#~ msgid "&Accents"
-#~ msgstr "N&aglasi"
-
-#~ msgid "&About"
-#~ msgstr "O progr&amu"
-
-#~ msgid "&Help"
-#~ msgstr "&Pomoč"
-
-#~ msgid "ZRCola"
-#~ msgstr "ZRCola"
-
-#~ msgid ""
-#~ "There is already an auto hidden bar on this edge.\n"
-#~ "Only one auto hidden bar is allowed on each edge.\n"
-#~ "Auto-hide feature is now off."
-#~ msgstr ""
-#~ "Ob tem robu je že samodejno skrita pasica.\n"
-#~ "Na vsakem robu je lahko samo ena samodejno skrita pasica.\n"
-#~ "Samodejno skrivanje je zdaj izklopljeno."
-
-#~ msgid "Hello World"
-#~ msgstr "Zdravo svet"
-
-#~ msgid "&Hello...\tCtrl+H"
-#~ msgstr "&Pozdrav ...\tCtrl+H"
-
-#~ msgid "Help string shown in status bar for this menu item"
-#~ msgstr "Niz s pomočjo prikazan v statusni vrstici za to točko menija"
-
-#~ msgid "This is a wxWidgets' Hello world sample"
-#~ msgstr "To je primer Zdravo svet v wxWidgets"
-
-#~ msgid "About Hello World"
-#~ msgstr "O Zdravo svet"
-
-#~ msgid "Hello world from wxWidgets!"
-#~ msgstr "Zdravo svet iz wxWidgets!"
-
-#~ msgid "Welcome to wxWidgets!"
-#~ msgstr "Dobrodošli v wxWidgets!"
