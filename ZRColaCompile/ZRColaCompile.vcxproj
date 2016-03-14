@@ -71,7 +71,7 @@
     <ResourceCompile Include="ZRColaCompile.rc" />
   </ItemGroup>
   <ItemGroup>
-    <POCompile Include="locale\sl.po" />
+    <POCompile Include="locale\sl_SI.po" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
