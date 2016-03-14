@@ -42,10 +42,12 @@ Clean ::
 	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=Sl PLAT=x64   CFG=Release
 	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=Sl PLAT=x64   CFG=Debug
 	cd "$(MAKEDIR)"
-	devenv.com "ZRCola.sln" /clean "Release|Win32"
-	devenv.com "ZRCola.sln" /clean "Debug|Win32"
-	devenv.com "ZRCola.sln" /clean "Release|x64"
-	devenv.com "ZRCola.sln" /clean "Debug|x64"
+	devenv.com "ZRCola.sln"          /clean "Release|Win32"
+	devenv.com "ZRCola.sln"          /clean "Debug|Win32"
+	devenv.com "ZRCola.sln"          /clean "Release|x64"
+	devenv.com "ZRCola.sln"          /clean "Debug|x64"
+	devenv.com "ZRColaUtils.sln"     /clean "Release|Win32"
+	devenv.com "ZRColaUtils.sln"     /clean "Debug|Win32"
 	devenv.com "MSI\MSICA\MSICA.sln" /clean "Release|Win32"
 	devenv.com "MSI\MSICA\MSICA.sln" /clean "Debug|Win32"
 	devenv.com "MSI\MSICA\MSICA.sln" /clean "Release|x64"
