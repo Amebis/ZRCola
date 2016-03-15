@@ -72,7 +72,8 @@ All \
 Setup \
 SetupDebug \
 Register \
-Unregister :: "MSI\MSIBuild\Version\Version.mak"
+Unregister \
+GenRSAKeypair :: "MSI\MSIBuild\Version\Version.mak"
 	$(MAKE) /f "Makefile" /$(MAKEFLAGS) HAS_VERSION=1 $@
 
 "MSI\MSIBuild\Version\Version.mak" ::
@@ -139,10 +140,12 @@ UnregisterShortcuts ::
 ######################################################################
 
 "$(OUTPUT_DIR)" \
+"$(OUTPUT_DIR)\Keys" \
 "$(OUTPUT_DIR)\Setup" \
 "$(APPDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" :
 	if not exist $@ md $@
 
+"$(OUTPUT_DIR)\Keys" \
 "$(OUTPUT_DIR)\Setup" : "$(OUTPUT_DIR)"
 
 
@@ -286,5 +289,18 @@ $(REDIST_SL_X64) : "$(OUTPUT_DIR)\ZRColaSl64D.3.msi"
 	cd "MSI\ZRCola"
 	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=Sl PLAT=x64 CFG=Debug
 	cd "$(MAKEDIR)"
+
+GenRSAKeypair :: \
+	"$(OUTPUT_DIR)\Keys\verpriv.bin" \
+	"$(OUTPUT_DIR)\Keys\verpub.bin"
+
+"$(OUTPUT_DIR)\Keys\verkeypair.txt" : "$(OUTPUT_DIR)\Keys"
+	openssl.exe genrsa -out $@ 4096
+
+"$(OUTPUT_DIR)\Keys\verpriv.bin" : "$(OUTPUT_DIR)\Keys\verkeypair.txt"
+	openssl.exe rsa -in $** -inform PEM -outform DER -out $@
+
+"$(OUTPUT_DIR)\Keys\verpub.bin" : "$(OUTPUT_DIR)\Keys\verkeypair.txt"
+	openssl.exe rsa -in $** -inform PEM -outform DER -out $@ -pubout
 
 !ENDIF
