@@ -291,10 +291,11 @@ $(REDIST_SL_X64) : "$(OUTPUT_DIR)\ZRColaSl64D.3.msi"
 	cd "$(MAKEDIR)"
 
 GenRSAKeypair :: \
+	"$(OUTPUT_DIR)\Keys" \
 	"$(OUTPUT_DIR)\Keys\verpriv.bin" \
 	"$(OUTPUT_DIR)\Keys\verpub.bin"
 
-"$(OUTPUT_DIR)\Keys\verkeypair.txt" : "$(OUTPUT_DIR)\Keys"
+"$(OUTPUT_DIR)\Keys\verkeypair.txt" :
 	openssl.exe genrsa -out $@ 4096
 
 "$(OUTPUT_DIR)\Keys\verpriv.bin" : "$(OUTPUT_DIR)\Keys\verkeypair.txt"
