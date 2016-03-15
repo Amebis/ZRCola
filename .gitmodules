@@ -16,3 +16,6 @@
 [submodule "lib/MSICALib"]
 	path = lib/MSICALib
 	url = https://github.com/Amebis/MSICALib.git
+[submodule "Updater"]
+	path = Updater
+	url = https://github.com/Amebis/Updater.git
