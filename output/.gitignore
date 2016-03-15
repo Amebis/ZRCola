@@ -4,7 +4,6 @@
 /Win32.Release
 /x64.Debug
 /x64.Release
-/Setup
 /PackageGUID.mak
 /ZRCola*.cab
 /ZRCola*.ddf
