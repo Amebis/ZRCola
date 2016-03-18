@@ -141,7 +141,7 @@ File	Component_	FileName	FileSize	Version	Language	Attributes	Sequence
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l255	i4	S$(MSIBUILD_LENGTH_ID)	S20	I2	i2
 File	File
 fileZRCola.exe.$(PLAT)	compZRCola.exe.$(PLAT)	ZRCola.exe	0		0	1536	1
-fileZRCola.mo.sl_SI	compZRCola.mo.sl_SI	ZRCola.mo	0		0	0	1
+fileZRCola.mo.sl_SI	compZRCola.mo.sl_SI	ZRCola.mo	0		1060	0	1
 <<NOKEEP
 
 

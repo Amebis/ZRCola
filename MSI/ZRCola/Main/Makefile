@@ -223,7 +223,7 @@ All :: "$(LANG).$(PLAT).$(CFG).File-1.idt"
 File	Component_	FileName	FileSize	Version	Language	Attributes	Sequence
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l255	i4	S$(MSIBUILD_LENGTH_ID)	S20	I2	i2
 File	File
-filewxstd.mo.sl_SI	compwxstd.mo.sl_SI	wxstd.mo	0		0	0	1
+filewxstd.mo.sl_SI	compwxstd.mo.sl_SI	wxstd.mo	0		1060	0	1
 file00_ZRCola_Re.ttf	comp00_ZRCola_Re.ttf	00_ZRC~1.TTF|00_ZRCola_Re.ttf	0			0	1
 file00_ZRCola_It.ttf	comp00_ZRCola_It.ttf	00_ZRC~2.TTF|00_ZRCola_It.ttf	0			0	1
 file00_ZRCola_Bd.ttf	comp00_ZRCola_Bd.ttf	00_ZRC~3.TTF|00_ZRCola_Bd.ttf	0			0	1
