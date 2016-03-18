@@ -21,8 +21,11 @@ OUTPUT_DIR=output
 
 !IF "$(PROCESSOR_ARCHITECTURE)" == "AMD64"
 PLAT=x64
+REG_FLAGS=/f /reg:64
+REG_FLAGS32=/f /reg:32
 !ELSE
 PLAT=Win32
+REG_FLAGS=/f
 !ENDIF
 
 
@@ -115,10 +118,12 @@ SetupDebug : \
 
 Register :: \
 	RegisterSettings \
+	InstallFonts \
 	RegisterShortcuts
 
 Unregister :: \
 	UnregisterShortcuts \
+	UninstallFonts \
 	UnregisterSettings
 
 RegisterSettings ::
@@ -126,6 +131,26 @@ RegisterSettings ::
 
 UnregisterSettings ::
 	-reg.exe delete "HKCU\Software\Amebis\ZRCola" /v "LocalizationRepositoryPath" /f > NUL
+
+InstallFonts :: \
+	"$(WINDIR)\Fonts\00_ZRCola_Re.ttf" \
+	"$(WINDIR)\Fonts\00_ZRCola_It.ttf" \
+	"$(WINDIR)\Fonts\00_ZRCola_Bd.ttf" \
+	"$(WINDIR)\Fonts\00_ZRCola_BI.ttf"
+	reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola (TrueType)"             /t REG_SZ /d "00_ZRCola_Re.ttf" $(REG_FLAGS) > NUL
+	reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola Italic (TrueType)"      /t REG_SZ /d "00_ZRCola_It.ttf" $(REG_FLAGS) > NUL
+	reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola Bold (TrueType)"        /t REG_SZ /d "00_ZRCola_Bd.ttf" $(REG_FLAGS) > NUL
+	reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola Bold Italic (TrueType)" /t REG_SZ /d "00_ZRCola_BI.ttf" $(REG_FLAGS) > NUL
+
+UninstallFonts::
+	-reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola (TrueType)"             $(REG_FLAGS) > NUL
+	-reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola Italic (TrueType)"      $(REG_FLAGS) > NUL
+	-reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola Bold (TrueType)"        $(REG_FLAGS) > NUL
+	-reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola Bold Italic (TrueType)" $(REG_FLAGS) > NUL
+	-if exist "$(WINDIR)\Fonts\00_ZRCola_Re.ttf" rd /s /q "$(WINDIR)\Fonts\00_ZRCola_Re.ttf"
+	-if exist "$(WINDIR)\Fonts\00_ZRCola_It.ttf" rd /s /q "$(WINDIR)\Fonts\00_ZRCola_It.ttf"
+	-if exist "$(WINDIR)\Fonts\00_ZRCola_Bd.ttf" rd /s /q "$(WINDIR)\Fonts\00_ZRCola_Bd.ttf"
+	-if exist "$(WINDIR)\Fonts\00_ZRCola_BI.ttf" rd /s /q "$(WINDIR)\Fonts\00_ZRCola_BI.ttf"
 
 RegisterShortcuts :: \
 	"$(APPDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" \
@@ -183,6 +208,18 @@ $(REDIST_SL_X64) : "$(OUTPUT_DIR)\ZRColaSl64.3.msi"
 
 "$(OUTPUT_DIR)\Setup\ZRColaSl64D.msi" \
 $(REDIST_SL_X64) : "$(OUTPUT_DIR)\ZRColaSl64D.3.msi"
+	copy /y $** $@ > NUL
+
+"$(WINDIR)\Fonts\00_ZRCola_Re.ttf" : "$(OUTPUT_DIR)\data\00_ZRCola_Re.ttf"
+	copy /y $** $@ > NUL
+
+"$(WINDIR)\Fonts\00_ZRCola_It.ttf" : "$(OUTPUT_DIR)\data\00_ZRCola_It.ttf"
+	copy /y $** $@ > NUL
+
+"$(WINDIR)\Fonts\00_ZRCola_Bd.ttf" : "$(OUTPUT_DIR)\data\00_ZRCola_Bd.ttf"
+	copy /y $** $@ > NUL
+
+"$(WINDIR)\Fonts\00_ZRCola_BI.ttf" : "$(OUTPUT_DIR)\data\00_ZRCola_BI.ttf"
 	copy /y $** $@ > NUL
 
 
