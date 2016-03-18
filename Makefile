@@ -127,10 +127,16 @@ Unregister :: \
 	UnregisterSettings
 
 RegisterSettings ::
-	reg.exe add "HKCU\Software\Amebis\ZRCola" /v "LocalizationRepositoryPath" /t REG_SZ /d "$(MAKEDIR)\$(OUTPUT_DIR)\locale" /f > NUL
+	reg.exe add "HKLM\Software\Amebis\ZRCola" /v "LocalizationRepositoryPath" /t REG_SZ /d "$(MAKEDIR)\$(OUTPUT_DIR)\locale" $(REG_FLAGS) > NUL
+!IF "$(PROCESSOR_ARCHITECTURE)" == "AMD64"
+	reg.exe add "HKLM\Software\Amebis\ZRCola" /v "LocalizationRepositoryPath" /t REG_SZ /d "$(MAKEDIR)\$(OUTPUT_DIR)\locale" $(REG_FLAGS32) > NUL
+!ENDIF
 
 UnregisterSettings ::
-	-reg.exe delete "HKCU\Software\Amebis\ZRCola" /v "LocalizationRepositoryPath" /f > NUL
+	-reg.exe delete "HKLM\Software\Amebis\ZRCola" /v "LocalizationRepositoryPath" $(REG_FLAGS) > NUL
+!IF "$(PROCESSOR_ARCHITECTURE)" == "AMD64"
+	-reg.exe delete "HKLM\Software\Amebis\ZRCola" /v "LocalizationRepositoryPath" $(REG_FLAGS32) > NUL
+!ENDIF
 
 InstallFonts :: \
 	"$(WINDIR)\Fonts\00_ZRCola_Re.ttf" \
