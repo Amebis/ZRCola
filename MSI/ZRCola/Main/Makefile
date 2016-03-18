@@ -56,6 +56,10 @@ Component	Component
 compwxstd.mo.sl_SI	{A5FEEA94-08CA-4E12-993F-A115601EF258}	ZRCOLALOCSLSIDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		filewxstd.mo.sl_SI
 compLocalizationRepositoryPath	{0E96110A-C38D-4600-9AE2-B8B59AF53A00}	ZRCOLALOCDIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		regLocalizationRepositoryPath
 compLanguage	{B78359AC-9484-402C-8384-3A4595B39389}	ZRCOLALOCDIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		regLanguage
+comp00_ZRCola_Re.ttf	{B6CE8B39-11DC-4B59-B10C-3F0FFE8F81AF}	FontsFolder	0		file00_ZRCola_Re.ttf
+comp00_ZRCola_It.ttf	{10613965-2874-470D-9D5A-B7D535AA3317}	FontsFolder	0		file00_ZRCola_It.ttf
+comp00_ZRCola_Bd.ttf	{C036BE8D-6D2F-4DBF-99D6-F53702EAEBB6}	FontsFolder	0		file00_ZRCola_Bd.ttf
+comp00_ZRCola_BI.ttf	{883DDA9A-DA85-4FC4-95B7-EF0E08766DEF}	FontsFolder	0		file00_ZRCola_BI.ttf
 <<NOKEEP
 
 
@@ -124,6 +128,8 @@ PROGRAMFILESDIR	ProgramFiles64Folder	.
 PROGRAMFILESDIR	ProgramFilesFolder	.
 !ENDIF
 ProgramMenuFolder	TARGETDIR	.
+FontsFolder	TARGETDIR	.
+ZRCOLAFONTDIR	FontsFolder	.
 ZRColaShortcutDir	ProgramMenuFolder	ZRCola:.
 !IF     "$(PLAT)" == "Win32" && "$(CFG)" == "Debug"
 ZRCOLABINDIR	ZRCOLADIR	.:WIN32~1.DEB|Win32.Debug
@@ -161,6 +167,52 @@ ZRCOLADIR	PROGRAMFILESDIR	ZRCola:.
 
 
 ######################################################################
+# Feature
+
+All :: "$(LANG).$(PLAT).$(CFG).Feature-2.idt"
+
+"En.$(PLAT).$(CFG).Feature-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+	-if exist $@ del /f /q $@
+	move /y << $@ > NUL
+Feature	Feature_Parent	Title	Description	Display	Level	Directory_	Attributes
+s$(MSIBUILD_LENGTH_ID)	S$(MSIBUILD_LENGTH_ID)	L64	L255	I2	i2	S$(MSIBUILD_LENGTH_ID)	i2
+1252	Feature	Feature
+featZRColaFonts		Fonts	Fonts used by ZRCola	101	1	ZRCOLAFONTDIR	8
+featZRColaFonts00	featZRColaFonts	00 ZRCola	Times New Roman based font	1	1	ZRCOLAFONTDIR	8
+<<NOKEEP
+
+"De.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\de_DE.po"
+	rcxgettext.exe idtp $@ $**
+
+"En.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx"
+	copy /y $** $@ > NUL
+
+"It.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\it_IT.po"
+	rcxgettext.exe idtp $@ $**
+
+"Sl.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\sl_SI.po"
+	rcxgettext.exe idtp $@ $**
+
+
+######################################################################
+# FeatureComponents
+
+All :: "$(LANG).$(PLAT).$(CFG).FeatureComponents-1.idt"
+
+"$(LANG).$(PLAT).$(CFG).FeatureComponents-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+	-if exist $@ del /f /q $@
+	move /y << $@ > NUL
+Feature_	Component_
+s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)
+FeatureComponents	Feature_	Component_
+featZRColaFonts00	comp00_ZRCola_Re.ttf
+featZRColaFonts00	comp00_ZRCola_It.ttf
+featZRColaFonts00	comp00_ZRCola_Bd.ttf
+featZRColaFonts00	comp00_ZRCola_BI.ttf
+<<NOKEEP
+
+
+######################################################################
 # File
 
 All :: "$(LANG).$(PLAT).$(CFG).File-1.idt"
@@ -172,6 +224,28 @@ File	Component_	FileName	FileSize	Version	Language	Attributes	Sequence
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l255	i4	S$(MSIBUILD_LENGTH_ID)	S20	I2	i2
 File	File
 filewxstd.mo.sl_SI	compwxstd.mo.sl_SI	wxstd.mo	0		0	0	1
+file00_ZRCola_Re.ttf	comp00_ZRCola_Re.ttf	00_ZRC~1.TTF|00_ZRCola_Re.ttf	0			0	1
+file00_ZRCola_It.ttf	comp00_ZRCola_It.ttf	00_ZRC~2.TTF|00_ZRCola_It.ttf	0			0	1
+file00_ZRCola_Bd.ttf	comp00_ZRCola_Bd.ttf	00_ZRC~3.TTF|00_ZRCola_Bd.ttf	0			0	1
+file00_ZRCola_BI.ttf	comp00_ZRCola_BI.ttf	00_ZRC~4.TTF|00_ZRCola_BI.ttf	0			0	1
+<<NOKEEP
+
+
+######################################################################
+# Font
+
+All :: "$(LANG).$(PLAT).$(CFG).Font-1.idt"
+
+"$(LANG).$(PLAT).$(CFG).Font-1.idt" : "Makefile" "..\..\..\MSI\include\MSIBuildCfg.mak"
+	-if exist $@ del /f /q $@
+	move /y << $@ > NUL
+File_	FontTitle
+s$(MSIBUILD_LENGTH_ID)	S255
+Font	File_
+file00_ZRCola_Re.ttf	
+file00_ZRCola_It.ttf	
+file00_ZRCola_Bd.ttf	
+file00_ZRCola_BI.ttf	
 <<NOKEEP
 
 
