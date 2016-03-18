@@ -56,6 +56,8 @@ Component	Component
 compwxstd.mo.sl_SI	{A5FEEA94-08CA-4E12-993F-A115601EF258}	ZRCOLALOCSLSIDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		filewxstd.mo.sl_SI
 compLocalizationRepositoryPath	{0E96110A-C38D-4600-9AE2-B8B59AF53A00}	ZRCOLALOCDIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		regLocalizationRepositoryPath
 compLanguage	{B78359AC-9484-402C-8384-3A4595B39389}	ZRCOLALOCDIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		regLanguage
+compDatabasePath	{DF3C720D-50BB-4377-9EE0-9AC21C02B9DD}	ZRCOLADATADIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		regDatabasePath
+compZRCola.zrcdb	{0585A51F-1411-43A3-AC50-F04A253FDED4}	ZRCOLADATADIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola.zrcdb
 comp00_ZRCola_Re.ttf	{B6CE8B39-11DC-4B59-B10C-3F0FFE8F81AF}	FontsFolder	0		file00_ZRCola_Re.ttf
 comp00_ZRCola_It.ttf	{10613965-2874-470D-9D5A-B7D535AA3317}	FontsFolder	0		file00_ZRCola_It.ttf
 comp00_ZRCola_Bd.ttf	{C036BE8D-6D2F-4DBF-99D6-F53702EAEBB6}	FontsFolder	0		file00_ZRCola_Bd.ttf
@@ -142,6 +144,7 @@ ZRCOLABINDIR	ZRCOLADIR	.:X64~1.REL|x64.Release
 !ENDIF
 ZRCOLALOCDIR	ZRCOLADIR	locale
 ZRCOLALOCSLSIDIR	ZRCOLALOCDIR	sl_SI
+ZRCOLADATADIR	ZRCOLADIR	data
 <<NOKEEP
 
 "En.$(PLAT).$(CFG).Directory-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
@@ -224,6 +227,7 @@ File	Component_	FileName	FileSize	Version	Language	Attributes	Sequence
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l255	i4	S$(MSIBUILD_LENGTH_ID)	S20	I2	i2
 File	File
 filewxstd.mo.sl_SI	compwxstd.mo.sl_SI	wxstd.mo	0		1060	0	1
+fileZRCola.zrcdb	compZRCola.zrcdb	ZRCOLA~1.ZRC|ZRCola.zrcdb	0			0	1
 file00_ZRCola_Re.ttf	comp00_ZRCola_Re.ttf	00_ZRC~1.TTF|00_ZRCola_Re.ttf	0			0	1
 file00_ZRCola_It.ttf	comp00_ZRCola_It.ttf	00_ZRC~2.TTF|00_ZRCola_It.ttf	0			0	1
 file00_ZRCola_Bd.ttf	comp00_ZRCola_Bd.ttf	00_ZRC~3.TTF|00_ZRCola_Bd.ttf	0			0	1
@@ -329,6 +333,7 @@ Registry	Root	Key	Name	Value	Component_
 s$(MSIBUILD_LENGTH_ID)	i2	l255	L255	L0	s$(MSIBUILD_LENGTH_ID)
 Registry	Registry
 regLocalizationRepositoryPath	2	SOFTWARE\Amebis\ZRCola	LocalizationRepositoryPath	[ZRCOLALOCDIR]	compLocalizationRepositoryPath
+regDatabasePath	2	SOFTWARE\Amebis\ZRCola	DatabasePath	[ZRCOLADATADIR]	compDatabasePath
 <<NOKEEP
 
 "En.$(PLAT).$(CFG).Registry-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"

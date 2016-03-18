@@ -125,6 +125,8 @@ featZRCola	compwxExtend.mo.sl_SI
 featZRCola	compwxstd.mo.sl_SI
 featZRCola	compLocalizationRepositoryPath
 featZRCola	compLanguage
+featZRCola	compDatabasePath
+featZRCola	compZRCola.zrcdb
 featZRCola	comp00_ZRCola_Re.ttf
 <<NOKEEP
 

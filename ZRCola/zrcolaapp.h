@@ -46,6 +46,13 @@ public:
     /// - false otherwise
     virtual bool OnInit();
 
+
+    ///
+    /// \returns Path to ZRCola.zrcdb file
+    ///
+    inline wxString GetDatabasePath() const;
+
+
 protected:
     wxConfig m_config;  ///< Application configuration
     wxLocale m_locale;  ///< Current locale
@@ -53,3 +60,19 @@ protected:
 
 
 wxDECLARE_APP(ZRColaApp);
+
+
+inline wxString ZRColaApp::GetDatabasePath() const
+{
+    wxString sPath;
+    if (m_config.Read(wxT("DatabasePath"), &sPath)) {
+        if (!wxEndsWithPathSeparator(sPath))
+            sPath << wxFILE_SEP_PATH;
+    } else {
+        sPath = wxPathOnly(argv[0]);
+        sPath << wxT("\\..\\data\\");
+    }
+    sPath << wxT("ZRCola.zrcdb");
+
+    return sPath;
+}
