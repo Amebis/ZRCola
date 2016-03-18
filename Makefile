@@ -216,16 +216,16 @@ $(REDIST_SL_X64) : "$(OUTPUT_DIR)\ZRColaSl64.3.msi"
 $(REDIST_SL_X64) : "$(OUTPUT_DIR)\ZRColaSl64D.3.msi"
 	copy /y $** $@ > NUL
 
-"$(WINDIR)\Fonts\00_ZRCola_Re.ttf" : "$(OUTPUT_DIR)\data\00_ZRCola_Re.ttf"
+"$(WINDIR)\Fonts\00_ZRCola_Re.ttf" : "$(OUTPUT_DIR)\00_ZRCola_Re.ttf"
 	copy /y $** $@ > NUL
 
-"$(WINDIR)\Fonts\00_ZRCola_It.ttf" : "$(OUTPUT_DIR)\data\00_ZRCola_It.ttf"
+"$(WINDIR)\Fonts\00_ZRCola_It.ttf" : "$(OUTPUT_DIR)\00_ZRCola_It.ttf"
 	copy /y $** $@ > NUL
 
-"$(WINDIR)\Fonts\00_ZRCola_Bd.ttf" : "$(OUTPUT_DIR)\data\00_ZRCola_Bd.ttf"
+"$(WINDIR)\Fonts\00_ZRCola_Bd.ttf" : "$(OUTPUT_DIR)\00_ZRCola_Bd.ttf"
 	copy /y $** $@ > NUL
 
-"$(WINDIR)\Fonts\00_ZRCola_BI.ttf" : "$(OUTPUT_DIR)\data\00_ZRCola_BI.ttf"
+"$(WINDIR)\Fonts\00_ZRCola_BI.ttf" : "$(OUTPUT_DIR)\00_ZRCola_BI.ttf"
 	copy /y $** $@ > NUL
 
 
