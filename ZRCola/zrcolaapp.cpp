@@ -47,7 +47,6 @@ bool ZRColaApp::OnInit()
             m_locale.AddCatalogLookupPathPrefix(sPath);
         wxVERIFY(m_locale.Init(language));
         wxVERIFY(m_locale.AddCatalog(wxT("wxExtend")));
-        wxVERIFY(m_locale.AddCatalog(wxT("ZRColaCompile")));
         wxVERIFY(m_locale.AddCatalog(wxT("ZRCola")));
     }
 

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola MSI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-18 14:35+0100\n"
+"POT-Creation-Date: 2016-03-24 12:36+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <simon.rozman@amebis.si>\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 # wxLanguage enum value for this language (decimal, # prefixed)
 #: En.Win32.Debug.Registry-2.idtx:4 En.Win32.Release.Registry-2.idtx:4 En.x64.Debug.Registry-2.idtx:4 En.x64.Release.Registry-2.idtx:4
-msgid "#58"
+msgid "#60"
 msgstr "#176"
 
 # Licence Agreement
