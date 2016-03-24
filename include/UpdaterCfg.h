@@ -18,4 +18,4 @@
 //
 // Update server catalog location
 //
-#define UPDATER_HTTP_PATH   "/UpdateRepo/Catalog.xml"
+#define UPDATER_HTTP_PATH   "/UpdateRepo/Catalog-1.xml"
