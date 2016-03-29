@@ -1,12 +1,6 @@
 #include "zrcola.h"
 
 //
-// Update log file
-//
-#define UPDATER_LOG_FILE            "ZRCola-Update.log"
-
-
-//
 // Update server(s)
 // Zero delimited list of update servers
 //
