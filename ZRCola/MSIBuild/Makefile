@@ -17,7 +17,7 @@
 #    along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 #
 
-!INCLUDE "..\..\MSI\include\MSIBuildCfg.mak"
+!INCLUDE "..\..\include\MSIBuildCfg.mak"
 
 MSIBUILD_IS_LOCALIZEABLE=1
 
@@ -27,7 +27,7 @@ MSIBUILD_IS_LOCALIZEABLE=1
 
 All :: "$(LANG).$(PLAT).$(CFG).AppSearch-1.idt"
 
-"$(LANG).$(PLAT).$(CFG).AppSearch-1.idt" : "Makefile" "..\..\MSI\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).AppSearch-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Property	Signature_
@@ -42,7 +42,7 @@ OLDZRCOLADIR	clZRCola.exe.$(PLAT)
 
 All :: "$(LANG).$(PLAT).$(CFG).CompLocator-1.idt"
 
-"$(LANG).$(PLAT).$(CFG).CompLocator-1.idt" : "Makefile" "..\..\MSI\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).CompLocator-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Signature_	ComponentId	Type
@@ -62,7 +62,7 @@ clZRCola.exe.x64	{D45B105D-2303-459A-AF4B-52AC3AAD5510}	1
 
 All :: "$(LANG).$(PLAT).$(CFG).Component-1.idt"
 
-"$(LANG).$(PLAT).$(CFG).Component-1.idt" : "Makefile" "..\..\MSI\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).Component-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Component	ComponentId	Directory_	Attributes	Condition	KeyPath
@@ -83,7 +83,7 @@ compZRCola.mo.sl_SI	{7FF95C71-D8DE-4D2B-A26D-FEB5A1F54D63}	ZRCOLALOCSLSIDIR	$(MS
 
 All :: "$(LANG).$(PLAT).$(CFG).Feature-2.idt"
 
-"En.$(PLAT).$(CFG).Feature-2.idtx" : "Makefile" "..\..\MSI\include\MSIBuildCfg.mak"
+"En.$(PLAT).$(CFG).Feature-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Feature	Feature_Parent	Title	Description	Display	Level	Directory_	Attributes
@@ -110,7 +110,7 @@ featZRCola		ZRCola	Input system for linguistic use	1	1	ZRCOLADIR	8
 
 All :: "$(LANG).$(PLAT).$(CFG).FeatureComponents-1.idt"
 
-"$(LANG).$(PLAT).$(CFG).FeatureComponents-1.idt" : "Makefile" "..\..\MSI\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).FeatureComponents-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Feature_	Component_
@@ -136,7 +136,7 @@ featZRCola	comp00_ZRCola_Re.ttf
 
 All :: "$(LANG).$(PLAT).$(CFG).File-1.idt"
 
-"$(LANG).$(PLAT).$(CFG).File-1.idt" : "Makefile" "..\..\MSI\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).File-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 File	Component_	FileName	FileSize	Version	Language	Attributes	Sequence
@@ -154,7 +154,7 @@ All :: \
 	"$(LANG).$(PLAT).$(CFG).Icon-1.idt" \
 	"$(LANG).$(PLAT).$(CFG).Icon-1\ZRCola.ico"
 
-"$(LANG).$(PLAT).$(CFG).Icon-1.idt" : "Makefile" "..\..\MSI\include\MSIBuildCfg.mak" "$(LANG).$(PLAT).$(CFG).Icon-1"
+"$(LANG).$(PLAT).$(CFG).Icon-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak" "$(LANG).$(PLAT).$(CFG).Icon-1"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Name	Data
@@ -172,7 +172,7 @@ iconZRCola.ico	ZRCola.ico
 
 All :: "$(LANG).$(PLAT).$(CFG).RemoveFile-1.idt"
 
-"$(LANG).$(PLAT).$(CFG).RemoveFile-1.idt" : "Makefile" "..\..\MSI\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).RemoveFile-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 FileKey	Component_	FileName	DirProperty	InstallMode
@@ -187,7 +187,7 @@ rmfiZRCola	compZRCola.exe.$(PLAT)		ZRColaShortcutDir	2
 
 All :: "$(LANG).$(PLAT).$(CFG).Shortcut-2.idt"
 
-"En.$(PLAT).$(CFG).Shortcut-2.idtx" : "Makefile" "..\..\MSI\include\MSIBuildCfg.mak"
+"En.$(PLAT).$(CFG).Shortcut-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Shortcut	Directory_	Name	Component_	Target	Arguments	Description	Hotkey	Icon_	IconIndex	ShowCmd	WkDir

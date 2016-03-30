@@ -17,7 +17,7 @@
 #    along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 #
 
-!INCLUDE "..\..\..\MSI\include\MSIBuildCfg.mak"
+!INCLUDE "..\..\..\include\MSIBuildCfg.mak"
 
 
 ######################################################################
@@ -25,7 +25,7 @@
 
 All :: "$(LANG).$(PLAT).$(CFG).AppSearch-1.idt"
 
-"$(LANG).$(PLAT).$(CFG).AppSearch-1.idt" : "Makefile" "..\..\..\MSI\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).AppSearch-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Property	Signature_
@@ -40,7 +40,7 @@ OLDZRCOLADIR	cllibZRCola10u_vc100.dll.$(PLAT)
 
 All :: "$(LANG).$(PLAT).$(CFG).CompLocator-1.idt"
 
-"$(LANG).$(PLAT).$(CFG).CompLocator-1.idt" : "Makefile" "..\..\..\MSI\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).CompLocator-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Signature_	ComponentId	Type
@@ -60,7 +60,7 @@ cllibZRCola10u_vc100.dll.x64	{23078D23-1397-4FD7-BB32-E012FEF8645A}	1
 
 All :: "$(LANG).$(PLAT).$(CFG).Component-1.idt"
 
-"$(LANG).$(PLAT).$(CFG).Component-1.idt" : "Makefile" "..\..\..\MSI\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).Component-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Component	ComponentId	Directory_	Attributes	Condition	KeyPath
@@ -80,7 +80,7 @@ complibZRCola.dll.x64	{23078D23-1397-4FD7-BB32-E012FEF8645A}	ZRCOLABINDIR	256		f
 
 All :: "$(LANG).$(PLAT).$(CFG).File-1.idt"
 
-"$(LANG).$(PLAT).$(CFG).File-1.idt" : "Makefile" "..\..\..\MSI\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).File-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 File	Component_	FileName	FileSize	Version	Language	Attributes	Sequence

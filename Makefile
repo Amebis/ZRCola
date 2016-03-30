@@ -96,7 +96,7 @@ GenRSAKeypair :: "MSI\MSIBuild\Version\Version.mak"
 ######################################################################
 
 !INCLUDE "MSI\MSIBuild\Version\Version.mak"
-!INCLUDE "MSI\include\MSIBuildCfg.mak"
+!INCLUDE "include\MSIBuildCfg.mak"
 
 
 ######################################################################

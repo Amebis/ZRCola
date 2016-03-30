@@ -17,7 +17,7 @@
 #    along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 #
 
-!INCLUDE "..\..\include\MSIBuildCfg.mak"
+!INCLUDE "..\..\..\include\MSIBuildCfg.mak"
 
 MSIBUILD_IS_LOCALIZEABLE=1
 
@@ -29,7 +29,7 @@ All :: \
 	"$(LANG).$(PLAT).$(CFG).Binary-1.idt" \
 	"$(LANG).$(PLAT).$(CFG).Binary-1\UIHeader.bmp"
 
-"$(LANG).$(PLAT).$(CFG).Binary-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak" "$(LANG).$(PLAT).$(CFG).Binary-1"
+"$(LANG).$(PLAT).$(CFG).Binary-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak" "$(LANG).$(PLAT).$(CFG).Binary-1"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Name	Data
@@ -47,7 +47,7 @@ binUIHeader.bmp	UIHeader.bmp
 
 All :: "$(LANG).$(PLAT).$(CFG).Component-1.idt"
 
-"$(LANG).$(PLAT).$(CFG).Component-1.idt" : "Makefile" "..\..\..\MSI\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).Component-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Component	ComponentId	Directory_	Attributes	Condition	KeyPath
@@ -70,7 +70,7 @@ comp00_ZRCola_BI.ttf	{883DDA9A-DA85-4FC4-95B7-EF0E08766DEF}	FontsFolder	0		file0
 
 All :: "$(LANG).$(PLAT).$(CFG).Control-2.idt"
 
-"En.$(PLAT).$(CFG).Control-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+"En.$(PLAT).$(CFG).Control-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Dialog_	Control	Type	X	Y	Width	Height	Attributes	Property	Text	Control_Next	Help
@@ -97,7 +97,7 @@ dlgLicenseAgreement	ctlAgreementText	ScrollableText	15	60	370	195	7		{\rtf1\adef
 
 All :: "$(LANG).$(PLAT).$(CFG).CustomAction-1.idt"
 
-"$(LANG).$(PLAT).$(CFG).CustomAction-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).CustomAction-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Action	Type	Source	Target
@@ -115,7 +115,7 @@ All :: \
 	"$(LANG).$(PLAT).$(CFG).Directory-1.idt" \
 	"$(LANG).$(PLAT).$(CFG).Directory-2.idt"
 
-"$(LANG).$(PLAT).$(CFG).Directory-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).Directory-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Directory	Directory_Parent	DefaultDir
@@ -147,7 +147,7 @@ ZRCOLALOCSLSIDIR	ZRCOLALOCDIR	sl_SI
 ZRCOLADATADIR	ZRCOLADIR	data
 <<NOKEEP
 
-"En.$(PLAT).$(CFG).Directory-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+"En.$(PLAT).$(CFG).Directory-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Directory	Directory_Parent	DefaultDir
@@ -174,7 +174,7 @@ ZRCOLADIR	PROGRAMFILESDIR	ZRCola:.
 
 All :: "$(LANG).$(PLAT).$(CFG).Feature-2.idt"
 
-"En.$(PLAT).$(CFG).Feature-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+"En.$(PLAT).$(CFG).Feature-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Feature	Feature_Parent	Title	Description	Display	Level	Directory_	Attributes
@@ -202,7 +202,7 @@ featZRColaFonts00	featZRColaFonts	00 ZRCola	Times New Roman based font	1	1	ZRCOL
 
 All :: "$(LANG).$(PLAT).$(CFG).FeatureComponents-1.idt"
 
-"$(LANG).$(PLAT).$(CFG).FeatureComponents-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).FeatureComponents-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Feature_	Component_
@@ -220,7 +220,7 @@ featZRColaFonts00	comp00_ZRCola_BI.ttf
 
 All :: "$(LANG).$(PLAT).$(CFG).File-1.idt"
 
-"$(LANG).$(PLAT).$(CFG).File-1.idt" : "Makefile" "..\..\..\MSI\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).File-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 File	Component_	FileName	FileSize	Version	Language	Attributes	Sequence
@@ -240,7 +240,7 @@ file00_ZRCola_BI.ttf	comp00_ZRCola_BI.ttf	00_ZRC~4.TTF|00_ZRCola_BI.ttf	0			0	1
 
 All :: "$(LANG).$(PLAT).$(CFG).Font-1.idt"
 
-"$(LANG).$(PLAT).$(CFG).Font-1.idt" : "Makefile" "..\..\..\MSI\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).Font-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 File_	FontTitle
@@ -258,7 +258,7 @@ file00_ZRCola_BI.ttf
 
 All :: "$(LANG).$(PLAT).$(CFG).InstallExecuteSequence-1.idt"
 
-"$(LANG).$(PLAT).$(CFG).InstallExecuteSequence-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).InstallExecuteSequence-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Action	Condition	Sequence
@@ -274,7 +274,7 @@ caSetZRCOLADIR2	INSTALLDIR AND UILevel < 4	1002
 
 All :: "$(LANG).$(PLAT).$(CFG).InstallUISequence-1.idt"
 
-"$(LANG).$(PLAT).$(CFG).InstallUISequence-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).InstallUISequence-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Action	Condition	Sequence
@@ -290,7 +290,7 @@ caSetZRCOLADIR2	INSTALLDIR	1002
 
 All :: "$(LANG).$(PLAT).$(CFG).Media-1.idt"
 
-"$(LANG).$(PLAT).$(CFG).Media-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).Media-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 DiskId	LastSequence	DiskPrompt	Cabinet	VolumeLabel	Source
@@ -305,7 +305,7 @@ Media	DiskId
 
 All :: "$(LANG).$(PLAT).$(CFG).Property-1.idt"
 
-"$(LANG).$(PLAT).$(CFG).Property-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).Property-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Property	Value
@@ -326,7 +326,7 @@ All :: \
 	"$(LANG).$(PLAT).$(CFG).Registry-1.idt" \
 	"$(LANG).$(PLAT).$(CFG).Registry-2.idt"
 
-"$(LANG).$(PLAT).$(CFG).Registry-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+"$(LANG).$(PLAT).$(CFG).Registry-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Registry	Root	Key	Name	Value	Component_
@@ -336,7 +336,7 @@ regLocalizationRepositoryPath	2	SOFTWARE\Amebis\ZRCola	LocalizationRepositoryPat
 regDatabasePath	2	SOFTWARE\Amebis\ZRCola	DatabasePath	[ZRCOLADATADIR]	compDatabasePath
 <<NOKEEP
 
-"En.$(PLAT).$(CFG).Registry-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+"En.$(PLAT).$(CFG).Registry-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Registry	Root	Key	Name	Value	Component_

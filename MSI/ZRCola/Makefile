@@ -17,5 +17,5 @@
 #    along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 #
 
-!INCLUDE "..\include\MSIBuildCfg.mak"
+!INCLUDE "..\..\include\MSIBuildCfg.mak"
 !INCLUDE "..\MSIBuild\Makefile"
