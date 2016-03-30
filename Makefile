@@ -55,6 +55,10 @@ Clean ::
 	devenv.com "MSI\MSICA\MSICA.sln" /clean "Debug|Win32"
 	devenv.com "MSI\MSICA\MSICA.sln" /clean "Release|x64"
 	devenv.com "MSI\MSICA\MSICA.sln" /clean "Debug|x64"
+	devenv.com "Updater\Updater.sln" /clean "Release|Win32"
+	devenv.com "Updater\Updater.sln" /clean "Debug|Win32"
+	devenv.com "Updater\Updater.sln" /clean "Release|x64"
+	devenv.com "Updater\Updater.sln" /clean "Debug|x64"
 	-if exist "$(OUTPUT_DIR)\Setup\ZRColaEn32.msi"  del /f /q "$(OUTPUT_DIR)\Setup\ZRColaEn32.msi"
 	-if exist "$(OUTPUT_DIR)\Setup\ZRColaEn32D.msi" del /f /q "$(OUTPUT_DIR)\Setup\ZRColaEn32D.msi"
 	-if exist "$(OUTPUT_DIR)\Setup\ZRColaEn64.msi"  del /f /q "$(OUTPUT_DIR)\Setup\ZRColaEn64.msi"
@@ -284,18 +288,22 @@ $(REDIST_SL_X64) : "$(OUTPUT_DIR)\ZRColaSl64D.3.msi"
 "$(OUTPUT_DIR)\ZRColaEn32.3.msi" \
 "$(OUTPUT_DIR)\ZRColaSl32.3.msi" ::
 	devenv.com "MSI\MSICA\MSICA.sln" /build "Release|Win32"
+	devenv.com "Updater\Updater.sln" /build "Release|Win32"
 
 "$(OUTPUT_DIR)\ZRColaEn32D.3.msi" \
 "$(OUTPUT_DIR)\ZRColaSl32D.3.msi" ::
 	devenv.com "MSI\MSICA\MSICA.sln" /build "Debug|Win32"
+	devenv.com "Updater\Updater.sln" /build "Debug|Win32"
 
 "$(OUTPUT_DIR)\ZRColaEn64.3.msi" \
 "$(OUTPUT_DIR)\ZRColaSl64.3.msi" ::
 	devenv.com "MSI\MSICA\MSICA.sln" /build "Release|x64"
+	devenv.com "Updater\Updater.sln" /build "Release|x64"
 
 "$(OUTPUT_DIR)\ZRColaEn64D.3.msi" \
 "$(OUTPUT_DIR)\ZRColaSl64D.3.msi" ::
 	devenv.com "MSI\MSICA\MSICA.sln" /build "Debug|x64"
+	devenv.com "Updater\Updater.sln" /build "Debug|x64"
 
 "$(OUTPUT_DIR)\ZRColaEn32.3.msi" ::
 	cd "MSI\ZRCola"
