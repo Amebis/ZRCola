@@ -163,11 +163,11 @@ UninstallFonts::
 	-if exist "$(WINDIR)\Fonts\00_ZRCola_BI.ttf" rd /s /q "$(WINDIR)\Fonts\00_ZRCola_BI.ttf"
 
 RegisterShortcuts :: \
-	"$(APPDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" \
-	"$(APPDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola\ZRCola.lnk"
+	"$(PROGRAMDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" \
+	"$(PROGRAMDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola\ZRCola.lnk"
 
 UnregisterShortcuts ::
-	-if exist "$(APPDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" rd /s /q "$(APPDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola"
+	-if exist "$(PROGRAMDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" rd /s /q "$(PROGRAMDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola"
 
 
 ######################################################################
@@ -177,7 +177,7 @@ UnregisterShortcuts ::
 "$(OUTPUT_DIR)" \
 "$(OUTPUT_DIR)\Keys" \
 "$(OUTPUT_DIR)\Setup" \
-"$(APPDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" :
+"$(PROGRAMDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" :
 	if not exist $@ md $@
 
 "$(OUTPUT_DIR)\Keys" \
@@ -237,8 +237,8 @@ $(REDIST_SL_X64) : "$(OUTPUT_DIR)\ZRColaSl64D.3.msi"
 # Shortcut creation
 ######################################################################
 
-"$(APPDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola\ZRCola.lnk" : "$(OUTPUT_DIR)\$(PLAT).Debug\ZRCola.exe"
-	cscript.exe "bin\MkLnk.wsf" //Nologo $@ "$(MAKEDIR)\$(OUTPUT_DIR)\$(PLAT).Debug\ZRCola.exe" /S:"CTRL+ALT+Z"
+"$(PROGRAMDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola\ZRCola.lnk" : "$(OUTPUT_DIR)\$(PLAT).Debug\ZRCola.exe"
+	cscript.exe "bin\MkLnk.wsf" //Nologo $@ "$(MAKEDIR)\$(OUTPUT_DIR)\$(PLAT).Debug\ZRCola.exe"
 
 
 ######################################################################
