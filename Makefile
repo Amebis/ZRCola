@@ -105,14 +105,14 @@ Unregister :: "MSI\MSIBuild\Version\Version.mak"
 All :: \
 	Setup
 
-Setup : \
+Setup :: \
 	"$(OUTPUT_DIR)\Setup" \
 	"$(OUTPUT_DIR)\Setup\ZRColaEn32.msi" \
 	"$(OUTPUT_DIR)\Setup\ZRColaEn64.msi" \
 	"$(OUTPUT_DIR)\Setup\ZRColaSl32.msi" \
 	"$(OUTPUT_DIR)\Setup\ZRColaSl64.msi"
 
-SetupDebug : \
+SetupDebug :: \
 	"$(OUTPUT_DIR)\Setup" \
 	"$(OUTPUT_DIR)\Setup\ZRColaEn32D.msi" \
 	"$(OUTPUT_DIR)\Setup\ZRColaEn64D.msi" \
@@ -195,32 +195,28 @@ UnregisterShortcuts ::
 $(REDIST_EN_WIN32) : "$(OUTPUT_DIR)\ZRColaEn32.3.msi"
 	copy /y $** $@ > NUL
 
-"$(OUTPUT_DIR)\Setup\ZRColaEn32D.msi" \
-$(REDIST_EN_WIN32) : "$(OUTPUT_DIR)\ZRColaEn32D.3.msi"
+"$(OUTPUT_DIR)\Setup\ZRColaEn32D.msi" : "$(OUTPUT_DIR)\ZRColaEn32D.3.msi"
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\Setup\ZRColaEn64.msi" \
 $(REDIST_EN_X64) : "$(OUTPUT_DIR)\ZRColaEn64.3.msi"
 	copy /y $** $@ > NUL
 
-"$(OUTPUT_DIR)\Setup\ZRColaEn64D.msi" \
-$(REDIST_EN_X64) : "$(OUTPUT_DIR)\ZRColaEn64D.3.msi"
+"$(OUTPUT_DIR)\Setup\ZRColaEn64D.msi" : "$(OUTPUT_DIR)\ZRColaEn64D.3.msi"
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\Setup\ZRColaSl32.msi" \
 $(REDIST_SL_WIN32) : "$(OUTPUT_DIR)\ZRColaSl32.3.msi"
 	copy /y $** $@ > NUL
 
-"$(OUTPUT_DIR)\Setup\ZRColaSl32D.msi" \
-$(REDIST_SL_WIN32) : "$(OUTPUT_DIR)\ZRColaSl32D.3.msi"
+"$(OUTPUT_DIR)\Setup\ZRColaSl32D.msi" : "$(OUTPUT_DIR)\ZRColaSl32D.3.msi"
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\Setup\ZRColaSl64.msi" \
 $(REDIST_SL_X64) : "$(OUTPUT_DIR)\ZRColaSl64.3.msi"
 	copy /y $** $@ > NUL
 
-"$(OUTPUT_DIR)\Setup\ZRColaSl64D.msi" \
-$(REDIST_SL_X64) : "$(OUTPUT_DIR)\ZRColaSl64D.3.msi"
+"$(OUTPUT_DIR)\Setup\ZRColaSl64D.msi" : "$(OUTPUT_DIR)\ZRColaSl64D.3.msi"
 	copy /y $** $@ > NUL
 
 "$(WINDIR)\Fonts\00_ZRCola_Re.ttf" : "$(OUTPUT_DIR)\00_ZRCola_Re.ttf"
