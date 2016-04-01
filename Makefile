@@ -18,6 +18,7 @@
 #
 
 OUTPUT_DIR=output
+PUBLISH_DIR=\\amebis.doma\Splet\WWW\Apache\www.amebis.si-prenos\ZRCola
 
 !IF "$(PROCESSOR_ARCHITECTURE)" == "AMD64"
 PLAT=x64
@@ -67,6 +68,7 @@ Clean ::
 	-if exist "$(OUTPUT_DIR)\Setup\ZRColaSl32D.msi" del /f /q "$(OUTPUT_DIR)\Setup\ZRColaSl32D.msi"
 	-if exist "$(OUTPUT_DIR)\Setup\ZRColaSl64.msi"  del /f /q "$(OUTPUT_DIR)\Setup\ZRColaSl64.msi"
 	-if exist "$(OUTPUT_DIR)\Setup\ZRColaSl64D.msi" del /f /q "$(OUTPUT_DIR)\Setup\ZRColaSl64D.msi"
+	-if exist "$(OUTPUT_DIR)\catalog.xml"           del /f /q "$(OUTPUT_DIR)\catalog.xml"
 
 !IFNDEF HAS_VERSION
 
@@ -79,7 +81,8 @@ All \
 Setup \
 SetupDebug \
 Register \
-Unregister :: "MSI\MSIBuild\Version\Version.mak"
+Unregister \
+Publish :: "MSI\MSIBuild\Version\Version.mak"
 	$(MAKE) /f "Makefile" /$(MAKEFLAGS) HAS_VERSION=1 $@
 
 "MSI\MSIBuild\Version\Version.mak" ::
@@ -96,6 +99,14 @@ Unregister :: "MSI\MSIBuild\Version\Version.mak"
 
 !INCLUDE "MSI\MSIBuild\Version\Version.mak"
 !INCLUDE "include\MSIBuildCfg.mak"
+
+PUBLISH_PACKAGE_DIR=$(PUBLISH_DIR)\$(MSIBUILD_VERSION_STR)
+PUBLISH_PACKAGE_URL=http://www.amebis.si/prenos/ZRCola/$(MSIBUILD_VERSION_STR)
+
+REDIST_EN_WIN32="$(PUBLISH_PACKAGE_DIR)\ZRColaEn32.msi"
+REDIST_EN_X64="$(PUBLISH_PACKAGE_DIR)\ZRColaEn64.msi"
+REDIST_SL_WIN32="$(PUBLISH_PACKAGE_DIR)\ZRColaSl32.msi"
+REDIST_SL_X64="$(PUBLISH_PACKAGE_DIR)\ZRColaSl64.msi"
 
 
 ######################################################################
@@ -172,6 +183,14 @@ RegisterShortcuts :: \
 UnregisterShortcuts ::
 	-if exist "$(PROGRAMDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" rd /s /q "$(PROGRAMDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola"
 
+Publish :: \
+	"$(PUBLISH_PACKAGE_DIR)" \
+	$(REDIST_EN_WIN32) \
+	$(REDIST_EN_X64) \
+	$(REDIST_SL_WIN32) \
+	$(REDIST_SL_X64) \
+	"$(PUBLISH_DIR)\catalog-0000.xml"
+
 
 ######################################################################
 # Folder creation
@@ -180,11 +199,15 @@ UnregisterShortcuts ::
 "$(OUTPUT_DIR)" \
 "$(OUTPUT_DIR)\Keys" \
 "$(OUTPUT_DIR)\Setup" \
+"$(PUBLISH_DIR)" \
+"$(PUBLISH_PACKAGE_DIR)" \
 "$(PROGRAMDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" :
 	if not exist $@ md $@
 
 "$(OUTPUT_DIR)\Keys" \
 "$(OUTPUT_DIR)\Setup" : "$(OUTPUT_DIR)"
+
+"$(PUBLISH_PACKAGE_DIR)" : "$(PUBLISH_DIR)"
 
 
 ######################################################################
@@ -339,5 +362,23 @@ $(REDIST_SL_X64) : "$(OUTPUT_DIR)\ZRColaSl64.3.msi"
 	cd "MSI\ZRCola"
 	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=Sl PLAT=x64 CFG=Debug
 	cd "$(MAKEDIR)"
+
+"$(PUBLISH_DIR)\catalog-0000.xml" : "$(OUTPUT_DIR)\catalog.xml"
+	if exist $@  del /f /q $@
+	output\$(PLAT).Release\UpdSignXML.exe $** $@
+
+"$(OUTPUT_DIR)\catalog.xml" : \
+	"$(OUTPUT_DIR)\ZRColaEn32.3.msi" \
+	"$(OUTPUT_DIR)\ZRColaEn64.3.msi" \
+	"$(OUTPUT_DIR)\ZRColaSl32.3.msi" \
+	"$(OUTPUT_DIR)\ZRColaSl64.3.msi"
+	-if exist $@ del /f /q $@
+	-if exist "$(@:"=).tmp" del /f /q "$(@:"=).tmp"
+	copy /y "$(PUBLISH_DIR)\catalog-0000.xml" "$(@:"=).tmp" > NUL
+	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-x86   en_US "$(PUBLISH_PACKAGE_URL)/ZRColaEn32.msi" -f "$(OUTPUT_DIR)\ZRColaEn32.3.msi"
+	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 en_US "$(PUBLISH_PACKAGE_URL)/ZRColaEn64.msi" -f "$(OUTPUT_DIR)\ZRColaEn64.3.msi"
+	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-x86   sl_SI "$(PUBLISH_PACKAGE_URL)/ZRColaSl32.msi" -f "$(OUTPUT_DIR)\ZRColaSl32.3.msi"
+	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 sl_SI "$(PUBLISH_PACKAGE_URL)/ZRColaSl64.msi" -f "$(OUTPUT_DIR)\ZRColaSl64.3.msi"
+	move /y "$(@:"=).tmp" $@ > NUL
 
 !ENDIF
