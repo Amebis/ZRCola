@@ -44,6 +44,7 @@ public:
     /// \returns
     /// - true if initialization succeeded
     /// - false otherwise
+    ///
     virtual bool OnInit();
 
 
