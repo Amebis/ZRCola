@@ -146,14 +146,6 @@ void wxZRColaFrame::DoSend(const wxString& str)
             // Enter (Return) key is sent as CR virtual key code.
             inp.ki.wVk   = VK_RETURN;
             inp.ki.wScan = L'\r';
-        } else if (L'a' <= c && c <= L'z') {
-            // Small letters have the same virtual key code as their uppercase counterparts.
-            inp.ki.wVk   = (WORD)c + L'A' - L'a';
-            inp.ki.wScan = c;
-        } else if (L'A' <= c && c <= L'Z' || L'0' <= c && c <= L'0' || c == L' ') {
-            // Letters and symbols with matching virtual key codes.
-            inp.ki.wVk   = c;
-            inp.ki.wScan = c;
         } else {
             inp.ki.wVk   = 0;
             inp.ki.wScan = c;
