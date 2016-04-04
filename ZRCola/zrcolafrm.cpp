@@ -25,9 +25,8 @@
 //////////////////////////////////////////////////////////////////////////
 
 wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
-    EVT_UPDATE_UI_RANGE(wxZRColaFrame::wxID_SEND, wxZRColaFrame::wxID_SEND_DECOMPOSED, wxZRColaFrame::OnSendUpdate)
+    EVT_UPDATE_UI_RANGE(wxZRColaFrame::wxID_SEND_COMPOSED, wxZRColaFrame::wxID_SEND_DECOMPOSED, wxZRColaFrame::OnSendUpdate)
 
-    EVT_MENU(wxZRColaFrame::wxID_SEND                  , wxZRColaFrame::OnSend                    )
     EVT_MENU(wxZRColaFrame::wxID_SEND_COMPOSED         , wxZRColaFrame::OnSendComposed            )
     EVT_MENU(wxZRColaFrame::wxID_SEND_DECOMPOSED       , wxZRColaFrame::OnSendDecomposed          )
     EVT_MENU(wxZRColaFrame::wxID_SEND_ABORT            , wxZRColaFrame::OnSendAbort               )
@@ -38,7 +37,6 @@ wxEND_EVENT_TABLE()
 
 wxZRColaFrame::wxZRColaFrame() :
     m_hWndSource(NULL),
-    m_hotkey(-1),
     wxZRColaFrameBase(NULL)
 {
     // Load main window icons.
@@ -84,16 +82,6 @@ void wxZRColaFrame::OnSendUpdate(wxUpdateUIEvent& event)
 }
 
 
-void wxZRColaFrame::OnSend(wxCommandEvent& event)
-{
-    switch (m_hotkey) {
-    case wxZRColaHKID_INVOKE_COMPOSE  : wxZRColaFrame::OnSendComposed  (event); break;
-    case wxZRColaHKID_INVOKE_DECOMPOSE: wxZRColaFrame::OnSendDecomposed(event); break;
-    default                           : event.Skip();
-    }
-}
-
-
 void wxZRColaFrame::OnSendComposed(wxCommandEvent& event)
 {
     if (m_hWndSource)
@@ -119,7 +107,6 @@ void wxZRColaFrame::OnSendAbort(wxCommandEvent& event)
         ::SetActiveWindow(m_hWndSource);
         ::SetForegroundWindow(m_hWndSource);
         m_hWndSource = NULL;
-        m_hotkey = -1;
 
         // Select all input in composer to prepare for the overwrite next time.
         m_panel->m_decomposed->SelectAll();
@@ -179,7 +166,6 @@ void wxZRColaFrame::DoSend(const wxString& str)
     ::Sleep(200);
     ::SendInput(input.size(), input.data(), sizeof(INPUT));
     m_hWndSource = NULL;
-    m_hotkey = -1;
 
     // Select all input in composer and decomposed to prepare for the overwrite next time.
     m_panel->m_decomposed->SelectAll();
@@ -207,7 +193,6 @@ WXLRESULT wxZRColaFrame::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM
         }
 
         m_hWndSource = hWndSource;
-        m_hotkey = wParam;
 
         //if (m_state == wxABS_FLOAT) {
             if (IsIconized()) {
