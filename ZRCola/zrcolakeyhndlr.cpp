@@ -52,7 +52,7 @@ wxZRColaKeyHandler::wxZRColaKeyHandler() : wxEvtHandler()
 
 bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
 {
-    if (event.GetEventType() == wxEVT_CHAR) {
+    if (event.GetEventType() == wxEVT_KEY_DOWN) {
         // The character event occured.
         ZRCola::keyseq_db::indexKey::size_type start, end;
         bool found;
@@ -61,7 +61,7 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
             // Parse key event and save it at the end of the key sequence.
             wxKeyEvent &e = (wxKeyEvent&)event;
             ZRCola::keyseq_db::keyseq::key_t key;
-            key.key = wxToupper(e.m_uniChar);
+            key.key = e.GetKeyCode(); //wxToupper(e.m_uniChar);
             key.modifiers =
                 (e.ShiftDown()   ? ZRCola::keyseq_db::keyseq::SHIFT : 0) |
                 (e.ControlDown() ? ZRCola::keyseq_db::keyseq::CTRL  : 0) |
@@ -95,8 +95,8 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
             ZRCola::keyseq_db::keyseq::CompareSequence(m_seq.data(), m_seq.size(), m_ks_db.idxKey[start].seq, std::min<unsigned __int16>(m_ks_db.idxKey[start].seq_len, m_seq.size())) == 0)
         {
             // The sequence is a partial match. Continue watching.
-            event.StopPropagation();
-            return true;
+            //event.StopPropagation();
+            //return true;
         } else {
             // The key sequence has no future chance to match. Start all over again.
             m_seq.clear();
