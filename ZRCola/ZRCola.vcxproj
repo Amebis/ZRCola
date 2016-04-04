@@ -106,7 +106,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\send.ico" />
     <None Include="res\zrcola.ico" />
   </ItemGroup>
   <ItemGroup>

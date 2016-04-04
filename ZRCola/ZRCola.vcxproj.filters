@@ -59,9 +59,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\send.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\zrcola.ico">
       <Filter>Resource Files</Filter>
     </None>
