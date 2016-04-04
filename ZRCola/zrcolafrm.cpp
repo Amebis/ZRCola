@@ -54,16 +54,17 @@ wxZRColaFrame::wxZRColaFrame() :
     m_panel->m_decomposed->SetFocus();
 
     // Register global hotkey(s).
-    if (!RegisterHotKey(wxZRColaHKID_INVOKE_COMPOSE, MOD_WIN, 'Z'))
-        wxMessageBox(_("ZRCola keyboard shortcut Win+Z could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
-    if (!RegisterHotKey(wxZRColaHKID_INVOKE_DECOMPOSE, MOD_WIN | MOD_SHIFT, 'Z'))
-        wxMessageBox(_("ZRCola keyboard shortcut Win+Shift+Z could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
+    if (!RegisterHotKey(wxZRColaHKID_INVOKE_COMPOSE, wxMOD_WIN, VK_F5))
+        wxMessageBox(_("ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
+    if (!RegisterHotKey(wxZRColaHKID_INVOKE_DECOMPOSE, wxMOD_WIN, VK_F6))
+        wxMessageBox(_("ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
 
     // Register frame specific hotkey(s).
     {
-        wxAcceleratorEntry entries[2];
-        entries[0].Set(wxACCEL_CTRL  , WXK_RETURN, wxID_SEND);
-        entries[1].Set(wxACCEL_NORMAL, WXK_ESCAPE, wxID_SEND_ABORT);
+        wxAcceleratorEntry entries[3];
+        entries[0].Set(wxACCEL_NORMAL, WXK_F5    , wxID_SEND_COMPOSED);
+        entries[1].Set(wxACCEL_NORMAL, WXK_F6    , wxID_SEND_DECOMPOSED);
+        entries[2].Set(wxACCEL_NORMAL, WXK_ESCAPE, wxID_SEND_ABORT);
         SetAcceleratorTable(wxAcceleratorTable(_countof(entries), entries));
     }
 }
