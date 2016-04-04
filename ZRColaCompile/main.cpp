@@ -274,11 +274,11 @@ int _tmain(int argc, _TCHAR *argv[])
                 db.idxKey.reserve(count);
                 db.data  .reserve(count*4);
 
-                // Parse translations and build index and data.
+                // Parse key sequences and build index and data.
                 while (!ZRCola::DBSource::IsEOF(rs)) {
-                    // Read translation from the database.
+                    // Read key sequence from the database.
                     if (src.GetKeySequence(rs, ks)) {
-                        // Add translation to index and data.
+                        // Add key sequence to index and data.
                         unsigned __int32 idx = db.data.size();
                         db.data.push_back(ks.chr);
                         std::vector<ZRCola::DBSource::keyseq::keycode>::size_type n = ks.seq.size();
