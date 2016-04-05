@@ -53,7 +53,9 @@ All :: "$(LANG).$(PLAT).$(CFG).Component-1.idt"
 Component	ComponentId	Directory_	Attributes	Condition	KeyPath
 s$(MSIBUILD_LENGTH_ID)	S38	s$(MSIBUILD_LENGTH_ID)	i2	S255	S$(MSIBUILD_LENGTH_ID)
 Component	Component
+!IF "$(LANG)" == "Sl"
 compwxstd.mo.sl_SI	{A5FEEA94-08CA-4E12-993F-A115601EF258}	ZRCOLALOCSLSIDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		filewxstd.mo.sl_SI
+!ENDIF
 compLocalizationRepositoryPath	{0E96110A-C38D-4600-9AE2-B8B59AF53A00}	ZRCOLALOCDIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		regLocalizationRepositoryPath
 compLanguage	{B78359AC-9484-402C-8384-3A4595B39389}	ZRCOLALOCDIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		regLanguage
 compDatabasePath	{DF3C720D-50BB-4377-9EE0-9AC21C02B9DD}	ZRCOLADATADIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		regDatabasePath
@@ -226,7 +228,9 @@ All :: "$(LANG).$(PLAT).$(CFG).File-1.idt"
 File	Component_	FileName	FileSize	Version	Language	Attributes	Sequence
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l255	i4	S$(MSIBUILD_LENGTH_ID)	S20	I2	i2
 File	File
+!IF "$(LANG)" == "Sl"
 filewxstd.mo.sl_SI	compwxstd.mo.sl_SI	wxstd.mo	0		1060	0	1
+!ENDIF
 fileZRCola.zrcdb	compZRCola.zrcdb	ZRCOLA~1.ZRC|ZRCola.zrcdb	0			0	1
 file00_ZRCola_Re.ttf	comp00_ZRCola_Re.ttf	00_ZRC~1.TTF|00_ZRCola_Re.ttf	0			0	1
 file00_ZRCola_It.ttf	comp00_ZRCola_It.ttf	00_ZRC~2.TTF|00_ZRCola_It.ttf	0			0	1
