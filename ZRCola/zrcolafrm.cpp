@@ -134,22 +134,20 @@ void wxZRColaFrame::DoSend(const wxString& str)
     // Prepare the INPUT table.
     wxString::size_type n = str.length();
     wxString::const_iterator i_str = str.begin();
-    std::vector<INPUT> input(n);
+    std::vector<INPUT> input;
+    input.reserve(n*2);
     for (std::vector<INPUT>::size_type i = 0; i < n; i++, i_str++) {
         wxString::char_type c = *i_str;
-        INPUT &inp = input[i];
-        inp.type           = INPUT_KEYBOARD;
-        inp.ki.dwFlags     = KEYEVENTF_UNICODE;
-        inp.ki.time        = 0;
-        inp.ki.dwExtraInfo = 0;
-        if (c == L'\n') {
-            // Enter (Return) key is sent as CR virtual key code.
-            inp.ki.wVk   = VK_RETURN;
-            inp.ki.wScan = L'\r';
-        } else {
-            inp.ki.wVk   = 0;
-            inp.ki.wScan = c;
-        }
+
+        // Add key down event.
+        INPUT inp = { INPUT_KEYBOARD };
+        inp.ki.dwFlags = KEYEVENTF_UNICODE;
+        inp.ki.wScan = c != L'\n' ? c : L'\r'; // Enter (Return) key is sent as CR.
+        input.push_back(inp);
+
+        // Add key up event.
+        inp.ki.dwFlags |= KEYEVENTF_KEYUP;
+        input.push_back(inp);
     }
 
     // Return focus to the source window and send the input.
