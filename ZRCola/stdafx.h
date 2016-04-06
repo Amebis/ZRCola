@@ -26,6 +26,8 @@
 #include "zrcolakeyhndlr.h"
 
 #include <wx/msgdlg.h>
+#include <wx/persist.h>
+#include <wx/persist/toplevel.h>
 #include <wxex/common.h>
 
 #include <fstream>

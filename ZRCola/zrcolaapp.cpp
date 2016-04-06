@@ -52,7 +52,7 @@ bool ZRColaApp::OnInit()
     }
 
     wxZRColaFrame* mainFrame = new wxZRColaFrame();
-
+    wxPersistentRegisterAndRestore<wxTopLevelWindow>(mainFrame);
     mainFrame->Show();
 
     return true;

@@ -22,7 +22,7 @@ wxHelpProvider::Set( new wxHelpControllerHelpProvider );
 static wxFBContextSensitiveHelpSetter s_wxFBSetTheHelpProvider;
 ///////////////////////////////////////////////////////////////////////////
 
-wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
+wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) : wxFrame( parent, id, title, pos, size, style, name )
 {
 	this->SetSizeHints( wxSize( 150,150 ), wxDefaultSize );
 	
