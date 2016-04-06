@@ -25,13 +25,13 @@
 //////////////////////////////////////////////////////////////////////////
 
 wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
-    EVT_UPDATE_UI_RANGE(wxZRColaFrame::wxID_SEND_COMPOSED, wxZRColaFrame::wxID_SEND_DECOMPOSED, wxZRColaFrame::OnSendUpdate)
+    EVT_UPDATE_UI_RANGE(wxID_SEND_COMPOSED, wxID_SEND_ABORT, wxZRColaFrame::OnSendUpdate)
 
-    EVT_MENU(wxZRColaFrame::wxID_SEND_COMPOSED         , wxZRColaFrame::OnSendComposed            )
-    EVT_MENU(wxZRColaFrame::wxID_SEND_DECOMPOSED       , wxZRColaFrame::OnSendDecomposed          )
-    EVT_MENU(wxZRColaFrame::wxID_SEND_ABORT            , wxZRColaFrame::OnSendAbort               )
-    EVT_MENU(               wxID_EXIT                  , wxZRColaFrame::OnExit                    )
-    EVT_MENU(               wxID_ABOUT                 , wxZRColaFrame::OnAbout                   )
+    EVT_MENU(wxID_SEND_COMPOSED  , wxZRColaFrame::OnSendComposed            )
+    EVT_MENU(wxID_SEND_DECOMPOSED, wxZRColaFrame::OnSendDecomposed          )
+    EVT_MENU(wxID_SEND_ABORT     , wxZRColaFrame::OnSendAbort               )
+    EVT_MENU(wxID_EXIT           , wxZRColaFrame::OnExit                    )
+    EVT_MENU(wxID_ABOUT          , wxZRColaFrame::OnAbout                   )
 wxEND_EVENT_TABLE()
 
 
@@ -56,15 +56,6 @@ wxZRColaFrame::wxZRColaFrame() :
         wxMessageBox(_("ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
     if (!RegisterHotKey(wxZRColaHKID_INVOKE_DECOMPOSE, wxMOD_WIN, VK_F6))
         wxMessageBox(_("ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
-
-    // Register frame specific hotkey(s).
-    {
-        wxAcceleratorEntry entries[3];
-        entries[0].Set(wxACCEL_NORMAL, WXK_F5    , wxID_SEND_COMPOSED);
-        entries[1].Set(wxACCEL_NORMAL, WXK_F6    , wxID_SEND_DECOMPOSED);
-        entries[2].Set(wxACCEL_NORMAL, WXK_ESCAPE, wxID_SEND_ABORT);
-        SetAcceleratorTable(wxAcceleratorTable(_countof(entries), entries));
-    }
 }
 
 
@@ -107,11 +98,11 @@ void wxZRColaFrame::OnSendAbort(wxCommandEvent& event)
         ::SetActiveWindow(m_hWndSource);
         ::SetForegroundWindow(m_hWndSource);
         m_hWndSource = NULL;
-
-        // Select all input in composer to prepare for the overwrite next time.
-        m_panel->m_decomposed->SelectAll();
-        m_panel->m_composed->SelectAll();
     }
+
+    // Select all input in composer to prepare for the overwrite next time.
+    m_panel->m_decomposed->SelectAll();
+    m_panel->m_composed->SelectAll();
 
     event.Skip();
 }

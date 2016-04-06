@@ -56,6 +56,7 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
         // The character event occured.
         ZRCola::keyseq_db::indexKey::size_type start, end;
         bool found;
+        wxFrame *pFrame = wxDynamicCast(wxTheApp->GetTopWindow(), wxFrame);
 
         {
             // Parse key event and save it at the end of the key sequence.
@@ -82,6 +83,9 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
             const ZRCola::keyseq_db::keyseq &ks = m_ks_db.idxKey[start];
             m_seq.clear();
 
+            if (pFrame && pFrame->GetStatusBar())
+                pFrame->SetStatusText(wxEmptyString);
+
             wxObject *obj = event.GetEventObject();
             if (obj && obj->IsKindOf(wxCLASSINFO(wxTextCtrl))) {
                 // Push text to source control.
@@ -95,11 +99,17 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
             ZRCola::keyseq_db::keyseq::CompareSequence(m_seq.data(), m_seq.size(), m_ks_db.idxKey[start].seq, std::min<unsigned __int16>(m_ks_db.idxKey[start].seq_len, m_seq.size())) == 0)
         {
             // The sequence is a partial match. Continue watching.
+            if (pFrame && pFrame->GetStatusBar())
+                pFrame->SetStatusText(ZRCola::keyseq_db::GetSequenceAsText(m_seq.data(), m_seq.size()));
+
             event.StopPropagation();
             return true;
         } else {
             // The key sequence has no future chance to match. Start all over again.
             m_seq.clear();
+
+            if (pFrame && pFrame->GetStatusBar())
+                pFrame->SetStatusText(wxEmptyString);
         }
     }
 

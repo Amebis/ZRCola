@@ -21,8 +21,10 @@
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
+#include <wx/toolbar.h>
 #include "zrcolacomppnl.h"
 #include <wx/sizer.h>
+#include <wx/statusbr.h>
 #include <wx/frame.h>
 #include <wx/textctrl.h>
 #include <wx/panel.h>
@@ -37,10 +39,25 @@ class wxZRColaFrameBase : public wxFrame
 	private:
 	
 	protected:
+		enum
+		{
+			wxID_SEND_COMPOSED = 1000,
+			wxID_SEND_DECOMPOSED,
+			wxID_SEND_ABORT
+		};
+		
 		wxMenuBar* m_menubar;
-		wxMenu* m_menuFile;
+		wxMenu* m_menuProgram;
+		wxMenu* m_menuEdit;
 		wxMenu* m_menuHelp;
+		wxToolBar* m_toolbar;
+		wxToolBarToolBase* m_toolEditCut; 
+		wxToolBarToolBase* m_toolEditCopy; 
+		wxToolBarToolBase* m_toolEditPaste; 
+		wxToolBarToolBase* m_toolSendComposed; 
+		wxToolBarToolBase* m_toolSendDecomposed; 
 		wxZRColaComposerPanel* m_panel;
+		wxStatusBar* m_statusBar;
 	
 	public:
 		
@@ -58,12 +75,6 @@ class wxZRColaComposerPanelBase : public wxPanel
 	private:
 	
 	protected:
-		enum
-		{
-			wxID_DECOMPOSED = 1000,
-			wxID_COMPOSED
-		};
-		
 		wxTextCtrl* m_decomposed;
 		wxTextCtrl* m_composed;
 		

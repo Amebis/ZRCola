@@ -41,13 +41,6 @@ class wxZRColaFrame;
 ///
 class wxZRColaFrame : public wxZRColaFrameBase
 {
-protected:
-    enum {
-        wxID_SEND_COMPOSED = wxID_HIGHEST,
-        wxID_SEND_DECOMPOSED,
-        wxID_SEND_ABORT,
-    };
-
 public:
     wxZRColaFrame();
     virtual ~wxZRColaFrame();

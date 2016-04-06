@@ -27,12 +27,71 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	this->SetSizeHints( wxSize( 150,150 ), wxDefaultSize );
 	
 	m_menubar = new wxMenuBar( 0 );
-	m_menuFile = new wxMenu();
+	m_menuProgram = new wxMenu();
 	wxMenuItem* m_menuItemExit;
-	m_menuItemExit = new wxMenuItem( m_menuFile, wxID_EXIT, wxString( _("E&xit") ) + wxT('\t') + wxT("Alt+F4"), wxEmptyString, wxITEM_NORMAL );
-	m_menuFile->Append( m_menuItemExit );
+	m_menuItemExit = new wxMenuItem( m_menuProgram, wxID_EXIT, wxString( _("E&xit") ) + wxT('\t') + wxT("Alt+F4"), wxEmptyString, wxITEM_NORMAL );
+	m_menuProgram->Append( m_menuItemExit );
 	
-	m_menubar->Append( m_menuFile, _("&File") ); 
+	m_menubar->Append( m_menuProgram, _("&Program") ); 
+	
+	m_menuEdit = new wxMenu();
+	wxMenuItem* m_menuItemEditCut;
+	m_menuItemEditCut = new wxMenuItem( m_menuEdit, wxID_CUT, wxString( _("Cut") ) + wxT('\t') + wxT("Ctrl+X"), _("Cuts selected text and puts it on the clipboard"), wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	m_menuItemEditCut->SetBitmaps( wxIcon( wxT("edit_cut.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
+	m_menuItemEditCut->SetBitmap( wxIcon( wxT("edit_cut.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	#endif
+	m_menuEdit->Append( m_menuItemEditCut );
+	
+	wxMenuItem* m_menuItemEditCopy;
+	m_menuItemEditCopy = new wxMenuItem( m_menuEdit, wxID_COPY, wxString( _("&Copy") ) + wxT('\t') + wxT("Ctrl+C"), _("Copies selected text to the clipboard"), wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	m_menuItemEditCopy->SetBitmaps( wxIcon( wxT("edit_copy.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
+	m_menuItemEditCopy->SetBitmap( wxIcon( wxT("edit_copy.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	#endif
+	m_menuEdit->Append( m_menuItemEditCopy );
+	
+	wxMenuItem* m_menuItemEditPaste;
+	m_menuItemEditPaste = new wxMenuItem( m_menuEdit, wxID_PASTE, wxString( _("&Paste") ) + wxT('\t') + wxT("Ctrl+V"), _("Inserts text from the clipboard"), wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	m_menuItemEditPaste->SetBitmaps( wxIcon( wxT("edit_paste.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
+	m_menuItemEditPaste->SetBitmap( wxIcon( wxT("edit_paste.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	#endif
+	m_menuEdit->Append( m_menuItemEditPaste );
+	
+	m_menuEdit->AppendSeparator();
+	
+	wxMenuItem* m_menuItemSendComposed;
+	m_menuItemSendComposed = new wxMenuItem( m_menuEdit, wxID_SEND_COMPOSED, wxString( _("&Send Composed") ) + wxT('\t') + wxT("F5"), _("Sends composed text to source window"), wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	m_menuItemSendComposed->SetBitmaps( wxIcon( wxT("send_composed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
+	m_menuItemSendComposed->SetBitmap( wxIcon( wxT("send_composed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	#endif
+	m_menuEdit->Append( m_menuItemSendComposed );
+	
+	wxMenuItem* m_menuItemSendDecomposed;
+	m_menuItemSendDecomposed = new wxMenuItem( m_menuEdit, wxID_SEND_DECOMPOSED, wxString( _("Send &Decomposed") ) + wxT('\t') + wxT("F6"), _("Sends decomposed text to source window"), wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	m_menuItemSendDecomposed->SetBitmaps( wxIcon( wxT("send_decomposed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
+	m_menuItemSendDecomposed->SetBitmap( wxIcon( wxT("send_decomposed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	#endif
+	m_menuEdit->Append( m_menuItemSendDecomposed );
+	
+	wxMenuItem* m_menuItemSendAbort;
+	m_menuItemSendAbort = new wxMenuItem( m_menuEdit, wxID_SEND_ABORT, wxString( _("Abort (De)composition") ) + wxT('\t') + wxT("Esc"), _("Aborts composition and returns focus to source window"), wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	m_menuItemSendAbort->SetBitmaps( wxIcon( wxT("send_abort.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
+	m_menuItemSendAbort->SetBitmap( wxIcon( wxT("send_abort.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	#endif
+	m_menuEdit->Append( m_menuItemSendAbort );
+	
+	m_menubar->Append( m_menuEdit, _("&Edit") ); 
 	
 	m_menuHelp = new wxMenu();
 	wxMenuItem* m_menuItemAbout;
@@ -42,6 +101,21 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_menubar->Append( m_menuHelp, _("&Help") ); 
 	
 	this->SetMenuBar( m_menubar );
+	
+	m_toolbar = this->CreateToolBar( wxTB_HORIZONTAL, wxID_ANY ); 
+	m_toolEditCut = m_toolbar->AddTool( wxID_CUT, _("Cut"), wxIcon( wxT("edit_cut.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Cut"), _("Cuts selected text and puts it on the clipboard"), NULL ); 
+	
+	m_toolEditCopy = m_toolbar->AddTool( wxID_COPY, _("Copy"), wxIcon( wxT("edit_copy.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Copy"), _("Copies selected text to the clipboard"), NULL ); 
+	
+	m_toolEditPaste = m_toolbar->AddTool( wxID_PASTE, _("Paste"), wxIcon( wxT("edit_paste.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Paste"), _("Inserts text from the clipboard"), NULL ); 
+	
+	m_toolbar->AddSeparator(); 
+	
+	m_toolSendComposed = m_toolbar->AddTool( wxID_SEND_COMPOSED, _("Send Composed"), wxIcon( wxT("send_composed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Composed"), _("Sends composed text to source window"), NULL ); 
+	
+	m_toolSendDecomposed = m_toolbar->AddTool( wxID_SEND_DECOMPOSED, _("Send Decomposed"), wxIcon( wxT("send_decomposed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Decomposed"), _("Sends decomposed text to source window"), NULL ); 
+	
+	m_toolbar->Realize(); 
 	
 	wxBoxSizer* bSizerMain;
 	bSizerMain = new wxBoxSizer( wxVERTICAL );
@@ -53,6 +127,7 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	
 	this->SetSizer( bSizerMain );
 	this->Layout();
+	m_statusBar = this->CreateStatusBar( 1, wxST_SIZEGRIP, wxID_ANY );
 	
 	this->Centre( wxBOTH );
 }
@@ -66,13 +141,13 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	wxBoxSizer* bSizerEditor;
 	bSizerEditor = new wxBoxSizer( wxVERTICAL );
 	
-	m_decomposed = new wxTextCtrl( this, wxID_DECOMPOSED, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_MULTILINE );
+	m_decomposed = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_MULTILINE );
 	m_decomposed->SetFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
 	m_decomposed->SetMinSize( wxSize( 100,25 ) );
 	
 	bSizerEditor->Add( m_decomposed, 50, wxALL|wxEXPAND, 5 );
 	
-	m_composed = new wxTextCtrl( this, wxID_COMPOSED, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_MULTILINE );
+	m_composed = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_MULTILINE );
 	m_composed->SetFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
 	m_composed->SetMinSize( wxSize( 100,25 ) );
 	

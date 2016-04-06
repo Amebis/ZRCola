@@ -62,6 +62,24 @@
     <None Include="res\zrcola.ico">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\send_abort.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\send_composed.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\send_decomposed.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\edit_copy.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\edit_cut.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\edit_paste.ico">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZRCola.rc">
