@@ -55,7 +55,6 @@ public:
 
 
 protected:
-    wxConfig m_config;  ///< Application configuration
     wxLocale m_locale;  ///< Current locale
 };
 
@@ -66,7 +65,7 @@ wxDECLARE_APP(ZRColaApp);
 inline wxString ZRColaApp::GetDatabasePath() const
 {
     wxString sPath;
-    if (m_config.Read(wxT("DatabasePath"), &sPath)) {
+    if (wxConfigBase::Get()->Read(wxT("DatabasePath"), &sPath)) {
         if (!wxEndsWithPathSeparator(sPath))
             sPath << wxFILE_SEP_PATH;
     } else {

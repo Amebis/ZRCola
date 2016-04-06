@@ -27,23 +27,23 @@
 wxIMPLEMENT_APP(ZRColaApp);
 
 
-ZRColaApp::ZRColaApp() :
-    m_config(wxT(ZRCOLA_CFG_APPLICATION), wxT(ZRCOLA_CFG_VENDOR)),
-    wxApp()
+ZRColaApp::ZRColaApp() : wxApp()
 {
 }
 
 
 bool ZRColaApp::OnInit()
 {
+    wxConfigBase::Set(new wxConfig(wxT(ZRCOLA_CFG_APPLICATION), wxT(ZRCOLA_CFG_VENDOR)));
+
     if (!wxApp::OnInit())
         return false;
 
     // Set desired locale.
-    wxLanguage language = (wxLanguage)m_config.Read(wxT("Language"), wxLANGUAGE_DEFAULT);
+    wxLanguage language = (wxLanguage)wxConfigBase::Get()->Read(wxT("Language"), wxLANGUAGE_DEFAULT);
     if (wxLocale::IsAvailable(language)) {
         wxString sPath;
-        if (m_config.Read(wxT("LocalizationRepositoryPath"), &sPath))
+        if (wxConfigBase::Get()->Read(wxT("LocalizationRepositoryPath"), &sPath))
             m_locale.AddCatalogLookupPathPrefix(sPath);
         wxVERIFY(m_locale.Init(language));
         wxVERIFY(m_locale.AddCatalog(wxT("wxExtend")));
