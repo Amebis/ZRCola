@@ -34,7 +34,8 @@ ZRColaApp::ZRColaApp() : wxApp()
 
 bool ZRColaApp::OnInit()
 {
-    wxConfigBase::Set(new wxConfig(wxT(ZRCOLA_CFG_APPLICATION), wxT(ZRCOLA_CFG_VENDOR)));
+    wxConfigBase *cfgPrev = wxConfigBase::Set(new wxConfig(wxT(ZRCOLA_CFG_APPLICATION), wxT(ZRCOLA_CFG_VENDOR)));
+    if (cfgPrev) wxDELETE(cfgPrev);
 
     if (!wxApp::OnInit())
         return false;
