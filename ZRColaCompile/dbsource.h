@@ -181,19 +181,6 @@ namespace ZRCola {
 
 
         ///
-        /// Gets encoded key sequence from ZRCola.zrc database
-        ///
-        /// \param[in]  f    Data field
-        /// \param[out] seq  Output sequence
-        ///
-        /// \returns
-        /// - true when successful
-        /// - false otherwise
-        ///
-        bool GetKeySequence(const ATL::CComPtr<ADOField>& f, std::vector<keyseq::keycode>& seq) const;
-
-
-        ///
         /// Returns character translations
         ///
         /// \param[out] rs  Recordset with results

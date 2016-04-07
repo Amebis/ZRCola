@@ -241,64 +241,6 @@ bool ZRCola::DBSource::GetKeyCode(const ATL::CComPtr<ADOField>& f, ZRCola::DBSou
 }
 
 
-bool ZRCola::DBSource::GetKeySequence(const ATL::CComPtr<ADOField>& f, std::vector<keyseq::keycode>& seq) const
-{
-    wxASSERT_MSG(f, wxT("field is empty"));
-
-    ATL::CComVariant v;
-    wxVERIFY(SUCCEEDED(f->get_Value(&v)));
-    wxCHECK(SUCCEEDED(v.ChangeType(VT_BSTR)), false);
-
-    // Convert to uppercase.
-    _wcsupr_l(V_BSTR(&v), m_locale);
-
-    // Parse the field. Must be comma delimited sequence of key codes.
-    seq.clear();
-    for (UINT i = 0, n = ::SysStringLen(V_BSTR(&v)); i < n && V_BSTR(&v)[i];) {
-        keyseq::keycode kc = {};
-
-        while (i < n && V_BSTR(&v)[i]) {
-            // Parse key code.
-            static const wchar_t str_shift[] = L"SHIFT+", str_ctrl[] = L"CTRL+", str_alt[] = L"ALT+";
-            if (i + _countof(str_shift) - 1 <= n && wmemcmp(V_BSTR(&v) + i, str_shift, _countof(str_shift) - 1) == 0) {
-                kc.shift = true;
-                i += _countof(str_shift) - 1;
-            } else if (i + _countof(str_ctrl) - 1 <= n && wmemcmp(V_BSTR(&v) + i, str_ctrl, _countof(str_ctrl) - 1) == 0) {
-                kc.ctrl = true;
-                i += _countof(str_ctrl) - 1;
-            } else if (i + _countof(str_alt) - 1 <= n && wmemcmp(V_BSTR(&v) + i, str_alt, _countof(str_alt) - 1) == 0) {
-                kc.alt = true;
-                i += _countof(str_alt) - 1;
-            } else {
-                kc.key = V_BSTR(&v)[i];
-                i++;
-                break;
-            }
-        }
-        if (i < n && V_BSTR(&v)[i] && V_BSTR(&v)[i] != L',' && !_iswspace_l(V_BSTR(&v)[i], m_locale)) {
-            ATL::CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
-            _ftprintf(stderr, wxT("%s: error ZCC0060: Syntax error in \"%.*ls\" field (\"%.*ls\"). Key sequences must be \"Ctrl+Alt+<key>\" formatted, delimited by commas and/or space.\n"), m_filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
-            return false;
-        }
-        if (seq.size() > 0xffff) {
-            _ftprintf(stderr, wxT("%s: warning ZCC0061: Key sequence \"%.*ls...\" too long. Ignored.\n"), (LPCTSTR)m_filename.c_str(), std::min<UINT>(n, 20), V_BSTR(&v));
-            return false;
-        }
-        seq.push_back(kc);
-
-        // Skip delimiter(s) and whitespace.
-        for (; i < n && V_BSTR(&v)[i] && (V_BSTR(&v)[i] == L',' || _iswspace_l(V_BSTR(&v)[i], m_locale)); i++);
-    }
-
-    if (seq.empty()) {
-        _ftprintf(stderr, wxT("%s: warning ZCC0062: Empty key sequence. Ignored.\n"), (LPCTSTR)m_filename.c_str());
-        return false;
-    }
-
-    return true;
-}
-
-
 bool ZRCola::DBSource::SelectTranslations(ATL::CComPtr<ADORecordset> &rs) const
 {
     // Create a new recordset.
