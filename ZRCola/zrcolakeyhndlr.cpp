@@ -54,62 +54,64 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
 {
     if (event.GetEventType() == wxEVT_KEY_DOWN) {
         // The character event occured.
-        ZRCola::keyseq_db::indexKey::size_type start, end;
-        bool found;
-        wxFrame *pFrame = wxDynamicCast(wxTheApp->GetTopWindow(), wxFrame);
+        wxKeyEvent &e = (wxKeyEvent&)event;
+        if (e.GetUnicodeKey() || !e.HasAnyModifiers()) {
+            ZRCola::keyseq_db::indexKey::size_type start, end;
+            bool found;
+            wxFrame *pFrame = wxDynamicCast(wxTheApp->GetTopWindow(), wxFrame);
 
-        {
-            // Parse key event and save it at the end of the key sequence.
-            wxKeyEvent &e = (wxKeyEvent&)event;
-            ZRCola::keyseq_db::keyseq::key_t key;
-            key.key = e.GetKeyCode(); //wxToupper(e.m_uniChar);
-            key.modifiers =
-                (e.ShiftDown()   ? ZRCola::keyseq_db::keyseq::SHIFT : 0) |
-                (e.ControlDown() ? ZRCola::keyseq_db::keyseq::CTRL  : 0) |
-                (e.AltDown()     ? ZRCola::keyseq_db::keyseq::ALT   : 0);
-            m_seq.push_back(key);
+            {
+                // Parse key event and save it at the end of the key sequence.
+                ZRCola::keyseq_db::keyseq::key_t key;
+                key.key = e.GetKeyCode(); //wxToupper(e.m_uniChar);
+                key.modifiers =
+                    (e.ShiftDown()   ? ZRCola::keyseq_db::keyseq::SHIFT : 0) |
+                    (e.ControlDown() ? ZRCola::keyseq_db::keyseq::CTRL  : 0) |
+                    (e.AltDown()     ? ZRCola::keyseq_db::keyseq::ALT   : 0);
+                m_seq.push_back(key);
 
-            std::vector<ZRCola::keyseq_db::keyseq::key_t>::size_type n = m_seq.size();
-            ZRCola::keyseq_db::keyseq *ks = (ZRCola::keyseq_db::keyseq*)new char[sizeof(ZRCola::keyseq_db::keyseq) + sizeof(ZRCola::keyseq_db::keyseq::key_t)*n];
-            ks->chr = 0;
-            ks->seq_len = n;
-            memcpy(ks->seq, m_seq.data(), sizeof(ZRCola::keyseq_db::keyseq::key_t)*n);
-            found = m_ks_db.idxKey.find(*ks, start, end);
-            delete ks;
-        }
+                std::vector<ZRCola::keyseq_db::keyseq::key_t>::size_type n = m_seq.size();
+                ZRCola::keyseq_db::keyseq *ks = (ZRCola::keyseq_db::keyseq*)new char[sizeof(ZRCola::keyseq_db::keyseq) + sizeof(ZRCola::keyseq_db::keyseq::key_t)*n];
+                ks->chr = 0;
+                ks->seq_len = n;
+                memcpy(ks->seq, m_seq.data(), sizeof(ZRCola::keyseq_db::keyseq::key_t)*n);
+                found = m_ks_db.idxKey.find(*ks, start, end);
+                delete ks;
+            }
 
-        if (found) {
-            // The exact key sequence found.
-            const ZRCola::keyseq_db::keyseq &ks = m_ks_db.idxKey[start];
-            m_seq.clear();
+            if (found) {
+                // The exact key sequence found.
+                const ZRCola::keyseq_db::keyseq &ks = m_ks_db.idxKey[start];
+                m_seq.clear();
 
-            if (pFrame && pFrame->GetStatusBar())
-                pFrame->SetStatusText(wxEmptyString);
+                if (pFrame && pFrame->GetStatusBar())
+                    pFrame->SetStatusText(wxEmptyString);
 
-            wxObject *obj = event.GetEventObject();
-            if (obj && obj->IsKindOf(wxCLASSINFO(wxTextCtrl))) {
-                // Push text to source control.
-                ((wxTextCtrl*)obj)->WriteText(ks.chr);
+                wxObject *obj = event.GetEventObject();
+                if (obj && obj->IsKindOf(wxCLASSINFO(wxTextCtrl))) {
+                    // Push text to source control.
+                    ((wxTextCtrl*)obj)->WriteText(ks.chr);
 
-                // Event is fully processed now.
+                    // Event is fully processed now.
+                    event.StopPropagation();
+                    return true;
+                }
+            } else if (start < m_ks_db.idxKey.size() &&
+                ZRCola::keyseq_db::keyseq::CompareSequence(m_seq.data(), m_seq.size(), m_ks_db.idxKey[start].seq, std::min<unsigned __int16>(m_ks_db.idxKey[start].seq_len, m_seq.size())) == 0)
+            {
+                // The sequence is a partial match. Continue watching.
+                if (pFrame && pFrame->GetStatusBar())
+                    pFrame->SetStatusText(ZRCola::keyseq_db::GetSequenceAsText(m_seq.data(), m_seq.size()));
+
                 event.StopPropagation();
                 return true;
+            } else {
+                // The key sequence has no future chance to match. Start all over again.
+                m_seq.clear();
+
+                if (pFrame && pFrame->GetStatusBar())
+                    pFrame->SetStatusText(wxEmptyString);
             }
-        } else if (start < m_ks_db.idxKey.size() &&
-            ZRCola::keyseq_db::keyseq::CompareSequence(m_seq.data(), m_seq.size(), m_ks_db.idxKey[start].seq, std::min<unsigned __int16>(m_ks_db.idxKey[start].seq_len, m_seq.size())) == 0)
-        {
-            // The sequence is a partial match. Continue watching.
-            if (pFrame && pFrame->GetStatusBar())
-                pFrame->SetStatusText(ZRCola::keyseq_db::GetSequenceAsText(m_seq.data(), m_seq.size()));
-
-            event.StopPropagation();
-            return true;
-        } else {
-            // The key sequence has no future chance to match. Start all over again.
-            m_seq.clear();
-
-            if (pFrame && pFrame->GetStatusBar())
-                pFrame->SetStatusText(wxEmptyString);
         }
     }
 
