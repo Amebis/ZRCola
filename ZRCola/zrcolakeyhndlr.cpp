@@ -63,7 +63,7 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
             {
                 // Parse key event and save it at the end of the key sequence.
                 ZRCola::keyseq_db::keyseq::key_t key;
-                key.key = e.GetKeyCode(); //wxToupper(e.m_uniChar);
+                key.key = e.GetRawKeyCode();
                 key.modifiers =
                     (e.ShiftDown()   ? ZRCola::keyseq_db::keyseq::SHIFT : 0) |
                     (e.ControlDown() ? ZRCola::keyseq_db::keyseq::CTRL  : 0) |
