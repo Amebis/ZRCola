@@ -346,7 +346,7 @@ regDatabasePath	2	SOFTWARE\Amebis\ZRCola	DatabasePath	[ZRCOLADATADIR]	compDataba
 Registry	Root	Key	Name	Value	Component_
 s$(MSIBUILD_LENGTH_ID)	i2	l255	L255	L0	s$(MSIBUILD_LENGTH_ID)
 1252	Registry	Registry
-regLanguage	1	SOFTWARE\Amebis\ZRCola	Language	#60	compLanguage
+regLanguage	2	SOFTWARE\Amebis\ZRCola	Language	#60	compLanguage
 <<NOKEEP
 
 "De.$(PLAT).$(CFG).Registry-2.idt" : "En.$(PLAT).$(CFG).Registry-2.idtx" "..\locale\de_DE.po"
