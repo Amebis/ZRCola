@@ -99,15 +99,43 @@ void ZRCola::DBSource::LogErrors() const
 }
 
 
+bool ZRCola::DBSource::GetValue(const ATL::CComPtr<ADOField>& f, bool& val) const
+{
+    wxASSERT_MSG(f, wxT("field is empty"));
+
+    ATL::CComVariant v;
+    wxVERIFY(SUCCEEDED(f->get_Value(&v)));
+    wxCHECK(SUCCEEDED(v.ChangeType(VT_BOOL)), false);
+
+    val = V_BOOL(&v) ? true : false;
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::GetValue(const ATL::CComPtr<ADOField>& f, int& val) const
+{
+    wxASSERT_MSG(f, wxT("field is empty"));
+
+    ATL::CComVariant v;
+    wxVERIFY(SUCCEEDED(f->get_Value(&v)));
+    wxCHECK(SUCCEEDED(v.ChangeType(VT_I4)), false);
+
+    val = V_I4(&v);
+
+    return true;
+}
+
+
 bool ZRCola::DBSource::GetUnicodeCharacter(const ATL::CComPtr<ADOField>& f, wchar_t& chr) const
 {
     wxASSERT_MSG(f, wxT("field is empty"));
 
     ATL::CComVariant v;
     wxVERIFY(SUCCEEDED(f->get_Value(&v)));
+    wxCHECK(SUCCEEDED(v.ChangeType(VT_BSTR)), false);
 
     // Parse the field. Must be exactly one Unicode code.
-    wxVERIFY(SUCCEEDED(v.ChangeType(VT_BSTR)));
     UINT i = 0, n = ::SysStringLen(V_BSTR(&v));
     chr = 0;
     for (; i < n && V_BSTR(&v)[i]; i++) {
@@ -136,9 +164,9 @@ bool ZRCola::DBSource::GetUnicodeString(const ATL::CComPtr<ADOField>& f, std::ws
 
     ATL::CComVariant v;
     wxVERIFY(SUCCEEDED(f->get_Value(&v)));
+    wxCHECK(SUCCEEDED(v.ChangeType(VT_BSTR)), false);
 
     // Parse the field. Must be "xxxx+xxxx+xxxx..." sequence.
-    wxVERIFY(SUCCEEDED(v.ChangeType(VT_BSTR)));
     str.clear();
     for (UINT i = 0, n = ::SysStringLen(V_BSTR(&v)); i < n && V_BSTR(&v)[i];) {
         // Parse Unicode code.
@@ -165,13 +193,61 @@ bool ZRCola::DBSource::GetUnicodeString(const ATL::CComPtr<ADOField>& f, std::ws
 }
 
 
+bool ZRCola::DBSource::GetKeyCode(const ATL::CComPtr<ADOField>& f, ZRCola::DBSource::keyseq::keycode& kc) const
+{
+    wxASSERT_MSG(f, wxT("field is empty"));
+
+    ATL::CComVariant v;
+    wxVERIFY(SUCCEEDED(f->get_Value(&v)));
+    wxCHECK(SUCCEEDED(v.ChangeType(VT_BSTR)), false);
+
+    // Convert to uppercase.
+    _wcsupr_l(V_BSTR(&v), m_locale);
+
+    // Parse the field.
+    memset(&kc, 0, sizeof(kc));
+    for (UINT i = 0, n = ::SysStringLen(V_BSTR(&v)); i < n && V_BSTR(&v)[i];) {
+        // Parse key code.
+        if (i) {
+            // Check for "+" separator.
+            if (V_BSTR(&v)[i] != L'+') {
+                ATL::CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
+                _ftprintf(stderr, wxT("%s: error ZCC0070: Syntax error in \"%.*ls\" field (\"%.*ls\"). Key codes must be \"Ctrl+Alt+<key>\" formatted.\n"), m_filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
+            }
+            i++;
+            if (i >= n || !V_BSTR(&v)[i]) {
+                ATL::CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
+                _ftprintf(stderr, wxT("%s: error ZCC0071: Syntax error in \"%.*ls\" field (\"%.*ls\"). Trailing separator \"+\" found.\n"), m_filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
+            }
+        }
+
+        static const wchar_t str_shift[] = L"SHIFT", str_ctrl[] = L"CTRL", str_alt[] = L"ALT";
+        if (i + _countof(str_shift) - 1 <= n && wmemcmp(V_BSTR(&v) + i, str_shift, _countof(str_shift) - 1) == 0) {
+            kc.shift = true;
+            i += _countof(str_shift) - 1;
+        } else if (i + _countof(str_ctrl) - 1 <= n && wmemcmp(V_BSTR(&v) + i, str_ctrl, _countof(str_ctrl) - 1) == 0) {
+            kc.ctrl = true;
+            i += _countof(str_ctrl) - 1;
+        } else if (i + _countof(str_alt) - 1 <= n && wmemcmp(V_BSTR(&v) + i, str_alt, _countof(str_alt) - 1) == 0) {
+            kc.alt = true;
+            i += _countof(str_alt) - 1;
+        } else {
+            kc.key = V_BSTR(&v)[i];
+            i++;
+        }
+    }
+
+    return true;
+}
+
+
 bool ZRCola::DBSource::GetKeySequence(const ATL::CComPtr<ADOField>& f, std::vector<keyseq::keycode>& seq) const
 {
     wxASSERT_MSG(f, wxT("field is empty"));
 
     ATL::CComVariant v;
     wxVERIFY(SUCCEEDED(f->get_Value(&v)));
-    wxVERIFY(SUCCEEDED(v.ChangeType(VT_BSTR)));
+    wxCHECK(SUCCEEDED(v.ChangeType(VT_BSTR)), false);
 
     // Convert to uppercase.
     _wcsupr_l(V_BSTR(&v), m_locale);
@@ -184,13 +260,13 @@ bool ZRCola::DBSource::GetKeySequence(const ATL::CComPtr<ADOField>& f, std::vect
         while (i < n && V_BSTR(&v)[i]) {
             // Parse key code.
             static const wchar_t str_shift[] = L"SHIFT+", str_ctrl[] = L"CTRL+", str_alt[] = L"ALT+";
-            if (i + _countof(str_shift) <= n && wmemcmp(V_BSTR(&v) + i, str_shift, _countof(str_shift) - 1) == 0) {
+            if (i + _countof(str_shift) - 1 <= n && wmemcmp(V_BSTR(&v) + i, str_shift, _countof(str_shift) - 1) == 0) {
                 kc.shift = true;
                 i += _countof(str_shift) - 1;
-            } else if (i + _countof(str_ctrl) <= n && wmemcmp(V_BSTR(&v) + i, str_ctrl, _countof(str_ctrl) - 1) == 0) {
+            } else if (i + _countof(str_ctrl) - 1 <= n && wmemcmp(V_BSTR(&v) + i, str_ctrl, _countof(str_ctrl) - 1) == 0) {
                 kc.ctrl = true;
                 i += _countof(str_ctrl) - 1;
-            } else if (i + _countof(str_alt) <= n && wmemcmp(V_BSTR(&v) + i, str_alt, _countof(str_alt) - 1) == 0) {
+            } else if (i + _countof(str_alt) - 1 <= n && wmemcmp(V_BSTR(&v) + i, str_alt, _countof(str_alt) - 1) == 0) {
                 kc.alt = true;
                 i += _countof(str_alt) - 1;
             } else {
@@ -270,7 +346,7 @@ bool ZRCola::DBSource::SelectKeySequences(ATL::CComPtr<ADORecordset> &rs) const
     wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
 
     // Open it.
-    if (FAILED(rs->Open(ATL::CComVariant(L"SELECT DISTINCT [Znak], [tipka] FROM [wrd_KeyCodes]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText))) {
+    if (FAILED(rs->Open(ATL::CComVariant(L"SELECT DISTINCT [VRS_KeyCodes].[Znak], [VRS_CharGroup].[Name] AS [CharGroup], [VRS_KeyCodes].[KeyCode], [VRS_KeyCodes].[Shift] FROM [VRS_KeyCodes] LEFT JOIN [VRS_CharGroup] ON [VRS_CharGroup].[CharGroup]=[VRS_KeyCodes].[CharGroup]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText))) {
         _ftprintf(stderr, wxT("%s: error ZCC0050: Error loading key sequences from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
         LogErrors();
         return false;
@@ -293,10 +369,38 @@ bool ZRCola::DBSource::GetKeySequence(const ATL::CComPtr<ADORecordset>& rs, ZRCo
         wxCHECK(GetUnicodeCharacter(f, ks.chr), false);
     }
 
+    keyseq::keycode kc1;
     {
         ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"tipka"), &f)));
-        wxCHECK(GetKeySequence(f, ks.seq), false);
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"CharGroup"), &f)));
+        wxCHECK(GetKeyCode(f, kc1), false);
+    }
+
+    int keycode;
+    {
+        ATL::CComPtr<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"KeyCode"), &f)));
+        wxCHECK(GetValue(f, keycode), false);
+    }
+
+    bool shift;
+    {
+        ATL::CComPtr<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"Shift"), &f)));
+        wxCHECK(GetValue(f, shift), false);
+    }
+
+    ks.seq.clear();
+    if (kc1.key) {
+        // First key in the sequence is complete.
+        ks.seq.push_back(kc1);
+        keyseq::keycode kc2 = { keycode, shift };
+        ks.seq.push_back(kc2);
+    } else {
+        // First key in the sequence is only modifier(s).
+        kc1.key = keycode;
+        if (shift) kc1.shift = true;
+        ks.seq.push_back(kc1);
     }
 
     return true;

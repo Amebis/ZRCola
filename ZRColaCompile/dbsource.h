@@ -116,6 +116,32 @@ namespace ZRCola {
 
 
         ///
+        /// Gets boolean from ZRCola.zrc database
+        ///
+        /// \param[in]  f    Data field
+        /// \param[out] val  Output boolean value
+        ///
+        /// \returns
+        /// - true when successful
+        /// - false otherwise
+        ///
+        bool GetValue(const ATL::CComPtr<ADOField>& f, bool& val) const;
+
+
+        ///
+        /// Gets integer from ZRCola.zrc database
+        ///
+        /// \param[in]  f    Data field
+        /// \param[out] val  Output integer value
+        ///
+        /// \returns
+        /// - true when successful
+        /// - false otherwise
+        ///
+        bool GetValue(const ATL::CComPtr<ADOField>& f, int& val) const;
+
+
+        ///
         /// Gets encoded Unicode character from ZRCola.zrc database
         ///
         /// \param[in]  f    Data field
@@ -139,6 +165,19 @@ namespace ZRCola {
         /// - false otherwise
         ///
         bool GetUnicodeString(const ATL::CComPtr<ADOField>& f, std::wstring& str) const;
+
+
+        ///
+        /// Gets encoded key from ZRCola.zrc database
+        ///
+        /// \param[in]  f   Data field
+        /// \param[out] kc  Output key code
+        ///
+        /// \returns
+        /// - true when successful
+        /// - false otherwise
+        ///
+        bool GetKeyCode(const ATL::CComPtr<ADOField>& f, keyseq::keycode& kc) const;
 
 
         ///
