@@ -18,6 +18,9 @@
 */
 
 #include "stdafx.h"
+#if defined(__WXMSW__)
+#pragma comment(lib, "msi.lib")
+#endif
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -34,6 +37,14 @@ ZRColaApp::ZRColaApp() : wxApp()
 
 bool ZRColaApp::OnInit()
 {
+#if defined(__WXMSW__)
+    // To compensate migration to non-advertised shortcut, do the Microsoft Installer's feature completeness check manually.
+    // If execution got this far in the first place (EXE and dependent DLLs are present and loadable).
+    // Furthermore, this increments program usage counter.
+    if (::MsiQueryFeatureState(_T(ZRCOLA_VERSION_GUID), _T("featZRCola")) != INSTALLSTATE_UNKNOWN)
+        ::MsiUseFeature(_T(ZRCOLA_VERSION_GUID), _T("featZRCola"));
+#endif
+
     wxConfigBase *cfgPrev = wxConfigBase::Set(new wxConfig(wxT(ZRCOLA_CFG_APPLICATION), wxT(ZRCOLA_CFG_VENDOR)));
     if (cfgPrev) wxDELETE(cfgPrev);
 

@@ -35,3 +35,7 @@
 #include <vector>
 
 #include <stdex/idrec.h>
+
+#if defined(__WXMSW__)
+#include <Msi.h>
+#endif
