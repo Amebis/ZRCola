@@ -36,7 +36,7 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	
 	m_menuEdit = new wxMenu();
 	wxMenuItem* m_menuItemEditCut;
-	m_menuItemEditCut = new wxMenuItem( m_menuEdit, wxID_CUT, wxString( _("Cut") ) + wxT('\t') + wxT("Ctrl+X"), _("Cuts selected text and puts it on the clipboard"), wxITEM_NORMAL );
+	m_menuItemEditCut = new wxMenuItem( m_menuEdit, wxID_CUT, wxString( wxEmptyString ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
 	m_menuItemEditCut->SetBitmaps( wxIcon( wxT("edit_cut.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
 	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
@@ -45,7 +45,7 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_menuEdit->Append( m_menuItemEditCut );
 	
 	wxMenuItem* m_menuItemEditCopy;
-	m_menuItemEditCopy = new wxMenuItem( m_menuEdit, wxID_COPY, wxString( _("&Copy") ) + wxT('\t') + wxT("Ctrl+C"), _("Copies selected text to the clipboard"), wxITEM_NORMAL );
+	m_menuItemEditCopy = new wxMenuItem( m_menuEdit, wxID_COPY, wxString( wxEmptyString ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
 	m_menuItemEditCopy->SetBitmaps( wxIcon( wxT("edit_copy.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
 	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
@@ -54,7 +54,7 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_menuEdit->Append( m_menuItemEditCopy );
 	
 	wxMenuItem* m_menuItemEditPaste;
-	m_menuItemEditPaste = new wxMenuItem( m_menuEdit, wxID_PASTE, wxString( _("&Paste") ) + wxT('\t') + wxT("Ctrl+V"), _("Inserts text from the clipboard"), wxITEM_NORMAL );
+	m_menuItemEditPaste = new wxMenuItem( m_menuEdit, wxID_PASTE, wxString( wxEmptyString ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
 	m_menuItemEditPaste->SetBitmaps( wxIcon( wxT("edit_paste.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
 	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
@@ -102,7 +102,8 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	
 	this->SetMenuBar( m_menubar );
 	
-	m_toolbar = this->CreateToolBar( wxTB_HORIZONTAL, wxID_ANY ); 
+	m_toolbar = this->CreateToolBar( wxTB_HORIZONTAL, wxID_ANY );
+	m_toolbar->SetToolBitmapSize( wxSize( 16,16 ) );
 	m_toolEditCut = m_toolbar->AddTool( wxID_CUT, _("Cut"), wxIcon( wxT("edit_cut.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Cut"), _("Cuts selected text and puts it on the clipboard"), NULL ); 
 	
 	m_toolEditCopy = m_toolbar->AddTool( wxID_COPY, _("Copy"), wxIcon( wxT("edit_copy.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Copy"), _("Copies selected text to the clipboard"), NULL ); 
