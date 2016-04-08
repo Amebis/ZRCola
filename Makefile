@@ -82,6 +82,7 @@ Setup \
 SetupDebug \
 Register \
 Unregister \
+PublishPre \
 Publish :: "MSI\MSIBuild\Version\Version.mak"
 	$(MAKE) /f "Makefile" /$(MAKEFLAGS) HAS_VERSION=1 $@
 
@@ -183,12 +184,15 @@ RegisterShortcuts :: \
 UnregisterShortcuts ::
 	-if exist "$(PROGRAMDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" rd /s /q "$(PROGRAMDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola"
 
-Publish :: \
+PublishPre :: \
 	"$(PUBLISH_PACKAGE_DIR)" \
 	$(REDIST_EN_WIN32) \
 	$(REDIST_EN_X64) \
 	$(REDIST_SL_WIN32) \
-	$(REDIST_SL_X64) \
+	$(REDIST_SL_X64)
+
+Publish :: \
+	PublishPre \
 	"$(PUBLISH_DIR)\catalog-0000.xml"
 
 
