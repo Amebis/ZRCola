@@ -80,10 +80,9 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
 
                 if (l >= r) {
                     // The search area is empty.
-                    const translation &trans = idxComp[l_prev];
-                    if (j && l_prev < compositionsCount && j == trans.str_len) {
+                    if (j && l_prev < compositionsCount && j == idxComp[l_prev].str_len) {
                         // The first composition of the previous run was a match.
-                        output += trans.chr;
+                        output += idxComp[l_prev].chr;
                         i = ii;
                         if (j > 1 && map) {
                             // Mapping changed.
@@ -99,10 +98,9 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
             } else {
                 // End of input reached.
 
-                const translation &trans = idxComp[l];
-                if (l < compositionsCount && j == trans.str_len) {
+                if (l < compositionsCount && j == idxComp[l].str_len) {
                     // The first composition of the previous run was a match.
-                    output += trans.chr;
+                    output += idxComp[l].chr;
                     i = ii;
                     if (j > 1 && map) {
                         // Mapping changed.
