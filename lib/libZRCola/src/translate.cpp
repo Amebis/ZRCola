@@ -37,82 +37,66 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
     indexComp::size_type compositionsCount = idxComp.size();
 
     for (size_t i = 0; i < inputMax;) {
-        // Start with the full search area at i-th character.
-        for (size_t l = 0, r = compositionsCount, ii = i, j = 0;; ii++, j++) {
-            if (ii < inputMax) {
-                size_t l_prev = l;
-                wchar_t c = input[ii];
-                while (l < r) {
-                    // Test the composition in the middle of the search area.
-                    size_t m = (l + r) / 2;
+        // Find the longest matching composition at i-th character.
+        size_t l_match = (size_t)-1;
+        for (size_t l = 0, r = compositionsCount, ii = i, j = 0; ii < inputMax && l < r; ii++, j++) {
+            wchar_t c = input[ii];
+            while (l < r) {
+                // Test the composition in the middle of the search area.
+                size_t m = (l + r) / 2;
 
-                    // Get the j-th character of the composition.
-                    // All compositions that get short on characters are lexically ordered before.
-                    // Thus the j-th character is considered 0.
-                    const translation &trans = idxComp[m];
-                    wchar_t s = j < trans.str_len ? trans.str[j] : 0;
+                // Get the j-th character of the composition.
+                // All compositions that get short on characters are lexically ordered before.
+                // Thus the j-th character is considered 0.
+                const translation &trans = idxComp[m];
+                wchar_t s = j < trans.str_len ? trans.str[j] : 0;
 
-                    // Do the bisection test.
-                         if (c < s) r = m;
-                    else if (s < c) l = m + 1;
-                    else {
-                        // Character found.
+                // Do the bisection test.
+                     if (c < s) r = m;
+                else if (s < c) l = m + 1;
+                else {
+                    // Character found.
 
-                        // Narrow the search area on the left to start at the first composition in the run.
-                        for (size_t rr = m; l < rr;) {
-                            size_t m = (l + rr) / 2;
-                            const translation &trans = idxComp[m];
-                            wchar_t s = j < trans.str_len ? trans.str[j] : 0;
-                            if (c <= s) rr = m; else l = m + 1;
-                        }
-
-                        // Narrow the search area on the right to end at the first composition not in the run.
-                        for (size_t ll = m + 1; ll < r;) {
-                            size_t m = (ll + r) / 2;
-                            const translation &trans = idxComp[m];
-                            wchar_t s = j < trans.str_len ? trans.str[j] : 0;
-                            if (s <= c) ll = m + 1; else r = m;
-                        }
-
-                        break;
+                    // Narrow the search area on the left to start at the first composition in the run.
+                    for (size_t rr = m; l < rr;) {
+                        size_t m = (l + rr) / 2;
+                        const translation &trans = idxComp[m];
+                        wchar_t s = j < trans.str_len ? trans.str[j] : 0;
+                        if (c <= s) rr = m; else l = m + 1;
                     }
-                }
 
-                if (l >= r) {
-                    // The search area is empty.
-                    if (j && l_prev < compositionsCount && j == idxComp[l_prev].str_len) {
-                        // The first composition of the previous run was a match.
-                        output += idxComp[l_prev].chr;
-                        i = ii;
-                        if (j > 1 && map) {
-                            // Mapping changed.
-                            map->push_back(ZRCola::mapping(output.length(), i));
-                        }
-                    } else {
-                        // The exact match was not found.
-                        output += input[i];
-                        i++;
+                    // Narrow the search area on the right to end at the first composition not in the run.
+                    for (size_t ll = m + 1; ll < r;) {
+                        size_t m = (ll + r) / 2;
+                        const translation &trans = idxComp[m];
+                        wchar_t s = j < trans.str_len ? trans.str[j] : 0;
+                        if (s <= c) ll = m + 1; else r = m;
                     }
+
+                    const translation &trans = idxComp[l];
+                    if (j + 1 == trans.str_len) {
+                        // The first composition of the run was a match (thus far). Save it.
+                        l_match = l;
+                    }
+
                     break;
                 }
-            } else {
-                // End of input reached.
-
-                if (l < compositionsCount && j == idxComp[l].str_len) {
-                    // The first composition of the previous run was a match.
-                    output += idxComp[l].chr;
-                    i = ii;
-                    if (j > 1 && map) {
-                        // Mapping changed.
-                        map->push_back(ZRCola::mapping(output.length(), i));
-                    }
-                } else {
-                    output += input[i];
-                    i++;
-                }
-
-                break;
             }
+        }
+
+        if (l_match < compositionsCount) {
+            // The saved composition was an exact match.
+            const translation &trans = idxComp[l_match];
+            output += trans.chr;
+            i += trans.str_len;
+            if (trans.str_len > 1 && map) {
+                // Mapping changed.
+                map->push_back(ZRCola::mapping(output.length(), i));
+            }
+        } else {
+            // The match was not found.
+            output += input[i];
+            i++;
         }
     }
 }
