@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-04-06 12:31+0200\n"
-"PO-Revision-Date: 2016-04-06 12:31+0200\n"
+"POT-Creation-Date: 2016-04-08 12:59+0200\n"
+"PO-Revision-Date: 2016-04-08 12:59+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: sl_SI\n"
@@ -17,7 +17,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: zrcolafrm.cpp:56
+#: zrcolafrm.cpp:61
 msgid ""
 "ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality "
 "will not be available."
@@ -25,11 +25,11 @@ msgstr ""
 "ZRColine bližnjice na tipkovnici Win+F5 ni mogoče registrirati. Nekaj "
 "funkcionalnosti ne bo na voljo."
 
-#: zrcolafrm.cpp:56 zrcolafrm.cpp:58
+#: zrcolafrm.cpp:61 zrcolafrm.cpp:63
 msgid "Warning"
 msgstr "Opozorilo"
 
-#: zrcolafrm.cpp:58
+#: zrcolafrm.cpp:63
 msgid ""
 "ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality "
 "will not be available."
@@ -37,7 +37,7 @@ msgstr ""
 "ZRColine bližnjice na tipkovnici Win+F6 ni mogoče registrirati. Nekaj "
 "funkcionalnosti ne bo na voljo."
 
-#: zrcolafrm.cpp:119
+#: zrcolafrm.cpp:144
 #, c-format
 msgid ""
 "ZRCola v%s\n"
@@ -46,7 +46,7 @@ msgstr ""
 "ZRCola v%s\n"
 "Vse pravice pridržane 2015-%s Amebis"
 
-#: zrcolafrm.cpp:119
+#: zrcolafrm.cpp:144
 msgid "About ZRCola"
 msgstr "O ZRColi"
 
@@ -58,79 +58,75 @@ msgstr "I&zhod"
 msgid "&Program"
 msgstr "&Program"
 
-#: zrcolagui.cpp:39 zrcolagui.cpp:106
-msgid "Cut"
-msgstr "Izreži"
-
-#: zrcolagui.cpp:39 zrcolagui.cpp:106
-msgid "Cuts selected text and puts it on the clipboard"
-msgstr "Izreže izbrano besedilo in ga shrani na odložišče"
-
-#: zrcolagui.cpp:48
-msgid "&Copy"
-msgstr "&Kopiraj"
-
-#: zrcolagui.cpp:48 zrcolagui.cpp:108
-msgid "Copies selected text to the clipboard"
-msgstr "Kopira izbrano besedilo na odložišče"
-
-#: zrcolagui.cpp:57
-msgid "&Paste"
-msgstr "&Prilepi"
-
-#: zrcolagui.cpp:57 zrcolagui.cpp:110
-msgid "Inserts text from the clipboard"
-msgstr "Vstavi besedilo z odložišča"
-
 #: zrcolagui.cpp:68
+msgid "Select &All"
+msgstr "Izberi &vse"
+
+#: zrcolagui.cpp:74
 msgid "&Send Composed"
 msgstr "Pošlji &sestavljeno"
 
-#: zrcolagui.cpp:68 zrcolagui.cpp:114
+#: zrcolagui.cpp:74 zrcolagui.cpp:121
 msgid "Sends composed text to source window"
 msgstr "Pošlje sestavljeno besedilo izvornemu oknu"
 
-#: zrcolagui.cpp:77
+#: zrcolagui.cpp:83
 msgid "Send &Decomposed"
 msgstr "Pošlji &razstavljeno"
 
-#: zrcolagui.cpp:77 zrcolagui.cpp:116
+#: zrcolagui.cpp:83 zrcolagui.cpp:123
 msgid "Sends decomposed text to source window"
 msgstr "Pošlje razstavljeno besedilo izvornemu oknu"
 
-#: zrcolagui.cpp:86
+#: zrcolagui.cpp:92
 msgid "Abort (De)composition"
 msgstr "Prekini raz/sestavljanje"
 
-#: zrcolagui.cpp:86
+#: zrcolagui.cpp:92
 msgid "Aborts composition and returns focus to source window"
 msgstr "Prekine sestavljanje in vrne fokus nazaj izvornemu oknu"
 
-#: zrcolagui.cpp:94
+#: zrcolagui.cpp:100
 msgid "&Edit"
 msgstr "Ur&edi"
 
-#: zrcolagui.cpp:98
+#: zrcolagui.cpp:104
 msgid "&About"
 msgstr "O progr&amu"
 
-#: zrcolagui.cpp:101
+#: zrcolagui.cpp:107
 msgid "&Help"
 msgstr "&Pomoč"
 
-#: zrcolagui.cpp:108
+#: zrcolagui.cpp:113
+msgid "Cut"
+msgstr "Izreži"
+
+#: zrcolagui.cpp:113
+msgid "Cuts selected text and puts it on the clipboard"
+msgstr "Izreže izbrano besedilo in ga shrani na odložišče"
+
+#: zrcolagui.cpp:115
 msgid "Copy"
 msgstr "Kopiraj"
 
-#: zrcolagui.cpp:110
+#: zrcolagui.cpp:115
+msgid "Copies selected text to the clipboard"
+msgstr "Kopira izbrano besedilo na odložišče"
+
+#: zrcolagui.cpp:117
 msgid "Paste"
 msgstr "Prilepi"
 
-#: zrcolagui.cpp:114
+#: zrcolagui.cpp:117
+msgid "Inserts text from the clipboard"
+msgstr "Vstavi besedilo z odložišča"
+
+#: zrcolagui.cpp:121
 msgid "Send Composed"
 msgstr "Pošlji sestavljeno"
 
-#: zrcolagui.cpp:116
+#: zrcolagui.cpp:123
 msgid "Send Decomposed"
 msgstr "Pošlji razstavljeno"
 
@@ -155,6 +151,12 @@ msgstr "1250"
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
 msgid "Input system for linguistic use"
 msgstr "Vnašalni sistem za jezikoslovno rabo"
+
+#~ msgid "&Copy"
+#~ msgstr "&Kopiraj"
+
+#~ msgid "&Paste"
+#~ msgstr "&Prilepi"
 
 #~ msgid "&File"
 #~ msgstr "&Datoteka"

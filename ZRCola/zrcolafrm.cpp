@@ -27,6 +27,8 @@
 wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
     EVT_UPDATE_UI_RANGE(wxID_CUT, wxID_CLEAR, wxZRColaFrame::OnForwardEventUpdate)
     EVT_MENU_RANGE(wxID_CUT, wxID_CLEAR, wxZRColaFrame::OnForwardEvent)
+    EVT_UPDATE_UI(wxID_SELECTALL, wxZRColaFrame::OnForwardEventUpdate)
+    EVT_MENU(wxID_SELECTALL, wxZRColaFrame::OnForwardEvent)
 
     EVT_UPDATE_UI_RANGE(wxID_SEND_COMPOSED, wxID_SEND_ABORT, wxZRColaFrame::OnSendUpdate)
     EVT_MENU(wxID_SEND_COMPOSED  , wxZRColaFrame::OnSendComposed            )

@@ -64,6 +64,12 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	
 	m_menuEdit->AppendSeparator();
 	
+	wxMenuItem* m_menuSelectAll;
+	m_menuSelectAll = new wxMenuItem( m_menuEdit, wxID_SELECTALL, wxString( _("Select &All") ) + wxT('\t') + wxT("Ctrl+A"), wxEmptyString, wxITEM_NORMAL );
+	m_menuEdit->Append( m_menuSelectAll );
+	
+	m_menuEdit->AppendSeparator();
+	
 	wxMenuItem* m_menuItemSendComposed;
 	m_menuItemSendComposed = new wxMenuItem( m_menuEdit, wxID_SEND_COMPOSED, wxString( _("&Send Composed") ) + wxT('\t') + wxT("F5"), _("Sends composed text to source window"), wxITEM_NORMAL );
 	#ifdef __WXMSW__

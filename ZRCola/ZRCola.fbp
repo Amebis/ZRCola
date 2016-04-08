@@ -207,6 +207,25 @@
                         <property name="permission">none</property>
                     </object>
                     <object class="wxMenuItem" expanded="1">
+                        <property name="bitmap"></property>
+                        <property name="checked">0</property>
+                        <property name="enabled">1</property>
+                        <property name="help"></property>
+                        <property name="id">wxID_SELECTALL</property>
+                        <property name="kind">wxITEM_NORMAL</property>
+                        <property name="label">Select &amp;All</property>
+                        <property name="name">m_menuSelectAll</property>
+                        <property name="permission">none</property>
+                        <property name="shortcut">Ctrl+A</property>
+                        <property name="unchecked_bitmap"></property>
+                        <event name="OnMenuSelection"></event>
+                        <event name="OnUpdateUI"></event>
+                    </object>
+                    <object class="separator" expanded="1">
+                        <property name="name">m_separatorEdit2</property>
+                        <property name="permission">none</property>
+                    </object>
+                    <object class="wxMenuItem" expanded="1">
                         <property name="bitmap">Load From Icon Resource; send_composed.ico; [16; 16]</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
