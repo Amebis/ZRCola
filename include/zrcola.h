@@ -23,7 +23,7 @@
 // Product version as a single DWORD
 // Note: Used for version comparison within C/C++ code.
 //
-#define ZRCOLA_VERSION          0x01ff0200
+#define ZRCOLA_VERSION          0x01ff0300
 
 //
 // Product version by components
@@ -33,26 +33,26 @@
 //
 #define ZRCOLA_VERSION_MAJ      1
 #define ZRCOLA_VERSION_MIN      255
-#define ZRCOLA_VERSION_REV      2
+#define ZRCOLA_VERSION_REV      3
 #define ZRCOLA_VERSION_BUILD    0
 
 //
 // Human readable product version and build year for UI
 //
-#define ZRCOLA_VERSION_STR      "2.0-alpha2"
+#define ZRCOLA_VERSION_STR      "2.0-alpha3"
 #define ZRCOLA_BUILD_YEAR_STR   "2016"
 
 //
 // Numerical version presentation for ProductVersion propery in
 // MSI packages (syntax: N.N[.N[.N]])
 //
-#define ZRCOLA_VERSION_INST     "1.255.2"
+#define ZRCOLA_VERSION_INST     "1.255.3"
 
 //
 // The product code for ProductCode property in MSI packages
 // Replace with new on every version change, regardless how minor it is.
 //
-#define ZRCOLA_VERSION_GUID     "{221AC7C3-020F-4A9B-8005-D49F8B5FE815}"
+#define ZRCOLA_VERSION_GUID     "{8553943A-9CD0-4639-98CC-0A57A84A7765}"
 
 //
 // The product vendor and application name for configuration keeping.
