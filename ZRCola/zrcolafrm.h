@@ -46,6 +46,8 @@ public:
     virtual ~wxZRColaFrame();
 
 protected:
+    void OnForwardEventUpdate(wxUpdateUIEvent& event);
+    void OnForwardEvent(wxCommandEvent& event);
     void OnSendUpdate(wxUpdateUIEvent& event);
     void OnSendComposed(wxCommandEvent& event);
     void OnSendDecomposed(wxCommandEvent& event);

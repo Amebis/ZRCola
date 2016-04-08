@@ -25,13 +25,16 @@
 //////////////////////////////////////////////////////////////////////////
 
 wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
-    EVT_UPDATE_UI_RANGE(wxID_SEND_COMPOSED, wxID_SEND_ABORT, wxZRColaFrame::OnSendUpdate)
+    EVT_UPDATE_UI_RANGE(wxID_CUT, wxID_CLEAR, wxZRColaFrame::OnForwardEventUpdate)
+    EVT_MENU_RANGE(wxID_CUT, wxID_CLEAR, wxZRColaFrame::OnForwardEvent)
 
+    EVT_UPDATE_UI_RANGE(wxID_SEND_COMPOSED, wxID_SEND_ABORT, wxZRColaFrame::OnSendUpdate)
     EVT_MENU(wxID_SEND_COMPOSED  , wxZRColaFrame::OnSendComposed            )
     EVT_MENU(wxID_SEND_DECOMPOSED, wxZRColaFrame::OnSendDecomposed          )
     EVT_MENU(wxID_SEND_ABORT     , wxZRColaFrame::OnSendAbort               )
-    EVT_MENU(wxID_EXIT           , wxZRColaFrame::OnExit                    )
-    EVT_MENU(wxID_ABOUT          , wxZRColaFrame::OnAbout                   )
+
+    EVT_MENU(wxID_EXIT , wxZRColaFrame::OnExit )
+    EVT_MENU(wxID_ABOUT, wxZRColaFrame::OnAbout)
 wxEND_EVENT_TABLE()
 
 
@@ -64,6 +67,26 @@ wxZRColaFrame::~wxZRColaFrame()
     // Unregister global hotkey(s).
     UnregisterHotKey(wxZRColaHKID_INVOKE_DECOMPOSE);
     UnregisterHotKey(wxZRColaHKID_INVOKE_COMPOSE);
+}
+
+
+void wxZRColaFrame::OnForwardEventUpdate(wxUpdateUIEvent& event)
+{
+    wxControl *focusWnd = wxDynamicCast(FindFocus(), wxControl);
+    if (focusWnd)
+        focusWnd->GetEventHandler()->ProcessEvent(event);
+    else
+        event.Enable(false);
+}
+
+
+void wxZRColaFrame::OnForwardEvent(wxCommandEvent& event)
+{
+    wxControl *focusWnd = wxDynamicCast(FindFocus(), wxControl);
+    if (focusWnd)
+        focusWnd->GetEventHandler()->ProcessEvent(event);
+    else
+        event.Skip();
 }
 
 
