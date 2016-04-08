@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-04-08 12:59+0200\n"
-"PO-Revision-Date: 2016-04-08 12:59+0200\n"
+"POT-Creation-Date: 2016-04-08 13:13+0200\n"
+"PO-Revision-Date: 2016-04-08 13:13+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: sl_SI\n"
@@ -54,6 +54,10 @@ msgstr "O ZRColi"
 msgid "E&xit"
 msgstr "I&zhod"
 
+#: zrcolagui.cpp:32
+msgid "Quit this program"
+msgstr "Zapri ta program"
+
 #: zrcolagui.cpp:35
 msgid "&Program"
 msgstr "&Program"
@@ -62,37 +66,37 @@ msgstr "&Program"
 msgid "Select &All"
 msgstr "Izberi &vse"
 
+#: zrcolagui.cpp:68
+msgid "Select all text"
+msgstr "Izberi celotno besedilo"
+
 #: zrcolagui.cpp:74
 msgid "&Send Composed"
 msgstr "Pošlji &sestavljeno"
 
 #: zrcolagui.cpp:74 zrcolagui.cpp:121
-msgid "Sends composed text to source window"
-msgstr "Pošlje sestavljeno besedilo izvornemu oknu"
+msgid "Send composed text to source window"
+msgstr "Pošlji sestavljeno besedilo izvornemu oknu"
 
 #: zrcolagui.cpp:83
 msgid "Send &Decomposed"
 msgstr "Pošlji &razstavljeno"
 
 #: zrcolagui.cpp:83 zrcolagui.cpp:123
-msgid "Sends decomposed text to source window"
-msgstr "Pošlje razstavljeno besedilo izvornemu oknu"
+msgid "Send decomposed text to source window"
+msgstr "Pošlji razstavljeno besedilo izvornemu oknu"
 
 #: zrcolagui.cpp:92
 msgid "Abort (De)composition"
 msgstr "Prekini raz/sestavljanje"
 
 #: zrcolagui.cpp:92
-msgid "Aborts composition and returns focus to source window"
-msgstr "Prekine sestavljanje in vrne fokus nazaj izvornemu oknu"
+msgid "Abort composition and return focus to source window"
+msgstr "Prekini sestavljanje in vrni fokus nazaj izvornemu oknu"
 
 #: zrcolagui.cpp:100
 msgid "&Edit"
 msgstr "Ur&edi"
-
-#: zrcolagui.cpp:104
-msgid "&About"
-msgstr "O progr&amu"
 
 #: zrcolagui.cpp:107
 msgid "&Help"
@@ -103,24 +107,24 @@ msgid "Cut"
 msgstr "Izreži"
 
 #: zrcolagui.cpp:113
-msgid "Cuts selected text and puts it on the clipboard"
-msgstr "Izreže izbrano besedilo in ga shrani na odložišče"
+msgid "Cut selection"
+msgstr "Izreži izbor"
 
 #: zrcolagui.cpp:115
 msgid "Copy"
 msgstr "Kopiraj"
 
 #: zrcolagui.cpp:115
-msgid "Copies selected text to the clipboard"
-msgstr "Kopira izbrano besedilo na odložišče"
+msgid "Copy selection"
+msgstr "Kopiraj izbor"
 
 #: zrcolagui.cpp:117
 msgid "Paste"
 msgstr "Prilepi"
 
 #: zrcolagui.cpp:117
-msgid "Inserts text from the clipboard"
-msgstr "Vstavi besedilo z odložišča"
+msgid "Paste selection"
+msgstr "Prilepi izbor"
 
 #: zrcolagui.cpp:121
 msgid "Send Composed"
@@ -151,6 +155,18 @@ msgstr "1250"
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
 msgid "Input system for linguistic use"
 msgstr "Vnašalni sistem za jezikoslovno rabo"
+
+#~ msgid "&About"
+#~ msgstr "O progr&amu"
+
+#~ msgid "Cuts selected text and puts it on the clipboard"
+#~ msgstr "Izreže izbrano besedilo in ga shrani na odložišče"
+
+#~ msgid "Copies selected text to the clipboard"
+#~ msgstr "Kopira izbrano besedilo na odložišče"
+
+#~ msgid "Inserts text from the clipboard"
+#~ msgstr "Vstavi besedilo z odložišča"
 
 #~ msgid "&Copy"
 #~ msgstr "&Kopiraj"
