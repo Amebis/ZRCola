@@ -94,8 +94,8 @@ namespace ZRCola {
             ///
             /// Compares two transformations by string (for searching)
             ///
-            /// \param[in] a  Pointer to key sequence
-            /// \param[in] b  Pointer to second key sequence
+            /// \param[in] a  Pointer to first element
+            /// \param[in] b  Pointer to second element
             ///
             /// \returns
             /// - <0 when a <  b
@@ -150,8 +150,8 @@ namespace ZRCola {
             ///
             /// Compares two transformations by character (for searching)
             ///
-            /// \param[in] a  Pointer to key sequence
-            /// \param[in] b  Pointer to second key sequence
+            /// \param[in] a  Pointer to first element
+            /// \param[in] b  Pointer to second element
             ///
             /// \returns
             /// - <0 when a <  b
