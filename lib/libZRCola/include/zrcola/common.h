@@ -53,6 +53,13 @@ namespace ZRCola {
 
 
     ///
+    /// Language ID type
+    /// Three letter abbreviation, zero terminated
+    ///
+    typedef char langid_t[4];
+
+
+    ///
     /// Memory index
     ///
     template <class T, class T_idx = unsigned __int32, class T_data = T>

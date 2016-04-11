@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include <zrcola/language.h>
+#include <zrcola/common.h>
 
 #include <atlbase.h>
 #include <adoint.h>

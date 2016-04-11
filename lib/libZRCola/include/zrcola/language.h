@@ -34,12 +34,6 @@
 
 namespace ZRCola {
     ///
-    /// Language ID type
-    /// Three letter abbreviation, zero terminated
-    ///
-    typedef char langid_t[4];
-
-    ///
     /// Language Character Database
     ///
     class ZRCOLA_API langchar_db {
