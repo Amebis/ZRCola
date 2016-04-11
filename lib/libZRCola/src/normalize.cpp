@@ -20,6 +20,6 @@
 #include "stdafx.h"
 
 
-void ZRCOLA_API ZRCola::Normalize(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map)
+void ZRCola::Normalize(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map)
 {
 }

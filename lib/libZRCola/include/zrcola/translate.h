@@ -20,6 +20,7 @@
 #pragma once
 
 #include "common.h"
+#include "language.h"
 
 #include <stdex/idrec.h>
 #include <istream>
@@ -216,7 +217,22 @@ namespace ZRCola {
         /// \param[out] output    Output string (UTF-16)
         /// \param[out] map       The vector of source to destination index mappings (optional)
         ///
-        void Decompose(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const;
+        inline void Decompose(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const
+        {
+            Decompose(input, inputMax, NULL, ZRCOLA_LANG_VOID, output, map);
+        }
+
+        ///
+        /// Decomposes string according ommiting language specific characters
+        ///
+        /// \param[in]  input     Input string (UTF-16)
+        /// \param[in]  inputMax  Length of the input string in characters. Can be (size_t)-1 if \p input is zero terminated.
+        /// \param[in]  lc_db     Language character database
+        /// \param[in]  lang      Language ID
+        /// \param[out] output    Output string (UTF-16)
+        /// \param[out] map       The vector of source to destination index mappings (optional)
+        ///
+        void Decompose(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _In_opt_ const langchar_db *lc_db, _In_opt_ langid_t lang, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const;
     };
 
 

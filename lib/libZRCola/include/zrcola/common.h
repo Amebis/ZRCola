@@ -44,7 +44,12 @@
 ///
 /// Database IDs
 ///
-#define ZRCOLA_DB_ID    (*(ZRCola::recordid_t*)"ZRC")
+#define ZRCOLA_DB_ID        (*(ZRCola::recordid_t*)"ZRC")
+
+///
+/// Unknown language ID
+///
+#define ZRCOLA_LANG_VOID    "   "
 
 
 namespace ZRCola {

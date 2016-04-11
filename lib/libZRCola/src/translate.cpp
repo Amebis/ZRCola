@@ -102,7 +102,7 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
 }
 
 
-void ZRCOLA_API ZRCola::translation_db::Decompose(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map) const
+void ZRCola::translation_db::Decompose(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _In_ const langchar_db *lc_db, _In_ langid_t lang, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map) const
 {
     assert(input || inputMax == 0);
 
@@ -131,7 +131,7 @@ void ZRCOLA_API ZRCola::translation_db::Decompose(_In_z_count_(inputMax) const w
                 else if (decompSrc < c) l = m + 1;
                 else {
                     // Character found.
-                    if (trans.str_len && trans.str[0] != L'#') {
+                    if (trans.str_len && trans.str[0] != L'#' && (!lc_db || !lc_db->IsLocalCharacter(c, lang))) {
                         // Append decomposed sequence.
                         output.append(trans.str, trans.str_len);
                         i++;
