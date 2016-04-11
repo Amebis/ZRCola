@@ -19,6 +19,8 @@
 
 #pragma once
 
+#include <zrcola/language.h>
+
 #include <atlbase.h>
 #include <adoint.h>
 #include <string>
@@ -60,6 +62,25 @@ namespace ZRCola {
         public:
             wchar_t chr;                ///< Character
             std::vector<keycode> seq;   ///< Key sequence
+        };
+
+
+        ///
+        /// Language
+        ///
+        class language {
+        public:
+            ZRCola::langid_t id;        ///< Language ID
+        };
+
+
+        ///
+        /// Language Character
+        ///
+        class langchar {
+        public:
+            wchar_t chr;                ///> Character
+            ZRCola::langid_t lang;      ///< Language ID
         };
 
     public:
@@ -142,6 +163,19 @@ namespace ZRCola {
 
 
         ///
+        /// Gets string from ZRCola.zrc database
+        ///
+        /// \param[in]  f    Data field
+        /// \param[out] val  Output string value
+        ///
+        /// \returns
+        /// - true when successful
+        /// - false otherwise
+        ///
+        bool GetValue(const ATL::CComPtr<ADOField>& f, std::wstring& val) const;
+
+
+        ///
         /// Gets encoded Unicode character from ZRCola.zrc database
         ///
         /// \param[in]  f    Data field
@@ -178,6 +212,19 @@ namespace ZRCola {
         /// - false otherwise
         ///
         bool GetKeyCode(const ATL::CComPtr<ADOField>& f, keyseq::keycode& kc) const;
+
+
+        ///
+        /// Gets language ID from ZRCola.zrc database
+        ///
+        /// \param[in]  f     Data field
+        /// \param[out] lang  Language
+        ///
+        /// \returns
+        /// - true when successful
+        /// - false otherwise
+        ///
+        bool GetLanguage(const ATL::CComPtr<ADOField>& f, langid_t& lang) const;
 
 
         ///
@@ -228,6 +275,56 @@ namespace ZRCola {
         /// - false otherwise
         ///
         bool GetKeySequence(const ATL::CComPtr<ADORecordset>& rs, keyseq& ks) const;
+
+
+        ///
+        /// Returns languages
+        ///
+        /// \param[out] rs  Recordset with results
+        ///
+        /// \returns
+        /// - true when query succeeds
+        /// - false otherwise
+        ///
+        bool SelectLanguages(ATL::CComPtr<ADORecordset>& rs) const;
+
+
+        ///
+        /// Returns language data
+        ///
+        /// \param[in]  rs    Recordset with results
+        /// \param[out] lang  Language
+        ///
+        /// \returns
+        /// - true when succeeded
+        /// - false otherwise
+        ///
+        bool GetLanguage(const ATL::CComPtr<ADORecordset>& rs, language& lang) const;
+
+
+        ///
+        /// Returns language character
+        ///
+        /// \param[out] rs  Recordset with results
+        ///
+        /// \returns
+        /// - true when query succeeds
+        /// - false otherwise
+        ///
+        bool SelectLanguageCharacters(ATL::CComPtr<ADORecordset>& rs) const;
+
+
+        ///
+        /// Returns language character data
+        ///
+        /// \param[in]  rs    Recordset with results
+        /// \param[out] lang  Language character data
+        ///
+        /// \returns
+        /// - true when succeeded
+        /// - false otherwise
+        ///
+        bool GetLanguageCharacter(const ATL::CComPtr<ADORecordset>& rs, langchar& lc) const;
 
     protected:
         std::basic_string<TCHAR> m_filename;    ///< Database filename

@@ -133,6 +133,117 @@ inline std::ostream& operator <<(std::ostream& stream, const ZRCola::keyseq_db &
 
 
 ///
+/// Writes language database to a stream
+///
+/// \param[in] stream  Output stream
+/// \param[in] db      Language database
+///
+/// \returns The stream \p stream
+///
+inline std::ostream& operator <<(std::ostream& stream, const ZRCola::language_db &db)
+{
+    unsigned __int32 count;
+
+    // Write index count.
+    ZRCola::language_db::indexLang::size_type lang_count = db.idxLng.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+    // 4G check
+    if (lang_count > 0xffffffff) {
+        stream.setstate(std::ios_base::failbit);
+        return stream;
+    }
+#endif
+    if (stream.fail()) return stream;
+    count = (unsigned __int32)lang_count;
+    stream.write((const char*)&count, sizeof(count));
+
+    // Write language index.
+    if (stream.fail()) return stream;
+    stream.write((const char*)db.idxLng.data(), sizeof(unsigned __int32)*count);
+
+
+    // Write data count.
+    std::vector<unsigned __int16>::size_type data_count = db.data.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+    // 4G check
+    if (data_count > 0xffffffff) {
+        stream.setstate(std::ios_base::failbit);
+        return stream;
+    }
+#endif
+    if (stream.fail()) return stream;
+    count = (unsigned __int32)data_count;
+    stream.write((const char*)&count, sizeof(count));
+
+    // Write data.
+    if (stream.fail()) return stream;
+    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
+
+    return stream;
+}
+
+
+///
+/// Writes language character database to a stream
+///
+/// \param[in] stream  Output stream
+/// \param[in] db      Language character database
+///
+/// \returns The stream \p stream
+///
+inline std::ostream& operator <<(std::ostream& stream, const ZRCola::langchar_db &db)
+{
+#ifdef ZRCOLA_LANGCHAR_LANG_IDX
+    assert(db.idxChr.size() == db.idxLng.size());
+#endif
+
+    unsigned __int32 count;
+
+    // Write index count.
+    ZRCola::langchar_db::indexChar::size_type lc_count = db.idxChr.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+    // 4G check
+    if (lc_count > 0xffffffff) {
+        stream.setstate(std::ios_base::failbit);
+        return stream;
+    }
+#endif
+    if (stream.fail()) return stream;
+    count = (unsigned __int32)lc_count;
+    stream.write((const char*)&count, sizeof(count));
+
+    // Write character index.
+    if (stream.fail()) return stream;
+    stream.write((const char*)db.idxChr.data(), sizeof(unsigned __int32)*count);
+
+#ifdef ZRCOLA_LANGCHAR_LANG_IDX
+    // Write language index.
+    if (stream.fail()) return stream;
+    stream.write((const char*)db.idxLng.data(), sizeof(unsigned __int32)*count);
+#endif
+
+    // Write data count.
+    std::vector<unsigned __int16>::size_type data_count = db.data.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+    // 4G check
+    if (data_count > 0xffffffff) {
+        stream.setstate(std::ios_base::failbit);
+        return stream;
+    }
+#endif
+    if (stream.fail()) return stream;
+    count = (unsigned __int32)data_count;
+    stream.write((const char*)&count, sizeof(count));
+
+    // Write data.
+    if (stream.fail()) return stream;
+    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
+
+    return stream;
+}
+
+
+///
 /// Main function
 ///
 int _tmain(int argc, _TCHAR *argv[])
@@ -259,7 +370,6 @@ int _tmain(int argc, _TCHAR *argv[])
         }
     }
 
-
     {
         // Get key sequences.
         ATL::CComPtr<ADORecordset> rs;
@@ -325,6 +435,102 @@ int _tmain(int argc, _TCHAR *argv[])
             }
         } else {
             _ftprintf(stderr, wxT("%s: error ZCC0005: Error getting key sequences from database. Please make sure the file is ZRCola.zrc compatible.\n"), (LPCTSTR)filenameIn.c_str());
+            has_errors = true;
+        }
+    }
+
+    {
+        // Get languages.
+        ATL::CComPtr<ADORecordset> rs;
+        if (src.SelectLanguages(rs)) {
+            size_t count = src.GetRecordsetCount(rs);
+            if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
+                ZRCola::DBSource::language lang;
+                ZRCola::language_db db;
+
+                // Preallocate memory.
+                db.idxLng.reserve(count);
+                db.data  .reserve(count*4);
+
+                // Parse languages and build index and data.
+                while (!ZRCola::DBSource::IsEOF(rs)) {
+                    // Read language from the database.
+                    if (src.GetLanguage(rs, lang)) {
+                        // Add language to index and data.
+                        unsigned __int32 idx = db.data.size();
+                        for (std::wstring::size_type i = 0; i < sizeof(ZRCola::langid_t)/sizeof(unsigned __int16); i++)
+                            db.data.push_back(((const unsigned __int16*)lang.id)[i]);
+                        db.idxLng.push_back(idx);
+                    } else
+                        has_errors = true;
+
+                    wxVERIFY(SUCCEEDED(rs->MoveNext()));
+                }
+
+                // Sort indices.
+                db.idxLng.sort();
+
+                // Write languages to file.
+                dst << ZRCola::language_rec(db);
+            } else {
+                _ftprintf(stderr, wxT("%s: error ZCC0009: Error getting language count from database or too many languages.\n"), (LPCTSTR)filenameIn.c_str());
+                has_errors = true;
+            }
+        } else {
+            _ftprintf(stderr, wxT("%s: error ZCC0008: Error getting languages from database. Please make sure the file is ZRCola.zrc compatible.\n"), (LPCTSTR)filenameIn.c_str());
+            has_errors = true;
+        }
+    }
+
+    {
+        // Get language characters.
+        ATL::CComPtr<ADORecordset> rs;
+        if (src.SelectLanguageCharacters(rs)) {
+            size_t count = src.GetRecordsetCount(rs);
+            if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
+                ZRCola::DBSource::langchar lc;
+                ZRCola::langchar_db db;
+
+                // Preallocate memory.
+                db.idxChr.reserve(count);
+#ifdef ZRCOLA_LANGCHAR_LANG_IDX
+                db.idxLng.reserve(count);
+#endif
+                db.data  .reserve(count*4);
+
+                // Parse language characters and build index and data.
+                while (!ZRCola::DBSource::IsEOF(rs)) {
+                    // Read language characters from the database.
+                    if (src.GetLanguageCharacter(rs, lc)) {
+                        // Add language characters to index and data.
+                        unsigned __int32 idx = db.data.size();
+                        db.data.push_back(lc.chr);
+                        for (std::wstring::size_type i = 0; i < sizeof(ZRCola::langid_t)/sizeof(unsigned __int16); i++)
+                            db.data.push_back(((const unsigned __int16*)lc.lang)[i]);
+                        db.idxChr.push_back(idx);
+#ifdef ZRCOLA_LANGCHAR_LANG_IDX
+                        db.idxLng.push_back(idx);
+#endif
+                    } else
+                        has_errors = true;
+
+                    wxVERIFY(SUCCEEDED(rs->MoveNext()));
+                }
+
+                // Sort indices.
+                db.idxChr .sort();
+#ifdef ZRCOLA_LANGCHAR_LANG_IDX
+                db.idxLng.sort();
+#endif
+
+                // Write language characters to file.
+                dst << ZRCola::langchar_rec(db);
+            } else {
+                _ftprintf(stderr, wxT("%s: error ZCC0011: Error getting language characters count from database or too many langchars.\n"), (LPCTSTR)filenameIn.c_str());
+                has_errors = true;
+            }
+        } else {
+            _ftprintf(stderr, wxT("%s: error ZCC0010: Error getting language characters from database. Please make sure the file is ZRCola.zrc compatible.\n"), (LPCTSTR)filenameIn.c_str());
             has_errors = true;
         }
     }

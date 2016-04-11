@@ -24,6 +24,7 @@
 #include "../include/zrcola.h"
 #include "dbsource.h"
 
+#include <zrcola/language.h>
 #include <zrcola/translate.h>
 #include <zrcolaui/keyboard.h>
 

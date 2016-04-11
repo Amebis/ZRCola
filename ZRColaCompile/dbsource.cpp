@@ -127,6 +127,21 @@ bool ZRCola::DBSource::GetValue(const ATL::CComPtr<ADOField>& f, int& val) const
 }
 
 
+bool ZRCola::DBSource::GetValue(const ATL::CComPtr<ADOField>& f, std::wstring& val) const
+{
+    wxASSERT_MSG(f, wxT("field is empty"));
+
+    ATL::CComVariant v;
+    wxVERIFY(SUCCEEDED(f->get_Value(&v)));
+    wxCHECK(SUCCEEDED(v.ChangeType(VT_BSTR)), false);
+
+    val.reserve(::SysStringLen(V_BSTR(&v)));
+    val = V_BSTR(&v);
+
+    return true;
+}
+
+
 bool ZRCola::DBSource::GetUnicodeCharacter(const ATL::CComPtr<ADOField>& f, wchar_t& chr) const
 {
     wxASSERT_MSG(f, wxT("field is empty"));
@@ -241,6 +256,45 @@ bool ZRCola::DBSource::GetKeyCode(const ATL::CComPtr<ADOField>& f, ZRCola::DBSou
 }
 
 
+bool ZRCola::DBSource::GetLanguage(const ATL::CComPtr<ADOField>& f, ZRCola::langid_t& lang) const
+{
+    wxASSERT_MSG(f, wxT("field is empty"));
+
+    ATL::CComVariant v;
+    wxVERIFY(SUCCEEDED(f->get_Value(&v)));
+    wxCHECK(SUCCEEDED(v.ChangeType(VT_BSTR)), false);
+
+    // Convert to lowercase.
+    _wcslwr_l(V_BSTR(&v), m_locale);
+
+    // Parse the field.
+    size_t n = wcsnlen(V_BSTR(&v), ::SysStringLen(V_BSTR(&v)));
+    if (n != 3) {
+            ATL::CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
+            _ftprintf(stderr, wxT("%s: error ZCC0080: Syntax error in \"%.*ls\" field (\"%.*ls\"). Language ID must be exactly three (3) characters long.\n"), m_filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
+            return false;
+    }
+    for (size_t i = 0;; i++) {
+        if (i < sizeof(lang)) {
+            if (i < n) {
+                wchar_t c = V_BSTR(&v)[i];
+                if ((unsigned short)c > 0x7f) {
+                    ATL::CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
+                    _ftprintf(stderr, wxT("%s: error ZCC0081: Syntax error in \"%.*ls\" field (\"%.*ls\"). Language ID must contain ASCII characters only.\n"), m_filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
+                    return false;
+                }
+                lang[i] = (char)c;
+            } else
+                lang[i] = 0;
+        } else
+            break;
+    }
+
+    return true;
+}
+
+
+
 bool ZRCola::DBSource::SelectTranslations(ATL::CComPtr<ADORecordset> &rs) const
 {
     // Create a new recordset.
@@ -343,6 +397,80 @@ bool ZRCola::DBSource::GetKeySequence(const ATL::CComPtr<ADORecordset>& rs, ZRCo
         kc1.key = keycode;
         if (shift) kc1.shift = true;
         ks.seq.push_back(kc1);
+    }
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::SelectLanguages(ATL::CComPtr<ADORecordset> &rs) const
+{
+    // Create a new recordset.
+    if (rs) rs.Release();
+    wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
+
+    // Open it.
+    if (FAILED(rs->Open(ATL::CComVariant(L"SELECT DISTINCT [entCode] FROM [VRS_Jezik]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText))) {
+        _ftprintf(stderr, wxT("%s: error ZCC0060: Error loading languages from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
+        LogErrors();
+        return false;
+    }
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::GetLanguage(const ATL::CComPtr<ADORecordset>& rs, ZRCola::DBSource::language& lang) const
+{
+    wxASSERT_MSG(rs, wxT("recordset is empty"));
+
+    ATL::CComPtr<ADOFields> flds;
+    wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
+
+    {
+        ATL::CComPtr<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"entCode"), &f)));
+        wxCHECK(GetLanguage(f, lang.id), false);
+    }
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::SelectLanguageCharacters(ATL::CComPtr<ADORecordset> &rs) const
+{
+    // Create a new recordset.
+    if (rs) rs.Release();
+    wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
+
+    // Open it.
+    if (FAILED(rs->Open(ATL::CComVariant(L"SELECT DISTINCT [znak], [lang] FROM [VRS_CharLocal]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText))) {
+        _ftprintf(stderr, wxT("%s: error ZCC0090: Error loading language characters from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
+        LogErrors();
+        return false;
+    }
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::GetLanguageCharacter(const ATL::CComPtr<ADORecordset>& rs, ZRCola::DBSource::langchar& lc) const
+{
+    wxASSERT_MSG(rs, wxT("recordset is empty"));
+
+    ATL::CComPtr<ADOFields> flds;
+    wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
+
+    {
+        ATL::CComPtr<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"znak"), &f)));
+        wxCHECK(GetUnicodeCharacter(f, lc.chr), false);
+    }
+
+    {
+        ATL::CComPtr<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"lang"), &f)));
+        wxCHECK(GetLanguage(f, lc.lang), false);
     }
 
     return true;
