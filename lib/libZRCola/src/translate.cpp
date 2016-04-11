@@ -131,11 +131,18 @@ void ZRCOLA_API ZRCola::translation_db::Decompose(_In_z_count_(inputMax) const w
                 else if (decompSrc < c) l = m + 1;
                 else {
                     // Character found.
-                    output.append(trans.str, trans.str_len);
-                    i++;
-                    if (map) {
-                        // Mapping changed.
-                        map->push_back(ZRCola::mapping(i, output.length()));
+                    if (trans.str_len && trans.str[0] != L'#') {
+                        // Append decomposed sequence.
+                        output.append(trans.str, trans.str_len);
+                        i++;
+                        if (map) {
+                            // Mapping changed.
+                            map->push_back(ZRCola::mapping(i, output.length()));
+                        }
+                    } else {
+                        // Character is inhibited to decompose.
+                        output += c;
+                        i++;
                     }
                     break;
                 }
