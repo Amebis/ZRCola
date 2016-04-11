@@ -42,8 +42,8 @@ public:
     /// Called when application initializes.
     ///
     /// \returns
-    /// - true if initialization succeeded
-    /// - false otherwise
+    /// - \c true if initialization succeeded
+    /// - \c false otherwise
     ///
     virtual bool OnInit();
 

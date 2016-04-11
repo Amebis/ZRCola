@@ -180,8 +180,8 @@ namespace ZRCola {
         /// \param[out] end    Index of the first non-matching element found
         ///
         /// \returns
-        /// - true if found
-        /// - false otherwise
+        /// - \c true if found
+        /// - \c false otherwise
         ///
         bool find(_In_ const T_data &el, _Out_ size_type &start, _Out_ size_type &end) const
         {
