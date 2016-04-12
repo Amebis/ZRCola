@@ -28,6 +28,7 @@ class ZRColaApp;
 #include <wx/app.h>
 #include <wx/config.h>
 #include <wx/intl.h>
+#include <zrcola/translate.h>
 
 
 ///
@@ -53,6 +54,9 @@ public:
     ///
     inline wxString GetDatabasePath() const;
 
+
+public:
+    ZRCola::translation_db m_t_db;  ///< Translation database
 
 protected:
     wxLocale m_locale;  ///< Current locale

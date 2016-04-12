@@ -62,6 +62,38 @@ bool ZRColaApp::OnInit()
         wxVERIFY(m_locale.AddCatalog(wxT("ZRCola")));
     }
 
+    std::fstream dat((LPCTSTR)GetDatabasePath(), std::ios_base::in | std::ios_base::binary);
+    if (dat.good()) {
+        if (stdex::idrec::find<ZRCola::recordid_t, ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>(dat, ZRCOLA_DB_ID, sizeof(ZRCola::recordid_t))) {
+            ZRCola::recordsize_t size;
+            dat.read((char*)&size, sizeof(ZRCola::recordsize_t));
+            if (dat.good()) {
+                bool has_translation_data = false;
+
+                for (;;) {
+                    ZRCola::recordid_t id;
+                    if (!stdex::idrec::read_id(dat, id, size)) break;
+
+                    if (id == ZRCola::translation_rec::id) {
+                        dat >> ZRCola::translation_rec(m_t_db);
+                        if (dat.good()) {
+                            has_translation_data = true;
+                        } else {
+                            wxFAIL_MSG(wxT("Error reading translation data from ZRCola.zrcdb."));
+                            m_t_db.idxComp  .clear();
+                            m_t_db.idxDecomp.clear();
+                            m_t_db.data     .clear();
+                        }
+                    }
+                }
+
+                if (!has_translation_data)
+                    wxFAIL_MSG(wxT("ZRCola.zrcdb has no translation data."));
+            }
+        } else
+            wxFAIL_MSG(wxT("ZRCola.zrcdb is not a valid ZRCola database."));
+    }
+
     wxZRColaFrame* mainFrame = new wxZRColaFrame();
     wxPersistentRegisterAndRestore<wxTopLevelWindow>(mainFrame);
     mainFrame->Show();

@@ -27,7 +27,6 @@ class wxZRColaComposerPanel;
 
 #include "zrcolagui.h"
 #include "zrcolakeyhndlr.h"
-#include <zrcola/translate.h>
 #include <utility>
 
 
@@ -49,7 +48,6 @@ protected:
     virtual void OnComposedText(wxCommandEvent& event);
 
 protected:
-    ZRCola::translation_db m_t_db;      ///< Translation database
     bool m_progress;                    ///< Boolean flag to avoid recursive updates of composed and decomposed text controls
     ZRCola::mapping_vector m_mapping;   ///< Character index mapping vector between composed and decomposed text
     std::pair<long, long>

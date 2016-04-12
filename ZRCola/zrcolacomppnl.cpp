@@ -30,28 +30,6 @@ wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
     m_selComposed(0, 0),
     wxZRColaComposerPanelBase(parent)
 {
-    std::fstream dat((LPCTSTR)((ZRColaApp*)wxTheApp)->GetDatabasePath(), std::ios_base::in | std::ios_base::binary);
-    if (dat.good()) {
-        if (stdex::idrec::find<ZRCola::recordid_t, ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>(dat, ZRCOLA_DB_ID, sizeof(ZRCola::recordid_t))) {
-            ZRCola::recordsize_t size;
-            dat.read((char*)&size, sizeof(ZRCola::recordsize_t));
-            if (dat.good()) {
-                ZRCola::translation_rec rec(m_t_db);
-                if (rec.find(dat, size)) {
-                    dat >> rec;
-                    if (!dat.good()) {
-                        wxFAIL_MSG(wxT("Error reading translation data from ZRCola.zrcdb."));
-                        m_t_db.idxComp  .clear();
-                        m_t_db.idxDecomp.clear();
-                        m_t_db.data     .clear();
-                    }
-                } else
-                    wxFAIL_MSG(wxT("ZRCola.zrcdb has no translation data."));
-            }
-        } else
-            wxFAIL_MSG(wxT("ZRCola.zrcdb is not a valid ZRCola database."));
-    }
-
     m_decomposed->PushEventHandler(&m_keyhandler);
 }
 
@@ -94,7 +72,7 @@ void wxZRColaComposerPanel::OnDecomposedText(wxCommandEvent& event)
 #endif
 
         std::wstring dst;
-        m_t_db.Compose(src.data(), src.size(), dst, &m_mapping);
+        ((ZRColaApp*)wxTheApp)->m_t_db.Compose(src.data(), src.size(), dst, &m_mapping);
 
         long from, to;
         m_decomposed->GetSelection(&from, &to);
@@ -141,7 +119,7 @@ void wxZRColaComposerPanel::OnComposedText(wxCommandEvent& event)
 #endif
 
         std::wstring dst;
-        m_t_db.Decompose(src.data(), src.size(), dst, &m_mapping);
+        ((ZRColaApp*)wxTheApp)->m_t_db.Decompose(src.data(), src.size(), dst, &m_mapping);
 
         long from, to;
         m_composed->GetSelection(&from, &to);
