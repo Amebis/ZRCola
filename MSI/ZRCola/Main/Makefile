@@ -64,6 +64,9 @@ comp00_ZRCola_Re.ttf	{B6CE8B39-11DC-4B59-B10C-3F0FFE8F81AF}	FontsFolder	0		file0
 comp00_ZRCola_It.ttf	{10613965-2874-470D-9D5A-B7D535AA3317}	FontsFolder	0		file00_ZRCola_It.ttf
 comp00_ZRCola_Bd.ttf	{C036BE8D-6D2F-4DBF-99D6-F53702EAEBB6}	FontsFolder	0		file00_ZRCola_Bd.ttf
 comp00_ZRCola_BI.ttf	{883DDA9A-DA85-4FC4-95B7-EF0E08766DEF}	FontsFolder	0		file00_ZRCola_BI.ttf
+!IF "$(LANG)" == "Sl"
+compZRCola.zrcdb.mo.sl_SI	{6572EAD1-EE48-46A1-A28E-77985B667F67}	ZRCOLALOCSLSIDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola.zrcdb.mo.sl_SI
+!ENDIF
 <<NOKEEP
 
 
@@ -236,6 +239,9 @@ file00_ZRCola_Re.ttf	comp00_ZRCola_Re.ttf	00_ZRC~1.TTF|00_ZRCola_Re.ttf	0			0	1
 file00_ZRCola_It.ttf	comp00_ZRCola_It.ttf	00_ZRC~2.TTF|00_ZRCola_It.ttf	0			0	1
 file00_ZRCola_Bd.ttf	comp00_ZRCola_Bd.ttf	00_ZRC~3.TTF|00_ZRCola_Bd.ttf	0			0	1
 file00_ZRCola_BI.ttf	comp00_ZRCola_BI.ttf	00_ZRC~4.TTF|00_ZRCola_BI.ttf	0			0	1
+!IF "$(LANG)" == "Sl"
+fileZRCola.zrcdb.mo.sl_SI	compZRCola.zrcdb.mo.sl_SI	ZRCOLA~1.MO|ZRCola-zrcdb.mo	0		1060	0	1
+!ENDIF
 <<NOKEEP
 
 

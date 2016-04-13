@@ -1,0 +1,123 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ZRCola.zrcdb\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
+"Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
+"Language: sl_SI\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+msgid "Albanian"
+msgstr "albanščina"
+
+msgid "Belarusian"
+msgstr "beloruščina"
+
+msgid "Bosnian – Cyrillic"
+msgstr "bosanščina – cirilica"
+
+msgid "Bosnian – Latinic"
+msgstr "bosanščina – latinica"
+
+msgid "Croatian"
+msgstr "hrvaščina"
+
+msgid "Czech"
+msgstr "češčina"
+
+msgid "Danish"
+msgstr "danščina"
+
+msgid "English"
+msgstr "angleščina"
+
+msgid "Estonian"
+msgstr "estonščina"
+
+msgid "French"
+msgstr "francoščina"
+
+msgid "Friulian"
+msgstr "furlanščina"
+
+msgid "German"
+msgstr "nemščina"
+
+msgid "Hungarian"
+msgstr "madžarščina"
+
+msgid "Irish Gaelic"
+msgstr "irščina"
+
+msgid "Kashubian"
+msgstr "kašubščina"
+
+msgid "Latin"
+msgstr "latinščina"
+
+msgid "Latvian"
+msgstr "letonščina"
+
+msgid "Lithuanian"
+msgstr "litovščina"
+
+msgid "Macedonian"
+msgstr "makedonščina"
+
+msgid "Maltese"
+msgstr "malteščina"
+
+msgid "Moldavian – Cyrillic"
+msgstr "moldavščina – cirilica"
+
+msgid "Moldavian – Latinic"
+msgstr "moldavščina – latinica"
+
+msgid "Norwegian"
+msgstr "norveščina"
+
+msgid "Polish"
+msgstr "poljščina"
+
+msgid "Portuguese"
+msgstr "portugalščina"
+
+msgid "Romanian"
+msgstr "romunščina"
+
+msgid "Russian"
+msgstr "ruščina"
+
+msgid "Serbian – Cyrillic"
+msgstr "srbščina – cirilica"
+
+msgid "Serbian – Latinic"
+msgstr "srbščina – latinica"
+
+msgid "Slovak"
+msgstr "slovaščina"
+
+msgid "Slovenian"
+msgstr "slovenščina"
+
+msgid "Sorbian"
+msgstr "lužiščini"
+
+msgid "Spanish"
+msgstr "španščina"
+
+msgid "Swedish"
+msgstr "švedščina"
+
+msgid "Turkish"
+msgstr "turščina"
+
+msgid "Ukrainian"
+msgstr "ukrajinščina"

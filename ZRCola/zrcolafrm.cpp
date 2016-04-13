@@ -63,10 +63,12 @@ wxZRColaFrame::wxZRColaFrame() :
     m_toolDecompLanguage->Clear();
     for (size_t i = 0, n = app->m_lang_db.idxLng.size(); i < n; i++) {
         const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[i];
-        wxString label(wxString::FromAscii(lang.id, strnlen(lang.id, sizeof(lang.id))));
+        wxString
+            label(lang.name, lang.name_len),
+            label_tran(wxGetTranslation(label));
         if (i < wxID_DECOMP_LANGUAGE_END - wxID_DECOMP_LANGUAGE_START + 1)
-            m_menuDecompLanguage->Insert(i, wxID_DECOMP_LANGUAGE_START + i, label, wxString::Format(_("Select %s language for decomposition"), (const wxStringCharType*)label), wxITEM_RADIO);
-        m_toolDecompLanguage->Insert(label, i);
+            m_menuDecompLanguage->Insert(i, wxID_DECOMP_LANGUAGE_START + i, label_tran, wxString::Format(_("Select %s language for decomposition"), (const wxStringCharType*)label_tran), wxITEM_RADIO);
+        m_toolDecompLanguage->Insert(label_tran, i);
         if (memcmp(m_lang, lang.id, sizeof(m_lang)) == 0)
             m_toolDecompLanguage->Select(i);
     }
@@ -310,12 +312,18 @@ bool wxPersistentZRColaFrame::Restore()
 
     wxZRColaFrame * const wnd = static_cast<wxZRColaFrame*>(GetWindow());
 
+    ZRColaApp *app = ((ZRColaApp*)wxTheApp);
     wxString lang;
     if (RestoreValue(wxT("lang"), &lang) && lang.Length() == 3) {
         memcpy(wnd->m_lang, (const char*)lang.c_str(), sizeof(wnd->m_lang));
-        wnd->m_toolDecompLanguage->SetStringSelection(wxString::FromAscii(wnd->m_lang, sizeof(wnd->m_lang)));
+
+        ZRCola::language_db::language *lang = new ZRCola::language_db::language;
+        memcpy(lang->id, wnd->m_lang, sizeof(lang->id));
+        lang->name_len = 0;
+        ZRCola::language_db::indexLang::size_type start, end;
+        wnd->m_toolDecompLanguage->SetSelection(app->m_lang_db.idxLng.find(*lang, start, end) ? start : -1);
+        delete lang;
     } else {
-        ZRColaApp *app = ((ZRColaApp*)wxTheApp);
         if (!app->m_lang_db.idxLng.empty()) {
             const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[0];
             memcpy(wnd->m_lang, lang.id, sizeof(wnd->m_lang));

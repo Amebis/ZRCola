@@ -202,6 +202,8 @@ namespace ZRCola {
         ///
         struct language {
             langid_t id;                ///< Language ID
+            unsigned __int16 name_len;  ///< \c name length (in characters)
+            wchar_t name[];             ///< Language name
         };
 #pragma pack(pop)
 

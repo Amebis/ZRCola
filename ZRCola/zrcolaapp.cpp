@@ -60,6 +60,7 @@ bool ZRColaApp::OnInit()
         wxVERIFY(m_locale.Init(language));
         wxVERIFY(m_locale.AddCatalog(wxT("wxExtend")));
         wxVERIFY(m_locale.AddCatalog(wxT("ZRCola")));
+        wxVERIFY(m_locale.AddCatalog(wxT("ZRCola-zrcdb")));
     }
 
     std::fstream dat((LPCTSTR)GetDatabasePath(), std::ios_base::in | std::ios_base::binary);

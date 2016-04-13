@@ -71,6 +71,7 @@ namespace ZRCola {
         class language {
         public:
             ZRCola::langid_t id;        ///< Language ID
+            std::wstring name;          ///< Language name
         };
 
 

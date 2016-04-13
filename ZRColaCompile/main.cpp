@@ -274,8 +274,9 @@ int _tmain(int argc, _TCHAR *argv[])
     static const wxCmdLineEntryDesc cmdLineDesc[] =
     {
         { wxCMD_LINE_SWITCH, "h"  , "help", _("Show this help message"), wxCMD_LINE_VAL_NONE  , wxCMD_LINE_OPTION_HELP      },
-        { wxCMD_LINE_PARAM ,  NULL, NULL  , _("input file")            , wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
-        { wxCMD_LINE_PARAM ,  NULL, NULL  , _("output file")           , wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
+        { wxCMD_LINE_PARAM ,  NULL, NULL  , _("<input file>"          ), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
+        { wxCMD_LINE_PARAM ,  NULL, NULL  , _("<output file>"         ), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
+        { wxCMD_LINE_PARAM ,  NULL, NULL  , _("<output POT catalog>"  ), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION           },
 
         { wxCMD_LINE_NONE }
     };
@@ -316,6 +317,10 @@ int _tmain(int argc, _TCHAR *argv[])
     }
 
     bool has_errors = false;
+
+    // Set of strings to translate.
+    bool build_pot = parser.GetParamCount() > 2;
+    std::set<std::wstring> pot;
 
     // Open file ID.
     std::streamoff dst_start = stdex::idrec::open<ZRCola::recordid_t, ZRCola::recordsize_t>(dst, ZRCOLA_DB_ID);
@@ -460,7 +465,14 @@ int _tmain(int argc, _TCHAR *argv[])
                         unsigned __int32 idx = db.data.size();
                         for (std::wstring::size_type i = 0; i < sizeof(ZRCola::langid_t)/sizeof(unsigned __int16); i++)
                             db.data.push_back(((const unsigned __int16*)lang.id)[i]);
+                        std::wstring::size_type n = lang.name.length();
+                        wxASSERT_MSG(n <= 0xffff, wxT("language name too long"));
+                        db.data.push_back((unsigned __int16)n);
+                        for (std::wstring::size_type i = 0; i < n; i++)
+                            db.data.push_back(lang.name[i]);
                         db.idxLng.push_back(idx);
+                        if (build_pot)
+                            pot.insert(lang.name);
                     } else
                         has_errors = true;
 
@@ -540,6 +552,50 @@ int _tmain(int argc, _TCHAR *argv[])
     if (dst.fail()) {
         _ftprintf(stderr, wxT("%s: error ZCC1000: Writing to output file failed.\n"), (LPCTSTR)filenameOut.c_str());
         has_errors = true;
+    }
+
+    if (!has_errors && build_pot) {
+        const wxString& filenamePot = parser.GetParam(2);
+        std::fstream dst((LPCTSTR)filenamePot, std::ios_base::out | std::ios_base::trunc);
+        if (dst.good()) {
+            dst << "msgid \"\"" << std::endl
+                << "msgstr \"\"" << std::endl
+                << "\"Project-Id-Version: ZRCola.zrcdb\\n\"" << std::endl
+                << "\"Language: en\\n\"" << std::endl
+                << "\"MIME-Version: 1.0\\n\"" << std::endl
+                << "\"Content-Type: text/plain; charset=UTF-8\\n\"" << std::endl
+                << "\"Content-Transfer-Encoding: 8bit\\n\"" << std::endl
+                << "\"X-Generator: ZRColaCompile " << ZRCOLA_VERSION_STR << "\\n\"" << std::endl;
+
+            std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+            for (std::set<std::wstring>::const_iterator i = pot.cbegin(); i != pot.cend(); ++i) {
+                // Convert UTF-16 to UTF-8 and escape.
+                std::string t(conv.to_bytes(*i)), u;
+                for (size_t i = 0, n = t.size(); i < n; i++) {
+                    char c = t[i];
+                    switch (c) {
+                    case '\'': u += "\\\'"; break;
+                    case '\"': u += "\\\""; break;
+                    case '\n': u += "\\\n"; break;
+                    case '\t': u += "\\\t"; break;
+                    default  : u += c;
+                    }
+                }
+                dst << std::endl
+                    << "msgid \"" << u << "\"" << std::endl
+                    << "msgstr \"\"" << std::endl;
+            }
+
+            if (dst.fail()) {
+                _ftprintf(stderr, wxT("%s: error ZCC0013: Writing to POT catalog failed.\n"), (LPCTSTR)filenameOut.c_str());
+                has_errors = true;
+            }
+
+            dst.close();
+        } else {
+            _ftprintf(stderr, wxT("%s: error ZCC0012: Error opening POT catalog.\n"), filenameOut.fn_str());
+            has_errors = true;
+        }
     }
 
     if (has_errors) {

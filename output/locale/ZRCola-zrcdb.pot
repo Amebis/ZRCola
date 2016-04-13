@@ -1,0 +1,116 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ZRCola.zrcdb\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: ZRColaCompile 2.0-alpha5\n"
+
+msgid "Albanian"
+msgstr ""
+
+msgid "Belarusian"
+msgstr ""
+
+msgid "Bosnian – Cyrillic"
+msgstr ""
+
+msgid "Bosnian – Latinic"
+msgstr ""
+
+msgid "Croatian"
+msgstr ""
+
+msgid "Czech"
+msgstr ""
+
+msgid "Danish"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Estonian"
+msgstr ""
+
+msgid "French"
+msgstr ""
+
+msgid "Friulian"
+msgstr ""
+
+msgid "German"
+msgstr ""
+
+msgid "Hungarian"
+msgstr ""
+
+msgid "Irish Gaelic"
+msgstr ""
+
+msgid "Kashubian"
+msgstr ""
+
+msgid "Latin"
+msgstr ""
+
+msgid "Latvian"
+msgstr ""
+
+msgid "Lithuanian"
+msgstr ""
+
+msgid "Macedonian"
+msgstr ""
+
+msgid "Maltese"
+msgstr ""
+
+msgid "Moldavian – Cyrillic"
+msgstr ""
+
+msgid "Moldavian – Latinic"
+msgstr ""
+
+msgid "Norwegian"
+msgstr ""
+
+msgid "Polish"
+msgstr ""
+
+msgid "Portuguese"
+msgstr ""
+
+msgid "Romanian"
+msgstr ""
+
+msgid "Russian"
+msgstr ""
+
+msgid "Serbian – Cyrillic"
+msgstr ""
+
+msgid "Serbian – Latinic"
+msgstr ""
+
+msgid "Slovak"
+msgstr ""
+
+msgid "Slovenian"
+msgstr ""
+
+msgid "Sorbian"
+msgstr ""
+
+msgid "Spanish"
+msgstr ""
+
+msgid "Swedish"
+msgstr ""
+
+msgid "Turkish"
+msgstr ""
+
+msgid "Ukrainian"
+msgstr ""

@@ -410,7 +410,7 @@ bool ZRCola::DBSource::SelectLanguages(ATL::CComPtr<ADORecordset> &rs) const
     wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
 
     // Open it.
-    if (FAILED(rs->Open(ATL::CComVariant(L"SELECT DISTINCT [entCode] FROM [VRS_Jezik]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText))) {
+    if (FAILED(rs->Open(ATL::CComVariant(L"SELECT DISTINCT [entCode], [Jezik_En] FROM [VRS_Jezik]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText))) {
         _ftprintf(stderr, wxT("%s: error ZCC0060: Error loading languages from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
         LogErrors();
         return false;
@@ -431,6 +431,12 @@ bool ZRCola::DBSource::GetLanguage(const ATL::CComPtr<ADORecordset>& rs, ZRCola:
         ATL::CComPtr<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"entCode"), &f)));
         wxCHECK(GetLanguage(f, lang.id), false);
+    }
+
+    {
+        ATL::CComPtr<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"Jezik_En"), &f)));
+        wxCHECK(GetValue(f, lang.name), false);
     }
 
     return true;

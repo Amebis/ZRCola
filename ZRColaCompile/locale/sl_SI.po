@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRColaCompile\n"
-"POT-Creation-Date: 2016-03-14 17:18+0100\n"
-"PO-Revision-Date: 2016-03-14 17:18+0100\n"
+"POT-Creation-Date: 2016-04-13 18:11+0200\n"
+"PO-Revision-Date: 2016-04-13 18:11+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: sl_SI\n"
@@ -17,14 +17,18 @@ msgstr ""
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: main.cpp:165
+#: main.cpp:276
 msgid "Show this help message"
 msgstr "Pokaži to sporočilo pomoči"
 
-#: main.cpp:166
-msgid "input file"
-msgstr "vhodna datoteka"
+#: main.cpp:277
+msgid "<input file>"
+msgstr "<vhodna datoteka>"
 
-#: main.cpp:167
-msgid "output file"
-msgstr "izhodna datoteka"
+#: main.cpp:278
+msgid "<output file>"
+msgstr "<izhodna datoteka>"
+
+#: main.cpp:279
+msgid "<output POT catalog>"
+msgstr "<izhodni katalog POT>"
