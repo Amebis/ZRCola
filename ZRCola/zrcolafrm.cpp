@@ -61,16 +61,14 @@ wxZRColaFrame::wxZRColaFrame() :
     memcpy(m_lang, ZRCOLA_LANG_VOID, sizeof(m_lang));
     ZRColaApp *app = ((ZRColaApp*)wxTheApp);
     m_toolDecompLanguage->Clear();
-    if (!app->m_lang_db.idxLng.empty()) {
-        for (size_t i = 0, n = app->m_lang_db.idxLng.size(); i < n; i++) {
-            const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[i];
-            wxString label(wxString::FromAscii(lang.id, strnlen(lang.id, sizeof(lang.id))));
-            if (i < wxID_DECOMP_LANGUAGE_END - wxID_DECOMP_LANGUAGE_START + 1)
-                m_menuDecompLanguage->Insert(i, wxID_DECOMP_LANGUAGE_START + i, label, wxString::Format(_("Select %s language for decomposition"), (const wxStringCharType*)label), wxITEM_RADIO);
-            m_toolDecompLanguage->Insert(label, i);
-            if (memcmp(m_lang, lang.id, sizeof(m_lang)) == 0)
-                m_toolDecompLanguage->Select(i);
-        }
+    for (size_t i = 0, n = app->m_lang_db.idxLng.size(); i < n; i++) {
+        const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[i];
+        wxString label(wxString::FromAscii(lang.id, strnlen(lang.id, sizeof(lang.id))));
+        if (i < wxID_DECOMP_LANGUAGE_END - wxID_DECOMP_LANGUAGE_START + 1)
+            m_menuDecompLanguage->Insert(i, wxID_DECOMP_LANGUAGE_START + i, label, wxString::Format(_("Select %s language for decomposition"), (const wxStringCharType*)label), wxITEM_RADIO);
+        m_toolDecompLanguage->Insert(label, i);
+        if (memcmp(m_lang, lang.id, sizeof(m_lang)) == 0)
+            m_toolDecompLanguage->Select(i);
     }
 
     // Set focus.
