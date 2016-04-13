@@ -21,6 +21,8 @@
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
+#include <wx/stattext.h>
+#include <wx/choice.h>
 #include <wx/toolbar.h>
 #include "zrcolacomppnl.h"
 #include <wx/sizer.h>
@@ -49,6 +51,7 @@ class wxZRColaFrameBase : public wxFrame
 		wxMenuBar* m_menubar;
 		wxMenu* m_menuProgram;
 		wxMenu* m_menuEdit;
+		wxMenu* m_menuDecompLanguage;
 		wxMenu* m_menuHelp;
 		wxToolBar* m_toolbar;
 		wxToolBarToolBase* m_toolEditCut; 
@@ -56,8 +59,14 @@ class wxZRColaFrameBase : public wxFrame
 		wxToolBarToolBase* m_toolEditPaste; 
 		wxToolBarToolBase* m_toolSendComposed; 
 		wxToolBarToolBase* m_toolSendDecomposed; 
+		wxStaticText* m_toolDecompLanguageLbl;
+		wxChoice* m_toolDecompLanguage;
 		wxZRColaComposerPanel* m_panel;
 		wxStatusBar* m_statusBar;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnDecompLanguageChoice( wxCommandEvent& event ) { event.Skip(); }
+		
 	
 	public:
 		

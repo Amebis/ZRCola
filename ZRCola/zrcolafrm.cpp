@@ -35,6 +35,9 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
     EVT_MENU(wxID_SEND_DECOMPOSED, wxZRColaFrame::OnSendDecomposed          )
     EVT_MENU(wxID_SEND_ABORT     , wxZRColaFrame::OnSendAbort               )
 
+    EVT_UPDATE_UI_RANGE(wxID_DECOMP_LANGUAGE_START, wxID_DECOMP_LANGUAGE_END, wxZRColaFrame::OnDecomposedLanguageUpdate)
+    EVT_MENU_RANGE(wxID_DECOMP_LANGUAGE_START, wxID_DECOMP_LANGUAGE_END, wxZRColaFrame::OnDecomposedLanguage)
+
     EVT_MENU(wxID_EXIT , wxZRColaFrame::OnExit )
     EVT_MENU(wxID_ABOUT, wxZRColaFrame::OnAbout)
 wxEND_EVENT_TABLE()
@@ -54,6 +57,23 @@ wxZRColaFrame::wxZRColaFrame() :
     SetIcon(wxICON(00_zrcola.ico));
 #endif
 
+    // Populate language lists.
+    memcpy(m_lang, ZRCOLA_LANG_VOID, sizeof(m_lang));
+    ZRColaApp *app = ((ZRColaApp*)wxTheApp);
+    m_toolDecompLanguage->Clear();
+    if (!app->m_lang_db.idxLng.empty()) {
+        for (size_t i = 0, n = app->m_lang_db.idxLng.size(); i < n; i++) {
+            const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[i];
+            wxString label(wxString::FromAscii(lang.id, strnlen(lang.id, sizeof(lang.id))));
+            if (i < wxID_DECOMP_LANGUAGE_END - wxID_DECOMP_LANGUAGE_START + 1)
+                m_menuDecompLanguage->Insert(i, wxID_DECOMP_LANGUAGE_START + i, label, wxString::Format(_("Select %s language for decomposition"), (const wxStringCharType*)label), wxITEM_RADIO);
+            m_toolDecompLanguage->Insert(label, i);
+            if (memcmp(m_lang, lang.id, sizeof(m_lang)) == 0)
+                m_toolDecompLanguage->Select(i);
+        }
+    }
+
+    // Set focus.
     m_panel->m_decomposed->SetFocus();
 
     // Register global hotkey(s).
@@ -75,7 +95,7 @@ wxZRColaFrame::~wxZRColaFrame()
 void wxZRColaFrame::OnForwardEventUpdate(wxUpdateUIEvent& event)
 {
     wxControl *focusWnd = wxDynamicCast(FindFocus(), wxControl);
-    if (focusWnd)
+    if (focusWnd && !m_toolbar->IsDescendant(focusWnd))
         focusWnd->GetEventHandler()->ProcessEvent(event);
     else
         event.Enable(false);
@@ -130,6 +150,47 @@ void wxZRColaFrame::OnSendAbort(wxCommandEvent& event)
     m_panel->m_composed->SelectAll();
 
     event.Skip();
+}
+
+
+void wxZRColaFrame::OnDecomposedLanguageUpdate(wxUpdateUIEvent& event)
+{
+    ZRColaApp *app = ((ZRColaApp*)wxTheApp);
+    const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[event.GetId() - wxID_DECOMP_LANGUAGE_START];
+    event.Check(memcmp(m_lang, lang.id, sizeof(m_lang)) == 0);
+}
+
+
+void wxZRColaFrame::OnDecomposedLanguage(wxCommandEvent& event)
+{
+    ZRColaApp *app = ((ZRColaApp*)wxTheApp);
+    size_t i = event.GetId() - wxID_DECOMP_LANGUAGE_START;
+    const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[i];
+
+    if (memcmp(m_lang, lang.id, sizeof(m_lang)) != 0) {
+        memcpy(m_lang, lang.id, sizeof(m_lang));
+        m_toolDecompLanguage->Select(i);
+
+        // Notify composed text something changed and should re-decompose.
+        wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
+        m_panel->m_composed->ProcessWindowEvent(event2);
+    }
+}
+
+
+void wxZRColaFrame::OnDecompLanguageChoice(wxCommandEvent& event)
+{
+    ZRColaApp *app = ((ZRColaApp*)wxTheApp);
+    size_t i = event.GetSelection();
+    const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[i];
+
+    if (memcmp(m_lang, lang.id, sizeof(m_lang)) != 0) {
+        memcpy(m_lang, lang.id, sizeof(m_lang));
+
+        // Notify composed text something changed and should re-decompose.
+        wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
+        m_panel->m_composed->ProcessWindowEvent(event2);
+    }
 }
 
 
@@ -223,4 +284,48 @@ WXLRESULT wxZRColaFrame::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM
         return 0;
     } else
         return wxZRColaFrameBase::MSWWindowProc(message, wParam, lParam);
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+// wxPersistentZRColaFrame
+//////////////////////////////////////////////////////////////////////////
+
+wxPersistentZRColaFrame::wxPersistentZRColaFrame(wxZRColaFrame *wnd) : wxPersistentTLW(wnd)
+{
+}
+
+
+void wxPersistentZRColaFrame::Save() const
+{
+    //
+    const wxZRColaFrame * const wnd = static_cast<const wxZRColaFrame*>(GetWindow());
+
+    SaveValue(wxT("lang"), wxString::FromAscii(wnd->m_lang, sizeof(wnd->m_lang)));
+    wxPersistentTLW::Save();
+}
+
+
+bool wxPersistentZRColaFrame::Restore()
+{
+    const bool r = wxPersistentTLW::Restore();
+
+    wxZRColaFrame * const wnd = static_cast<wxZRColaFrame*>(GetWindow());
+
+    wxString lang;
+    if (RestoreValue(wxT("lang"), &lang) && lang.Length() == 3) {
+        memcpy(wnd->m_lang, (const char*)lang.c_str(), sizeof(wnd->m_lang));
+        wnd->m_toolDecompLanguage->SetStringSelection(wxString::FromAscii(wnd->m_lang, sizeof(wnd->m_lang)));
+    } else {
+        ZRColaApp *app = ((ZRColaApp*)wxTheApp);
+        if (!app->m_lang_db.idxLng.empty()) {
+            const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[0];
+            memcpy(wnd->m_lang, lang.id, sizeof(wnd->m_lang));
+            wnd->m_toolDecompLanguage->Select(0);
+        } else {
+            memcpy(wnd->m_lang, ZRCOLA_LANG_VOID, sizeof(wnd->m_lang));
+        }
+    }
+
+    return r;
 }

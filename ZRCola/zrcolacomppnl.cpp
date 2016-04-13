@@ -118,8 +118,13 @@ void wxZRColaComposerPanel::OnComposedText(wxCommandEvent& event)
         wxString src(m_composed->GetValue());
 #endif
 
+        ZRColaApp *app = (ZRColaApp*)wxTheApp;
         std::wstring dst;
-        ((ZRColaApp*)wxTheApp)->m_t_db.Decompose(src.data(), src.size(), dst, &m_mapping);
+        wxZRColaFrame *mainWnd = dynamic_cast<wxZRColaFrame*>(wxGetActiveWindow());
+        if (mainWnd)
+            app->m_t_db.Decompose(src.data(), src.size(), &app->m_lc_db, mainWnd->m_lang, dst, &m_mapping);
+        else
+            app->m_t_db.Decompose(src.data(), src.size(), dst, &m_mapping);
 
         long from, to;
         m_composed->GetSelection(&from, &to);

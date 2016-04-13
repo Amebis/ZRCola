@@ -27,6 +27,8 @@ class wxZRColaFrame;
 #pragma once
 
 #include "zrcolagui.h"
+#include <zrcola/language.h>
+#include <wx/persist/toplevel.h>
 
 
 ///
@@ -42,6 +44,12 @@ class wxZRColaFrame;
 class wxZRColaFrame : public wxZRColaFrameBase
 {
 public:
+    enum
+    {
+        wxID_DECOMP_LANGUAGE_START = 6000,
+        wxID_DECOMP_LANGUAGE_END   = 6099,
+    };
+
     wxZRColaFrame();
     virtual ~wxZRColaFrame();
 
@@ -52,9 +60,15 @@ protected:
     void OnSendComposed(wxCommandEvent& event);
     void OnSendDecomposed(wxCommandEvent& event);
     void OnSendAbort(wxCommandEvent& event);
+    void OnDecomposedLanguageUpdate(wxUpdateUIEvent& event);
+    void OnDecomposedLanguage(wxCommandEvent& event);
+    virtual void OnDecompLanguageChoice(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     wxDECLARE_EVENT_TABLE();
+
+    friend class wxPersistentZRColaFrame;
+    friend class wxZRColaComposerPanel;
 
 private:
     void DoSend(const wxString& str);
@@ -63,5 +77,25 @@ protected:
     virtual WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
 
 protected:
+    ZRCola::langid_t m_lang;        ///< Language for decomposing
     WXHWND m_hWndSource;            ///< handle of the active window, when the ZRCola hotkey was pressed
 };
+
+
+///
+/// Supports saving/restoring wxZRColaFrame GUI state
+///
+class wxPersistentZRColaFrame : public wxPersistentTLW
+{
+public:
+    wxPersistentZRColaFrame(wxZRColaFrame *wnd);
+
+    virtual void Save() const;
+    virtual bool Restore();
+};
+
+
+inline wxPersistentObject *wxCreatePersistentObject(wxZRColaFrame *wnd)
+{
+    return new wxPersistentZRColaFrame(wnd);
+}

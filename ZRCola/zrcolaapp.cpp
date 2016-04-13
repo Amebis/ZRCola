@@ -84,6 +84,23 @@ bool ZRColaApp::OnInit()
                             m_t_db.idxDecomp.clear();
                             m_t_db.data     .clear();
                         }
+                    } else if (id == ZRCola::langchar_rec::id) {
+                        dat >> ZRCola::langchar_rec(m_lc_db);
+                        if (!dat.good()) {
+                            wxFAIL_MSG(wxT("Error reading language character data from ZRCola.zrcdb."));
+                            m_lc_db.idxChr.clear();
+#ifdef ZRCOLA_LANGCHAR_LANG_IDX
+                            m_lc_db.idxLng.clear();
+#endif
+                            m_lc_db.data  .clear();
+                        }
+                    } else if (id == ZRCola::language_rec::id) {
+                        dat >> ZRCola::language_rec(m_lang_db);
+                        if (!dat.good()) {
+                            wxFAIL_MSG(wxT("Error reading language character data from ZRCola.zrcdb."));
+                            m_lang_db.idxLng.clear();
+                            m_lang_db.data  .clear();
+                        }
                     }
                 }
 
@@ -95,7 +112,7 @@ bool ZRColaApp::OnInit()
     }
 
     wxZRColaFrame* mainFrame = new wxZRColaFrame();
-    wxPersistentRegisterAndRestore<wxTopLevelWindow>(mainFrame);
+    wxPersistentRegisterAndRestore<wxZRColaFrame>(mainFrame);
     mainFrame->Show();
 
     return true;

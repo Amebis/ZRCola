@@ -28,6 +28,7 @@ class ZRColaApp;
 #include <wx/app.h>
 #include <wx/config.h>
 #include <wx/intl.h>
+#include <zrcola/language.h>
 #include <zrcola/translate.h>
 
 
@@ -57,6 +58,8 @@ public:
 
 public:
     ZRCola::translation_db m_t_db;  ///< Translation database
+    ZRCola::langchar_db m_lc_db;    ///< Language character database
+    ZRCola::language_db m_lang_db;  ///< Language database
 
 protected:
     wxLocale m_locale;  ///< Current locale

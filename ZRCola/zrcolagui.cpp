@@ -97,6 +97,10 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	#endif
 	m_menuEdit->Append( m_menuItemSendAbort );
 	
+	m_menuDecompLanguage = new wxMenu();
+	wxMenuItem* m_menuDecompLanguageItem = new wxMenuItem( m_menuEdit, wxID_ANY, _("&Language"), wxEmptyString, wxITEM_NORMAL, m_menuDecompLanguage );
+	m_menuEdit->Append( m_menuDecompLanguageItem );
+	
 	m_menubar->Append( m_menuEdit, _("&Edit") ); 
 	
 	m_menuHelp = new wxMenu();
@@ -122,6 +126,13 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	
 	m_toolSendDecomposed = m_toolbar->AddTool( wxID_SEND_DECOMPOSED, _("Send Decomposed"), wxIcon( wxT("send_decomposed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Decomposed"), _("Send decomposed text to source window"), NULL ); 
 	
+	m_toolDecompLanguageLbl = new wxStaticText( m_toolbar, wxID_ANY, _("Language:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+	m_toolDecompLanguageLbl->Wrap( -1 );
+	m_toolbar->AddControl( m_toolDecompLanguageLbl );
+	wxArrayString m_toolDecompLanguageChoices;
+	m_toolDecompLanguage = new wxChoice( m_toolbar, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_toolDecompLanguageChoices, 0 );
+	m_toolDecompLanguage->SetSelection( 0 );
+	m_toolbar->AddControl( m_toolDecompLanguage );
 	m_toolbar->Realize(); 
 	
 	wxBoxSizer* bSizerMain;
@@ -137,10 +148,16 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_statusBar = this->CreateStatusBar( 1, wxST_SIZEGRIP, wxID_ANY );
 	
 	this->Centre( wxBOTH );
+	
+	// Connect Events
+	m_toolDecompLanguage->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( wxZRColaFrameBase::OnDecompLanguageChoice ), NULL, this );
 }
 
 wxZRColaFrameBase::~wxZRColaFrameBase()
 {
+	// Disconnect Events
+	m_toolDecompLanguage->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( wxZRColaFrameBase::OnDecompLanguageChoice ), NULL, this );
+	
 }
 
 wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
