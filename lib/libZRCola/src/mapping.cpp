@@ -20,51 +20,51 @@
 #include "stdafx.h"
 
 
-size_t ZRCola::mapping_vector::to_composed(_In_ size_t decmp) const
+size_t ZRCola::mapping_vector::to_src(_In_ size_t dst) const
 {
     for (size_type l = 0, r = size();;) {
         if (l < r) {
             size_type m = (l + r) / 2;
             const mapping &el = (*this)[m];
 
-                 if (decmp < el.decmp) r = m;
-            else if (el.decmp < decmp) l = m + 1;
+                 if (   dst < el.dst) r = m;
+            else if (el.dst <    dst) l = m + 1;
             else {
                 // An exact match found.
-                return el.cmp;
+                return el.src;
             }
         } else if (l) {
             // We found a map interval.
             const mapping &el = (*this)[l - 1];
-            return el.cmp + (decmp - el.decmp);
+            return el.src + (dst - el.dst);
         } else {
-            // The decomposed character index is far left.
-            return decmp;
+            // The destination character index is far left.
+            return dst;
         }
     }
 }
 
 
-size_t ZRCola::mapping_vector::to_decomposed(_In_ size_t cmp) const
+size_t ZRCola::mapping_vector::to_dst(_In_ size_t src) const
 {
     for (size_type l = 0, r = size();;) {
         if (l < r) {
             size_type m = (l + r) / 2;
             const mapping &el = (*this)[m];
 
-                 if (cmp < el.cmp) r = m;
-            else if (el.cmp < cmp) l = m + 1;
+                 if (   src < el.src) r = m;
+            else if (el.src <    src) l = m + 1;
             else {
                 // An exact match found.
-                return el.decmp;
+                return el.dst;
             }
         } else if (l) {
             // We found a map interval.
             const mapping &el = (*this)[l - 1];
-            return el.decmp + (cmp - el.cmp);
+            return el.dst + (src - el.src);
         } else {
-            // The composed character index is far left.
-            return cmp;
+            // The source character index is far left.
+            return src;
         }
     }
 }

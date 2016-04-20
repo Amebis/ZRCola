@@ -223,15 +223,20 @@ namespace ZRCola {
 
 
     ///
-    /// Composed-decomposed index transformation mapping
+    /// Source-destination index transformation mapping
     ///
     class ZRCOLA_NOVTABLE ZRCOLA_API mapping {
     public:
-        size_t cmp;     ///< Character index in composed string
-        size_t decmp;   ///< Character index in decomposed string
+        size_t src;     ///< Character index in source string
+        size_t dst;     ///< Character index in destination string
 
         inline mapping() {};
-        inline mapping(_In_ size_t c, _In_ size_t d) : cmp(c), decmp(d) {}
+        inline mapping(_In_ size_t s, _In_ size_t d) : src(s), dst(d) {}
+
+        ///
+        /// Reverses source and destination indexes
+        ///
+        inline void invert() { size_t tmp = src; src = dst; dst = tmp; }
     };
 
 
@@ -241,22 +246,31 @@ namespace ZRCola {
     class ZRCOLA_API mapping_vector : public std::vector<mapping> {
     public:
         ///
-        /// Transforms character index of decomposed to composed string
+        /// Transforms character index of destination to source
         ///
-        /// \param[in] decmp  Character index in decomposed string
+        /// \param[in] decmp  Character index in destination string
         ///
-        /// \returns  Character index in composed string
+        /// \returns  Character index in source string
         ///
-        size_t to_composed(_In_ size_t decmp) const;
+        size_t to_src(_In_ size_t dst) const;
 
         ///
-        /// Transforms destination index to source index
+        /// Transforms source index to destination index
         ///
-        /// \param[in] cmp  Character index in composed string
+        /// \param[in] cmp  Character index in source string
         ///
-        /// \returns  Character index in decomposed string
+        /// \returns  Character index in destination string
         ///
-        size_t to_decomposed(_In_ size_t cmp) const;
+        size_t to_dst(_In_ size_t src) const;
+
+        ///
+        /// Reverses source and destination indexes
+        ///
+        inline void invert()
+        {
+            for (iterator i = begin(), iEnd = end(); i != iEnd; ++i)
+                i->invert();
+        }
     };
 };
 

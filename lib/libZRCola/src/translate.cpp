@@ -91,7 +91,7 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
             i += trans.str_len;
             if (trans.str_len > 1 && map) {
                 // Mapping changed.
-                map->push_back(ZRCola::mapping(output.length(), i));
+                map->push_back(ZRCola::mapping(i, output.length()));
             }
         } else {
             // The match was not found.
