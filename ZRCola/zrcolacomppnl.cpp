@@ -25,7 +25,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 BEGIN_EVENT_TABLE(wxZRColaComposerPanel, wxZRColaComposerPanelBase)
-    EVT_TIMER(1, wxZRColaComposerPanel::OnTimerTimeout)
+    EVT_TIMER(wxZRColaComposerPanel::wxID_TIMER, wxZRColaComposerPanel::OnTimerTimeout)
 END_EVENT_TABLE()
 
 
@@ -37,8 +37,10 @@ wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
 {
     m_decomposed->PushEventHandler(&m_keyhandler);
 
-    m_timer = new wxTimer(this, 1);
+    // Create timer for saving the state.
+    m_timer = new wxTimer(this, wxID_TIMER);
 
+    // Restore the previously saved state (if exists).
     wxPersistentZRColaComposerPanel(this).Restore();
 }
 
@@ -77,6 +79,8 @@ void wxZRColaComposerPanel::OnDecomposedText(wxCommandEvent& event)
         // We are being updated by wxZRColaComposerPanel::OnComposedText()
         event.Skip();
     } else {
+        m_timer->Stop();
+
 #ifdef __WINDOWS__
         // Use Windows GetWindowText() function to avoid line ending conversion incompletely imposed by wxWidgets.
         WXHWND hWnd = m_decomposed->GetHWND();
@@ -130,6 +134,8 @@ void wxZRColaComposerPanel::OnComposedText(wxCommandEvent& event)
         // We are being updated by wxZRColaComposerPanel::OnDecomposedText()
         event.Skip();
     } else {
+        m_timer->Stop();
+
 #ifdef __WINDOWS__
         // Use Windows GetWindowTextLength() function to avoid line ending conversion incompletely imposed by wxWidgets.
         WXHWND hWnd = m_composed->GetHWND();

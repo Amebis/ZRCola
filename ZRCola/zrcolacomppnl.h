@@ -38,6 +38,11 @@ class wxZRColaComposerPanel;
 class wxZRColaComposerPanel : public wxZRColaComposerPanelBase
 {
 public:
+    enum
+    {
+        wxID_TIMER = 1,
+    };
+
     wxZRColaComposerPanel(wxWindow* parent);
     virtual ~wxZRColaComposerPanel();
 
