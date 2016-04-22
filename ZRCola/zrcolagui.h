@@ -30,6 +30,7 @@
 #include <wx/frame.h>
 #include <wx/textctrl.h>
 #include <wx/panel.h>
+#include <wx/splitter.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -84,20 +85,42 @@ class wxZRColaComposerPanelBase : public wxPanel
 	private:
 	
 	protected:
+		wxSplitterWindow* m_splitterDecomposed;
+		wxPanel* m_panelDecomposedEdit;
 		wxTextCtrl* m_decomposed;
+		wxPanel* m_panelDecomposedHex;
+		wxTextCtrl* m_decomposedHex;
+		wxSplitterWindow* m_splitterComposed;
+		wxPanel* m_panelComposedEdit;
 		wxTextCtrl* m_composed;
+		wxPanel* m_panelComposedHex;
+		wxTextCtrl* m_composedHex;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnDecomposedPaint( wxPaintEvent& event ) { event.Skip(); }
 		virtual void OnDecomposedText( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnDecomposedHexPaint( wxPaintEvent& event ) { event.Skip(); }
 		virtual void OnComposedPaint( wxPaintEvent& event ) { event.Skip(); }
 		virtual void OnComposedText( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnComposedHexPaint( wxPaintEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		
 		wxZRColaComposerPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxT("ZRColaComposerPanel") ); 
 		~wxZRColaComposerPanelBase();
+		
+		void m_splitterDecomposedOnIdle( wxIdleEvent& )
+		{
+			m_splitterDecomposed->SetSashPosition( -5 );
+			m_splitterDecomposed->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterDecomposedOnIdle ), NULL, this );
+		}
+		
+		void m_splitterComposedOnIdle( wxIdleEvent& )
+		{
+			m_splitterComposed->SetSashPosition( -5 );
+			m_splitterComposed->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterComposedOnIdle ), NULL, this );
+		}
 	
 };
 

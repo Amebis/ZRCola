@@ -162,31 +162,91 @@ wxZRColaFrameBase::~wxZRColaFrameBase()
 
 wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) : wxPanel( parent, id, pos, size, style, name )
 {
-	wxBoxSizer* bSizerEditor;
-	bSizerEditor = new wxBoxSizer( wxVERTICAL );
+	wxBoxSizer* bSizerMain;
+	bSizerMain = new wxBoxSizer( wxVERTICAL );
 	
-	m_decomposed = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_MULTILINE );
+	m_splitterDecomposed = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D|wxSP_LIVE_UPDATE );
+	m_splitterDecomposed->SetSashGravity( 1 );
+	m_splitterDecomposed->Connect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterDecomposedOnIdle ), NULL, this );
+	m_splitterDecomposed->SetMinimumPaneSize( 5 );
+	
+	m_panelDecomposedEdit = new wxPanel( m_splitterDecomposed, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizerDecomposedEdit;
+	bSizerDecomposedEdit = new wxBoxSizer( wxVERTICAL );
+	
+	m_decomposed = new wxTextCtrl( m_panelDecomposedEdit, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
 	m_decomposed->SetFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
 	m_decomposed->SetMinSize( wxSize( 100,25 ) );
 	
-	bSizerEditor->Add( m_decomposed, 50, wxALL|wxEXPAND, 5 );
+	bSizerDecomposedEdit->Add( m_decomposed, 50, wxALL|wxEXPAND, 5 );
 	
-	m_composed = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_MULTILINE );
+	
+	m_panelDecomposedEdit->SetSizer( bSizerDecomposedEdit );
+	m_panelDecomposedEdit->Layout();
+	bSizerDecomposedEdit->Fit( m_panelDecomposedEdit );
+	m_panelDecomposedHex = new wxPanel( m_splitterDecomposed, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizerDecomposedHex;
+	bSizerDecomposedHex = new wxBoxSizer( wxVERTICAL );
+	
+	m_decomposedHex = new wxTextCtrl( m_panelDecomposedHex, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
+	m_decomposedHex->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 76, 90, 90, false, wxEmptyString ) );
+	
+	bSizerDecomposedHex->Add( m_decomposedHex, 50, wxALL|wxEXPAND, 5 );
+	
+	
+	m_panelDecomposedHex->SetSizer( bSizerDecomposedHex );
+	m_panelDecomposedHex->Layout();
+	bSizerDecomposedHex->Fit( m_panelDecomposedHex );
+	m_splitterDecomposed->SplitVertically( m_panelDecomposedEdit, m_panelDecomposedHex, -5 );
+	bSizerMain->Add( m_splitterDecomposed, 50, wxALL|wxEXPAND, 5 );
+	
+	m_splitterComposed = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D|wxSP_LIVE_UPDATE );
+	m_splitterComposed->SetSashGravity( 1 );
+	m_splitterComposed->Connect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterComposedOnIdle ), NULL, this );
+	m_splitterComposed->SetMinimumPaneSize( 5 );
+	
+	m_panelComposedEdit = new wxPanel( m_splitterComposed, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizerComposedEdit;
+	bSizerComposedEdit = new wxBoxSizer( wxVERTICAL );
+	
+	m_composed = new wxTextCtrl( m_panelComposedEdit, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
 	m_composed->SetFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
 	m_composed->SetMinSize( wxSize( 100,25 ) );
 	
-	bSizerEditor->Add( m_composed, 50, wxALL|wxEXPAND, 5 );
+	bSizerComposedEdit->Add( m_composed, 50, wxALL|wxEXPAND, 5 );
 	
 	
-	this->SetSizer( bSizerEditor );
+	m_panelComposedEdit->SetSizer( bSizerComposedEdit );
+	m_panelComposedEdit->Layout();
+	bSizerComposedEdit->Fit( m_panelComposedEdit );
+	m_panelComposedHex = new wxPanel( m_splitterComposed, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizerComposedHex;
+	bSizerComposedHex = new wxBoxSizer( wxVERTICAL );
+	
+	m_composedHex = new wxTextCtrl( m_panelComposedHex, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
+	m_composedHex->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 76, 90, 90, false, wxEmptyString ) );
+	
+	bSizerComposedHex->Add( m_composedHex, 50, wxALL|wxEXPAND, 5 );
+	
+	
+	m_panelComposedHex->SetSizer( bSizerComposedHex );
+	m_panelComposedHex->Layout();
+	bSizerComposedHex->Fit( m_panelComposedHex );
+	m_splitterComposed->SplitVertically( m_panelComposedEdit, m_panelComposedHex, -5 );
+	bSizerMain->Add( m_splitterComposed, 50, wxALL|wxEXPAND, 5 );
+	
+	
+	this->SetSizer( bSizerMain );
 	this->Layout();
-	bSizerEditor->Fit( this );
+	bSizerMain->Fit( this );
 	
 	// Connect Events
 	m_decomposed->Connect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnDecomposedPaint ), NULL, this );
 	m_decomposed->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnDecomposedText ), NULL, this );
+	m_decomposedHex->Connect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnDecomposedHexPaint ), NULL, this );
 	m_composed->Connect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnComposedPaint ), NULL, this );
 	m_composed->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnComposedText ), NULL, this );
+	m_composedHex->Connect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnComposedHexPaint ), NULL, this );
 }
 
 wxZRColaComposerPanelBase::~wxZRColaComposerPanelBase()
@@ -194,7 +254,9 @@ wxZRColaComposerPanelBase::~wxZRColaComposerPanelBase()
 	// Disconnect Events
 	m_decomposed->Disconnect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnDecomposedPaint ), NULL, this );
 	m_decomposed->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnDecomposedText ), NULL, this );
+	m_decomposedHex->Disconnect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnDecomposedHexPaint ), NULL, this );
 	m_composed->Disconnect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnComposedPaint ), NULL, this );
 	m_composed->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnComposedText ), NULL, this );
+	m_composedHex->Disconnect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnComposedHexPaint ), NULL, this );
 	
 }

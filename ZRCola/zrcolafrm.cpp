@@ -76,9 +76,6 @@ wxZRColaFrame::wxZRColaFrame() :
     // Set focus.
     m_panel->m_decomposed->SetFocus();
 
-    // Arrange composer panel persistence.
-    wxPersistentRegisterAndRestore<wxZRColaComposerPanel>(m_panel);
-
     // Register global hotkey(s).
     if (!RegisterHotKey(wxZRColaHKID_INVOKE_COMPOSE, wxMOD_WIN, VK_F5))
         wxMessageBox(_("ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
@@ -303,6 +300,7 @@ void wxPersistentZRColaFrame::Save() const
 {
     const wxZRColaFrame * const wnd = static_cast<const wxZRColaFrame*>(GetWindow());
 
+    wxPersistentZRColaComposerPanel(wnd->m_panel).Save();
     SaveValue(wxT("lang"), wxString::FromAscii(wnd->m_lang, sizeof(wnd->m_lang)));
     wxPersistentTLW::Save();
 }
@@ -334,6 +332,8 @@ bool wxPersistentZRColaFrame::Restore()
             memcpy(wnd->m_lang, ZRCOLA_LANG_VOID, sizeof(wnd->m_lang));
         }
     }
+
+    wxPersistentZRColaComposerPanel(wnd->m_panel).Restore();
 
     return r;
 }

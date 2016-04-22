@@ -51,23 +51,30 @@ public:
 
 protected:
     virtual void OnDecomposedPaint(wxPaintEvent& event);
+    virtual void OnDecomposedHexPaint(wxPaintEvent& event);
     virtual void OnDecomposedText(wxCommandEvent& event);
     virtual void OnComposedPaint(wxPaintEvent& event);
+    virtual void OnComposedHexPaint(wxPaintEvent& event);
     virtual void OnComposedText(wxCommandEvent& event);
     virtual void OnTimerTimeout(wxTimerEvent& event);
     DECLARE_EVENT_TABLE()
 
-    wxString GetStateFileName() const;
+    static wxString GetStateFileName();
+    static void GetHex(wxString &hex, ZRCola::mapping_vector &mapping, const wchar_t *src, size_t len);
 
 protected:
-    bool m_progress;                    ///< Boolean flag to avoid recursive updates of composed and decomposed text controls
-    ZRCola::mapping_vector m_mapping1;  ///< Character index mapping vector between decomposed and normalized text
-    ZRCola::mapping_vector m_mapping2;  ///< Character index mapping vector between normalized and composed text
+    bool m_progress;                                ///< Boolean flag to avoid recursive updates of composed and decomposed text controls
+    ZRCola::mapping_vector m_mapping1;              ///< Character index mapping vector between decomposed and normalized text
+    ZRCola::mapping_vector m_mapping2;              ///< Character index mapping vector between normalized and composed text
     std::pair<long, long>
-        m_selDecomposed,                ///< Character index of selected text in decomposed text control
-        m_selComposed;                  ///< Character index of selected text in composed text control
-    wxZRColaKeyHandler m_keyhandler;    ///< Key handler for decomposed window
-    wxTimer *m_timer;                   ///< Timer to trigger the state save
+        m_selDecomposed,                            ///< Character index of selected text in decomposed text control
+        m_selDecomposedHex,                         ///< Character index of selected text in decomposed HEX dump text control
+        m_selComposed,                              ///< Character index of selected text in composed text control
+        m_selComposedHex;                           ///< Character index of selected text in composed HEX dump text control
+    wxZRColaKeyHandler m_keyhandler;                ///< Key handler for decomposed window
+    wxTimer *m_timer;                               ///< Timer to trigger the state save
+    ZRCola::mapping_vector m_mappingDecomposedHex;  ///< Character index mapping vector between decomposed text and its HEX dump
+    ZRCola::mapping_vector m_mappingComposedHex;    ///< Character index mapping vector between composed text and its HEX dump
 };
 
 
