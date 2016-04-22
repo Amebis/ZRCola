@@ -160,7 +160,7 @@ wxZRColaFrameBase::~wxZRColaFrameBase()
 	
 }
 
-wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) : wxPanel( parent, id, pos, size, style, name )
 {
 	wxBoxSizer* bSizerEditor;
 	bSizerEditor = new wxBoxSizer( wxVERTICAL );

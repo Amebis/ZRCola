@@ -25,6 +25,7 @@
 #include "zrcolafrm.h"
 #include "zrcolakeyhndlr.h"
 
+#include <wx/ffile.h>
 #include <wx/msgdlg.h>
 #include <wx/persist.h>
 #include <wx/persist/toplevel.h>

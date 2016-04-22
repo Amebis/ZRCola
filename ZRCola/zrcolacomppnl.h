@@ -27,6 +27,8 @@ class wxZRColaComposerPanel;
 
 #include "zrcolagui.h"
 #include "zrcolakeyhndlr.h"
+#include <wx/persist/window.h>
+#include <wx/timer.h>
 #include <utility>
 
 
@@ -39,13 +41,16 @@ public:
     wxZRColaComposerPanel(wxWindow* parent);
     virtual ~wxZRColaComposerPanel();
 
-    friend class wxZRColaFrame; // Allow main frame direct access to our members.
+    friend class wxZRColaFrame;                     // Allow main frame direct access to our members.
+    friend class wxPersistentZRColaComposerPanel;   // Allow saving/restoring window state.
 
 protected:
     virtual void OnDecomposedPaint(wxPaintEvent& event);
     virtual void OnDecomposedText(wxCommandEvent& event);
     virtual void OnComposedPaint(wxPaintEvent& event);
     virtual void OnComposedText(wxCommandEvent& event);
+    virtual void OnTimerTimeout(wxTimerEvent& event);
+    DECLARE_EVENT_TABLE()
 
 protected:
     bool m_progress;                    ///< Boolean flag to avoid recursive updates of composed and decomposed text controls
@@ -55,4 +60,29 @@ protected:
         m_selDecomposed,                ///< Character index of selected text in decomposed text control
         m_selComposed;                  ///< Character index of selected text in composed text control
     wxZRColaKeyHandler m_keyhandler;    ///< Key handler for decomposed window
+    wxTimer *m_timer;                   ///< Timer to trigger the state save
 };
+
+
+///
+/// Supports saving/restoring wxZRColaComposerPanel state
+///
+class wxPersistentZRColaComposerPanel : public wxPersistentWindow<wxZRColaComposerPanel>
+{
+public:
+    wxPersistentZRColaComposerPanel(wxZRColaComposerPanel *wnd);
+
+    virtual wxString GetKind() const;
+    virtual void Save() const;
+    virtual bool Restore();
+    virtual void Clear() const;
+
+protected:
+    wxString GetStateFileName() const;
+};
+
+
+inline wxPersistentObject *wxCreatePersistentObject(wxZRColaComposerPanel *wnd)
+{
+    return new wxPersistentZRColaComposerPanel(wnd);
+}

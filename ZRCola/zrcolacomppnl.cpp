@@ -24,6 +24,11 @@
 // wxZRColaComposerPanel
 //////////////////////////////////////////////////////////////////////////
 
+BEGIN_EVENT_TABLE(wxZRColaComposerPanel, wxZRColaComposerPanelBase)
+    EVT_TIMER(1, wxZRColaComposerPanel::OnTimerTimeout)
+END_EVENT_TABLE()
+
+
 wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
     m_progress(false),
     m_selDecomposed(0, 0),
@@ -31,12 +36,22 @@ wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
     wxZRColaComposerPanelBase(parent)
 {
     m_decomposed->PushEventHandler(&m_keyhandler);
+
+    m_timer = new wxTimer(this, 1);
+
+    wxPersistentZRColaComposerPanel(this).Restore();
 }
 
 
 wxZRColaComposerPanel::~wxZRColaComposerPanel()
 {
+    if (m_timer)
+        delete m_timer;
+
     m_decomposed->PopEventHandler();
+
+    // This is a controlled exit. Purge saved state.
+    wxPersistentZRColaComposerPanel(this).Clear();
 }
 
 
@@ -86,6 +101,9 @@ void wxZRColaComposerPanel::OnDecomposedText(wxCommandEvent& event)
         m_composed->SetSelection(m_mapping2.to_dst(m_mapping1.to_dst(from)), m_mapping2.to_dst(m_mapping1.to_dst(to)));
         event.Skip();
         m_progress = false;
+
+        // Schedule state save after 3s.
+        m_timer->Start(3000, true);
     }
 }
 
@@ -141,5 +159,143 @@ void wxZRColaComposerPanel::OnComposedText(wxCommandEvent& event)
         m_decomposed->SetSelection(m_mapping1.to_src(m_mapping2.to_src(from)), m_mapping1.to_src(m_mapping2.to_src(to)));
         event.Skip();
         m_progress = false;
+
+        // Schedule state save after 3s.
+        m_timer->Start(3000, true);
     }
+}
+
+
+void wxZRColaComposerPanel::OnTimerTimeout(wxTimerEvent& event)
+{
+    wxPersistentZRColaComposerPanel(this).Save();
+
+    event.Skip();
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+// wxPersistentZRColaComposerPanel
+//////////////////////////////////////////////////////////////////////////
+
+wxPersistentZRColaComposerPanel::wxPersistentZRColaComposerPanel(wxZRColaComposerPanel *wnd) : wxPersistentWindow<wxZRColaComposerPanel>(wnd)
+{
+}
+
+
+wxString wxPersistentZRColaComposerPanel::GetKind() const
+{
+    return wxT("ZRColaComposerPanel");
+}
+
+
+void wxPersistentZRColaComposerPanel::Save() const
+{
+    wxString fileName(GetStateFileName());
+    wxFFile file(fileName, wxT("wb"));
+    if (!file.IsOpened())
+        return;
+
+    const wxZRColaComposerPanel * const wnd = static_cast<const wxZRColaComposerPanel*>(GetWindow());
+
+    // Save decomposed text.
+    {
+#ifdef __WINDOWS__
+        // Use Windows GetWindowText() function to avoid line ending conversion incompletely imposed by wxWidgets.
+        WXHWND hWnd = wnd->m_decomposed->GetHWND();
+        std::vector<wchar_t> text((std::vector<wchar_t>::size_type)::GetWindowTextLengthW(hWnd) + 1);
+        ::GetWindowTextW(hWnd, text.data(), text.size());
+        unsigned __int64 n = text.size() - 1;
+#else
+        wxString text(m_decomposed->GetValue());
+        unsigned __int64 n = text.size();
+#endif
+        file.Write(&n, sizeof(n));
+        file.Write(text.data(), sizeof(wchar_t)*n);
+    }
+
+    // Save composed text.
+    {
+#ifdef __WINDOWS__
+        // Use Windows GetWindowText() function to avoid line ending conversion incompletely imposed by wxWidgets.
+        WXHWND hWnd = wnd->m_composed->GetHWND();
+        std::vector<wchar_t> text((std::vector<wchar_t>::size_type)::GetWindowTextLengthW(hWnd) + 1);
+        ::GetWindowTextW(hWnd, text.data(), text.size());
+        unsigned __int64 n = text.size() - 1;
+#else
+        wxString text(m_composed->GetValue());
+        unsigned __int64 n = text.size();
+#endif
+        file.Write(&n, sizeof(n));
+        file.Write(text.data(), sizeof(wchar_t)*n);
+    }
+}
+
+
+bool wxPersistentZRColaComposerPanel::Restore()
+{
+    wxString fileName(GetStateFileName());
+
+    if (!wxFileExists(fileName))
+        return false;
+
+    wxFFile file(fileName, wxT("rb"));
+    if (!file.IsOpened())
+        return false;
+
+    wxZRColaComposerPanel * const wnd = static_cast<wxZRColaComposerPanel*>(GetWindow());
+
+    // Load decomposed text.
+    unsigned __int64 n;
+    file.Read(&n, sizeof(n));
+    if (!file.Error()) {
+        wxString decomposed;
+        file.Read(wxStringBuffer(decomposed, n), sizeof(wchar_t)*n);
+        if (!file.Error()) {
+            // Load composed text.
+            file.Read(&n, sizeof(n));
+            if (!file.Error()) {
+                wxString composed;
+                file.Read(wxStringBuffer(composed, n), sizeof(wchar_t)*n);
+                if (!file.Error()) {
+                    // Restore state.
+                    wnd->m_progress = true;
+                    wnd->m_decomposed->SetValue(decomposed);
+                    wnd->m_composed->SetValue(composed);
+                    wnd->m_progress = false;
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+
+void wxPersistentZRColaComposerPanel::Clear() const
+{
+    wxString fileName(GetStateFileName());
+
+    if (wxFileExists(fileName))
+        wxRemoveFile(fileName);
+}
+
+
+wxString wxPersistentZRColaComposerPanel::GetStateFileName() const
+{
+    wxString path;
+
+    path = wxFileName::GetTempDir();
+    if (!wxEndsWithPathSeparator(path))
+        path += wxFILE_SEP_PATH;
+
+    if (!wxDirExists(path))
+        wxMkdir(path);
+
+    wxString fileName(path);
+    fileName += GetKind();
+    fileName += wxT("-state.tmp");
+
+    return fileName;
 }

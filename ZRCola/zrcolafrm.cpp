@@ -298,7 +298,6 @@ wxPersistentZRColaFrame::wxPersistentZRColaFrame(wxZRColaFrame *wnd) : wxPersist
 
 void wxPersistentZRColaFrame::Save() const
 {
-    //
     const wxZRColaFrame * const wnd = static_cast<const wxZRColaFrame*>(GetWindow());
 
     SaveValue(wxT("lang"), wxString::FromAscii(wnd->m_lang, sizeof(wnd->m_lang)));
