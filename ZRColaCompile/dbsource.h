@@ -41,6 +41,7 @@ namespace ZRCola {
         public:
             wchar_t chr;        ///< Composed character
             std::wstring str;   ///< Decomposed string
+            int rank;           ///< Decomposition rank
         };
 
 

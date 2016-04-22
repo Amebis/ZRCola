@@ -46,6 +46,7 @@ namespace ZRCola {
         ///
         struct translation {
             wchar_t chr;                ///< Composed character
+            unsigned __int16 rank;      ///< Decomposition rank
             unsigned __int16 str_len;   ///< \c str length (in characters)
             wchar_t str[];              ///< Decomposed string
 
@@ -182,6 +183,9 @@ namespace ZRCola {
             {
                      if (a.chr < b.chr) return -1;
                 else if (a.chr > b.chr) return +1;
+
+                     if (a.rank < b.rank) return -1;
+                else if (a.rank > b.rank) return +1;
 
                 int r = translation::CompareString(a.str, a.str_len, b.str, b.str_len);
                 if (r != 0) return r;

@@ -131,6 +131,16 @@ void ZRCola::translation_db::Decompose(_In_z_count_(inputMax) const wchar_t* inp
                 else if (decompSrc < c) l = m + 1;
                 else {
                     // Character found.
+
+                    // Narrow the search area on the left to start at the first decomposition in the run (first by rank).
+                    for (size_t rr = m; l < rr;) {
+                        size_t m = (l + rr) / 2;
+                        const translation &trans = idxDecomp[m];
+                        wchar_t decompSrc = trans.chr;
+                        if (c <= decompSrc) rr = m; else l = m + 1;
+                    }
+
+                    const translation &trans = idxDecomp[l];
                     if (trans.str_len && trans.str[0] != L'#' && (!lc_db || !lc_db->IsLocalCharacter(c, lang))) {
                         // Append decomposed sequence.
                         output.append(trans.str, trans.str_len);

@@ -346,6 +346,8 @@ int _tmain(int argc, _TCHAR *argv[])
                         // Add translation to index and data.
                         unsigned __int32 idx = db.data.size();
                         db.data.push_back(trans.chr);
+                        wxASSERT_MSG((int)0xffff8000 <= trans.rank && trans.rank <= (int)0x00007fff, wxT("transformation rank out of bounds"));
+                        db.data.push_back((unsigned __int16)trans.rank);
                         std::wstring::size_type n = trans.str.length();
                         wxASSERT_MSG(n <= 0xffff, wxT("transformation string too long"));
                         db.data.push_back((unsigned __int16)n);

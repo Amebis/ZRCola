@@ -302,7 +302,7 @@ bool ZRCola::DBSource::SelectTranslations(ATL::CComPtr<ADORecordset> &rs) const
     wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
 
     // Open it.
-    if (FAILED(rs->Open(ATL::CComVariant(L"SELECT [komb], [znak] FROM [VRS_ReplChar] WHERE [rang_komb]=1"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText))) {
+    if (FAILED(rs->Open(ATL::CComVariant(L"SELECT [komb], [znak], [rang_znak] FROM [VRS_ReplChar] WHERE [rang_komb]=1"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText))) {
         _ftprintf(stderr, wxT("%s: error ZCC0040: Error loading compositions from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
         LogErrors();
         return false;
@@ -329,6 +329,12 @@ bool ZRCola::DBSource::GetTranslation(const ATL::CComPtr<ADORecordset>& rs, ZRCo
         ATL::CComPtr<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"znak"), &f)));
         wxCHECK(GetUnicodeCharacter(f, t.chr), false);
+    }
+
+    {
+        ATL::CComPtr<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"rang_znak"), &f)));
+        wxCHECK(GetValue(f, t.rank), false);
     }
 
     return true;
