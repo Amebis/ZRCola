@@ -22,6 +22,11 @@
 
 size_t ZRCola::mapping_vector::to_src(_In_ size_t dst) const
 {
+    if (empty()) {
+        // One-to-one mapping.
+        return dst;
+    }
+
     for (size_type l = 0, r = size();;) {
         if (l < r) {
             size_type m = (l + r) / 2;
@@ -38,8 +43,9 @@ size_t ZRCola::mapping_vector::to_src(_In_ size_t dst) const
             const mapping &el = (*this)[l - 1];
             return el.src + (dst - el.dst);
         } else {
-            // The destination character index is far left.
-            return dst;
+            // The destination character index is left of the first transformation.
+            const mapping &el = (*this)[0];
+            return std::min(dst, el.src);
         }
     }
 }
@@ -47,6 +53,11 @@ size_t ZRCola::mapping_vector::to_src(_In_ size_t dst) const
 
 size_t ZRCola::mapping_vector::to_dst(_In_ size_t src) const
 {
+    if (empty()) {
+        // One-to-one mapping.
+        return src;
+    }
+
     for (size_type l = 0, r = size();;) {
         if (l < r) {
             size_type m = (l + r) / 2;
@@ -63,8 +74,9 @@ size_t ZRCola::mapping_vector::to_dst(_In_ size_t src) const
             const mapping &el = (*this)[l - 1];
             return el.dst + (src - el.src);
         } else {
-            // The source character index is far left.
-            return src;
+            // The source character index is left of the first transformation.
+            const mapping &el = (*this)[0];
+            return std::min(src, el.dst);
         }
     }
 }
