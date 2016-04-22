@@ -49,7 +49,8 @@ protected:
 
 protected:
     bool m_progress;                    ///< Boolean flag to avoid recursive updates of composed and decomposed text controls
-    ZRCola::mapping_vector m_mapping;   ///< Character index mapping vector between composed and decomposed text
+    ZRCola::mapping_vector m_mapping1;  ///< Character index mapping vector between decomposed and normalized text
+    ZRCola::mapping_vector m_mapping2;  ///< Character index mapping vector between normalized and composed text
     std::pair<long, long>
         m_selDecomposed,                ///< Character index of selected text in decomposed text control
         m_selComposed;                  ///< Character index of selected text in composed text control

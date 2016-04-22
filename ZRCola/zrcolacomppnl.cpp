@@ -51,7 +51,7 @@ void wxZRColaComposerPanel::OnDecomposedPaint(wxPaintEvent& event)
         // Save new selection first, to avoid loop.
         m_selDecomposed.first  = from;
         m_selDecomposed.second = to;
-        m_composed->SetSelection(m_mapping.to_src(from), m_mapping.to_src(to));
+        m_composed->SetSelection(m_mapping2.to_dst(m_mapping1.to_dst(from)), m_mapping2.to_dst(m_mapping1.to_dst(to)));
     }
 }
 
@@ -71,9 +71,11 @@ void wxZRColaComposerPanel::OnDecomposedText(wxCommandEvent& event)
         wxString src(m_decomposed->GetValue());
 #endif
 
+        std::wstring norm;
+        ((ZRColaApp*)wxTheApp)->m_t_db.Decompose(src.data(), src.size(), norm, &m_mapping1);
+
         std::wstring dst;
-        ((ZRColaApp*)wxTheApp)->m_t_db.Compose(src.data(), src.size(), dst, &m_mapping);
-        m_mapping.invert();
+        ((ZRColaApp*)wxTheApp)->m_t_db.Compose(norm.data(), norm.size(), dst, &m_mapping2);
 
         long from, to;
         m_decomposed->GetSelection(&from, &to);
@@ -81,7 +83,7 @@ void wxZRColaComposerPanel::OnDecomposedText(wxCommandEvent& event)
         // Update composed text.
         m_progress = true;
         m_composed->SetValue(dst);
-        m_composed->SetSelection(m_mapping.to_src(from), m_mapping.to_src(to));
+        m_composed->SetSelection(m_mapping2.to_dst(m_mapping1.to_dst(from)), m_mapping2.to_dst(m_mapping1.to_dst(to)));
         event.Skip();
         m_progress = false;
     }
@@ -99,7 +101,7 @@ void wxZRColaComposerPanel::OnComposedPaint(wxPaintEvent& event)
         // Save new selection first, to avoid loop.
         m_selComposed.first  = from;
         m_selComposed.second = to;
-        m_decomposed->SetSelection(m_mapping.to_dst(from), m_mapping.to_dst(to));
+        m_decomposed->SetSelection(m_mapping1.to_src(m_mapping2.to_src(from)), m_mapping1.to_src(m_mapping2.to_src(to)));
     }
 }
 
@@ -123,9 +125,12 @@ void wxZRColaComposerPanel::OnComposedText(wxCommandEvent& event)
         std::wstring dst;
         wxZRColaFrame *mainWnd = dynamic_cast<wxZRColaFrame*>(wxGetActiveWindow());
         if (mainWnd)
-            app->m_t_db.Decompose(src.data(), src.size(), &app->m_lc_db, mainWnd->m_lang, dst, &m_mapping);
+            app->m_t_db.Decompose(src.data(), src.size(), &app->m_lc_db, mainWnd->m_lang, dst, &m_mapping2);
         else
-            app->m_t_db.Decompose(src.data(), src.size(), dst, &m_mapping);
+            app->m_t_db.Decompose(src.data(), src.size(), dst, &m_mapping2);
+
+        m_mapping1.clear();
+        m_mapping2.invert();
 
         long from, to;
         m_composed->GetSelection(&from, &to);
@@ -133,7 +138,7 @@ void wxZRColaComposerPanel::OnComposedText(wxCommandEvent& event)
         // Update decomposed text.
         m_progress = true;
         m_decomposed->SetValue(dst);
-        m_decomposed->SetSelection(m_mapping.to_dst(from), m_mapping.to_dst(to));
+        m_decomposed->SetSelection(m_mapping1.to_src(m_mapping2.to_src(from)), m_mapping1.to_src(m_mapping2.to_src(to)));
         event.Skip();
         m_progress = false;
     }
