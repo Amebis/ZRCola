@@ -57,6 +57,8 @@ protected:
     virtual void OnTimerTimeout(wxTimerEvent& event);
     DECLARE_EVENT_TABLE()
 
+    wxString GetStateFileName() const;
+
 protected:
     bool m_progress;                    ///< Boolean flag to avoid recursive updates of composed and decomposed text controls
     ZRCola::mapping_vector m_mapping1;  ///< Character index mapping vector between decomposed and normalized text
@@ -80,10 +82,6 @@ public:
     virtual wxString GetKind() const;
     virtual void Save() const;
     virtual bool Restore();
-    virtual void Clear() const;
-
-protected:
-    wxString GetStateFileName() const;
 };
 
 

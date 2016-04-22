@@ -41,7 +41,34 @@ wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
     m_timer = new wxTimer(this, wxID_TIMER);
 
     // Restore the previously saved state (if exists).
-    wxPersistentZRColaComposerPanel(this).Restore();
+    wxString fileName(GetStateFileName());
+    if (wxFileExists(fileName)) {
+        wxFFile file(fileName, wxT("rb"));
+        if (file.IsOpened()) {
+            // Load decomposed text.
+            unsigned __int64 n;
+            file.Read(&n, sizeof(n));
+            if (!file.Error()) {
+                wxString decomposed;
+                file.Read(wxStringBuffer(decomposed, n), sizeof(wchar_t)*n);
+                if (!file.Error()) {
+                    // Load composed text.
+                    file.Read(&n, sizeof(n));
+                    if (!file.Error()) {
+                        wxString composed;
+                        file.Read(wxStringBuffer(composed, n), sizeof(wchar_t)*n);
+                        if (!file.Error()) {
+                            // Restore state.
+                            m_progress = true;
+                            m_decomposed->SetValue(decomposed);
+                            m_composed->SetValue(composed);
+                            m_progress = false;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 
@@ -53,7 +80,9 @@ wxZRColaComposerPanel::~wxZRColaComposerPanel()
     m_decomposed->PopEventHandler();
 
     // This is a controlled exit. Purge saved state.
-    wxPersistentZRColaComposerPanel(this).Clear();
+    wxString fileName(GetStateFileName());
+    if (wxFileExists(fileName))
+        wxRemoveFile(fileName);
 }
 
 
@@ -174,9 +203,61 @@ void wxZRColaComposerPanel::OnComposedText(wxCommandEvent& event)
 
 void wxZRColaComposerPanel::OnTimerTimeout(wxTimerEvent& event)
 {
-    wxPersistentZRColaComposerPanel(this).Save();
+    wxString fileName(GetStateFileName());
+    wxFFile file(fileName, wxT("wb"));
+    if (file.IsOpened()) {
+        // Save decomposed text.
+        {
+#ifdef __WINDOWS__
+            // Use Windows GetWindowText() function to avoid line ending conversion incompletely imposed by wxWidgets.
+            WXHWND hWnd = m_decomposed->GetHWND();
+            std::vector<wchar_t> text((std::vector<wchar_t>::size_type)::GetWindowTextLengthW(hWnd) + 1);
+            ::GetWindowTextW(hWnd, text.data(), text.size());
+            unsigned __int64 n = text.size() - 1;
+#else
+            wxString text(m_decomposed->GetValue());
+            unsigned __int64 n = text.size();
+#endif
+            file.Write(&n, sizeof(n));
+            file.Write(text.data(), sizeof(wchar_t)*n);
+        }
+
+        // Save composed text.
+        {
+#ifdef __WINDOWS__
+            // Use Windows GetWindowText() function to avoid line ending conversion incompletely imposed by wxWidgets.
+            WXHWND hWnd = m_composed->GetHWND();
+            std::vector<wchar_t> text((std::vector<wchar_t>::size_type)::GetWindowTextLengthW(hWnd) + 1);
+            ::GetWindowTextW(hWnd, text.data(), text.size());
+            unsigned __int64 n = text.size() - 1;
+#else
+            wxString text(m_composed->GetValue());
+            unsigned __int64 n = text.size();
+#endif
+            file.Write(&n, sizeof(n));
+            file.Write(text.data(), sizeof(wchar_t)*n);
+        }
+    }
 
     event.Skip();
+}
+
+
+wxString wxZRColaComposerPanel::GetStateFileName() const
+{
+    wxString path;
+
+    path = wxFileName::GetTempDir();
+    if (!wxEndsWithPathSeparator(path))
+        path += wxFILE_SEP_PATH;
+
+    if (!wxDirExists(path))
+        wxMkdir(path);
+
+    wxString fileName(path);
+    fileName += wxT("ZRColaComposerPanel-state.tmp");
+
+    return fileName;
 }
 
 
@@ -197,111 +278,13 @@ wxString wxPersistentZRColaComposerPanel::GetKind() const
 
 void wxPersistentZRColaComposerPanel::Save() const
 {
-    wxString fileName(GetStateFileName());
-    wxFFile file(fileName, wxT("wb"));
-    if (!file.IsOpened())
-        return;
-
     const wxZRColaComposerPanel * const wnd = static_cast<const wxZRColaComposerPanel*>(GetWindow());
-
-    // Save decomposed text.
-    {
-#ifdef __WINDOWS__
-        // Use Windows GetWindowText() function to avoid line ending conversion incompletely imposed by wxWidgets.
-        WXHWND hWnd = wnd->m_decomposed->GetHWND();
-        std::vector<wchar_t> text((std::vector<wchar_t>::size_type)::GetWindowTextLengthW(hWnd) + 1);
-        ::GetWindowTextW(hWnd, text.data(), text.size());
-        unsigned __int64 n = text.size() - 1;
-#else
-        wxString text(m_decomposed->GetValue());
-        unsigned __int64 n = text.size();
-#endif
-        file.Write(&n, sizeof(n));
-        file.Write(text.data(), sizeof(wchar_t)*n);
-    }
-
-    // Save composed text.
-    {
-#ifdef __WINDOWS__
-        // Use Windows GetWindowText() function to avoid line ending conversion incompletely imposed by wxWidgets.
-        WXHWND hWnd = wnd->m_composed->GetHWND();
-        std::vector<wchar_t> text((std::vector<wchar_t>::size_type)::GetWindowTextLengthW(hWnd) + 1);
-        ::GetWindowTextW(hWnd, text.data(), text.size());
-        unsigned __int64 n = text.size() - 1;
-#else
-        wxString text(m_composed->GetValue());
-        unsigned __int64 n = text.size();
-#endif
-        file.Write(&n, sizeof(n));
-        file.Write(text.data(), sizeof(wchar_t)*n);
-    }
 }
 
 
 bool wxPersistentZRColaComposerPanel::Restore()
 {
-    wxString fileName(GetStateFileName());
-
-    if (!wxFileExists(fileName))
-        return false;
-
-    wxFFile file(fileName, wxT("rb"));
-    if (!file.IsOpened())
-        return false;
-
     wxZRColaComposerPanel * const wnd = static_cast<wxZRColaComposerPanel*>(GetWindow());
 
-    // Load decomposed text.
-    unsigned __int64 n;
-    file.Read(&n, sizeof(n));
-    if (!file.Error()) {
-        wxString decomposed;
-        file.Read(wxStringBuffer(decomposed, n), sizeof(wchar_t)*n);
-        if (!file.Error()) {
-            // Load composed text.
-            file.Read(&n, sizeof(n));
-            if (!file.Error()) {
-                wxString composed;
-                file.Read(wxStringBuffer(composed, n), sizeof(wchar_t)*n);
-                if (!file.Error()) {
-                    // Restore state.
-                    wnd->m_progress = true;
-                    wnd->m_decomposed->SetValue(decomposed);
-                    wnd->m_composed->SetValue(composed);
-                    wnd->m_progress = false;
-                    return true;
-                }
-            }
-        }
-    }
-
-    return false;
-}
-
-
-void wxPersistentZRColaComposerPanel::Clear() const
-{
-    wxString fileName(GetStateFileName());
-
-    if (wxFileExists(fileName))
-        wxRemoveFile(fileName);
-}
-
-
-wxString wxPersistentZRColaComposerPanel::GetStateFileName() const
-{
-    wxString path;
-
-    path = wxFileName::GetTempDir();
-    if (!wxEndsWithPathSeparator(path))
-        path += wxFILE_SEP_PATH;
-
-    if (!wxDirExists(path))
-        wxMkdir(path);
-
-    wxString fileName(path);
-    fileName += GetKind();
-    fileName += wxT("-state.tmp");
-
-    return fileName;
+    return true;
 }

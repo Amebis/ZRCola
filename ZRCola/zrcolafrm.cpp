@@ -76,6 +76,9 @@ wxZRColaFrame::wxZRColaFrame() :
     // Set focus.
     m_panel->m_decomposed->SetFocus();
 
+    // Arrange composer panel persistence.
+    wxPersistentRegisterAndRestore<wxZRColaComposerPanel>(m_panel);
+
     // Register global hotkey(s).
     if (!RegisterHotKey(wxZRColaHKID_INVOKE_COMPOSE, wxMOD_WIN, VK_F5))
         wxMessageBox(_("ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
