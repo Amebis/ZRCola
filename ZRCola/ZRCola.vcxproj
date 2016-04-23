@@ -113,6 +113,7 @@
     <None Include="res\send_composed.ico" />
     <None Include="res\send_decomposed.ico" />
     <None Include="res\zrcola.ico" />
+    <None Include="ZRCola.fbp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZRCola.rc" />

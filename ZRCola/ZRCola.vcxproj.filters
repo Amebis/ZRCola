@@ -80,6 +80,9 @@
     <None Include="res\edit_paste.ico">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="ZRCola.fbp">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZRCola.rc">
