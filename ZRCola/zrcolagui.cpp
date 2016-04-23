@@ -174,11 +174,17 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	wxBoxSizer* bSizerDecomposedEdit;
 	bSizerDecomposedEdit = new wxBoxSizer( wxVERTICAL );
 	
-	m_decomposed = new wxTextCtrl( m_panelDecomposedEdit, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
+	wxStaticBoxSizer* bSizerDecomposedEdit2;
+	bSizerDecomposedEdit2 = new wxStaticBoxSizer( new wxStaticBox( m_panelDecomposedEdit, wxID_ANY, _("Decomposed Text") ), wxVERTICAL );
+	
+	m_decomposed = new wxTextCtrl( bSizerDecomposedEdit2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
 	m_decomposed->SetFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
 	m_decomposed->SetMinSize( wxSize( 100,25 ) );
 	
-	bSizerDecomposedEdit->Add( m_decomposed, 50, wxALL|wxEXPAND, 5 );
+	bSizerDecomposedEdit2->Add( m_decomposed, 1, wxEXPAND, 5 );
+	
+	
+	bSizerDecomposedEdit->Add( bSizerDecomposedEdit2, 1, wxEXPAND, 5 );
 	
 	
 	m_panelDecomposedEdit->SetSizer( bSizerDecomposedEdit );
@@ -188,10 +194,16 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	wxBoxSizer* bSizerDecomposedHex;
 	bSizerDecomposedHex = new wxBoxSizer( wxVERTICAL );
 	
-	m_decomposedHex = new wxTextCtrl( m_panelDecomposedHex, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
+	wxStaticBoxSizer* bSizerDecomposedHex2;
+	bSizerDecomposedHex2 = new wxStaticBoxSizer( new wxStaticBox( m_panelDecomposedHex, wxID_ANY, _("Decomposed Unicode Dump") ), wxVERTICAL );
+	
+	m_decomposedHex = new wxTextCtrl( bSizerDecomposedHex2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
 	m_decomposedHex->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 76, 90, 90, false, wxEmptyString ) );
 	
-	bSizerDecomposedHex->Add( m_decomposedHex, 50, wxALL|wxEXPAND, 5 );
+	bSizerDecomposedHex2->Add( m_decomposedHex, 1, wxEXPAND, 5 );
+	
+	
+	bSizerDecomposedHex->Add( bSizerDecomposedHex2, 1, wxEXPAND, 5 );
 	
 	
 	m_panelDecomposedHex->SetSizer( bSizerDecomposedHex );
@@ -209,11 +221,17 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	wxBoxSizer* bSizerComposedEdit;
 	bSizerComposedEdit = new wxBoxSizer( wxVERTICAL );
 	
-	m_composed = new wxTextCtrl( m_panelComposedEdit, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
+	wxStaticBoxSizer* bSizerComposedEdit2;
+	bSizerComposedEdit2 = new wxStaticBoxSizer( new wxStaticBox( m_panelComposedEdit, wxID_ANY, _("Composed Text") ), wxVERTICAL );
+	
+	m_composed = new wxTextCtrl( bSizerComposedEdit2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
 	m_composed->SetFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
 	m_composed->SetMinSize( wxSize( 100,25 ) );
 	
-	bSizerComposedEdit->Add( m_composed, 50, wxALL|wxEXPAND, 5 );
+	bSizerComposedEdit2->Add( m_composed, 1, wxEXPAND, 5 );
+	
+	
+	bSizerComposedEdit->Add( bSizerComposedEdit2, 1, wxEXPAND, 5 );
 	
 	
 	m_panelComposedEdit->SetSizer( bSizerComposedEdit );
@@ -223,10 +241,16 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	wxBoxSizer* bSizerComposedHex;
 	bSizerComposedHex = new wxBoxSizer( wxVERTICAL );
 	
-	m_composedHex = new wxTextCtrl( m_panelComposedHex, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
+	wxStaticBoxSizer* bSizerComposedHex2;
+	bSizerComposedHex2 = new wxStaticBoxSizer( new wxStaticBox( m_panelComposedHex, wxID_ANY, _("Composed Unicode Dump") ), wxVERTICAL );
+	
+	m_composedHex = new wxTextCtrl( bSizerComposedHex2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
 	m_composedHex->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 76, 90, 90, false, wxEmptyString ) );
 	
-	bSizerComposedHex->Add( m_composedHex, 50, wxALL|wxEXPAND, 5 );
+	bSizerComposedHex2->Add( m_composedHex, 1, wxEXPAND, 5 );
+	
+	
+	bSizerComposedHex->Add( bSizerComposedHex2, 1, wxEXPAND, 5 );
 	
 	
 	m_panelComposedHex->SetSizer( bSizerComposedHex );
