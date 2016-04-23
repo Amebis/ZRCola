@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-04-13 10:50+0200\n"
-"PO-Revision-Date: 2016-04-13 10:50+0200\n"
+"POT-Creation-Date: 2016-04-23 22:20+0200\n"
+"PO-Revision-Date: 2016-04-23 22:22+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: sl_SI\n"
@@ -17,7 +17,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: zrcolafrm.cpp:69
+#: zrcolafrm.cpp:70
 #, c-format
 msgid "Select %s language for decomposition"
 msgstr "Izberi jezik %s za razstavljanje"
@@ -147,7 +147,23 @@ msgstr "Pošlji razstavljeno"
 msgid "Language:"
 msgstr "Jezik:"
 
-#: zrcolagui.h:73 MSIBuild/En.Win32.Release.Feature-2.idtx:4
+#: zrcolagui.cpp:178
+msgid "Decomposed Text"
+msgstr "Razstavljeno besedilo"
+
+#: zrcolagui.cpp:198
+msgid "Decomposed Unicode Dump"
+msgstr "Unicode razstavljenega"
+
+#: zrcolagui.cpp:225
+msgid "Composed Text"
+msgstr "Sestavljeno besedilo"
+
+#: zrcolagui.cpp:245
+msgid "Composed Unicode Dump"
+msgstr "Unicode sestavljenega"
+
+#: zrcolagui.h:75 MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4

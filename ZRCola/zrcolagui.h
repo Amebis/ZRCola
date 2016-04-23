@@ -29,6 +29,7 @@
 #include <wx/statusbr.h>
 #include <wx/frame.h>
 #include <wx/textctrl.h>
+#include <wx/statbox.h>
 #include <wx/panel.h>
 #include <wx/splitter.h>
 
