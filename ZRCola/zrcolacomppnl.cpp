@@ -359,7 +359,7 @@ wxPersistentZRColaComposerPanel::wxPersistentZRColaComposerPanel(wxZRColaCompose
 
 wxString wxPersistentZRColaComposerPanel::GetKind() const
 {
-    return wxT("ZRColaComposerPanel");
+    return wxT(wxPERSIST_TLW_KIND);
 }
 
 
