@@ -18,7 +18,7 @@
     along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 -->
 <package>
-	<job id="CharDesc">
+	<job id="CharImport">
 		<runtime>
 			<description>Unicode Character Description Update - Amebis, Copyright © 2016</description>
 			<unnamed name="&lt;ZRCola.mdb&gt;"      required="true"  helpstring="ZRCola database"/>
@@ -47,9 +47,9 @@
 					f = fso.OpenTextFile(WScript.Arguments.Unnamed(1), ForReading);
 				try {
 					var
+						now = new Date(),
 						com = WScript.CreateObject("ADODB.Command"), param_znak,
-						rs = WScript.CreateObject("ADODB.Recordset"),
-						now = new Date();
+						rs = WScript.CreateObject("ADODB.Recordset");
 					com.Prepared = true;
 					com.ActiveConnection = db;
 					com.CommandType = adCmdText;
@@ -74,7 +74,7 @@
 								// Skip characters outside of 0020-FFFF range.
 								continue;
 							}
-							
+
 							// Convert Unicode HEX code to uppercase for consistent database experience.
 							fields[ 0] = fields[ 0].toUpperCase();
 							fields[12] = fields[12] != "" ? fields[12].toUpperCase() : fields[ 0];
@@ -151,17 +151,327 @@
 			} finally {
 				db.Close();
 			}
-				
+
 			WScript.Quit(0);
 		]]></script>
 	</job>
+
+	<job id="CharDescGenerate">
+		<runtime>
+			<description>Dynamic Character Description Generator - Amebis, Copyright © 2016</description>
+			<unnamed name="&lt;ZRCola.mdb&gt;" required="true"  helpstring="ZRCola database"/>
+			<named name="F" type="simple"      required="false" helpstring="Force overwrite of existing data"/>
+		</runtime>
+		<reference object="ADODB.Connection"/>
+		<reference object="ADODB.Command"/>
+		<reference object="ADODB.Recordset"/>
+		<script language="JScript"><![CDATA[
+			if (WScript.Arguments.Unnamed.Length < 1) {
+				WScript.Arguments.ShowUsage();
+				WScript.Quit(1);
+			}
+
+			function ZRColaDecompositionParser(db)
+			{
+				// Prepare query for existing character description search.
+				this.com_desc = WScript.CreateObject("ADODB.Command");
+				this.com_desc.Prepared = true;
+				this.com_desc.ActiveConnection = db;
+				this.com_desc.CommandType = adCmdText;
+				this.com_desc.CommandText = "SELECT TOP 1 [opis_en] FROM [VRS_CharList] WHERE [znak]=?";
+				this.com_desc.Parameters.Append(this.param_desc_znak = this.com_desc.CreateParameter("znak", adChar, adParamInput, 4));
+
+				this.rs_desc = WScript.CreateObject("ADODB.Recordset");
+				this.rs_desc.CursorLocation = adUseClient;
+				this.rs_desc.CursorType     = adOpenStatic;
+				this.rs_desc.LockType       = adLockReadOnly;
+			}
+
+			ZRColaDecompositionParser.prototype.nextChar = function()
+			{
+				if (!this.decomposed.length) {
+					this.sym = null;
+					this.desc = null;
+					return;
+				}
+
+				// Get next character.
+				this.sym = this.decomposed.shift();
+
+				// Get character's description.
+				this.param_desc_znak.Value = this.sym;
+				this.rs_desc.Open(this.com_desc);
+				try {
+					if (!this.rs_desc.EOF) {
+						var v;
+						if ((v = this.rs_desc("opis_en").Value) != null && v != "")
+							this.desc = v;
+						else
+							throw new Error(this.sym + " character has no description.");
+					} else
+						throw new Error(this.sym + " character not found.");
+				} finally {
+					this.rs_desc.Close();
+				}
+			}
+
+			ZRColaDecompositionParser.prototype.modifiers = function()
+			{
+				var desc = "";
+				for (;;) {
+					if (
+						this.sym >= "E000" && this.sym <= "E05B" || // 1st Set of Modifiers
+						this.sym >= "E063" && this.sym <= "E0BB" || // 2nd Set of Modifiers
+						this.sym == "003A" ||                       // Colon
+						this.sym == "2019")                         // Right Single Quotation Mark
+					{
+						desc += (desc.length ? " AND " : "") + this.desc;
+						this.nextChar();
+					} else if (this.sym >= "02B0" && this.sym <= "02FF") {
+						// Standard Unicode Modifiers
+						if (this.desc.indexOf("MODIFIER LETTER ") == 0)
+							this.desc = this.desc.substring(16);
+						desc += (desc.length ? " AND " : "") + this.desc;
+						this.nextChar();
+					} else
+						break;
+				}
+				return desc.length ? desc : null;
+			}
+
+			ZRColaDecompositionParser.prototype.envelopes = function()
+			{
+				var desc = "";
+				for (;;) {
+					if (
+						this.sym == "E0C0" ||                       // Circle
+						this.sym == "E0C2" ||                       // Square
+						this.sym == "E0CA")                         // Diamond
+					{
+						desc += (desc.length ? " AND " : "") + this.desc;
+						this.nextChar();
+					} else
+						break;
+				}
+				return desc.length ? desc : null;
+			}
+
+			ZRColaDecompositionParser.prototype.parentheses = function(open, close, desc)
+			{
+				if (this.sym == open) {
+					// Parenthesis Start
+					this.nextChar();
+					var desc_p = desc + " " + this.expression();
+					if (this.sym == close) {
+						// Parenthesis End
+						this.nextChar();
+					} else
+						throw new Error(this.sym + " is unexpected. Should end with " + close + ".");
+					return desc_p;
+				} else
+					return null;
+			}
+
+			ZRColaDecompositionParser.prototype.character = function()
+			{
+				var desc;
+				if (desc = this.parentheses("E0C5", "E0C6", "SUPERSCRIPTED")) {
+					// Superscript
+					return desc;
+				} else if (desc = this.parentheses("E2E0", "E2E1", "EVA DOUBLED")) {
+					// EVA Double
+					return desc;
+				} else if (desc = this.parentheses("E2E2", "E2E3", "EVA CONDENSED")) {
+					// EVA Condensed
+					return desc;
+				} else if (desc = this.parentheses("E2E4", "E2E5", "EVA EMPHASIZED")) {
+					// EVA Emphasis
+					return desc;
+				} else if (desc = this.parentheses("E2E6", "E2E7", "EVA STRIKED")) {
+					// EVA Strike
+					return desc;
+				} else if (desc = this.parentheses("E2E8", "E2E9", "EVA UNDEALED")) {
+					// EVA Undeal
+					return desc;
+				} else if (desc = this.parentheses("E2EA", "E2EB", "EVA ITALIC")) {
+					// EVA Italic
+					return desc;
+				} else if (desc = this.parentheses("E2EC", "E2ED", "EVA SUPERSCRIPTED")) {
+					// EVA Superscript
+					return desc;
+				} else if (desc = this.parentheses("E2EE", "E2EF", "EVA SUBSCRIPTED")) {
+					// EVA Subscript
+					return desc;
+				} else if (this.sym < "E000" || this.sym > "E0FC") {
+					// Base Character
+					desc = this.desc;
+					this.nextChar();
+					var has_with = desc.indexOf(" WITH ") >= 0;
+					for (;;) {
+						var desc2;
+						if (desc2 = this.modifiers()) {
+							desc += (has_with ? " AND " : " WITH ") + desc2;
+							has_with = true;
+						} else if (desc2 = this.envelopes()) {
+							desc += " IN " + desc2;
+							has_with = false;
+						} else
+							break;
+					}
+					return desc;
+				} else
+					throw new Error("Syntax error");
+			}
+
+			ZRColaDecompositionParser.prototype.term = function()
+			{
+				var desc = new Array(this.character());
+				while (this.sym == "E0C4") {
+					// Ligature
+					this.nextChar();
+					desc.push(this.character());
+				}
+
+				if (desc.length == 1) {
+					return desc[0];
+				} else if (desc.length == 2) {
+					if (desc[0] == desc[1])
+						return "DOUBLE " + desc[0];
+				} else if (desc.length == 3) {
+					if (desc[0] == desc[1] && desc[0] == desc[2])
+						return "TRIPLE " + desc[0];
+				}
+				return desc.join(" AND ") + " LIGATURE";
+			}
+
+			ZRColaDecompositionParser.prototype.expression = function()
+			{
+				var desc = "";
+				if (this.sym >= "E0F0" && this.sym <= "E0FC") {
+					// Prefix modifier
+					desc += this.desc + " ";
+					this.nextChar();
+				}
+				desc += this.term();
+				while (
+					this.sym >= "E05C" && this.sym <= "E062" ||
+					this.sym == "E0C1" || this.sym == "E0C3" || this.sym == "E0C7" || this.sym == "E0CB" || this.sym == "E0D0" || this.sym == "E0D1")
+				{
+					// Joiner
+					desc += " " + this.desc + " WITH ";
+					this.nextChar();
+					var desc2 = "";
+					for (;;) {
+						var desc3;
+						if (desc3 = this.modifiers())
+							desc2 += (desc2.length ? " AND " : " WITH ") + desc3;
+						else if (desc3 = this.envelopes())
+							desc2 += " IN " + desc3;
+						else
+							break;
+					}
+					desc += this.term();
+					desc += desc2;
+				}
+
+				return desc;
+			}
+
+			ZRColaDecompositionParser.prototype.parse = function(decomposed)
+			{
+				this.decomposed = decomposed.slice(0); // Duplicate array.
+				this.nextChar();
+
+				var desc = this.expression();
+				if (this.sym != null)
+					throw new Error("Unexpected trailing characters.");
+				return desc;
+			}
+
+			var force = WScript.Arguments.Named.Exists("F") ? true : false;
+
+			// Open ZRCola database.
+			var db = WScript.CreateObject("ADODB.Connection");
+			db.Open("Driver={Microsoft Access Driver (*.mdb)};Dbq=" + WScript.Arguments.Unnamed(0) + ";Uid=;Pwd=;");
+			try {
+				// Prepare query for character decomposition.
+				var com_comp = WScript.CreateObject("ADODB.Command"), param_comp_znak;
+				com_comp.Prepared = true;
+				com_comp.ActiveConnection = db;
+				com_comp.CommandType = adCmdText;
+				com_comp.CommandText = "SELECT UCase([komb]) AS [kombUC] FROM [VRS_ReplChar] WHERE [znak]=? ORDER BY [rang_znak] ASC";
+				com_comp.Parameters.Append(param_comp_znak = com_comp.CreateParameter("znak", adChar, adParamInput, 4));
+
+				db.BeginTrans();
+				try {
+					// Query all private-use characters.
+					var rs = WScript.CreateObject("ADODB.Recordset");
+					rs.CursorLocation = adUseClient;
+					rs.Open("SELECT * FROM [VRS_CharList] WHERE 'E000'<=[znak] AND [znak]<='F8FF' AND [kat] IS NULL", db, adOpenDynamic, adLockOptimistic, adCmdText);
+					try {
+						var rs_comp = WScript.CreateObject("ADODB.Recordset");
+						rs_comp.CursorLocation = adUseClient;
+						rs_comp.CursorType     = adOpenStatic;
+						rs_comp.LockType       = adLockReadOnly;
+
+						var parser = new ZRColaDecompositionParser(db);
+
+						for (; !rs.EOF; rs.MoveNext()) {
+							var v;
+							if (!force && (v = rs("opis_en").Value) != null && v != "") {
+								// This character already has the description.
+								continue;
+							}
+
+							// Decompose character.
+							var chr = rs("znak").Value;
+							param_comp_znak.Value = chr;
+							rs_comp.Open(com_comp);
+							try {
+								for (; !rs_comp.EOF; rs_comp.MoveNext()) {
+									var
+										decomposed = (v = rs_comp("kombUC").Value) != null ? (new String(v)).split("+") : new Array(),
+										n = decomposed.length;
+									if (n > 0) {
+										try {
+											var desc = parser.parse(decomposed);
+											rs("opis_en").value = desc;
+											rs.update();
+											break;
+										} catch (err) {
+											// We couldn't generate character description according to decomposition.
+											WScript.Echo(chr + " >> " + decomposed.join("+") + ": " + err.message);
+										}
+									};
+								}
+							} finally {
+								rs_comp.Close();
+							}
+						}
+					} finally {
+						rs.Close();
+					}
+
+					db.CommitTrans();
+				} catch (err) {
+					db.RollbackTrans();
+					throw err;
+				}
+			} finally {
+				db.Close();
+			}
+
+			WScript.Quit(0);
+		]]></script>
+	</job>
+
 
 <signature>
 ** SIG ** MIIXmAYJKoZIhvcNAQcCoIIXiTCCF4UCAQExCzAJBgUr
 ** SIG ** DgMCGgUAMGcGCisGAQQBgjcCAQSgWTBXMDIGCisGAQQB
 ** SIG ** gjcCAR4wJAIBAQQQcAVhGs441BGiowAQS9NQkAIBAAIB
-** SIG ** AAIBAAIBAAIBADAhMAkGBSsOAwIaBQAEFOCjEwolLzdY
-** SIG ** pB3gurW7XFcyyE7voIISyDCCA+4wggNXoAMCAQICEH6T
+** SIG ** AAIBAAIBAAIBADAhMAkGBSsOAwIaBQAEFPhq7XksMSKn
+** SIG ** 4Rdbedv+eKDdjJ50oIISyDCCA+4wggNXoAMCAQICEH6T
 ** SIG ** 6/t8xk5Z6kuad9QG/DswDQYJKoZIhvcNAQEFBQAwgYsx
 ** SIG ** CzAJBgNVBAYTAlpBMRUwEwYDVQQIEwxXZXN0ZXJuIENh
 ** SIG ** cGUxFDASBgNVBAcTC0R1cmJhbnZpbGxlMQ8wDQYDVQQK
@@ -315,31 +625,31 @@
 ** SIG ** OWQwCQYFKw4DAhoFAKBwMBAGCisGAQQBgjcCAQwxAjAA
 ** SIG ** MBkGCSqGSIb3DQEJAzEMBgorBgEEAYI3AgEEMBwGCisG
 ** SIG ** AQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3
-** SIG ** DQEJBDEWBBQx2R+AWm5UbjMXq+bmkeLraBMM8jANBgkq
-** SIG ** hkiG9w0BAQEFAASCAQCMUARiNuS9WoukQxZcrgPAT4yM
-** SIG ** y6GK81oXJ8VbcbOp+B545mAVckIw1gCkUVbDfpLycSwy
-** SIG ** 7mL5zAWowYCPFxkxuC/t60Dmtu/Js1PoLouoVsS9HTg3
-** SIG ** 5et2d74IOvMqV3VLb7QUT1+ifu9tGXBkiZbS/hmK4Hvq
-** SIG ** YThAocjVNwgn44A3R1spVe41pGHX49rhrzhGJS+b7Hyy
-** SIG ** x7dIuJ52EtLZszjbvoJ7Pi//VIr6kh6WubjCdUI/N6Lo
-** SIG ** 69PI0xY5oYk9ZsNIBEIVE+Tnj+qgAxSx5K/bDlpFYPa4
-** SIG ** 5FfjjGwvF+TU3KsBBNyuqtQnBqUUj3POVz7F3JtQy9gx
-** SIG ** OmxjYvL0oYICCzCCAgcGCSqGSIb3DQEJBjGCAfgwggH0
+** SIG ** DQEJBDEWBBTtnq9nJTyuGwPUm/NL7IROjIWVujANBgkq
+** SIG ** hkiG9w0BAQEFAASCAQBFZwe6d/h0FY6FPwyAJvEIjoFa
+** SIG ** QzBNIjLHoMLr+qLIqOvAOj07kwp4+eb19gKa4V3ePaH+
+** SIG ** g8ZXDLRIMWZEtpEuqKYxW5RnOd/iHg4h+PfVhtU4cixr
+** SIG ** NK731fhhcYeDWrzPiAKVWqkdHcHFMSRdFNXrGtbpKWMR
+** SIG ** 38T9CeAoC7whXK/N61WhBZOs2WqBn2e2bxsCMLPJzpez
+** SIG ** 57mYjk8Zlk1d8DkaxiamkmDkpnzL+eFuKiEZSuvgZ7il
+** SIG ** UDmtbdOvpUHTQqdZpNksZSUTGX87TvqGh7wxV5xPV0Bj
+** SIG ** kRHYIbDoncD99xleC4H7En7aAS1CPOwsGi6ydHjYr6Mk
+** SIG ** XKIxeI6ioYICCzCCAgcGCSqGSIb3DQEJBjGCAfgwggH0
 ** SIG ** AgEBMHIwXjELMAkGA1UEBhMCVVMxHTAbBgNVBAoTFFN5
 ** SIG ** bWFudGVjIENvcnBvcmF0aW9uMTAwLgYDVQQDEydTeW1h
 ** SIG ** bnRlYyBUaW1lIFN0YW1waW5nIFNlcnZpY2VzIENBIC0g
 ** SIG ** RzICEA7P9DjI/r81bgTYapgbGlAwCQYFKw4DAhoFAKBd
 ** SIG ** MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZI
-** SIG ** hvcNAQkFMQ8XDTE2MDQyMzEyMDIxMVowIwYJKoZIhvcN
-** SIG ** AQkEMRYEFGVSGqatpbdgETqwp3/Cx4sZOK3wMA0GCSqG
-** SIG ** SIb3DQEBAQUABIIBAA3d05TBjg0XmtWi3CL+2m3XJR8P
-** SIG ** GVBmCsac8wVYn15Q2fU5ta6h7ljL3UJCgbCbP4quw1eJ
-** SIG ** HVwVN7ld+BPKieFAb83oxf0g3eb1Uf/e064VsYl7AYS6
-** SIG ** O8EWxHcwODaPwNoqykakYmbJJSDmt42iLqbu1CCqJtnS
-** SIG ** 17nKSUTN2GO+ZXkXakYCH6zowcMzkFo2YaUTv+4ZFepy
-** SIG ** /7y0lRuh0IPQMf0qnDTkVyp8UcopOP6wdj/qR1VNXN9X
-** SIG ** xLAfnwGpvLC70ISFKRmelZIK1MwS0tXsTCiU9bnP5s3Y
-** SIG ** RVxXZ0uRVqqlyY+bydTlTAlRutpVrdCdrnzPk5UQIKIa
-** SIG ** 9NlvX+4=
+** SIG ** hvcNAQkFMQ8XDTE2MDQyNjEzMjQ1MlowIwYJKoZIhvcN
+** SIG ** AQkEMRYEFOCXzSMTEghkr0AunGczGHuQzCc+MA0GCSqG
+** SIG ** SIb3DQEBAQUABIIBAJHp1Wtc6YKicRqFnBN/mw7NsTNB
+** SIG ** fYvf1CYHBhl6JX6aRlvehLeXJO4rF46tXV0lSAVONEMs
+** SIG ** Cjxc8j2AqEPlHbmL+uiZEwuHquZv+nS1yM1ulNDEiwou
+** SIG ** FxUtdRSg3y1KuQ1aTKUhHQ//mxiLhIGzvw8lZcJDqayo
+** SIG ** a/0AEkgc8LPbFs5wp+jrNEAxDvTU38ERPjSm6LeCrCeR
+** SIG ** pLRkbCAyayCyE+S0Y8dP2Yv1TS0dbPeL5pnBEsr/ym7F
+** SIG ** 5DP1tBIm2Rbjl0pxGwTq502wqKGGdJakoxu4wr5xuUXk
+** SIG ** BCZCD4OPmggdTYANy+fdmDfv/d0VxgOBmXJKE4nHBGtz
+** SIG ** KWx/g/Q=
 </signature>
 </package>
