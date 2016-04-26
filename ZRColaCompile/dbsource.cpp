@@ -302,7 +302,12 @@ bool ZRCola::DBSource::SelectTranslations(ATL::CComPtr<ADORecordset> &rs) const
     wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
 
     // Open it.
-    if (FAILED(rs->Open(ATL::CComVariant(L"SELECT [komb], [znak], [rang_znak] FROM [VRS_ReplChar] WHERE [rang_komb]=1"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText))) {
+    if (FAILED(rs->Open(ATL::CComVariant(
+        L"SELECT [komb], [znak], [rang_znak] "
+        L"FROM [VRS_ReplChar] "
+        L"WHERE [rang_komb]=1 "
+        L"ORDER BY [znak], [rang_znak], [komb]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
+    {
         _ftprintf(stderr, wxT("%s: error ZCC0040: Error loading compositions from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
         LogErrors();
         return false;
@@ -348,7 +353,11 @@ bool ZRCola::DBSource::SelectKeySequences(ATL::CComPtr<ADORecordset> &rs) const
     wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
 
     // Open it.
-    if (FAILED(rs->Open(ATL::CComVariant(L"SELECT DISTINCT [VRS_KeyCodes].[Znak], [VRS_CharGroup].[Name] AS [CharGroup], [VRS_KeyCodes].[KeyCode], [VRS_KeyCodes].[Shift] FROM [VRS_KeyCodes] LEFT JOIN [VRS_CharGroup] ON [VRS_CharGroup].[CharGroup]=[VRS_KeyCodes].[CharGroup]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText))) {
+    if (FAILED(rs->Open(ATL::CComVariant(
+        L"SELECT DISTINCT [VRS_KeyCodes].[Znak], [VRS_CharGroup].[Name] AS [CharGroup], [VRS_KeyCodes].[KeyCode], [VRS_KeyCodes].[Shift] "
+        L"FROM [VRS_KeyCodes] LEFT JOIN [VRS_CharGroup] ON [VRS_CharGroup].[CharGroup]=[VRS_KeyCodes].[CharGroup] "
+        L"ORDER BY [VRS_CharGroup].[Name], [VRS_KeyCodes].[KeyCode], [VRS_KeyCodes].[Shift], [VRS_KeyCodes].[Znak]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
+    {
         _ftprintf(stderr, wxT("%s: error ZCC0050: Error loading key sequences from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
         LogErrors();
         return false;
@@ -416,7 +425,11 @@ bool ZRCola::DBSource::SelectLanguages(ATL::CComPtr<ADORecordset> &rs) const
     wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
 
     // Open it.
-    if (FAILED(rs->Open(ATL::CComVariant(L"SELECT DISTINCT [entCode], [Jezik_En] FROM [VRS_Jezik]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText))) {
+    if (FAILED(rs->Open(ATL::CComVariant(
+        L"SELECT DISTINCT [entCode], [Jezik_En] "
+        L"FROM [VRS_Jezik] "
+        L"ORDER BY [entCode], [Jezik_En]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
+    {
         _ftprintf(stderr, wxT("%s: error ZCC0060: Error loading languages from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
         LogErrors();
         return false;
@@ -456,7 +469,11 @@ bool ZRCola::DBSource::SelectLanguageCharacters(ATL::CComPtr<ADORecordset> &rs) 
     wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
 
     // Open it.
-    if (FAILED(rs->Open(ATL::CComVariant(L"SELECT DISTINCT [znak], [lang] FROM [VRS_CharLocal]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText))) {
+    if (FAILED(rs->Open(ATL::CComVariant(
+        L"SELECT DISTINCT [znak], [lang] "
+        L"FROM [VRS_CharLocal] "
+        L"ORDER BY [znak], [lang]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
+    {
         _ftprintf(stderr, wxT("%s: error ZCC0090: Error loading language characters from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
         LogErrors();
         return false;
