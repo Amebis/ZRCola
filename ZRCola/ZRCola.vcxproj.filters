@@ -37,6 +37,9 @@
     <ClCompile Include="zrcolakeyhndlr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="zrcolachrslct.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -55,6 +58,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="zrcolakeyhndlr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zrcolachrslct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

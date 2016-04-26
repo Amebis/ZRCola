@@ -81,6 +81,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="zrcolaapp.cpp" />
+    <ClCompile Include="zrcolachrslct.cpp" />
     <ClCompile Include="zrcolacomppnl.cpp" />
     <ClCompile Include="zrcolafrm.cpp" />
     <ClCompile Include="zrcolagui.cpp" />
@@ -89,6 +90,7 @@
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="zrcolaapp.h" />
+    <ClInclude Include="zrcolachrslct.h" />
     <ClInclude Include="zrcolacomppnl.h" />
     <ClInclude Include="zrcolafrm.h" />
     <ClInclude Include="zrcolagui.h" />

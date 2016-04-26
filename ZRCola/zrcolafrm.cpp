@@ -30,6 +30,8 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
     EVT_UPDATE_UI(wxID_SELECTALL, wxZRColaFrame::OnForwardEventUpdate)
     EVT_MENU(wxID_SELECTALL, wxZRColaFrame::OnForwardEvent)
 
+    EVT_MENU(wxID_INSERT_CHARACTER, wxZRColaFrame::OnInsertCharacter)
+
     EVT_UPDATE_UI_RANGE(wxID_SEND_COMPOSED, wxID_SEND_ABORT, wxZRColaFrame::OnSendUpdate)
     EVT_MENU(wxID_SEND_COMPOSED  , wxZRColaFrame::OnSendComposed            )
     EVT_MENU(wxID_SEND_DECOMPOSED, wxZRColaFrame::OnSendDecomposed          )
@@ -45,6 +47,7 @@ wxEND_EVENT_TABLE()
 
 wxZRColaFrame::wxZRColaFrame() :
     m_hWndSource(NULL),
+    m_chrSelect(NULL),
     wxZRColaFrameBase(NULL)
 {
     // Load main window icons.
@@ -76,6 +79,9 @@ wxZRColaFrame::wxZRColaFrame() :
     // Set focus.
     m_panel->m_decomposed->SetFocus();
 
+    m_chrSelect = new wxZRColaCharSelect(this);
+    wxPersistentRegisterAndRestore<wxZRColaCharSelect>(m_chrSelect);
+
     // Register global hotkey(s).
     if (!RegisterHotKey(wxZRColaHKID_INVOKE_COMPOSE, wxMOD_WIN, VK_F5))
         wxMessageBox(_("ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
@@ -89,6 +95,9 @@ wxZRColaFrame::~wxZRColaFrame()
     // Unregister global hotkey(s).
     UnregisterHotKey(wxZRColaHKID_INVOKE_DECOMPOSE);
     UnregisterHotKey(wxZRColaHKID_INVOKE_COMPOSE);
+
+    if (m_chrSelect)
+        delete m_chrSelect;
 }
 
 
@@ -109,6 +118,12 @@ void wxZRColaFrame::OnForwardEvent(wxCommandEvent& event)
         focusWnd->GetEventHandler()->ProcessEvent(event);
     else
         event.Skip();
+}
+
+
+void wxZRColaFrame::OnInsertCharacter(wxCommandEvent& event)
+{
+    m_chrSelect->ShowModal();
 }
 
 

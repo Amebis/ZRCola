@@ -32,6 +32,11 @@
 #include <wx/statbox.h>
 #include <wx/panel.h>
 #include <wx/splitter.h>
+#include <wx/srchctrl.h>
+#include <wx/grid.h>
+#include <wx/valtext.h>
+#include <wx/button.h>
+#include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -45,7 +50,8 @@ class wxZRColaFrameBase : public wxFrame
 	protected:
 		enum
 		{
-			wxID_SEND_COMPOSED = 1000,
+			wxID_INSERT_CHARACTER = 1000,
+			wxID_SEND_COMPOSED,
 			wxID_SEND_DECOMPOSED,
 			wxID_SEND_ABORT
 		};
@@ -122,6 +128,40 @@ class wxZRColaComposerPanelBase : public wxPanel
 			m_splitterComposed->SetSashPosition( -5 );
 			m_splitterComposed->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterComposedOnIdle ), NULL, this );
 		}
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class wxZRColaCharSelectBase
+///////////////////////////////////////////////////////////////////////////////
+class wxZRColaCharSelectBase : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxSearchCtrl* m_search;
+		wxGrid* m_gridResults;
+		wxGrid* m_gridRecent;
+		wxTextCtrl* m_unicode;
+		wxGrid* m_gridPreview;
+		wxGrid* m_gridRelated;
+		wxStdDialogButtonSizer* m_sdbSizerButtons;
+		wxButton* m_sdbSizerButtonsOK;
+		wxButton* m_sdbSizerButtonsCancel;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnSearchText( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnResultSelectCell( wxGridEvent& event ) { event.Skip(); }
+		virtual void OnRecentSelectCell( wxGridEvent& event ) { event.Skip(); }
+		virtual void OnUnicodeText( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnRelatedSelectCell( wxGridEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		wxString m_unicodeValid; 
+		
+		wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Character Selector"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaCharSelect") ); 
+		~wxZRColaCharSelectBase();
 	
 };
 

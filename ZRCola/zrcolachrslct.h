@@ -17,27 +17,43 @@
     along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 */
 
+
+///
+/// Forward declarations
+///
+class wxZRColaCharSelect;
+
+
 #pragma once
 
-#include "../include/zrcola.h"
-#include "zrcolaapp.h"
-#include "zrcolacomppnl.h"
-#include "zrcolafrm.h"
-#include "zrcolakeyhndlr.h"
+#include "zrcolagui.h"
 
-#include <wx/ffile.h>
-#include <wx/msgdlg.h>
-#include <wx/persist.h>
-#include <wx/persist/toplevel.h>
-#include <wx/valtext.h>
-#include <wxex/common.h>
 
-#include <fstream>
-#include <string>
-#include <vector>
+///
+/// ZRCola character select dialog
+///
+class wxZRColaCharSelect : public wxZRColaCharSelectBase
+{
+public:
+    wxZRColaCharSelect(wxWindow* parent);
+};
 
-#include <stdex/idrec.h>
 
-#if defined(__WXMSW__)
-#include <Msi.h>
-#endif
+///
+/// Supports saving/restoring wxZRColaCharSelect state
+///
+class wxPersistentZRColaCharSelect : public wxPersistentWindow<wxZRColaCharSelect>
+{
+public:
+    wxPersistentZRColaCharSelect(wxZRColaCharSelect *wnd);
+
+    virtual wxString GetKind() const;
+    virtual void Save() const;
+    virtual bool Restore();
+};
+
+
+inline wxPersistentObject *wxCreatePersistentObject(wxZRColaCharSelect *wnd)
+{
+    return new wxPersistentZRColaCharSelect(wnd);
+}
