@@ -29,6 +29,9 @@ class wxZRColaFrame;
 #include "zrcolagui.h"
 #include <zrcola/language.h>
 #include <wx/persist/toplevel.h>
+#if defined(__WXMSW__)
+#include <msctf.h>
+#endif
 
 
 ///
@@ -41,7 +44,11 @@ class wxZRColaFrame;
 ///
 /// ZRCola main frame
 ///
-class wxZRColaFrame : public wxZRColaFrameBase
+class wxZRColaFrame :
+    public wxZRColaFrameBase
+#if defined(__WXMSW__)
+    , protected ITfLanguageProfileNotifySink
+#endif
 {
 public:
     enum
@@ -53,6 +60,9 @@ public:
     wxZRColaFrame();
     virtual ~wxZRColaFrame();
 
+    friend class wxPersistentZRColaFrame;
+    friend class wxZRColaComposerPanel;
+
 protected:
     void OnAutostartUpdate(wxUpdateUIEvent& event);
     void OnAutostart(wxCommandEvent& event);
@@ -63,22 +73,41 @@ protected:
     void OnSendComposed(wxCommandEvent& event);
     void OnSendDecomposed(wxCommandEvent& event);
     void OnSendAbort(wxCommandEvent& event);
+    void OnDecomposedLanguageAutoUpdate(wxUpdateUIEvent& event);
+    void OnDecomposedLanguageAuto(wxCommandEvent& event);
     void OnDecomposedLanguageUpdate(wxUpdateUIEvent& event);
     void OnDecomposedLanguage(wxCommandEvent& event);
     virtual void OnDecompLanguageChoice(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     wxDECLARE_EVENT_TABLE();
 
-    friend class wxPersistentZRColaFrame;
-    friend class wxZRColaComposerPanel;
+protected:
+#if defined(__WXMSW__)
+    ITfSource *m_tfSource;  ///< Text Services install sink helper
+    DWORD m_dwCookie;       ///< Text Services installed sink cookie
+
+    // ITfLanguageProfileNotifySink implementation
+    virtual HRESULT STDMETHODCALLTYPE OnLanguageChange(LANGID langid, __RPC__out BOOL *pfAccept);
+    virtual HRESULT STDMETHODCALLTYPE OnLanguageChanged();
+
+    // IUnknown implementation
+    virtual HRESULT STDMETHODCALLTYPE QueryInterface(REFIID riid, __RPC__deref_out void __RPC_FAR *__RPC_FAR *ppvObject);
+    virtual ULONG STDMETHODCALLTYPE AddRef();
+    virtual ULONG STDMETHODCALLTYPE Release();
+    ULONG m_ulRefCount;     ///< COM object reference count
+#endif
 
 private:
     void DoSend(const wxString& str);
+    void UpdateDecomposedLanguage();
 
 protected:
+#ifdef __WXMSW__
     virtual WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
+#endif
 
 protected:
+    bool m_lang_auto;               ///< Automatic language selection according to keyboard layout
     ZRCola::langid_t m_lang;        ///< Language for decomposing
     WXHWND m_hWndSource;            ///< handle of the active window, when the ZRCola hotkey was pressed
 };

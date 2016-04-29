@@ -48,7 +48,8 @@ class wxZRColaFrameBase : public wxFrame
 			wxID_AUTOSTART = 1000,
 			wxID_SEND_COMPOSED,
 			wxID_SEND_DECOMPOSED,
-			wxID_SEND_ABORT
+			wxID_SEND_ABORT,
+			wxID_DECOMP_LANG_AUTO
 		};
 		
 		wxMenuBar* m_menubar;

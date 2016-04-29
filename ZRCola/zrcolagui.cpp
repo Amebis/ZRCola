@@ -105,6 +105,12 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	
 	m_menuDecompLanguage = new wxMenu();
 	wxMenuItem* m_menuDecompLanguageItem = new wxMenuItem( m_menuEdit, wxID_ANY, _("&Language"), wxEmptyString, wxITEM_NORMAL, m_menuDecompLanguage );
+	wxMenuItem* m_menuDecompLanguageAuto;
+	m_menuDecompLanguageAuto = new wxMenuItem( m_menuDecompLanguage, wxID_DECOMP_LANG_AUTO, wxString( _("&Automatic") ) , _("Set language according to keyboard layout automatically"), wxITEM_CHECK );
+	m_menuDecompLanguage->Append( m_menuDecompLanguageAuto );
+	
+	m_menuDecompLanguage->AppendSeparator();
+	
 	m_menuEdit->Append( m_menuDecompLanguageItem );
 	
 	m_menubar->Append( m_menuEdit, _("&Edit") ); 

@@ -294,6 +294,25 @@
                         <property name="label">&amp;Language</property>
                         <property name="name">m_menuDecompLanguage</property>
                         <property name="permission">protected</property>
+                        <object class="wxMenuItem" expanded="0">
+                            <property name="bitmap"></property>
+                            <property name="checked">0</property>
+                            <property name="enabled">1</property>
+                            <property name="help">Set language according to keyboard layout automatically</property>
+                            <property name="id">wxID_DECOMP_LANG_AUTO</property>
+                            <property name="kind">wxITEM_CHECK</property>
+                            <property name="label">&amp;Automatic</property>
+                            <property name="name">m_menuDecompLanguageAuto</property>
+                            <property name="permission">none</property>
+                            <property name="shortcut"></property>
+                            <property name="unchecked_bitmap"></property>
+                            <event name="OnMenuSelection"></event>
+                            <event name="OnUpdateUI"></event>
+                        </object>
+                        <object class="separator" expanded="0">
+                            <property name="name">m_separatorDecompLanguage1</property>
+                            <property name="permission">none</property>
+                        </object>
                     </object>
                 </object>
                 <object class="wxMenu" expanded="0">
