@@ -28,6 +28,12 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	
 	m_menubar = new wxMenuBar( 0 );
 	m_menuProgram = new wxMenu();
+	wxMenuItem* m_menuItemAutoStart;
+	m_menuItemAutoStart = new wxMenuItem( m_menuProgram, wxID_AUTOSTART, wxString( _("&Start on Logon") ) , _("Start this program automatically on logon"), wxITEM_CHECK );
+	m_menuProgram->Append( m_menuItemAutoStart );
+	
+	m_menuProgram->AppendSeparator();
+	
 	wxMenuItem* m_menuItemExit;
 	m_menuItemExit = new wxMenuItem( m_menuProgram, wxID_EXIT, wxString( _("E&xit") ) + wxT('\t') + wxT("Alt+F4"), _("Quit this program"), wxITEM_NORMAL );
 	m_menuProgram->Append( m_menuItemExit );

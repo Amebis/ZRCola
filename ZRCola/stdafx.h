@@ -39,4 +39,6 @@
 
 #if defined(__WXMSW__)
 #include <Msi.h>
+#include <ShObjIdl.h>
+#include <ShlGuid.h>
 #endif

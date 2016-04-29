@@ -54,6 +54,9 @@ public:
     virtual ~wxZRColaFrame();
 
 protected:
+    void OnAutostartUpdate(wxUpdateUIEvent& event);
+    void OnAutostart(wxCommandEvent& event);
+    void OnExit(wxCommandEvent& event);
     void OnForwardEventUpdate(wxUpdateUIEvent& event);
     void OnForwardEvent(wxCommandEvent& event);
     void OnSendUpdate(wxUpdateUIEvent& event);
@@ -63,7 +66,6 @@ protected:
     void OnDecomposedLanguageUpdate(wxUpdateUIEvent& event);
     void OnDecomposedLanguage(wxCommandEvent& event);
     virtual void OnDecompLanguageChoice(wxCommandEvent& event);
-    void OnExit(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     wxDECLARE_EVENT_TABLE();
 

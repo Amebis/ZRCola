@@ -45,7 +45,8 @@ class wxZRColaFrameBase : public wxFrame
 	protected:
 		enum
 		{
-			wxID_SEND_COMPOSED = 1000,
+			wxID_AUTOSTART = 1000,
+			wxID_SEND_COMPOSED,
 			wxID_SEND_DECOMPOSED,
 			wxID_SEND_ABORT
 		};

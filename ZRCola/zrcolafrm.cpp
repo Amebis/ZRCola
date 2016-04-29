@@ -25,21 +25,24 @@
 //////////////////////////////////////////////////////////////////////////
 
 wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
-    EVT_UPDATE_UI_RANGE(wxID_CUT, wxID_CLEAR, wxZRColaFrame::OnForwardEventUpdate)
-    EVT_MENU_RANGE(wxID_CUT, wxID_CLEAR, wxZRColaFrame::OnForwardEvent)
-    EVT_UPDATE_UI(wxID_SELECTALL, wxZRColaFrame::OnForwardEventUpdate)
-    EVT_MENU(wxID_SELECTALL, wxZRColaFrame::OnForwardEvent)
+    EVT_UPDATE_UI      (wxID_AUTOSTART                                      , wxZRColaFrame::OnAutostartUpdate         )
+    EVT_MENU           (wxID_AUTOSTART                                      , wxZRColaFrame::OnAutostart               )
+    EVT_MENU           (wxID_EXIT                                           , wxZRColaFrame::OnExit                    )
 
-    EVT_UPDATE_UI_RANGE(wxID_SEND_COMPOSED, wxID_SEND_ABORT, wxZRColaFrame::OnSendUpdate)
-    EVT_MENU(wxID_SEND_COMPOSED  , wxZRColaFrame::OnSendComposed            )
-    EVT_MENU(wxID_SEND_DECOMPOSED, wxZRColaFrame::OnSendDecomposed          )
-    EVT_MENU(wxID_SEND_ABORT     , wxZRColaFrame::OnSendAbort               )
+    EVT_UPDATE_UI_RANGE(wxID_CUT, wxID_CLEAR                                , wxZRColaFrame::OnForwardEventUpdate      )
+    EVT_MENU_RANGE     (wxID_CUT, wxID_CLEAR                                , wxZRColaFrame::OnForwardEvent            )
+    EVT_UPDATE_UI      (wxID_SELECTALL                                      , wxZRColaFrame::OnForwardEventUpdate      )
+    EVT_MENU           (wxID_SELECTALL                                      , wxZRColaFrame::OnForwardEvent            )
+
+    EVT_UPDATE_UI_RANGE(wxID_SEND_COMPOSED, wxID_SEND_ABORT                 , wxZRColaFrame::OnSendUpdate              )
+    EVT_MENU           (wxID_SEND_COMPOSED                                  , wxZRColaFrame::OnSendComposed            )
+    EVT_MENU           (wxID_SEND_DECOMPOSED                                , wxZRColaFrame::OnSendDecomposed          )
+    EVT_MENU           (wxID_SEND_ABORT                                     , wxZRColaFrame::OnSendAbort               )
 
     EVT_UPDATE_UI_RANGE(wxID_DECOMP_LANGUAGE_START, wxID_DECOMP_LANGUAGE_END, wxZRColaFrame::OnDecomposedLanguageUpdate)
-    EVT_MENU_RANGE(wxID_DECOMP_LANGUAGE_START, wxID_DECOMP_LANGUAGE_END, wxZRColaFrame::OnDecomposedLanguage)
+    EVT_MENU_RANGE     (wxID_DECOMP_LANGUAGE_START, wxID_DECOMP_LANGUAGE_END, wxZRColaFrame::OnDecomposedLanguage      )
 
-    EVT_MENU(wxID_EXIT , wxZRColaFrame::OnExit )
-    EVT_MENU(wxID_ABOUT, wxZRColaFrame::OnAbout)
+    EVT_MENU           (wxID_ABOUT                                          , wxZRColaFrame::OnAbout                   )
 wxEND_EVENT_TABLE()
 
 
@@ -89,6 +92,57 @@ wxZRColaFrame::~wxZRColaFrame()
     // Unregister global hotkey(s).
     UnregisterHotKey(wxZRColaHKID_INVOKE_DECOMPOSE);
     UnregisterHotKey(wxZRColaHKID_INVOKE_COMPOSE);
+}
+
+
+void wxZRColaFrame::OnAutostartUpdate(wxUpdateUIEvent& event)
+{
+#if defined(__WXMSW__)
+    wxString linkName(wxExpandEnvVars("%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\ZRCola.lnk"));
+    event.Check(wxFileExists(linkName));
+#else
+    event.Enable(false);
+#endif
+}
+
+
+void wxZRColaFrame::OnAutostart(wxCommandEvent& event)
+{
+#if defined(__WXMSW__)
+    wxString linkName(wxExpandEnvVars("%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\ZRCola.lnk"));
+    if (wxFileExists(linkName)) {
+        // The shortcut already exists. Remove it.
+        wxRemoveFile(linkName);
+    } else {
+        // Create the shortcut.
+        IShellLink *sl;
+        HRESULT hr = ::CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID*)&sl);
+        if (SUCCEEDED(hr)) {
+            // Setup ZRCola shortcut.
+            sl->SetPath(wxTheApp->argv[0]);
+            sl->SetDescription(_("Start ZRCola automatically on logon"));
+            sl->SetShowCmd(SW_SHOWMINNOACTIVE);
+
+            // Query IShellLink for the IPersistFile interface, used for saving the
+            // shortcut in persistent storage.
+            IPersistFile *pf;
+            hr = sl->QueryInterface(IID_IPersistFile, (LPVOID*)&pf);
+            if (SUCCEEDED(hr)) {
+                // Save the link by calling IPersistFile::Save.
+                hr = pf->Save(linkName, TRUE);
+                pf->Release();
+            }
+
+            sl->Release();
+        }
+    }
+#endif
+}
+
+
+void wxZRColaFrame::OnExit(wxCommandEvent& event)
+{
+    Close();
 }
 
 
@@ -191,12 +245,6 @@ void wxZRColaFrame::OnDecompLanguageChoice(wxCommandEvent& event)
         wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
         m_panel->m_composed->ProcessWindowEvent(event2);
     }
-}
-
-
-void wxZRColaFrame::OnExit(wxCommandEvent& event)
-{
-    Close();
 }
 
 
