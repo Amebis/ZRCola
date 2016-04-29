@@ -45,7 +45,7 @@ size_t ZRCola::mapping_vector::to_src(_In_ size_t dst) const
         } else {
             // The destination character index is left of the first transformation.
             const mapping &el = (*this)[0];
-            return std::min(dst, el.src);
+            return std::min<size_t>(dst, el.src);
         }
     }
 }
@@ -76,7 +76,7 @@ size_t ZRCola::mapping_vector::to_dst(_In_ size_t src) const
         } else {
             // The source character index is left of the first transformation.
             const mapping &el = (*this)[0];
-            return std::min(src, el.dst);
+            return std::min<size_t>(src, el.dst);
         }
     }
 }

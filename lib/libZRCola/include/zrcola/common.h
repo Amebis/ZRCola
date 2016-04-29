@@ -20,6 +20,9 @@
 #pragma once
 
 #include <vector>
+#ifdef _WIN32
+#include <Windows.h>
+#endif
 
 
 ///
@@ -62,6 +65,17 @@ namespace ZRCola {
     /// Three letter abbreviation, zero terminated
     ///
     typedef char langid_t[4];
+
+
+#ifdef _WIN32
+    ///
+    /// Converts language from Windows to ZRCola notation.
+    ///
+    /// \param[in]     lang_win  Windows language ID
+    /// \param[in,out] lang      ZRCola language ID
+    ///
+    void ZRCOLA_API LangConvert(_In_ LANGID lang_win, _Inout_ langid_t &lang);
+#endif
 
 
     ///
