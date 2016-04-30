@@ -43,4 +43,6 @@ public:
 protected:
     ZRCola::keyseq_db m_ks_db;                              ///< Key sequence database
     std::vector<ZRCola::keyseq_db::keyseq::key_t> m_seq;    ///< Key sequence
+    bool m_is_insert;                                       ///< Is Insert key pressed?
+    std::vector<char> m_insert_seq;                         ///< The Insert char sequence
 };

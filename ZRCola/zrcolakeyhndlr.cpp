@@ -24,7 +24,9 @@
 // wxZRColaKeyHandler
 //////////////////////////////////////////////////////////////////////////
 
-wxZRColaKeyHandler::wxZRColaKeyHandler() : wxEvtHandler()
+wxZRColaKeyHandler::wxZRColaKeyHandler() :
+    m_is_insert(false),
+    wxEvtHandler()
 {
     std::fstream dat((LPCTSTR)((ZRColaApp*)wxTheApp)->GetDatabasePath(), std::ios_base::in | std::ios_base::binary);
     if (dat.good()) {
@@ -55,7 +57,33 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
     if (event.GetEventType() == wxEVT_KEY_DOWN) {
         // The character event occured.
         wxKeyEvent &e = (wxKeyEvent&)event;
-        if (e.GetUnicodeKey() || !e.HasAnyModifiers()) {
+        if (e.GetKeyCode() == WXK_INSERT) {
+            // Insert key has been pressed.
+            m_is_insert = true;
+            wxFrame *pFrame = wxDynamicCast(wxTheApp->GetTopWindow(), wxFrame);
+            if (pFrame && pFrame->GetStatusBar())
+                pFrame->SetStatusText(_("INS"));
+        } else if (m_is_insert) {
+            wxChar chr = e.GetUnicodeKey();
+            wxFrame *pFrame = wxDynamicCast(wxTheApp->GetTopWindow(), wxFrame);
+            if (('0' <= chr && chr <= '9' || 'A' <= chr && chr <= 'F') && m_insert_seq.size() < 4) {
+                // A hex-digit pressed. Save it.
+                m_insert_seq.push_back((char)chr);
+
+                if (pFrame && pFrame->GetStatusBar())
+                    pFrame->SetStatusText(wxString::Format(wxT("%s+%s"), (const wxStringCharType*)_("INS"), (const wxStringCharType*)wxString(m_insert_seq.data(), m_insert_seq.size())));
+
+                event.StopPropagation();
+                return true;
+            } else {
+                // Not a hex-digit.
+                m_is_insert = false;
+                m_insert_seq.clear();
+
+                if (pFrame && pFrame->GetStatusBar())
+                    pFrame->SetStatusText(wxEmptyString);
+            }
+        } else if (e.GetUnicodeKey() || !e.HasAnyModifiers()) {
             ZRCola::keyseq_db::indexKey::size_type start, end;
             bool found;
             wxFrame *pFrame = wxDynamicCast(wxTheApp->GetTopWindow(), wxFrame);
@@ -112,6 +140,36 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
                 if (pFrame && pFrame->GetStatusBar())
                     pFrame->SetStatusText(wxEmptyString);
             }
+        }
+    } else if (event.GetEventType() == wxEVT_KEY_UP) {
+        wxKeyEvent &e = (wxKeyEvent&)event;
+        if (e.GetKeyCode() == WXK_INSERT && m_is_insert) {
+            // Insert key has been depressed.
+            wxFrame *pFrame = wxDynamicCast(wxTheApp->GetTopWindow(), wxFrame);
+            if (pFrame && pFrame->GetStatusBar())
+                pFrame->SetStatusText(wxEmptyString);
+
+            std::vector<char>::size_type count = m_insert_seq.size();
+            if (count) {
+                // Zero terminate sequence and parse the Unicode value.
+                m_insert_seq.push_back(0);
+                wchar_t chr = strtoul(m_insert_seq.data(), NULL, 16);
+
+                if (chr) {
+                    wxObject *obj = event.GetEventObject();
+                    if (obj && obj->IsKindOf(wxCLASSINFO(wxTextCtrl))) {
+                        // Push text to source control.
+                        ((wxTextCtrl*)obj)->WriteText(chr);
+                    }
+                }
+
+                m_insert_seq.clear();
+            }
+
+            m_is_insert = false;
+
+            event.StopPropagation();
+            return true;
         }
     }
 
