@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: wxWidgets 3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-02 15:21+0100\n"
-"PO-Revision-Date: 2016-04-08 13:05+0200\n"
+"PO-Revision-Date: 2016-04-30 15:13+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language: sl_SI\n"
@@ -2977,11 +2977,11 @@ msgstr "DECIMALNO"
 
 #: ../src/common/accelcmn.cpp:47
 msgid "DEL"
-msgstr "BRI"
+msgstr "DEL"
 
 #: ../src/common/accelcmn.cpp:48
 msgid "DELETE"
-msgstr "BRISALKA"
+msgstr "DELETE"
 
 # common/imagbmp.cpp:257
 #: ../src/common/imagbmp.cpp:1096
@@ -4717,11 +4717,11 @@ msgstr "IFF: neznana napaka!!!"
 
 #: ../src/common/accelcmn.cpp:50
 msgid "INS"
-msgstr "VST"
+msgstr "INS"
 
 #: ../src/common/accelcmn.cpp:51
 msgid "INSERT"
-msgstr "VSTAVI"
+msgstr "INSERT"
 
 #: ../src/common/fmapbase.cpp:197
 msgid "ISO-2022-JP"
