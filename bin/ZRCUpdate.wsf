@@ -223,6 +223,7 @@
 						this.sym >= "E000" && this.sym <= "E05B" || // 1st Set of Modifiers
 						this.sym >= "E063" && this.sym <= "E0BB" || // 2nd Set of Modifiers
 						this.sym == "003A" ||                       // Colon
+						this.sym == "02DE" ||                       // Rhotic Hook
 						this.sym == "2019")                         // Right Single Quotation Mark
 					{
 						desc += (desc.length ? " AND " : "") + this.desc;
@@ -244,9 +245,12 @@
 				var desc = "";
 				for (;;) {
 					if (
-						this.sym == "E0C0" ||                       // Circle
-						this.sym == "E0C2" ||                       // Square
-						this.sym == "E0CA")                         // Diamond
+						this.sym == "E0C0" || // Circle
+						//this.sym == "E0C1" || // Two Characters in Circle
+						this.sym == "E0C2" || // Square
+						//this.sym == "E0C3" || // Two Characters in Square
+						this.sym == "E0CA" || // Diamond
+						this.sym == "E0CD")   // Not Circle
 					{
 						desc += (desc.length ? " AND " : "") + this.desc;
 						this.nextChar();
@@ -277,6 +281,9 @@
 				var desc;
 				if (desc = this.parentheses("E0C5", "E0C6", "SUPERSCRIPTED")) {
 					// Superscript
+					return desc;
+				} else if (desc = this.parentheses("E0CE", "E0CF", "SUBSCRIPTED")) {
+					// Subscript
 					return desc;
 				} else if (desc = this.parentheses("E2E0", "E2E1", "EVA DOUBLED")) {
 					// EVA Double
@@ -346,35 +353,41 @@
 
 			ZRColaDecompositionParser.prototype.expression = function()
 			{
-				var desc = "";
-				if (this.sym >= "E0F0" && this.sym <= "E0FC") {
-					// Prefix modifier
-					desc += this.desc + " ";
+				if (this.sym >= "E0F0" && this.sym <= "E0F3" || this.sym >= "E0F8" && this.sym <= "E0FC") {
+					// Prefix modifier (with prefix description)
+					var desc = this.desc;
 					this.nextChar();
-				}
-				desc += this.term();
-				while (
-					this.sym >= "E05C" && this.sym <= "E062" ||
-					this.sym == "E0C1" || this.sym == "E0C3" || this.sym == "E0C7" || this.sym == "E0CB" || this.sym == "E0D0" || this.sym == "E0D1")
-				{
-					// Joiner
-					desc += " " + this.desc + " WITH ";
+					return desc + " " + this.expression();
+				} else if (this.sym == "E0F6") {
+					// Prefix modifier (with postfix description)
+					var desc = this.desc;
 					this.nextChar();
-					var desc2 = "";
-					for (;;) {
-						var desc3;
-						if (desc3 = this.modifiers())
-							desc2 += (desc2.length ? " AND " : " WITH ") + desc3;
-						else if (desc3 = this.envelopes())
-							desc2 += " IN " + desc3;
-						else
-							break;
+					return this.expression() + " " + desc;
+				} else {
+					var desc = this.term();
+					while (
+						this.sym >= "E05C" && this.sym <= "E062" ||
+						this.sym == "E0C7" || this.sym == "E0CB" || this.sym >= "E0D0" && this.sym <= "E0D5")
+					{
+						// Joiner
+						desc += " " + this.desc + " WITH ";
+						this.nextChar();
+						var desc2 = "";
+						for (;;) {
+							var desc3;
+							if (desc3 = this.modifiers())
+								desc2 += (desc2.length ? " AND " : " WITH ") + desc3;
+							else if (desc3 = this.envelopes())
+								desc2 += " IN " + desc3;
+							else
+								break;
+						}
+						desc += this.term();
+						desc += desc2;
 					}
-					desc += this.term();
-					desc += desc2;
-				}
 
-				return desc;
+					return desc;
+				}
 			}
 
 			ZRColaDecompositionParser.prototype.parse = function(decomposed)
@@ -470,8 +483,8 @@
 ** SIG ** MIIXmAYJKoZIhvcNAQcCoIIXiTCCF4UCAQExCzAJBgUr
 ** SIG ** DgMCGgUAMGcGCisGAQQBgjcCAQSgWTBXMDIGCisGAQQB
 ** SIG ** gjcCAR4wJAIBAQQQcAVhGs441BGiowAQS9NQkAIBAAIB
-** SIG ** AAIBAAIBAAIBADAhMAkGBSsOAwIaBQAEFPhq7XksMSKn
-** SIG ** 4Rdbedv+eKDdjJ50oIISyDCCA+4wggNXoAMCAQICEH6T
+** SIG ** AAIBAAIBAAIBADAhMAkGBSsOAwIaBQAEFNaLZyoVIc+t
+** SIG ** sxdD6hEodLtsntTAoIISyDCCA+4wggNXoAMCAQICEH6T
 ** SIG ** 6/t8xk5Z6kuad9QG/DswDQYJKoZIhvcNAQEFBQAwgYsx
 ** SIG ** CzAJBgNVBAYTAlpBMRUwEwYDVQQIEwxXZXN0ZXJuIENh
 ** SIG ** cGUxFDASBgNVBAcTC0R1cmJhbnZpbGxlMQ8wDQYDVQQK
@@ -625,31 +638,31 @@
 ** SIG ** OWQwCQYFKw4DAhoFAKBwMBAGCisGAQQBgjcCAQwxAjAA
 ** SIG ** MBkGCSqGSIb3DQEJAzEMBgorBgEEAYI3AgEEMBwGCisG
 ** SIG ** AQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3
-** SIG ** DQEJBDEWBBTtnq9nJTyuGwPUm/NL7IROjIWVujANBgkq
-** SIG ** hkiG9w0BAQEFAASCAQBFZwe6d/h0FY6FPwyAJvEIjoFa
-** SIG ** QzBNIjLHoMLr+qLIqOvAOj07kwp4+eb19gKa4V3ePaH+
-** SIG ** g8ZXDLRIMWZEtpEuqKYxW5RnOd/iHg4h+PfVhtU4cixr
-** SIG ** NK731fhhcYeDWrzPiAKVWqkdHcHFMSRdFNXrGtbpKWMR
-** SIG ** 38T9CeAoC7whXK/N61WhBZOs2WqBn2e2bxsCMLPJzpez
-** SIG ** 57mYjk8Zlk1d8DkaxiamkmDkpnzL+eFuKiEZSuvgZ7il
-** SIG ** UDmtbdOvpUHTQqdZpNksZSUTGX87TvqGh7wxV5xPV0Bj
-** SIG ** kRHYIbDoncD99xleC4H7En7aAS1CPOwsGi6ydHjYr6Mk
-** SIG ** XKIxeI6ioYICCzCCAgcGCSqGSIb3DQEJBjGCAfgwggH0
+** SIG ** DQEJBDEWBBTw/5NU88DZc1q0NRNEX/ex3ZH8kTANBgkq
+** SIG ** hkiG9w0BAQEFAASCAQAWqfI4RLtBRhqUJ1mx60ulXzEy
+** SIG ** Bp2RJ0lh7PU5LJ9gnqpYjCWRbU7XjPeZlokwJ834QHQa
+** SIG ** wTCSC5aY6YTxXaQlzdYRo3MgBy9YfCer3HVsKvGlnBcb
+** SIG ** ZfS/13vLIECiLZ4wyRwoNuOGIrnGChhFeSBuB0471TyV
+** SIG ** rOyn/2oL6kUGvdRDUe7vozwogspEB1zm7hJBLEsr0fbq
+** SIG ** NzaL4C8h42tjbeZSrYsMhRlZfi5jyZwY5a7Ajtww+5tV
+** SIG ** ZjO/Zm9y/CkhaF7ABMhAR8bLVruTPKIYCzDtuXovz1kL
+** SIG ** DpWlDfAPxRUF48j4SHY2PCwkW253jVD2bNb45A+xz3nn
+** SIG ** rupT/PrToYICCzCCAgcGCSqGSIb3DQEJBjGCAfgwggH0
 ** SIG ** AgEBMHIwXjELMAkGA1UEBhMCVVMxHTAbBgNVBAoTFFN5
 ** SIG ** bWFudGVjIENvcnBvcmF0aW9uMTAwLgYDVQQDEydTeW1h
 ** SIG ** bnRlYyBUaW1lIFN0YW1waW5nIFNlcnZpY2VzIENBIC0g
 ** SIG ** RzICEA7P9DjI/r81bgTYapgbGlAwCQYFKw4DAhoFAKBd
 ** SIG ** MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZI
-** SIG ** hvcNAQkFMQ8XDTE2MDQyNjEzMjQ1MlowIwYJKoZIhvcN
-** SIG ** AQkEMRYEFOCXzSMTEghkr0AunGczGHuQzCc+MA0GCSqG
-** SIG ** SIb3DQEBAQUABIIBAJHp1Wtc6YKicRqFnBN/mw7NsTNB
-** SIG ** fYvf1CYHBhl6JX6aRlvehLeXJO4rF46tXV0lSAVONEMs
-** SIG ** Cjxc8j2AqEPlHbmL+uiZEwuHquZv+nS1yM1ulNDEiwou
-** SIG ** FxUtdRSg3y1KuQ1aTKUhHQ//mxiLhIGzvw8lZcJDqayo
-** SIG ** a/0AEkgc8LPbFs5wp+jrNEAxDvTU38ERPjSm6LeCrCeR
-** SIG ** pLRkbCAyayCyE+S0Y8dP2Yv1TS0dbPeL5pnBEsr/ym7F
-** SIG ** 5DP1tBIm2Rbjl0pxGwTq502wqKGGdJakoxu4wr5xuUXk
-** SIG ** BCZCD4OPmggdTYANy+fdmDfv/d0VxgOBmXJKE4nHBGtz
-** SIG ** KWx/g/Q=
+** SIG ** hvcNAQkFMQ8XDTE2MDQzMDEyNTUxNFowIwYJKoZIhvcN
+** SIG ** AQkEMRYEFLyuXHqtrvRBTc1FKNCGvsgH18wHMA0GCSqG
+** SIG ** SIb3DQEBAQUABIIBAEIKtkLAxMugTbzm7q7S0koc3Z0V
+** SIG ** SL9Dv3YB5pMBo6v/ELUldEl+I3Oa2hDFacC1UXvh1wS8
+** SIG ** 9utLmVxkT/NpRgnCGRF8Qo46NwXi2z8z8kAuzp05RQlg
+** SIG ** e1vDmCDMHAA8WZh9AK90ne/XDHsQIdPdnndS3xxNiRBy
+** SIG ** G1wu2VSPHOseCNjIGFJUNP/jOvuOMzC0SLKJBcDV+0Yk
+** SIG ** ucb9XXF064kWW00Ve/jOi9kAvO23CzZaW/B8pTgfVx6V
+** SIG ** BgW9xX9OkFuU/0KD9KxIcLzez6lJ4YRb8HkrfEub0qSd
+** SIG ** doGBzSCBvcNq1RIjIn7FVcJGWJ8VOSmJ3AbDF2w5qYEr
+** SIG ** 5ALpFdk=
 </signature>
 </package>
