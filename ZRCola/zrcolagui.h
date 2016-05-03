@@ -21,14 +21,14 @@
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
-#include <wx/stattext.h>
+#include <wx/aui/aui.h>
+#include <wx/aui/auibar.h>
 #include <wx/choice.h>
-#include <wx/toolbar.h>
 #include "zrcolacomppnl.h"
-#include <wx/sizer.h>
 #include <wx/statusbr.h>
 #include <wx/frame.h>
 #include <wx/textctrl.h>
+#include <wx/sizer.h>
 #include <wx/statbox.h>
 #include <wx/panel.h>
 #include <wx/splitter.h>
@@ -49,21 +49,24 @@ class wxZRColaFrameBase : public wxFrame
 			wxID_SEND_COMPOSED,
 			wxID_SEND_DECOMPOSED,
 			wxID_SEND_ABORT,
-			wxID_DECOMP_LANG_AUTO
+			wxID_DECOMP_LANG_AUTO,
+			wxID_TOOLBAR_EDIT,
+			wxID_TOOLBAR_COMPOSE
 		};
 		
 		wxMenuBar* m_menubar;
 		wxMenu* m_menuProgram;
 		wxMenu* m_menuEdit;
 		wxMenu* m_menuDecompLanguage;
+		wxMenu* m_menuView;
 		wxMenu* m_menuHelp;
-		wxToolBar* m_toolbar;
-		wxToolBarToolBase* m_toolEditCut; 
-		wxToolBarToolBase* m_toolEditCopy; 
-		wxToolBarToolBase* m_toolEditPaste; 
-		wxToolBarToolBase* m_toolSendComposed; 
-		wxToolBarToolBase* m_toolSendDecomposed; 
-		wxStaticText* m_toolDecompLanguageLbl;
+		wxAuiToolBar* m_toolbarEdit;
+		wxAuiToolBarItem* m_toolEditCut; 
+		wxAuiToolBarItem* m_toolEditCopy; 
+		wxAuiToolBarItem* m_toolEditPaste; 
+		wxAuiToolBar* m_toolbarCompose;
+		wxAuiToolBarItem* m_toolSendComposed; 
+		wxAuiToolBarItem* m_toolSendDecomposed; 
 		wxChoice* m_toolDecompLanguage;
 		wxZRColaComposerPanel* m_panel;
 		wxStatusBar* m_statusBar;
@@ -75,6 +78,7 @@ class wxZRColaFrameBase : public wxFrame
 	public:
 		
 		wxZRColaFrameBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("ZRCola"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 600,400 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL, const wxString& name = wxT("ZRCola") );
+		wxAuiManager m_mgr;
 		
 		~wxZRColaFrameBase();
 	

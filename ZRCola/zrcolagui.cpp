@@ -25,6 +25,8 @@ static wxFBContextSensitiveHelpSetter s_wxFBSetTheHelpProvider;
 wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) : wxFrame( parent, id, title, pos, size, style, name )
 {
 	this->SetSizeHints( wxSize( 150,150 ), wxDefaultSize );
+	m_mgr.SetManagedWindow(this);
+	m_mgr.SetFlags(wxAUI_MGR_DEFAULT);
 	
 	m_menubar = new wxMenuBar( 0 );
 	m_menuProgram = new wxMenu();
@@ -115,6 +117,17 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	
 	m_menubar->Append( m_menuEdit, _("&Edit") ); 
 	
+	m_menuView = new wxMenu();
+	wxMenuItem* m_menuItemToolbarEdit;
+	m_menuItemToolbarEdit = new wxMenuItem( m_menuView, wxID_TOOLBAR_EDIT, wxString( _("Edit Toolbar") ) , _("Toggle edit toolbar"), wxITEM_CHECK );
+	m_menuView->Append( m_menuItemToolbarEdit );
+	
+	wxMenuItem* m_menuItemToolbarCompose;
+	m_menuItemToolbarCompose = new wxMenuItem( m_menuView, wxID_TOOLBAR_COMPOSE, wxString( _("Compose Toolbar") ) , _("Toggle compose toolbar"), wxITEM_CHECK );
+	m_menuView->Append( m_menuItemToolbarCompose );
+	
+	m_menubar->Append( m_menuView, _("&View") ); 
+	
 	m_menuHelp = new wxMenu();
 	wxMenuItem* m_menuItemAbout;
 	m_menuItemAbout = new wxMenuItem( m_menuHelp, wxID_ABOUT, wxString( wxEmptyString ) , wxEmptyString, wxITEM_NORMAL );
@@ -124,41 +137,37 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	
 	this->SetMenuBar( m_menubar );
 	
-	m_toolbar = this->CreateToolBar( wxTB_HORIZONTAL, wxID_ANY );
-	m_toolbar->SetToolBitmapSize( wxSize( 16,16 ) );
-	m_toolEditCut = m_toolbar->AddTool( wxID_CUT, _("Cut"), wxIcon( wxT("edit_cut.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Cut"), _("Cut selection"), NULL ); 
+	m_toolbarEdit = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT ); 
+	m_toolEditCut = m_toolbarEdit->AddTool( wxID_CUT, _("Cut"), wxIcon( wxT("edit_cut.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Cut"), _("Cut selection"), NULL ); 
 	
-	m_toolEditCopy = m_toolbar->AddTool( wxID_COPY, _("Copy"), wxIcon( wxT("edit_copy.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Copy"), _("Copy selection"), NULL ); 
+	m_toolEditCopy = m_toolbarEdit->AddTool( wxID_COPY, _("Copy"), wxIcon( wxT("edit_copy.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Copy"), _("Copy selection"), NULL ); 
 	
-	m_toolEditPaste = m_toolbar->AddTool( wxID_PASTE, _("Paste"), wxIcon( wxT("edit_paste.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Paste"), _("Paste selection"), NULL ); 
+	m_toolEditPaste = m_toolbarEdit->AddTool( wxID_PASTE, _("Paste"), wxIcon( wxT("edit_paste.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Paste"), _("Paste selection"), NULL ); 
 	
-	m_toolbar->AddSeparator(); 
+	m_toolbarEdit->Realize();
+	m_mgr.AddPane( m_toolbarEdit, wxAuiPaneInfo().Name( wxT("toolbarEdit") ).Top().Caption( _("Edit") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 1 ).Layer( 0 ).ToolbarPane() );
 	
-	m_toolSendComposed = m_toolbar->AddTool( wxID_SEND_COMPOSED, _("Send Composed"), wxIcon( wxT("send_composed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Composed"), _("Send composed text to source window"), NULL ); 
+	m_toolbarCompose = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT ); 
+	m_toolSendComposed = m_toolbarCompose->AddTool( wxID_SEND_COMPOSED, _("Send Composed"), wxIcon( wxT("send_composed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Composed"), _("Send composed text to source window"), NULL ); 
 	
-	m_toolSendDecomposed = m_toolbar->AddTool( wxID_SEND_DECOMPOSED, _("Send Decomposed"), wxIcon( wxT("send_decomposed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Decomposed"), _("Send decomposed text to source window"), NULL ); 
+	m_toolSendDecomposed = m_toolbarCompose->AddTool( wxID_SEND_DECOMPOSED, _("Send Decomposed"), wxIcon( wxT("send_decomposed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Decomposed"), _("Send decomposed text to source window"), NULL ); 
 	
-	m_toolDecompLanguageLbl = new wxStaticText( m_toolbar, wxID_ANY, _("Language:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-	m_toolDecompLanguageLbl->Wrap( -1 );
-	m_toolbar->AddControl( m_toolDecompLanguageLbl );
+	m_toolbarCompose->AddSeparator(); 
+	
 	wxArrayString m_toolDecompLanguageChoices;
-	m_toolDecompLanguage = new wxChoice( m_toolbar, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_toolDecompLanguageChoices, 0 );
+	m_toolDecompLanguage = new wxChoice( m_toolbarCompose, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_toolDecompLanguageChoices, 0 );
 	m_toolDecompLanguage->SetSelection( 0 );
-	m_toolbar->AddControl( m_toolDecompLanguage );
-	m_toolbar->Realize(); 
-	
-	wxBoxSizer* bSizerMain;
-	bSizerMain = new wxBoxSizer( wxVERTICAL );
+	m_toolbarCompose->AddControl( m_toolDecompLanguage );
+	m_toolbarCompose->Realize();
+	m_mgr.AddPane( m_toolbarCompose, wxAuiPaneInfo().Name( wxT("toolbarCompose") ).Top().Caption( _("Compose") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 1 ).Layer( 0 ).ToolbarPane() );
 	
 	m_panel = new wxZRColaComposerPanel( this );
 	
-	bSizerMain->Add( m_panel, 100, wxEXPAND, 5 );
+	m_mgr.AddPane( m_panel, wxAuiPaneInfo() .Name( wxT("composerPanel") ).Center() .Caption( _("(De)Composer") ).CaptionVisible( false ).CloseButton( false ).PaneBorder( false ).Dock().Resizable().FloatingSize( wxDefaultSize ).Floatable( false ) );
 	
-	
-	this->SetSizer( bSizerMain );
-	this->Layout();
 	m_statusBar = this->CreateStatusBar( 1, wxST_SIZEGRIP, wxID_ANY );
 	
+	m_mgr.Update();
 	this->Centre( wxBOTH );
 	
 	// Connect Events
@@ -169,6 +178,8 @@ wxZRColaFrameBase::~wxZRColaFrameBase()
 {
 	// Disconnect Events
 	m_toolDecompLanguage->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( wxZRColaFrameBase::OnDecompLanguageChoice ), NULL, this );
+	
+	m_mgr.UnInit();
 	
 }
 

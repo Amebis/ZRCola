@@ -30,6 +30,7 @@
 #include <wx/persist.h>
 #include <wx/persist/toplevel.h>
 #include <wxex/common.h>
+#include <wxex/persist/auimanager.h>
 
 #include <fstream>
 #include <string>

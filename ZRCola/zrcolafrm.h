@@ -78,6 +78,10 @@ protected:
     void OnDecomposedLanguageUpdate(wxUpdateUIEvent& event);
     void OnDecomposedLanguage(wxCommandEvent& event);
     virtual void OnDecompLanguageChoice(wxCommandEvent& event);
+    void OnToolbarEditUpdate(wxUpdateUIEvent& event);
+    void OnToolbarEdit(wxCommandEvent& event);
+    void OnToolbarComposeUpdate(wxUpdateUIEvent& event);
+    void OnToolbarCompose(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     wxDECLARE_EVENT_TABLE();
 

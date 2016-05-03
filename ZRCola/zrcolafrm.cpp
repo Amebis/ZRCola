@@ -44,6 +44,11 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
     EVT_UPDATE_UI_RANGE(wxID_DECOMP_LANGUAGE_START, wxID_DECOMP_LANGUAGE_END, wxZRColaFrame::OnDecomposedLanguageUpdate    )
     EVT_MENU_RANGE     (wxID_DECOMP_LANGUAGE_START, wxID_DECOMP_LANGUAGE_END, wxZRColaFrame::OnDecomposedLanguage          )
 
+    EVT_UPDATE_UI      (wxID_TOOLBAR_EDIT                                   , wxZRColaFrame::OnToolbarEditUpdate           )
+    EVT_MENU           (wxID_TOOLBAR_EDIT                                   , wxZRColaFrame::OnToolbarEdit                 )
+    EVT_UPDATE_UI      (wxID_TOOLBAR_COMPOSE                                , wxZRColaFrame::OnToolbarComposeUpdate        )
+    EVT_MENU           (wxID_TOOLBAR_COMPOSE                                , wxZRColaFrame::OnToolbarCompose              )
+
     EVT_MENU           (wxID_ABOUT                                          , wxZRColaFrame::OnAbout                       )
 wxEND_EVENT_TABLE()
 
@@ -53,6 +58,18 @@ wxZRColaFrame::wxZRColaFrame() :
     m_hWndSource(NULL),
     wxZRColaFrameBase(NULL)
 {
+    {
+        // wxFrameBuilder 3.5 does not support wxAUI_TB_HORIZONTAL flag. Add it manually.
+        wxAuiPaneInfo &paneInfo = m_mgr.GetPane(m_toolbarCompose);
+        paneInfo.LeftDockable(false);
+        paneInfo.RightDockable(false);
+        m_toolbarCompose->SetWindowStyleFlag(m_toolbarCompose->GetWindowStyleFlag() | wxAUI_TB_HORIZONTAL);
+    }
+
+    // Restore the wxAuiManager's state here to keep symmetric with save in the destructor below.
+    // See the comment in destructor why.
+    wxPersistentAuiManager(&m_mgr).Restore();
+
     // Load main window icons.
 #ifdef __WINDOWS__
     wxIconBundle icons;
@@ -122,6 +139,10 @@ wxZRColaFrame::~wxZRColaFrame()
     // Unregister global hotkey(s).
     UnregisterHotKey(wxZRColaHKID_INVOKE_DECOMPOSE);
     UnregisterHotKey(wxZRColaHKID_INVOKE_COMPOSE);
+
+    // Save wxAuiManager's state before return to parent's destructor.
+    // Since the later calls m_mgr.UnInit() the regular persistence mechanizm is useless to save wxAuiManager's state.
+    wxPersistentAuiManager((wxAuiManager*)&m_mgr).Save();
 }
 
 
@@ -179,7 +200,7 @@ void wxZRColaFrame::OnExit(wxCommandEvent& event)
 void wxZRColaFrame::OnForwardEventUpdate(wxUpdateUIEvent& event)
 {
     wxControl *focusWnd = wxDynamicCast(FindFocus(), wxControl);
-    if (focusWnd && !m_toolbar->IsDescendant(focusWnd))
+    if (focusWnd && !m_toolbarCompose->IsDescendant(focusWnd))
         focusWnd->GetEventHandler()->ProcessEvent(event);
     else
         event.Enable(false);
@@ -303,6 +324,34 @@ void wxZRColaFrame::OnDecompLanguageChoice(wxCommandEvent& event)
         m_panel->m_composed->ProcessWindowEvent(event2);
         m_lang_auto = false;
     }
+}
+
+
+void wxZRColaFrame::OnToolbarEditUpdate(wxUpdateUIEvent& event)
+{
+    event.Check(m_mgr.GetPane(m_toolbarEdit).IsShown());
+}
+
+
+void wxZRColaFrame::OnToolbarEdit(wxCommandEvent& event)
+{
+    wxAuiPaneInfo &paneInfo = m_mgr.GetPane(m_toolbarEdit);
+    paneInfo.Show(!paneInfo.IsShown());
+    m_mgr.Update();
+}
+
+
+void wxZRColaFrame::OnToolbarComposeUpdate(wxUpdateUIEvent& event)
+{
+    event.Check(m_mgr.GetPane(m_toolbarCompose).IsShown());
+}
+
+
+void wxZRColaFrame::OnToolbarCompose(wxCommandEvent& event)
+{
+    wxAuiPaneInfo &paneInfo = m_mgr.GetPane(m_toolbarCompose);
+    paneInfo.Show(!paneInfo.IsShown());
+    m_mgr.Update();
 }
 
 
