@@ -45,9 +45,9 @@ namespace ZRCola {
         ///
         struct keyseq {
             enum modifiers_t {
-                SHIFT   = 1<<0,             ///< SHIFT key was pressed
-                CTRL    = 1<<1,             ///< CTRL key was pressed
-                ALT     = 1<<2,             ///< ALT key was pressed
+                SHIFT   = 1<<0,                 ///< SHIFT key was pressed
+                CTRL    = 1<<1,                 ///< CTRL key was pressed
+                ALT     = 1<<2,                 ///< ALT key was pressed
             };
 
             wchar_t chr;                        ///< Character

@@ -28,6 +28,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\zrcolaui\chargroup.h" />
     <ClInclude Include="..\include\zrcolaui\common.h" />
     <ClInclude Include="..\include\zrcolaui\keyboard.h" />
     <ClInclude Include="..\src\stdafx.h" />

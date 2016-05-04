@@ -39,9 +39,9 @@ namespace ZRCola {
         ///
         class translation {
         public:
-            wchar_t chr;        ///< Composed character
-            std::wstring str;   ///< Decomposed string
-            int rank;           ///< Decomposition rank
+            wchar_t chr;                ///< Composed character
+            std::wstring str;           ///< Decomposed string
+            int rank;                   ///< Decomposition rank
         };
 
 
@@ -84,6 +84,20 @@ namespace ZRCola {
             wchar_t chr;                ///> Character
             ZRCola::langid_t lang;      ///< Language ID
         };
+
+
+        ///
+        /// Character group
+        ///
+        class chrgrp {
+        public:
+            int id;                     ///< Character group ID
+            int rank;                   ///< Character group rank
+            bool show;                  ///< Show initially
+            std::wstring name;          ///< Character group name
+            std::wstring chars;         ///< Character group characters
+        };
+
 
     public:
         DBSource();
@@ -328,9 +342,37 @@ namespace ZRCola {
         ///
         bool GetLanguageCharacter(const ATL::CComPtr<ADORecordset>& rs, langchar& lc) const;
 
+
+        ///
+        /// Returns character groups
+        ///
+        /// \param[out] rs  Recordset with results
+        ///
+        /// \returns
+        /// - true when query succeeds
+        /// - false otherwise
+        ///
+        bool SelectCharacterGroups(ATL::CComPtr<ADORecordset>& rs) const;
+
+
+        ///
+        /// Returns character group data
+        ///
+        /// \param[in]  rs    Recordset with results
+        /// \param[out] cg    Character group
+        ///
+        /// \returns
+        /// - true when succeeded
+        /// - false otherwise
+        ///
+        bool GetCharacterGroup(const ATL::CComPtr<ADORecordset>& rs, chrgrp& cg) const;
+
     protected:
         std::basic_string<TCHAR> m_filename;    ///< Database filename
         ATL::CComPtr<ADOConnection> m_db;       ///< Database
         _locale_t m_locale;                     ///< Database locale
+
+        ATL::CComPtr<ADOCommand> m_comCharacterGroup;   ///< ADO Command for GetCharacterGroup subquery
+        ATL::CComPtr<ADOParameter> m_pCharacterGroup1;  ///< \c m_comCharacterGroup parameter
     };
 };

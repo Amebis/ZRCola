@@ -5,9 +5,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: ZRColaCompile 2.0-alpha5\n"
+"X-Generator: ZRColaCompile 2.0-alpha6\n"
 
 msgid "Albanian"
+msgstr ""
+
+msgid "Arrows"
 msgstr ""
 
 msgid "Belarusian"
@@ -19,7 +22,22 @@ msgstr ""
 msgid "Bosnian – Latinic"
 msgstr ""
 
+msgid "Combine"
+msgstr ""
+
+msgid "Combine Above"
+msgstr ""
+
+msgid "Combine Below"
+msgstr ""
+
+msgid "Combine Over"
+msgstr ""
+
 msgid "Croatian"
+msgstr ""
+
+msgid "Currencies"
 msgstr ""
 
 msgid "Czech"
@@ -32,6 +50,9 @@ msgid "English"
 msgstr ""
 
 msgid "Estonian"
+msgstr ""
+
+msgid "Eva"
 msgstr ""
 
 msgid "French"
@@ -49,6 +70,9 @@ msgstr ""
 msgid "Irish Gaelic"
 msgstr ""
 
+msgid "Joined"
+msgstr ""
+
 msgid "Kashubian"
 msgstr ""
 
@@ -56,6 +80,165 @@ msgid "Latin"
 msgstr ""
 
 msgid "Latvian"
+msgstr ""
+
+msgid "Letter A"
+msgstr ""
+
+msgid "Letter B"
+msgstr ""
+
+msgid "Letter C"
+msgstr ""
+
+msgid "Letter D"
+msgstr ""
+
+msgid "Letter E"
+msgstr ""
+
+msgid "Letter F"
+msgstr ""
+
+msgid "Letter G"
+msgstr ""
+
+msgid "Letter H"
+msgstr ""
+
+msgid "Letter I"
+msgstr ""
+
+msgid "Letter J"
+msgstr ""
+
+msgid "Letter K"
+msgstr ""
+
+msgid "Letter L"
+msgstr ""
+
+msgid "Letter M"
+msgstr ""
+
+msgid "Letter N"
+msgstr ""
+
+msgid "Letter O"
+msgstr ""
+
+msgid "Letter P"
+msgstr ""
+
+msgid "Letter Q"
+msgstr ""
+
+msgid "Letter R"
+msgstr ""
+
+msgid "Letter S"
+msgstr ""
+
+msgid "Letter T"
+msgstr ""
+
+msgid "Letter U"
+msgstr ""
+
+msgid "Letter V"
+msgstr ""
+
+msgid "Letter W"
+msgstr ""
+
+msgid "Letter X"
+msgstr ""
+
+msgid "Letter Y"
+msgstr ""
+
+msgid "Letter Z"
+msgstr ""
+
+msgid "Letter a"
+msgstr ""
+
+msgid "Letter b"
+msgstr ""
+
+msgid "Letter c"
+msgstr ""
+
+msgid "Letter d"
+msgstr ""
+
+msgid "Letter e"
+msgstr ""
+
+msgid "Letter f"
+msgstr ""
+
+msgid "Letter g"
+msgstr ""
+
+msgid "Letter h"
+msgstr ""
+
+msgid "Letter i"
+msgstr ""
+
+msgid "Letter j"
+msgstr ""
+
+msgid "Letter k"
+msgstr ""
+
+msgid "Letter l"
+msgstr ""
+
+msgid "Letter m"
+msgstr ""
+
+msgid "Letter n"
+msgstr ""
+
+msgid "Letter o"
+msgstr ""
+
+msgid "Letter p"
+msgstr ""
+
+msgid "Letter q"
+msgstr ""
+
+msgid "Letter r"
+msgstr ""
+
+msgid "Letter s"
+msgstr ""
+
+msgid "Letter t"
+msgstr ""
+
+msgid "Letter u"
+msgstr ""
+
+msgid "Letter v"
+msgstr ""
+
+msgid "Letter w"
+msgstr ""
+
+msgid "Letter x"
+msgstr ""
+
+msgid "Letter y"
+msgstr ""
+
+msgid "Letter z"
+msgstr ""
+
+msgid "Ligatures"
 msgstr ""
 
 msgid "Lithuanian"
@@ -67,6 +250,12 @@ msgstr ""
 msgid "Maltese"
 msgstr ""
 
+msgid "Metric"
+msgstr ""
+
+msgid "Modified"
+msgstr ""
+
 msgid "Moldavian – Cyrillic"
 msgstr ""
 
@@ -76,10 +265,52 @@ msgstr ""
 msgid "Norwegian"
 msgstr ""
 
+msgid "Number 0"
+msgstr ""
+
+msgid "Number 1"
+msgstr ""
+
+msgid "Number 2"
+msgstr ""
+
+msgid "Number 3"
+msgstr ""
+
+msgid "Number 4"
+msgstr ""
+
+msgid "Number 5"
+msgstr ""
+
+msgid "Number 6"
+msgstr ""
+
+msgid "Number 7"
+msgstr ""
+
+msgid "Number 8"
+msgstr ""
+
+msgid "Number 9"
+msgstr ""
+
+msgid "Numbers"
+msgstr ""
+
+msgid "Numbers - Circled"
+msgstr ""
+
+msgid "Parentheses"
+msgstr ""
+
 msgid "Polish"
 msgstr ""
 
 msgid "Portuguese"
+msgstr ""
+
+msgid "Quotes"
 msgstr ""
 
 msgid "Romanian"
@@ -106,7 +337,52 @@ msgstr ""
 msgid "Spanish"
 msgstr ""
 
+msgid "Special Characters"
+msgstr ""
+
+msgid "Strokes"
+msgstr ""
+
+msgid "Surrounded"
+msgstr ""
+
 msgid "Swedish"
+msgstr ""
+
+msgid "Symbol !"
+msgstr ""
+
+msgid "Symbol ("
+msgstr ""
+
+msgid "Symbol )"
+msgstr ""
+
+msgid "Symbol +"
+msgstr ""
+
+msgid "Symbol ,"
+msgstr ""
+
+msgid "Symbol -"
+msgstr ""
+
+msgid "Symbol :"
+msgstr ""
+
+msgid "Symbol ;"
+msgstr ""
+
+msgid "Symbol <"
+msgstr ""
+
+msgid "Symbol ="
+msgstr ""
+
+msgid "Symbol >"
+msgstr ""
+
+msgid "Symbol ?"
 msgstr ""
 
 msgid "Turkish"

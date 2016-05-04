@@ -17,6 +17,9 @@ msgstr ""
 msgid "Albanian"
 msgstr "albanščina"
 
+msgid "Arrows"
+msgstr "Puščice"
+
 msgid "Belarusian"
 msgstr "beloruščina"
 
@@ -26,8 +29,23 @@ msgstr "bosanščina – cirilica"
 msgid "Bosnian – Latinic"
 msgstr "bosanščina – latinica"
 
+msgid "Combine"
+msgstr "Kombinirano"
+
+msgid "Combine Above"
+msgstr "Kombinirano zgoraj"
+
+msgid "Combine Below"
+msgstr "Kombinirano spodaj"
+
+msgid "Combine Over"
+msgstr "Kombinirano prečrtano"
+
 msgid "Croatian"
 msgstr "hrvaščina"
+
+msgid "Currencies"
+msgstr "Valute"
 
 msgid "Czech"
 msgstr "češčina"
@@ -40,6 +58,9 @@ msgstr "angleščina"
 
 msgid "Estonian"
 msgstr "estonščina"
+
+msgid "Eva"
+msgstr "Eva"
 
 msgid "French"
 msgstr "francoščina"
@@ -56,6 +77,9 @@ msgstr "madžarščina"
 msgid "Irish Gaelic"
 msgstr "irščina"
 
+msgid "Joined"
+msgstr "Povezano"
+
 msgid "Kashubian"
 msgstr "kašubščina"
 
@@ -64,6 +88,165 @@ msgstr "latinščina"
 
 msgid "Latvian"
 msgstr "letonščina"
+
+msgid "Letter A"
+msgstr "Črka A"
+
+msgid "Letter B"
+msgstr "Črka B"
+
+msgid "Letter C"
+msgstr "Črka C"
+
+msgid "Letter D"
+msgstr "Črka D"
+
+msgid "Letter E"
+msgstr "Črka E"
+
+msgid "Letter F"
+msgstr "Črka f"
+
+msgid "Letter G"
+msgstr "Črka G"
+
+msgid "Letter H"
+msgstr "Črka H"
+
+msgid "Letter I"
+msgstr "Črka I"
+
+msgid "Letter J"
+msgstr "Črka J"
+
+msgid "Letter K"
+msgstr "Črka K"
+
+msgid "Letter L"
+msgstr "Črka L"
+
+msgid "Letter M"
+msgstr "Črka M"
+
+msgid "Letter N"
+msgstr "Črka N"
+
+msgid "Letter O"
+msgstr "Črka O"
+
+msgid "Letter P"
+msgstr "Črka P"
+
+msgid "Letter Q"
+msgstr "Črka Q"
+
+msgid "Letter R"
+msgstr "Črka R"
+
+msgid "Letter S"
+msgstr "Črka S"
+
+msgid "Letter T"
+msgstr "Črka T"
+
+msgid "Letter U"
+msgstr "Črka U"
+
+msgid "Letter V"
+msgstr "Črka V"
+
+msgid "Letter W"
+msgstr "Črka W"
+
+msgid "Letter X"
+msgstr "Črka X"
+
+msgid "Letter Y"
+msgstr "Črka Y"
+
+msgid "Letter Z"
+msgstr "Črka Z"
+
+msgid "Letter a"
+msgstr "Črka a"
+
+msgid "Letter b"
+msgstr "Črka b"
+
+msgid "Letter c"
+msgstr "Črka c"
+
+msgid "Letter d"
+msgstr "Črka d"
+
+msgid "Letter e"
+msgstr "Črka e"
+
+msgid "Letter f"
+msgstr "Črka f"
+
+msgid "Letter g"
+msgstr "Črka g"
+
+msgid "Letter h"
+msgstr "Črka h"
+
+msgid "Letter i"
+msgstr "Črka i"
+
+msgid "Letter j"
+msgstr "Črka j"
+
+msgid "Letter k"
+msgstr "Črka k"
+
+msgid "Letter l"
+msgstr "Črka l"
+
+msgid "Letter m"
+msgstr "Črka m"
+
+msgid "Letter n"
+msgstr "Črka n"
+
+msgid "Letter o"
+msgstr "Črka o"
+
+msgid "Letter p"
+msgstr "Črka p"
+
+msgid "Letter q"
+msgstr "Črka q"
+
+msgid "Letter r"
+msgstr "Črka r"
+
+msgid "Letter s"
+msgstr "Črka s"
+
+msgid "Letter t"
+msgstr "Črka t"
+
+msgid "Letter u"
+msgstr "Črka u"
+
+msgid "Letter v"
+msgstr "Črka v"
+
+msgid "Letter w"
+msgstr "Črka w"
+
+msgid "Letter x"
+msgstr "Črka x"
+
+msgid "Letter y"
+msgstr "Črka y"
+
+msgid "Letter z"
+msgstr "Črka z"
+
+msgid "Ligatures"
+msgstr "Ligature"
 
 msgid "Lithuanian"
 msgstr "litovščina"
@@ -74,6 +257,12 @@ msgstr "makedonščina"
 msgid "Maltese"
 msgstr "malteščina"
 
+msgid "Metric"
+msgstr "Metrično"
+
+msgid "Modified"
+msgstr "Spremenjeno"
+
 msgid "Moldavian – Cyrillic"
 msgstr "moldavščina – cirilica"
 
@@ -83,11 +272,53 @@ msgstr "moldavščina – latinica"
 msgid "Norwegian"
 msgstr "norveščina"
 
+msgid "Number 0"
+msgstr "Številka 0"
+
+msgid "Number 1"
+msgstr "Številka 1"
+
+msgid "Number 2"
+msgstr "Številka 2"
+
+msgid "Number 3"
+msgstr "Številka 3"
+
+msgid "Number 4"
+msgstr "Številka 4"
+
+msgid "Number 5"
+msgstr "Številka 5"
+
+msgid "Number 6"
+msgstr "Številka 6"
+
+msgid "Number 7"
+msgstr "Številka 7"
+
+msgid "Number 8"
+msgstr "Številka 8"
+
+msgid "Number 9"
+msgstr "Številka 9"
+
+msgid "Numbers"
+msgstr "Številke"
+
+msgid "Numbers - Circled"
+msgstr "Številke - obkroženo"
+
+msgid "Parentheses"
+msgstr "Oklepaji"
+
 msgid "Polish"
 msgstr "poljščina"
 
 msgid "Portuguese"
 msgstr "portugalščina"
+
+msgid "Quotes"
+msgstr "Narekovaji"
 
 msgid "Romanian"
 msgstr "romunščina"
@@ -113,8 +344,53 @@ msgstr "lužiščini"
 msgid "Spanish"
 msgstr "španščina"
 
+msgid "Special Characters"
+msgstr "Posebni znaki"
+
+msgid "Strokes"
+msgstr "Poševnica"
+
+msgid "Surrounded"
+msgstr "Obkroženi"
+
 msgid "Swedish"
 msgstr "švedščina"
+
+msgid "Symbol !"
+msgstr "Simbol !"
+
+msgid "Symbol ("
+msgstr "Simbol ("
+
+msgid "Symbol )"
+msgstr "Simbol )"
+
+msgid "Symbol +"
+msgstr "Simbol +"
+
+msgid "Symbol ,"
+msgstr "Simbol ,"
+
+msgid "Symbol -"
+msgstr "Simbol -"
+
+msgid "Symbol :"
+msgstr "Simbol :"
+
+msgid "Symbol ;"
+msgstr "Simbol ;"
+
+msgid "Symbol <"
+msgstr "Simbol <"
+
+msgid "Symbol ="
+msgstr "Simbol ="
+
+msgid "Symbol >"
+msgstr "Simbol >"
+
+msgid "Symbol ?"
+msgstr "Simbol ?"
 
 msgid "Turkish"
 msgstr "turščina"

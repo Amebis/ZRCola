@@ -26,6 +26,7 @@
 
 #include <zrcola/language.h>
 #include <zrcola/translate.h>
+#include <zrcolaui/chargroup.h>
 #include <zrcolaui/keyboard.h>
 
 #include <wx/app.h>
@@ -41,6 +42,7 @@
 #include <initguid.h> // GUID helper to prevent LNK2001 errors (unresolved external symbol IID_IADO...)
 #include <adoint.h>
 #include <adoid.h>
+#include <atlcomcli.h>
 
 #include <tchar.h>
 

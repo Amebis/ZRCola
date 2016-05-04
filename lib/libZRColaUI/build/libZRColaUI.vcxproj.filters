@@ -32,6 +32,9 @@
     <ClInclude Include="..\include\zrcolaui\keyboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\zrcolaui\chargroup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\res\libZRColaUI.rc">

@@ -27,6 +27,12 @@ ZRCola::DBSource::DBSource()
 
 ZRCola::DBSource::~DBSource()
 {
+    if (m_pCharacterGroup1)
+        m_pCharacterGroup1.Release();
+
+    if (m_comCharacterGroup)
+        m_comCharacterGroup.Release();
+
     if (m_db)
         m_db->Close();
 
@@ -53,6 +59,23 @@ bool ZRCola::DBSource::Open(LPCTSTR filename)
             // Database open and ready.
             m_filename = filename;
             m_locale = _create_locale(LC_ALL, "Slovenian_Slovenia.1250");
+
+            wxASSERT_MSG(!m_comCharacterGroup, wxT("ADO command already created"));
+
+            // Create ADO command(s).
+            wxVERIFY(SUCCEEDED(::CoCreateInstance(CLSID_CADOCommand, NULL, CLSCTX_ALL, IID_IADOCommand, (LPVOID*)&m_comCharacterGroup)));
+            wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_ActiveConnection(ATL::CComVariant(m_db))));
+            wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_CommandType(adCmdText)));
+            wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_CommandText(ATL::CComBSTR(L"SELECT [Znak] FROM [VRS_SkupineZnakov] WHERE [Skupina]=? ORDER BY [Rang] ASC, [Znak] ASC"))));
+            {
+                // Create and add command parameters.
+                ATL::CComPtr<ADOParameters> params;
+                wxVERIFY(SUCCEEDED(m_comCharacterGroup->get_Parameters(&params)));
+                wxASSERT_MSG(!m_pCharacterGroup1, wxT("ADO command parameter already created"));
+                wxVERIFY(SUCCEEDED(m_comCharacterGroup->CreateParameter(ATL::CComBSTR(L"@Skupina"), adVarWChar, adParamInput, 50, ATL::CComVariant(DISP_E_PARAMNOTFOUND, VT_ERROR), &m_pCharacterGroup1)));
+                wxVERIFY(SUCCEEDED(params->Append(m_pCharacterGroup1)));
+            }
+
             return true;
         } else {
             _ftprintf(stderr, wxT("%s: error ZCC0011: Could not open database (0x%x).\n"), (LPCTSTR)filename, hr);
@@ -500,6 +523,95 @@ bool ZRCola::DBSource::GetLanguageCharacter(const ATL::CComPtr<ADORecordset>& rs
         ATL::CComPtr<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"lang"), &f)));
         wxCHECK(GetLanguage(f, lc.lang), false);
+    }
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::SelectCharacterGroups(ATL::CComPtr<ADORecordset>& rs) const
+{
+    // Create a new recordset.
+    if (rs) rs.Release();
+    wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
+
+    // Open it.
+    if (FAILED(rs->Open(ATL::CComVariant(
+        L"SELECT DISTINCT [id], [Skupina], [opis_en], [Rang], [prikazano] "
+        L"FROM [VRS_SkupinaZnakov] "
+        L"ORDER BY [Rang], [opis_en]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
+    {
+        _ftprintf(stderr, wxT("%s: error ZCC0090: Error loading character groups from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
+        LogErrors();
+        return false;
+    }
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::GetCharacterGroup(const ATL::CComPtr<ADORecordset>& rs, chrgrp& cg) const
+{
+    wxASSERT_MSG(rs, wxT("recordset is empty"));
+
+    ATL::CComPtr<ADOFields> flds;
+    wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
+    std::wstring id;
+
+    {
+        ATL::CComPtr<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"id"), &f)));
+        wxCHECK(GetValue(f, cg.id), false);
+    }
+
+    {
+        ATL::CComPtr<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"Skupina"), &f)));
+        wxCHECK(GetValue(f, id), false);
+    }
+
+    {
+        ATL::CComPtr<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"Rang"), &f)));
+        wxCHECK(GetValue(f, cg.rank), false);
+    }
+
+    {
+        ATL::CComPtr<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"prikazano"), &f)));
+        wxCHECK(GetValue(f, cg.show), false);
+    }
+
+    {
+        ATL::CComPtr<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"opis_en"), &f)));
+        wxCHECK(GetValue(f, cg.name), false);
+    }
+
+    // Read character list from database.
+    wxVERIFY(SUCCEEDED(m_pCharacterGroup1->put_Value(ATL::CComVariant(id.c_str()))));
+    ATL::CComPtr<ADORecordset> rs_chars;
+    wxVERIFY(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs_chars)));
+    wxVERIFY(SUCCEEDED(rs_chars->put_CursorLocation(adUseClient)));
+    wxVERIFY(SUCCEEDED(rs_chars->put_CursorType(adOpenForwardOnly)));
+    wxVERIFY(SUCCEEDED(rs_chars->put_LockType(adLockReadOnly)));
+    if (FAILED(rs_chars->Open(ATL::CComVariant(m_comCharacterGroup), ATL::CComVariant(DISP_E_PARAMNOTFOUND, VT_ERROR)))) {
+        _ftprintf(stderr, wxT("%s: error ZCC0100: Error loading character group characters from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
+        LogErrors();
+        return false;
+    }
+
+    {
+        cg.chars.clear();
+        ATL::CComPtr<ADOFields> flds;
+        wxVERIFY(SUCCEEDED(rs_chars->get_Fields(&flds)));
+        ATL::CComPtr<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"Znak"), &f)));
+        for (VARIANT_BOOL eof = VARIANT_TRUE; SUCCEEDED(rs_chars->get_EOF(&eof)) && !eof; rs_chars->MoveNext()) {
+            wchar_t c;
+            wxCHECK(GetUnicodeCharacter(f, c), false);
+            cg.chars += c;
+        }
     }
 
     return true;
