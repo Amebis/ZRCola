@@ -203,7 +203,7 @@ void wxZRColaFrame::OnExit(wxCommandEvent& event)
 void wxZRColaFrame::OnForwardEventUpdate(wxUpdateUIEvent& event)
 {
     wxControl *focusWnd = wxDynamicCast(FindFocus(), wxControl);
-    if (focusWnd && !m_toolbarCompose->IsDescendant(focusWnd))
+    if (focusWnd && focusWnd->IsKindOf(wxCLASSINFO(wxTextCtrl)))
         focusWnd->GetEventHandler()->ProcessEvent(event);
     else
         event.Enable(false);
