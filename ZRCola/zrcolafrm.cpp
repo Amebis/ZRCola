@@ -29,12 +29,12 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
     EVT_MENU           (wxID_AUTOSTART                                      , wxZRColaFrame::OnAutostart                   )
     EVT_MENU           (wxID_EXIT                                           , wxZRColaFrame::OnExit                        )
 
-    EVT_UPDATE_UI_RANGE(wxID_CUT, wxID_CLEAR                                , wxZRColaFrame::OnForwardEventUpdate          )
-    EVT_MENU_RANGE     (wxID_CUT, wxID_CLEAR                                , wxZRColaFrame::OnForwardEvent                )
+    EVT_UPDATE_UI_RANGE(wxID_CUT                  , wxID_CLEAR              , wxZRColaFrame::OnForwardEventUpdate          )
+    EVT_MENU_RANGE     (wxID_CUT                  , wxID_CLEAR              , wxZRColaFrame::OnForwardEvent                )
     EVT_UPDATE_UI      (wxID_SELECTALL                                      , wxZRColaFrame::OnForwardEventUpdate          )
     EVT_MENU           (wxID_SELECTALL                                      , wxZRColaFrame::OnForwardEvent                )
 
-    EVT_UPDATE_UI_RANGE(wxID_SEND_COMPOSED, wxID_SEND_ABORT                 , wxZRColaFrame::OnSendUpdate                  )
+    EVT_UPDATE_UI_RANGE(wxID_SEND_COMPOSED        , wxID_SEND_ABORT         , wxZRColaFrame::OnSendUpdate                  )
     EVT_MENU           (wxID_SEND_COMPOSED                                  , wxZRColaFrame::OnSendComposed                )
     EVT_MENU           (wxID_SEND_DECOMPOSED                                , wxZRColaFrame::OnSendDecomposed              )
     EVT_MENU           (wxID_SEND_ABORT                                     , wxZRColaFrame::OnSendAbort                   )
@@ -80,20 +80,23 @@ wxZRColaFrame::wxZRColaFrame() :
     SetIcon(wxICON(00_zrcola.ico));
 #endif
 
-    // Populate language lists.
-    memcpy(m_lang, ZRCOLA_LANG_VOID, sizeof(m_lang));
-    ZRColaApp *app = ((ZRColaApp*)wxTheApp);
-    m_toolDecompLanguage->Clear();
-    for (size_t i = 0, n = app->m_lang_db.idxLng.size(); i < n; i++) {
-        const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[i];
-        wxString
-            label(lang.name, lang.name_len),
-            label_tran(wxGetTranslation(label));
-        if (i < wxID_DECOMP_LANGUAGE_END - wxID_DECOMP_LANGUAGE_START + 1)
-            m_menuDecompLanguage->AppendRadioItem(wxID_DECOMP_LANGUAGE_START + i, label_tran, wxString::Format(_("Select %s language for decomposition"), (const wxStringCharType*)label_tran));
-        m_toolDecompLanguage->Insert(label_tran, i);
-        if (memcmp(m_lang, lang.id, sizeof(m_lang)) == 0)
-            m_toolDecompLanguage->Select(i);
+    {
+        // Populate language lists.
+        memcpy(m_lang, ZRCOLA_LANG_VOID, sizeof(m_lang));
+        ZRColaApp *app = ((ZRColaApp*)wxTheApp);
+        m_toolDecompLanguage->Clear();
+        wxString label1_tran(_("Select %s language for decomposition"));
+        for (size_t i = 0, n = app->m_lang_db.idxLng.size(); i < n; i++) {
+            const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[i];
+            wxString
+                label(lang.name, lang.name_len),
+                label_tran2(wxGetTranslation(label, wxT("ZRCola-zrcdb")));
+            if (i < wxID_DECOMP_LANGUAGE_END - wxID_DECOMP_LANGUAGE_START + 1)
+                m_menuDecompLanguage->AppendRadioItem(wxID_DECOMP_LANGUAGE_START + i, label_tran2, wxString::Format(label1_tran, (const wxStringCharType*)label_tran2));
+            m_toolDecompLanguage->Insert(label_tran2, i);
+            if (memcmp(m_lang, lang.id, sizeof(m_lang)) == 0)
+                m_toolDecompLanguage->Select(i);
+        }
     }
 
     // Set focus.
