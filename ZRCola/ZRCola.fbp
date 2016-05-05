@@ -376,10 +376,10 @@
                 <property name="LeftDockable">0</property>
                 <property name="RightDockable">0</property>
                 <property name="TopDockable">1</property>
-                <property name="aui_layer">0</property>
+                <property name="aui_layer">1</property>
                 <property name="aui_name">toolbarEdit</property>
                 <property name="aui_position"></property>
-                <property name="aui_row">1</property>
+                <property name="aui_row">0</property>
                 <property name="best_size"></property>
                 <property name="bg"></property>
                 <property name="bitmapsize">-1,-1</property>
@@ -522,10 +522,10 @@
                 <property name="LeftDockable">0</property>
                 <property name="RightDockable">0</property>
                 <property name="TopDockable">1</property>
-                <property name="aui_layer">0</property>
+                <property name="aui_layer">1</property>
                 <property name="aui_name">toolbarCompose</property>
                 <property name="aui_position"></property>
-                <property name="aui_row">1</property>
+                <property name="aui_row">0</property>
                 <property name="best_size"></property>
                 <property name="bg"></property>
                 <property name="bitmapsize">-1,-1</property>
