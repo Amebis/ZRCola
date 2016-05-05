@@ -7,6 +7,8 @@
 
 #include "stdafx.h"
 
+#include "zrcolachrgrid.h"
+
 #include "zrcolagui.h"
 
 // Using the construction of a static object to ensure that the help provider is set
@@ -119,12 +121,18 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	
 	m_menuView = new wxMenu();
 	wxMenuItem* m_menuItemToolbarEdit;
-	m_menuItemToolbarEdit = new wxMenuItem( m_menuView, wxID_TOOLBAR_EDIT, wxString( _("Edit Toolbar") ) , _("Toggle edit toolbar"), wxITEM_CHECK );
+	m_menuItemToolbarEdit = new wxMenuItem( m_menuView, wxID_TOOLBAR_EDIT, wxString( _("&Edit Toolbar") ) , _("Toggle edit toolbar"), wxITEM_CHECK );
 	m_menuView->Append( m_menuItemToolbarEdit );
 	
 	wxMenuItem* m_menuItemToolbarCompose;
-	m_menuItemToolbarCompose = new wxMenuItem( m_menuView, wxID_TOOLBAR_COMPOSE, wxString( _("Compose Toolbar") ) , _("Toggle compose toolbar"), wxITEM_CHECK );
+	m_menuItemToolbarCompose = new wxMenuItem( m_menuView, wxID_TOOLBAR_COMPOSE, wxString( _("&Compose Toolbar") ) , _("Toggle compose toolbar"), wxITEM_CHECK );
 	m_menuView->Append( m_menuItemToolbarCompose );
+	
+	m_menuView->AppendSeparator();
+	
+	wxMenuItem* m_menuItemPanelChrGrps;
+	m_menuItemPanelChrGrps = new wxMenuItem( m_menuView, wxID_PANEL_CHRGRPS, wxString( _("Character Catalo&g") ) , _("Toggle character catalog panel"), wxITEM_CHECK );
+	m_menuView->Append( m_menuItemPanelChrGrps );
 	
 	m_menubar->Append( m_menuView, _("&View") ); 
 	
@@ -160,6 +168,10 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_toolbarCompose->AddControl( m_toolDecompLanguage );
 	m_toolbarCompose->Realize();
 	m_mgr.AddPane( m_toolbarCompose, wxAuiPaneInfo().Name( wxT("toolbarCompose") ).Top().Caption( _("Compose") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );
+	
+	m_panelChrCat = new wxZRColaCharacterCatalogPanel( this );
+	
+	m_mgr.AddPane( m_panelChrCat, wxAuiPaneInfo() .Name( wxT("panelChrGrp") ).Left() .Caption( _("Character Catalog") ).PinButton( true ).Dock().Resizable().FloatingSize( wxDefaultSize ).Row( 1 ).BestSize( wxSize( 150,200 ) ).MinSize( wxSize( 100,100 ) ).Layer( 1 ) );
 	
 	m_panel = new wxZRColaComposerPanel( this );
 	
@@ -305,5 +317,65 @@ wxZRColaComposerPanelBase::~wxZRColaComposerPanelBase()
 	m_composed->Disconnect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnComposedPaint ), NULL, this );
 	m_composed->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnComposedText ), NULL, this );
 	m_composedHex->Disconnect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnComposedHexPaint ), NULL, this );
+	
+}
+
+wxZRColaCharacterCatalogPanelBase::wxZRColaCharacterCatalogPanelBase( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) : wxPanel( parent, id, pos, size, style, name )
+{
+	wxBoxSizer* bSizer;
+	bSizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxArrayString m_choiceChoices;
+	m_choice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choiceChoices, 0 );
+	m_choice->SetSelection( 0 );
+	bSizer->Add( m_choice, 0, wxALL|wxEXPAND, 5 );
+	
+	m_grid = new wxZRColaCharGrid( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	
+	// Grid
+	m_grid->CreateGrid( 0, 0 );
+	m_grid->EnableEditing( false );
+	m_grid->EnableGridLines( false );
+	m_grid->EnableDragGridSize( false );
+	m_grid->SetMargins( 0, 0 );
+	
+	// Columns
+	m_grid->EnableDragColMove( false );
+	m_grid->EnableDragColSize( false );
+	m_grid->SetColLabelSize( 0 );
+	m_grid->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	
+	// Rows
+	m_grid->EnableDragRowSize( false );
+	m_grid->SetRowLabelSize( 0 );
+	m_grid->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	
+	// Label Appearance
+	
+	// Cell Defaults
+	m_grid->SetDefaultCellBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNFACE ) );
+	m_grid->SetDefaultCellFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
+	m_grid->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	m_grid->SetMinSize( wxSize( 35,35 ) );
+	
+	bSizer->Add( m_grid, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	this->SetSizer( bSizer );
+	this->Layout();
+	bSizer->Fit( this );
+	
+	// Connect Events
+	m_choice->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( wxZRColaCharacterCatalogPanelBase::OnChoice ), NULL, this );
+	m_grid->Connect( wxEVT_GRID_CELL_LEFT_CLICK, wxGridEventHandler( wxZRColaCharacterCatalogPanelBase::OnGridClick ), NULL, this );
+	m_grid->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( wxZRColaCharacterCatalogPanelBase::OnGridKeyDown ), NULL, this );
+}
+
+wxZRColaCharacterCatalogPanelBase::~wxZRColaCharacterCatalogPanelBase()
+{
+	// Disconnect Events
+	m_choice->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( wxZRColaCharacterCatalogPanelBase::OnChoice ), NULL, this );
+	m_grid->Disconnect( wxEVT_GRID_CELL_LEFT_CLICK, wxGridEventHandler( wxZRColaCharacterCatalogPanelBase::OnGridClick ), NULL, this );
+	m_grid->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( wxZRColaCharacterCatalogPanelBase::OnGridKeyDown ), NULL, this );
 	
 }

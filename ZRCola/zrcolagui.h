@@ -12,6 +12,8 @@
 #include <wx/xrc/xmlres.h>
 #include <wx/cshelp.h>
 #include <wx/intl.h>
+class wxZRColaCharGrid;
+
 #include <wx/string.h>
 #include <wx/bitmap.h>
 #include <wx/image.h>
@@ -24,7 +26,8 @@
 #include <wx/aui/aui.h>
 #include <wx/aui/auibar.h>
 #include <wx/choice.h>
-#include "zrcolacomppnl.h"
+class wxZRColaCharacterCatalogPanel;
+class wxZRColaComposerPanel;
 #include <wx/statusbr.h>
 #include <wx/frame.h>
 #include <wx/textctrl.h>
@@ -32,6 +35,7 @@
 #include <wx/statbox.h>
 #include <wx/panel.h>
 #include <wx/splitter.h>
+#include <wx/grid.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -51,7 +55,8 @@ class wxZRColaFrameBase : public wxFrame
 			wxID_SEND_ABORT,
 			wxID_DECOMP_LANG_AUTO,
 			wxID_TOOLBAR_EDIT,
-			wxID_TOOLBAR_COMPOSE
+			wxID_TOOLBAR_COMPOSE,
+			wxID_PANEL_CHRGRPS
 		};
 		
 		wxMenuBar* m_menubar;
@@ -68,7 +73,7 @@ class wxZRColaFrameBase : public wxFrame
 		wxAuiToolBarItem* m_toolSendComposed; 
 		wxAuiToolBarItem* m_toolSendDecomposed; 
 		wxChoice* m_toolDecompLanguage;
-		wxZRColaComposerPanel* m_panel;
+		wxZRColaCharacterCatalogPanel* m_panelChrCat;
 		wxStatusBar* m_statusBar;
 		
 		// Virtual event handlers, overide them in your derived class
@@ -76,6 +81,7 @@ class wxZRColaFrameBase : public wxFrame
 		
 	
 	public:
+		wxZRColaComposerPanel* m_panel;
 		
 		wxZRColaFrameBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("ZRCola"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 600,400 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL, const wxString& name = wxT("ZRCola") );
 		wxAuiManager m_mgr;
@@ -94,12 +100,10 @@ class wxZRColaComposerPanelBase : public wxPanel
 	protected:
 		wxSplitterWindow* m_splitterDecomposed;
 		wxPanel* m_panelDecomposedEdit;
-		wxTextCtrl* m_decomposed;
 		wxPanel* m_panelDecomposedHex;
 		wxTextCtrl* m_decomposedHex;
 		wxSplitterWindow* m_splitterComposed;
 		wxPanel* m_panelComposedEdit;
-		wxTextCtrl* m_composed;
 		wxPanel* m_panelComposedHex;
 		wxTextCtrl* m_composedHex;
 		
@@ -113,6 +117,8 @@ class wxZRColaComposerPanelBase : public wxPanel
 		
 	
 	public:
+		wxTextCtrl* m_decomposed;
+		wxTextCtrl* m_composed;
 		
 		wxZRColaComposerPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxT("ZRColaComposerPanel") ); 
 		~wxZRColaComposerPanelBase();
@@ -128,6 +134,30 @@ class wxZRColaComposerPanelBase : public wxPanel
 			m_splitterComposed->SetSashPosition( -5 );
 			m_splitterComposed->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterComposedOnIdle ), NULL, this );
 		}
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class wxZRColaCharacterCatalogPanelBase
+///////////////////////////////////////////////////////////////////////////////
+class wxZRColaCharacterCatalogPanelBase : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxChoice* m_choice;
+		wxZRColaCharGrid* m_grid;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnChoice( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnGridClick( wxGridEvent& event ) { event.Skip(); }
+		virtual void OnGridKeyDown( wxKeyEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		wxZRColaCharacterCatalogPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxT("ZRColaCharacterCatalog") ); 
+		~wxZRColaCharacterCatalogPanelBase();
 	
 };
 

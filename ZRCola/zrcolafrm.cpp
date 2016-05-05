@@ -48,6 +48,9 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
     EVT_MENU           (wxID_TOOLBAR_EDIT                                   , wxZRColaFrame::OnToolbarEdit                 )
     EVT_UPDATE_UI      (wxID_TOOLBAR_COMPOSE                                , wxZRColaFrame::OnToolbarComposeUpdate        )
     EVT_MENU           (wxID_TOOLBAR_COMPOSE                                , wxZRColaFrame::OnToolbarCompose              )
+    EVT_UPDATE_UI      (wxID_PANEL_CHRGRPS                                  , wxZRColaFrame::OnPanelCharacterCatalogUpdate )
+    EVT_MENU           (wxID_PANEL_CHRGRPS                                  , wxZRColaFrame::OnPanelCharacterCatalog       )
+    EVT_MENU           (wxID_FOCUS_CHARACTER_CATALOG                        , wxZRColaFrame::OnPanelCharacterCatalogFocus  )
 
     EVT_MENU           (wxID_ABOUT                                          , wxZRColaFrame::OnAbout                       )
 wxEND_EVENT_TABLE()
@@ -127,6 +130,13 @@ wxZRColaFrame::wxZRColaFrame() :
         pProfiles->Release();
     }
 #endif
+
+    // Register frame specific hotkey(s).
+    {
+        wxAcceleratorEntry entries[1];
+        entries[0].Set(wxACCEL_NORMAL, WXK_F4, wxID_FOCUS_CHARACTER_CATALOG);
+        SetAcceleratorTable(wxAcceleratorTable(_countof(entries), entries));
+    }
 }
 
 
@@ -144,7 +154,7 @@ wxZRColaFrame::~wxZRColaFrame()
     UnregisterHotKey(wxZRColaHKID_INVOKE_COMPOSE);
 
     // Save wxAuiManager's state before return to parent's destructor.
-    // Since the later calls m_mgr.UnInit() the regular persistence mechanizm is useless to save wxAuiManager's state.
+    // Since the later calls m_mgr.UnInit() the regular persistence mechanism is useless to save wxAuiManager's state.
     wxPersistentAuiManager((wxAuiManager*)&m_mgr).Save();
 }
 
@@ -358,6 +368,32 @@ void wxZRColaFrame::OnToolbarCompose(wxCommandEvent& event)
 }
 
 
+void wxZRColaFrame::OnPanelCharacterCatalogUpdate(wxUpdateUIEvent& event)
+{
+    event.Check(m_mgr.GetPane(m_panelChrCat).IsShown());
+}
+
+
+void wxZRColaFrame::OnPanelCharacterCatalog(wxCommandEvent& event)
+{
+    wxAuiPaneInfo &paneInfo = m_mgr.GetPane(m_panelChrCat);
+    paneInfo.Show(!paneInfo.IsShown());
+    m_mgr.Update();
+}
+
+
+void wxZRColaFrame::OnPanelCharacterCatalogFocus(wxCommandEvent& event)
+{
+    wxAuiPaneInfo &paneInfo = m_mgr.GetPane(m_panelChrCat);
+    if (!paneInfo.IsShown()) {
+        paneInfo.Show(true);
+        m_mgr.Update();
+    }
+
+    m_panelChrCat->SetFocus();
+}
+
+
 void wxZRColaFrame::OnAbout(wxCommandEvent& event)
 {
     wxMessageBox(wxString::Format(_("ZRCola v%s\nCopyright 2015-%s Amebis"), wxT(ZRCOLA_VERSION_STR), wxT(ZRCOLA_BUILD_YEAR_STR)), _("About ZRCola"), wxOK | wxICON_INFORMATION);
@@ -537,8 +573,10 @@ void wxPersistentZRColaFrame::Save() const
     const wxZRColaFrame * const wnd = static_cast<const wxZRColaFrame*>(GetWindow());
 
     wxPersistentZRColaComposerPanel(wnd->m_panel).Save();
-    SaveValue(wxT("langAuto"), wnd->m_lang_auto);
-    SaveValue(wxT("lang"    ), wxString::FromAscii(wnd->m_lang, sizeof(wnd->m_lang)));
+    wxPersistentZRColaCharacterCatalogPanel(wnd->m_panelChrCat).Save();
+
+    SaveValue(wxT("langAuto" ), wnd->m_lang_auto);
+    SaveValue(wxT("lang"     ), wxString::FromAscii(wnd->m_lang, sizeof(wnd->m_lang)));
     wxPersistentTLW::Save();
 }
 
@@ -570,6 +608,7 @@ bool wxPersistentZRColaFrame::Restore()
         memcpy(wnd->m_lang, ZRCOLA_LANG_VOID, sizeof(wnd->m_lang));
     wnd->UpdateDecomposedLanguage();
 
+    wxPersistentZRColaCharacterCatalogPanel(wnd->m_panelChrCat).Restore();
     wxPersistentZRColaComposerPanel(wnd->m_panel).Restore();
 
     return r;

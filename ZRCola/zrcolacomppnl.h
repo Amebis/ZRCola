@@ -46,7 +46,6 @@ public:
     wxZRColaComposerPanel(wxWindow* parent);
     virtual ~wxZRColaComposerPanel();
 
-    friend class wxZRColaFrame;                     // Allow main frame direct access to our members.
     friend class wxPersistentZRColaComposerPanel;   // Allow saving/restoring window state.
 
 protected:

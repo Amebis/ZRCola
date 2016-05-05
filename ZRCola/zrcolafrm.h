@@ -17,7 +17,6 @@
     along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 ///
 /// Forward declarations
 ///
@@ -53,8 +52,9 @@ class wxZRColaFrame :
 public:
     enum
     {
-        wxID_DECOMP_LANGUAGE_START = 6000,
-        wxID_DECOMP_LANGUAGE_END   = 6099,
+        wxID_DECOMP_LANGUAGE_START  = 6000,
+        wxID_DECOMP_LANGUAGE_END    = 6099,
+        wxID_FOCUS_CHARACTER_CATALOG,
     };
 
     wxZRColaFrame();
@@ -82,6 +82,9 @@ protected:
     void OnToolbarEdit(wxCommandEvent& event);
     void OnToolbarComposeUpdate(wxUpdateUIEvent& event);
     void OnToolbarCompose(wxCommandEvent& event);
+    void OnPanelCharacterCatalogUpdate(wxUpdateUIEvent& event);
+    void OnPanelCharacterCatalog(wxCommandEvent& event);
+    void OnPanelCharacterCatalogFocus(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     wxDECLARE_EVENT_TABLE();
 

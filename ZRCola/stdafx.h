@@ -19,12 +19,6 @@
 
 #pragma once
 
-#include "../include/zrcola.h"
-#include "zrcolaapp.h"
-#include "zrcolacomppnl.h"
-#include "zrcolafrm.h"
-#include "zrcolakeyhndlr.h"
-
 #include <wx/ffile.h>
 #include <wx/msgdlg.h>
 #include <wx/persist.h>
@@ -43,3 +37,11 @@
 #include <ShObjIdl.h>
 #include <ShlGuid.h>
 #endif
+
+#include "../include/zrcola.h"
+#include "zrcolaapp.h"
+#include "zrcolachrgrid.h"
+#include "zrcolachrcatpnl.h"
+#include "zrcolacomppnl.h"
+#include "zrcolafrm.h"
+#include "zrcolakeyhndlr.h"

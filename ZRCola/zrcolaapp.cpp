@@ -30,7 +30,9 @@
 wxIMPLEMENT_APP(ZRColaApp);
 
 
-ZRColaApp::ZRColaApp() : wxApp()
+ZRColaApp::ZRColaApp() :
+    m_mainWnd(NULL),
+    wxApp()
 {
 }
 
@@ -112,9 +114,9 @@ bool ZRColaApp::OnInit()
             wxFAIL_MSG(wxT("ZRCola.zrcdb is not a valid ZRCola database."));
     }
 
-    wxZRColaFrame* mainFrame = new wxZRColaFrame();
-    wxPersistentRegisterAndRestore<wxZRColaFrame>(mainFrame);
-    mainFrame->Show();
+    m_mainWnd = new wxZRColaFrame();
+    wxPersistentRegisterAndRestore<wxZRColaFrame>(m_mainWnd);
+    m_mainWnd->Show();
 
     return true;
 }

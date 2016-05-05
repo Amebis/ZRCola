@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-05-03 13:27+0200\n"
-"PO-Revision-Date: 2016-05-03 13:27+0200\n"
+"POT-Creation-Date: 2016-05-05 15:23+0200\n"
+"PO-Revision-Date: 2016-05-05 15:23+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: sl_SI\n"
@@ -17,12 +17,12 @@ msgstr ""
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: zrcolafrm.cpp:93
+#: zrcolafrm.cpp:91
 #, c-format
 msgid "Select %s language for decomposition"
 msgstr "Izberi jezik %s za razstavljanje"
 
-#: zrcolafrm.cpp:104
+#: zrcolafrm.cpp:110
 msgid ""
 "ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality "
 "will not be available."
@@ -30,11 +30,11 @@ msgstr ""
 "ZRColine bližnjice na tipkovnici Win+F5 ni mogoče registrirati. Nekaj "
 "funkcionalnosti ne bo na voljo."
 
-#: zrcolafrm.cpp:104 zrcolafrm.cpp:106
+#: zrcolafrm.cpp:110 zrcolafrm.cpp:112
 msgid "Warning"
 msgstr "Opozorilo"
 
-#: zrcolafrm.cpp:106
+#: zrcolafrm.cpp:112
 msgid ""
 "ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality "
 "will not be available."
@@ -42,11 +42,11 @@ msgstr ""
 "ZRColine bližnjice na tipkovnici Win+F6 ni mogoče registrirati. Nekaj "
 "funkcionalnosti ne bo na voljo."
 
-#: zrcolafrm.cpp:174
+#: zrcolafrm.cpp:187
 msgid "Start ZRCola automatically on logon"
 msgstr "Samodejno zaženi ZRColo ob prijavi"
 
-#: zrcolafrm.cpp:360
+#: zrcolafrm.cpp:399
 #, c-format
 msgid ""
 "ZRCola v%s\n"
@@ -55,159 +55,171 @@ msgstr ""
 "ZRCola v%s\n"
 "Vse pravice pridržane 2015-%s Amebis"
 
-#: zrcolafrm.cpp:360
+#: zrcolafrm.cpp:399
 msgid "About ZRCola"
 msgstr "O ZRColi"
 
-#: zrcolagui.cpp:34
+#: zrcolagui.cpp:36
 msgid "&Start on Logon"
 msgstr "Z&aženi ob prijavi"
 
-#: zrcolagui.cpp:34
+#: zrcolagui.cpp:36
 msgid "Start this program automatically on logon"
 msgstr "Samodejno zaženi ta program ob prijavi"
 
-#: zrcolagui.cpp:40
+#: zrcolagui.cpp:42
 msgid "E&xit"
 msgstr "I&zhod"
 
-#: zrcolagui.cpp:40
+#: zrcolagui.cpp:42
 msgid "Quit this program"
 msgstr "Zapri ta program"
 
-#: zrcolagui.cpp:43
+#: zrcolagui.cpp:45
 msgid "&Program"
 msgstr "&Program"
 
-#: zrcolagui.cpp:76
+#: zrcolagui.cpp:78
 msgid "Select &All"
 msgstr "Izberi &vse"
 
-#: zrcolagui.cpp:76
+#: zrcolagui.cpp:78
 msgid "Select all text"
 msgstr "Izberi celotno besedilo"
 
-#: zrcolagui.cpp:82
+#: zrcolagui.cpp:84
 msgid "&Send Composed"
 msgstr "Pošlji &sestavljeno"
 
-#: zrcolagui.cpp:82 zrcolagui.cpp:151
+#: zrcolagui.cpp:84 zrcolagui.cpp:159
 msgid "Send composed text to source window"
 msgstr "Pošlji sestavljeno besedilo izvornemu oknu"
 
-#: zrcolagui.cpp:91
+#: zrcolagui.cpp:93
 msgid "Send &Decomposed"
 msgstr "Pošlji &razstavljeno"
 
-#: zrcolagui.cpp:91 zrcolagui.cpp:153
+#: zrcolagui.cpp:93 zrcolagui.cpp:161
 msgid "Send decomposed text to source window"
 msgstr "Pošlji razstavljeno besedilo izvornemu oknu"
 
-#: zrcolagui.cpp:100
+#: zrcolagui.cpp:102
 msgid "Abort (De)composition"
 msgstr "Prekini raz/sestavljanje"
 
-#: zrcolagui.cpp:100
+#: zrcolagui.cpp:102
 msgid "Abort composition and return focus to source window"
 msgstr "Prekini sestavljanje in vrni fokus nazaj izvornemu oknu"
 
-#: zrcolagui.cpp:109
+#: zrcolagui.cpp:111
 msgid "&Language"
 msgstr "&Jezik"
 
-#: zrcolagui.cpp:111
+#: zrcolagui.cpp:113
 msgid "&Automatic"
 msgstr "S&amodejno"
 
-#: zrcolagui.cpp:111
+#: zrcolagui.cpp:113
 msgid "Set language according to keyboard layout automatically"
 msgstr "Samodejno nastavi jezik glede na izbrano tipkovnico"
 
-#: zrcolagui.cpp:118
+#: zrcolagui.cpp:120
 msgid "&Edit"
 msgstr "Ur&edi"
 
-#: zrcolagui.cpp:122
-msgid "Edit Toolbar"
-msgstr "Orodna vrstica za urejanje"
+#: zrcolagui.cpp:124
+msgid "&Edit Toolbar"
+msgstr "Orodna vrstica za ur&ejanje"
 
-#: zrcolagui.cpp:122
+#: zrcolagui.cpp:124
 msgid "Toggle edit toolbar"
 msgstr "Prikaži/skrij orodno vrstico za urejanje"
 
-#: zrcolagui.cpp:126
-msgid "Compose Toolbar"
-msgstr "Orodna vrstica za sestavljanje"
+#: zrcolagui.cpp:128
+msgid "&Compose Toolbar"
+msgstr "Orodna vrsti&ca za sestavljanje"
 
-#: zrcolagui.cpp:126
+#: zrcolagui.cpp:128
 msgid "Toggle compose toolbar"
 msgstr "Prikaži/skrij orodno vrstico za sestavljanje"
 
-#: zrcolagui.cpp:129
+#: zrcolagui.cpp:134
+msgid "Character Catalo&g"
+msgstr "Katalo&g znakov"
+
+#: zrcolagui.cpp:134
+msgid "Toggle character catalog panel"
+msgstr "Prikaži/skrij katalog znakov"
+
+#: zrcolagui.cpp:137
 msgid "&View"
 msgstr "Po&gled"
 
-#: zrcolagui.cpp:136
+#: zrcolagui.cpp:144
 msgid "&Help"
 msgstr "Po&moč"
 
-#: zrcolagui.cpp:141
+#: zrcolagui.cpp:149
 msgid "Cut"
 msgstr "Izreži"
 
-#: zrcolagui.cpp:141
+#: zrcolagui.cpp:149
 msgid "Cut selection"
 msgstr "Izreži izbor"
 
-#: zrcolagui.cpp:143
+#: zrcolagui.cpp:151
 msgid "Copy"
 msgstr "Kopiraj"
 
-#: zrcolagui.cpp:143
+#: zrcolagui.cpp:151
 msgid "Copy selection"
 msgstr "Kopiraj izbor"
 
-#: zrcolagui.cpp:145
+#: zrcolagui.cpp:153
 msgid "Paste"
 msgstr "Prilepi"
 
-#: zrcolagui.cpp:145
+#: zrcolagui.cpp:153
 msgid "Paste selection"
 msgstr "Prilepi izbor"
 
-#: zrcolagui.cpp:148
+#: zrcolagui.cpp:156
 msgid "Edit"
 msgstr "Urejanje"
 
-#: zrcolagui.cpp:151
+#: zrcolagui.cpp:159
 msgid "Send Composed"
 msgstr "Pošlji sestavljeno"
 
-#: zrcolagui.cpp:153
+#: zrcolagui.cpp:161
 msgid "Send Decomposed"
 msgstr "Pošlji razstavljeno"
 
-#: zrcolagui.cpp:162
+#: zrcolagui.cpp:170
 msgid "Compose"
 msgstr "Sestavljanje"
 
-#: zrcolagui.cpp:166
+#: zrcolagui.cpp:174
+msgid "Character Catalog"
+msgstr "Katalog znakov"
+
+#: zrcolagui.cpp:178
 msgid "(De)Composer"
 msgstr "Raz/Sestavljalnik"
 
-#: zrcolagui.cpp:201
+#: zrcolagui.cpp:213
 msgid "Decomposed Text"
 msgstr "Razstavljeno besedilo"
 
-#: zrcolagui.cpp:221
+#: zrcolagui.cpp:233
 msgid "Decomposed Unicode Dump"
 msgstr "Unicode razstavljenega"
 
-#: zrcolagui.cpp:248
+#: zrcolagui.cpp:260
 msgid "Composed Text"
 msgstr "Sestavljeno besedilo"
 
-#: zrcolagui.cpp:268
+#: zrcolagui.cpp:280
 msgid "Composed Unicode Dump"
 msgstr "Unicode sestavljenega"
 
@@ -215,7 +227,7 @@ msgstr "Unicode sestavljenega"
 msgid "INS"
 msgstr "INS"
 
-#: zrcolagui.h:80 MSIBuild/En.Win32.Debug.Feature-2.idtx:4
+#: zrcolagui.h:86 MSIBuild/En.Win32.Debug.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Debug.Feature-2.idtx:4
 #: MSIBuild/En.x64.Debug.Shortcut-2.idtx:4
@@ -236,6 +248,9 @@ msgstr "1250"
 #: MSIBuild/En.x64.Debug.Shortcut-2.idtx:4
 msgid "Input system for linguistic use"
 msgstr "Vnašalni sistem za jezikoslovno rabo"
+
+#~ msgid "Character &Groups"
+#~ msgstr "Skupine &znakov"
 
 #~ msgid "Language:"
 #~ msgstr "Jezik:"
