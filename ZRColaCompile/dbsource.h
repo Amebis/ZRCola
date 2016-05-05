@@ -93,7 +93,6 @@ namespace ZRCola {
         public:
             int id;                     ///< Character group ID
             int rank;                   ///< Character group rank
-            bool show;                  ///< Show initially
             std::wstring name;          ///< Character group name
             std::wstring chars;         ///< Character group characters
         };

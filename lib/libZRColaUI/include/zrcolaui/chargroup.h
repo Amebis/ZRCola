@@ -44,13 +44,8 @@ namespace ZRCola {
         /// Character group data
         ///
         struct chrgrp {
-            enum flags_t {
-                SHOW = 1<<0,                    ///< Show initially
-            };
-
             unsigned __int16 id;                ///< Character group id
             unsigned __int16 rank;              ///< Character group rank
-            unsigned __int16 flags;             ///< Character group flags (bitwise combination of \c flags_t flags)
             unsigned __int16 name_len;          ///< Character group name length in \c data
             unsigned __int16 char_len;          ///< Character list length in \c data
             wchar_t data[];                     ///< Character group name and character list

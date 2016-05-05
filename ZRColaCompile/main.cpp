@@ -622,7 +622,6 @@ int _tmain(int argc, _TCHAR *argv[])
                         db.data.push_back((unsigned __int16)cg.id);
                         wxASSERT_MSG((int)0xffff8000 <= cg.rank && cg.rank <= (int)0x00007fff, wxT("character group rank out of bounds"));
                         db.data.push_back((unsigned __int16)cg.rank);
-                        db.data.push_back(cg.show ? ZRCola::chrgrp_db::chrgrp::SHOW : 0);
                         std::wstring::size_type n_name = cg.name.length();
                         wxASSERT_MSG(n_name <= 0xffff, wxT("character group name too long"));
                         db.data.push_back((unsigned __int16)n_name);

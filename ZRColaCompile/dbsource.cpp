@@ -537,7 +537,7 @@ bool ZRCola::DBSource::SelectCharacterGroups(ATL::CComPtr<ADORecordset>& rs) con
 
     // Open it.
     if (FAILED(rs->Open(ATL::CComVariant(
-        L"SELECT DISTINCT [id], [Skupina], [opis_en], [Rang], [prikazano] "
+        L"SELECT DISTINCT [id], [Skupina], [opis_en], [Rang] "
         L"FROM [VRS_SkupinaZnakov] "
         L"ORDER BY [Rang], [opis_en]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
     {
@@ -574,12 +574,6 @@ bool ZRCola::DBSource::GetCharacterGroup(const ATL::CComPtr<ADORecordset>& rs, c
         ATL::CComPtr<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"Rang"), &f)));
         wxCHECK(GetValue(f, cg.rank), false);
-    }
-
-    {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"prikazano"), &f)));
-        wxCHECK(GetValue(f, cg.show), false);
     }
 
     {
