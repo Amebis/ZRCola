@@ -26,6 +26,7 @@ class wxZRColaCharGrid;
 #pragma once
 
 #include <wx/grid.h>
+#include <wx/tipwin.h>
 
 
 ///
@@ -42,8 +43,14 @@ class wxZRColaCharGrid;
 class wxZRColaCharGrid : public wxGrid
 {
 public:
+    enum
+    {
+        wxID_TOOLTIP_TIMER = 2000,
+    };
+
     wxZRColaCharGrid();
     wxZRColaCharGrid(wxWindow *parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxWANTS_CHARS, const wxString& name = wxGridNameStr);
+    virtual ~wxZRColaCharGrid();
 
     ///
     /// Sets new array of characters to display
@@ -55,11 +62,19 @@ public:
 protected:
     void OnSize(wxSizeEvent& event);
     void OnKeyDown(wxKeyEvent& event);
+    void OnMotion(wxMouseEvent& event);
+    void OnTooltipTimer(wxTimerEvent& event);
     DECLARE_EVENT_TABLE()
+
+private:
+    void Init();            // common part of all ctors
 
 protected:
     wxString m_chars;       ///< Array of Unicode characters to display in the grid
 
 private:
     bool m_isResizing;      ///< Prevents nesting of OnSize() method.
+    wxTipWindow *m_toolTip; ///< Tooltip window
+    wxTimer *m_toolTipTimer;///< Timer for displaying tooltip
+    size_t m_toolTipIdx;    ///< Index of cell for tooltip display
 };

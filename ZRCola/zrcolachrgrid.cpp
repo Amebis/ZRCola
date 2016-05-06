@@ -27,22 +27,50 @@
 BEGIN_EVENT_TABLE(wxZRColaCharGrid, wxGrid)
     EVT_SIZE(wxZRColaCharGrid::OnSize)
     EVT_KEY_DOWN(wxZRColaCharGrid::OnKeyDown)
+    EVT_TIMER(wxZRColaCharGrid::wxID_TOOLTIP_TIMER, wxZRColaCharGrid::OnTooltipTimer)
 END_EVENT_TABLE()
 
 
-wxZRColaCharGrid::wxZRColaCharGrid() :
-    m_isResizing(false),
-    wxGrid()
+wxZRColaCharGrid::wxZRColaCharGrid() : wxGrid()
 {
+    Init();
 }
 
 
-wxZRColaCharGrid::wxZRColaCharGrid(wxWindow *parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name) :
-    m_isResizing(false),
-    wxGrid(parent, id, pos, size, wxWANTS_CHARS, name)
+wxZRColaCharGrid::wxZRColaCharGrid(wxWindow *parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name) : wxGrid(parent, id, pos, size, wxWANTS_CHARS, name)
 {
-    // Cell Defaults
+    Init();
+
     SetDefaultRowSize(wxZRColaCharacterGridRowHeight);
+
+    // Create timer for saving the state.
+    m_toolTipTimer = new wxTimer(this, wxID_TOOLTIP_TIMER);
+
+    // wxEVT_MOTION event must be connected to the wxGridWindow, not wxGrid itself.
+    GetGridWindow()->Connect(GetGridWindow()->GetId(), wxEVT_MOTION, wxMouseEventHandler(wxZRColaCharGrid::OnMotion), NULL, this);
+}
+
+
+wxZRColaCharGrid::~wxZRColaCharGrid()
+{
+    GetGridWindow()->Disconnect(GetGridWindow()->GetId(), wxEVT_MOTION, wxMouseEventHandler(wxZRColaCharGrid::OnMotion), NULL, this);
+
+    if (m_toolTipTimer)
+        delete m_toolTipTimer;
+
+    if (m_toolTip) {
+        m_toolTip->SetTipWindowPtr(NULL);
+        m_toolTip->Close();
+    }
+}
+
+
+void wxZRColaCharGrid::Init()
+{
+    m_isResizing   = false;
+    m_toolTip      = NULL;
+    m_toolTipTimer = NULL;
+    m_toolTipIdx   = (size_t)-1;
 }
 
 
@@ -124,4 +152,50 @@ void wxZRColaCharGrid::OnKeyDown(wxKeyEvent& event)
     }
 
     event.Skip();
+}
+
+
+void wxZRColaCharGrid::OnMotion(wxMouseEvent& event)
+{
+    event.Skip();
+
+    wxPoint ptMouse(CalcUnscrolledPosition(event.GetPosition()));
+    int
+        col = XToCol(ptMouse.x - m_rowLabelWidth ),
+        row = YToRow(ptMouse.y - m_colLabelHeight);
+
+    if (col == wxNOT_FOUND || row == wxNOT_FOUND )
+        return;
+
+    size_t toolTipIdx = row*m_numCols + col;
+    if (toolTipIdx >= m_chars.Length()) {
+        // Index out of range.
+        m_toolTipIdx = (size_t)-1;
+        m_toolTipTimer->Stop();
+        return;
+    } else if (toolTipIdx != m_toolTipIdx) {
+        // Cell changed. Schedule tooltip display after 1s.
+        m_toolTipIdx = toolTipIdx;
+        m_toolTipTimer->Start(1000, true);
+    }
+}
+
+
+void wxZRColaCharGrid::OnTooltipTimer(wxTimerEvent& event)
+{
+    event.Skip();
+
+    if (m_toolTipIdx >= m_chars.Length())
+        return;
+
+    if (m_toolTip) {
+        m_toolTip->SetTipWindowPtr(NULL);
+        m_toolTip->Close();
+        m_toolTip = NULL;
+    }
+
+    // Set tooltip.
+    wxRect rcCell(CellToRect(m_toolTipIdx / m_numCols, m_toolTipIdx % m_numCols));
+    rcCell.SetLeftTop(GetGridWindow()->ClientToScreen(CalcScrolledPosition(rcCell.GetLeftTop())));
+    m_toolTip = new wxTipWindow(this, wxString::Format(wxT("U+%04X"), (int)m_chars[m_toolTipIdx]), 100, &m_toolTip, &rcCell);
 }
