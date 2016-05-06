@@ -26,6 +26,7 @@
 
 BEGIN_EVENT_TABLE(wxZRColaCharGrid, wxGrid)
     EVT_SIZE(wxZRColaCharGrid::OnSize)
+    EVT_KEY_DOWN(wxZRColaCharGrid::OnKeyDown)
 END_EVENT_TABLE()
 
 
@@ -105,4 +106,22 @@ void wxZRColaCharGrid::OnSize(wxSizeEvent& event)
 
     EndBatch();
     m_isResizing = false;
+}
+
+
+void wxZRColaCharGrid::OnKeyDown(wxKeyEvent& event)
+{
+    wxWindow *parentWnd;
+
+    if (event.GetKeyCode() == WXK_TAB && (parentWnd = GetParent()) != NULL) {
+        wxNavigationKeyEvent eventNav;
+        eventNav.SetDirection(!event.ShiftDown());
+        eventNav.SetWindowChange(event.ControlDown());
+        eventNav.SetEventObject(this);
+
+        if (parentWnd->HandleWindowEvent(eventNav))
+            return;
+    }
+
+    event.Skip();
 }

@@ -54,6 +54,7 @@ public:
 
 protected:
     void OnSize(wxSizeEvent& event);
+    void OnKeyDown(wxKeyEvent& event);
     DECLARE_EVENT_TABLE()
 
 protected:
