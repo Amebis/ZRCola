@@ -130,19 +130,28 @@ bool ZRColaApp::OnInit()
 }
 
 
-void ZRColaApp::GetKeySequenceAsText(_In_count_(seq_len) const ZRCola::keyseq_db::keyseq::key_t *seq, _In_ size_t seq_len, _Out_ std::wstring& str)
+bool ZRColaApp::GetKeySequenceAsText(_In_count_(seq_len) const ZRCola::keyseq_db::keyseq::key_t *seq, _In_ size_t seq_len, _Out_ wxString& str)
 {
     assert(seq || !seq_len);
 
-    str.clear();
+    str.Clear();
     for (size_t i = 0; i < seq_len; i++) {
         if (i) str += L", ";
         if (seq[i].modifiers & ZRCola::keyseq_db::keyseq::CTRL ) str += L"Ctrl+";
         if (seq[i].modifiers & ZRCola::keyseq_db::keyseq::ALT  ) str += L"Alt+";
         if (seq[i].modifiers & ZRCola::keyseq_db::keyseq::SHIFT) str += L"Shift+";
         wchar_t k = seq[i].key;
+#if defined(__WXMSW__)
+        // Translate from U.S. Keyboard to scan code.
+        static const HKL s_hkl = ::LoadKeyboardLayout(_T("00000409"), 0);
+        k = ::MapVirtualKeyEx(k, MAPVK_VK_TO_VSC, s_hkl);
+
+        // Translate from scan code to local keyboard.
+        k = ::MapVirtualKey(k, MAPVK_VSC_TO_VK);
+#endif
         switch (k) {
-            // TODO: Localize keys according to active keyboard.
+            case 0            : return false;
+
             case WXK_ESCAPE   : str += _("Esc"         ); break;
 
             case WXK_F1       : str += _("F1"          ); break;
@@ -162,21 +171,10 @@ void ZRColaApp::GetKeySequenceAsText(_In_count_(seq_len) const ZRCola::keyseq_db
             case WXK_SCROLL   : str += _("Scroll Lock" ); break;
             case WXK_PAUSE    : str += _("Pause"       ); break;
 
-            case VK_OEM_3     : str += _("`"           ); break;
-            case VK_OEM_MINUS : str += _("-"           ); break;
-            case VK_OEM_PLUS  : str += _("+"           ); break;
             case WXK_BACK     : str += _("Backspace"   ); break;
             case WXK_TAB      : str += _("Tab"         ); break;
             case WXK_CAPITAL  : str += _("Caps Lock"   ); break;
-            case VK_OEM_4     : str += _("["           ); break;
-            case VK_OEM_6     : str += _("]"           ); break;
             case WXK_RETURN   : str += _("Return"      ); break;
-            case VK_OEM_1     : str += _(":"           ); break;
-            case VK_OEM_7     : str += _("'"           ); break;
-            case VK_OEM_5     : str += _("\\"          ); break;
-            case VK_OEM_COMMA : str += _(","           ); break;
-            case VK_OEM_PERIOD: str += _("."           ); break;
-            case VK_OEM_2     : str += _("/"           ); break;
             case WXK_SPACE    : str += _("Space"       ); break;
 
             case WXK_SHIFT    : str += _("Shift"       ); break;
@@ -198,7 +196,13 @@ void ZRColaApp::GetKeySequenceAsText(_In_count_(seq_len) const ZRCola::keyseq_db
 
             case WXK_NUMLOCK  : str += _("Num Lock"    ); break;
 
-            default           : str += k;
+            default:
+#if defined(__WXMSW__)
+                k = ::MapVirtualKey(k, MAPVK_VK_TO_CHAR);
+#endif
+                str += k;
         }
     }
+
+    return true;
 }

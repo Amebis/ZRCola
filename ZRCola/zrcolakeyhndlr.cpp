@@ -72,6 +72,14 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
                 // Parse key event and save it at the end of the key sequence.
                 ZRCola::keyseq_db::keyseq::key_t key;
                 key.key = e.GetRawKeyCode();
+#if defined(__WXMSW__)
+                // Translate from local keyboard to scan code.
+                key.key = ::MapVirtualKey(key.key, MAPVK_VK_TO_VSC);
+
+                // Translate from scan code to U.S. Keyboard.
+                static const HKL s_hkl = ::LoadKeyboardLayout(_T("00000409"), 0);
+                key.key = ::MapVirtualKeyEx(key.key, MAPVK_VSC_TO_VK, s_hkl);
+#endif
                 key.modifiers =
                     (e.ShiftDown()   ? ZRCola::keyseq_db::keyseq::SHIFT : 0) |
                     (e.ControlDown() ? ZRCola::keyseq_db::keyseq::CTRL  : 0) |
