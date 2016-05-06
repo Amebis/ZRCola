@@ -18,18 +18,3 @@
 */
 
 #include "stdafx.h"
-
-
-void ZRCola::keyseq_db::GetSequenceAsText(_In_count_(seq_len) const ZRCola::keyseq_db::keyseq::key_t *seq, _In_ size_t seq_len, _Out_ std::wstring& str)
-{
-    assert(seq || !seq_len);
-
-    str.clear();
-    for (size_t i = 0; i < seq_len; i++) {
-        if (i) str += L", ";
-        if (seq[i].modifiers & keyseq::CTRL ) str += L"Ctrl+";
-        if (seq[i].modifiers & keyseq::ALT  ) str += L"Alt+";
-        if (seq[i].modifiers & keyseq::SHIFT) str += L"Shift+";
-        str += seq[i].key;
-    }
-}

@@ -109,7 +109,7 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
             {
                 // The sequence is a partial match. Continue watching.
                 if (pFrame && pFrame->GetStatusBar())
-                    pFrame->SetStatusText(ZRCola::keyseq_db::GetSequenceAsText(m_seq.data(), m_seq.size()));
+                    pFrame->SetStatusText(ZRColaApp::GetKeySequenceAsText(m_seq.data(), m_seq.size()));
 
                 event.StopPropagation();
                 return true;

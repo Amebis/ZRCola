@@ -58,6 +58,30 @@ public:
     inline wxString GetDatabasePath() const;
 
 
+    ///
+    /// Get text representation of a given key sequence
+    ///
+    /// \param[in]  seq      Key sequence
+    /// \param[in]  seq_len  Number of elements in \p seq
+    /// \param[out] str     Text representation of a \p seq key sequence
+    ///
+    static void GetKeySequenceAsText(_In_count_(seq_len) const ZRCola::keyseq_db::keyseq::key_t *seq, _In_ size_t seq_len, _Out_ std::wstring& str);
+
+    ///
+    /// Get text representation of a given key sequence
+    ///
+    /// \param[in]  seq      Key sequence
+    /// \param[in]  seq_len  Number of elements in \p seq
+    ///
+    /// \returns Text representation of a \p seq key sequence
+    ///
+    static inline std::wstring GetKeySequenceAsText(_In_count_(seq_len) const ZRCola::keyseq_db::keyseq::key_t *seq, _In_ size_t seq_len)
+    {
+        std::wstring str;
+        GetKeySequenceAsText(seq, seq_len, str);
+        return str;
+    }
+
 public:
     ZRCola::translation_db m_t_db;  ///< Translation database
     ZRCola::langchar_db m_lc_db;    ///< Language character database
