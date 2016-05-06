@@ -59,6 +59,8 @@ public:
     void SetCharacters(const wxString &chars);
 
 protected:
+    virtual wxString GetToolTipText(int idx);
+
     void OnSize(wxSizeEvent& event);
     void OnKeyDown(wxKeyEvent& event);
     void OnMotion(wxMouseEvent& event);

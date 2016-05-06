@@ -85,6 +85,30 @@ void wxZRColaCharGrid::SetCharacters(const wxString &chars)
 }
 
 
+wxString wxZRColaCharGrid::GetToolTipText(int idx)
+{
+    wxASSERT_MSG(idx < m_chars.Length(), wxT("index out of bounds"));
+
+    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+
+    // See if this character has a key sequence registered.
+    ZRCola::keyseq_db::indexKey::size_type start, end;
+    bool found;
+    ZRCola::keyseq_db::keyseq *ks = (ZRCola::keyseq_db::keyseq*)new char[sizeof(ZRCola::keyseq_db::keyseq)];
+    ks->chr = m_chars[idx];
+    ks->seq_len = 0;
+    found = app->m_ks_db.idxChr.find(*ks, start, end);
+    delete ks;
+
+    if (found) {
+        ZRCola::keyseq_db::keyseq &seq = app->m_ks_db.idxChr[start];
+        return wxString::Format(wxT("U+%04X (%s)"), (int)m_chars[idx], ZRColaApp::GetKeySequenceAsText(seq.seq, seq.seq_len).c_str());
+    }
+
+    return wxString::Format(wxT("U+%04X"), (int)m_chars[idx]);
+}
+
+
 void wxZRColaCharGrid::OnSize(wxSizeEvent& event)
 {
     event.Skip();
@@ -175,7 +199,7 @@ void wxZRColaCharGrid::OnMotion(wxMouseEvent& event)
         wxWindow *gridWnd = GetGridWindow();
         if (gridWnd->GetToolTip()) {
             // The tooltip is already shown. Update it immediately.
-            gridWnd->SetToolTip(wxString::Format(wxT("U+%04X"), (int)m_chars[m_toolTipIdx]));
+            gridWnd->SetToolTip(GetToolTipText(m_toolTipIdx));
         } else {
             // This must be our initial entry. Schedule tooltip display after 1s.
             m_toolTipTimer->Start(1000, true);
@@ -191,5 +215,5 @@ void wxZRColaCharGrid::OnTooltipTimer(wxTimerEvent& event)
     if (m_toolTipIdx >= m_chars.Length())
         return;
 
-    GetGridWindow()->SetToolTip(wxString::Format(wxT("U+%04X"), (int)m_chars[m_toolTipIdx]));
+    GetGridWindow()->SetToolTip(GetToolTipText(m_toolTipIdx));
 }
