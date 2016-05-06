@@ -26,7 +26,6 @@ class wxZRColaCharGrid;
 #pragma once
 
 #include <wx/grid.h>
-#include <wx/tipwin.h>
 
 
 ///
@@ -74,7 +73,6 @@ protected:
 
 private:
     bool m_isResizing;      ///< Prevents nesting of OnSize() method.
-    wxTipWindow *m_toolTip; ///< Tooltip window
     wxTimer *m_toolTipTimer;///< Timer for displaying tooltip
     size_t m_toolTipIdx;    ///< Index of cell for tooltip display
 };

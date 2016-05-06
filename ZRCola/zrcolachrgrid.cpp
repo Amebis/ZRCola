@@ -47,28 +47,24 @@ wxZRColaCharGrid::wxZRColaCharGrid(wxWindow *parent, wxWindowID id, const wxPoin
     m_toolTipTimer = new wxTimer(this, wxID_TOOLTIP_TIMER);
 
     // wxEVT_MOTION event must be connected to the wxGridWindow, not wxGrid itself.
-    GetGridWindow()->Connect(GetGridWindow()->GetId(), wxEVT_MOTION, wxMouseEventHandler(wxZRColaCharGrid::OnMotion), NULL, this);
+    wxWindow *gridWnd = GetGridWindow();
+    gridWnd->Connect(gridWnd->GetId(), wxEVT_MOTION, wxMouseEventHandler(wxZRColaCharGrid::OnMotion), NULL, this);
 }
 
 
 wxZRColaCharGrid::~wxZRColaCharGrid()
 {
-    GetGridWindow()->Disconnect(GetGridWindow()->GetId(), wxEVT_MOTION, wxMouseEventHandler(wxZRColaCharGrid::OnMotion), NULL, this);
+    wxWindow *gridWnd = GetGridWindow();
+    gridWnd->Disconnect(gridWnd->GetId(), wxEVT_MOTION, wxMouseEventHandler(wxZRColaCharGrid::OnMotion), NULL, this);
 
     if (m_toolTipTimer)
         delete m_toolTipTimer;
-
-    if (m_toolTip) {
-        m_toolTip->SetTipWindowPtr(NULL);
-        m_toolTip->Close();
-    }
 }
 
 
 void wxZRColaCharGrid::Init()
 {
     m_isResizing   = false;
-    m_toolTip      = NULL;
     m_toolTipTimer = NULL;
     m_toolTipIdx   = (size_t)-1;
 }
@@ -174,9 +170,16 @@ void wxZRColaCharGrid::OnMotion(wxMouseEvent& event)
         m_toolTipTimer->Stop();
         return;
     } else if (toolTipIdx != m_toolTipIdx) {
-        // Cell changed. Schedule tooltip display after 1s.
+        // Cell changed.
         m_toolTipIdx = toolTipIdx;
-        m_toolTipTimer->Start(1000, true);
+        wxWindow *gridWnd = GetGridWindow();
+        if (gridWnd->GetToolTip()) {
+            // The tooltip is already shown. Update it immediately.
+            gridWnd->SetToolTip(wxString::Format(wxT("U+%04X"), (int)m_chars[m_toolTipIdx]));
+        } else {
+            // This must be our initial entry. Schedule tooltip display after 1s.
+            m_toolTipTimer->Start(1000, true);
+        }
     }
 }
 
@@ -188,14 +191,5 @@ void wxZRColaCharGrid::OnTooltipTimer(wxTimerEvent& event)
     if (m_toolTipIdx >= m_chars.Length())
         return;
 
-    if (m_toolTip) {
-        m_toolTip->SetTipWindowPtr(NULL);
-        m_toolTip->Close();
-        m_toolTip = NULL;
-    }
-
-    // Set tooltip.
-    wxRect rcCell(CellToRect(m_toolTipIdx / m_numCols, m_toolTipIdx % m_numCols));
-    rcCell.SetLeftTop(GetGridWindow()->ClientToScreen(CalcScrolledPosition(rcCell.GetLeftTop())));
-    m_toolTip = new wxTipWindow(this, wxString::Format(wxT("U+%04X"), (int)m_chars[m_toolTipIdx]), 100, &m_toolTip, &rcCell);
+    GetGridWindow()->SetToolTip(wxString::Format(wxT("U+%04X"), (int)m_chars[m_toolTipIdx]));
 }
