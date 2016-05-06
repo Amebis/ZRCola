@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-05-05 15:23+0200\n"
-"PO-Revision-Date: 2016-05-05 15:23+0200\n"
+"POT-Creation-Date: 2016-05-06 11:29+0200\n"
+"PO-Revision-Date: 2016-05-06 11:30+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: sl_SI\n"
@@ -223,9 +223,13 @@ msgstr "Sestavljeno besedilo"
 msgid "Composed Unicode Dump"
 msgstr "Unicode sestavljenega"
 
-#: zrcolakeyhndlr.cpp:65 zrcolakeyhndlr.cpp:74
-msgid "INS"
-msgstr "INS"
+#: zrcolakeyhndlr.cpp:65
+msgid ""
+"INS key is pressed. Type the Unicode code of desired character now (up to "
+"four hexadecimal digits: 0-9, A-F), then release INS."
+msgstr ""
+"Pritisnjena tipka INS. Zdaj vtpikajte kodo Unicode želenega znaka (do štiri "
+"šestnajstiške števke: 0-9, A-F), nato izpustite INS."
 
 #: zrcolagui.h:86 MSIBuild/En.Win32.Debug.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:4
@@ -248,6 +252,9 @@ msgstr "1250"
 #: MSIBuild/En.x64.Debug.Shortcut-2.idtx:4
 msgid "Input system for linguistic use"
 msgstr "Vnašalni sistem za jezikoslovno rabo"
+
+#~ msgid "INS"
+#~ msgstr "INS"
 
 #~ msgid "Character &Groups"
 #~ msgstr "Skupine &znakov"

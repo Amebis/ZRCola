@@ -62,7 +62,7 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
             m_is_insert = true;
             wxFrame *pFrame = wxDynamicCast(wxTheApp->GetTopWindow(), wxFrame);
             if (pFrame && pFrame->GetStatusBar())
-                pFrame->SetStatusText(_("INS"));
+                pFrame->SetStatusText(_("INS key is pressed. Type the Unicode code of desired character now (up to four hexadecimal digits: 0-9, A-F), then release INS."));
         } else if (m_is_insert) {
             wxChar chr = e.GetUnicodeKey();
             wxFrame *pFrame = wxDynamicCast(wxTheApp->GetTopWindow(), wxFrame);
@@ -71,7 +71,7 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
                 m_insert_seq.push_back((char)chr);
 
                 if (pFrame && pFrame->GetStatusBar())
-                    pFrame->SetStatusText(wxString::Format(wxT("%s+%s"), (const wxStringCharType*)_("INS"), (const wxStringCharType*)wxString(m_insert_seq.data(), m_insert_seq.size())));
+                    pFrame->SetStatusText(wxString::Format(wxT("U+%s"), (const wxStringCharType*)wxString(m_insert_seq.data(), m_insert_seq.size())));
 
                 event.StopPropagation();
                 return true;
