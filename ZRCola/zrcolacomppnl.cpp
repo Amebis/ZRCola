@@ -25,7 +25,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 BEGIN_EVENT_TABLE(wxZRColaComposerPanel, wxZRColaComposerPanelBase)
-    EVT_TIMER(wxZRColaComposerPanel::wxID_TIMER, wxZRColaComposerPanel::OnTimerTimeout)
+    EVT_TIMER(wxZRColaComposerPanel::wxID_CHECKPOINT_TIMER, wxZRColaComposerPanel::OnTimerTimeout)
 END_EVENT_TABLE()
 
 
@@ -38,7 +38,7 @@ wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
     m_decomposed->PushEventHandler(&m_keyhandler);
 
     // Create timer for saving the state.
-    m_timer = new wxTimer(this, wxID_TIMER);
+    m_timer = new wxTimer(this, wxID_CHECKPOINT_TIMER);
 
     // Restore the previously saved state (if exists).
     wxString fileName(GetStateFileName());

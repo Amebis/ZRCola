@@ -40,7 +40,7 @@ class wxZRColaComposerPanel : public wxZRColaComposerPanelBase
 public:
     enum
     {
-        wxID_TIMER = 1,
+        wxID_CHECKPOINT_TIMER = 2000,
     };
 
     wxZRColaComposerPanel(wxWindow* parent);
