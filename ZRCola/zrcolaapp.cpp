@@ -104,6 +104,14 @@ bool ZRColaApp::OnInit()
                             m_lang_db.idxLng.clear();
                             m_lang_db.data  .clear();
                         }
+                    } else if (id == ZRCola::keyseq_rec::id) {
+                        dat >> ZRCola::keyseq_rec(m_ks_db);
+                        if (!dat.good()) {
+                            wxFAIL_MSG(wxT("Error reading key sequences data from ZRCola.zrcdb."));
+                            m_ks_db.idxChr.clear();
+                            m_ks_db.idxKey.clear();
+                            m_ks_db.data  .clear();
+                        }
                     }
                 }
 

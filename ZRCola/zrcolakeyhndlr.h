@@ -25,7 +25,6 @@ class wxZRColaKeyHandler;
 
 #pragma once
 
-#include <zrcolaui/keyboard.h>
 #include <wx/event.h>
 #include <vector>
 
@@ -41,7 +40,6 @@ public:
     virtual bool ProcessEvent(wxEvent& event);
 
 protected:
-    ZRCola::keyseq_db m_ks_db;                              ///< Key sequence database
     std::vector<ZRCola::keyseq_db::keyseq::key_t> m_seq;    ///< Key sequence
     bool m_is_insert;                                       ///< Is Insert key pressed?
     std::vector<char> m_insert_seq;                         ///< The Insert char sequence

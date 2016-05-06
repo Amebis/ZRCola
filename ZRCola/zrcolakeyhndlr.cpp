@@ -28,27 +28,6 @@ wxZRColaKeyHandler::wxZRColaKeyHandler() :
     m_is_insert(false),
     wxEvtHandler()
 {
-    std::fstream dat((LPCTSTR)((ZRColaApp*)wxTheApp)->GetDatabasePath(), std::ios_base::in | std::ios_base::binary);
-    if (dat.good()) {
-        if (stdex::idrec::find<ZRCola::recordid_t, ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>(dat, ZRCOLA_DB_ID, sizeof(ZRCola::recordid_t))) {
-            ZRCola::recordsize_t size;
-            dat.read((char*)&size, sizeof(ZRCola::recordsize_t));
-            if (dat.good()) {
-                ZRCola::keyseq_rec rec(m_ks_db);
-                if (rec.find(dat, size)) {
-                    dat >> rec;
-                    if (!dat.good()) {
-                        wxFAIL_MSG(wxT("Error reading translation data from ZRCola.zrcdb."));
-                        m_ks_db.idxChr.clear();
-                        m_ks_db.idxKey.clear();
-                        m_ks_db.data  .clear();
-                    }
-                } else
-                    wxFAIL_MSG(wxT("ZRCola.zrcdb has no translation data."));
-            }
-        } else
-            wxFAIL_MSG(wxT("ZRCola.zrcdb is not a valid ZRCola database."));
-    }
 }
 
 
@@ -60,12 +39,12 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
         if (e.GetKeyCode() == WXK_INSERT) {
             // Insert key has been pressed.
             m_is_insert = true;
-            wxFrame *pFrame = wxDynamicCast(wxTheApp->GetTopWindow(), wxFrame);
+            wxFrame *pFrame = wxDynamicCast(((ZRColaApp*)wxTheApp)->m_mainWnd, wxFrame);
             if (pFrame && pFrame->GetStatusBar())
                 pFrame->SetStatusText(_("INS key is pressed. Type the Unicode code of desired character now (up to four hexadecimal digits: 0-9, A-F), then release INS."));
         } else if (m_is_insert) {
             wxChar chr = e.GetUnicodeKey();
-            wxFrame *pFrame = wxDynamicCast(wxTheApp->GetTopWindow(), wxFrame);
+            wxFrame *pFrame = wxDynamicCast(((ZRColaApp*)wxTheApp)->m_mainWnd, wxFrame);
             if (('0' <= chr && chr <= '9' || 'A' <= chr && chr <= 'F') && m_insert_seq.size() < 4) {
                 // A hex-digit pressed. Save it.
                 m_insert_seq.push_back((char)chr);
@@ -84,9 +63,10 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
                     pFrame->SetStatusText(wxEmptyString);
             }
         } else if (e.GetUnicodeKey() || !e.HasAnyModifiers()) {
+            ZRColaApp *app = (ZRColaApp*)wxTheApp;
             ZRCola::keyseq_db::indexKey::size_type start, end;
             bool found;
-            wxFrame *pFrame = wxDynamicCast(wxTheApp->GetTopWindow(), wxFrame);
+            wxFrame *pFrame = wxDynamicCast(app->m_mainWnd, wxFrame);
 
             {
                 // Parse key event and save it at the end of the key sequence.
@@ -103,13 +83,13 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
                 ks->chr = 0;
                 ks->seq_len = n;
                 memcpy(ks->seq, m_seq.data(), sizeof(ZRCola::keyseq_db::keyseq::key_t)*n);
-                found = m_ks_db.idxKey.find(*ks, start, end);
+                found = app->m_ks_db.idxKey.find(*ks, start, end);
                 delete ks;
             }
 
             if (found) {
                 // The exact key sequence found.
-                const ZRCola::keyseq_db::keyseq &ks = m_ks_db.idxKey[start];
+                const ZRCola::keyseq_db::keyseq &ks = app->m_ks_db.idxKey[start];
                 m_seq.clear();
 
                 if (pFrame && pFrame->GetStatusBar())
@@ -124,8 +104,8 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
                     event.StopPropagation();
                     return true;
                 }
-            } else if (start < m_ks_db.idxKey.size() &&
-                ZRCola::keyseq_db::keyseq::CompareSequence(m_seq.data(), m_seq.size(), m_ks_db.idxKey[start].seq, std::min<unsigned __int16>(m_ks_db.idxKey[start].seq_len, m_seq.size())) == 0)
+            } else if (start < app->m_ks_db.idxKey.size() &&
+                ZRCola::keyseq_db::keyseq::CompareSequence(m_seq.data(), m_seq.size(), app->m_ks_db.idxKey[start].seq, std::min<unsigned __int16>(app->m_ks_db.idxKey[start].seq_len, m_seq.size())) == 0)
             {
                 // The sequence is a partial match. Continue watching.
                 if (pFrame && pFrame->GetStatusBar())
@@ -145,7 +125,7 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
         wxKeyEvent &e = (wxKeyEvent&)event;
         if (e.GetKeyCode() == WXK_INSERT && m_is_insert) {
             // Insert key has been depressed.
-            wxFrame *pFrame = wxDynamicCast(wxTheApp->GetTopWindow(), wxFrame);
+            wxFrame *pFrame = wxDynamicCast(((ZRColaApp*)wxTheApp)->m_mainWnd, wxFrame);
             if (pFrame && pFrame->GetStatusBar())
                 pFrame->SetStatusText(wxEmptyString);
 
