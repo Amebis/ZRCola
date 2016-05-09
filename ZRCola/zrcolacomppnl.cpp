@@ -124,10 +124,9 @@ void wxZRColaComposerPanel::OnDecomposedHexPaint(wxPaintEvent& event)
 
 void wxZRColaComposerPanel::OnDecomposedText(wxCommandEvent& event)
 {
-    if (m_progress) {
-        // We are being updated by wxZRColaComposerPanel::OnComposedText()
-        event.Skip();
-    } else {
+    event.Skip();
+
+    if (!m_progress) {
         m_timer->Stop();
 
 #ifdef __WINDOWS__
@@ -166,7 +165,6 @@ void wxZRColaComposerPanel::OnDecomposedText(wxCommandEvent& event)
         m_composedHex->SetValue(hex);
         m_composedHex->SetSelection(m_mappingComposedHex.to_dst(from), m_mappingComposedHex.to_dst(to));
 
-        event.Skip();
         m_progress = false;
 
         // Schedule state save after 3s.
@@ -213,10 +211,9 @@ void wxZRColaComposerPanel::OnComposedHexPaint(wxPaintEvent& event)
 
 void wxZRColaComposerPanel::OnComposedText(wxCommandEvent& event)
 {
-    if (m_progress) {
-        // We are being updated by wxZRColaComposerPanel::OnDecomposedText()
-        event.Skip();
-    } else {
+    event.Skip();
+
+    if (!m_progress) {
         m_timer->Stop();
 
 #ifdef __WINDOWS__
@@ -260,7 +257,6 @@ void wxZRColaComposerPanel::OnComposedText(wxCommandEvent& event)
         m_decomposedHex->SetValue(hex);
         m_decomposedHex->SetSelection(m_mappingDecomposedHex.to_dst(from), m_mappingDecomposedHex.to_dst(to));
 
-        event.Skip();
         m_progress = false;
 
         // Schedule state save after 3s.
