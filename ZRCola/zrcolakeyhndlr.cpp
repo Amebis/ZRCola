@@ -62,7 +62,12 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
                 if (pFrame && pFrame->GetStatusBar())
                     pFrame->SetStatusText(wxEmptyString);
             }
-        } else if (e.GetUnicodeKey() || !e.HasAnyModifiers()) {
+        } else if ((e.GetUnicodeKey() || !e.HasAnyModifiers())
+#if defined(__WXMSW__)
+            && ::GetKeyState(VK_RMENU) >= 0
+#endif
+            )
+        {
             ZRColaApp *app = (ZRColaApp*)wxTheApp;
             ZRCola::keyseq_db::indexKey::size_type start, end;
             bool found;
@@ -132,7 +137,7 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
         }
     } else if (event.GetEventType() == wxEVT_KEY_UP) {
         wxKeyEvent &e = (wxKeyEvent&)event;
-        if (e.GetKeyCode() == WXK_INSERT && m_is_insert) {
+        if (m_is_insert && e.GetKeyCode() == WXK_INSERT) {
             // Insert key has been depressed.
             wxFrame *pFrame = wxDynamicCast(((ZRColaApp*)wxTheApp)->m_mainWnd, wxFrame);
             if (pFrame && pFrame->GetStatusBar())
