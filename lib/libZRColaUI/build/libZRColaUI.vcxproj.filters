@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\Localization">
+      <UniqueIdentifier>{21f03e61-c62a-427a-bcb2-80c08dcff0bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\stdafx.cpp">
@@ -40,5 +43,15 @@
     <ResourceCompile Include="..\res\libZRColaUI.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\locale\libZRColaUI.pot">
+      <Filter>Resource Files\Localization</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <POCompile Include="..\locale\sl_SI.po">
+      <Filter>Resource Files\Localization</Filter>
+    </POCompile>
   </ItemGroup>
 </Project>

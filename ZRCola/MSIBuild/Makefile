@@ -130,6 +130,7 @@ featZRCola	comp00_ZRCola_Re.ttf
 !IF "$(LANG)" == "Sl"
 featZRCola	compZRCola.mo.sl_SI
 featZRCola	compZRCola.zrcdb.mo.sl_SI
+featZRCola	complibZRColaUI.mo.sl_SI
 featZRCola	compwxExtend.mo.sl_SI
 featZRCola	compwxstd.mo.sl_SI
 !ENDIF

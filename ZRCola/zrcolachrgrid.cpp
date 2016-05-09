@@ -103,7 +103,7 @@ wxString wxZRColaCharGrid::GetToolTipText(int idx)
     if (found) {
         ZRCola::keyseq_db::keyseq &seq = app->m_ks_db.idxChr[start];
         wxString ks_str;
-        if (ZRColaApp::GetKeySequenceAsText(seq.seq, seq.seq_len, ks_str))
+        if (ZRCola::keyseq_db::GetSequenceAsText(seq.seq, seq.seq_len, ks_str))
             return wxString::Format(wxT("U+%04X (%s)"), (int)m_chars[idx], ks_str.c_str());
     }
 

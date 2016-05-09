@@ -36,6 +36,12 @@
   <ItemGroup>
     <ResourceCompile Include="..\res\libZRColaUI.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <POCompile Include="..\locale\sl_SI.po" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\locale\libZRColaUI.pot" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C0A84BD2-3870-4CD6-B281-0AB322E3C579}</ProjectGuid>
     <RootNamespace>libZRColaUI</RootNamespace>
@@ -105,5 +111,6 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\..\include\xgettext.targets" />
   </ImportGroup>
 </Project>

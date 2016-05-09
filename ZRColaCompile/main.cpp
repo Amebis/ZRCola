@@ -478,7 +478,7 @@ int _tmain(int argc, _TCHAR *argv[])
                         &ks2 = db.idxKey[i    ];
 
                     if (ZRCola::keyseq_db::keyseq::CompareSequence(ks1.seq, ks1.seq_len, ks2.seq, ks2.seq_len) == 0) {
-                        std::wstring seq_str;
+                        wxString seq_str;
                         ZRCola::keyseq_db::GetSequenceAsText(ks1.seq, ks1.seq_len, seq_str);
                         _ftprintf(stderr, wxT("%s: warning ZCC0007: Duplicate key sequence (%ls => %04X or %04X). The keyboard behaviour will be unpredictable.\n"), (LPCTSTR)filenameIn.c_str(), seq_str.c_str(), ks1.chr, ks2.chr);
                     }

@@ -23,6 +23,9 @@
 #include <zrcola/common.h>
 
 #include <stdex/idrec.h>
+
+#include <wx/string.h>
+
 #include <istream>
 #include <vector>
 
@@ -204,6 +207,33 @@ namespace ZRCola {
         /// Constructs the database
         ///
         inline keyseq_db() : idxChr(data), idxKey(data) {}
+
+        ///
+        /// Get text representation of a given key sequence
+        ///
+        /// \param[in]  seq      Key sequence
+        /// \param[in]  seq_len  Number of elements in \p seq
+        /// \param[out] str      Text representation of a \p seq key sequence
+        ///
+        /// \returns
+        /// - \c true if conversion succeeded
+        /// - \c false otherwise
+        ///
+        static bool GetSequenceAsText(_In_count_(seq_len) const keyseq::key_t *seq, _In_ size_t seq_len, _Out_ wxString& str);
+
+        ///
+        /// Get text representation of a given key sequence
+        ///
+        /// \param[in]  seq      Key sequence
+        /// \param[in]  seq_len  Number of elements in \p seq
+        ///
+        /// \returns Text representation of a \p seq key sequence
+        ///
+        static inline wxString GetSequenceAsText(_In_count_(seq_len) const keyseq_db::keyseq::key_t *seq, _In_ size_t seq_len)
+        {
+            wxString str;
+            return GetSequenceAsText(seq, seq_len, str) ? str : wxEmptyString;
+        }
     };
 
 

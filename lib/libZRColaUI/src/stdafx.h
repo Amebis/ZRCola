@@ -23,4 +23,6 @@
 #include "../include/zrcolaui/chargroup.h"
 #include "../include/zrcolaui/keyboard.h"
 
+#include <wx/translation.h>
+
 #include <assert.h>
