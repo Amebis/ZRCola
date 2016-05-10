@@ -26,6 +26,7 @@ class wxZRColaFrame;
 #pragma once
 
 #include "zrcolagui.h"
+#include "zrcolachrslct.h"
 #include <zrcola/language.h>
 #include <wx/taskbar.h>
 #include <wx/persist/toplevel.h>
@@ -70,6 +71,7 @@ protected:
     void OnExit(wxCommandEvent& event);
     void OnForwardEventUpdate(wxUpdateUIEvent& event);
     void OnForwardEvent(wxCommandEvent& event);
+    void OnInsertCharacter(wxCommandEvent& event);
     void OnSendUpdate(wxUpdateUIEvent& event);
     void OnSendComposed(wxCommandEvent& event);
     void OnSendDecomposed(wxCommandEvent& event);
@@ -118,10 +120,11 @@ protected:
 #endif
 
 protected:
-    bool m_lang_auto;               ///< Automatic language selection according to keyboard layout
-    ZRCola::langid_t m_lang;        ///< Language for decomposing
-    WXHWND m_hWndSource;            ///< handle of the active window, when the ZRCola hotkey was pressed
-    wxTaskBarIcon *m_taskBarIcon;   ///< Taskbar icon
+    bool m_lang_auto;                   ///< Automatic language selection according to keyboard layout
+    ZRCola::langid_t m_lang;            ///< Language for decomposing
+    WXHWND m_hWndSource;                ///< handle of the active window, when the ZRCola hotkey was pressed
+    wxTaskBarIcon *m_taskBarIcon;       ///< Taskbar icon
+    wxZRColaCharSelect *m_chrSelect;    ///< Character selection dialog
 };
 
 

@@ -17,32 +17,43 @@
     along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 */
 
+
+///
+/// Forward declarations
+///
+class wxZRColaCharSelect;
+
+
 #pragma once
 
-#include <wx/ffile.h>
-#include <wx/msgdlg.h>
-#include <wx/persist.h>
-#include <wx/persist/toplevel.h>
-#include <wx/valtext.h>
-#include <wxex/common.h>
-#include <wxex/persist/auimanager.h>
+#include "zrcolagui.h"
 
-#include <fstream>
-#include <string>
-#include <vector>
 
-#include <stdex/idrec.h>
+///
+/// ZRCola character select dialog
+///
+class wxZRColaCharSelect : public wxZRColaCharSelectBase
+{
+public:
+    wxZRColaCharSelect(wxWindow* parent);
+};
 
-#if defined(__WXMSW__)
-#include <Msi.h>
-#include <ShObjIdl.h>
-#include <ShlGuid.h>
-#endif
 
-#include "../include/zrcola.h"
-#include "zrcolaapp.h"
-#include "zrcolachrgrid.h"
-#include "zrcolachrcatpnl.h"
-#include "zrcolacomppnl.h"
-#include "zrcolafrm.h"
-#include "zrcolakeyhndlr.h"
+///
+/// Supports saving/restoring wxZRColaCharSelect state
+///
+class wxPersistentZRColaCharSelect : public wxPersistentWindow<wxZRColaCharSelect>
+{
+public:
+    wxPersistentZRColaCharSelect(wxZRColaCharSelect *wnd);
+
+    virtual wxString GetKind() const;
+    virtual void Save() const;
+    virtual bool Restore();
+};
+
+
+inline wxPersistentObject *wxCreatePersistentObject(wxZRColaCharSelect *wnd)
+{
+    return new wxPersistentZRColaCharSelect(wnd);
+}

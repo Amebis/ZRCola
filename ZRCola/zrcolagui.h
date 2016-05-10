@@ -36,6 +36,10 @@ class wxZRColaComposerPanel;
 #include <wx/panel.h>
 #include <wx/splitter.h>
 #include <wx/grid.h>
+#include <wx/srchctrl.h>
+#include <wx/valtext.h>
+#include <wx/button.h>
+#include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -50,6 +54,7 @@ class wxZRColaFrameBase : public wxFrame
 		enum
 		{
 			wxID_AUTOSTART = 1000,
+			wxID_INSERT_CHARACTER,
 			wxID_SEND_COMPOSED,
 			wxID_SEND_DECOMPOSED,
 			wxID_SEND_ABORT,
@@ -160,6 +165,40 @@ class wxZRColaCharacterCatalogPanelBase : public wxPanel
 		
 		wxZRColaCharacterCatalogPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxT("ZRColaCharacterCatalog") ); 
 		~wxZRColaCharacterCatalogPanelBase();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class wxZRColaCharSelectBase
+///////////////////////////////////////////////////////////////////////////////
+class wxZRColaCharSelectBase : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxSearchCtrl* m_search;
+		wxGrid* m_gridResults;
+		wxGrid* m_gridRecent;
+		wxTextCtrl* m_unicode;
+		wxGrid* m_gridPreview;
+		wxGrid* m_gridRelated;
+		wxStdDialogButtonSizer* m_sdbSizerButtons;
+		wxButton* m_sdbSizerButtonsOK;
+		wxButton* m_sdbSizerButtonsCancel;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnSearchText( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnResultSelectCell( wxGridEvent& event ) { event.Skip(); }
+		virtual void OnRecentSelectCell( wxGridEvent& event ) { event.Skip(); }
+		virtual void OnUnicodeText( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnRelatedSelectCell( wxGridEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		wxString m_unicodeValid; 
+		
+		wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Character Selector"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaCharSelect") ); 
+		~wxZRColaCharSelectBase();
 	
 };
 

@@ -39,6 +39,8 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
     EVT_MENU           (wxID_SEND_DECOMPOSED                                , wxZRColaFrame::OnSendDecomposed              )
     EVT_MENU           (wxID_SEND_ABORT                                     , wxZRColaFrame::OnSendAbort                   )
 
+    EVT_MENU           (wxID_INSERT_CHARACTER                               , wxZRColaFrame::OnInsertCharacter             )
+
     EVT_UPDATE_UI      (wxID_DECOMP_LANG_AUTO                               , wxZRColaFrame::OnDecomposedLanguageAutoUpdate)
     EVT_MENU           (wxID_DECOMP_LANG_AUTO                               , wxZRColaFrame::OnDecomposedLanguageAuto      )
     EVT_UPDATE_UI_RANGE(wxID_DECOMP_LANGUAGE_START, wxID_DECOMP_LANGUAGE_END, wxZRColaFrame::OnDecomposedLanguageUpdate    )
@@ -59,6 +61,7 @@ wxEND_EVENT_TABLE()
 wxZRColaFrame::wxZRColaFrame() :
     m_lang_auto(true),
     m_hWndSource(NULL),
+    m_chrSelect(NULL),
     wxZRColaFrameBase(NULL)
 {
     {
@@ -116,6 +119,9 @@ wxZRColaFrame::wxZRColaFrame() :
     // Set focus.
     m_panel->m_decomposed->SetFocus();
 
+    m_chrSelect = new wxZRColaCharSelect(this);
+    wxPersistentRegisterAndRestore<wxZRColaCharSelect>(m_chrSelect);
+
     // Register global hotkey(s).
     if (!RegisterHotKey(wxZRColaHKID_INVOKE_COMPOSE, wxMOD_WIN, VK_F5))
         wxMessageBox(_("ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
@@ -163,6 +169,9 @@ wxZRColaFrame::~wxZRColaFrame()
     // Unregister global hotkey(s).
     UnregisterHotKey(wxZRColaHKID_INVOKE_DECOMPOSE);
     UnregisterHotKey(wxZRColaHKID_INVOKE_COMPOSE);
+
+    if (m_chrSelect)
+        delete m_chrSelect;
 
     if (m_taskBarIcon) {
         m_taskBarIcon->Disconnect(wxEVT_TASKBAR_LEFT_DOWN, wxTaskBarIconEventHandler(wxZRColaFrame::OnTaskbarIconClick), NULL, this);
@@ -243,6 +252,12 @@ void wxZRColaFrame::OnForwardEvent(wxCommandEvent& event)
         focusWnd->GetEventHandler()->ProcessEvent(event);
     else
         event.Skip();
+}
+
+
+void wxZRColaFrame::OnInsertCharacter(wxCommandEvent& event)
+{
+    m_chrSelect->ShowModal();
 }
 
 

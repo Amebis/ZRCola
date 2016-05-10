@@ -43,6 +43,9 @@
     <ClCompile Include="zrcolachrcatpnl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="zrcolachrslct.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -67,6 +70,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="zrcolachrcatpnl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zrcolachrslct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
