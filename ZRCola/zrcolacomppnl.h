@@ -46,6 +46,8 @@ public:
     wxZRColaComposerPanel(wxWindow* parent);
     virtual ~wxZRColaComposerPanel();
 
+    void SynchronizePanels();
+
     friend class wxPersistentZRColaComposerPanel;   // Allow saving/restoring window state.
 
 protected:
@@ -59,10 +61,12 @@ protected:
     DECLARE_EVENT_TABLE()
 
     static wxString GetStateFileName();
-    static void GetHex(wxString &hex, ZRCola::mapping_vector &mapping, const wchar_t *src, size_t len);
+    static size_t GetValue(wxTextCtrl *wnd, wxString &text);
+    static void SetHexValue(wxTextCtrl *wnd, std::pair<long, long> &range, ZRCola::mapping_vector &mapping, const wchar_t *src, size_t len, long from, long to);
 
 protected:
-    bool m_progress;                                ///< Boolean flag to avoid recursive updates of composed and decomposed text controls
+    bool m_decomposedChanged;                       ///< Boolean flag to mark decomposed text "dirty" to trigger composition
+    bool m_composedChanged;                         ///< Boolean flag to mark composed text "dirty" to trigger decomposition
     ZRCola::mapping_vector m_mapping1;              ///< Character index mapping vector between decomposed and normalized text
     ZRCola::mapping_vector m_mapping2;              ///< Character index mapping vector between normalized and composed text
     std::pair<long, long>

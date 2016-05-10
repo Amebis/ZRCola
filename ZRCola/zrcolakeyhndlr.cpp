@@ -112,7 +112,6 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
                 if (obj && obj->IsKindOf(wxCLASSINFO(wxTextCtrl))) {
                     // Push text to source control.
                     ((wxTextCtrl*)obj)->WriteText(ks.chr);
-                    ((wxTextCtrl*)obj)->SendTextUpdatedEvent(); // Fixes #19: Premature EN_CHANGE event on EM_REPLACESEL.
 
                     // Event is fully processed now.
                     event.StopPropagation();
@@ -154,7 +153,6 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
                     if (obj && obj->IsKindOf(wxCLASSINFO(wxTextCtrl))) {
                         // Push text to source control.
                         ((wxTextCtrl*)obj)->WriteText(chr);
-                        ((wxTextCtrl*)obj)->SendTextUpdatedEvent(); // Fixes #19: Premature EN_CHANGE event on EM_REPLACESEL.
                     }
                 }
 

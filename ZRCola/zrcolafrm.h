@@ -78,6 +78,7 @@ protected:
     void OnDecomposedLanguageUpdate(wxUpdateUIEvent& event);
     void OnDecomposedLanguage(wxCommandEvent& event);
     virtual void OnDecompLanguageChoice(wxCommandEvent& event);
+    virtual void OnIdle(wxIdleEvent& event);
     void OnToolbarEditUpdate(wxUpdateUIEvent& event);
     void OnToolbarEdit(wxCommandEvent& event);
     void OnToolbarComposeUpdate(wxUpdateUIEvent& event);

@@ -337,6 +337,16 @@ void wxZRColaFrame::OnDecompLanguageChoice(wxCommandEvent& event)
         m_panel->m_composed->ProcessWindowEvent(event2);
         m_lang_auto = false;
     }
+
+    event.Skip();
+}
+
+
+void wxZRColaFrame::OnIdle(wxIdleEvent& event)
+{
+    m_panel->SynchronizePanels();
+
+    event.Skip();
 }
 
 

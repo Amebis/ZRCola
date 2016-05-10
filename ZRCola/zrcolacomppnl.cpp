@@ -30,7 +30,8 @@ END_EVENT_TABLE()
 
 
 wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
-    m_progress(false),
+    m_decomposedChanged(false),
+    m_composedChanged(false),
     m_selDecomposed(0, 0),
     m_selComposed(0, 0),
     wxZRColaComposerPanelBase(parent)
@@ -59,10 +60,15 @@ wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
                         file.Read(wxStringBuffer(composed, n), sizeof(wchar_t)*n);
                         if (!file.Error()) {
                             // Restore state.
-                            m_progress = true;
                             m_decomposed->SetValue(decomposed);
+                            m_decomposed->GetSelection(&m_selDecomposed.first, &m_selDecomposed.second);
+                            SetHexValue(m_decomposedHex, m_selDecomposedHex, m_mappingDecomposedHex, decomposed.GetData(), decomposed.Length(), m_selDecomposed.first, m_selDecomposed.second);
+                            m_decomposedChanged = false;
+
                             m_composed->SetValue(composed);
-                            m_progress = false;
+                            m_composed->GetSelection(&m_selComposed.first, &m_selComposed.second);
+                            SetHexValue(m_composedHex, m_selComposedHex, m_mappingComposedHex, composed.GetData(), composed.Length(), m_selComposed.first, m_selComposed.second);
+                            m_composedChanged = false;
                         }
                     }
                 }
@@ -86,6 +92,73 @@ wxZRColaComposerPanel::~wxZRColaComposerPanel()
 }
 
 
+void wxZRColaComposerPanel::SynchronizePanels()
+{
+    if (m_decomposedChanged) {
+        m_timer->Stop();
+
+        wxString src;
+        size_t len = GetValue(m_decomposed, src);
+
+        std::wstring norm;
+        ((ZRColaApp*)wxTheApp)->m_t_db.Decompose(src.data(), len, norm, &m_mapping1);
+
+        std::wstring dst;
+        ((ZRColaApp*)wxTheApp)->m_t_db.Compose(norm.data(), norm.size(), dst, &m_mapping2);
+
+        m_decomposed->GetSelection(&m_selDecomposed.first, &m_selDecomposed.second);
+
+        // Update decomposed HEX dump.
+        SetHexValue(m_decomposedHex, m_selDecomposedHex, m_mappingDecomposedHex, src.data(), len, m_selDecomposed.first, m_selDecomposed.second);
+
+        // Update composed text, and its HEX dump.
+        m_composed->SetValue(dst);
+        m_composed->SetSelection(
+            m_selComposed.first  = m_mapping2.to_dst(m_mapping1.to_dst(m_selDecomposed.first )),
+            m_selComposed.second = m_mapping2.to_dst(m_mapping1.to_dst(m_selDecomposed.second)));
+        SetHexValue(m_composedHex, m_selComposedHex, m_mappingComposedHex, dst.data(), dst.length(), m_selComposed.first, m_selComposed.second);
+
+        // Schedule state save after 3s.
+        m_timer->Start(3000, true);
+    } else if (m_composedChanged) {
+        m_timer->Stop();
+
+        wxString src;
+        size_t len = GetValue(m_composed, src);
+
+        ZRColaApp *app = (ZRColaApp*)wxTheApp;
+        std::wstring dst;
+        wxZRColaFrame *mainWnd = dynamic_cast<wxZRColaFrame*>(wxGetActiveWindow());
+        if (mainWnd)
+            app->m_t_db.Decompose(src.data(), len, &app->m_lc_db, mainWnd->m_lang, dst, &m_mapping2);
+        else
+            app->m_t_db.Decompose(src.data(), len, dst, &m_mapping2);
+
+        m_mapping1.clear();
+        m_mapping2.invert();
+
+        m_composed->GetSelection(&m_selComposed.first, &m_selComposed.second);
+
+        // Update composed HEX dump.
+        SetHexValue(m_composedHex, m_selComposedHex, m_mappingComposedHex, src.data(), len, m_selComposed.first, m_selComposed.second);
+
+        // Update decomposed text, and its HEX dump.
+        m_decomposed->SetValue(dst);
+        m_decomposed->SetSelection(
+            m_selDecomposed.first  = m_mapping1.to_src(m_mapping2.to_src(m_selComposed.first )),
+            m_selDecomposed.second = m_mapping1.to_src(m_mapping2.to_src(m_selComposed.second)));
+        SetHexValue(m_decomposedHex, m_selDecomposedHex, m_mappingDecomposedHex, dst.data(), dst.length(), m_selDecomposed.first, m_selDecomposed.second);
+
+        // Schedule state save after 3s.
+        m_timer->Start(3000, true);
+    }
+
+    m_decomposedChanged = false;
+    m_composedChanged   = false;
+}
+
+
+
 void wxZRColaComposerPanel::OnDecomposedPaint(wxPaintEvent& event)
 {
     event.Skip();
@@ -97,9 +170,18 @@ void wxZRColaComposerPanel::OnDecomposedPaint(wxPaintEvent& event)
         // Save new selection first, to avoid loop.
         m_selDecomposed.first  = from;
         m_selDecomposed.second = to;
-        m_decomposedHex->SetSelection(m_mappingDecomposedHex.to_dst(from), m_mappingDecomposedHex.to_dst(to));
-        m_composed->SetSelection(from = m_mapping2.to_dst(m_mapping1.to_dst(from)), to = m_mapping2.to_dst(m_mapping1.to_dst(to)));
-        m_composedHex->SetSelection(m_mappingComposedHex.to_dst(from), m_mappingComposedHex.to_dst(to));
+
+        m_decomposedHex->SetSelection(
+            m_selDecomposedHex.first  = m_mappingDecomposedHex.to_dst(from),
+            m_selDecomposedHex.second = m_mappingDecomposedHex.to_dst(to  ));
+
+        m_composed->SetSelection(
+            m_selComposed.first  = m_mapping2.to_dst(m_mapping1.to_dst(from)),
+            m_selComposed.second = m_mapping2.to_dst(m_mapping1.to_dst(to  )));
+
+        m_composedHex->SetSelection(
+            m_selComposedHex.first  = m_mappingComposedHex.to_dst(m_selComposed.first ),
+            m_selComposedHex.second = m_mappingComposedHex.to_dst(m_selComposed.second));
     }
 }
 
@@ -115,9 +197,18 @@ void wxZRColaComposerPanel::OnDecomposedHexPaint(wxPaintEvent& event)
         // Save new selection first, to avoid loop.
         m_selDecomposedHex.first  = from;
         m_selDecomposedHex.second = to;
-        m_decomposed->SetSelection(from = m_mappingDecomposedHex.to_src(from), to = m_mappingDecomposedHex.to_src(to));
-        m_composed->SetSelection(from = m_mapping2.to_dst(m_mapping1.to_dst(from)), to = m_mapping2.to_dst(m_mapping1.to_dst(to)));
-        m_composedHex->SetSelection(m_mappingComposedHex.to_dst(from), m_mappingComposedHex.to_dst(to));
+
+        m_decomposed->SetSelection(
+            m_selDecomposed.first  = m_mappingDecomposedHex.to_src(from),
+            m_selDecomposed.second = m_mappingDecomposedHex.to_src(to  ));
+
+        m_composed->SetSelection(
+            m_selComposed.first  = m_mapping2.to_dst(m_mapping1.to_dst(m_selDecomposed.first )),
+            m_selComposed.second = m_mapping2.to_dst(m_mapping1.to_dst(m_selDecomposed.second)));
+
+        m_composedHex->SetSelection(
+            m_selComposedHex.first  = m_mappingComposedHex.to_dst(m_selComposed.first ),
+            m_selComposedHex.second = m_mappingComposedHex.to_dst(m_selComposed.second));
     }
 }
 
@@ -126,50 +217,8 @@ void wxZRColaComposerPanel::OnDecomposedText(wxCommandEvent& event)
 {
     event.Skip();
 
-    if (!m_progress) {
-        m_timer->Stop();
-
-#ifdef __WINDOWS__
-        // Use Windows GetWindowText() function to avoid line ending conversion incompletely imposed by wxWidgets.
-        WXHWND hWnd = m_decomposed->GetHWND();
-        size_t len = ::GetWindowTextLengthW(hWnd);
-        std::vector<wchar_t> src(len + 1);
-        ::GetWindowTextW(hWnd, src.data(), src.size());
-#else
-        wxString src(m_decomposed->GetValue());
-        size_t len = src.Length();
-#endif
-
-        std::wstring norm;
-        ((ZRColaApp*)wxTheApp)->m_t_db.Decompose(src.data(), len, norm, &m_mapping1);
-
-        std::wstring dst;
-        ((ZRColaApp*)wxTheApp)->m_t_db.Compose(norm.data(), norm.size(), dst, &m_mapping2);
-
-        long from, to;
-        m_decomposed->GetSelection(&from, &to);
-
-        // Update decomposed HEX dump.
-        wxString hex;
-        GetHex(hex, m_mappingDecomposedHex, src.data(), len);
-        m_decomposedHex->SetValue(hex);
-        m_decomposedHex->SetSelection(m_mappingDecomposedHex.to_dst(from), m_mappingDecomposedHex.to_dst(to));
-
-        // Update composed text.
-        m_progress = true;
-        m_composed->SetValue(dst);
-        m_composed->SetSelection(from = m_mapping2.to_dst(m_mapping1.to_dst(from)), to = m_mapping2.to_dst(m_mapping1.to_dst(to)));
-
-        // Update composed HEX dump.
-        GetHex(hex, m_mappingComposedHex, dst.data(), dst.length());
-        m_composedHex->SetValue(hex);
-        m_composedHex->SetSelection(m_mappingComposedHex.to_dst(from), m_mappingComposedHex.to_dst(to));
-
-        m_progress = false;
-
-        // Schedule state save after 3s.
-        m_timer->Start(3000, true);
-    }
+    // Set the flag the decomposed text changed to trigger idle-time composition.
+    m_decomposedChanged = true;
 }
 
 
@@ -184,9 +233,18 @@ void wxZRColaComposerPanel::OnComposedPaint(wxPaintEvent& event)
         // Save new selection first, to avoid loop.
         m_selComposed.first  = from;
         m_selComposed.second = to;
-        m_composedHex->SetSelection(m_mappingComposedHex.to_dst(from), m_mappingComposedHex.to_dst(to));
-        m_decomposed->SetSelection(from = m_mapping1.to_src(m_mapping2.to_src(from)), to = m_mapping1.to_src(m_mapping2.to_src(to)));
-        m_decomposedHex->SetSelection(m_mappingDecomposedHex.to_dst(from), m_mappingDecomposedHex.to_dst(to));
+
+        m_composedHex->SetSelection(
+            m_selComposedHex.first  = m_mappingComposedHex.to_dst(from),
+            m_selComposedHex.second = m_mappingComposedHex.to_dst(to  ));
+
+        m_decomposed->SetSelection(
+            m_selDecomposed.first  = m_mapping1.to_src(m_mapping2.to_src(from)),
+            m_selDecomposed.second = m_mapping1.to_src(m_mapping2.to_src(to  )));
+
+        m_decomposedHex->SetSelection(
+            m_selDecomposedHex.first  = m_mappingDecomposedHex.to_dst(m_selDecomposed.first ),
+            m_selDecomposedHex.second = m_mappingDecomposedHex.to_dst(m_selDecomposed.second));
     }
 }
 
@@ -202,9 +260,18 @@ void wxZRColaComposerPanel::OnComposedHexPaint(wxPaintEvent& event)
         // Save new selection first, to avoid loop.
         m_selComposedHex.first  = from;
         m_selComposedHex.second = to;
-        m_composed->SetSelection(from = m_mappingComposedHex.to_src(from), to = m_mappingComposedHex.to_src(to));
-        m_decomposed->SetSelection(from = m_mapping1.to_src(m_mapping2.to_src(from)), to = m_mapping1.to_src(m_mapping2.to_src(to)));
-        m_decomposedHex->SetSelection(m_mappingDecomposedHex.to_dst(from), m_mappingDecomposedHex.to_dst(to));
+
+        m_composed->SetSelection(
+            m_selComposed.first  = m_mappingComposedHex.to_src(from),
+            m_selComposed.second = m_mappingComposedHex.to_src(to  ));
+
+        m_decomposed->SetSelection(
+            m_selDecomposed.first  = m_mapping1.to_src(m_mapping2.to_src(m_selComposed.first )),
+            m_selDecomposed.second = m_mapping1.to_src(m_mapping2.to_src(m_selComposed.second)));
+
+        m_decomposedHex->SetSelection(
+            m_selDecomposedHex.first  = m_mappingDecomposedHex.to_dst(m_selDecomposed.first ),
+            m_selDecomposedHex.second = m_mappingDecomposedHex.to_dst(m_selDecomposed.second));
     }
 }
 
@@ -213,55 +280,8 @@ void wxZRColaComposerPanel::OnComposedText(wxCommandEvent& event)
 {
     event.Skip();
 
-    if (!m_progress) {
-        m_timer->Stop();
-
-#ifdef __WINDOWS__
-        // Use Windows GetWindowTextLength() function to avoid line ending conversion incompletely imposed by wxWidgets.
-        WXHWND hWnd = m_composed->GetHWND();
-        size_t len = ::GetWindowTextLengthW(hWnd);
-        std::vector<wchar_t> src(len + 1);
-        ::GetWindowTextW(hWnd, src.data(), src.size());
-#else
-        wxString src(m_composed->GetValue());
-        size_t len = src.Length();
-#endif
-
-        ZRColaApp *app = (ZRColaApp*)wxTheApp;
-        std::wstring dst;
-        wxZRColaFrame *mainWnd = dynamic_cast<wxZRColaFrame*>(wxGetActiveWindow());
-        if (mainWnd)
-            app->m_t_db.Decompose(src.data(), len, &app->m_lc_db, mainWnd->m_lang, dst, &m_mapping2);
-        else
-            app->m_t_db.Decompose(src.data(), len, dst, &m_mapping2);
-
-        m_mapping1.clear();
-        m_mapping2.invert();
-
-        long from, to;
-        m_composed->GetSelection(&from, &to);
-
-        // Update composed HEX dump.
-        wxString hex;
-        GetHex(hex, m_mappingComposedHex, src.data(), len);
-        m_composedHex->SetValue(hex);
-        m_composedHex->SetSelection(m_mappingComposedHex.to_dst(from), m_mappingComposedHex.to_dst(to));
-
-        // Update decomposed text.
-        m_progress = true;
-        m_decomposed->SetValue(dst);
-        m_decomposed->SetSelection(from = m_mapping1.to_src(m_mapping2.to_src(from)), to = m_mapping1.to_src(m_mapping2.to_src(to)));
-
-        // Update decomposed HEX dump.
-        GetHex(hex, m_mappingDecomposedHex, dst.data(), dst.length());
-        m_decomposedHex->SetValue(hex);
-        m_decomposedHex->SetSelection(m_mappingDecomposedHex.to_dst(from), m_mappingDecomposedHex.to_dst(to));
-
-        m_progress = false;
-
-        // Schedule state save after 3s.
-        m_timer->Start(3000, true);
-    }
+    // Set the flag the composed text changed to trigger idle-time decomposition.
+    m_composedChanged = true;
 }
 
 
@@ -270,37 +290,18 @@ void wxZRColaComposerPanel::OnTimerTimeout(wxTimerEvent& event)
     wxString fileName(GetStateFileName());
     wxFFile file(fileName, wxT("wb"));
     if (file.IsOpened()) {
+        wxString text;
+        size_t len;
+
         // Save decomposed text.
-        {
-#ifdef __WINDOWS__
-            // Use Windows GetWindowText() function to avoid line ending conversion incompletely imposed by wxWidgets.
-            WXHWND hWnd = m_decomposed->GetHWND();
-            unsigned __int64 len = ::GetWindowTextLengthW(hWnd);
-            std::vector<wchar_t> text(len + 1);
-            ::GetWindowTextW(hWnd, text.data(), text.size());
-#else
-            wxString text(m_decomposed->GetValue());
-            unsigned __int64 len = text.Length();
-#endif
-            file.Write(&len, sizeof(len));
-            file.Write(text.data(), sizeof(wchar_t)*len);
-        }
+        len = GetValue(m_decomposed, text);
+        file.Write(&len, sizeof(len));
+        file.Write((const wchar_t*)text, sizeof(wchar_t)*len);
 
         // Save composed text.
-        {
-#ifdef __WINDOWS__
-            // Use Windows GetWindowText() function to avoid line ending conversion incompletely imposed by wxWidgets.
-            WXHWND hWnd = m_composed->GetHWND();
-            unsigned __int64 len = ::GetWindowTextLengthW(hWnd);
-            std::vector<wchar_t> text(len + 1);
-            ::GetWindowTextW(hWnd, text.data(), text.size());
-#else
-            wxString text(m_composed->GetValue());
-            unsigned __int64 len = text.Length();
-#endif
-            file.Write(&len, sizeof(len));
-            file.Write(text.data(), sizeof(wchar_t)*len);
-        }
+        len = GetValue(m_composed, text);
+        file.Write(&len, sizeof(len));
+        file.Write((const wchar_t*)text, sizeof(wchar_t)*len);
     }
 
     event.Skip();
@@ -325,10 +326,36 @@ wxString wxZRColaComposerPanel::GetStateFileName()
 }
 
 
-void wxZRColaComposerPanel::GetHex(wxString &hex, ZRCola::mapping_vector &mapping, const wchar_t *src, size_t len)
+size_t wxZRColaComposerPanel::GetValue(wxTextCtrl *wnd, wxString &text)
 {
+#ifdef __WINDOWS__
+    // Use Windows GetWindowText() function to avoid line ending conversion incompletely imposed by wxWidgets.
+    WXHWND hWnd = wnd->GetHWND();
+    size_t len = ::GetWindowTextLengthW(hWnd);
+    if (len < 0x100) {
+        WCHAR buf[0x100];
+        ::GetWindowTextW(hWnd, buf, len + 1);
+        text.assign(buf, len);
+    } else {
+        LPWSTR buf = new WCHAR[len + 1];
+        ::GetWindowTextW(hWnd, buf, len + 1);
+        text.assign(buf, len);
+        delete [] buf;
+    }
+
+    return len;
+#else
+    text = wnd->GetValue();
+    return text.Length();
+#endif
+}
+
+
+void wxZRColaComposerPanel::SetHexValue(wxTextCtrl *wnd, std::pair<long, long> &range, ZRCola::mapping_vector &mapping, const wchar_t *src, size_t len, long from, long to)
+{
+    wxString hex;
     bool first = true;
-    hex.clear();
+
     mapping.clear();
     for (size_t i = 0; i < len && src[i]; i++) {
         wchar_t c = src[i];
@@ -341,6 +368,11 @@ void wxZRColaComposerPanel::GetHex(wxString &hex, ZRCola::mapping_vector &mappin
             first = false;
         }
     }
+
+    wnd->SetValue(hex);
+    wnd->SetSelection(
+        range.first  = mapping.to_dst(from),
+        range.second = mapping.to_dst(to  ));
 }
 
 

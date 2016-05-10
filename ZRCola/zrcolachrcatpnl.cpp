@@ -103,7 +103,6 @@ void wxZRColaCharacterCatalogPanel::OnGridClick(wxGridEvent& event)
     ZRColaApp *app = (ZRColaApp*)wxTheApp;
     if (app->m_mainWnd) {
         app->m_mainWnd->m_panel->m_decomposed->WriteText(m_grid->GetCellValue(event.GetRow(), event.GetCol()));
-        app->m_mainWnd->m_panel->m_decomposed->SendTextUpdatedEvent(); // Fixes #19: Premature EN_CHANGE event on EM_REPLACESEL.
         app->m_mainWnd->m_panel->m_decomposed->SetFocus();
     }
 
@@ -117,7 +116,6 @@ void wxZRColaCharacterCatalogPanel::OnGridKeyDown(wxKeyEvent& event)
         ZRColaApp *app = (ZRColaApp*)wxTheApp;
         if (app->m_mainWnd) {
             app->m_mainWnd->m_panel->m_decomposed->WriteText(m_grid->GetCellValue(m_grid->GetCursorRow(), m_grid->GetCursorColumn()));
-            app->m_mainWnd->m_panel->m_decomposed->SendTextUpdatedEvent(); // Fixes #19: Premature EN_CHANGE event on EM_REPLACESEL.
             app->m_mainWnd->m_panel->m_decomposed->SetFocus();
 
             event.StopPropagation();

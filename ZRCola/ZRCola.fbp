@@ -67,7 +67,7 @@
             <event name="OnEraseBackground"></event>
             <event name="OnHibernate"></event>
             <event name="OnIconize"></event>
-            <event name="OnIdle"></event>
+            <event name="OnIdle">OnIdle</event>
             <event name="OnKeyDown"></event>
             <event name="OnKeyUp"></event>
             <event name="OnKillFocus"></event>
