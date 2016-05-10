@@ -75,13 +75,24 @@ wxZRColaFrame::wxZRColaFrame() :
 
     // Load main window icons.
 #ifdef __WINDOWS__
+    wxIcon icon_small(wxT("00_zrcola.ico"), wxBITMAP_TYPE_ICO_RESOURCE, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON));
     wxIconBundle icons;
-    icons.AddIcon(wxIcon(wxT("00_zrcola.ico"), wxBITMAP_TYPE_ICO_RESOURCE, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON)));
+    icons.AddIcon(icon_small);
     icons.AddIcon(wxIcon(wxT("00_zrcola.ico"), wxBITMAP_TYPE_ICO_RESOURCE, ::GetSystemMetrics(SM_CXICON  ), ::GetSystemMetrics(SM_CYICON  )));
     SetIcons(icons);
 #else
-    SetIcon(wxICON(00_zrcola.ico));
+    wxIcon icon_small(wxICON(00_zrcola.ico));
+    SetIcon(icon_small);
 #endif
+
+    m_taskBarIcon = new wxTaskBarIcon();
+    if (m_taskBarIcon->IsOk()) {
+        m_taskBarIcon->SetIcon(icon_small, _("ZRCola"));
+        m_taskBarIcon->Connect(wxEVT_TASKBAR_LEFT_DOWN, wxTaskBarIconEventHandler(wxZRColaFrame::OnTaskbarIconClick), NULL, this);
+    } else {
+        // Taskbar icon creation failed. Not the end of the world. No taskbar icon then.
+        delete m_taskBarIcon;
+    }
 
     {
         // Populate language lists.
@@ -152,6 +163,11 @@ wxZRColaFrame::~wxZRColaFrame()
     // Unregister global hotkey(s).
     UnregisterHotKey(wxZRColaHKID_INVOKE_DECOMPOSE);
     UnregisterHotKey(wxZRColaHKID_INVOKE_COMPOSE);
+
+    if (m_taskBarIcon) {
+        m_taskBarIcon->Disconnect(wxEVT_TASKBAR_LEFT_DOWN, wxTaskBarIconEventHandler(wxZRColaFrame::OnTaskbarIconClick), NULL, this);
+        delete m_taskBarIcon;
+    }
 
     // Save wxAuiManager's state before return to parent's destructor.
     // Since the later calls m_mgr.UnInit() the regular persistence mechanism is useless to save wxAuiManager's state.
@@ -345,6 +361,25 @@ void wxZRColaFrame::OnDecompLanguageChoice(wxCommandEvent& event)
 void wxZRColaFrame::OnIdle(wxIdleEvent& event)
 {
     m_panel->SynchronizePanels();
+
+    event.Skip();
+}
+
+
+void wxZRColaFrame::OnTaskbarIconClick(wxTaskBarIconEvent& event)
+{
+    Iconize(false);
+    Show(true);
+    Raise();
+
+    event.Skip();
+}
+
+
+void wxZRColaFrame::OnIconize(wxIconizeEvent& event)
+{
+    if (m_taskBarIcon)
+        Show(!event.IsIconized());
 
     event.Skip();
 }

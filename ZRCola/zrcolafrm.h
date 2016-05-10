@@ -27,6 +27,7 @@ class wxZRColaFrame;
 
 #include "zrcolagui.h"
 #include <zrcola/language.h>
+#include <wx/taskbar.h>
 #include <wx/persist/toplevel.h>
 #if defined(__WXMSW__)
 #include <msctf.h>
@@ -79,6 +80,8 @@ protected:
     void OnDecomposedLanguage(wxCommandEvent& event);
     virtual void OnDecompLanguageChoice(wxCommandEvent& event);
     virtual void OnIdle(wxIdleEvent& event);
+    void OnTaskbarIconClick(wxTaskBarIconEvent& event);
+    virtual void OnIconize(wxIconizeEvent& event);
     void OnToolbarEditUpdate(wxUpdateUIEvent& event);
     void OnToolbarEdit(wxCommandEvent& event);
     void OnToolbarComposeUpdate(wxUpdateUIEvent& event);
@@ -118,6 +121,7 @@ protected:
     bool m_lang_auto;               ///< Automatic language selection according to keyboard layout
     ZRCola::langid_t m_lang;        ///< Language for decomposing
     WXHWND m_hWndSource;            ///< handle of the active window, when the ZRCola hotkey was pressed
+    wxTaskBarIcon *m_taskBarIcon;   ///< Taskbar icon
 };
 
 

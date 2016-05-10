@@ -77,6 +77,7 @@ class wxZRColaFrameBase : public wxFrame
 		wxStatusBar* m_statusBar;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void OnIconize( wxIconizeEvent& event ) { event.Skip(); }
 		virtual void OnIdle( wxIdleEvent& event ) { event.Skip(); }
 		virtual void OnDecompLanguageChoice( wxCommandEvent& event ) { event.Skip(); }
 		
