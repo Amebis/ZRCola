@@ -37,6 +37,8 @@ class wxZRColaComposerPanel;
 #include <wx/splitter.h>
 #include <wx/grid.h>
 #include <wx/srchctrl.h>
+#include <wx/checklst.h>
+#include <wx/stattext.h>
 #include <wx/valtext.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
@@ -177,10 +179,13 @@ class wxZRColaCharSelectBase : public wxDialog
 	
 	protected:
 		wxSearchCtrl* m_search;
+		wxCheckListBox* m_categories;
 		wxGrid* m_gridResults;
 		wxGrid* m_gridRecent;
+		wxStaticText* m_labelUnicode;
 		wxTextCtrl* m_unicode;
 		wxGrid* m_gridPreview;
+		wxTextCtrl* m_description;
 		wxGrid* m_gridRelated;
 		wxStdDialogButtonSizer* m_sdbSizerButtons;
 		wxButton* m_sdbSizerButtonsOK;

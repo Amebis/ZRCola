@@ -122,7 +122,7 @@ protected:
 protected:
     bool m_lang_auto;                   ///< Automatic language selection according to keyboard layout
     ZRCola::langid_t m_lang;            ///< Language for decomposing
-    WXHWND m_hWndSource;                ///< handle of the active window, when the ZRCola hotkey was pressed
+    WXHWND m_hWndSource;                ///< Handle of the active window, when the ZRCola hotkey was pressed
     wxTaskBarIcon *m_taskBarIcon;       ///< Taskbar icon
     wxZRColaCharSelect *m_chrSelect;    ///< Character selection dialog
 };

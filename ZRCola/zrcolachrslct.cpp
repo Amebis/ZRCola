@@ -29,6 +29,12 @@ wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) : wxZRColaCharSelectBas
     wxTextValidator *validator = dynamic_cast<wxTextValidator*>(m_unicode->GetValidator());
     if (validator)
         validator->SetCharIncludes(wxT("0123456789ABCDEFabcdef"));
+
+    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
+        const ZRCola::chrcat_db::chrcat &cc = app->m_cc_db.idxRnk[i];
+        m_categories->Check(m_categories->Insert(wxGetTranslation(wxString(cc.name, cc.name_len), wxT("ZRCola-zrcdb")), i));
+    }
 }
 
 

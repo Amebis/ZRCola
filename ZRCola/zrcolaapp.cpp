@@ -113,6 +113,21 @@ bool ZRColaApp::OnInit()
                             m_ks_db.idxKey.clear();
                             m_ks_db.data  .clear();
                         }
+                    } else if (id == ZRCola::character_rec::id) {
+                        dat >> ZRCola::character_rec(m_chr_db);
+                        if (!dat.good()) {
+                            wxFAIL_MSG(wxT("Error reading character data from ZRCola.zrcdb."));
+                            m_chr_db.idxChr.clear();
+                            m_chr_db.data  .clear();
+                        }
+                    } else if (id == ZRCola::chrcat_rec::id) {
+                        dat >> ZRCola::chrcat_rec(m_cc_db);
+                        if (!dat.good()) {
+                            wxFAIL_MSG(wxT("Error reading character category data from ZRCola.zrcdb."));
+                            m_cc_db.idxChrCat.clear();
+                            m_cc_db.idxRnk   .clear();
+                            m_cc_db.data     .clear();
+                        }
                     }
                 }
 

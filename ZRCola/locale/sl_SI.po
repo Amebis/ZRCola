@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-05-11 09:00+0200\n"
-"PO-Revision-Date: 2016-05-11 09:00+0200\n"
+"POT-Creation-Date: 2016-05-11 14:39+0200\n"
+"PO-Revision-Date: 2016-05-11 14:39+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: sl_SI\n"
@@ -17,7 +17,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: zrcolafrm.cpp:93 zrcolagui.h:93 MSIBuild/En.Win32.Release.Feature-2.idtx:4
+#: zrcolafrm.cpp:93 zrcolagui.h:95 MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
@@ -242,19 +242,19 @@ msgstr "Unicode sestavljenega"
 msgid "&Browse"
 msgstr "Pre&brskaj"
 
-#: zrcolagui.cpp:475
+#: zrcolagui.cpp:478
 msgid "Re&cently Used"
 msgstr "Nedavno &uporabljeni"
 
-#: zrcolagui.cpp:533
-msgid "&Unicode"
-msgstr "&Unicode"
-
-#: zrcolagui.cpp:545
+#: zrcolagui.cpp:536
 msgid "Preview"
 msgstr "Predogled"
 
-#: zrcolagui.cpp:580
+#: zrcolagui.cpp:541
+msgid "U+"
+msgstr "U+"
+
+#: zrcolagui.cpp:590
 msgid "Re&lated"
 msgstr "&Sorodni"
 
@@ -266,7 +266,7 @@ msgstr ""
 "Pritisnjena tipka INS. Zdaj vtpikajte kodo Unicode želenega znaka (do štiri "
 "šestnajstiške števke: 0-9, A-F), nato izpustite INS."
 
-#: zrcolagui.h:200
+#: zrcolagui.h:205
 msgid "Character Selector"
 msgstr "Izbirnik znaka"
 
@@ -284,6 +284,9 @@ msgstr "1250"
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
 msgid "Input system for linguistic use"
 msgstr "Vnašalni sistem za jezikoslovno rabo"
+
+#~ msgid "&Unicode"
+#~ msgstr "&Unicode"
 
 #~ msgid "Esc"
 #~ msgstr "Esc"
@@ -398,9 +401,6 @@ msgstr "Vnašalni sistem za jezikoslovno rabo"
 
 #~ msgid "-"
 #~ msgstr "-"
-
-#~ msgid "+"
-#~ msgstr "+"
 
 #~ msgid "["
 #~ msgstr "["

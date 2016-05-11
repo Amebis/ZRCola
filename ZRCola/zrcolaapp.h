@@ -29,6 +29,7 @@ class ZRColaApp;
 #include <wx/app.h>
 #include <wx/config.h>
 #include <wx/intl.h>
+#include <zrcola/character.h>
 #include <zrcola/language.h>
 #include <zrcola/translate.h>
 #include <zrcolaui/keyboard.h>
@@ -62,6 +63,8 @@ public:
     ZRCola::langchar_db m_lc_db;    ///< Language character database
     ZRCola::language_db m_lang_db;  ///< Language database
     ZRCola::keyseq_db m_ks_db;      ///< Key sequence database
+    ZRCola::character_db m_chr_db;  ///< Character database
+    ZRCola::chrcat_db m_cc_db;      ///< Characted category database
 
     wxZRColaFrame *m_mainWnd;       ///< Main window
 
