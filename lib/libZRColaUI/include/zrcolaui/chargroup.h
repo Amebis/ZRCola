@@ -55,7 +55,7 @@ namespace ZRCola {
         ///
         /// Rank index
         ///
-        class indexRnk : public index<unsigned __int16, unsigned __int32, chrgrp>
+        class indexRank : public index<unsigned __int16, unsigned __int32, chrgrp>
         {
         public:
             ///
@@ -63,7 +63,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexRnk(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, chrgrp>(h) {}
+            indexRank(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, chrgrp>(h) {}
 
             ///
             /// Compares two character groups by rank (for searching)

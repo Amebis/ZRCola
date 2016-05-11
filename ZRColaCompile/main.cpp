@@ -28,7 +28,7 @@
 ///
 /// \returns The stream \p stream
 ///
-inline std::ostream& operator <<(std::ostream& stream, const ZRCola::translation_db &db)
+inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::translation_db &db)
 {
     assert(db.idxComp.size() == db.idxDecomp.size());
 
@@ -84,7 +84,7 @@ inline std::ostream& operator <<(std::ostream& stream, const ZRCola::translation
 ///
 /// \returns The stream \p stream
 ///
-inline std::ostream& operator <<(std::ostream& stream, const ZRCola::keyseq_db &db)
+inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::keyseq_db &db)
 {
     assert(db.idxChr.size() == db.idxKey.size());
 
@@ -140,7 +140,7 @@ inline std::ostream& operator <<(std::ostream& stream, const ZRCola::keyseq_db &
 ///
 /// \returns The stream \p stream
 ///
-inline std::ostream& operator <<(std::ostream& stream, const ZRCola::language_db &db)
+inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::language_db &db)
 {
     unsigned __int32 count;
 
@@ -191,7 +191,7 @@ inline std::ostream& operator <<(std::ostream& stream, const ZRCola::language_db
 ///
 /// \returns The stream \p stream
 ///
-inline std::ostream& operator <<(std::ostream& stream, const ZRCola::langchar_db &db)
+inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::langchar_db &db)
 {
 #ifdef ZRCOLA_LANGCHAR_LANG_IDX
     assert(db.idxChr.size() == db.idxLng.size());
@@ -251,7 +251,7 @@ inline std::ostream& operator <<(std::ostream& stream, const ZRCola::langchar_db
 ///
 /// \returns The stream \p stream
 ///
-inline std::ostream& operator <<(std::ostream& stream, const ZRCola::chrgrp_db &db)
+inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::chrgrp_db &db)
 {
     unsigned __int32 count;
 
@@ -267,6 +267,110 @@ inline std::ostream& operator <<(std::ostream& stream, const ZRCola::chrgrp_db &
     if (stream.fail()) return stream;
     count = (unsigned __int32)ks_count;
     stream.write((const char*)&count, sizeof(count));
+
+    // Write rank index.
+    if (stream.fail()) return stream;
+    stream.write((const char*)db.idxRnk.data(), sizeof(unsigned __int32)*count);
+
+    // Write data count.
+    std::vector<unsigned __int16>::size_type data_count = db.data.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+    // 4G check
+    if (data_count > 0xffffffff) {
+        stream.setstate(std::ios_base::failbit);
+        return stream;
+    }
+#endif
+    if (stream.fail()) return stream;
+    count = (unsigned __int32)data_count;
+    stream.write((const char*)&count, sizeof(count));
+
+    // Write data.
+    if (stream.fail()) return stream;
+    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
+
+    return stream;
+}
+
+
+///
+/// Writes character database to a stream
+///
+/// \param[in] stream  Output stream
+/// \param[in] db      Character database
+///
+/// \returns The stream \p stream
+///
+inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::character_db &db)
+{
+    unsigned __int32 count;
+
+    // Write index count.
+    ZRCola::keyseq_db::indexChr::size_type ks_count = db.idxChr.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+    // 4G check
+    if (ks_count > 0xffffffff) {
+        stream.setstate(std::ios_base::failbit);
+        return stream;
+    }
+#endif
+    if (stream.fail()) return stream;
+    count = (unsigned __int32)ks_count;
+    stream.write((const char*)&count, sizeof(count));
+
+    // Write character index.
+    if (stream.fail()) return stream;
+    stream.write((const char*)db.idxChr.data(), sizeof(unsigned __int32)*count);
+
+    // Write data count.
+    std::vector<unsigned __int16>::size_type data_count = db.data.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+    // 4G check
+    if (data_count > 0xffffffff) {
+        stream.setstate(std::ios_base::failbit);
+        return stream;
+    }
+#endif
+    if (stream.fail()) return stream;
+    count = (unsigned __int32)data_count;
+    stream.write((const char*)&count, sizeof(count));
+
+    // Write data.
+    if (stream.fail()) return stream;
+    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
+
+    return stream;
+}
+
+
+///
+/// Writes character category database to a stream
+///
+/// \param[in] stream  Output stream
+/// \param[in] db      Character category database
+///
+/// \returns The stream \p stream
+///
+inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::chrcat_db &db)
+{
+    unsigned __int32 count;
+
+    // Write index count.
+    ZRCola::keyseq_db::indexChr::size_type ks_count = db.idxChrCat.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+    // 4G check
+    if (ks_count > 0xffffffff) {
+        stream.setstate(std::ios_base::failbit);
+        return stream;
+    }
+#endif
+    if (stream.fail()) return stream;
+    count = (unsigned __int32)ks_count;
+    stream.write((const char*)&count, sizeof(count));
+
+    // Write character category index.
+    if (stream.fail()) return stream;
+    stream.write((const char*)db.idxChrCat.data(), sizeof(unsigned __int32)*count);
 
     // Write rank index.
     if (stream.fail()) return stream;
@@ -652,6 +756,115 @@ int _tmain(int argc, _TCHAR *argv[])
             }
         } else {
             _ftprintf(stderr, wxT("%s: error ZCC0014: Error getting character groups from database. Please make sure the file is ZRCola.zrc compatible.\n"), (LPCTSTR)filenameIn.c_str());
+            has_errors = true;
+        }
+    }
+
+    {
+        // Get characters.
+        ATL::CComPtr<ADORecordset> rs;
+        if (src.SelectCharacters(rs)) {
+            size_t count = src.GetRecordsetCount(rs);
+            if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
+                ZRCola::DBSource::character chr;
+                ZRCola::character_db db;
+
+                // Preallocate memory.
+                db.idxChr.reserve(count);
+                db.data  .reserve(count*4);
+
+                // Parse characters and build index and data.
+                while (!ZRCola::DBSource::IsEOF(rs)) {
+                    // Read character from the database.
+                    if (src.GetCharacter(rs, chr)) {
+                        // Add character to index and data.
+                        unsigned __int32 idx = db.data.size();
+                        db.data.push_back((unsigned __int16)chr.chr);
+                        for (std::wstring::size_type i = 0; i < sizeof(ZRCola::chrcatid_t)/sizeof(unsigned __int16); i++)
+                            db.data.push_back(((const unsigned __int16*)chr.cat)[i]);
+                        std::wstring::size_type n_desc = chr.desc.length();
+                        wxASSERT_MSG(n_desc <= 0xffff, wxT("character description too long"));
+                        db.data.push_back((unsigned __int16)n_desc);
+                        std::wstring::size_type n_rel = chr.rel.length();
+                        wxASSERT_MSG(n_rel <= 0xffff, wxT("too many related characters"));
+                        db.data.push_back((unsigned __int16)n_rel);
+                        for (std::wstring::size_type i = 0; i < n_desc; i++)
+                            db.data.push_back(chr.desc[i]);
+                        for (std::wstring::size_type i = 0; i < n_rel; i++)
+                            db.data.push_back(chr.rel[i]);
+                        db.idxChr.push_back(idx);
+                    } else
+                        has_errors = true;
+
+                    wxVERIFY(SUCCEEDED(rs->MoveNext()));
+                }
+
+                // Sort indices.
+                db.idxChr.sort();
+
+                // Write characters to file.
+                dst << ZRCola::character_rec(db);
+            } else {
+                _ftprintf(stderr, wxT("%s: error ZCC0017: Error getting character count from database or too many characters.\n"), (LPCTSTR)filenameIn.c_str());
+                has_errors = true;
+            }
+        } else {
+            _ftprintf(stderr, wxT("%s: error ZCC0016: Error getting characters from database. Please make sure the file is ZRCola.zrc compatible.\n"), (LPCTSTR)filenameIn.c_str());
+            has_errors = true;
+        }
+    }
+
+    {
+        // Get character categories.
+        ATL::CComPtr<ADORecordset> rs;
+        if (src.SelectCharacterCategories(rs)) {
+            size_t count = src.GetRecordsetCount(rs);
+            if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
+                ZRCola::DBSource::chrcat cc;
+                ZRCola::chrcat_db db;
+
+                // Preallocate memory.
+                db.idxChrCat.reserve(count);
+                db.idxRnk   .reserve(count);
+                db.data     .reserve(count*4);
+
+                // Parse character categories and build index and data.
+                while (!ZRCola::DBSource::IsEOF(rs)) {
+                    // Read character category from the database.
+                    if (src.GetCharacterCategory(rs, cc)) {
+                        // Add character category to index and data.
+                        unsigned __int32 idx = db.data.size();
+                        for (std::wstring::size_type i = 0; i < sizeof(ZRCola::chrcatid_t)/sizeof(unsigned __int16); i++)
+                            db.data.push_back(((const unsigned __int16*)cc.id)[i]);
+                        wxASSERT_MSG((int)0xffff8000 <= cc.rank && cc.rank <= (int)0x00007fff, wxT("character category rank out of bounds"));
+                        db.data.push_back((unsigned __int16)cc.rank);
+                        std::wstring::size_type n_name = cc.name.length();
+                        wxASSERT_MSG(n_name <= 0xffff, wxT("character category name too long"));
+                        db.data.push_back((unsigned __int16)n_name);
+                        for (std::wstring::size_type i = 0; i < n_name; i++)
+                            db.data.push_back(cc.name[i]);
+                        db.idxChrCat.push_back(idx);
+                        db.idxRnk   .push_back(idx);
+                        if (build_pot)
+                            pot.insert(cc.name);
+                    } else
+                        has_errors = true;
+
+                    wxVERIFY(SUCCEEDED(rs->MoveNext()));
+                }
+
+                // Sort indices.
+                db.idxChrCat.sort();
+                db.idxRnk   .sort();
+
+                // Write character categories to file.
+                dst << ZRCola::chrcat_rec(db);
+            } else {
+                _ftprintf(stderr, wxT("%s: error ZCC0019: Error getting character category count from database or too many character categories.\n"), (LPCTSTR)filenameIn.c_str());
+                has_errors = true;
+            }
+        } else {
+            _ftprintf(stderr, wxT("%s: error ZCC0018: Error getting character categories from database. Please make sure the file is ZRCola.zrc compatible.\n"), (LPCTSTR)filenameIn.c_str());
             has_errors = true;
         }
     }

@@ -245,6 +245,21 @@ msgstr "Črka y"
 msgid "Letter z"
 msgstr "Črka z"
 
+msgid "Letter, Lowercase"
+msgstr "Črka, mala"
+
+msgid "Letter, Modifier"
+msgstr "Črka, spreminjevalo"
+
+msgid "Letter, Other"
+msgstr "Črka, drugo"
+
+msgid "Letter, Titlecase"
+msgstr "Črka, naslovna"
+
+msgid "Letter, Uppercase"
+msgstr "Črka, velika"
+
 msgid "Ligatures"
 msgstr "Ligature"
 
@@ -256,6 +271,15 @@ msgstr "makedonščina"
 
 msgid "Maltese"
 msgstr "malteščina"
+
+msgid "Mark, Enclosing"
+msgstr "Ločevalo, obdajajoča"
+
+msgid "Mark, Non-Spacing"
+msgstr "Ločevalo, neločljivo"
+
+msgid "Mark, Spacing Combining"
+msgstr "Ločevalo, ločljivo"
 
 msgid "Metric"
 msgstr "Metrično"
@@ -302,11 +326,29 @@ msgstr "Številka 8"
 msgid "Number 9"
 msgstr "Številka 9"
 
+msgid "Number, Decimal Digit"
+msgstr "Številka, desetiška števka"
+
+msgid "Number, Letter"
+msgstr "Številka, črka"
+
+msgid "Number, Other"
+msgstr "Številka, drugo"
+
 msgid "Numbers"
 msgstr "Številke"
 
 msgid "Numbers - Circled"
 msgstr "Številke - obkroženo"
+
+msgid "Other, Control"
+msgstr "Drugo, kontrolni"
+
+msgid "Other, Format"
+msgstr "Drugo, oblikovni"
+
+msgid "Other, Surrogate"
+msgstr "Drugo, nadomestni"
 
 msgid "Parentheses"
 msgstr "Oklepaji"
@@ -317,6 +359,27 @@ msgstr "poljščina"
 msgid "Portuguese"
 msgstr "portugalščina"
 
+msgid "Punctuation, Close"
+msgstr "Ločilo, zapiralno"
+
+msgid "Punctuation, Connector"
+msgstr "Ločilo, povezaj"
+
+msgid "Punctuation, Dash"
+msgstr "Ločilo, pomišljaj"
+
+msgid "Punctuation, Final quote"
+msgstr "Ločilo, zaključni narekovaj"
+
+msgid "Punctuation, Initial quote"
+msgstr "Ločilo, uvodni narekovaj"
+
+msgid "Punctuation, Open"
+msgstr "Ločilo, odpiralno"
+
+msgid "Punctuation, Other"
+msgstr "Ločilo, drugo"
+
 msgid "Quotes"
 msgstr "Narekovaji"
 
@@ -325,6 +388,15 @@ msgstr "romunščina"
 
 msgid "Russian"
 msgstr "ruščina"
+
+msgid "Separator, Line"
+msgstr "Ločilo, vrstic"
+
+msgid "Separator, Paragraph"
+msgstr "Ločilo, odstavkov"
+
+msgid "Separator, Space"
+msgstr "Ločilo, presledek"
 
 msgid "Serbian – Cyrillic"
 msgstr "srbščina – cirilica"
@@ -391,6 +463,18 @@ msgstr "Simbol >"
 
 msgid "Symbol ?"
 msgstr "Simbol ?"
+
+msgid "Symbol, Currency"
+msgstr "Simbol, valuta"
+
+msgid "Symbol, Math"
+msgstr "Simbol, matematični"
+
+msgid "Symbol, Modifier"
+msgstr "Simbol, ločevalo"
+
+msgid "Symbol, Other"
+msgstr "Simbol, drugo"
 
 msgid "Turkish"
 msgstr "turščina"

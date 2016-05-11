@@ -47,6 +47,9 @@
     <ClInclude Include="..\include\zrcola\language.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\zrcola\character.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\res\libZRCola.rc">

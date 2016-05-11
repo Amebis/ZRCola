@@ -31,6 +31,7 @@
     <ClCompile Include="..\src\translate.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\zrcola\character.h" />
     <ClInclude Include="..\include\zrcola\common.h" />
     <ClInclude Include="..\include\zrcola\language.h" />
     <ClInclude Include="..\include\zrcola\normalize.h" />

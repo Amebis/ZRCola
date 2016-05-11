@@ -5,7 +5,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: ZRColaCompile 2.0-alpha6\n"
+"X-Generator: ZRColaCompile 2.0-alpha7\n"
 
 msgid "Albanian"
 msgstr ""
@@ -238,6 +238,21 @@ msgstr ""
 msgid "Letter z"
 msgstr ""
 
+msgid "Letter, Lowercase"
+msgstr ""
+
+msgid "Letter, Modifier"
+msgstr ""
+
+msgid "Letter, Other"
+msgstr ""
+
+msgid "Letter, Titlecase"
+msgstr ""
+
+msgid "Letter, Uppercase"
+msgstr ""
+
 msgid "Ligatures"
 msgstr ""
 
@@ -248,6 +263,15 @@ msgid "Macedonian"
 msgstr ""
 
 msgid "Maltese"
+msgstr ""
+
+msgid "Mark, Enclosing"
+msgstr ""
+
+msgid "Mark, Non-Spacing"
+msgstr ""
+
+msgid "Mark, Spacing Combining"
 msgstr ""
 
 msgid "Metric"
@@ -295,10 +319,28 @@ msgstr ""
 msgid "Number 9"
 msgstr ""
 
+msgid "Number, Decimal Digit"
+msgstr ""
+
+msgid "Number, Letter"
+msgstr ""
+
+msgid "Number, Other"
+msgstr ""
+
 msgid "Numbers"
 msgstr ""
 
 msgid "Numbers - Circled"
+msgstr ""
+
+msgid "Other, Control"
+msgstr ""
+
+msgid "Other, Format"
+msgstr ""
+
+msgid "Other, Surrogate"
 msgstr ""
 
 msgid "Parentheses"
@@ -310,6 +352,27 @@ msgstr ""
 msgid "Portuguese"
 msgstr ""
 
+msgid "Punctuation, Close"
+msgstr ""
+
+msgid "Punctuation, Connector"
+msgstr ""
+
+msgid "Punctuation, Dash"
+msgstr ""
+
+msgid "Punctuation, Final quote"
+msgstr ""
+
+msgid "Punctuation, Initial quote"
+msgstr ""
+
+msgid "Punctuation, Open"
+msgstr ""
+
+msgid "Punctuation, Other"
+msgstr ""
+
 msgid "Quotes"
 msgstr ""
 
@@ -317,6 +380,15 @@ msgid "Romanian"
 msgstr ""
 
 msgid "Russian"
+msgstr ""
+
+msgid "Separator, Line"
+msgstr ""
+
+msgid "Separator, Paragraph"
+msgstr ""
+
+msgid "Separator, Space"
 msgstr ""
 
 msgid "Serbian – Cyrillic"
@@ -383,6 +455,18 @@ msgid "Symbol >"
 msgstr ""
 
 msgid "Symbol ?"
+msgstr ""
+
+msgid "Symbol, Currency"
+msgstr ""
+
+msgid "Symbol, Math"
+msgstr ""
+
+msgid "Symbol, Modifier"
+msgstr ""
+
+msgid "Symbol, Other"
 msgstr ""
 
 msgid "Turkish"

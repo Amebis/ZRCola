@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include <zrcola/character.h>
 #include <zrcola/common.h>
 
 #include <atlbase.h>
@@ -95,6 +96,30 @@ namespace ZRCola {
             int rank;                   ///< Character group rank
             std::wstring name;          ///< Character group name
             std::wstring chars;         ///< Character group characters
+        };
+
+
+        ///
+        /// Character
+        ///
+        class character {
+        public:
+            wchar_t chr;                ///< Character
+            ZRCola::chrcatid_t cat;     ///> Category ID
+            std::wstring desc;          ///< Character description
+            std::wstring keywords;      ///< Additional keywords
+            std::wstring rel;           ///< Related characters
+        };
+
+
+        ///
+        /// Character category
+        ///
+        class chrcat {
+        public:
+            ZRCola::chrcatid_t id;      ///> Category ID
+            int rank;                   ///< Character category rank
+            std::wstring name;          ///< Character category name
         };
 
 
@@ -243,6 +268,19 @@ namespace ZRCola {
 
 
         ///
+        /// Gets character category ID from ZRCola.zrc database
+        ///
+        /// \param[in]  f   Data field
+        /// \param[out] cc  Character category
+        ///
+        /// \returns
+        /// - true when successful
+        /// - false otherwise
+        ///
+        bool GetChrCat(const ATL::CComPtr<ADOField>& f, chrcatid_t& cc) const;
+
+
+        ///
         /// Returns character translations
         ///
         /// \param[out] rs  Recordset with results
@@ -365,6 +403,54 @@ namespace ZRCola {
         /// - false otherwise
         ///
         bool GetCharacterGroup(const ATL::CComPtr<ADORecordset>& rs, chrgrp& cg) const;
+
+        ///
+        /// Returns characters
+        ///
+        /// \param[out] rs  Recordset with results
+        ///
+        /// \returns
+        /// - true when query succeeds
+        /// - false otherwise
+        ///
+        bool SelectCharacters(ATL::CComPtr<ADORecordset>& rs) const;
+
+
+        ///
+        /// Returns character data
+        ///
+        /// \param[in]  rs    Recordset with results
+        /// \param[out] chr   Character
+        ///
+        /// \returns
+        /// - true when succeeded
+        /// - false otherwise
+        ///
+        bool GetCharacter(const ATL::CComPtr<ADORecordset>& rs, character& chr) const;
+
+        ///
+        /// Returns character categories
+        ///
+        /// \param[out] rs  Recordset with results
+        ///
+        /// \returns
+        /// - true when query succeeds
+        /// - false otherwise
+        ///
+        bool SelectCharacterCategories(ATL::CComPtr<ADORecordset>& rs) const;
+
+
+        ///
+        /// Returns character category data
+        ///
+        /// \param[in]  rs    Recordset with results
+        /// \param[out] cc    Character category
+        ///
+        /// \returns
+        /// - true when succeeded
+        /// - false otherwise
+        ///
+        bool GetCharacterCategory(const ATL::CComPtr<ADORecordset>& rs, chrcat& cc) const;
 
     protected:
         std::basic_string<TCHAR> m_filename;    ///< Database filename
