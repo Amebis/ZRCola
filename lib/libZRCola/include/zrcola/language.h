@@ -238,27 +238,6 @@ namespace ZRCola {
 
                 return 0;
             }
-
-            ///
-            /// Compares two languages by ID (for sorting)
-            ///
-            /// \param[in] a  Pointer to first element
-            /// \param[in] b  Pointer to second element
-            ///
-            /// \returns
-            /// - <0 when a <  b
-            /// - =0 when a == b
-            /// - >0 when a >  b
-            ///
-            virtual int compare_sort(_In_ const language &a, _In_ const language &b) const
-            {
-                int r = memcmp(a.id, b.id, sizeof(langid_t));
-                if (r != 0) return r;
-
-                // As the language ID must not duplicate, further comparison is pointless.
-
-                return 0;
-            }
         } idxLng;      ///< Language index
 
         std::vector<unsigned __int16> data;     ///< Language data

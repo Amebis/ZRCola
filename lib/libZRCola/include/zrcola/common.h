@@ -182,7 +182,11 @@ namespace ZRCola {
         /// - =0 when a == b
         /// - >0 when a >  b
         ///
-        virtual int compare_sort(_In_ const T_data &a, _In_ const T_data &b) const = 0;
+        virtual int compare_sort(_In_ const T_data &a, _In_ const T_data &b) const
+        {
+            // Revert to `compare()` by default.
+            return compare(a, b);
+        }
 
 
         ///
