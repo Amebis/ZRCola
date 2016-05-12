@@ -683,6 +683,7 @@ bool ZRCola::DBSource::GetCharacter(const ATL::CComPtr<ADORecordset>& rs, charac
     ATL::CComPtr<ADOFields> flds;
     wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
     wchar_t c;
+    chr.rel.clear();
 
     {
         ATL::CComPtr<ADOField> f;
@@ -737,7 +738,7 @@ bool ZRCola::DBSource::SelectCharacterCategories(ATL::CComPtr<ADORecordset>& rs)
     // Open it.
     if (FAILED(rs->Open(ATL::CComVariant(
         L"SELECT DISTINCT [kat], [opis_en], [Rang] "
-        L"FROM [VRS_CharCategories] "
+        L"FROM [VRS_CharCategory] "
         L"ORDER BY [Rang], [opis_en]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
     {
         _ftprintf(stderr, wxT("%s: error ZCC0130: Error loading character categories from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
