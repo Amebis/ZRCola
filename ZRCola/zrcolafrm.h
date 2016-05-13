@@ -27,6 +27,7 @@ class wxZRColaFrame;
 
 #include "zrcolagui.h"
 #include "zrcolachrslct.h"
+#include "zrcolasettings.h"
 #include <zrcola/language.h>
 #include <wx/taskbar.h>
 #include <wx/persist/toplevel.h>
@@ -54,9 +55,7 @@ class wxZRColaFrame :
 public:
     enum
     {
-        wxID_DECOMP_LANGUAGE_START  = 6000,
-        wxID_DECOMP_LANGUAGE_END    = 6099,
-        wxID_FOCUS_CHARACTER_CATALOG,
+        wxID_FOCUS_CHARACTER_CATALOG = 2000,
     };
 
     wxZRColaFrame();
@@ -66,8 +65,6 @@ public:
     friend class wxZRColaComposerPanel;
 
 protected:
-    void OnAutostartUpdate(wxUpdateUIEvent& event);
-    void OnAutostart(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
     void OnForwardEventUpdate(wxUpdateUIEvent& event);
     void OnForwardEvent(wxCommandEvent& event);
@@ -76,11 +73,7 @@ protected:
     void OnSendComposed(wxCommandEvent& event);
     void OnSendDecomposed(wxCommandEvent& event);
     void OnSendAbort(wxCommandEvent& event);
-    void OnDecomposedLanguageAutoUpdate(wxUpdateUIEvent& event);
-    void OnDecomposedLanguageAuto(wxCommandEvent& event);
-    void OnDecomposedLanguageUpdate(wxUpdateUIEvent& event);
-    void OnDecomposedLanguage(wxCommandEvent& event);
-    virtual void OnDecompLanguageChoice(wxCommandEvent& event);
+    void OnSettings(wxCommandEvent& event);
     virtual void OnIdle(wxIdleEvent& event);
     void OnTaskbarIconClick(wxTaskBarIconEvent& event);
     virtual void OnIconize(wxIconizeEvent& event);
@@ -113,7 +106,6 @@ protected:
 
 private:
     void DoSend(const wxString& str);
-    void UpdateDecomposedLanguage();
 
 protected:
 #ifdef __WXMSW__
@@ -121,11 +113,10 @@ protected:
 #endif
 
 protected:
-    bool m_lang_auto;                   ///< Automatic language selection according to keyboard layout
-    ZRCola::langid_t m_lang;            ///< Language for decomposing
     WXHWND m_hWndSource;                ///< Handle of the active window, when the ZRCola hotkey was pressed
     wxTaskBarIcon *m_taskBarIcon;       ///< Taskbar icon
     wxZRColaCharSelect *m_chrSelect;    ///< Character selection dialog
+    wxZRColaSettings *m_settings;       ///< Configuration dialog
 };
 
 

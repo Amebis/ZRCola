@@ -25,7 +25,6 @@ class wxZRColaCharGrid;
 #include <wx/settings.h>
 #include <wx/aui/aui.h>
 #include <wx/aui/auibar.h>
-#include <wx/choice.h>
 class wxZRColaCharacterCatalogPanel;
 class wxZRColaComposerPanel;
 #include <wx/statusbr.h>
@@ -36,12 +35,18 @@ class wxZRColaComposerPanel;
 #include <wx/panel.h>
 #include <wx/splitter.h>
 #include <wx/timer.h>
+#include <wx/choice.h>
 #include <wx/grid.h>
 #include <wx/srchctrl.h>
 #include <wx/checklst.h>
 #include <wx/stattext.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
+#include <wx/radiobut.h>
+#include <wx/listbox.h>
+#include <wx/checkbox.h>
+#include <wx/listbook.h>
+#include <wx/listctrl.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -55,12 +60,11 @@ class wxZRColaFrameBase : public wxFrame
 	protected:
 		enum
 		{
-			wxID_AUTOSTART = 1000,
-			wxID_CHARACTER_SELECTOR,
+			wxID_CHARACTER_SELECTOR = 1000,
 			wxID_SEND_COMPOSED,
 			wxID_SEND_DECOMPOSED,
 			wxID_SEND_ABORT,
-			wxID_DECOMP_LANG_AUTO,
+			wxID_SETTINGS,
 			wxID_TOOLBAR_EDIT,
 			wxID_TOOLBAR_COMPOSE,
 			wxID_PANEL_CHRGRPS,
@@ -70,7 +74,6 @@ class wxZRColaFrameBase : public wxFrame
 		wxMenuBar* m_menubar;
 		wxMenu* m_menuProgram;
 		wxMenu* m_menuEdit;
-		wxMenu* m_menuDecompLanguage;
 		wxMenu* m_menuView;
 		wxMenu* m_menuHelp;
 		wxAuiToolBar* m_toolbarEdit;
@@ -81,14 +84,12 @@ class wxZRColaFrameBase : public wxFrame
 		wxAuiToolBarItem* m_toolCharSelect; 
 		wxAuiToolBarItem* m_toolSendComposed; 
 		wxAuiToolBarItem* m_toolSendDecomposed; 
-		wxChoice* m_toolDecompLanguage;
 		wxZRColaCharacterCatalogPanel* m_panelChrCat;
 		wxStatusBar* m_statusBar;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnIconize( wxIconizeEvent& event ) { event.Skip(); }
 		virtual void OnIdle( wxIdleEvent& event ) { event.Skip(); }
-		virtual void OnDecompLanguageChoice( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
@@ -220,6 +221,43 @@ class wxZRColaCharSelectBase : public wxDialog
 		
 		wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Character Selector"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaCharSelect") ); 
 		~wxZRColaCharSelectBase();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class wxZRColaSettingsBase
+///////////////////////////////////////////////////////////////////////////////
+class wxZRColaSettingsBase : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxListbook* m_listbook;
+		wxPanel* m_panelLanguage;
+		wxStaticText* m_langLabel;
+		wxRadioButton* m_langAuto;
+		wxRadioButton* m_langManual;
+		wxListBox* m_languages;
+		wxPanel* m_panelAutoStart;
+		wxStaticText* m_autoStartLabel;
+		wxCheckBox* m_autoStart;
+		wxStdDialogButtonSizer* m_sdbSizerButtons;
+		wxButton* m_sdbSizerButtonsOK;
+		wxButton* m_sdbSizerButtonsApply;
+		wxButton* m_sdbSizerButtonsCancel;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnInitDialog( wxInitDialogEvent& event ) { event.Skip(); }
+		virtual void OnLangAuto( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnLangManual( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnApplyButtonClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		wxZRColaSettingsBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Settings"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaSettings") ); 
+		~wxZRColaSettingsBase();
 	
 };
 

@@ -25,46 +25,40 @@
 //////////////////////////////////////////////////////////////////////////
 
 wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
-    EVT_UPDATE_UI      (wxID_AUTOSTART                                      , wxZRColaFrame::OnAutostartUpdate             )
-    EVT_MENU           (wxID_AUTOSTART                                      , wxZRColaFrame::OnAutostart                   )
-    EVT_MENU           (wxID_EXIT                                           , wxZRColaFrame::OnExit                        )
+    EVT_MENU           (wxID_EXIT                                  , wxZRColaFrame::OnExit                       )
 
-    EVT_UPDATE_UI_RANGE(wxID_CUT                  , wxID_CLEAR              , wxZRColaFrame::OnForwardEventUpdate          )
-    EVT_MENU_RANGE     (wxID_CUT                  , wxID_CLEAR              , wxZRColaFrame::OnForwardEvent                )
-    EVT_UPDATE_UI      (wxID_SELECTALL                                      , wxZRColaFrame::OnForwardEventUpdate          )
-    EVT_MENU           (wxID_SELECTALL                                      , wxZRColaFrame::OnForwardEvent                )
+    EVT_UPDATE_UI_RANGE(wxID_CUT                  , wxID_CLEAR     , wxZRColaFrame::OnForwardEventUpdate         )
+    EVT_MENU_RANGE     (wxID_CUT                  , wxID_CLEAR     , wxZRColaFrame::OnForwardEvent               )
+    EVT_UPDATE_UI      (wxID_SELECTALL                             , wxZRColaFrame::OnForwardEventUpdate         )
+    EVT_MENU           (wxID_SELECTALL                             , wxZRColaFrame::OnForwardEvent               )
 
-    EVT_UPDATE_UI_RANGE(wxID_SEND_COMPOSED        , wxID_SEND_ABORT         , wxZRColaFrame::OnSendUpdate                  )
-    EVT_MENU           (wxID_SEND_COMPOSED                                  , wxZRColaFrame::OnSendComposed                )
-    EVT_MENU           (wxID_SEND_DECOMPOSED                                , wxZRColaFrame::OnSendDecomposed              )
-    EVT_MENU           (wxID_SEND_ABORT                                     , wxZRColaFrame::OnSendAbort                   )
+    EVT_MENU           (wxID_CHARACTER_SELECTOR                    , wxZRColaFrame::OnInsertCharacter            )
 
-    EVT_MENU           (wxID_CHARACTER_SELECTOR                               , wxZRColaFrame::OnInsertCharacter             )
+    EVT_UPDATE_UI_RANGE(wxID_SEND_COMPOSED        , wxID_SEND_ABORT, wxZRColaFrame::OnSendUpdate                 )
+    EVT_MENU           (wxID_SEND_COMPOSED                         , wxZRColaFrame::OnSendComposed               )
+    EVT_MENU           (wxID_SEND_DECOMPOSED                       , wxZRColaFrame::OnSendDecomposed             )
+    EVT_MENU           (wxID_SEND_ABORT                            , wxZRColaFrame::OnSendAbort                  )
 
-    EVT_UPDATE_UI      (wxID_DECOMP_LANG_AUTO                               , wxZRColaFrame::OnDecomposedLanguageAutoUpdate)
-    EVT_MENU           (wxID_DECOMP_LANG_AUTO                               , wxZRColaFrame::OnDecomposedLanguageAuto      )
-    EVT_UPDATE_UI_RANGE(wxID_DECOMP_LANGUAGE_START, wxID_DECOMP_LANGUAGE_END, wxZRColaFrame::OnDecomposedLanguageUpdate    )
-    EVT_MENU_RANGE     (wxID_DECOMP_LANGUAGE_START, wxID_DECOMP_LANGUAGE_END, wxZRColaFrame::OnDecomposedLanguage          )
+    EVT_MENU           (wxID_SETTINGS                              , wxZRColaFrame::OnSettings                   )
 
-    EVT_UPDATE_UI      (wxID_TOOLBAR_EDIT                                   , wxZRColaFrame::OnToolbarEditUpdate           )
-    EVT_MENU           (wxID_TOOLBAR_EDIT                                   , wxZRColaFrame::OnToolbarEdit                 )
-    EVT_UPDATE_UI      (wxID_TOOLBAR_COMPOSE                                , wxZRColaFrame::OnToolbarComposeUpdate        )
-    EVT_MENU           (wxID_TOOLBAR_COMPOSE                                , wxZRColaFrame::OnToolbarCompose              )
-    EVT_UPDATE_UI      (wxID_PANEL_CHRGRPS                                  , wxZRColaFrame::OnPanelCharacterCatalogUpdate )
-    EVT_MENU           (wxID_PANEL_CHRGRPS                                  , wxZRColaFrame::OnPanelCharacterCatalog       )
-    EVT_MENU           (wxID_FOCUS_CHARACTER_CATALOG                        , wxZRColaFrame::OnPanelCharacterCatalogFocus  )
+    EVT_UPDATE_UI      (wxID_TOOLBAR_EDIT                          , wxZRColaFrame::OnToolbarEditUpdate          )
+    EVT_MENU           (wxID_TOOLBAR_EDIT                          , wxZRColaFrame::OnToolbarEdit                )
+    EVT_UPDATE_UI      (wxID_TOOLBAR_COMPOSE                       , wxZRColaFrame::OnToolbarComposeUpdate       )
+    EVT_MENU           (wxID_TOOLBAR_COMPOSE                       , wxZRColaFrame::OnToolbarCompose             )
+    EVT_UPDATE_UI      (wxID_PANEL_CHRGRPS                         , wxZRColaFrame::OnPanelCharacterCatalogUpdate)
+    EVT_MENU           (wxID_PANEL_CHRGRPS                         , wxZRColaFrame::OnPanelCharacterCatalog      )
+    EVT_MENU           (wxID_FOCUS_CHARACTER_CATALOG               , wxZRColaFrame::OnPanelCharacterCatalogFocus )
 
-    EVT_MENU           (wxID_HELP_REQCHAR                                   , wxZRColaFrame::OnHelpReqChar                 )
+    EVT_MENU           (wxID_HELP_REQCHAR                          , wxZRColaFrame::OnHelpReqChar                )
 
-    EVT_MENU           (wxID_ABOUT                                          , wxZRColaFrame::OnAbout                       )
+    EVT_MENU           (wxID_ABOUT                                 , wxZRColaFrame::OnAbout                      )
 wxEND_EVENT_TABLE()
 
 
 wxZRColaFrame::wxZRColaFrame() :
-    m_lang_auto(true),
-    m_lang(ZRCola::langid_t_blank),
     m_hWndSource(NULL),
     m_chrSelect(NULL),
+    m_settings(NULL),
     wxZRColaFrameBase(NULL)
 {
     {
@@ -100,29 +94,14 @@ wxZRColaFrame::wxZRColaFrame() :
         delete m_taskBarIcon;
     }
 
-    {
-        // Populate language lists.
-        ZRColaApp *app = ((ZRColaApp*)wxTheApp);
-        m_toolDecompLanguage->Clear();
-        wxString label1_tran(_("Select %s language for decomposition"));
-        for (size_t i = 0, n = app->m_lang_db.idxLng.size(); i < n; i++) {
-            const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[i];
-            wxString
-                label(lang.name, lang.name_len),
-                label_tran2(wxGetTranslation(label, wxT("ZRCola-zrcdb")));
-            if (i < wxID_DECOMP_LANGUAGE_END - wxID_DECOMP_LANGUAGE_START + 1)
-                m_menuDecompLanguage->AppendRadioItem(wxID_DECOMP_LANGUAGE_START + i, label_tran2, wxString::Format(label1_tran, (const wxStringCharType*)label_tran2));
-            m_toolDecompLanguage->Insert(label_tran2, i);
-            if (m_lang == lang.id)
-                m_toolDecompLanguage->Select(i);
-        }
-    }
-
-    // Set focus.
-    m_panel->m_decomposed->SetFocus();
+    m_settings = new wxZRColaSettings(this);
+    wxPersistentRegisterAndRestore<wxZRColaSettings>(m_settings);
 
     m_chrSelect = new wxZRColaCharSelect(this);
     wxPersistentRegisterAndRestore<wxZRColaCharSelect>(m_chrSelect);
+
+    // Set focus.
+    m_panel->m_decomposed->SetFocus();
 
     // Register global hotkey(s).
     if (!RegisterHotKey(wxZRColaHKID_INVOKE_COMPOSE, wxMOD_WIN, VK_F5))
@@ -175,6 +154,9 @@ wxZRColaFrame::~wxZRColaFrame()
     if (m_chrSelect)
         delete m_chrSelect;
 
+    if (m_settings)
+        delete m_settings;
+
     if (m_taskBarIcon) {
         m_taskBarIcon->Disconnect(wxEVT_TASKBAR_LEFT_DOWN, wxTaskBarIconEventHandler(wxZRColaFrame::OnTaskbarIconClick), NULL, this);
         delete m_taskBarIcon;
@@ -183,51 +165,6 @@ wxZRColaFrame::~wxZRColaFrame()
     // Save wxAuiManager's state before return to parent's destructor.
     // Since the later calls m_mgr.UnInit() the regular persistence mechanism is useless to save wxAuiManager's state.
     wxPersistentAuiManager((wxAuiManager*)&m_mgr).Save();
-}
-
-
-void wxZRColaFrame::OnAutostartUpdate(wxUpdateUIEvent& event)
-{
-#if defined(__WXMSW__)
-    wxString linkName(wxExpandEnvVars("%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\ZRCola.lnk"));
-    event.Check(wxFileExists(linkName));
-#else
-    event.Enable(false);
-#endif
-}
-
-
-void wxZRColaFrame::OnAutostart(wxCommandEvent& event)
-{
-#if defined(__WXMSW__)
-    wxString linkName(wxExpandEnvVars("%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\ZRCola.lnk"));
-    if (wxFileExists(linkName)) {
-        // The shortcut already exists. Remove it.
-        wxRemoveFile(linkName);
-    } else {
-        // Create the shortcut.
-        IShellLink *sl;
-        HRESULT hr = ::CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID*)&sl);
-        if (SUCCEEDED(hr)) {
-            // Setup ZRCola shortcut.
-            sl->SetPath(wxTheApp->argv[0]);
-            sl->SetDescription(_("Start ZRCola automatically on logon"));
-            sl->SetShowCmd(SW_SHOWMINNOACTIVE);
-
-            // Query IShellLink for the IPersistFile interface, used for saving the
-            // shortcut in persistent storage.
-            IPersistFile *pf;
-            hr = sl->QueryInterface(IID_IPersistFile, (LPVOID*)&pf);
-            if (SUCCEEDED(hr)) {
-                // Save the link by calling IPersistFile::Save.
-                hr = pf->Save(linkName, TRUE);
-                pf->Release();
-            }
-
-            sl->Release();
-        }
-    }
-#endif
 }
 
 
@@ -307,74 +244,9 @@ void wxZRColaFrame::OnSendAbort(wxCommandEvent& event)
 }
 
 
-void wxZRColaFrame::OnDecomposedLanguageAutoUpdate(wxUpdateUIEvent& event)
+void wxZRColaFrame::OnSettings(wxCommandEvent& event)
 {
-#if defined(__WXMSW__)
-    event.Check(m_lang_auto);
-#else
-    event.Enable(false);
-#endif
-}
-
-
-void wxZRColaFrame::OnDecomposedLanguageAuto(wxCommandEvent& event)
-{
-    // Toggle auto language flag.
-    m_lang_auto = !m_lang_auto;
-
-    if (m_lang_auto) {
-#if defined(__WXMSW__)
-        // Set keyboard language.
-        HKL hkl = ::GetKeyboardLayout(0);
-        ZRCola::LangConvert(LOWORD(hkl), m_lang);
-        UpdateDecomposedLanguage();
-#endif
-    }
-}
-
-
-void wxZRColaFrame::OnDecomposedLanguageUpdate(wxUpdateUIEvent& event)
-{
-    ZRColaApp *app = ((ZRColaApp*)wxTheApp);
-    const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[event.GetId() - wxID_DECOMP_LANGUAGE_START];
-    event.Check(m_lang == lang.id);
-}
-
-
-void wxZRColaFrame::OnDecomposedLanguage(wxCommandEvent& event)
-{
-    ZRColaApp *app = ((ZRColaApp*)wxTheApp);
-    size_t i = event.GetId() - wxID_DECOMP_LANGUAGE_START;
-    const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[i];
-
-    if (m_lang != lang.id) {
-        m_lang = lang.id;
-        m_toolDecompLanguage->Select(i);
-
-        // Notify composed text something changed and should re-decompose.
-        wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
-        m_panel->m_composed->ProcessWindowEvent(event2);
-        m_lang_auto = false;
-    }
-}
-
-
-void wxZRColaFrame::OnDecompLanguageChoice(wxCommandEvent& event)
-{
-    ZRColaApp *app = ((ZRColaApp*)wxTheApp);
-    size_t i = event.GetSelection();
-    const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[i];
-
-    if (m_lang != lang.id) {
-        m_lang = lang.id;
-
-        // Notify composed text something changed and should re-decompose.
-        wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
-        m_panel->m_composed->ProcessWindowEvent(event2);
-        m_lang_auto = false;
-    }
-
-    event.Skip();
+    m_settings->ShowModal();
 }
 
 
@@ -482,11 +354,10 @@ HRESULT STDMETHODCALLTYPE wxZRColaFrame::OnLanguageChange(LANGID langid, __RPC__
 
 HRESULT STDMETHODCALLTYPE wxZRColaFrame::OnLanguageChanged()
 {
-    if (m_lang_auto) {
+    if (m_settings->m_lang_auto) {
         // Set keyboard language.
         HKL hkl = ::GetKeyboardLayout(0);
-        ZRCola::LangConvert(LOWORD(hkl), m_lang);
-        UpdateDecomposedLanguage();
+        ZRCola::LangConvert(LOWORD(hkl), m_settings->m_lang);
     }
 
     return S_OK;
@@ -565,20 +436,6 @@ void wxZRColaFrame::DoSend(const wxString& str)
 }
 
 
-void wxZRColaFrame::UpdateDecomposedLanguage()
-{
-    ZRColaApp *app = ((ZRColaApp*)wxTheApp);
-
-    // Find language on the language list.
-    ZRCola::language_db::language *l = new ZRCola::language_db::language;
-    l->id = m_lang;
-    l->name_len = 0;
-    ZRCola::language_db::indexLang::size_type start;
-    m_toolDecompLanguage->SetSelection(app->m_lang_db.idxLng.find(*l, start) ? start : -1);
-    delete l;
-}
-
-
 #ifdef __WXMSW__
 
 WXLRESULT wxZRColaFrame::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam)
@@ -646,8 +503,6 @@ void wxPersistentZRColaFrame::Save() const
     wxPersistentZRColaComposerPanel(wnd->m_panel).Save();
     wxPersistentZRColaCharacterCatalogPanel(wnd->m_panelChrCat).Save();
 
-    SaveValue(wxT("langAuto" ), wnd->m_lang_auto);
-    SaveValue(wxT("lang"     ), wxString::FromAscii(wnd->m_lang.data, _countof(wnd->m_lang.data)));
     wxPersistentTLW::Save();
 }
 
@@ -657,27 +512,6 @@ bool wxPersistentZRColaFrame::Restore()
     const bool r = wxPersistentTLW::Restore();
 
     wxZRColaFrame * const wnd = static_cast<wxZRColaFrame*>(GetWindow());
-
-    ZRColaApp *app = ((ZRColaApp*)wxTheApp);
-    wxString lang;
-
-    // Restore automatic language detection setting first.
-    RestoreValue(wxT("langAuto"), &(wnd->m_lang_auto));
-    if (wnd->m_lang_auto) {
-#if defined(__WXMSW__)
-        // Set keyboard language.
-        HKL hkl = ::GetKeyboardLayout(0);
-        ZRCola::LangConvert(LOWORD(hkl), wnd->m_lang);
-#endif
-    } else if (RestoreValue(wxT("lang"), &lang) && lang.Length() == 3) {
-        // The language was read from configuration.
-        wnd->m_lang = lang.c_str();
-    } else if (!app->m_lang_db.idxLng.empty()) {
-        const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[0];
-        wnd->m_lang = lang.id;
-    } else
-        wnd->m_lang = ZRCola::langid_t_blank;
-    wnd->UpdateDecomposedLanguage();
 
     wxPersistentZRColaCharacterCatalogPanel(wnd->m_panelChrCat).Restore();
     wxPersistentZRColaComposerPanel(wnd->m_panel).Restore();

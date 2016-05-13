@@ -32,12 +32,6 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	
 	m_menubar = new wxMenuBar( 0 );
 	m_menuProgram = new wxMenu();
-	wxMenuItem* m_menuItemAutoStart;
-	m_menuItemAutoStart = new wxMenuItem( m_menuProgram, wxID_AUTOSTART, wxString( _("&Start on Logon") ) , _("Start this program automatically on logon"), wxITEM_CHECK );
-	m_menuProgram->Append( m_menuItemAutoStart );
-	
-	m_menuProgram->AppendSeparator();
-	
 	wxMenuItem* m_menuItemExit;
 	m_menuItemExit = new wxMenuItem( m_menuProgram, wxID_EXIT, wxString( _("E&xit") ) + wxT('\t') + wxT("Alt+F4"), _("Quit this program"), wxITEM_NORMAL );
 	m_menuProgram->Append( m_menuItemExit );
@@ -118,15 +112,11 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	#endif
 	m_menuEdit->Append( m_menuItemSendAbort );
 	
-	m_menuDecompLanguage = new wxMenu();
-	wxMenuItem* m_menuDecompLanguageItem = new wxMenuItem( m_menuEdit, wxID_ANY, _("&Language"), wxEmptyString, wxITEM_NORMAL, m_menuDecompLanguage );
-	wxMenuItem* m_menuDecompLanguageAuto;
-	m_menuDecompLanguageAuto = new wxMenuItem( m_menuDecompLanguage, wxID_DECOMP_LANG_AUTO, wxString( _("&Automatic") ) , _("Set language according to keyboard layout automatically"), wxITEM_CHECK );
-	m_menuDecompLanguage->Append( m_menuDecompLanguageAuto );
+	m_menuEdit->AppendSeparator();
 	
-	m_menuDecompLanguage->AppendSeparator();
-	
-	m_menuEdit->Append( m_menuDecompLanguageItem );
+	wxMenuItem* m_menuSettings;
+	m_menuSettings = new wxMenuItem( m_menuEdit, wxID_SETTINGS, wxString( _("&Settings...") ) , _("Open program configuration dialog"), wxITEM_NORMAL );
+	m_menuEdit->Append( m_menuSettings );
 	
 	m_menubar->Append( m_menuEdit, _("&Edit") ); 
 	
@@ -179,12 +169,6 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	
 	m_toolSendDecomposed = m_toolbarCompose->AddTool( wxID_SEND_DECOMPOSED, _("Send Decomposed"), wxIcon( wxT("send_decomposed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Decomposed"), _("Send decomposed text to source window"), NULL ); 
 	
-	m_toolbarCompose->AddSeparator(); 
-	
-	wxArrayString m_toolDecompLanguageChoices;
-	m_toolDecompLanguage = new wxChoice( m_toolbarCompose, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_toolDecompLanguageChoices, 0 );
-	m_toolDecompLanguage->SetSelection( 0 );
-	m_toolbarCompose->AddControl( m_toolDecompLanguage );
 	m_toolbarCompose->Realize();
 	m_mgr.AddPane( m_toolbarCompose, wxAuiPaneInfo().Name( wxT("toolbarCompose") ).Top().Caption( _("Compose") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );
 	
@@ -204,7 +188,6 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	// Connect Events
 	this->Connect( wxEVT_ICONIZE, wxIconizeEventHandler( wxZRColaFrameBase::OnIconize ) );
 	this->Connect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaFrameBase::OnIdle ) );
-	m_toolDecompLanguage->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( wxZRColaFrameBase::OnDecompLanguageChoice ), NULL, this );
 }
 
 wxZRColaFrameBase::~wxZRColaFrameBase()
@@ -212,7 +195,6 @@ wxZRColaFrameBase::~wxZRColaFrameBase()
 	// Disconnect Events
 	this->Disconnect( wxEVT_ICONIZE, wxIconizeEventHandler( wxZRColaFrameBase::OnIconize ) );
 	this->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaFrameBase::OnIdle ) );
-	m_toolDecompLanguage->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( wxZRColaFrameBase::OnDecompLanguageChoice ), NULL, this );
 	
 	m_mgr.UnInit();
 	
@@ -650,5 +632,105 @@ wxZRColaCharSelectBase::~wxZRColaCharSelectBase()
 	m_unicode->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaCharSelectBase::OnUnicodeText ), NULL, this );
 	m_gridRelated->Disconnect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( wxZRColaCharSelectBase::OnRelatedSelectCell ), NULL, this );
 	m_sdbSizerButtonsOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaCharSelectBase::OnOKButtonClick ), NULL, this );
+	
+}
+
+wxZRColaSettingsBase::wxZRColaSettingsBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) : wxDialog( parent, id, title, pos, size, style, name )
+{
+	this->SetSizeHints( wxDefaultSize, wxSize( -1,-1 ) );
+	
+	wxBoxSizer* bSizerContent;
+	bSizerContent = new wxBoxSizer( wxVERTICAL );
+	
+	m_listbook = new wxListbook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLB_DEFAULT );
+	m_panelLanguage = new wxPanel( m_listbook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizerLanguage;
+	bSizerLanguage = new wxBoxSizer( wxVERTICAL );
+	
+	m_langLabel = new wxStaticText( m_panelLanguage, wxID_ANY, _("Some character native to specific language you are working with should not decompose to primitives.\nFor optimal decomposition you should set the language correctly."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_langLabel->Wrap( -1 );
+	bSizerLanguage->Add( m_langLabel, 0, wxALL|wxEXPAND, 5 );
+	
+	m_langAuto = new wxRadioButton( m_panelLanguage, wxID_ANY, _("Select language &automatically according to selected keyboard"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
+	bSizerLanguage->Add( m_langAuto, 0, wxALL|wxEXPAND, 5 );
+	
+	m_langManual = new wxRadioButton( m_panelLanguage, wxID_ANY, _("&Manually select the language from the list below:"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizerLanguage->Add( m_langManual, 0, wxALL|wxEXPAND, 5 );
+	
+	m_languages = new wxListBox( m_panelLanguage, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
+	m_languages->SetMinSize( wxSize( -1,150 ) );
+	
+	bSizerLanguage->Add( m_languages, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	m_panelLanguage->SetSizer( bSizerLanguage );
+	m_panelLanguage->Layout();
+	bSizerLanguage->Fit( m_panelLanguage );
+	m_listbook->AddPage( m_panelLanguage, _("Text Language"), true );
+	m_panelAutoStart = new wxPanel( m_listbook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizerAutoStart;
+	bSizerAutoStart = new wxBoxSizer( wxVERTICAL );
+	
+	m_autoStartLabel = new wxStaticText( m_panelAutoStart, wxID_ANY, _("ZRCola can be launched every time you log in to your computer.\nIt will be available on the system tray and via registered shortcuts Win+F5 and Win+F6."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_autoStartLabel->Wrap( -1 );
+	bSizerAutoStart->Add( m_autoStartLabel, 0, wxALL|wxEXPAND, 5 );
+	
+	m_autoStart = new wxCheckBox( m_panelAutoStart, wxID_ANY, _("Start ZRCola &automatically on logon"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizerAutoStart->Add( m_autoStart, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	m_panelAutoStart->SetSizer( bSizerAutoStart );
+	m_panelAutoStart->Layout();
+	bSizerAutoStart->Fit( m_panelAutoStart );
+	m_listbook->AddPage( m_panelAutoStart, _("Startup"), false );
+	#ifdef __WXGTK__ // Small icon style not supported in GTK
+	wxListView* m_listbookListView = m_listbook->GetListView();
+	long m_listbookFlags = m_listbookListView->GetWindowStyleFlag();
+	if( m_listbookFlags & wxLC_SMALL_ICON )
+	{
+		m_listbookFlags = ( m_listbookFlags & ~wxLC_SMALL_ICON ) | wxLC_ICON;
+	}
+	m_listbookListView->SetWindowStyleFlag( m_listbookFlags );
+	#endif
+	
+	bSizerContent->Add( m_listbook, 1, wxEXPAND | wxALL, 5 );
+	
+	
+	bSizerContent->Add( 0, 0, 0, wxALL|wxEXPAND, 5 );
+	
+	m_sdbSizerButtons = new wxStdDialogButtonSizer();
+	m_sdbSizerButtonsOK = new wxButton( this, wxID_OK );
+	m_sdbSizerButtons->AddButton( m_sdbSizerButtonsOK );
+	m_sdbSizerButtonsApply = new wxButton( this, wxID_APPLY );
+	m_sdbSizerButtons->AddButton( m_sdbSizerButtonsApply );
+	m_sdbSizerButtonsCancel = new wxButton( this, wxID_CANCEL );
+	m_sdbSizerButtons->AddButton( m_sdbSizerButtonsCancel );
+	m_sdbSizerButtons->Realize();
+	
+	bSizerContent->Add( m_sdbSizerButtons, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	this->SetSizer( bSizerContent );
+	this->Layout();
+	bSizerContent->Fit( this );
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	this->Connect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( wxZRColaSettingsBase::OnInitDialog ) );
+	m_langAuto->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( wxZRColaSettingsBase::OnLangAuto ), NULL, this );
+	m_langManual->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( wxZRColaSettingsBase::OnLangManual ), NULL, this );
+	m_sdbSizerButtonsApply->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaSettingsBase::OnApplyButtonClick ), NULL, this );
+	m_sdbSizerButtonsOK->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaSettingsBase::OnOKButtonClick ), NULL, this );
+}
+
+wxZRColaSettingsBase::~wxZRColaSettingsBase()
+{
+	// Disconnect Events
+	this->Disconnect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( wxZRColaSettingsBase::OnInitDialog ) );
+	m_langAuto->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( wxZRColaSettingsBase::OnLangAuto ), NULL, this );
+	m_langManual->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( wxZRColaSettingsBase::OnLangManual ), NULL, this );
+	m_sdbSizerButtonsApply->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaSettingsBase::OnApplyButtonClick ), NULL, this );
+	m_sdbSizerButtonsOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaSettingsBase::OnOKButtonClick ), NULL, this );
 	
 }

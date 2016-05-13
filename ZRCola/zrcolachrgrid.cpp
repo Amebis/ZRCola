@@ -88,11 +88,9 @@ wxString wxZRColaCharGrid::GetToolTipText(int idx)
     // See if this character has a key sequence registered.
     ZRCola::keyseq_db::indexKey::size_type start;
     bool found;
-    ZRCola::keyseq_db::keyseq *ks = (ZRCola::keyseq_db::keyseq*)new char[sizeof(ZRCola::keyseq_db::keyseq)];
-    ks->chr = m_chars[idx];
-    ks->seq_len = 0;
-    found = app->m_ks_db.idxChr.find(*ks, start);
-    delete ks;
+    char ks[sizeof(ZRCola::keyseq_db::keyseq)] = {};
+    ((ZRCola::keyseq_db::keyseq*)ks)->chr = m_chars[idx];
+    found = app->m_ks_db.idxChr.find(*(ZRCola::keyseq_db::keyseq*)ks, start);
 
     if (found) {
         ZRCola::keyseq_db::keyseq &seq = app->m_ks_db.idxChr[start];

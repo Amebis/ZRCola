@@ -71,10 +71,10 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
             m_gridPreview->SetCellValue(wxString(1, m_char), 0, 0);
 
             {
-                ZRCola::character_db::character *chr = (ZRCola::character_db::character*)new char[sizeof(ZRCola::character_db::character)];
-                chr->chr = m_char;
+                char chr[sizeof(ZRCola::character_db::character)] = {};
+                ((ZRCola::character_db::character*)chr)->chr = m_char;
                 size_t start;
-                if (app->m_chr_db.idxChr.find(*chr, start)) {
+                if (app->m_chr_db.idxChr.find(*(ZRCola::character_db::character*)chr, start)) {
                     const ZRCola::character_db::character &chr = app->m_chr_db.idxChr[start];
                     m_description->SetValue(wxString(chr.data, chr.desc_len));
                     {
@@ -94,7 +94,6 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
                     m_gridRelated->ClearGrid();
                 }
                 m_gridRelated->Scroll(0, 0);
-                delete chr;
             }
         }
 

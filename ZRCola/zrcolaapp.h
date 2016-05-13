@@ -69,7 +69,7 @@ public:
     wxZRColaFrame *m_mainWnd;       ///< Main window
 
 protected:
-    wxLocale m_locale;  ///< Current locale
+    wxLocale m_locale;              ///< Current locale
 };
 
 

@@ -48,3 +48,4 @@
 #include "zrcolacomppnl.h"
 #include "zrcolafrm.h"
 #include "zrcolakeyhndlr.h"
+#include "zrcolasettings.h"

@@ -119,7 +119,7 @@ void wxZRColaComposerPanel::SynchronizePanels()
         std::wstring dst;
         wxZRColaFrame *mainWnd = dynamic_cast<wxZRColaFrame*>(wxGetActiveWindow());
         if (mainWnd)
-            app->m_t_db.Decompose(src.data(), len, &app->m_lc_db, mainWnd->m_lang, dst, &m_mapping2);
+            app->m_t_db.Decompose(src.data(), len, &app->m_lc_db, mainWnd->m_settings->m_lang, dst, &m_mapping2);
         else
             app->m_t_db.Decompose(src.data(), len, dst, &m_mapping2);
 
