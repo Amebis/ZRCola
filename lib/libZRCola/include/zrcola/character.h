@@ -306,7 +306,7 @@ namespace ZRCola {
             virtual int compare(_In_ const chrcat &a, _In_ const chrcat &b) const
             {
                      if (a.id < b.id) return -1;
-                else if (a.id < b.id) return  1;
+                else if (a.id > b.id) return  1;
                 else                  return  0;
             }
         } idxChrCat;      ///< Character category index
