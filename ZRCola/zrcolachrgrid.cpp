@@ -44,7 +44,7 @@ wxZRColaCharGrid::wxZRColaCharGrid(wxWindow *parent, wxWindowID id, const wxPoin
     SetDefaultRowSize(wxZRColaCharacterGridRowHeight);
 
     // Create timer for saving the state.
-    m_toolTipTimer = new wxTimer(this, wxID_TOOLTIP_TIMER);
+    m_timerToolTip.SetOwner(this, wxID_TOOLTIP_TIMER);
 
     // wxEVT_MOTION event must be connected to the wxGridWindow, not wxGrid itself.
     wxWindow *gridWnd = GetGridWindow();
@@ -56,16 +56,12 @@ wxZRColaCharGrid::~wxZRColaCharGrid()
 {
     wxWindow *gridWnd = GetGridWindow();
     gridWnd->Disconnect(gridWnd->GetId(), wxEVT_MOTION, wxMouseEventHandler(wxZRColaCharGrid::OnMotion), NULL, this);
-
-    if (m_toolTipTimer)
-        delete m_toolTipTimer;
 }
 
 
 void wxZRColaCharGrid::Init()
 {
     m_isResizing   = false;
-    m_toolTipTimer = NULL;
     m_toolTipIdx   = (size_t)-1;
 }
 
@@ -147,12 +143,15 @@ void wxZRColaCharGrid::OnSize(wxSizeEvent& event)
         SetTable(table, true);
     }
 
-    // Set column widths to stretch to full width.
-    for (int c = 0, x_l = 0; c < cols; c++) {
-        int x_r = (c + 1)*width/cols;
-        SetColSize(c, x_r - x_l);
-        x_l = x_r;
-    }
+    for (int c = 0; c < cols; c++)
+        SetColSize(c, wxZRColaCharacterGridColumnWidth);
+
+    //// Set column widths to stretch to full width.
+    //for (int c = 0, x_l = 0; c < cols; c++) {
+    //    int x_r = (c + 1)*width/cols;
+    //    SetColSize(c, x_r - x_l);
+    //    x_l = x_r;
+    //}
 
     EndBatch();
     m_isResizing = false;
@@ -193,7 +192,7 @@ void wxZRColaCharGrid::OnMotion(wxMouseEvent& event)
     if (toolTipIdx >= m_chars.Length()) {
         // Index out of range.
         m_toolTipIdx = (size_t)-1;
-        m_toolTipTimer->Stop();
+        m_timerToolTip.Stop();
         return;
     } else if (toolTipIdx != m_toolTipIdx) {
         // Cell changed.
@@ -204,7 +203,7 @@ void wxZRColaCharGrid::OnMotion(wxMouseEvent& event)
             gridWnd->SetToolTip(GetToolTipText(m_toolTipIdx));
         } else {
             // This must be our initial entry. Schedule tooltip display after 1s.
-            m_toolTipTimer->Start(1000, true);
+            m_timerToolTip.Start(1000, true);
         }
     }
 }

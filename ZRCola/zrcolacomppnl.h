@@ -38,11 +38,6 @@ class wxZRColaComposerPanel;
 class wxZRColaComposerPanel : public wxZRColaComposerPanelBase
 {
 public:
-    enum
-    {
-        wxID_CHECKPOINT_TIMER = 2000,
-    };
-
     wxZRColaComposerPanel(wxWindow* parent);
     virtual ~wxZRColaComposerPanel();
 
@@ -57,8 +52,7 @@ protected:
     virtual void OnComposedPaint(wxPaintEvent& event);
     virtual void OnComposedHexPaint(wxPaintEvent& event);
     virtual void OnComposedText(wxCommandEvent& event);
-    virtual void OnTimerTimeout(wxTimerEvent& event);
-    DECLARE_EVENT_TABLE()
+    virtual void OnSaveTimer(wxTimerEvent& event);
 
     static wxString GetStateFileName();
     static size_t GetValue(wxTextCtrl *wnd, wxString &text);
@@ -75,7 +69,6 @@ protected:
         m_selComposed,                              ///< Character index of selected text in composed text control
         m_selComposedHex;                           ///< Character index of selected text in composed HEX dump text control
     wxZRColaKeyHandler m_keyhandler;                ///< Key handler for decomposed window
-    wxTimer *m_timer;                               ///< Timer to trigger the state save
     ZRCola::mapping_vector m_mappingDecomposedHex;  ///< Character index mapping vector between decomposed text and its HEX dump
     ZRCola::mapping_vector m_mappingComposedHex;    ///< Character index mapping vector between composed text and its HEX dump
 };

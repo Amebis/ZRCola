@@ -24,6 +24,7 @@
 
 #include <stdex/idrec.h>
 #include <istream>
+#include <ostream>
 #include <vector>
 
 #pragma warning(push)
@@ -127,33 +128,65 @@ const ZRCola::recordid_t stdex::idrec::record<ZRCola::chrgrp_db, ZRCola::recordi
 
 
 ///
+/// Writes character group database to a stream
+///
+/// \param[in] stream  Output stream
+/// \param[in] db      Character group database
+///
+/// \returns The stream \p stream
+///
+inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::chrgrp_db &db)
+{
+    // Write rank index.
+    if (stream.fail()) return stream;
+    stream << db.idxRnk;
+
+    // Write data count.
+    std::vector<unsigned __int16>::size_type data_count = db.data.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+    // 4G check
+    if (data_count > 0xffffffff) {
+        stream.setstate(std::ios_base::failbit);
+        return stream;
+    }
+#endif
+    if (stream.fail()) return stream;
+    unsigned __int32 count = (unsigned __int32)data_count;
+    stream.write((const char*)&count, sizeof(count));
+
+    // Write data.
+    if (stream.fail()) return stream;
+    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
+
+    return stream;
+}
+
+
+///
 /// Reads character group database from a stream
 ///
-/// \param[in]  stream  Input stream
+/// \param[in ] stream  Input stream
 /// \param[out] db      Character group database
 ///
 /// \returns The stream \p stream
 ///
 inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::chrgrp_db &db)
 {
-    unsigned __int32 count;
-
-    // Read index count.
-    stream.read((char*)&count, sizeof(count));
-    if (!stream.good()) return stream;
-
     // Read rank index.
-    db.idxRnk.resize(count);
-    stream.read((char*)db.idxRnk.data(), sizeof(unsigned __int32)*count);
+    stream >> db.idxRnk;
     if (!stream.good()) return stream;
 
     // Read data count.
+    unsigned __int32 count;
     stream.read((char*)&count, sizeof(count));
     if (!stream.good()) return stream;
 
-    // Read data.
-    db.data.resize(count);
-    stream.read((char*)db.data.data(), sizeof(unsigned __int16)*count);
+    if (count) {
+        // Read data.
+        db.data.resize(count);
+        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*count);
+    } else
+        db.data.clear();
 
     return stream;
 }

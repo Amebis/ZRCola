@@ -80,9 +80,14 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	
 	m_menuEdit->AppendSeparator();
 	
-	wxMenuItem* m_menuInsertCharacter;
-	m_menuInsertCharacter = new wxMenuItem( m_menuEdit, wxID_INSERT_CHARACTER, wxString( _("&Insert Character...") ) + wxT('\t') + wxT("F8"), _("Display character selector to select character to insert into text"), wxITEM_NORMAL );
-	m_menuEdit->Append( m_menuInsertCharacter );
+	wxMenuItem* m_menuCharSelect;
+	m_menuCharSelect = new wxMenuItem( m_menuEdit, wxID_CHARACTER_SELECTOR, wxString( _("C&haracter Selector...") ) + wxT('\t') + wxT("F8"), _("Display character selector to select character to insert into text"), wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	m_menuCharSelect->SetBitmaps( wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
+	m_menuCharSelect->SetBitmap( wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	#endif
+	m_menuEdit->Append( m_menuCharSelect );
 	
 	m_menuEdit->AppendSeparator();
 	
@@ -162,6 +167,8 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_mgr.AddPane( m_toolbarEdit, wxAuiPaneInfo().Name( wxT("toolbarEdit") ).Top().Caption( _("Edit") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );
 	
 	m_toolbarCompose = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT ); 
+	m_toolCharSelect = m_toolbarCompose->AddTool( wxID_CHARACTER_SELECTOR, _("Character Selector"), wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Character Selector"), _("Display character selector to select character to insert into text"), NULL ); 
+	
 	m_toolSendComposed = m_toolbarCompose->AddTool( wxID_SEND_COMPOSED, _("Send Composed"), wxIcon( wxT("send_composed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Composed"), _("Send composed text to source window"), NULL ); 
 	
 	m_toolSendDecomposed = m_toolbarCompose->AddTool( wxID_SEND_DECOMPOSED, _("Send Decomposed"), wxIcon( wxT("send_decomposed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Decomposed"), _("Send decomposed text to source window"), NULL ); 
@@ -308,6 +315,7 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	this->SetSizer( bSizerMain );
 	this->Layout();
 	bSizerMain->Fit( this );
+	m_timerSave.SetOwner( this, wxID_TIMER_SAVE );
 	
 	// Connect Events
 	m_decomposed->Connect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnDecomposedPaint ), NULL, this );
@@ -316,6 +324,7 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	m_composed->Connect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnComposedPaint ), NULL, this );
 	m_composed->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnComposedText ), NULL, this );
 	m_composedHex->Connect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnComposedHexPaint ), NULL, this );
+	this->Connect( wxID_TIMER_SAVE, wxEVT_TIMER, wxTimerEventHandler( wxZRColaComposerPanelBase::OnSaveTimer ) );
 }
 
 wxZRColaComposerPanelBase::~wxZRColaComposerPanelBase()
@@ -327,6 +336,7 @@ wxZRColaComposerPanelBase::~wxZRColaComposerPanelBase()
 	m_composed->Disconnect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnComposedPaint ), NULL, this );
 	m_composed->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnComposedText ), NULL, this );
 	m_composedHex->Disconnect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnComposedHexPaint ), NULL, this );
+	this->Disconnect( wxID_TIMER_SAVE, wxEVT_TIMER, wxTimerEventHandler( wxZRColaComposerPanelBase::OnSaveTimer ) );
 	
 }
 
@@ -406,7 +416,7 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	wxStaticBoxSizer* sbSizerBrowse;
 	sbSizerBrowse = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("&Browse") ), wxVERTICAL );
 	
-	m_search = new wxSearchCtrl( sbSizerBrowse->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_search = new wxSearchCtrl( sbSizerBrowse->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
 	#ifndef __WXMAC__
 	m_search->ShowSearchButton( true );
 	#endif
@@ -414,50 +424,25 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	sbSizerBrowse->Add( m_search, 0, wxALL|wxEXPAND, 5 );
 	
 	wxArrayString m_categoriesChoices;
-	m_categories = new wxCheckListBox( sbSizerBrowse->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, m_categoriesChoices, 0 );
-	m_categories->SetMaxSize( wxSize( -1,59 ) );
-	
+	m_categories = new wxCheckListBox( sbSizerBrowse->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( -1,60 ), m_categoriesChoices, 0 );
 	sbSizerBrowse->Add( m_categories, 0, wxALL|wxEXPAND, 5 );
 	
-	m_gridResults = new wxGrid( sbSizerBrowse->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	m_gridResults = new wxZRColaCharGrid( sbSizerBrowse->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxSTATIC_BORDER );
 	
 	// Grid
-	m_gridResults->CreateGrid( 7, 16 );
+	m_gridResults->CreateGrid( 0, 0 );
 	m_gridResults->EnableEditing( false );
-	m_gridResults->EnableGridLines( true );
+	m_gridResults->EnableGridLines( false );
 	m_gridResults->EnableDragGridSize( false );
 	m_gridResults->SetMargins( 0, 0 );
 	
 	// Columns
-	m_gridResults->SetColSize( 0, 35 );
-	m_gridResults->SetColSize( 1, 35 );
-	m_gridResults->SetColSize( 2, 35 );
-	m_gridResults->SetColSize( 3, 35 );
-	m_gridResults->SetColSize( 4, 35 );
-	m_gridResults->SetColSize( 5, 35 );
-	m_gridResults->SetColSize( 6, 35 );
-	m_gridResults->SetColSize( 7, 35 );
-	m_gridResults->SetColSize( 8, 35 );
-	m_gridResults->SetColSize( 9, 35 );
-	m_gridResults->SetColSize( 10, 35 );
-	m_gridResults->SetColSize( 11, 35 );
-	m_gridResults->SetColSize( 12, 35 );
-	m_gridResults->SetColSize( 13, 35 );
-	m_gridResults->SetColSize( 14, 35 );
-	m_gridResults->SetColSize( 15, 35 );
 	m_gridResults->EnableDragColMove( false );
 	m_gridResults->EnableDragColSize( false );
 	m_gridResults->SetColLabelSize( 0 );
 	m_gridResults->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	
 	// Rows
-	m_gridResults->SetRowSize( 0, 35 );
-	m_gridResults->SetRowSize( 1, 35 );
-	m_gridResults->SetRowSize( 2, 35 );
-	m_gridResults->SetRowSize( 3, 35 );
-	m_gridResults->SetRowSize( 4, 35 );
-	m_gridResults->SetRowSize( 5, 35 );
-	m_gridResults->SetRowSize( 6, 35 );
 	m_gridResults->EnableDragRowSize( false );
 	m_gridResults->SetRowLabelSize( 0 );
 	m_gridResults->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
@@ -468,48 +453,33 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	m_gridResults->SetDefaultCellFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
 	m_gridResults->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	m_gridResults->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 90, false, wxEmptyString ) );
+	m_gridResults->SetMinSize( wxSize( 560,35 ) );
+	m_gridResults->SetMaxSize( wxSize( 560,-1 ) );
 	
-	sbSizerBrowse->Add( m_gridResults, 0, wxALL|wxEXPAND, 5 );
+	sbSizerBrowse->Add( m_gridResults, 1, wxALL|wxEXPAND, 5 );
 	
 	
-	bSizerLeft->Add( sbSizerBrowse, 0, wxALL|wxEXPAND, 5 );
+	bSizerLeft->Add( sbSizerBrowse, 1, wxALL|wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* sbSizerRecent;
 	sbSizerRecent = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Re&cently Used") ), wxVERTICAL );
 	
-	m_gridRecent = new wxGrid( sbSizerRecent->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	m_gridRecent = new wxZRColaCharGrid( sbSizerRecent->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( -1,35 ), wxSTATIC_BORDER );
 	
 	// Grid
-	m_gridRecent->CreateGrid( 1, 16 );
+	m_gridRecent->CreateGrid( 0, 0 );
 	m_gridRecent->EnableEditing( false );
-	m_gridRecent->EnableGridLines( true );
+	m_gridRecent->EnableGridLines( false );
 	m_gridRecent->EnableDragGridSize( false );
 	m_gridRecent->SetMargins( 0, 0 );
 	
 	// Columns
-	m_gridRecent->SetColSize( 0, 35 );
-	m_gridRecent->SetColSize( 1, 35 );
-	m_gridRecent->SetColSize( 2, 35 );
-	m_gridRecent->SetColSize( 3, 35 );
-	m_gridRecent->SetColSize( 4, 35 );
-	m_gridRecent->SetColSize( 5, 35 );
-	m_gridRecent->SetColSize( 6, 35 );
-	m_gridRecent->SetColSize( 7, 35 );
-	m_gridRecent->SetColSize( 8, 35 );
-	m_gridRecent->SetColSize( 9, 35 );
-	m_gridRecent->SetColSize( 10, 35 );
-	m_gridRecent->SetColSize( 11, 35 );
-	m_gridRecent->SetColSize( 12, 35 );
-	m_gridRecent->SetColSize( 13, 35 );
-	m_gridRecent->SetColSize( 14, 35 );
-	m_gridRecent->SetColSize( 15, 35 );
 	m_gridRecent->EnableDragColMove( false );
 	m_gridRecent->EnableDragColSize( false );
 	m_gridRecent->SetColLabelSize( 0 );
 	m_gridRecent->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	
 	// Rows
-	m_gridRecent->SetRowSize( 0, 35 );
 	m_gridRecent->EnableDragRowSize( false );
 	m_gridRecent->SetRowLabelSize( 0 );
 	m_gridRecent->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
@@ -521,7 +491,7 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	m_gridRecent->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	m_gridRecent->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 90, false, wxEmptyString ) );
 	
-	sbSizerRecent->Add( m_gridRecent, 0, wxALL, 5 );
+	sbSizerRecent->Add( m_gridRecent, 0, wxALL|wxEXPAND, 5 );
 	
 	
 	bSizerLeft->Add( sbSizerRecent, 0, wxALL|wxEXPAND, 5 );
@@ -543,25 +513,22 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	bSizerUnicode->Add( m_labelUnicode, 0, wxALIGN_CENTER, 5 );
 	
 	m_unicode = new wxTextCtrl( sbSizerPreview->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 50,-1 ), 0 );
-	m_unicode->SetMaxLength( 4 ); 
-	m_unicode->SetValidator( wxTextValidator( wxFILTER_INCLUDE_CHAR_LIST, &m_unicodeValid ) );
-	
 	bSizerUnicode->Add( m_unicode, 0, wxALIGN_CENTER, 5 );
 	
 	
 	sbSizerPreview->Add( bSizerUnicode, 0, wxALIGN_CENTER|wxALL, 5 );
 	
-	m_gridPreview = new wxGrid( sbSizerPreview->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	m_gridPreview = new wxGrid( sbSizerPreview->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSTATIC_BORDER );
 	
 	// Grid
 	m_gridPreview->CreateGrid( 1, 1 );
 	m_gridPreview->EnableEditing( false );
-	m_gridPreview->EnableGridLines( true );
+	m_gridPreview->EnableGridLines( false );
 	m_gridPreview->EnableDragGridSize( false );
 	m_gridPreview->SetMargins( 0, 0 );
 	
 	// Columns
-	m_gridPreview->SetColSize( 0, 210 );
+	m_gridPreview->SetColSize( 0, 200 );
 	m_gridPreview->EnableDragColMove( false );
 	m_gridPreview->EnableDragColSize( false );
 	m_gridPreview->SetColLabelSize( 0 );
@@ -576,44 +543,37 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	// Label Appearance
 	
 	// Cell Defaults
-	m_gridPreview->SetDefaultCellFont( wxFont( 180, 70, 90, 90, false, wxT("00 ZRCola") ) );
+	m_gridPreview->SetDefaultCellFont( wxFont( 120, 70, 90, 90, false, wxT("00 ZRCola") ) );
 	m_gridPreview->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
-	sbSizerPreview->Add( m_gridPreview, 0, wxALIGN_CENTER|wxALL, 5 );
+	m_gridPreview->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
+	
+	sbSizerPreview->Add( m_gridPreview, 0, wxALL|wxEXPAND, 5 );
 	
 	m_description = new wxTextCtrl( sbSizerPreview->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_MULTILINE|wxTE_READONLY );
 	sbSizerPreview->Add( m_description, 1, wxALL|wxEXPAND, 5 );
 	
 	
-	bSizerRight->Add( sbSizerPreview, 0, wxALL|wxEXPAND, 5 );
+	bSizerRight->Add( sbSizerPreview, 70, wxALL|wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* sbSizerRelated;
 	sbSizerRelated = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Re&lated") ), wxVERTICAL );
 	
-	m_gridRelated = new wxGrid( sbSizerRelated->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	m_gridRelated = new wxZRColaCharGrid( sbSizerRelated->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxSTATIC_BORDER );
 	
 	// Grid
-	m_gridRelated->CreateGrid( 3, 6 );
+	m_gridRelated->CreateGrid( 0, 0 );
 	m_gridRelated->EnableEditing( false );
-	m_gridRelated->EnableGridLines( true );
+	m_gridRelated->EnableGridLines( false );
 	m_gridRelated->EnableDragGridSize( false );
 	m_gridRelated->SetMargins( 0, 0 );
 	
 	// Columns
-	m_gridRelated->SetColSize( 0, 35 );
-	m_gridRelated->SetColSize( 1, 35 );
-	m_gridRelated->SetColSize( 2, 35 );
-	m_gridRelated->SetColSize( 3, 35 );
-	m_gridRelated->SetColSize( 4, 35 );
-	m_gridRelated->SetColSize( 5, 35 );
 	m_gridRelated->EnableDragColMove( false );
 	m_gridRelated->EnableDragColSize( false );
 	m_gridRelated->SetColLabelSize( 0 );
 	m_gridRelated->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	
 	// Rows
-	m_gridRelated->SetRowSize( 0, 35 );
-	m_gridRelated->SetRowSize( 1, 35 );
-	m_gridRelated->SetRowSize( 2, 35 );
 	m_gridRelated->EnableDragRowSize( false );
 	m_gridRelated->SetRowLabelSize( 0 );
 	m_gridRelated->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
@@ -622,11 +582,11 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	
 	// Cell Defaults
 	m_gridRelated->SetDefaultCellFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
-	m_gridRelated->SetDefaultCellAlignment( wxALIGN_LEFT, wxALIGN_TOP );
-	sbSizerRelated->Add( m_gridRelated, 0, wxALIGN_CENTER|wxALL, 5 );
+	m_gridRelated->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	sbSizerRelated->Add( m_gridRelated, 1, wxALL|wxEXPAND, 5 );
 	
 	
-	bSizerRight->Add( sbSizerRelated, 1, wxALL|wxEXPAND, 5 );
+	bSizerRight->Add( sbSizerRelated, 30, wxALL|wxEXPAND, 5 );
 	
 	
 	bSizerColumns->Add( bSizerRight, 0, wxEXPAND, 5 );
@@ -650,22 +610,41 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	this->SetSizer( bSizerContent );
 	this->Layout();
 	bSizerContent->Fit( this );
+	m_timerSearch.SetOwner( this, wxID_TIMER_SEARCH );
 	
 	// Connect Events
+	this->Connect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaCharSelectBase::OnIdle ) );
 	m_search->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaCharSelectBase::OnSearchText ), NULL, this );
+	m_search->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( wxZRColaCharSelectBase::OnSearchEnter ), NULL, this );
+	m_categories->Connect( wxEVT_COMMAND_CHECKLISTBOX_TOGGLED, wxCommandEventHandler( wxZRColaCharSelectBase::OnCategoriesToggle ), NULL, this );
+	m_gridResults->Connect( wxEVT_GRID_CELL_LEFT_DCLICK, wxGridEventHandler( wxZRColaCharSelectBase::OnResultCellDClick ), NULL, this );
 	m_gridResults->Connect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( wxZRColaCharSelectBase::OnResultSelectCell ), NULL, this );
+	m_gridResults->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( wxZRColaCharSelectBase::OnResultsKeyDown ), NULL, this );
+	m_gridRecent->Connect( wxEVT_GRID_CELL_LEFT_DCLICK, wxGridEventHandler( wxZRColaCharSelectBase::OnRecentCellDClick ), NULL, this );
 	m_gridRecent->Connect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( wxZRColaCharSelectBase::OnRecentSelectCell ), NULL, this );
+	m_gridRecent->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( wxZRColaCharSelectBase::OnRecentKeyDown ), NULL, this );
 	m_unicode->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaCharSelectBase::OnUnicodeText ), NULL, this );
 	m_gridRelated->Connect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( wxZRColaCharSelectBase::OnRelatedSelectCell ), NULL, this );
+	m_sdbSizerButtonsOK->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaCharSelectBase::OnOKButtonClick ), NULL, this );
+	this->Connect( wxID_TIMER_SEARCH, wxEVT_TIMER, wxTimerEventHandler( wxZRColaCharSelectBase::OnSearchTimer ) );
 }
 
 wxZRColaCharSelectBase::~wxZRColaCharSelectBase()
 {
 	// Disconnect Events
+	this->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaCharSelectBase::OnIdle ) );
 	m_search->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaCharSelectBase::OnSearchText ), NULL, this );
+	m_search->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( wxZRColaCharSelectBase::OnSearchEnter ), NULL, this );
+	m_categories->Disconnect( wxEVT_COMMAND_CHECKLISTBOX_TOGGLED, wxCommandEventHandler( wxZRColaCharSelectBase::OnCategoriesToggle ), NULL, this );
+	m_gridResults->Disconnect( wxEVT_GRID_CELL_LEFT_DCLICK, wxGridEventHandler( wxZRColaCharSelectBase::OnResultCellDClick ), NULL, this );
 	m_gridResults->Disconnect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( wxZRColaCharSelectBase::OnResultSelectCell ), NULL, this );
+	m_gridResults->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( wxZRColaCharSelectBase::OnResultsKeyDown ), NULL, this );
+	m_gridRecent->Disconnect( wxEVT_GRID_CELL_LEFT_DCLICK, wxGridEventHandler( wxZRColaCharSelectBase::OnRecentCellDClick ), NULL, this );
 	m_gridRecent->Disconnect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( wxZRColaCharSelectBase::OnRecentSelectCell ), NULL, this );
+	m_gridRecent->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( wxZRColaCharSelectBase::OnRecentKeyDown ), NULL, this );
 	m_unicode->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaCharSelectBase::OnUnicodeText ), NULL, this );
 	m_gridRelated->Disconnect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( wxZRColaCharSelectBase::OnRelatedSelectCell ), NULL, this );
+	m_sdbSizerButtonsOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaCharSelectBase::OnOKButtonClick ), NULL, this );
+	this->Disconnect( wxID_TIMER_SEARCH, wxEVT_TIMER, wxTimerEventHandler( wxZRColaCharSelectBase::OnSearchTimer ) );
 	
 }

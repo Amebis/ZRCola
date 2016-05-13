@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-05-11 14:39+0200\n"
-"PO-Revision-Date: 2016-05-11 14:39+0200\n"
+"POT-Creation-Date: 2016-05-13 03:37+0200\n"
+"PO-Revision-Date: 2016-05-13 03:37+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: sl_SI\n"
@@ -17,7 +17,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: zrcolafrm.cpp:93 zrcolagui.h:95 MSIBuild/En.Win32.Release.Feature-2.idtx:4
+#: zrcolafrm.cpp:93 zrcolagui.h:96 MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
@@ -53,7 +53,7 @@ msgstr ""
 msgid "Start ZRCola automatically on logon"
 msgstr "Samodejno zaženi ZRColo ob prijavi"
 
-#: zrcolafrm.cpp:459
+#: zrcolafrm.cpp:462
 #, c-format
 msgid ""
 "ZRCola v%s\n"
@@ -62,7 +62,7 @@ msgstr ""
 "ZRCola v%s\n"
 "Vse pravice pridržane 2015-%s Amebis"
 
-#: zrcolafrm.cpp:459
+#: zrcolafrm.cpp:462
 msgid "About ZRCola"
 msgstr "O ZRColi"
 
@@ -95,166 +95,170 @@ msgid "Select all text"
 msgstr "Izberi celotno besedilo"
 
 #: zrcolagui.cpp:84
-msgid "&Insert Character..."
-msgstr "Vstav&i znak ..."
+msgid "C&haracter Selector..."
+msgstr "Izbirnik &znaka ..."
 
-#: zrcolagui.cpp:84
+#: zrcolagui.cpp:84 zrcolagui.cpp:170
 msgid "Display character selector to select character to insert into text"
 msgstr "Prikaži izbirnik znaka za izbor znaka za vstavljanje v besedilo"
 
-#: zrcolagui.cpp:90
+#: zrcolagui.cpp:95
 msgid "&Send Composed"
 msgstr "Pošlji &sestavljeno"
 
-#: zrcolagui.cpp:90 zrcolagui.cpp:165
+#: zrcolagui.cpp:95 zrcolagui.cpp:172
 msgid "Send composed text to source window"
 msgstr "Pošlji sestavljeno besedilo izvornemu oknu"
 
-#: zrcolagui.cpp:99
+#: zrcolagui.cpp:104
 msgid "Send &Decomposed"
 msgstr "Pošlji &razstavljeno"
 
-#: zrcolagui.cpp:99 zrcolagui.cpp:167
+#: zrcolagui.cpp:104 zrcolagui.cpp:174
 msgid "Send decomposed text to source window"
 msgstr "Pošlji razstavljeno besedilo izvornemu oknu"
 
-#: zrcolagui.cpp:108
+#: zrcolagui.cpp:113
 msgid "Abort (De)composition"
 msgstr "Prekini raz/sestavljanje"
 
-#: zrcolagui.cpp:108
+#: zrcolagui.cpp:113
 msgid "Abort composition and return focus to source window"
 msgstr "Prekini sestavljanje in vrni fokus nazaj izvornemu oknu"
 
-#: zrcolagui.cpp:117
+#: zrcolagui.cpp:122
 msgid "&Language"
 msgstr "&Jezik"
 
-#: zrcolagui.cpp:119
+#: zrcolagui.cpp:124
 msgid "&Automatic"
 msgstr "S&amodejno"
 
-#: zrcolagui.cpp:119
+#: zrcolagui.cpp:124
 msgid "Set language according to keyboard layout automatically"
 msgstr "Samodejno nastavi jezik glede na izbrano tipkovnico"
 
-#: zrcolagui.cpp:126
+#: zrcolagui.cpp:131
 msgid "&Edit"
 msgstr "Ur&edi"
 
-#: zrcolagui.cpp:130
+#: zrcolagui.cpp:135
 msgid "&Edit Toolbar"
 msgstr "Orodna vrstica za ur&ejanje"
 
-#: zrcolagui.cpp:130
+#: zrcolagui.cpp:135
 msgid "Toggle edit toolbar"
 msgstr "Prikaži/skrij orodno vrstico za urejanje"
 
-#: zrcolagui.cpp:134
+#: zrcolagui.cpp:139
 msgid "&Compose Toolbar"
 msgstr "Orodna vrsti&ca za sestavljanje"
 
-#: zrcolagui.cpp:134
+#: zrcolagui.cpp:139
 msgid "Toggle compose toolbar"
 msgstr "Prikaži/skrij orodno vrstico za sestavljanje"
 
-#: zrcolagui.cpp:140
+#: zrcolagui.cpp:145
 msgid "Character Catalo&g"
 msgstr "Katalo&g znakov"
 
-#: zrcolagui.cpp:140
+#: zrcolagui.cpp:145
 msgid "Toggle character catalog panel"
 msgstr "Prikaži/skrij katalog znakov"
 
-#: zrcolagui.cpp:143
+#: zrcolagui.cpp:148
 msgid "&View"
 msgstr "Po&gled"
 
-#: zrcolagui.cpp:150
+#: zrcolagui.cpp:155
 msgid "&Help"
 msgstr "Po&moč"
 
-#: zrcolagui.cpp:155
+#: zrcolagui.cpp:160
 msgid "Cut"
 msgstr "Izreži"
 
-#: zrcolagui.cpp:155
+#: zrcolagui.cpp:160
 msgid "Cut selection"
 msgstr "Izreži izbor"
 
-#: zrcolagui.cpp:157
+#: zrcolagui.cpp:162
 msgid "Copy"
 msgstr "Kopiraj"
 
-#: zrcolagui.cpp:157
+#: zrcolagui.cpp:162
 msgid "Copy selection"
 msgstr "Kopiraj izbor"
 
-#: zrcolagui.cpp:159
+#: zrcolagui.cpp:164
 msgid "Paste"
 msgstr "Prilepi"
 
-#: zrcolagui.cpp:159
+#: zrcolagui.cpp:164
 msgid "Paste selection"
 msgstr "Prilepi izbor"
 
-#: zrcolagui.cpp:162
+#: zrcolagui.cpp:167
 msgid "Edit"
 msgstr "Urejanje"
 
-#: zrcolagui.cpp:165
+#: zrcolagui.cpp:170 zrcolagui.h:227
+msgid "Character Selector"
+msgstr "Izbirnik znaka"
+
+#: zrcolagui.cpp:172
 msgid "Send Composed"
 msgstr "Pošlji sestavljeno"
 
-#: zrcolagui.cpp:167
+#: zrcolagui.cpp:174
 msgid "Send Decomposed"
 msgstr "Pošlji razstavljeno"
 
-#: zrcolagui.cpp:176
+#: zrcolagui.cpp:183
 msgid "Compose"
 msgstr "Sestavljanje"
 
-#: zrcolagui.cpp:180
+#: zrcolagui.cpp:187
 msgid "Character Catalog"
 msgstr "Katalog znakov"
 
-#: zrcolagui.cpp:184
+#: zrcolagui.cpp:191
 msgid "(De)Composer"
 msgstr "Raz/Sestavljalnik"
 
-#: zrcolagui.cpp:223
+#: zrcolagui.cpp:230
 msgid "Decomposed Text"
 msgstr "Razstavljeno besedilo"
 
-#: zrcolagui.cpp:243
+#: zrcolagui.cpp:250
 msgid "Decomposed Unicode Dump"
 msgstr "Unicode razstavljenega"
 
-#: zrcolagui.cpp:270
+#: zrcolagui.cpp:277
 msgid "Composed Text"
 msgstr "Sestavljeno besedilo"
 
-#: zrcolagui.cpp:290
+#: zrcolagui.cpp:297
 msgid "Composed Unicode Dump"
 msgstr "Unicode sestavljenega"
 
-#: zrcolagui.cpp:407
+#: zrcolagui.cpp:417
 msgid "&Browse"
 msgstr "Pre&brskaj"
 
-#: zrcolagui.cpp:478
+#: zrcolagui.cpp:465
 msgid "Re&cently Used"
 msgstr "Nedavno &uporabljeni"
 
-#: zrcolagui.cpp:536
+#: zrcolagui.cpp:506
 msgid "Preview"
 msgstr "Predogled"
 
-#: zrcolagui.cpp:541
+#: zrcolagui.cpp:511
 msgid "U+"
 msgstr "U+"
 
-#: zrcolagui.cpp:590
+#: zrcolagui.cpp:559
 msgid "Re&lated"
 msgstr "&Sorodni"
 
@@ -265,10 +269,6 @@ msgid ""
 msgstr ""
 "Pritisnjena tipka INS. Zdaj vtpikajte kodo Unicode želenega znaka (do štiri "
 "šestnajstiške števke: 0-9, A-F), nato izpustite INS."
-
-#: zrcolagui.h:205
-msgid "Character Selector"
-msgstr "Izbirnik znaka"
 
 # Windows charset for this language (decimal)
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:3
@@ -284,6 +284,9 @@ msgstr "1250"
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
 msgid "Input system for linguistic use"
 msgstr "Vnašalni sistem za jezikoslovno rabo"
+
+#~ msgid "&Insert Character..."
+#~ msgstr "Vstav&i znak ..."
 
 #~ msgid "&Unicode"
 #~ msgstr "&Unicode"

@@ -27,3 +27,6 @@
 #include "../include/zrcola/translate.h"
 
 #include <assert.h>
+
+#include <algorithm>
+#include <cwctype>

@@ -20,21 +20,301 @@
 #include "stdafx.h"
 
 
+static int __cdecl compare_hits(const void *a, const void *b)
+{
+    const std::pair<unsigned long, wchar_t> *_a = (const std::pair<unsigned long, wchar_t>*)a;
+    const std::pair<unsigned long, wchar_t> *_b = (const std::pair<unsigned long, wchar_t>*)b;
+
+         if (_a->first > _b->first) return -1;
+    else if (_a->first < _b->first) return  1;
+
+         if (_a->second < _b->second) return -1;
+    else if (_a->second > _b->second) return  1;
+
+    return 0;
+}
+
+
+
 //////////////////////////////////////////////////////////////////////////
 // wxZRColaCharSelect
 //////////////////////////////////////////////////////////////////////////
 
-wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) : wxZRColaCharSelectBase(parent)
+wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) :
+    m_searchChanged(false),
+    m_unicodeChanged(false),
+    m_char(0),
+    wxZRColaCharSelectBase(parent)
 {
-    wxTextValidator *validator = dynamic_cast<wxTextValidator*>(m_unicode->GetValidator());
-    if (validator)
-        validator->SetCharIncludes(wxT("0123456789ABCDEFabcdef"));
+    m_unicode->SetValidator(wxHexValidator<wchar_t>(&m_char));
 
+    // Fill categories.
     ZRColaApp *app = (ZRColaApp*)wxTheApp;
-    for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
+    size_t i, n;
+    for (i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
         const ZRCola::chrcat_db::chrcat &cc = app->m_cc_db.idxRnk[i];
-        m_categories->Check(m_categories->Insert(wxGetTranslation(wxString(cc.name, cc.name_len), wxT("ZRCola-zrcdb")), i));
+        int idx = m_categories->Insert(wxGetTranslation(wxString(cc.name, cc.name_len), wxT("ZRCola-zrcdb")), i);
+        m_categories->Check(idx);
+        m_ccOrder.insert(std::make_pair(cc.id, idx));
     }
+
+    ResetResults();
+}
+
+
+void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
+{
+    event.Skip();
+
+    if (m_unicodeChanged) {
+        if (m_unicode->GetValidator()->TransferFromWindow()) {
+            ZRColaApp *app = (ZRColaApp*)wxTheApp;
+
+            m_gridPreview->SetCellValue(wxString(1, m_char), 0, 0);
+
+            {
+                ZRCola::character_db::character *chr = (ZRCola::character_db::character*)new char[sizeof(ZRCola::character_db::character)];
+                chr->chr = m_char;
+                size_t start, end;
+                if (app->m_chr_db.idxChr.find(*chr, start, end)) {
+                    const ZRCola::character_db::character &chr = app->m_chr_db.idxChr[start];
+                    m_description->SetValue(wxString(chr.data, chr.desc_len));
+                    m_gridRelated->SetCharacters(wxString(chr.data + chr.desc_len, chr.rel_len));
+                } else {
+                    m_description->SetValue(wxEmptyString);
+                    m_gridRelated->ClearGrid();
+                }
+                m_gridRelated->Scroll(0, 0);
+                delete chr;
+            }
+        }
+
+        m_unicodeChanged = false;
+    } else if (m_searchChanged) {
+        m_timerSearch.Start(1000, true);
+
+        m_searchChanged = false;
+    }
+}
+
+
+void wxZRColaCharSelect::OnSearchText(wxCommandEvent& event)
+{
+    event.Skip();
+
+    m_timerSearch.Stop();
+    m_searchChanged = true;
+}
+
+
+void wxZRColaCharSelect::OnSearchEnter(wxCommandEvent& event)
+{
+    event.Skip();
+
+    m_timerSearch.Stop();
+    wxTimerEvent e(m_timerSearch);
+    GetEventHandler()->ProcessEvent(e);
+
+    m_searchChanged = false;
+}
+
+
+void wxZRColaCharSelect::OnSearchTimer(wxTimerEvent& event)
+{
+    wxString val(m_search->GetValue());
+    if (!val.IsEmpty()) {
+        ZRColaApp *app = (ZRColaApp*)wxTheApp;
+        std::map<wchar_t, unsigned long> hits;
+
+        {
+            // Search by indexes and merge results.
+            std::map<wchar_t, unsigned long> hits_sub;
+            app->m_chr_db.search_by_desc(val.c_str(), hits, hits_sub);
+            for (std::map<wchar_t, unsigned long>::const_iterator i = hits_sub.cbegin(), i_end = hits_sub.cend(); i != i_end; ++i) {
+                std::map<wchar_t, unsigned long>::iterator idx = hits.find(i->first);
+                if (idx == hits.end())
+                    hits.insert(std::make_pair(i->first, i->second / 4));
+                else
+                    idx->second += i->second / 4;
+            }
+        }
+
+        // Filter by categories.
+        ZRCola::character_db::character *chr = (ZRCola::character_db::character*)new char[sizeof(ZRCola::character_db::character)];
+        for (std::map<wchar_t, unsigned long>::const_iterator i = hits.cbegin(), i_end = hits.cend(); i != i_end;) {
+            chr->chr = i->first;
+            size_t start, end;
+            std::map<ZRCola::chrcatid_t, int>::const_iterator idx;
+            if (app->m_chr_db.idxChr.find(*chr, start, end) &&
+                ((idx = m_ccOrder.find(app->m_chr_db.idxChr[start].cat)) == m_ccOrder.end() || m_categories->IsChecked(idx->second)))
+            {
+                // Character category approved.
+                ++i;
+            } else {
+                // Character category not approved.
+                std::map<wchar_t, unsigned long>::const_iterator i_remove = i;
+                ++i;
+                hits.erase(i_remove);
+            }
+        }
+        delete chr;
+
+        // Now sort the characters by rank.
+        std::vector< std::pair<unsigned long, wchar_t> > hits2;
+        hits2.reserve(hits.size());
+        for (std::map<wchar_t, unsigned long>::const_iterator i = hits.cbegin(), i_end = hits.cend(); i != i_end; ++i)
+            hits2.push_back(std::make_pair(i->second, i->first));
+        std::qsort(hits2.data(), hits2.size(), sizeof(std::pair<unsigned long, wchar_t>), compare_hits);
+
+        // Display results.
+        wxString chars;
+        chars.reserve(hits2.size());
+        for (std::vector< std::pair<unsigned long, wchar_t> >::const_iterator i = hits2.cbegin(), i_end = hits2.cend(); i != i_end; ++i)
+            chars += i->second;
+        m_gridResults->SetCharacters(chars);
+    } else
+        ResetResults();
+
+    m_gridResults->Scroll(0, 0);
+}
+
+
+void wxZRColaCharSelect::OnCategoriesToggle(wxCommandEvent& event)
+{
+    m_timerSearch.Stop();
+    m_timerSearch.Start(500, true);
+}
+
+
+void wxZRColaCharSelect::OnResultSelectCell(wxGridEvent& event)
+{
+    wxString val(m_gridResults->GetCellValue(event.GetRow(), event.GetCol()));
+    m_char = val.IsEmpty() ? 0 : val[0];
+    m_unicode->GetValidator()->TransferToWindow();
+}
+
+
+void wxZRColaCharSelect::OnResultCellDClick(wxGridEvent& event)
+{
+    event.Skip();
+
+    wxString val(m_gridResults->GetCellValue(event.GetRow(), event.GetCol()));
+    if (!val.IsEmpty()) {
+        m_char = val[0];
+        wxCommandEvent e(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
+        m_sdbSizerButtonsOK->GetEventHandler()->ProcessEvent(e);
+    }
+}
+
+
+void wxZRColaCharSelect::OnResultsKeyDown(wxKeyEvent& event)
+{
+    switch (event.GetKeyCode()) {
+    case WXK_RETURN:
+    case WXK_NUMPAD_ENTER:
+        wxString val(m_gridResults->GetCellValue(m_gridResults->GetCursorRow(), m_gridResults->GetCursorColumn()));
+        if (!val.IsEmpty()) {
+            m_char = val[0];
+            wxCommandEvent e(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
+            m_sdbSizerButtonsOK->GetEventHandler()->ProcessEvent(e);
+
+            event.StopPropagation();
+            return;
+        }
+    }
+
+    event.Skip();
+}
+
+
+void wxZRColaCharSelect::OnRecentSelectCell(wxGridEvent& event)
+{
+    wxString val(m_gridRecent->GetCellValue(event.GetRow(), event.GetCol()));
+    m_char = val.IsEmpty() ? 0 : val[0];
+    m_unicode->GetValidator()->TransferToWindow();
+}
+
+
+void wxZRColaCharSelect::OnRecentCellDClick(wxGridEvent& event)
+{
+    event.Skip();
+
+    wxString val(m_gridRecent->GetCellValue(event.GetRow(), event.GetCol()));
+    if (!val.IsEmpty()) {
+        m_char = val[0];
+        wxCommandEvent e(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
+        m_sdbSizerButtonsOK->GetEventHandler()->ProcessEvent(e);
+    }
+}
+
+
+void wxZRColaCharSelect::OnRecentKeyDown(wxKeyEvent& event)
+{
+    switch (event.GetKeyCode()) {
+    case WXK_RETURN:
+    case WXK_NUMPAD_ENTER:
+        wxString val(m_gridRecent->GetCellValue(m_gridRecent->GetCursorRow(), m_gridRecent->GetCursorColumn()));
+        if (!val.IsEmpty()) {
+            m_char = val[0];
+            wxCommandEvent e(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
+            m_sdbSizerButtonsOK->GetEventHandler()->ProcessEvent(e);
+
+            event.StopPropagation();
+            return;
+        }
+    }
+
+    event.Skip();
+}
+
+
+void wxZRColaCharSelect::OnRelatedSelectCell(wxGridEvent& event)
+{
+    wxString val(m_gridRelated->GetCellValue(event.GetRow(), event.GetCol()));
+    m_char = val.IsEmpty() ? 0 : val[0];
+    m_unicode->GetValidator()->TransferToWindow();
+}
+
+
+void wxZRColaCharSelect::OnUnicodeText(wxCommandEvent& event)
+{
+    event.Skip();
+
+    m_unicodeChanged = true;
+}
+
+
+void wxZRColaCharSelect::OnOKButtonClick(wxCommandEvent& event)
+{
+    event.Skip();
+
+    wxString
+        recent(m_gridRecent->GetCharacters()),
+        val(1, m_char);
+    for (size_t i = 0, n = recent.Length(); i < n; i++) {
+        const wxStringCharType c = recent[i];
+        if (c != m_char)
+            val += c;
+    }
+
+    m_gridRecent->SetCharacters(val);
+}
+
+
+void wxZRColaCharSelect::ResetResults()
+{
+    // Fill the results.
+    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    size_t i, n = app->m_chr_db.idxChr.size();
+    wxString val;
+    val.reserve(n);
+    for (i = 0; i < n; i++) {
+        const ZRCola::character_db::character &chr = app->m_chr_db.idxChr[i];
+        std::map<ZRCola::chrcatid_t, int>::const_iterator idx = m_ccOrder.find(chr.cat);
+        if (idx == m_ccOrder.end() || m_categories->IsChecked(idx->second))
+            val += chr.chr;
+    }
+    m_gridResults->SetCharacters(val);
 }
 
 
@@ -42,25 +322,26 @@ wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) : wxZRColaCharSelectBas
 // wxPersistentZRColaCharSelect
 //////////////////////////////////////////////////////////////////////////
 
-wxPersistentZRColaCharSelect::wxPersistentZRColaCharSelect(wxZRColaCharSelect *wnd) : wxPersistentWindow<wxZRColaCharSelect>(wnd)
+wxPersistentZRColaCharSelect::wxPersistentZRColaCharSelect(wxZRColaCharSelect *wnd) : wxPersistentDialog(wnd)
 {
-}
-
-
-wxString wxPersistentZRColaCharSelect::GetKind() const
-{
-    return wxT(wxPERSIST_TLW_KIND);
 }
 
 
 void wxPersistentZRColaCharSelect::Save() const
 {
+    wxPersistentDialog::Save();
+
     const wxZRColaCharSelect * const wnd = static_cast<const wxZRColaCharSelect*>(GetWindow());
 
-    // Code copied from wxPersistentTLW::Save()
-    const wxPoint pos = wnd->GetScreenPosition();
-    SaveValue(wxPERSIST_TLW_X, pos.x);
-    SaveValue(wxPERSIST_TLW_Y, pos.y);
+    SaveValue(wxT("recentChars"), wnd->m_gridRecent->GetCharacters());
+
+    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
+        const ZRCola::chrcat_db::chrcat &cc = app->m_cc_db.idxRnk[i];
+        wxString name(wxT("category"));
+        name.Append(cc.id.data, _countof(cc.id.data));
+        SaveValue(name, wnd->m_categories->IsChecked(i));
+    }
 }
 
 
@@ -68,28 +349,20 @@ bool wxPersistentZRColaCharSelect::Restore()
 {
     wxZRColaCharSelect * const wnd = static_cast<wxZRColaCharSelect*>(GetWindow());
 
-    // Code copied from wxPersistentTLW::Restore()
-    long
-        x wxDUMMY_INITIALIZE(-1),
-        y wxDUMMY_INITIALIZE(-1);
-    const wxSize size = wnd->GetSize();
-    const bool hasPos = RestoreValue(wxPERSIST_TLW_X, &x) &&
-                        RestoreValue(wxPERSIST_TLW_Y, &y);
+    wxString recent;
+    if (RestoreValue(wxT("recentChars"), &recent))
+        wnd->m_gridRecent->SetCharacters(recent);
 
-    if (hasPos) {
-        // to avoid making the window completely invisible if it had been
-        // shown on a monitor which was disconnected since the last run
-        // (this is pretty common for notebook with external displays)
-        //
-        // NB: we should allow window position to be (slightly) off screen,
-        //     it's not uncommon to position the window so that its upper
-        //     left corner has slightly negative coordinate
-        if (wxDisplay::GetFromPoint(wxPoint(x         , y         )) != wxNOT_FOUND ||
-            wxDisplay::GetFromPoint(wxPoint(x + size.x, y + size.y)) != wxNOT_FOUND)
-        {
-            wnd->Move(x, y, wxSIZE_ALLOW_MINUS_ONE);
-        }
+    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
+        const ZRCola::chrcat_db::chrcat &cc = app->m_cc_db.idxRnk[i];
+        wxString name(wxT("category"));
+        name.Append(cc.id.data, _countof(cc.id.data));
+        bool val;
+        if (RestoreValue(name, &val))
+            wnd->m_categories->Check(i, val);
     }
+    wnd->ResetResults();
 
-    return true;
+    return wxPersistentDialog::Restore();
 }

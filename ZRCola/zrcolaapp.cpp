@@ -60,7 +60,7 @@ bool ZRColaApp::OnInit()
         if (wxConfigBase::Get()->Read(wxT("LocalizationRepositoryPath"), &sPath))
             m_locale.AddCatalogLookupPathPrefix(sPath);
         wxVERIFY(m_locale.Init(language));
-        wxVERIFY(m_locale.AddCatalog(wxT("wxExtend")));
+        wxVERIFY(m_locale.AddCatalog(wxT("wxExtend") wxT(wxExtendVersion)));
         wxVERIFY(m_locale.AddCatalog(wxT("libZRColaUI")));
         wxVERIFY(m_locale.AddCatalog(wxT("ZRCola")));
         wxVERIFY(m_locale.AddCatalog(wxT("ZRCola-zrcdb")));
@@ -128,7 +128,8 @@ bool ZRColaApp::OnInit()
                             m_cc_db.idxRnk   .clear();
                             m_cc_db.data     .clear();
                         }
-                    }
+                    } else
+                        stdex::idrec::ignore<ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>(dat);
                 }
 
                 if (!has_translation_data)

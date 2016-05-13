@@ -35,11 +35,11 @@ class wxZRColaComposerPanel;
 #include <wx/statbox.h>
 #include <wx/panel.h>
 #include <wx/splitter.h>
+#include <wx/timer.h>
 #include <wx/grid.h>
 #include <wx/srchctrl.h>
 #include <wx/checklst.h>
 #include <wx/stattext.h>
-#include <wx/valtext.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
 
@@ -56,7 +56,7 @@ class wxZRColaFrameBase : public wxFrame
 		enum
 		{
 			wxID_AUTOSTART = 1000,
-			wxID_INSERT_CHARACTER,
+			wxID_CHARACTER_SELECTOR,
 			wxID_SEND_COMPOSED,
 			wxID_SEND_DECOMPOSED,
 			wxID_SEND_ABORT,
@@ -77,6 +77,7 @@ class wxZRColaFrameBase : public wxFrame
 		wxAuiToolBarItem* m_toolEditCopy; 
 		wxAuiToolBarItem* m_toolEditPaste; 
 		wxAuiToolBar* m_toolbarCompose;
+		wxAuiToolBarItem* m_toolCharSelect; 
 		wxAuiToolBarItem* m_toolSendComposed; 
 		wxAuiToolBarItem* m_toolSendDecomposed; 
 		wxChoice* m_toolDecompLanguage;
@@ -107,6 +108,11 @@ class wxZRColaComposerPanelBase : public wxPanel
 	private:
 	
 	protected:
+		enum
+		{
+			wxID_TIMER_SAVE = 1000
+		};
+		
 		wxSplitterWindow* m_splitterDecomposed;
 		wxPanel* m_panelDecomposedEdit;
 		wxPanel* m_panelDecomposedHex;
@@ -115,6 +121,7 @@ class wxZRColaComposerPanelBase : public wxPanel
 		wxPanel* m_panelComposedEdit;
 		wxPanel* m_panelComposedHex;
 		wxTextCtrl* m_composedHex;
+		wxTimer m_timerSave;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnDecomposedPaint( wxPaintEvent& event ) { event.Skip(); }
@@ -123,6 +130,7 @@ class wxZRColaComposerPanelBase : public wxPanel
 		virtual void OnComposedPaint( wxPaintEvent& event ) { event.Skip(); }
 		virtual void OnComposedText( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnComposedHexPaint( wxPaintEvent& event ) { event.Skip(); }
+		virtual void OnSaveTimer( wxTimerEvent& event ) { event.Skip(); }
 		
 	
 	public:
@@ -178,29 +186,43 @@ class wxZRColaCharSelectBase : public wxDialog
 	private:
 	
 	protected:
+		enum
+		{
+			wxID_TIMER_SEARCH = 1000
+		};
+		
 		wxSearchCtrl* m_search;
 		wxCheckListBox* m_categories;
-		wxGrid* m_gridResults;
-		wxGrid* m_gridRecent;
+		wxZRColaCharGrid* m_gridResults;
+		wxZRColaCharGrid* m_gridRecent;
 		wxStaticText* m_labelUnicode;
 		wxTextCtrl* m_unicode;
 		wxGrid* m_gridPreview;
 		wxTextCtrl* m_description;
-		wxGrid* m_gridRelated;
+		wxZRColaCharGrid* m_gridRelated;
 		wxStdDialogButtonSizer* m_sdbSizerButtons;
 		wxButton* m_sdbSizerButtonsOK;
 		wxButton* m_sdbSizerButtonsCancel;
+		wxTimer m_timerSearch;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void OnIdle( wxIdleEvent& event ) { event.Skip(); }
 		virtual void OnSearchText( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnSearchEnter( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnCategoriesToggle( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnResultCellDClick( wxGridEvent& event ) { event.Skip(); }
 		virtual void OnResultSelectCell( wxGridEvent& event ) { event.Skip(); }
+		virtual void OnResultsKeyDown( wxKeyEvent& event ) { event.Skip(); }
+		virtual void OnRecentCellDClick( wxGridEvent& event ) { event.Skip(); }
 		virtual void OnRecentSelectCell( wxGridEvent& event ) { event.Skip(); }
+		virtual void OnRecentKeyDown( wxKeyEvent& event ) { event.Skip(); }
 		virtual void OnUnicodeText( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnRelatedSelectCell( wxGridEvent& event ) { event.Skip(); }
+		virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnSearchTimer( wxTimerEvent& event ) { event.Skip(); }
 		
 	
 	public:
-		wxString m_unicodeValid; 
 		
 		wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Character Selector"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaCharSelect") ); 
 		~wxZRColaCharSelectBase();

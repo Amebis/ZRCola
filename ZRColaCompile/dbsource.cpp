@@ -20,6 +20,94 @@
 #include "stdafx.h"
 
 
+
+bool ZRCola::DBSource::character_desc_idx::add_keywords(const wchar_t *str, wchar_t chr, size_t sub)
+{
+    wxASSERT_MSG(str, wxT("string is NULL"));
+
+    while (*str) {
+        // Skip white space.
+        for (;;) {
+            if (*str == 0)
+                return true;
+            else if (!iswspace(*str))
+                break;
+            else
+                str++;
+        }
+
+        // Get term.
+        std::wstring term;
+        if (*str == L'"') {
+            const wchar_t *str_end = ++str;
+            for (;;) {
+                if (*str_end == 0) {
+                    term.assign(str, str_end);
+                    break;
+                } else if (*str_end == L'"') {
+                    term.assign(str, str_end);
+                    str_end++;
+                    break;
+                } else
+                    str_end++;
+            }
+            str = str_end;
+        } else {
+            const wchar_t *str_end = str + 1;
+            for (; *str_end && !iswspace(*str_end); str_end++);
+            term.assign(str, str_end);
+            str = str_end;
+        }
+
+        if (!term.empty()) {
+            std::transform(term.begin(), term.end(), term.begin(), std::towlower);
+            if (sub) {
+                std::wstring::size_type j_end = term.size();
+                if (j_end >= sub) {
+                    // Insert all keyword substrings "sub" or more characters long.
+                    for (std::wstring::size_type i = 0, i_end = j_end - sub; i < i_end; ++i) {
+                        for (std::wstring::size_type j = i + sub; j < j_end; ++j)
+                            add_keyword(term.substr(i, j - i), chr);
+                    }
+                }
+            } else {
+                // Insert exact keyword only.
+                add_keyword(term, chr);
+            }
+        }
+    }
+
+    return true;
+}
+
+
+void ZRCola::DBSource::character_desc_idx::save(ZRCola::textindex<wchar_t, wchar_t, unsigned __int32> &idx) const
+{
+    idx       .clear();
+    idx.keys  .clear();
+    idx.values.clear();
+
+    // Pre-allocate memory.
+    std::vector<wchar_t>::size_type size_keys   = 0;
+    std::vector<wchar_t>::size_type size_values = 0;
+    for (const_iterator i = cbegin(), i_end = cend(); i != i_end; ++i) {
+        size_keys   += i->first.size();
+        size_values += i->second.size();
+    }
+    idx       .reserve(size()     );
+    idx.keys  .reserve(size_keys  );
+    idx.values.reserve(size_values);
+
+    // Convert the index.
+    for (const_iterator i = cbegin(), i_end = cend(); i != i_end; ++i) {
+        ZRCola::mappair_t<unsigned __int32> p = { idx.keys.size(), idx.values.size() };
+        idx.push_back(p);
+        idx.keys.insert(idx.keys.end(), i->first.cbegin(), i->first.cend());
+        idx.values.insert(idx.values.end(), i->second.cbegin(), i->second.cend());
+    }
+}
+
+
 ZRCola::DBSource::DBSource()
 {
 }
@@ -348,14 +436,14 @@ bool ZRCola::DBSource::GetChrCat(const ATL::CComPtr<ADOField>& f, chrcatid_t& cc
                         _ftprintf(stderr, wxT("%s: error ZCC0111: Syntax error in \"%.*ls\" field (\"%.*ls\"). Character category ID must contain ASCII characters only.\n"), m_filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
                         return false;
                     }
-                    cc[i] = (char)c;
+                    cc.data[i] = (char)c;
                 } else
-                    cc[i] = 0;
+                    cc.data[i] = 0;
             } else
                 break;
         }
     } else
-        memset(cc, 0, sizeof(cc));
+        memset(cc.data, 0, sizeof(cc));
 
     return true;
 }

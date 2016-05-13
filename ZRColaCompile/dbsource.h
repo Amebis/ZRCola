@@ -24,6 +24,7 @@
 
 #include <atlbase.h>
 #include <adoint.h>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -113,6 +114,61 @@ namespace ZRCola {
 
 
         ///
+        /// Character description index key comparator
+        ///
+        struct character_desc_idx_less : public std::binary_function<std::wstring, std::wstring, bool>
+        {
+            inline bool operator()(const std::wstring& _Left, const std::wstring& _Right) const
+            {
+                size_t
+                    _Left_len  = _Left .size(),
+                    _Right_len = _Right.size();
+
+                int r = _wcsncoll(_Left.c_str(), _Right.c_str(), std::min<size_t>(_Left_len, _Right_len));
+                     if (r         != 0         ) return r < 0;
+                else if (_Left_len <  _Right_len) return true;
+
+                return false;
+            }
+        };
+
+
+        ///
+        /// Character description index
+        ///
+        class character_desc_idx : public std::map<std::wstring, std::vector<wchar_t>, character_desc_idx_less>
+        {
+        public:
+            bool add_keywords(const wchar_t *str, wchar_t chr, size_t sub = 0);
+
+            void save(ZRCola::textindex<wchar_t, wchar_t, unsigned __int32> &idx) const;
+
+        protected:
+            inline void add_keyword(const std::wstring &term, wchar_t chr)
+            {
+                iterator idx = find(term);
+                if (idx == end()) {
+                    // New keyword.
+                    insert(std::make_pair(term, std::vector<wchar_t>(1, chr)));
+                } else {
+                    // Append to existing keyword.
+                    std::vector<wchar_t> &val = idx->second;
+                    for (std::vector<wchar_t>::iterator i = val.begin(), i_end = val.end(); ; ++i) {
+                        if (i == i_end) {
+                            // End-of-values reached. Append character.
+                            val.push_back(chr);
+                            break;
+                        } else if (*i == chr) {
+                            // Character already among the values.
+                            break;
+                        }
+                    }
+                }
+            }
+        };
+
+
+        ///
         /// Character category
         ///
         class chrcat {
@@ -174,6 +230,19 @@ namespace ZRCola {
             ADO_LONGPTR count;
             return SUCCEEDED(rs->get_RecordCount(&count)) ? count : (size_t)-1;
         }
+
+
+        ///
+        /// Splits string to individual keywords
+        ///
+        /// \param[in ] str       String
+        /// \param[out] keywords  Array of keywords
+        ///
+        /// \returns
+        /// - true when successful
+        /// - false otherwise
+        ///
+        static bool GetKeywords(const wchar_t *str, std::vector< std::wstring > &keywords);
 
 
         ///

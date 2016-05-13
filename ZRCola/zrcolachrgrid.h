@@ -58,6 +58,16 @@ public:
     ///
     void SetCharacters(const wxString &chars);
 
+    ///
+    /// Returns displayed characters
+    ///
+    /// \returns  The string containing displayed characters
+    ///
+    inline wxString GetCharacters() const
+    {
+        return m_chars;
+    }
+
 protected:
     virtual wxString GetToolTipText(int idx);
 
@@ -75,6 +85,6 @@ protected:
 
 private:
     bool m_isResizing;      ///< Prevents nesting of OnSize() method.
-    wxTimer *m_toolTipTimer;///< Timer for displaying tooltip
+    wxTimer m_timerToolTip; ///< Timer for displaying tooltip
     size_t m_toolTipIdx;    ///< Index of cell for tooltip display
 };

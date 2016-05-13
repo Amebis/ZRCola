@@ -24,11 +24,6 @@
 // wxZRColaComposerPanel
 //////////////////////////////////////////////////////////////////////////
 
-BEGIN_EVENT_TABLE(wxZRColaComposerPanel, wxZRColaComposerPanelBase)
-    EVT_TIMER(wxZRColaComposerPanel::wxID_CHECKPOINT_TIMER, wxZRColaComposerPanel::OnTimerTimeout)
-END_EVENT_TABLE()
-
-
 wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
     m_decomposedChanged(false),
     m_composedChanged(false),
@@ -37,9 +32,6 @@ wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
     wxZRColaComposerPanelBase(parent)
 {
     m_decomposed->PushEventHandler(&m_keyhandler);
-
-    // Create timer for saving the state.
-    m_timer = new wxTimer(this, wxID_CHECKPOINT_TIMER);
 
     // Restore the previously saved state (if exists).
     wxString fileName(GetStateFileName());
@@ -80,9 +72,6 @@ wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
 
 wxZRColaComposerPanel::~wxZRColaComposerPanel()
 {
-    if (m_timer)
-        delete m_timer;
-
     m_decomposed->PopEventHandler();
 
     // This is a controlled exit. Purge saved state.
@@ -95,7 +84,7 @@ wxZRColaComposerPanel::~wxZRColaComposerPanel()
 void wxZRColaComposerPanel::SynchronizePanels()
 {
     if (m_decomposedChanged) {
-        m_timer->Stop();
+        m_timerSave.Stop();
 
         wxString src;
         size_t len = GetValue(m_decomposed, src);
@@ -119,9 +108,9 @@ void wxZRColaComposerPanel::SynchronizePanels()
         SetHexValue(m_composedHex, m_selComposedHex, m_mappingComposedHex, dst.data(), dst.length(), m_selComposed.first, m_selComposed.second);
 
         // Schedule state save after 3s.
-        m_timer->Start(3000, true);
+        m_timerSave.Start(3000, true);
     } else if (m_composedChanged) {
-        m_timer->Stop();
+        m_timerSave.Stop();
 
         wxString src;
         size_t len = GetValue(m_composed, src);
@@ -150,7 +139,7 @@ void wxZRColaComposerPanel::SynchronizePanels()
         SetHexValue(m_decomposedHex, m_selDecomposedHex, m_mappingDecomposedHex, dst.data(), dst.length(), m_selDecomposed.first, m_selDecomposed.second);
 
         // Schedule state save after 3s.
-        m_timer->Start(3000, true);
+        m_timerSave.Start(3000, true);
     }
 
     m_decomposedChanged = false;
@@ -285,7 +274,7 @@ void wxZRColaComposerPanel::OnComposedText(wxCommandEvent& event)
 }
 
 
-void wxZRColaComposerPanel::OnTimerTimeout(wxTimerEvent& event)
+void wxZRColaComposerPanel::OnSaveTimer(wxTimerEvent& event)
 {
     wxString fileName(GetStateFileName());
     wxFFile file(fileName, wxT("wb"));

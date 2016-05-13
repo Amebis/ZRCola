@@ -21,383 +21,6 @@
 
 
 ///
-/// Writes translation database to a stream
-///
-/// \param[in] stream  Output stream
-/// \param[in] db      Translation database
-///
-/// \returns The stream \p stream
-///
-inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::translation_db &db)
-{
-    assert(db.idxComp.size() == db.idxDecomp.size());
-
-    unsigned __int32 count;
-
-    // Write index count.
-    ZRCola::translation_db::indexComp::size_type trans_count = db.idxComp.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (trans_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    count = (unsigned __int32)trans_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write composition index.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.idxComp.data(), sizeof(unsigned __int32)*count);
-
-    // Write decomposition index.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.idxDecomp.data(), sizeof(unsigned __int32)*count);
-
-    // Write data count.
-    std::vector<unsigned __int16>::size_type data_count = db.data.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (data_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    count = (unsigned __int32)data_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write data.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
-
-    return stream;
-}
-
-
-///
-/// Writes key sequence database to a stream
-///
-/// \param[in] stream  Output stream
-/// \param[in] db      Key sequence database
-///
-/// \returns The stream \p stream
-///
-inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::keyseq_db &db)
-{
-    assert(db.idxChr.size() == db.idxKey.size());
-
-    unsigned __int32 count;
-
-    // Write index count.
-    ZRCola::keyseq_db::indexChr::size_type ks_count = db.idxChr.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (ks_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    count = (unsigned __int32)ks_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write character index.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.idxChr.data(), sizeof(unsigned __int32)*count);
-
-    // Write key index.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.idxKey.data(), sizeof(unsigned __int32)*count);
-
-    // Write data count.
-    std::vector<unsigned __int16>::size_type data_count = db.data.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (data_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    count = (unsigned __int32)data_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write data.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
-
-    return stream;
-}
-
-
-///
-/// Writes language database to a stream
-///
-/// \param[in] stream  Output stream
-/// \param[in] db      Language database
-///
-/// \returns The stream \p stream
-///
-inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::language_db &db)
-{
-    unsigned __int32 count;
-
-    // Write index count.
-    ZRCola::language_db::indexLang::size_type lang_count = db.idxLng.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (lang_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    count = (unsigned __int32)lang_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write language index.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.idxLng.data(), sizeof(unsigned __int32)*count);
-
-
-    // Write data count.
-    std::vector<unsigned __int16>::size_type data_count = db.data.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (data_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    count = (unsigned __int32)data_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write data.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
-
-    return stream;
-}
-
-
-///
-/// Writes language character database to a stream
-///
-/// \param[in] stream  Output stream
-/// \param[in] db      Language character database
-///
-/// \returns The stream \p stream
-///
-inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::langchar_db &db)
-{
-#ifdef ZRCOLA_LANGCHAR_LANG_IDX
-    assert(db.idxChr.size() == db.idxLng.size());
-#endif
-
-    unsigned __int32 count;
-
-    // Write index count.
-    ZRCola::langchar_db::indexChar::size_type lc_count = db.idxChr.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (lc_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    count = (unsigned __int32)lc_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write character index.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.idxChr.data(), sizeof(unsigned __int32)*count);
-
-#ifdef ZRCOLA_LANGCHAR_LANG_IDX
-    // Write language index.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.idxLng.data(), sizeof(unsigned __int32)*count);
-#endif
-
-    // Write data count.
-    std::vector<unsigned __int16>::size_type data_count = db.data.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (data_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    count = (unsigned __int32)data_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write data.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
-
-    return stream;
-}
-
-
-///
-/// Writes character group database to a stream
-///
-/// \param[in] stream  Output stream
-/// \param[in] db      Character group database
-///
-/// \returns The stream \p stream
-///
-inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::chrgrp_db &db)
-{
-    unsigned __int32 count;
-
-    // Write index count.
-    ZRCola::keyseq_db::indexChr::size_type ks_count = db.idxRnk.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (ks_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    count = (unsigned __int32)ks_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write rank index.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.idxRnk.data(), sizeof(unsigned __int32)*count);
-
-    // Write data count.
-    std::vector<unsigned __int16>::size_type data_count = db.data.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (data_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    count = (unsigned __int32)data_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write data.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
-
-    return stream;
-}
-
-
-///
-/// Writes character database to a stream
-///
-/// \param[in] stream  Output stream
-/// \param[in] db      Character database
-///
-/// \returns The stream \p stream
-///
-inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::character_db &db)
-{
-    unsigned __int32 count;
-
-    // Write index count.
-    ZRCola::keyseq_db::indexChr::size_type ks_count = db.idxChr.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (ks_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    count = (unsigned __int32)ks_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write character index.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.idxChr.data(), sizeof(unsigned __int32)*count);
-
-    // Write data count.
-    std::vector<unsigned __int16>::size_type data_count = db.data.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (data_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    count = (unsigned __int32)data_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write data.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
-
-    return stream;
-}
-
-
-///
-/// Writes character category database to a stream
-///
-/// \param[in] stream  Output stream
-/// \param[in] db      Character category database
-///
-/// \returns The stream \p stream
-///
-inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::chrcat_db &db)
-{
-    unsigned __int32 count;
-
-    // Write index count.
-    ZRCola::keyseq_db::indexChr::size_type ks_count = db.idxChrCat.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (ks_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    count = (unsigned __int32)ks_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write character category index.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.idxChrCat.data(), sizeof(unsigned __int32)*count);
-
-    // Write rank index.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.idxRnk.data(), sizeof(unsigned __int32)*count);
-
-    // Write data count.
-    std::vector<unsigned __int16>::size_type data_count = db.data.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (data_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    count = (unsigned __int32)data_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write data.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
-
-    return stream;
-}
-
-
-///
 /// Main function
 ///
 int _tmain(int argc, _TCHAR *argv[])
@@ -768,6 +391,7 @@ int _tmain(int argc, _TCHAR *argv[])
             if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
                 ZRCola::DBSource::character chr;
                 ZRCola::character_db db;
+                ZRCola::DBSource::character_desc_idx idxChrDsc, idxChrDscSub;
 
                 // Preallocate memory.
                 db.idxChr.reserve(count);
@@ -781,7 +405,7 @@ int _tmain(int argc, _TCHAR *argv[])
                         unsigned __int32 idx = db.data.size();
                         db.data.push_back((unsigned __int16)chr.chr);
                         for (std::wstring::size_type i = 0; i < sizeof(ZRCola::chrcatid_t)/sizeof(unsigned __int16); i++)
-                            db.data.push_back(((const unsigned __int16*)chr.cat)[i]);
+                            db.data.push_back(((const unsigned __int16*)chr.cat.data)[i]);
                         std::wstring::size_type n_desc = chr.desc.length();
                         wxASSERT_MSG(n_desc <= 0xffff, wxT("character description too long"));
                         db.data.push_back((unsigned __int16)n_desc);
@@ -793,6 +417,12 @@ int _tmain(int argc, _TCHAR *argv[])
                         for (std::wstring::size_type i = 0; i < n_rel; i++)
                             db.data.push_back(chr.rel[i]);
                         db.idxChr.push_back(idx);
+
+                        // Add description (and keywords) to index.
+                        idxChrDsc   .add_keywords(chr.desc    .c_str(), chr.chr, 0);
+                        idxChrDsc   .add_keywords(chr.keywords.c_str(), chr.chr, 0);
+                        idxChrDscSub.add_keywords(chr.desc    .c_str(), chr.chr, 3);
+                        idxChrDscSub.add_keywords(chr.keywords.c_str(), chr.chr, 3);
                     } else
                         has_errors = true;
 
@@ -801,6 +431,10 @@ int _tmain(int argc, _TCHAR *argv[])
 
                 // Sort indices.
                 db.idxChr.sort();
+
+                // Save text indices.
+                idxChrDsc   .save(db.idxDsc   );
+                idxChrDscSub.save(db.idxDscSub);
 
                 // Write characters to file.
                 dst << ZRCola::character_rec(db);
@@ -835,7 +469,7 @@ int _tmain(int argc, _TCHAR *argv[])
                         // Add character category to index and data.
                         unsigned __int32 idx = db.data.size();
                         for (std::wstring::size_type i = 0; i < sizeof(ZRCola::chrcatid_t)/sizeof(unsigned __int16); i++)
-                            db.data.push_back(((const unsigned __int16*)cc.id)[i]);
+                            db.data.push_back(((const unsigned __int16*)cc.id.data)[i]);
                         wxASSERT_MSG((int)0xffff8000 <= cc.rank && cc.rank <= (int)0x00007fff, wxT("character category rank out of bounds"));
                         db.data.push_back((unsigned __int16)cc.rank);
                         std::wstring::size_type n_name = cc.name.length();

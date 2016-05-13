@@ -23,6 +23,8 @@
 
 #include <stdex/idrec.h>
 #include <istream>
+#include <map>
+#include <ostream>
 #include <vector>
 #include <string>
 
@@ -37,7 +39,55 @@ namespace ZRCola {
     /// Character category ID type
     /// Two letter abbreviation, non-terminated
     ///
-    typedef char chrcatid_t[2];
+    struct chrcatid_t {
+        char data[2];
+
+        inline chrcatid_t& operator=(const chrcatid_t &src)
+        {
+            data[0] = src.data[0];
+            data[1] = src.data[1];
+            return *this;
+        }
+    };
+
+
+    ///
+    /// Compares two character category IDs
+    ///
+    /// \param[in] a  First character category ID
+    /// \param[in] b  Second character category ID
+    ///
+    /// \returns
+    /// - true when \p a < \p b
+    /// - false otherwise
+    ///
+    inline bool operator<(const chrcatid_t& a, const chrcatid_t& b)
+    {
+             if (a.data[0] < b.data[0]) return true;
+        else if (a.data[0] > b.data[0]) return false;
+        else if (a.data[1] < b.data[1]) return true;
+        else                            return false;
+    }
+
+
+    ///
+    /// Compares two character category IDs
+    ///
+    /// \param[in] a  First character category ID
+    /// \param[in] b  Second character category ID
+    ///
+    /// \returns
+    /// - true when \p a > \p b
+    /// - false otherwise
+    ///
+    inline bool operator>(const chrcatid_t& a, const chrcatid_t& b)
+    {
+             if (a.data[0] > b.data[0]) return true;
+        else if (a.data[0] < b.data[0]) return false;
+        else if (a.data[1] > b.data[1]) return true;
+        else                            return false;
+    }
+
 
     ///
     /// Character Database
@@ -91,13 +141,17 @@ namespace ZRCola {
             }
         } idxChr;      ///< Character index
 
-        std::vector<unsigned __int16> data;     ///< Character data
+        textindex<wchar_t, wchar_t, unsigned __int32> idxDsc;    ///< Description index
+        textindex<wchar_t, wchar_t, unsigned __int32> idxDscSub; ///< Description index (sub-terms)
+        std::vector<unsigned __int16> data;                      ///< Character data
 
     public:
         ///
         /// Constructs the database
         ///
         inline character_db() : idxChr(data) {}
+
+        void search_by_desc(_In_z_ const wchar_t *str, _Inout_ std::map<wchar_t, unsigned long> &hits, _Inout_ std::map<wchar_t, unsigned long> &hits_sub) const;
     };
 
 
@@ -148,10 +202,9 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const chrcat &a, _In_ const chrcat &b) const
             {
-                int r = memcmp(a.id, b.id, sizeof(chrcatid_t));
-                if (r != 0) return r;
-
-                return 0;
+                     if (a.id < b.id) return -1;
+                else if (a.id < b.id) return  1;
+                else                  return  0;
             }
         } idxChrCat;      ///< Character category index
 
@@ -233,31 +286,118 @@ const ZRCola::recordid_t stdex::idrec::record<ZRCola::chrcat_db, ZRCola::recordi
 ///
 /// Reads character database from a stream
 ///
-/// \param[in]  stream  Input stream
+/// \param[in ] stream  Input stream
 /// \param[out] db      Character database
 ///
 /// \returns The stream \p stream
 ///
 inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::character_db &db)
 {
-    unsigned __int32 count;
-
-    // Read index count.
-    stream.read((char*)&count, sizeof(count));
+    // Read character index.
+    stream >> db.idxChr;
     if (!stream.good()) return stream;
 
-    // Read character index.
-    db.idxChr.resize(count);
-    stream.read((char*)db.idxChr.data(), sizeof(unsigned __int32)*count);
+    // Read description index.
+    stream >> db.idxDsc;
+    if (!stream.good()) return stream;
+
+    // Read sub-term description index.
+    stream >> db.idxDscSub;
     if (!stream.good()) return stream;
 
     // Read data count.
+    unsigned __int32 count;
     stream.read((char*)&count, sizeof(count));
     if (!stream.good()) return stream;
 
-    // Read data.
-    db.data.resize(count);
-    stream.read((char*)db.data.data(), sizeof(unsigned __int16)*count);
+    if (count) {
+        // Read data.
+        db.data.resize(count);
+        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*count);
+    } else
+        db.data.clear();
+
+    return stream;
+}
+
+
+///
+/// Writes character database to a stream
+///
+/// \param[in] stream  Output stream
+/// \param[in] db      Character database
+///
+/// \returns The stream \p stream
+///
+inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::character_db &db)
+{
+    // Write character index.
+    if (stream.fail()) return stream;
+    stream << db.idxChr;
+
+    // Write description index.
+    if (!stream.good()) return stream;
+    stream << db.idxDsc;
+
+    // Write sub-term description index.
+    if (!stream.good()) return stream;
+    stream << db.idxDscSub;
+
+    // Write data count.
+    std::vector<unsigned __int16>::size_type data_count = db.data.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+    // 4G check
+    if (data_count > 0xffffffff) {
+        stream.setstate(std::ios_base::failbit);
+        return stream;
+    }
+#endif
+    if (stream.fail()) return stream;
+    unsigned __int32 count = (unsigned __int32)data_count;
+    stream.write((const char*)&count, sizeof(count));
+
+    // Write data.
+    if (stream.fail()) return stream;
+    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
+
+    return stream;
+}
+
+
+///
+/// Writes character category database to a stream
+///
+/// \param[in] stream  Output stream
+/// \param[in] db      Character category database
+///
+/// \returns The stream \p stream
+///
+inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::chrcat_db &db)
+{
+    // Write character category index.
+    if (stream.fail()) return stream;
+    stream << db.idxChrCat;
+
+    // Write rank index.
+    if (stream.fail()) return stream;
+    stream << db.idxRnk;
+
+    // Write data count.
+    std::vector<unsigned __int16>::size_type data_count = db.data.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+    // 4G check
+    if (data_count > 0xffffffff) {
+        stream.setstate(std::ios_base::failbit);
+        return stream;
+    }
+#endif
+    if (stream.fail()) return stream;
+    unsigned __int32 count = (unsigned __int32)data_count;
+    stream.write((const char*)&count, sizeof(count));
+
+    // Write data.
+    if (stream.fail()) return stream;
+    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
 
     return stream;
 }
@@ -266,36 +406,32 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::charac
 ///
 /// Reads character category database from a stream
 ///
-/// \param[in]  stream  Input stream
+/// \param[in ] stream  Input stream
 /// \param[out] db      Character category database
 ///
 /// \returns The stream \p stream
 ///
 inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::chrcat_db &db)
 {
-    unsigned __int32 count;
-
-    // Read index count.
-    stream.read((char*)&count, sizeof(count));
-    if (!stream.good()) return stream;
-
     // Read character category index.
-    db.idxChrCat.resize(count);
-    stream.read((char*)db.idxChrCat.data(), sizeof(unsigned __int32)*count);
+    stream >> db.idxChrCat;
     if (!stream.good()) return stream;
 
     // Read rank index.
-    db.idxRnk.resize(count);
-    stream.read((char*)db.idxRnk.data(), sizeof(unsigned __int32)*count);
+    stream >> db.idxRnk;
     if (!stream.good()) return stream;
 
     // Read data count.
+    unsigned __int32 count;
     stream.read((char*)&count, sizeof(count));
     if (!stream.good()) return stream;
 
-    // Read data.
-    db.data.resize(count);
-    stream.read((char*)db.data.data(), sizeof(unsigned __int16)*count);
+    if (count) {
+        // Read data.
+        db.data.resize(count);
+        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*count);
+    } else
+        db.data.clear();
 
     return stream;
 }

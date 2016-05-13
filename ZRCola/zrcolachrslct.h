@@ -27,6 +27,10 @@ class wxZRColaCharSelect;
 #pragma once
 
 #include "zrcolagui.h"
+#include <zrcola/character.h>
+#include <wxex/valhex.h>
+#include <wxex/persist/dialog.h>
+#include <map>
 
 
 ///
@@ -36,18 +40,45 @@ class wxZRColaCharSelect : public wxZRColaCharSelectBase
 {
 public:
     wxZRColaCharSelect(wxWindow* parent);
+
+    friend class wxPersistentZRColaCharSelect;  // Allow saving/restoring window state.
+
+protected:
+    virtual void OnIdle(wxIdleEvent& event);
+    virtual void OnSearchText(wxCommandEvent& event);
+    virtual void OnSearchEnter(wxCommandEvent& event);
+    virtual void OnSearchTimer(wxTimerEvent& event);
+    virtual void OnCategoriesToggle(wxCommandEvent& event);
+    virtual void OnResultSelectCell(wxGridEvent& event);
+    virtual void OnResultCellDClick(wxGridEvent& event);
+    virtual void OnResultsKeyDown(wxKeyEvent& event);
+    virtual void OnRecentSelectCell(wxGridEvent& event);
+    virtual void OnRecentCellDClick(wxGridEvent& event);
+    virtual void OnRecentKeyDown(wxKeyEvent& event);
+    virtual void OnRelatedSelectCell(wxGridEvent& event);
+    virtual void OnUnicodeText(wxCommandEvent& event);
+    virtual void OnOKButtonClick(wxCommandEvent& event);
+
+    void ResetResults();
+
+public:
+    wchar_t m_char;                                 ///< Currently selected character (0 when none)
+
+protected:
+    bool m_searchChanged;                           ///< Did Search field change?
+    std::map<ZRCola::chrcatid_t, int> m_ccOrder;    ///< Character category order
+    bool m_unicodeChanged;                          ///< Did Unicode field change?
 };
 
 
 ///
 /// Supports saving/restoring wxZRColaCharSelect state
 ///
-class wxPersistentZRColaCharSelect : public wxPersistentWindow<wxZRColaCharSelect>
+class wxPersistentZRColaCharSelect : public wxPersistentDialog
 {
 public:
     wxPersistentZRColaCharSelect(wxZRColaCharSelect *wnd);
 
-    virtual wxString GetKind() const;
     virtual void Save() const;
     virtual bool Restore();
 };

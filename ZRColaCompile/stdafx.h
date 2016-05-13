@@ -48,6 +48,8 @@
 
 #include <stdlib.h>
 
+#include <algorithm>
 #include <codecvt>
+#include <cwctype>
 #include <fstream>
 #include <set>

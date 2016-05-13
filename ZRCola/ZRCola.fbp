@@ -245,14 +245,14 @@
                         <property name="permission">none</property>
                     </object>
                     <object class="wxMenuItem" expanded="0">
-                        <property name="bitmap"></property>
+                        <property name="bitmap">Load From Icon Resource; char_select.ico; [16; 16]</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help">Display character selector to select character to insert into text</property>
-                        <property name="id">wxID_INSERT_CHARACTER</property>
+                        <property name="id">wxID_CHARACTER_SELECTOR</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">&amp;Insert Character...</property>
-                        <property name="name">m_menuInsertCharacter</property>
+                        <property name="label">C&amp;haracter Selector...</property>
+                        <property name="name">m_menuCharSelect</property>
                         <property name="permission">none</property>
                         <property name="shortcut">F8</property>
                         <property name="unchecked_bitmap"></property>
@@ -637,6 +637,27 @@
                 <event name="OnSetFocus"></event>
                 <event name="OnSize"></event>
                 <event name="OnUpdateUI"></event>
+                <object class="tool" expanded="0">
+                    <property name="bitmap">Load From Icon Resource; char_select.ico; [24; 24]</property>
+                    <property name="context_menu">0</property>
+                    <property name="id">wxID_CHARACTER_SELECTOR</property>
+                    <property name="kind">wxITEM_NORMAL</property>
+                    <property name="label">Character Selector</property>
+                    <property name="name">m_toolCharSelect</property>
+                    <property name="permission">protected</property>
+                    <property name="statusbar">Display character selector to select character to insert into text</property>
+                    <property name="tooltip">Character Selector</property>
+                    <event name="OnAuiToolBarBeginDrag"></event>
+                    <event name="OnAuiToolBarMiddleClick"></event>
+                    <event name="OnAuiToolBarOverflowClick"></event>
+                    <event name="OnAuiToolBarRightClick"></event>
+                    <event name="OnAuiToolBarToolDropDown"></event>
+                    <event name="OnMenuSelection"></event>
+                    <event name="OnToolClicked"></event>
+                    <event name="OnToolEnter"></event>
+                    <event name="OnToolRClicked"></event>
+                    <event name="OnUpdateUI"></event>
+                </object>
                 <object class="tool" expanded="0">
                     <property name="bitmap">Load From Icon Resource; send_composed.ico; [24; 24]</property>
                     <property name="context_menu">0</property>
@@ -1963,6 +1984,15 @@
                     </object>
                 </object>
             </object>
+            <object class="wxTimer" expanded="0">
+                <property name="enabled">0</property>
+                <property name="id">wxID_TIMER_SAVE</property>
+                <property name="name">m_timerSave</property>
+                <property name="oneshot">1</property>
+                <property name="period">1000</property>
+                <property name="permission">protected</property>
+                <event name="OnTimer">OnSaveTimer</event>
+            </object>
         </object>
         <object class="Panel" expanded="0">
             <property name="aui_managed">0</property>
@@ -2294,7 +2324,7 @@
             <event name="OnEraseBackground"></event>
             <event name="OnHibernate"></event>
             <event name="OnIconize"></event>
-            <event name="OnIdle"></event>
+            <event name="OnIdle">OnIdle</event>
             <event name="OnInitDialog"></event>
             <event name="OnKeyDown"></event>
             <event name="OnKeyUp"></event>
@@ -2342,7 +2372,7 @@
                                 <object class="sizeritem" expanded="0">
                                     <property name="border">5</property>
                                     <property name="flag">wxALL|wxEXPAND</property>
-                                    <property name="proportion">0</property>
+                                    <property name="proportion">1</property>
                                     <object class="wxStaticBoxSizer" expanded="0">
                                         <property name="id">wxID_ANY</property>
                                         <property name="label">&amp;Browse</property>
@@ -2402,7 +2432,7 @@
                                                 <property name="search_button">1</property>
                                                 <property name="show">1</property>
                                                 <property name="size"></property>
-                                                <property name="style"></property>
+                                                <property name="style">wxTE_PROCESS_ENTER</property>
                                                 <property name="subclass"></property>
                                                 <property name="toolbar_pane">0</property>
                                                 <property name="tooltip"></property>
@@ -2439,7 +2469,7 @@
                                                 <event name="OnSetFocus"></event>
                                                 <event name="OnSize"></event>
                                                 <event name="OnText">OnSearchText</event>
-                                                <event name="OnTextEnter"></event>
+                                                <event name="OnTextEnter">OnSearchEnter</event>
                                                 <event name="OnUpdateUI"></event>
                                             </object>
                                         </object>
@@ -2478,7 +2508,7 @@
                                                 <property name="id">wxID_ANY</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
-                                                <property name="maximum_size">-1,59</property>
+                                                <property name="maximum_size">-1,-1</property>
                                                 <property name="min_size"></property>
                                                 <property name="minimize_button">0</property>
                                                 <property name="minimum_size"></property>
@@ -2492,7 +2522,7 @@
                                                 <property name="pos"></property>
                                                 <property name="resize">Resizable</property>
                                                 <property name="show">1</property>
-                                                <property name="size"></property>
+                                                <property name="size">-1,60</property>
                                                 <property name="style"></property>
                                                 <property name="subclass"></property>
                                                 <property name="toolbar_pane">0</property>
@@ -2507,7 +2537,7 @@
                                                 <event name="OnChar"></event>
                                                 <event name="OnCheckListBox"></event>
                                                 <event name="OnCheckListBoxDClick"></event>
-                                                <event name="OnCheckListBoxToggled"></event>
+                                                <event name="OnCheckListBoxToggled">OnCategoriesToggle</event>
                                                 <event name="OnEnterWindow"></event>
                                                 <event name="OnEraseBackground"></event>
                                                 <event name="OnKeyDown"></event>
@@ -2535,7 +2565,7 @@
                                         <object class="sizeritem" expanded="0">
                                             <property name="border">5</property>
                                             <property name="flag">wxALL|wxEXPAND</property>
-                                            <property name="proportion">0</property>
+                                            <property name="proportion">1</property>
                                             <object class="wxGrid" expanded="0">
                                                 <property name="BottomDockable">1</property>
                                                 <property name="LeftDockable">1</property>
@@ -2562,8 +2592,8 @@
                                                 <property name="col_label_size">0</property>
                                                 <property name="col_label_values"></property>
                                                 <property name="col_label_vert_alignment">wxALIGN_CENTRE</property>
-                                                <property name="cols">16</property>
-                                                <property name="column_sizes">35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35</property>
+                                                <property name="cols">0</property>
+                                                <property name="column_sizes"></property>
                                                 <property name="context_help"></property>
                                                 <property name="context_menu">1</property>
                                                 <property name="default_pane">0</property>
@@ -2580,7 +2610,7 @@
                                                 <property name="floatable">1</property>
                                                 <property name="font">,90,90,-1,70,0</property>
                                                 <property name="grid_line_color"></property>
-                                                <property name="grid_lines">1</property>
+                                                <property name="grid_lines">0</property>
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
@@ -2591,10 +2621,10 @@
                                                 <property name="margin_width">0</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
-                                                <property name="maximum_size"></property>
+                                                <property name="maximum_size">560,-1</property>
                                                 <property name="min_size"></property>
                                                 <property name="minimize_button">0</property>
-                                                <property name="minimum_size"></property>
+                                                <property name="minimum_size">560,35</property>
                                                 <property name="moveable">1</property>
                                                 <property name="name">m_gridResults</property>
                                                 <property name="pane_border">1</property>
@@ -2608,22 +2638,22 @@
                                                 <property name="row_label_size">0</property>
                                                 <property name="row_label_values"></property>
                                                 <property name="row_label_vert_alignment">wxALIGN_CENTRE</property>
-                                                <property name="row_sizes">35,35,35,35,35,35,35</property>
-                                                <property name="rows">7</property>
+                                                <property name="row_sizes"></property>
+                                                <property name="rows">0</property>
                                                 <property name="show">1</property>
-                                                <property name="size"></property>
-                                                <property name="subclass"></property>
+                                                <property name="size">-1,-1</property>
+                                                <property name="subclass">wxZRColaCharGrid; zrcolachrgrid.h</property>
                                                 <property name="toolbar_pane">0</property>
                                                 <property name="tooltip"></property>
                                                 <property name="window_extra_style"></property>
                                                 <property name="window_name"></property>
-                                                <property name="window_style"></property>
+                                                <property name="window_style">wxSTATIC_BORDER</property>
                                                 <event name="OnChar"></event>
                                                 <event name="OnEnterWindow"></event>
                                                 <event name="OnEraseBackground"></event>
                                                 <event name="OnGridCellChange"></event>
                                                 <event name="OnGridCellLeftClick"></event>
-                                                <event name="OnGridCellLeftDClick"></event>
+                                                <event name="OnGridCellLeftDClick">OnResultCellDClick</event>
                                                 <event name="OnGridCellRightClick"></event>
                                                 <event name="OnGridCellRightDClick"></event>
                                                 <event name="OnGridCmdCellChange"></event>
@@ -2653,7 +2683,7 @@
                                                 <event name="OnGridRangeSelect"></event>
                                                 <event name="OnGridRowSize"></event>
                                                 <event name="OnGridSelectCell">OnResultSelectCell</event>
-                                                <event name="OnKeyDown"></event>
+                                                <event name="OnKeyDown">OnResultsKeyDown</event>
                                                 <event name="OnKeyUp"></event>
                                                 <event name="OnKillFocus"></event>
                                                 <event name="OnLeaveWindow"></event>
@@ -2691,7 +2721,7 @@
                                         <event name="OnUpdateUI"></event>
                                         <object class="sizeritem" expanded="0">
                                             <property name="border">5</property>
-                                            <property name="flag">wxALL</property>
+                                            <property name="flag">wxALL|wxEXPAND</property>
                                             <property name="proportion">0</property>
                                             <object class="wxGrid" expanded="0">
                                                 <property name="BottomDockable">1</property>
@@ -2719,8 +2749,8 @@
                                                 <property name="col_label_size">0</property>
                                                 <property name="col_label_values"></property>
                                                 <property name="col_label_vert_alignment">wxALIGN_CENTRE</property>
-                                                <property name="cols">16</property>
-                                                <property name="column_sizes">35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35</property>
+                                                <property name="cols">0</property>
+                                                <property name="column_sizes"></property>
                                                 <property name="context_help"></property>
                                                 <property name="context_menu">1</property>
                                                 <property name="default_pane">0</property>
@@ -2737,7 +2767,7 @@
                                                 <property name="floatable">1</property>
                                                 <property name="font">,90,90,-1,70,0</property>
                                                 <property name="grid_line_color"></property>
-                                                <property name="grid_lines">1</property>
+                                                <property name="grid_lines">0</property>
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
@@ -2748,10 +2778,10 @@
                                                 <property name="margin_width">0</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
-                                                <property name="maximum_size"></property>
+                                                <property name="maximum_size">-1,-1</property>
                                                 <property name="min_size"></property>
                                                 <property name="minimize_button">0</property>
-                                                <property name="minimum_size"></property>
+                                                <property name="minimum_size">-1,-1</property>
                                                 <property name="moveable">1</property>
                                                 <property name="name">m_gridRecent</property>
                                                 <property name="pane_border">1</property>
@@ -2765,22 +2795,22 @@
                                                 <property name="row_label_size">0</property>
                                                 <property name="row_label_values"></property>
                                                 <property name="row_label_vert_alignment">wxALIGN_CENTRE</property>
-                                                <property name="row_sizes">35</property>
-                                                <property name="rows">1</property>
+                                                <property name="row_sizes"></property>
+                                                <property name="rows">0</property>
                                                 <property name="show">1</property>
-                                                <property name="size"></property>
-                                                <property name="subclass"></property>
+                                                <property name="size">-1,35</property>
+                                                <property name="subclass">wxZRColaCharGrid; zrcolachrgrid.h</property>
                                                 <property name="toolbar_pane">0</property>
                                                 <property name="tooltip"></property>
                                                 <property name="window_extra_style"></property>
                                                 <property name="window_name"></property>
-                                                <property name="window_style"></property>
+                                                <property name="window_style">wxSTATIC_BORDER</property>
                                                 <event name="OnChar"></event>
                                                 <event name="OnEnterWindow"></event>
                                                 <event name="OnEraseBackground"></event>
                                                 <event name="OnGridCellChange"></event>
                                                 <event name="OnGridCellLeftClick"></event>
-                                                <event name="OnGridCellLeftDClick"></event>
+                                                <event name="OnGridCellLeftDClick">OnRecentCellDClick</event>
                                                 <event name="OnGridCellRightClick"></event>
                                                 <event name="OnGridCellRightDClick"></event>
                                                 <event name="OnGridCmdCellChange"></event>
@@ -2810,7 +2840,7 @@
                                                 <event name="OnGridRangeSelect"></event>
                                                 <event name="OnGridRowSize"></event>
                                                 <event name="OnGridSelectCell">OnRecentSelectCell</event>
-                                                <event name="OnKeyDown"></event>
+                                                <event name="OnKeyDown">OnRecentKeyDown</event>
                                                 <event name="OnKeyUp"></event>
                                                 <event name="OnKillFocus"></event>
                                                 <event name="OnLeaveWindow"></event>
@@ -2848,7 +2878,7 @@
                                 <object class="sizeritem" expanded="0">
                                     <property name="border">5</property>
                                     <property name="flag">wxALL|wxEXPAND</property>
-                                    <property name="proportion">0</property>
+                                    <property name="proportion">70</property>
                                     <object class="wxStaticBoxSizer" expanded="0">
                                         <property name="id">wxID_ANY</property>
                                         <property name="label">Preview</property>
@@ -2984,7 +3014,7 @@
                                                         <property name="max_size"></property>
                                                         <property name="maximize_button">0</property>
                                                         <property name="maximum_size"></property>
-                                                        <property name="maxlength">4</property>
+                                                        <property name="maxlength"></property>
                                                         <property name="min_size"></property>
                                                         <property name="minimize_button">0</property>
                                                         <property name="minimum_size"></property>
@@ -3003,10 +3033,10 @@
                                                         <property name="subclass"></property>
                                                         <property name="toolbar_pane">0</property>
                                                         <property name="tooltip"></property>
-                                                        <property name="validator_data_type">wxString</property>
-                                                        <property name="validator_style">wxFILTER_INCLUDE_CHAR_LIST</property>
-                                                        <property name="validator_type">wxTextValidator</property>
-                                                        <property name="validator_variable">m_unicodeValid</property>
+                                                        <property name="validator_data_type"></property>
+                                                        <property name="validator_style">wxFILTER_NONE</property>
+                                                        <property name="validator_type">wxDefaultValidator</property>
+                                                        <property name="validator_variable"></property>
                                                         <property name="value"></property>
                                                         <property name="window_extra_style"></property>
                                                         <property name="window_name"></property>
@@ -3044,7 +3074,7 @@
                                         </object>
                                         <object class="sizeritem" expanded="0">
                                             <property name="border">5</property>
-                                            <property name="flag">wxALIGN_CENTER|wxALL</property>
+                                            <property name="flag">wxALL|wxEXPAND</property>
                                             <property name="proportion">0</property>
                                             <object class="wxGrid" expanded="0">
                                                 <property name="BottomDockable">1</property>
@@ -3058,11 +3088,11 @@
                                                 <property name="autosize_cols">0</property>
                                                 <property name="autosize_rows">0</property>
                                                 <property name="best_size"></property>
-                                                <property name="bg"></property>
+                                                <property name="bg">wxSYS_COLOUR_WINDOW</property>
                                                 <property name="caption"></property>
                                                 <property name="caption_visible">1</property>
                                                 <property name="cell_bg"></property>
-                                                <property name="cell_font">00 ZRCola,90,90,180,70,0</property>
+                                                <property name="cell_font">00 ZRCola,90,90,120,70,0</property>
                                                 <property name="cell_horiz_alignment">wxALIGN_CENTRE</property>
                                                 <property name="cell_text"></property>
                                                 <property name="cell_vert_alignment">wxALIGN_CENTRE</property>
@@ -3073,7 +3103,7 @@
                                                 <property name="col_label_values"></property>
                                                 <property name="col_label_vert_alignment">wxALIGN_CENTRE</property>
                                                 <property name="cols">1</property>
-                                                <property name="column_sizes">210</property>
+                                                <property name="column_sizes">200</property>
                                                 <property name="context_help"></property>
                                                 <property name="context_menu">1</property>
                                                 <property name="default_pane">0</property>
@@ -3090,7 +3120,7 @@
                                                 <property name="floatable">1</property>
                                                 <property name="font"></property>
                                                 <property name="grid_line_color"></property>
-                                                <property name="grid_lines">1</property>
+                                                <property name="grid_lines">0</property>
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
@@ -3127,7 +3157,7 @@
                                                 <property name="tooltip"></property>
                                                 <property name="window_extra_style"></property>
                                                 <property name="window_name"></property>
-                                                <property name="window_style"></property>
+                                                <property name="window_style">wxSTATIC_BORDER</property>
                                                 <event name="OnChar"></event>
                                                 <event name="OnEnterWindow"></event>
                                                 <event name="OnEraseBackground"></event>
@@ -3281,7 +3311,7 @@
                                 <object class="sizeritem" expanded="0">
                                     <property name="border">5</property>
                                     <property name="flag">wxALL|wxEXPAND</property>
-                                    <property name="proportion">1</property>
+                                    <property name="proportion">30</property>
                                     <object class="wxStaticBoxSizer" expanded="0">
                                         <property name="id">wxID_ANY</property>
                                         <property name="label">Re&amp;lated</property>
@@ -3292,8 +3322,8 @@
                                         <event name="OnUpdateUI"></event>
                                         <object class="sizeritem" expanded="0">
                                             <property name="border">5</property>
-                                            <property name="flag">wxALIGN_CENTER|wxALL</property>
-                                            <property name="proportion">0</property>
+                                            <property name="flag">wxALL|wxEXPAND</property>
+                                            <property name="proportion">1</property>
                                             <object class="wxGrid" expanded="0">
                                                 <property name="BottomDockable">1</property>
                                                 <property name="LeftDockable">1</property>
@@ -3311,17 +3341,17 @@
                                                 <property name="caption_visible">1</property>
                                                 <property name="cell_bg"></property>
                                                 <property name="cell_font">00 ZRCola,90,90,20,70,0</property>
-                                                <property name="cell_horiz_alignment">wxALIGN_LEFT</property>
+                                                <property name="cell_horiz_alignment">wxALIGN_CENTRE</property>
                                                 <property name="cell_text"></property>
-                                                <property name="cell_vert_alignment">wxALIGN_TOP</property>
+                                                <property name="cell_vert_alignment">wxALIGN_CENTRE</property>
                                                 <property name="center_pane">0</property>
                                                 <property name="close_button">1</property>
                                                 <property name="col_label_horiz_alignment">wxALIGN_CENTRE</property>
                                                 <property name="col_label_size">0</property>
                                                 <property name="col_label_values"></property>
                                                 <property name="col_label_vert_alignment">wxALIGN_CENTRE</property>
-                                                <property name="cols">6</property>
-                                                <property name="column_sizes">35,35,35,35,35,35</property>
+                                                <property name="cols">0</property>
+                                                <property name="column_sizes"></property>
                                                 <property name="context_help"></property>
                                                 <property name="context_menu">1</property>
                                                 <property name="default_pane">0</property>
@@ -3338,7 +3368,7 @@
                                                 <property name="floatable">1</property>
                                                 <property name="font"></property>
                                                 <property name="grid_line_color"></property>
-                                                <property name="grid_lines">1</property>
+                                                <property name="grid_lines">0</property>
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
@@ -3366,16 +3396,16 @@
                                                 <property name="row_label_size">0</property>
                                                 <property name="row_label_values"></property>
                                                 <property name="row_label_vert_alignment">wxALIGN_CENTRE</property>
-                                                <property name="row_sizes">35,35,35</property>
-                                                <property name="rows">3</property>
+                                                <property name="row_sizes"></property>
+                                                <property name="rows">0</property>
                                                 <property name="show">1</property>
-                                                <property name="size"></property>
-                                                <property name="subclass"></property>
+                                                <property name="size">-1,-1</property>
+                                                <property name="subclass">wxZRColaCharGrid; zrcolachrgrid.h</property>
                                                 <property name="toolbar_pane">0</property>
                                                 <property name="tooltip"></property>
                                                 <property name="window_extra_style"></property>
                                                 <property name="window_name"></property>
-                                                <property name="window_style"></property>
+                                                <property name="window_style">wxSTATIC_BORDER</property>
                                                 <event name="OnChar"></event>
                                                 <event name="OnEnterWindow"></event>
                                                 <event name="OnEraseBackground"></event>
@@ -3470,11 +3500,20 @@
                         <event name="OnContextHelpButtonClick"></event>
                         <event name="OnHelpButtonClick"></event>
                         <event name="OnNoButtonClick"></event>
-                        <event name="OnOKButtonClick"></event>
+                        <event name="OnOKButtonClick">OnOKButtonClick</event>
                         <event name="OnSaveButtonClick"></event>
                         <event name="OnYesButtonClick"></event>
                     </object>
                 </object>
+            </object>
+            <object class="wxTimer" expanded="0">
+                <property name="enabled">0</property>
+                <property name="id">wxID_TIMER_SEARCH</property>
+                <property name="name">m_timerSearch</property>
+                <property name="oneshot">1</property>
+                <property name="period">1000</property>
+                <property name="permission">protected</property>
+                <event name="OnTimer">OnSearchTimer</event>
             </object>
         </object>
     </object>

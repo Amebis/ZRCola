@@ -112,7 +112,9 @@ void wxZRColaCharacterCatalogPanel::OnGridClick(wxGridEvent& event)
 
 void wxZRColaCharacterCatalogPanel::OnGridKeyDown(wxKeyEvent& event)
 {
-    if (event.GetKeyCode() == WXK_RETURN) {
+    switch (event.GetKeyCode()) {
+    case WXK_RETURN:
+    case WXK_NUMPAD_ENTER:
         ZRColaApp *app = (ZRColaApp*)wxTheApp;
         if (app->m_mainWnd) {
             app->m_mainWnd->m_panel->m_decomposed->WriteText(m_grid->GetCellValue(m_grid->GetCursorRow(), m_grid->GetCursorColumn()));

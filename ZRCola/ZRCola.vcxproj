@@ -112,6 +112,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\char_select.ico" />
     <None Include="res\edit_copy.ico" />
     <None Include="res\edit_cut.ico" />
     <None Include="res\edit_paste.ico" />

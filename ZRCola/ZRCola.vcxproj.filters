@@ -101,6 +101,9 @@
     <None Include="ZRCola.fbp">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\char_select.ico">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZRCola.rc">

@@ -39,7 +39,7 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
     EVT_MENU           (wxID_SEND_DECOMPOSED                                , wxZRColaFrame::OnSendDecomposed              )
     EVT_MENU           (wxID_SEND_ABORT                                     , wxZRColaFrame::OnSendAbort                   )
 
-    EVT_MENU           (wxID_INSERT_CHARACTER                               , wxZRColaFrame::OnInsertCharacter             )
+    EVT_MENU           (wxID_CHARACTER_SELECTOR                               , wxZRColaFrame::OnInsertCharacter             )
 
     EVT_UPDATE_UI      (wxID_DECOMP_LANG_AUTO                               , wxZRColaFrame::OnDecomposedLanguageAutoUpdate)
     EVT_MENU           (wxID_DECOMP_LANG_AUTO                               , wxZRColaFrame::OnDecomposedLanguageAuto      )
@@ -257,7 +257,10 @@ void wxZRColaFrame::OnForwardEvent(wxCommandEvent& event)
 
 void wxZRColaFrame::OnInsertCharacter(wxCommandEvent& event)
 {
-    m_chrSelect->ShowModal();
+    if (m_chrSelect->ShowModal() == wxID_OK && m_chrSelect->m_char) {
+        m_panel->m_decomposed->WriteText(m_chrSelect->m_char);
+        m_panel->m_decomposed->SetFocus();
+    }
 }
 
 
