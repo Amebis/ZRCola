@@ -84,6 +84,7 @@ protected:
     wxString m_chars;       ///< Array of Unicode characters to display in the grid
 
 private:
+    bool m_regenerate;      ///< Force regenerate grid table
     bool m_isResizing;      ///< Prevents nesting of OnSize() method.
     wxTimer m_timerToolTip; ///< Timer for displaying tooltip
     size_t m_toolTipIdx;    ///< Index of cell for tooltip display

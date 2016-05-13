@@ -61,23 +61,21 @@ wxZRColaCharGrid::~wxZRColaCharGrid()
 
 void wxZRColaCharGrid::Init()
 {
-    m_isResizing   = false;
-    m_toolTipIdx   = (size_t)-1;
+    m_regenerate = false;
+    m_isResizing = false;
+    m_toolTipIdx = (size_t)-1;
 }
 
 
 void wxZRColaCharGrid::SetCharacters(const wxString &chars)
 {
-    m_chars = chars;
+    m_chars      = chars;
+    m_regenerate = true;
 
-    // Build and set new grid data.
-    size_t char_len = m_chars.Length();
-    int rows = std::max<int>((char_len + m_numCols - 1) / m_numCols, 1);
-    wxGridStringTable *table = new wxGridStringTable(rows, m_numCols);
-    for (int r = 0, i = 0; r < rows; r++)
-        for (int c = 0; c < m_numCols; c++, i++)
-            table->SetValue(r, c, i < char_len ? wxString(1, m_chars[i]) : wxEmptyString);
-    SetTable(table, true);
+    // Invoke OnSize(), which will populate the grid.
+    wxSizeEvent e(GetSize(), m_windowId);
+    e.SetEventObject(this);
+    HandleWindowEvent(e);
 }
 
 
@@ -134,13 +132,14 @@ void wxZRColaCharGrid::OnSize(wxSizeEvent& event)
 
     BeginBatch();
 
-    if (cols != m_numCols) {
+    if (m_regenerate || cols != m_numCols) {
         // Build and set new grid data.
         wxGridStringTable *table = new wxGridStringTable(rows, cols);
         for (int r = 0, i = 0; r < rows; r++)
             for (int c = 0; c < cols; c++, i++)
                 table->SetValue(r, c, i < char_len ? wxString(1, m_chars[i]) : wxEmptyString);
         SetTable(table, true);
+        m_regenerate = false;
     }
 
     for (int c = 0; c < cols; c++)
