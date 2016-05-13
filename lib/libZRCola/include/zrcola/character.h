@@ -49,6 +49,12 @@ namespace ZRCola {
             data[1] = src.data[1];
             return *this;
         }
+
+        inline chrcatid_t& operator=(const char *src)
+        {
+            data[1] = (data[0] = src[0]) != 0 ? src[1] : 0;
+            return *this;
+        }
     };
 
 
@@ -56,6 +62,40 @@ namespace ZRCola {
     /// Blank character category
     ///
     const chrcatid_t chrcatid_t_blank = {};
+
+
+    ///
+    /// Compares two character category IDs
+    ///
+    /// \param[in] a  First character category ID
+    /// \param[in] b  Second character category ID
+    ///
+    /// \returns
+    /// - true when \p a == \p b
+    /// - false otherwise
+    ///
+    inline bool operator==(const chrcatid_t &a, const chrcatid_t & b)
+    {
+        return
+                               a.data[0] == b.data[0]  &&
+            (a.data[0] == 0 || a.data[1] == b.data[1]);
+    }
+
+
+    ///
+    /// Compares two character category IDs
+    ///
+    /// \param[in] a  First character category ID
+    /// \param[in] b  Second character category ID
+    ///
+    /// \returns
+    /// - true when \p a != \p b
+    /// - false otherwise
+    ///
+    inline bool operator!=(const chrcatid_t &a, const chrcatid_t & b)
+    {
+        return !operator==(a, b);
+    }
 
 
     ///
@@ -89,10 +129,39 @@ namespace ZRCola {
     ///
     inline bool operator>(const chrcatid_t& a, const chrcatid_t& b)
     {
-             if (a.data[0] > b.data[0]) return true;
-        else if (a.data[0] < b.data[0]) return false;
-        else if (a.data[1] > b.data[1]) return true;
-        else                            return false;
+        return operator<(b, a);
+    }
+
+
+    ///
+    /// Compares two character category IDs
+    ///
+    /// \param[in] a  First character category ID
+    /// \param[in] b  Second character category ID
+    ///
+    /// \returns
+    /// - true when \p a <= \p b
+    /// - false otherwise
+    ///
+    inline bool operator<=(const chrcatid_t &a, const chrcatid_t & b)
+    {
+        return !operator>(a, b);
+    }
+
+
+    ///
+    /// Compares two character category IDs
+    ///
+    /// \param[in] a  First character category ID
+    /// \param[in] b  Second character category ID
+    ///
+    /// \returns
+    /// - true when \p a >= \p b
+    /// - false otherwise
+    ///
+    inline bool operator>=(const chrcatid_t &a, const chrcatid_t & b)
+    {
+        return !operator<(a, b);
     }
 
 
