@@ -552,6 +552,9 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	m_description = new wxTextCtrl( sbSizerPreview->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_MULTILINE|wxTE_READONLY );
 	sbSizerPreview->Add( m_description, 1, wxALL|wxEXPAND, 5 );
 	
+	m_category = new wxTextCtrl( sbSizerPreview->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_READONLY );
+	sbSizerPreview->Add( m_category, 0, wxALL|wxEXPAND, 5 );
+	
 	
 	bSizerRight->Add( sbSizerPreview, 70, wxALL|wxEXPAND, 5 );
 	

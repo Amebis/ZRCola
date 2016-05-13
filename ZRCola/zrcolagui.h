@@ -194,6 +194,7 @@ class wxZRColaCharSelectBase : public wxDialog
 		wxTextCtrl* m_unicode;
 		wxGrid* m_gridPreview;
 		wxTextCtrl* m_description;
+		wxTextCtrl* m_category;
 		wxZRColaCharGrid* m_gridRelated;
 		wxStdDialogButtonSizer* m_sdbSizerButtons;
 		wxButton* m_sdbSizerButtonsOK;

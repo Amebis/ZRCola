@@ -77,9 +77,20 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
                 if (app->m_chr_db.idxChr.find(*chr, start)) {
                     const ZRCola::character_db::character &chr = app->m_chr_db.idxChr[start];
                     m_description->SetValue(wxString(chr.data, chr.desc_len));
+                    {
+                        char cc[sizeof(ZRCola::chrcat_db::chrcat)] = {};
+                        ((ZRCola::chrcat_db::chrcat*)cc)->id = chr.cat;
+                        size_t start;
+                        if (app->m_cc_db.idxChrCat.find(*((ZRCola::chrcat_db::chrcat*)cc), start)) {
+                            const ZRCola::chrcat_db::chrcat &cat = app->m_cc_db.idxChrCat[start];
+                            m_category->SetValue(wxGetTranslation(wxString(cat.name, cat.name_len), wxT("ZRCola-zrcdb")));
+                        } else
+                            m_category->SetValue(wxEmptyString);
+                    }
                     m_gridRelated->SetCharacters(wxString(chr.data + chr.desc_len, chr.rel_len));
                 } else {
                     m_description->SetValue(wxEmptyString);
+                    m_category->SetValue(wxEmptyString);
                     m_gridRelated->ClearGrid();
                 }
                 m_gridRelated->Scroll(0, 0);
