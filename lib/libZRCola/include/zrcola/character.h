@@ -234,8 +234,10 @@ namespace ZRCola {
         /// \param[in   ] cats      Set of categories, character must be a part of
         /// \param[inout] hits      (character, count) map to append full-word hits to
         /// \param[inout] hits_sub  (character, count) map to append partial-word hits to
+        /// \param[in]    fn_abort  Pointer to function to periodically test for search cancellation
+        /// \param[in]    cookie    Cookie for \p fn_abort call
         ///
-        void Search(_In_z_ const wchar_t *str, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<wchar_t, unsigned long> &hits, _Inout_ std::map<wchar_t, unsigned long> &hits_sub) const;
+        bool Search(_In_z_ const wchar_t *str, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<wchar_t, unsigned long> &hits, _Inout_ std::map<wchar_t, unsigned long> &hits_sub, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
 
         ///
         /// Get character category

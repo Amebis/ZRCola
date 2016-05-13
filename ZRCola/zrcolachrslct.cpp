@@ -20,32 +20,22 @@
 #include "stdafx.h"
 
 
-static int __cdecl compare_hits(const void *a, const void *b)
-{
-    const std::pair<unsigned long, wchar_t> *_a = (const std::pair<unsigned long, wchar_t>*)a;
-    const std::pair<unsigned long, wchar_t> *_b = (const std::pair<unsigned long, wchar_t>*)b;
-
-         if (_a->first > _b->first) return -1;
-    else if (_a->first < _b->first) return  1;
-
-         if (_a->second < _b->second) return -1;
-    else if (_a->second > _b->second) return  1;
-
-    return 0;
-}
-
-
-
 //////////////////////////////////////////////////////////////////////////
 // wxZRColaCharSelect
 //////////////////////////////////////////////////////////////////////////
+
+wxDEFINE_EVENT(wxEVT_SEARCH_COMPLETE, wxThreadEvent);
+
 
 wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) :
     m_searchChanged(false),
     m_unicodeChanged(false),
     m_char(0),
+    m_searchThread(NULL),
     wxZRColaCharSelectBase(parent)
 {
+    Connect(wxID_ANY, wxEVT_SEARCH_COMPLETE, wxThreadEventHandler(wxZRColaCharSelect::OnSearchComplete), NULL, this);
+
     m_unicode->SetValidator(wxHexValidator<wchar_t>(&m_char));
 
     // Fill categories.
@@ -58,6 +48,15 @@ wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) :
     }
 
     ResetResults();
+}
+
+
+wxZRColaCharSelect::~wxZRColaCharSelect()
+{
+    if (m_searchThread)
+        m_searchThread->Delete();
+
+    Disconnect(wxID_ANY, wxEVT_SEARCH_COMPLETE, wxThreadEventHandler(wxZRColaCharSelect::OnSearchComplete), NULL, this);
 }
 
 
@@ -90,7 +89,31 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
 
         m_unicodeChanged = false;
     } else if (m_searchChanged) {
-        m_timerSearch.Start(1000, true);
+        if (m_searchThread)
+            m_searchThread->Delete();
+
+        wxString val(m_search->GetValue());
+        if (!val.IsEmpty()) {
+            ZRColaApp *app = (ZRColaApp*)wxTheApp;
+
+            m_searchThread = new SearchThread(this);
+
+            m_searchThread->m_search.assign(val.c_str(), val.Length());
+
+            // Select categories.
+            for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
+                const ZRCola::chrcat_db::chrcat &cc = app->m_cc_db.idxRnk[i];
+                if (m_categories->IsChecked(i))
+                    m_searchThread->m_cats.insert(cc.id);
+            }
+
+            if (m_searchThread->Run() != wxTHREAD_NO_ERROR) {
+                wxFAIL_MSG("Can't create the thread!");
+                delete m_searchThread;
+                m_searchThread = NULL;
+            }
+        } else
+            ResetResults();
 
         m_searchChanged = false;
     }
@@ -101,75 +124,35 @@ void wxZRColaCharSelect::OnSearchText(wxCommandEvent& event)
 {
     event.Skip();
 
-    m_timerSearch.Stop();
     m_searchChanged = true;
-}
-
-
-void wxZRColaCharSelect::OnSearchEnter(wxCommandEvent& event)
-{
-    event.Skip();
-
-    m_timerSearch.Stop();
-    wxTimerEvent e(m_timerSearch);
-    GetEventHandler()->ProcessEvent(e);
-
-    m_searchChanged = false;
-}
-
-
-void wxZRColaCharSelect::OnSearchTimer(wxTimerEvent& event)
-{
-    wxString val(m_search->GetValue());
-    if (!val.IsEmpty()) {
-        ZRColaApp *app = (ZRColaApp*)wxTheApp;
-        std::map<wchar_t, unsigned long> hits;
-        std::set<ZRCola::chrcatid_t> cats;
-
-        // Select categories.
-        for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
-            const ZRCola::chrcat_db::chrcat &cc = app->m_cc_db.idxRnk[i];
-            if (m_categories->IsChecked(i))
-                cats.insert(cc.id);
-        }
-
-        {
-            // Search by indexes and merge results.
-            std::map<wchar_t, unsigned long> hits_sub;
-            app->m_chr_db.Search(val.c_str(), cats, hits, hits_sub);
-            for (std::map<wchar_t, unsigned long>::const_iterator i = hits_sub.cbegin(), i_end = hits_sub.cend(); i != i_end; ++i) {
-                std::map<wchar_t, unsigned long>::iterator idx = hits.find(i->first);
-                if (idx == hits.end())
-                    hits.insert(std::make_pair(i->first, i->second / 4));
-                else
-                    idx->second += i->second / 4;
-            }
-        }
-
-        // Now sort the characters by rank.
-        std::vector< std::pair<unsigned long, wchar_t> > hits2;
-        hits2.reserve(hits.size());
-        for (std::map<wchar_t, unsigned long>::const_iterator i = hits.cbegin(), i_end = hits.cend(); i != i_end; ++i)
-            hits2.push_back(std::make_pair(i->second, i->first));
-        std::qsort(hits2.data(), hits2.size(), sizeof(std::pair<unsigned long, wchar_t>), compare_hits);
-
-        // Display results.
-        wxString chars;
-        chars.reserve(hits2.size());
-        for (std::vector< std::pair<unsigned long, wchar_t> >::const_iterator i = hits2.cbegin(), i_end = hits2.cend(); i != i_end; ++i)
-            chars += i->second;
-        m_gridResults->SetCharacters(chars);
-    } else
-        ResetResults();
-
-    m_gridResults->Scroll(0, 0);
 }
 
 
 void wxZRColaCharSelect::OnCategoriesToggle(wxCommandEvent& event)
 {
-    m_timerSearch.Stop();
-    m_timerSearch.Start(500, true);
+    event.Skip();
+
+    m_searchChanged = true;
+}
+
+
+void wxZRColaCharSelect::OnSearchComplete(wxThreadEvent& event)
+{
+    event.Skip();
+
+    if (m_searchThread) {
+        // Display results.
+        wxString chars;
+        chars.reserve(m_searchThread->m_hits.size());
+        for (std::vector< std::pair<unsigned long, wchar_t> >::const_iterator i = m_searchThread->m_hits.cbegin(), i_end = m_searchThread->m_hits.cend(); i != i_end; ++i)
+            chars += i->second;
+        m_gridResults->SetCharacters(chars);
+
+        m_searchThread->Delete();
+        m_searchThread = NULL;
+
+        m_gridResults->Scroll(0, 0);
+    }
 }
 
 
@@ -302,6 +285,74 @@ void wxZRColaCharSelect::ResetResults()
             val += chr.chr;
     }
     m_gridResults->SetCharacters(val);
+}
+
+
+wxZRColaCharSelect::SearchThread::SearchThread(wxZRColaCharSelect *parent) :
+    m_parent(parent),
+    wxThread(wxTHREAD_JOINABLE)
+{
+    //// This is a worker thread. Set priority between minimal and normal.
+    //SetPriority((wxPRIORITY_MIN + wxPRIORITY_DEFAULT) / 2);
+}
+
+
+wxThread::ExitCode wxZRColaCharSelect::SearchThread::Entry()
+{
+    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    std::map<wchar_t, unsigned long> hits;
+
+    if (TestDestroy()) return (wxThread::ExitCode)1;
+
+    {
+        // Search by indexes and merge results.
+        std::map<wchar_t, unsigned long> hits_sub;
+        if (!app->m_chr_db.Search(m_search.c_str(), m_cats, hits, hits_sub, TestDestroyS, this)) return (wxThread::ExitCode)1;
+        for (std::map<wchar_t, unsigned long>::const_iterator i = hits_sub.cbegin(), i_end = hits_sub.cend(); i != i_end; ++i) {
+            if (TestDestroy()) return (wxThread::ExitCode)1;
+            std::map<wchar_t, unsigned long>::iterator idx = hits.find(i->first);
+            if (idx == hits.end())
+                hits.insert(std::make_pair(i->first, i->second / 4));
+            else
+                idx->second += i->second / 4;
+        }
+    }
+
+    // Now sort the characters by rank.
+    m_hits.reserve(hits.size());
+    for (std::map<wchar_t, unsigned long>::const_iterator i = hits.cbegin(), i_end = hits.cend(); i != i_end; ++i) {
+        if (TestDestroy()) return (wxThread::ExitCode)1;
+        m_hits.push_back(std::make_pair(i->second, i->first));
+    }
+    std::qsort(m_hits.data(), m_hits.size(), sizeof(std::pair<unsigned long, wchar_t>), CompareHits);
+
+    // Signal the event handler that this thread is going to be destroyed.
+    // NOTE: here we assume that using the m_parent pointer is safe,
+    //       (in this case this is assured by the wxZRColaCharSelect destructor)
+    wxQueueEvent(m_parent, new wxThreadEvent(wxEVT_SEARCH_COMPLETE));
+
+    return 0;
+}
+
+
+int __cdecl wxZRColaCharSelect::SearchThread::CompareHits(const void *a, const void *b)
+{
+    const std::pair<unsigned long, wchar_t> *_a = (const std::pair<unsigned long, wchar_t>*)a;
+    const std::pair<unsigned long, wchar_t> *_b = (const std::pair<unsigned long, wchar_t>*)b;
+
+         if (_a->first > _b->first) return -1;
+    else if (_a->first < _b->first) return  1;
+
+         if (_a->second < _b->second) return -1;
+    else if (_a->second > _b->second) return  1;
+
+    return 0;
+}
+
+
+bool __cdecl wxZRColaCharSelect::SearchThread::TestDestroyS(void *cookie)
+{
+    return static_cast<wxZRColaCharSelect::SearchThread*>(cookie)->TestDestroy();
 }
 
 

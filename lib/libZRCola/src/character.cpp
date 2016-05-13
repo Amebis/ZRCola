@@ -20,15 +20,17 @@
 #include "stdafx.h"
 
 
-void ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<wchar_t, unsigned long> &hits, _Inout_ std::map<wchar_t, unsigned long> &hits_sub) const
+bool ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<wchar_t, unsigned long> &hits, _Inout_ std::map<wchar_t, unsigned long> &hits_sub, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
 {
     assert(str);
 
     while (*str) {
+        if (fn_abort && fn_abort(cookie)) return false;
+
         // Skip white space.
         for (;;) {
             if (*str == 0)
-                return;
+                return true;
             else if (!iswspace(*str))
                 break;
             else
@@ -59,8 +61,12 @@ void ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set
         }
 
         if (!term.empty()) {
+            if (fn_abort && fn_abort(cookie)) return false;
+
             // Find the term.
             std::transform(term.begin(), term.end(), term.begin(), std::towlower);
+
+            if (fn_abort && fn_abort(cookie)) return false;
 
             const wchar_t *data;
             size_t len;
@@ -68,6 +74,7 @@ void ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set
             if (idxDsc.find(term.c_str(), term.size(), &data, &len)) {
                 // The term was found.
                 for (size_t i = 0; i < len; i++) {
+                    if (fn_abort && fn_abort(cookie)) return false;
                     wchar_t c = data[i];
                     if (cats.find(GetCharCat(c)) != cats.end()) {
                         std::map<wchar_t, unsigned long>::iterator idx = hits.find(c);
@@ -85,6 +92,7 @@ void ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set
             if (idxDscSub.find(term.c_str(), term.size(), &data, &len)) {
                 // The term was found in the sub-term index.
                 for (size_t i = 0; i < len; i++) {
+                    if (fn_abort && fn_abort(cookie)) return false;
                     wchar_t c = data[i];
                     if (cats.find(GetCharCat(c)) != cats.end()) {
                         std::map<wchar_t, unsigned long>::iterator idx = hits_sub.find(c);
@@ -100,4 +108,6 @@ void ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set
             }
         }
     }
+
+    return true;
 }

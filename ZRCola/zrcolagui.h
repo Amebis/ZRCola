@@ -186,11 +186,6 @@ class wxZRColaCharSelectBase : public wxDialog
 	private:
 	
 	protected:
-		enum
-		{
-			wxID_TIMER_SEARCH = 1000
-		};
-		
 		wxSearchCtrl* m_search;
 		wxCheckListBox* m_categories;
 		wxZRColaCharGrid* m_gridResults;
@@ -203,12 +198,10 @@ class wxZRColaCharSelectBase : public wxDialog
 		wxStdDialogButtonSizer* m_sdbSizerButtons;
 		wxButton* m_sdbSizerButtonsOK;
 		wxButton* m_sdbSizerButtonsCancel;
-		wxTimer m_timerSearch;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnIdle( wxIdleEvent& event ) { event.Skip(); }
 		virtual void OnSearchText( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnSearchEnter( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnCategoriesToggle( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnResultCellDClick( wxGridEvent& event ) { event.Skip(); }
 		virtual void OnResultSelectCell( wxGridEvent& event ) { event.Skip(); }
@@ -219,7 +212,6 @@ class wxZRColaCharSelectBase : public wxDialog
 		virtual void OnUnicodeText( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnRelatedSelectCell( wxGridEvent& event ) { event.Skip(); }
 		virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnSearchTimer( wxTimerEvent& event ) { event.Skip(); }
 		
 	
 	public:

@@ -30,7 +30,12 @@ class wxZRColaCharSelect;
 #include <zrcola/character.h>
 #include <wxex/valhex.h>
 #include <wxex/persist/dialog.h>
+#include <wx/event.h>
+#include <wx/thread.h>
 #include <map>
+
+
+wxDECLARE_EVENT(wxEVT_SEARCH_COMPLETE, wxThreadEvent);
 
 
 ///
@@ -40,15 +45,16 @@ class wxZRColaCharSelect : public wxZRColaCharSelectBase
 {
 public:
     wxZRColaCharSelect(wxWindow* parent);
+    virtual ~wxZRColaCharSelect();
 
     friend class wxPersistentZRColaCharSelect;  // Allow saving/restoring window state.
+    friend class SearchThread;                  // For search thread back-notifications
 
 protected:
     virtual void OnIdle(wxIdleEvent& event);
     virtual void OnSearchText(wxCommandEvent& event);
-    virtual void OnSearchEnter(wxCommandEvent& event);
-    virtual void OnSearchTimer(wxTimerEvent& event);
     virtual void OnCategoriesToggle(wxCommandEvent& event);
+    void OnSearchComplete(wxThreadEvent& event);
     virtual void OnResultSelectCell(wxGridEvent& event);
     virtual void OnResultCellDClick(wxGridEvent& event);
     virtual void OnResultsKeyDown(wxKeyEvent& event);
@@ -65,10 +71,34 @@ public:
     wchar_t m_char;                                 ///< Currently selected character (0 when none)
 
 protected:
-    bool m_searchChanged;                           ///< Did Search field change?
+    bool m_searchChanged;                           ///< Did Search field or category selection change?
     std::map<ZRCola::chrcatid_t, int> m_ccOrder;    ///< Character category order
     bool m_unicodeChanged;                          ///< Did Unicode field change?
+
+
+    ///
+    /// Search worker thread
+    ///
+    class SearchThread : public wxThread
+    {
+    public:
+        SearchThread(wxZRColaCharSelect *parent);
+
+    protected:
+        virtual ExitCode Entry();
+        static int __cdecl CompareHits(const void *a, const void *b);
+        static bool __cdecl TestDestroyS(void *cookie);
+
+    public:
+        std::wstring m_search;                      ///< Search phrase
+        std::set<ZRCola::chrcatid_t> m_cats;        ///< Search categories
+        std::vector< std::pair<unsigned long, wchar_t> > m_hits; ///< Search results
+
+    protected:
+        wxZRColaCharSelect *m_parent;               ///< Thread owner
+    } *m_searchThread;                              ///< Search thread
 };
+
 
 
 ///
