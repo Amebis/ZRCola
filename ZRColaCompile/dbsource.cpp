@@ -65,8 +65,8 @@ bool ZRCola::DBSource::character_desc_idx::add_keywords(const wchar_t *str, wcha
                 std::wstring::size_type j_end = term.size();
                 if (j_end >= sub) {
                     // Insert all keyword substrings "sub" or more characters long.
-                    for (std::wstring::size_type i = 0, i_end = j_end - sub; i < i_end; ++i) {
-                        for (std::wstring::size_type j = i + sub; j < j_end; ++j)
+                    for (std::wstring::size_type i = 0, i_end = j_end - sub; i <= i_end; ++i) {
+                        for (std::wstring::size_type j = i + sub; j <= j_end; ++j)
                             add_keyword(term.substr(i, j - i), chr);
                     }
                 }
