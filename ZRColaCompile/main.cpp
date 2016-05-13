@@ -243,7 +243,7 @@ int _tmain(int argc, _TCHAR *argv[])
                         // Add language to index and data.
                         unsigned __int32 idx = db.data.size();
                         for (std::wstring::size_type i = 0; i < sizeof(ZRCola::langid_t)/sizeof(unsigned __int16); i++)
-                            db.data.push_back(((const unsigned __int16*)lang.id)[i]);
+                            db.data.push_back(((const unsigned __int16*)lang.id.data)[i]);
                         std::wstring::size_type n = lang.name.length();
                         wxASSERT_MSG(n <= 0xffff, wxT("language name too long"));
                         db.data.push_back((unsigned __int16)n);
@@ -297,7 +297,7 @@ int _tmain(int argc, _TCHAR *argv[])
                         unsigned __int32 idx = db.data.size();
                         db.data.push_back(lc.chr);
                         for (std::wstring::size_type i = 0; i < sizeof(ZRCola::langid_t)/sizeof(unsigned __int16); i++)
-                            db.data.push_back(((const unsigned __int16*)lc.lang)[i]);
+                            db.data.push_back(((const unsigned __int16*)lc.lang.data)[i]);
                         db.idxChr.push_back(idx);
 #ifdef ZRCOLA_LANGCHAR_LANG_IDX
                         db.idxLng.push_back(idx);

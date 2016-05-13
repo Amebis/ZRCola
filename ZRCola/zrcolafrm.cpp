@@ -60,6 +60,7 @@ wxEND_EVENT_TABLE()
 
 wxZRColaFrame::wxZRColaFrame() :
     m_lang_auto(true),
+    m_lang(ZRCola::langid_t_blank),
     m_hWndSource(NULL),
     m_chrSelect(NULL),
     wxZRColaFrameBase(NULL)
@@ -99,7 +100,6 @@ wxZRColaFrame::wxZRColaFrame() :
 
     {
         // Populate language lists.
-        memcpy(m_lang, ZRCOLA_LANG_VOID, sizeof(m_lang));
         ZRColaApp *app = ((ZRColaApp*)wxTheApp);
         m_toolDecompLanguage->Clear();
         wxString label1_tran(_("Select %s language for decomposition"));
@@ -111,7 +111,7 @@ wxZRColaFrame::wxZRColaFrame() :
             if (i < wxID_DECOMP_LANGUAGE_END - wxID_DECOMP_LANGUAGE_START + 1)
                 m_menuDecompLanguage->AppendRadioItem(wxID_DECOMP_LANGUAGE_START + i, label_tran2, wxString::Format(label1_tran, (const wxStringCharType*)label_tran2));
             m_toolDecompLanguage->Insert(label_tran2, i);
-            if (memcmp(m_lang, lang.id, sizeof(m_lang)) == 0)
+            if (m_lang == lang.id)
                 m_toolDecompLanguage->Select(i);
         }
     }
@@ -335,7 +335,7 @@ void wxZRColaFrame::OnDecomposedLanguageUpdate(wxUpdateUIEvent& event)
 {
     ZRColaApp *app = ((ZRColaApp*)wxTheApp);
     const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[event.GetId() - wxID_DECOMP_LANGUAGE_START];
-    event.Check(memcmp(m_lang, lang.id, sizeof(m_lang)) == 0);
+    event.Check(m_lang == lang.id);
 }
 
 
@@ -345,8 +345,8 @@ void wxZRColaFrame::OnDecomposedLanguage(wxCommandEvent& event)
     size_t i = event.GetId() - wxID_DECOMP_LANGUAGE_START;
     const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[i];
 
-    if (memcmp(m_lang, lang.id, sizeof(m_lang)) != 0) {
-        memcpy(m_lang, lang.id, sizeof(m_lang));
+    if (m_lang != lang.id) {
+        m_lang = lang.id;
         m_toolDecompLanguage->Select(i);
 
         // Notify composed text something changed and should re-decompose.
@@ -363,8 +363,8 @@ void wxZRColaFrame::OnDecompLanguageChoice(wxCommandEvent& event)
     size_t i = event.GetSelection();
     const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[i];
 
-    if (memcmp(m_lang, lang.id, sizeof(m_lang)) != 0) {
-        memcpy(m_lang, lang.id, sizeof(m_lang));
+    if (m_lang != lang.id) {
+        m_lang = lang.id;
 
         // Notify composed text something changed and should re-decompose.
         wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
@@ -563,7 +563,7 @@ void wxZRColaFrame::UpdateDecomposedLanguage()
 
     // Find language on the language list.
     ZRCola::language_db::language *l = new ZRCola::language_db::language;
-    memcpy(l->id, m_lang, sizeof(l->id));
+    l->id = m_lang;
     l->name_len = 0;
     ZRCola::language_db::indexLang::size_type start;
     m_toolDecompLanguage->SetSelection(app->m_lang_db.idxLng.find(*l, start) ? start : -1);
@@ -639,7 +639,7 @@ void wxPersistentZRColaFrame::Save() const
     wxPersistentZRColaCharacterCatalogPanel(wnd->m_panelChrCat).Save();
 
     SaveValue(wxT("langAuto" ), wnd->m_lang_auto);
-    SaveValue(wxT("lang"     ), wxString::FromAscii(wnd->m_lang, sizeof(wnd->m_lang)));
+    SaveValue(wxT("lang"     ), wxString::FromAscii(wnd->m_lang.data, _countof(wnd->m_lang.data)));
     wxPersistentTLW::Save();
 }
 
@@ -663,12 +663,12 @@ bool wxPersistentZRColaFrame::Restore()
 #endif
     } else if (RestoreValue(wxT("lang"), &lang) && lang.Length() == 3) {
         // The language was read from configuration.
-        memcpy(wnd->m_lang, (const char*)lang.c_str(), sizeof(wnd->m_lang));
+        wnd->m_lang = lang.c_str();
     } else if (!app->m_lang_db.idxLng.empty()) {
         const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[0];
-        memcpy(wnd->m_lang, lang.id, sizeof(wnd->m_lang));
+        wnd->m_lang = lang.id;
     } else
-        memcpy(wnd->m_lang, ZRCOLA_LANG_VOID, sizeof(wnd->m_lang));
+        wnd->m_lang = ZRCola::langid_t_blank;
     wnd->UpdateDecomposedLanguage();
 
     wxPersistentZRColaCharacterCatalogPanel(wnd->m_panelChrCat).Restore();

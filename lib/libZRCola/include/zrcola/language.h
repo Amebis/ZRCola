@@ -98,8 +98,8 @@ namespace ZRCola {
                      if (a.chr < b.chr) return -1;
                 else if (a.chr > b.chr) return  1;
 
-                int r = memcmp(a.lang, b.lang, sizeof(langid_t));
-                if (r != 0) return r;
+                     if (a.lang < b.lang) return -1;
+                else if (a.lang > b.lang) return  1;
 
                 return 0;
             }
@@ -234,8 +234,8 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const language &a, _In_ const language &b) const
             {
-                int r = memcmp(a.id, b.id, sizeof(langid_t));
-                if (r != 0) return r;
+                     if (a.id < b.id) return -1;
+                else if (a.id > b.id) return  1;
 
                 return 0;
             }

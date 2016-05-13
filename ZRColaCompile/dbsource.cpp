@@ -400,9 +400,9 @@ bool ZRCola::DBSource::GetLanguage(const ATL::CComPtr<ADOField>& f, ZRCola::lang
                     _ftprintf(stderr, wxT("%s: error ZCC0081: Syntax error in \"%.*ls\" field (\"%.*ls\"). Language ID must contain ASCII characters only.\n"), m_filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
                     return false;
                 }
-                lang[i] = (char)c;
+                lang.data[i] = (char)c;
             } else
-                lang[i] = 0;
+                lang.data[i] = 0;
         } else
             break;
     }

@@ -52,11 +52,6 @@
 ///
 #define ZRCOLA_DB_ID        (*(ZRCola::recordid_t*)"ZRC")
 
-///
-/// Unknown language ID
-///
-#define ZRCOLA_LANG_VOID    "   "
-
 
 namespace ZRCola {
     typedef unsigned __int32 recordid_t;
@@ -81,7 +76,143 @@ namespace ZRCola {
     /// Language ID type
     /// Three letter abbreviation, zero terminated
     ///
-    typedef char langid_t[4];
+    struct langid_t {
+        char data[4];
+
+        inline langid_t& operator=(const langid_t &src)
+        {
+            data[0] = src.data[0];
+            data[1] = src.data[1];
+            data[2] = src.data[2];
+            data[3] = src.data[3];
+            return *this;
+        }
+
+        inline langid_t& operator=(const char *src)
+        {
+            data[3] = (
+            data[2] = (
+            data[1] = (
+            data[0] = src[0]    ) != 0 ?
+                      src[1] : 0) != 0 ?
+                      src[2] : 0) != 0 ?
+                      src[3] : 0;
+            return *this;
+        }
+    };
+
+
+    ///
+    /// Blank language ID
+    ///
+    const langid_t langid_t_blank = {};
+
+
+    ///
+    /// Compares two language IDs
+    ///
+    /// \param[in] a  First language ID
+    /// \param[in] b  Second language ID
+    ///
+    /// \returns
+    /// - true when \p a == \p b
+    /// - false otherwise
+    ///
+    inline bool operator==(const langid_t &a, const langid_t & b)
+    {
+        return
+                                a.data[0] == b.data[0] &&
+            (a.data[0] == 0 || (a.data[1] == b.data[1] &&
+            (a.data[1] == 0 || (a.data[2] == b.data[2] &&
+            (a.data[2] == 0 ||  a.data[3] == b.data[3])))));
+    }
+
+
+    ///
+    /// Compares two language IDs
+    ///
+    /// \param[in] a  First language ID
+    /// \param[in] b  Second language ID
+    ///
+    /// \returns
+    /// - true when \p a != \p b
+    /// - false otherwise
+    ///
+    inline bool operator!=(const langid_t &a, const langid_t & b)
+    {
+        return !operator==(a, b);
+    }
+
+
+    ///
+    /// Compares two language IDs
+    ///
+    /// \param[in] a  First language ID
+    /// \param[in] b  Second language ID
+    ///
+    /// \returns
+    /// - true when \p a < \p b
+    /// - false otherwise
+    ///
+    inline bool operator<(const langid_t& a, const langid_t& b)
+    {
+             if (a.data[0] < b.data[0]) return true;
+        else if (a.data[0] > b.data[0]) return false;
+        else if (a.data[1] < b.data[1]) return true;
+        else if (a.data[1] > b.data[1]) return false;
+        else if (a.data[2] < b.data[2]) return true;
+        else if (a.data[2] > b.data[2]) return false;
+        else if (a.data[3] < b.data[3]) return true;
+        else                            return false;
+    }
+
+
+    ///
+    /// Compares two language IDs
+    ///
+    /// \param[in] a  First language ID
+    /// \param[in] b  Second language ID
+    ///
+    /// \returns
+    /// - true when \p a > \p b
+    /// - false otherwise
+    ///
+    inline bool operator>(const langid_t& a, const langid_t& b)
+    {
+        return operator<(b, a);
+    }
+
+
+    ///
+    /// Compares two language IDs
+    ///
+    /// \param[in] a  First language ID
+    /// \param[in] b  Second language ID
+    ///
+    /// \returns
+    /// - true when \p a <= \p b
+    /// - false otherwise
+    ///
+    inline bool operator<=(const langid_t &a, const langid_t & b)
+    {
+        return !operator>(a, b);
+    }
+
+
+    ///
+    /// Compares two language IDs
+    ///
+    /// \param[in] a  First language ID
+    /// \param[in] b  Second language ID
+    ///
+    /// \returns
+    /// - true when \p a >= \p b
+    /// - false otherwise
+    ///
+    inline bool operator>=(const langid_t &a, const langid_t & b)
+    {
+        return !operator<(a, b);
+    }
 
 
 #ifdef _WIN32

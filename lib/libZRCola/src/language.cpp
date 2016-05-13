@@ -24,46 +24,46 @@
 void ZRCola::LangConvert(_In_ LANGID lang_win, _Inout_ ZRCola::langid_t &lang)
 {
     switch (PRIMARYLANGID(lang_win)) {
-        case LANG_BELARUSIAN : memcpy(lang, "bel", sizeof(lang)); break;
-        case LANG_CZECH      : memcpy(lang, "cze", sizeof(lang)); break;
-        case LANG_DANISH     : memcpy(lang, "dan", sizeof(lang)); break;
-        case LANG_GERMAN     : memcpy(lang, "deu", sizeof(lang)); break;
-        case LANG_ENGLISH    : memcpy(lang, "eng", sizeof(lang)); break;
-        case LANG_ESTONIAN   : memcpy(lang, "est", sizeof(lang)); break;
-        case LANG_FRENCH     : memcpy(lang, "fra", sizeof(lang)); break;
-        case LANG_IRISH      : memcpy(lang, "gle", sizeof(lang)); break;
-        case LANG_HUNGARIAN  : memcpy(lang, "hun", sizeof(lang)); break;
-        case LANG_LATVIAN    : memcpy(lang, "lav", sizeof(lang)); break;
-        case LANG_LITHUANIAN : memcpy(lang, "lit", sizeof(lang)); break;
-        case LANG_MACEDONIAN : memcpy(lang, "mkd", sizeof(lang)); break;
-        case LANG_MALTESE    : memcpy(lang, "mlt", sizeof(lang)); break;
-        case LANG_NORWEGIAN  : memcpy(lang, "nor", sizeof(lang)); break;
-        case LANG_POLISH     : memcpy(lang, "pol", sizeof(lang)); break;
-        case LANG_PORTUGUESE : memcpy(lang, "por", sizeof(lang)); break;
-        case LANG_ROMANIAN   : memcpy(lang, "rum", sizeof(lang)); break;
-        case LANG_RUSSIAN    : memcpy(lang, "rus", sizeof(lang)); break;
-        case LANG_SLOVAK     : memcpy(lang, "slk", sizeof(lang)); break;
-        case LANG_SLOVENIAN  : memcpy(lang, "slv", sizeof(lang)); break;
-        case LANG_SPANISH    : memcpy(lang, "spa", sizeof(lang)); break;
-        case LANG_ALBANIAN   : memcpy(lang, "sqi", sizeof(lang)); break;
-        case LANG_SWEDISH    : memcpy(lang, "swe", sizeof(lang)); break;
-        case LANG_TURKISH    : memcpy(lang, "tur", sizeof(lang)); break;
-        case LANG_UKRAINIAN  : memcpy(lang, "ukr", sizeof(lang)); break;
+        case LANG_BELARUSIAN : lang = "bel"; break;
+        case LANG_CZECH      : lang = "cze"; break;
+        case LANG_DANISH     : lang = "dan"; break;
+        case LANG_GERMAN     : lang = "deu"; break;
+        case LANG_ENGLISH    : lang = "eng"; break;
+        case LANG_ESTONIAN   : lang = "est"; break;
+        case LANG_FRENCH     : lang = "fra"; break;
+        case LANG_IRISH      : lang = "gle"; break;
+        case LANG_HUNGARIAN  : lang = "hun"; break;
+        case LANG_LATVIAN    : lang = "lav"; break;
+        case LANG_LITHUANIAN : lang = "lit"; break;
+        case LANG_MACEDONIAN : lang = "mkd"; break;
+        case LANG_MALTESE    : lang = "mlt"; break;
+        case LANG_NORWEGIAN  : lang = "nor"; break;
+        case LANG_POLISH     : lang = "pol"; break;
+        case LANG_PORTUGUESE : lang = "por"; break;
+        case LANG_ROMANIAN   : lang = "rum"; break;
+        case LANG_RUSSIAN    : lang = "rus"; break;
+        case LANG_SLOVAK     : lang = "slk"; break;
+        case LANG_SLOVENIAN  : lang = "slv"; break;
+        case LANG_SPANISH    : lang = "spa"; break;
+        case LANG_ALBANIAN   : lang = "sqi"; break;
+        case LANG_SWEDISH    : lang = "swe"; break;
+        case LANG_TURKISH    : lang = "tur"; break;
+        case LANG_UKRAINIAN  : lang = "ukr"; break;
 
         case LANG_CROATIAN   : // LANG_BOSNIAN, and LANG_SERBIAN
             switch (SUBLANGID(lang_win)) {
-                case SUBLANG_BOSNIAN_BOSNIA_HERZEGOVINA_LATIN    : memcpy(lang, "bos", sizeof(lang)); break;
-                case SUBLANG_BOSNIAN_BOSNIA_HERZEGOVINA_CYRILLIC : memcpy(lang, "boz", sizeof(lang)); break;
+                case SUBLANG_BOSNIAN_BOSNIA_HERZEGOVINA_LATIN    : lang = "bos"; break;
+                case SUBLANG_BOSNIAN_BOSNIA_HERZEGOVINA_CYRILLIC : lang = "boz"; break;
                 case SUBLANG_CROATIAN_CROATIA                    :
-                case SUBLANG_CROATIAN_BOSNIA_HERZEGOVINA_LATIN   : memcpy(lang, "hrv", sizeof(lang)); break;
+                case SUBLANG_CROATIAN_BOSNIA_HERZEGOVINA_LATIN   : lang = "hrv"; break;
                 case SUBLANG_SERBIAN_LATIN                       :
                 case SUBLANG_SERBIAN_BOSNIA_HERZEGOVINA_LATIN    :
                 case SUBLANG_SERBIAN_MONTENEGRO_LATIN            :
-                case SUBLANG_SERBIAN_SERBIA_LATIN                : memcpy(lang, "srp", sizeof(lang)); break;
+                case SUBLANG_SERBIAN_SERBIA_LATIN                : lang = "srp"; break;
                 case SUBLANG_SERBIAN_CYRILLIC                    :
                 case SUBLANG_SERBIAN_BOSNIA_HERZEGOVINA_CYRILLIC :
                 case SUBLANG_SERBIAN_MONTENEGRO_CYRILLIC         :
-                case SUBLANG_SERBIAN_SERBIA_CYRILLIC             : memcpy(lang, "srz", sizeof(lang)); break;
+                case SUBLANG_SERBIAN_SERBIA_CYRILLIC             : lang = "srz"; break;
             }
             break;
     }
@@ -83,9 +83,8 @@ bool ZRCola::langchar_db::IsLocalCharacter(_In_ wchar_t chr, _In_ ZRCola::langid
         else if (lc.chr < chr   ) l = m + 1;
         else {
             // Do the bisection test on language.
-            int res = memcmp(lang, lc.lang, sizeof(langid_t));
-                 if (res < 0) r = m;
-            else if (res > 0) l = m + 1;
+                 if (lang < lc.lang) r = m;
+            else if (lang > lc.lang) l = m + 1;
             else {
                 // Match found.
                 return true;
