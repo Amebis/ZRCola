@@ -20,7 +20,7 @@
 #include "stdafx.h"
 
 
-void ZRCola::character_db::search_by_desc(_In_z_ const wchar_t *str, _Inout_ std::map<wchar_t, unsigned long> &hits, _Inout_ std::map<wchar_t, unsigned long> &hits_sub) const
+void ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<wchar_t, unsigned long> &hits, _Inout_ std::map<wchar_t, unsigned long> &hits_sub) const
 {
     assert(str);
 
@@ -68,13 +68,16 @@ void ZRCola::character_db::search_by_desc(_In_z_ const wchar_t *str, _Inout_ std
             if (idxDsc.find(term.c_str(), term.size(), &data, &len)) {
                 // The term was found.
                 for (size_t i = 0; i < len; i++) {
-                    std::map<wchar_t, unsigned long>::iterator idx = hits.find(data[i]);
-                    if (idx == hits.end()) {
-                        // New character.
-                        hits.insert(std::make_pair(data[i], 1));
-                    } else {
-                        // Increment existing character.
-                        idx->second++;
+                    wchar_t c = data[i];
+                    if (cats.find(GetCharCat(c)) != cats.end()) {
+                        std::map<wchar_t, unsigned long>::iterator idx = hits.find(c);
+                        if (idx == hits.end()) {
+                            // New character.
+                            hits.insert(std::make_pair(data[i], 1));
+                        } else {
+                            // Increment existing character.
+                            idx->second++;
+                        }
                     }
                 }
             }
@@ -82,13 +85,16 @@ void ZRCola::character_db::search_by_desc(_In_z_ const wchar_t *str, _Inout_ std
             if (idxDscSub.find(term.c_str(), term.size(), &data, &len)) {
                 // The term was found in the sub-term index.
                 for (size_t i = 0; i < len; i++) {
-                    std::map<wchar_t, unsigned long>::iterator idx = hits_sub.find(data[i]);
-                    if (idx == hits_sub.end()) {
-                        // New character.
-                        hits_sub.insert(std::make_pair(data[i], 1));
-                    } else {
-                        // Increment existing character.
-                        idx->second++;
+                    wchar_t c = data[i];
+                    if (cats.find(GetCharCat(c)) != cats.end()) {
+                        std::map<wchar_t, unsigned long>::iterator idx = hits_sub.find(c);
+                        if (idx == hits_sub.end()) {
+                            // New character.
+                            hits_sub.insert(std::make_pair(data[i], 1));
+                        } else {
+                            // Increment existing character.
+                            idx->second++;
+                        }
                     }
                 }
             }

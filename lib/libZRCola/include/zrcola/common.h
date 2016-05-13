@@ -248,6 +248,40 @@ namespace ZRCola {
             return false;
         }
 
+        ///
+        /// Search for the first element in the index
+        ///
+        /// \param[in]  el     Element we are looking for (needle)
+        /// \param[out] start  Index of the first matching element found
+        ///
+        /// \returns
+        /// - \c true if found
+        /// - \c false otherwise
+        ///
+        bool find(_In_ const T_data &el, _Out_ size_type &start) const
+        {
+            // Start with the full search area.
+            size_t end;
+            for (start = 0, end = size(); start < end; ) {
+                size_type m = (start + end) / 2;
+                int r = compare(el, at(m));
+                     if (r < 0) end   = m;
+                else if (r > 0) start = m + 1;
+                else {
+                    // Narrow the search area on the left to start at the first element in the run.
+                    for (size_type end2 = m; start < end2;) {
+                        size_type m = (start + end2) / 2;
+                        int r = compare(el, at(m));
+                        if (r <= 0) end2 = m; else start = m + 1;
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
     private:
         static int __cdecl compare_s(void *p, const void *a, const void *b)
         {

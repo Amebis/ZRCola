@@ -26,6 +26,7 @@
 #include <map>
 #include <ostream>
 #include <vector>
+#include <set>
 #include <string>
 
 #pragma warning(push)
@@ -49,6 +50,12 @@ namespace ZRCola {
             return *this;
         }
     };
+
+
+    ///
+    /// Blank character category
+    ///
+    const chrcatid_t chrcatid_t_blank = {};
 
 
     ///
@@ -151,7 +158,32 @@ namespace ZRCola {
         ///
         inline character_db() : idxChr(data) {}
 
-        void search_by_desc(_In_z_ const wchar_t *str, _Inout_ std::map<wchar_t, unsigned long> &hits, _Inout_ std::map<wchar_t, unsigned long> &hits_sub) const;
+        ///
+        /// Search for characters by description in given categories
+        ///
+        /// \param[in   ] str       Search string
+        /// \param[in   ] cats      Set of categories, character must be a part of
+        /// \param[inout] hits      (character, count) map to append full-word hits to
+        /// \param[inout] hits_sub  (character, count) map to append partial-word hits to
+        ///
+        void Search(_In_z_ const wchar_t *str, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<wchar_t, unsigned long> &hits, _Inout_ std::map<wchar_t, unsigned long> &hits_sub) const;
+
+        ///
+        /// Get character category
+        ///
+        /// \param[in] c  Character
+        ///
+        /// \returns
+        /// - Character category if character found
+        /// - `ZRCola::chrcatid_t_blank` otherwise
+        ///
+        inline chrcatid_t GetCharCat(wchar_t c) const
+        {
+            char _chr[sizeof(character)];
+            ((character *)_chr)->chr = c;
+            indexChar::size_type start;
+            return idxChr.find(*((character *)_chr), start) ? idxChr[start].cat : chrcatid_t_blank;
+        }
     };
 
 

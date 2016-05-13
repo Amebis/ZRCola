@@ -69,7 +69,7 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
             )
         {
             ZRColaApp *app = (ZRColaApp*)wxTheApp;
-            ZRCola::keyseq_db::indexKey::size_type start, end;
+            ZRCola::keyseq_db::indexKey::size_type start;
             bool found;
             wxFrame *pFrame = wxDynamicCast(app->m_mainWnd, wxFrame);
 
@@ -96,7 +96,7 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
                 ks->chr = 0;
                 ks->seq_len = n;
                 memcpy(ks->seq, m_seq.data(), sizeof(ZRCola::keyseq_db::keyseq::key_t)*n);
-                found = app->m_ks_db.idxKey.find(*ks, start, end);
+                found = app->m_ks_db.idxKey.find(*ks, start);
                 delete ks;
             }
 

@@ -50,8 +50,7 @@ wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) :
 
     // Fill categories.
     ZRColaApp *app = (ZRColaApp*)wxTheApp;
-    size_t i, n;
-    for (i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
+    for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
         const ZRCola::chrcat_db::chrcat &cc = app->m_cc_db.idxRnk[i];
         int idx = m_categories->Insert(wxGetTranslation(wxString(cc.name, cc.name_len), wxT("ZRCola-zrcdb")), i);
         m_categories->Check(idx);
@@ -75,8 +74,8 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
             {
                 ZRCola::character_db::character *chr = (ZRCola::character_db::character*)new char[sizeof(ZRCola::character_db::character)];
                 chr->chr = m_char;
-                size_t start, end;
-                if (app->m_chr_db.idxChr.find(*chr, start, end)) {
+                size_t start;
+                if (app->m_chr_db.idxChr.find(*chr, start)) {
                     const ZRCola::character_db::character &chr = app->m_chr_db.idxChr[start];
                     m_description->SetValue(wxString(chr.data, chr.desc_len));
                     m_gridRelated->SetCharacters(wxString(chr.data + chr.desc_len, chr.rel_len));
@@ -125,11 +124,19 @@ void wxZRColaCharSelect::OnSearchTimer(wxTimerEvent& event)
     if (!val.IsEmpty()) {
         ZRColaApp *app = (ZRColaApp*)wxTheApp;
         std::map<wchar_t, unsigned long> hits;
+        std::set<ZRCola::chrcatid_t> cats;
+
+        // Select categories.
+        for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
+            const ZRCola::chrcat_db::chrcat &cc = app->m_cc_db.idxRnk[i];
+            if (m_categories->IsChecked(i))
+                cats.insert(cc.id);
+        }
 
         {
             // Search by indexes and merge results.
             std::map<wchar_t, unsigned long> hits_sub;
-            app->m_chr_db.search_by_desc(val.c_str(), hits, hits_sub);
+            app->m_chr_db.Search(val.c_str(), cats, hits, hits_sub);
             for (std::map<wchar_t, unsigned long>::const_iterator i = hits_sub.cbegin(), i_end = hits_sub.cend(); i != i_end; ++i) {
                 std::map<wchar_t, unsigned long>::iterator idx = hits.find(i->first);
                 if (idx == hits.end())
@@ -138,26 +145,6 @@ void wxZRColaCharSelect::OnSearchTimer(wxTimerEvent& event)
                     idx->second += i->second / 4;
             }
         }
-
-        // Filter by categories.
-        ZRCola::character_db::character *chr = (ZRCola::character_db::character*)new char[sizeof(ZRCola::character_db::character)];
-        for (std::map<wchar_t, unsigned long>::const_iterator i = hits.cbegin(), i_end = hits.cend(); i != i_end;) {
-            chr->chr = i->first;
-            size_t start, end;
-            std::map<ZRCola::chrcatid_t, int>::const_iterator idx;
-            if (app->m_chr_db.idxChr.find(*chr, start, end) &&
-                ((idx = m_ccOrder.find(app->m_chr_db.idxChr[start].cat)) == m_ccOrder.end() || m_categories->IsChecked(idx->second)))
-            {
-                // Character category approved.
-                ++i;
-            } else {
-                // Character category not approved.
-                std::map<wchar_t, unsigned long>::const_iterator i_remove = i;
-                ++i;
-                hits.erase(i_remove);
-            }
-        }
-        delete chr;
 
         // Now sort the characters by rank.
         std::vector< std::pair<unsigned long, wchar_t> > hits2;

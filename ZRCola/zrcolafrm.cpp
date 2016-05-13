@@ -565,8 +565,8 @@ void wxZRColaFrame::UpdateDecomposedLanguage()
     ZRCola::language_db::language *l = new ZRCola::language_db::language;
     memcpy(l->id, m_lang, sizeof(l->id));
     l->name_len = 0;
-    ZRCola::language_db::indexLang::size_type start, end;
-    m_toolDecompLanguage->SetSelection(app->m_lang_db.idxLng.find(*l, start, end) ? start : -1);
+    ZRCola::language_db::indexLang::size_type start;
+    m_toolDecompLanguage->SetSelection(app->m_lang_db.idxLng.find(*l, start) ? start : -1);
     delete l;
 }
 
