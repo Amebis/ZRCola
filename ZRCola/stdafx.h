@@ -23,6 +23,7 @@
 #include <wx/msgdlg.h>
 #include <wx/persist.h>
 #include <wx/persist/toplevel.h>
+#include <wx/utils.h>
 #include <wx/valtext.h>
 #include <wxex/common.h>
 #include <wxex/persist/auimanager.h>

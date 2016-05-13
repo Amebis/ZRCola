@@ -54,6 +54,8 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
     EVT_MENU           (wxID_PANEL_CHRGRPS                                  , wxZRColaFrame::OnPanelCharacterCatalog       )
     EVT_MENU           (wxID_FOCUS_CHARACTER_CATALOG                        , wxZRColaFrame::OnPanelCharacterCatalogFocus  )
 
+    EVT_MENU           (wxID_HELP_REQCHAR                                   , wxZRColaFrame::OnHelpReqChar                 )
+
     EVT_MENU           (wxID_ABOUT                                          , wxZRColaFrame::OnAbout                       )
 wxEND_EVENT_TABLE()
 
@@ -454,6 +456,12 @@ void wxZRColaFrame::OnPanelCharacterCatalogFocus(wxCommandEvent& event)
     }
 
     m_panelChrCat->SetFocus();
+}
+
+
+void wxZRColaFrame::OnHelpReqChar(wxCommandEvent& event)
+{
+    wxLaunchDefaultBrowser(_("http://zrcola-2.amebis.si/en/contact/"));
 }
 
 

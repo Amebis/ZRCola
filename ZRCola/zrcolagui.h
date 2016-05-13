@@ -63,7 +63,8 @@ class wxZRColaFrameBase : public wxFrame
 			wxID_DECOMP_LANG_AUTO,
 			wxID_TOOLBAR_EDIT,
 			wxID_TOOLBAR_COMPOSE,
-			wxID_PANEL_CHRGRPS
+			wxID_PANEL_CHRGRPS,
+			wxID_HELP_REQCHAR
 		};
 		
 		wxMenuBar* m_menubar;
