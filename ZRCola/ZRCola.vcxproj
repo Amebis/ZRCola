@@ -114,6 +114,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="locale\ZRCola.pot" />
     <None Include="res\char_select.ico" />
     <None Include="res\edit_copy.ico" />
     <None Include="res\edit_cut.ico" />
@@ -128,6 +129,8 @@
     <ResourceCompile Include="ZRCola.rc" />
   </ItemGroup>
   <ItemGroup>
+    <POCompile Include="locale\de_DE.po" />
+    <POCompile Include="locale\ru_RU.po" />
     <POCompile Include="locale\sl_SI.po" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

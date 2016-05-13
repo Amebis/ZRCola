@@ -1,0 +1,179 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: libZRColaUI\n"
+"POT-Creation-Date: 2016-05-13 19:19+0200\n"
+"PO-Revision-Date: 2016-05-13 19:20+0200\n"
+"Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
+"Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _\n"
+
+#: src/keyboard.cpp:30 src/keyboard.cpp:72
+#, fuzzy
+msgid "Ctrl"
+msgstr "strg"
+
+#: src/keyboard.cpp:31 src/keyboard.cpp:71
+#, fuzzy
+msgid "Alt"
+msgstr "alt"
+
+#: src/keyboard.cpp:32 src/keyboard.cpp:70
+#, fuzzy
+msgid "Shift"
+msgstr "Umschalt"
+
+#: src/keyboard.cpp:45
+#, fuzzy
+msgid "Esc"
+msgstr "ESC"
+
+#: src/keyboard.cpp:47
+msgid "F1"
+msgstr ""
+
+#: src/keyboard.cpp:48
+msgid "F2"
+msgstr ""
+
+#: src/keyboard.cpp:49
+msgid "F3"
+msgstr ""
+
+#: src/keyboard.cpp:50
+msgid "F4"
+msgstr ""
+
+#: src/keyboard.cpp:51
+msgid "F5"
+msgstr ""
+
+#: src/keyboard.cpp:52
+msgid "F6"
+msgstr ""
+
+#: src/keyboard.cpp:53
+msgid "F7"
+msgstr ""
+
+#: src/keyboard.cpp:54
+msgid "F8"
+msgstr ""
+
+#: src/keyboard.cpp:55
+msgid "F9"
+msgstr ""
+
+#: src/keyboard.cpp:56
+msgid "F10"
+msgstr ""
+
+#: src/keyboard.cpp:57
+msgid "F11"
+msgstr ""
+
+#: src/keyboard.cpp:58
+msgid "F12"
+msgstr ""
+
+#: src/keyboard.cpp:60
+msgid "Print Screen"
+msgstr ""
+
+#: src/keyboard.cpp:61
+#, fuzzy
+msgid "Scroll Lock"
+msgstr "ROLLEN_LOCK"
+
+#: src/keyboard.cpp:62
+#, fuzzy
+msgid "Pause"
+msgstr "PAUSE"
+
+#: src/keyboard.cpp:64
+msgid "Backspace"
+msgstr ""
+
+#: src/keyboard.cpp:65
+#, fuzzy
+msgid "Tab"
+msgstr "Tabulator"
+
+#: src/keyboard.cpp:66
+msgid "Caps Lock"
+msgstr ""
+
+#: src/keyboard.cpp:67
+#, fuzzy
+msgid "Return"
+msgstr "EINGABE"
+
+#: src/keyboard.cpp:68
+#, fuzzy
+msgid "Space"
+msgstr "Leertaste"
+
+#: src/keyboard.cpp:73
+#, fuzzy
+msgid "Menu"
+msgstr "Menü"
+
+#: src/keyboard.cpp:75
+#, fuzzy
+msgid "Insert"
+msgstr "Einfügen"
+
+#: src/keyboard.cpp:76
+#, fuzzy
+msgid "Delete"
+msgstr "Löschen"
+
+#: src/keyboard.cpp:77
+msgid "Page Up"
+msgstr ""
+
+#: src/keyboard.cpp:78
+msgid "Page Down"
+msgstr ""
+
+#: src/keyboard.cpp:79
+#, fuzzy
+msgid "Home"
+msgstr "Start"
+
+#: src/keyboard.cpp:80
+#, fuzzy
+msgid "End"
+msgstr "ENDE"
+
+#: src/keyboard.cpp:82
+#, fuzzy
+msgid "Left"
+msgstr "Links"
+
+#: src/keyboard.cpp:83
+#, fuzzy
+msgid "Up"
+msgstr "Hoch"
+
+#: src/keyboard.cpp:84
+#, fuzzy
+msgid "Right"
+msgstr "Rechts"
+
+#: src/keyboard.cpp:85
+#, fuzzy
+msgid "Down"
+msgstr "Herunter"
+
+#: src/keyboard.cpp:87
+#, fuzzy
+msgid "Num Lock"
+msgstr "Num_LOCK"

@@ -46,5 +46,16 @@
     <POCompile Include="locale\sl_SI.po">
       <Filter>Resource Files\Localization</Filter>
     </POCompile>
+    <POCompile Include="locale\de_DE.po">
+      <Filter>Resource Files\Localization</Filter>
+    </POCompile>
+    <POCompile Include="locale\ru_RU.po">
+      <Filter>Resource Files\Localization</Filter>
+    </POCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="locale\ZRColaCompile.pot">
+      <Filter>Resource Files\Localization</Filter>
+    </None>
   </ItemGroup>
 </Project>

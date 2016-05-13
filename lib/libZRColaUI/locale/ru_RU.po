@@ -1,0 +1,161 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: libZRColaUI\n"
+"POT-Creation-Date: 2016-05-13 19:20+0200\n"
+"PO-Revision-Date: 2016-05-13 19:20+0200\n"
+"Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
+"Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _\n"
+
+#: src/keyboard.cpp:30 src/keyboard.cpp:72
+msgid "Ctrl"
+msgstr ""
+
+#: src/keyboard.cpp:31 src/keyboard.cpp:71
+msgid "Alt"
+msgstr ""
+
+#: src/keyboard.cpp:32 src/keyboard.cpp:70
+msgid "Shift"
+msgstr ""
+
+#: src/keyboard.cpp:45
+msgid "Esc"
+msgstr ""
+
+#: src/keyboard.cpp:47
+msgid "F1"
+msgstr ""
+
+#: src/keyboard.cpp:48
+msgid "F2"
+msgstr ""
+
+#: src/keyboard.cpp:49
+msgid "F3"
+msgstr ""
+
+#: src/keyboard.cpp:50
+msgid "F4"
+msgstr ""
+
+#: src/keyboard.cpp:51
+msgid "F5"
+msgstr ""
+
+#: src/keyboard.cpp:52
+msgid "F6"
+msgstr ""
+
+#: src/keyboard.cpp:53
+msgid "F7"
+msgstr ""
+
+#: src/keyboard.cpp:54
+msgid "F8"
+msgstr ""
+
+#: src/keyboard.cpp:55
+msgid "F9"
+msgstr ""
+
+#: src/keyboard.cpp:56
+msgid "F10"
+msgstr ""
+
+#: src/keyboard.cpp:57
+msgid "F11"
+msgstr ""
+
+#: src/keyboard.cpp:58
+msgid "F12"
+msgstr ""
+
+#: src/keyboard.cpp:60
+msgid "Print Screen"
+msgstr ""
+
+#: src/keyboard.cpp:61
+msgid "Scroll Lock"
+msgstr ""
+
+#: src/keyboard.cpp:62
+msgid "Pause"
+msgstr ""
+
+#: src/keyboard.cpp:64
+msgid "Backspace"
+msgstr ""
+
+#: src/keyboard.cpp:65
+msgid "Tab"
+msgstr ""
+
+#: src/keyboard.cpp:66
+msgid "Caps Lock"
+msgstr ""
+
+#: src/keyboard.cpp:67
+msgid "Return"
+msgstr ""
+
+#: src/keyboard.cpp:68
+msgid "Space"
+msgstr ""
+
+#: src/keyboard.cpp:73
+msgid "Menu"
+msgstr ""
+
+#: src/keyboard.cpp:75
+msgid "Insert"
+msgstr ""
+
+#: src/keyboard.cpp:76
+msgid "Delete"
+msgstr ""
+
+#: src/keyboard.cpp:77
+msgid "Page Up"
+msgstr ""
+
+#: src/keyboard.cpp:78
+msgid "Page Down"
+msgstr ""
+
+#: src/keyboard.cpp:79
+msgid "Home"
+msgstr ""
+
+#: src/keyboard.cpp:80
+msgid "End"
+msgstr ""
+
+#: src/keyboard.cpp:82
+msgid "Left"
+msgstr ""
+
+#: src/keyboard.cpp:83
+msgid "Up"
+msgstr ""
+
+#: src/keyboard.cpp:84
+msgid "Right"
+msgstr ""
+
+#: src/keyboard.cpp:85
+msgid "Down"
+msgstr ""
+
+#: src/keyboard.cpp:87
+msgid "Num Lock"
+msgstr ""

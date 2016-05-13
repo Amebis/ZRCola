@@ -1,8 +1,9 @@
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola MSI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-14 17:26+0100\n"
+"POT-Creation-Date: 2016-05-13 19:26+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <simon.rozman@amebis.si>\n"
@@ -16,11 +17,12 @@ msgstr ""
 "X-Generator: Poedit 1.8.7\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: En.Win32.Debug.Registry-2.idtx:4 En.Win32.Release.Registry-2.idtx:4 En.x64.Debug.Registry-2.idtx:4 En.x64.Release.Registry-2.idtx:4
-msgid "#58"
-msgstr ""
+#: En.Win32.Release.Registry-2.idtx:4 En.x64.Release.Registry-2.idtx:4
+#, fuzzy
+msgid "#60"
+msgstr "#176"
 
-#: En.Win32.Debug.Control-2.idtx:4 En.Win32.Release.Control-2.idtx:4 En.x64.Debug.Control-2.idtx:4 En.x64.Release.Control-2.idtx:4
+#: En.Win32.Release.Control-2.idtx:4 En.x64.Release.Control-2.idtx:4
 msgid ""
 "{\\rtf1\\adeflang1025\\ansi"
 "\\ansicpg1250\\uc1\\adeff0\\deff0\\stshfdbch31505\\stshfloch31506\\stshfhich31506\\stshfbi31507\\deflang1060\\deflangfe1060\themelang1060\themelangfe0\themelangcs0{\\fonttbl{\\f0\\fbidi "
@@ -758,12 +760,33 @@ msgid ""
 "0105000002000000180000004d73786d6c322e534158584d4c5265616465722e362e3000000000000000000000060000d0cf11e0a1b11ae1000000000000000000000000000000003e000300feff090006000000000000000000000001000000010000000000000000100000feffffff00000000feffffff0000000000000000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdfffffffeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff52006f006f007400200045006e00740072007900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016000500ffffffffffffffffffffffff0c6ad98892f1d411a65f0040963251e5000000000000000000000000c0ef044c8850cf01feffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000105000000000000}}"
 msgstr ""
 
-#: En.Win32.Debug.Control-2.idtx:3 En.Win32.Debug.Directory-2.idtx:3 En.Win32.Debug.Registry-2.idtx:3 En.Win32.Release.Control-2.idtx:3 En.Win32.Release.Directory-2.idtx:3
-#: En.Win32.Release.Registry-2.idtx:3 En.x64.Debug.Control-2.idtx:3 En.x64.Debug.Directory-2.idtx:3 En.x64.Debug.Registry-2.idtx:3 En.x64.Release.Control-2.idtx:3
-#: En.x64.Release.Directory-2.idtx:3 En.x64.Release.Registry-2.idtx:3
-msgid "1252"
-msgstr ""
+#: En.Win32.Release.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5
+#, fuzzy
+msgid "00 ZRCola"
+msgstr "00 ZRCola"
 
-#: En.Win32.Debug.Directory-2.idtx:4 En.Win32.Release.Directory-2.idtx:4 En.x64.Debug.Directory-2.idtx:4 En.x64.Release.Directory-2.idtx:4
+#: En.Win32.Release.Control-2.idtx:3 En.Win32.Release.Directory-2.idtx:3 En.Win32.Release.Feature-2.idtx:3 En.Win32.Release.Registry-2.idtx:3 En.x64.Release.Control-2.idtx:3
+#: En.x64.Release.Directory-2.idtx:3 En.x64.Release.Feature-2.idtx:3 En.x64.Release.Registry-2.idtx:3
+#, fuzzy
+msgid "1252"
+msgstr "1250"
+
+#: En.Win32.Release.Feature-2.idtx:4 En.x64.Release.Feature-2.idtx:4
+#, fuzzy
+msgid "Fonts"
+msgstr "Pisave"
+
+#: En.Win32.Release.Feature-2.idtx:4 En.x64.Release.Feature-2.idtx:4
+#, fuzzy
+msgid "Fonts used by ZRCola"
+msgstr "Pisave, ki jih uporablja ZRCola"
+
+#: En.Win32.Release.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5
+#, fuzzy
+msgid "Times New Roman based font"
+msgstr "Pisava na osnovi Times New Roman"
+
+#: En.Win32.Release.Directory-2.idtx:4 En.x64.Release.Directory-2.idtx:4
+#, fuzzy
 msgid "ZRCola:."
-msgstr ""
+msgstr "ZRCola:."

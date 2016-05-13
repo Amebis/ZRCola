@@ -2,11 +2,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola MSI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-13 19:27+0200\n"
+"POT-Creation-Date: 2016-05-13 19:31+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <simon.rozman@amebis.si>\n"
-"Language: sl_SI\n"
+"Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,12 +14,12 @@ msgstr ""
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-Basepath: .\n"
 "X-Generator: Poedit 1.8.7\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 # wxLanguage enum value for this language (decimal, # prefixed)
 #: En.Win32.Release.Registry-2.idtx:4 En.x64.Release.Registry-2.idtx:4
 msgid "#60"
-msgstr "#176"
+msgstr "#89"
 
 # Licence Agreement
 # 1. Translate as a separate RTF document.
@@ -1505,19 +1505,20 @@ msgstr "00 ZRCola"
 #: En.Win32.Release.Control-2.idtx:3 En.Win32.Release.Directory-2.idtx:3 En.Win32.Release.Feature-2.idtx:3 En.Win32.Release.Registry-2.idtx:3 En.x64.Release.Control-2.idtx:3
 #: En.x64.Release.Directory-2.idtx:3 En.x64.Release.Feature-2.idtx:3 En.x64.Release.Registry-2.idtx:3
 msgid "1252"
-msgstr "1250"
+msgstr "1252"
 
 #: En.Win32.Release.Feature-2.idtx:4 En.x64.Release.Feature-2.idtx:4
+#, fuzzy
 msgid "Fonts"
-msgstr "Pisave"
+msgstr "Listet die verfügbaren Schriftarten auf."
 
 #: En.Win32.Release.Feature-2.idtx:4 En.x64.Release.Feature-2.idtx:4
 msgid "Fonts used by ZRCola"
-msgstr "Pisave, ki jih uporablja ZRCola"
+msgstr ""
 
 #: En.Win32.Release.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5
 msgid "Times New Roman based font"
-msgstr "Pisava na osnovi Times New Roman"
+msgstr ""
 
 #: En.Win32.Release.Directory-2.idtx:4 En.x64.Release.Directory-2.idtx:4
 msgid "ZRCola:."

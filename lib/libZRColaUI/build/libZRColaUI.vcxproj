@@ -37,6 +37,8 @@
     <ResourceCompile Include="..\res\libZRColaUI.rc" />
   </ItemGroup>
   <ItemGroup>
+    <POCompile Include="..\locale\de_DE.po" />
+    <POCompile Include="..\locale\ru_RU.po" />
     <POCompile Include="..\locale\sl_SI.po" />
   </ItemGroup>
   <ItemGroup>
