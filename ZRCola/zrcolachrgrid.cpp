@@ -81,7 +81,7 @@ void wxZRColaCharGrid::SetCharacters(const wxString &chars)
 
 wxString wxZRColaCharGrid::GetToolTipText(int idx)
 {
-    wxASSERT_MSG(idx < m_chars.Length(), wxT("index out of bounds"));
+    wxASSERT_MSG(idx < (int)m_chars.Length(), wxT("index out of bounds"));
 
     ZRColaApp *app = (ZRColaApp*)wxTheApp;
 
@@ -135,7 +135,7 @@ void wxZRColaCharGrid::OnSize(wxSizeEvent& event)
         wxGridStringTable *table = new wxGridStringTable(rows, cols);
         for (int r = 0, i = 0; r < rows; r++)
             for (int c = 0; c < cols; c++, i++)
-                table->SetValue(r, c, i < char_len ? wxString(1, m_chars[i]) : wxEmptyString);
+                table->SetValue(r, c, i < (int)char_len ? wxString(1, m_chars[i]) : wxEmptyString);
         SetTable(table, true);
         m_regenerate = false;
     }
