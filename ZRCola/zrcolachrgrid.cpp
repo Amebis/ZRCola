@@ -159,7 +159,8 @@ void wxZRColaCharGrid::OnKeyDown(wxKeyEvent& event)
 {
     wxWindow *parentWnd;
 
-    if (event.GetKeyCode() == WXK_TAB && (parentWnd = GetParent()) != NULL) {
+    int key_code = event.GetKeyCode();
+    if (key_code == WXK_TAB && (parentWnd = GetParent()) != NULL) {
         wxNavigationKeyEvent eventNav;
         eventNav.SetDirection(!event.ShiftDown());
         eventNav.SetWindowChange(event.ControlDown());
@@ -167,6 +168,14 @@ void wxZRColaCharGrid::OnKeyDown(wxKeyEvent& event)
 
         if (parentWnd->HandleWindowEvent(eventNav))
             return;
+    } else if (key_code == WXK_LEFT && m_currentCellCoords.GetCol() == 0 && m_currentCellCoords.GetRow()) {
+        GoToCell(m_currentCellCoords.GetRow() - 1, m_numCols - 1);
+        event.StopPropagation();
+        return;
+    } else if (key_code == WXK_RIGHT && m_currentCellCoords.GetCol() == m_numCols - 1 && m_currentCellCoords.GetRow() < m_numRows - 1) {
+        GoToCell(m_currentCellCoords.GetRow() + 1, 0);
+        event.StopPropagation();
+        return;
     }
 
     event.Skip();
