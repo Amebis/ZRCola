@@ -70,31 +70,39 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
 
             m_gridPreview->SetCellValue(wxString(1, m_char), 0, 0);
 
-            {
-                char chr[sizeof(ZRCola::character_db::character)] = {};
-                ((ZRCola::character_db::character*)chr)->chr = m_char;
-                size_t start;
-                if (app->m_chr_db.idxChr.find(*(ZRCola::character_db::character*)chr, start)) {
-                    const ZRCola::character_db::character &chr = app->m_chr_db.idxChr[start];
-                    m_description->SetValue(wxString(chr.data, chr.desc_len));
-                    {
-                        char cc[sizeof(ZRCola::chrcat_db::chrcat)] = {};
-                        ((ZRCola::chrcat_db::chrcat*)cc)->id = chr.cat;
-                        size_t start;
-                        if (app->m_cc_db.idxChrCat.find(*((ZRCola::chrcat_db::chrcat*)cc), start)) {
-                            const ZRCola::chrcat_db::chrcat &cat = app->m_cc_db.idxChrCat[start];
-                            m_category->SetValue(wxGetTranslation(wxString(cat.name, cat.name_len), wxT("ZRCola-zrcdb")));
-                        } else
-                            m_category->SetValue(wxEmptyString);
-                    }
-                    m_gridRelated->SetCharacters(wxString(chr.data + chr.desc_len, chr.rel_len));
-                } else {
-                    m_description->SetValue(wxEmptyString);
-                    m_category->SetValue(wxEmptyString);
-                    m_gridRelated->ClearGrid();
+            char chr[sizeof(ZRCola::character_db::character)] = {};
+            ((ZRCola::character_db::character*)chr)->chr = m_char;
+            size_t start;
+            if (app->m_chr_db.idxChr.find(*(ZRCola::character_db::character*)chr, start)) {
+                const ZRCola::character_db::character &chr = app->m_chr_db.idxChr[start];
+                // Update characted rescription.
+                m_description->SetValue(wxString(chr.data, chr.desc_len));
+                {
+                    char cc[sizeof(ZRCola::chrcat_db::chrcat)] = {};
+                    ((ZRCola::chrcat_db::chrcat*)cc)->id = chr.cat;
+                    size_t start;
+                    // Update character category.
+                    if (app->m_cc_db.idxChrCat.find(*((ZRCola::chrcat_db::chrcat*)cc), start)) {
+                        const ZRCola::chrcat_db::chrcat &cat = app->m_cc_db.idxChrCat[start];
+                        m_category->SetValue(wxGetTranslation(wxString(cat.name, cat.name_len), wxT("ZRCola-zrcdb")));
+                    } else
+                        m_category->SetValue(wxEmptyString);
                 }
-                m_gridRelated->Scroll(0, 0);
+                // Update related characters.
+                m_gridRelated->SetCharacters(wxString(chr.data + chr.desc_len, chr.rel_len));
+            } else {
+                m_description->SetValue(wxEmptyString);
+                m_category->SetValue(wxEmptyString);
+                m_gridRelated->ClearGrid();
             }
+            m_gridRelated->Scroll(0, 0);
+
+            wxGridCellCoords coord(m_gridResults->GetCharacterCoords(m_char));
+            if (coord.GetRow() != -1 && coord.GetCol() != -1) {
+                m_gridResults->GoToCell(coord);
+                m_gridResults->SetGridCursor(coord);
+            } else
+                m_gridResults->ClearSelection();
         }
 
         m_unicodeChanged = false;

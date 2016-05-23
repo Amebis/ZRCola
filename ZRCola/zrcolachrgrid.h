@@ -68,6 +68,19 @@ public:
         return m_chars;
     }
 
+    ///
+    /// Returns given character coordinates
+    ///
+    /// \param[in] c  Character
+    ///
+    /// \returns Grid coordinates of selected character or (-1, -1) if character not found.
+    ///
+    inline wxGridCellCoords GetCharacterCoords(wchar_t c) const
+    {
+        int i = m_chars.Find(c);
+        return i != wxNOT_FOUND ? wxGridCellCoords(i / m_numCols, i % m_numCols) : wxGridCellCoords(-1, -1);
+    }
+
 protected:
     virtual wxString GetToolTipText(int idx);
 
