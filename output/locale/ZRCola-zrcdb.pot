@@ -160,82 +160,16 @@ msgstr ""
 msgid "Letter Z"
 msgstr ""
 
-msgid "Letter a"
-msgstr ""
-
-msgid "Letter b"
-msgstr ""
-
-msgid "Letter c"
-msgstr ""
-
-msgid "Letter d"
-msgstr ""
-
 msgid "Letter e"
-msgstr ""
-
-msgid "Letter f"
-msgstr ""
-
-msgid "Letter g"
-msgstr ""
-
-msgid "Letter h"
 msgstr ""
 
 msgid "Letter i"
 msgstr ""
 
-msgid "Letter j"
-msgstr ""
-
-msgid "Letter k"
-msgstr ""
-
-msgid "Letter l"
-msgstr ""
-
-msgid "Letter m"
-msgstr ""
-
-msgid "Letter n"
-msgstr ""
-
 msgid "Letter o"
 msgstr ""
 
-msgid "Letter p"
-msgstr ""
-
-msgid "Letter q"
-msgstr ""
-
-msgid "Letter r"
-msgstr ""
-
-msgid "Letter s"
-msgstr ""
-
-msgid "Letter t"
-msgstr ""
-
 msgid "Letter u"
-msgstr ""
-
-msgid "Letter v"
-msgstr ""
-
-msgid "Letter w"
-msgstr ""
-
-msgid "Letter x"
-msgstr ""
-
-msgid "Letter y"
-msgstr ""
-
-msgid "Letter z"
 msgstr ""
 
 msgid "Letter, Lowercase"
@@ -328,10 +262,10 @@ msgstr ""
 msgid "Number, Other"
 msgstr ""
 
-msgid "Numbers"
+msgid "Numbers - Circled"
 msgstr ""
 
-msgid "Numbers - Circled"
+msgid "Other modifiers"
 msgstr ""
 
 msgid "Other, Format"
@@ -464,6 +398,9 @@ msgid "Symbol, Modifier"
 msgstr ""
 
 msgid "Symbol, Other"
+msgstr ""
+
+msgid "Transliterated"
 msgstr ""
 
 msgid "Turkish"

@@ -167,83 +167,17 @@ msgstr "Črka Y"
 msgid "Letter Z"
 msgstr "Črka Z"
 
-msgid "Letter a"
-msgstr "Črka a"
-
-msgid "Letter b"
-msgstr "Črka b"
-
-msgid "Letter c"
-msgstr "Črka c"
-
-msgid "Letter d"
-msgstr "Črka d"
-
 msgid "Letter e"
 msgstr "Črka e"
-
-msgid "Letter f"
-msgstr "Črka f"
-
-msgid "Letter g"
-msgstr "Črka g"
-
-msgid "Letter h"
-msgstr "Črka h"
 
 msgid "Letter i"
 msgstr "Črka i"
 
-msgid "Letter j"
-msgstr "Črka j"
-
-msgid "Letter k"
-msgstr "Črka k"
-
-msgid "Letter l"
-msgstr "Črka l"
-
-msgid "Letter m"
-msgstr "Črka m"
-
-msgid "Letter n"
-msgstr "Črka n"
-
 msgid "Letter o"
 msgstr "Črka o"
 
-msgid "Letter p"
-msgstr "Črka p"
-
-msgid "Letter q"
-msgstr "Črka q"
-
-msgid "Letter r"
-msgstr "Črka r"
-
-msgid "Letter s"
-msgstr "Črka s"
-
-msgid "Letter t"
-msgstr "Črka t"
-
 msgid "Letter u"
 msgstr "Črka u"
-
-msgid "Letter v"
-msgstr "Črka v"
-
-msgid "Letter w"
-msgstr "Črka w"
-
-msgid "Letter x"
-msgstr "Črka x"
-
-msgid "Letter y"
-msgstr "Črka y"
-
-msgid "Letter z"
-msgstr "Črka z"
 
 msgid "Letter, Lowercase"
 msgstr "Črka, mala"
@@ -335,14 +269,11 @@ msgstr "Številka, črka"
 msgid "Number, Other"
 msgstr "Številka, drugo"
 
-msgid "Numbers"
-msgstr "Številke"
-
 msgid "Numbers - Circled"
 msgstr "Številke - obkroženo"
 
-msgid "Other, Control"
-msgstr "Drugo, kontrolni"
+msgid "Other modifiers"
+msgstr "Druga spreminjevala"
 
 msgid "Other, Format"
 msgstr "Drugo, oblikovni"
@@ -476,8 +407,83 @@ msgstr "Simbol, ločevalo"
 msgid "Symbol, Other"
 msgstr "Simbol, drugo"
 
+msgid "Transliterated"
+msgstr "Prečrkovano"
+
 msgid "Turkish"
 msgstr "turščina"
 
 msgid "Ukrainian"
 msgstr "ukrajinščina"
+
+#~ msgid "Letter a"
+#~ msgstr "Črka a"
+
+#~ msgid "Letter b"
+#~ msgstr "Črka b"
+
+#~ msgid "Letter c"
+#~ msgstr "Črka c"
+
+#~ msgid "Letter d"
+#~ msgstr "Črka d"
+
+#~ msgid "Letter f"
+#~ msgstr "Črka f"
+
+#~ msgid "Letter g"
+#~ msgstr "Črka g"
+
+#~ msgid "Letter h"
+#~ msgstr "Črka h"
+
+#~ msgid "Letter j"
+#~ msgstr "Črka j"
+
+#~ msgid "Letter k"
+#~ msgstr "Črka k"
+
+#~ msgid "Letter l"
+#~ msgstr "Črka l"
+
+#~ msgid "Letter m"
+#~ msgstr "Črka m"
+
+#~ msgid "Letter n"
+#~ msgstr "Črka n"
+
+#~ msgid "Letter p"
+#~ msgstr "Črka p"
+
+#~ msgid "Letter q"
+#~ msgstr "Črka q"
+
+#~ msgid "Letter r"
+#~ msgstr "Črka r"
+
+#~ msgid "Letter s"
+#~ msgstr "Črka s"
+
+#~ msgid "Letter t"
+#~ msgstr "Črka t"
+
+#~ msgid "Letter v"
+#~ msgstr "Črka v"
+
+#~ msgid "Letter w"
+#~ msgstr "Črka w"
+
+#~ msgid "Letter x"
+#~ msgstr "Črka x"
+
+#~ msgid "Letter y"
+#~ msgstr "Črka y"
+
+#~ msgid "Letter z"
+#~ msgstr "Črka z"
+
+#~ msgid "Numbers"
+#~ msgstr "Številke"
+
+#~ msgid "Other, Control"
+#~ msgstr "Drugo, kontrolni"
