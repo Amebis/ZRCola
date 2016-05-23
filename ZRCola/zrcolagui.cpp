@@ -531,7 +531,7 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	// Label Appearance
 	
 	// Cell Defaults
-	m_gridPreview->SetDefaultCellFont( wxFont( 120, 70, 90, 90, false, wxT("00 ZRCola") ) );
+	m_gridPreview->SetDefaultCellFont( wxFont( 96, 70, 90, 90, false, wxT("00 ZRCola") ) );
 	m_gridPreview->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	m_gridPreview->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
 	
