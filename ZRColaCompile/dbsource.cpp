@@ -753,6 +753,7 @@ bool ZRCola::DBSource::SelectCharacters(ATL::CComPtr<ADORecordset>& rs) const
     if (FAILED(rs->Open(ATL::CComVariant(
         L"SELECT DISTINCT [znak], [opis_en], [klj_bes_en], [kat], [znak_v], [znak_m] "
         L"FROM [VRS_CharList] "
+        L"WHERE [kat]<>'g' "    // Ignore "Other, Control" category!
         L"ORDER BY [znak]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
     {
         _ftprintf(stderr, wxT("%s: error ZCC0120: Error loading characters from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
@@ -827,6 +828,7 @@ bool ZRCola::DBSource::SelectCharacterCategories(ATL::CComPtr<ADORecordset>& rs)
     if (FAILED(rs->Open(ATL::CComVariant(
         L"SELECT DISTINCT [kat], [opis_en], [Rang] "
         L"FROM [VRS_CharCategory] "
+        L"WHERE [kat]<>'g' "    // Ignore "Other, Control" category!
         L"ORDER BY [Rang], [opis_en]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
     {
         _ftprintf(stderr, wxT("%s: error ZCC0130: Error loading character categories from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());

@@ -5,7 +5,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: ZRColaCompile 2.0-alpha7\n"
+"X-Generator: ZRColaCompile 2.0-beta\n"
 
 msgid "Albanian"
 msgstr ""
@@ -332,9 +332,6 @@ msgid "Numbers"
 msgstr ""
 
 msgid "Numbers - Circled"
-msgstr ""
-
-msgid "Other, Control"
 msgstr ""
 
 msgid "Other, Format"
