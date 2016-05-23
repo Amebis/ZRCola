@@ -32,6 +32,9 @@ wxIMPLEMENT_APP(ZRColaApp);
 
 ZRColaApp::ZRColaApp() :
     m_mainWnd(NULL),
+#ifdef __WXMSW__
+    m_running(NULL),
+#endif
     wxApp()
 {
 }
@@ -65,6 +68,25 @@ bool ZRColaApp::OnInit()
         wxVERIFY(m_locale.AddCatalog(wxT("ZRCola")));
         wxVERIFY(m_locale.AddCatalog(wxT("ZRCola-zrcdb")));
     }
+
+#ifdef __WXMSW__
+    // Create global event.
+    m_running = ::CreateEvent(NULL, FALSE, FALSE, _T(ZRCOLA_CFG_APPLICATION) _T("{BBDE7AAD-29B6-4B83-ADA1-92AFA81A0883}"));
+    wxASSERT(m_running);
+    if (::GetLastError() == ERROR_ALREADY_EXISTS) {
+        // ZRCola is already running. Find its window.
+        HWND okno = ::FindWindow(_T("wxWindowNR"), _("ZRCola"));
+        if (okno) {
+            if (::IsIconic(okno))
+                ::SendMessage(okno, WM_SYSCOMMAND, SC_RESTORE, 0);
+            ::SetActiveWindow(okno);
+            ::SetForegroundWindow(okno);
+
+            // Not an error condition actually; Just nothing else to do...
+            return false;
+        }
+    }
+#endif
 
     std::fstream dat((LPCTSTR)GetDatabasePath(), std::ios_base::in | std::ios_base::binary);
     if (dat.good()) {
@@ -144,4 +166,19 @@ bool ZRColaApp::OnInit()
     m_mainWnd->Show();
 
     return true;
+}
+
+
+int ZRColaApp::OnExit()
+{
+    int res = wxApp::OnExit();
+
+#ifdef __WXMSW__
+    if (m_running) {
+        wxVERIFY(::CloseHandle(m_running));
+        m_running = NULL;
+    }
+#endif
+
+    return res;
 }

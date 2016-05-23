@@ -52,6 +52,12 @@ public:
     ///
     virtual bool OnInit();
 
+    ///
+    /// Called when application uninitializes.
+    ///
+    /// \returns Result code to return to OS
+    ///
+    virtual int OnExit();
 
     ///
     /// \returns Path to ZRCola.zrcdb file
@@ -70,6 +76,9 @@ public:
 
 protected:
     wxLocale m_locale;              ///< Current locale
+#ifdef __WXMSW__
+    HANDLE m_running;               ///< Global Win32 event to determine if another instance of ZRCola is already running
+#endif
 };
 
 
