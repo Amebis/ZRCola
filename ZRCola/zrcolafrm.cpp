@@ -460,12 +460,10 @@ WXLRESULT wxZRColaFrame::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM
         m_hWndSource = hWndSource;
 
         //if (m_state == wxABS_FLOAT) {
-            if (IsIconized()) {
+            if (IsIconized())
                 ::SendMessage(m_hWnd, WM_SYSCOMMAND, SC_RESTORE, 0);
-            } else {
-                ::SetActiveWindow(m_hWnd);
-                ::SetForegroundWindow(m_hWnd);
-            }
+            ::SetActiveWindow(m_hWnd);
+            ::SetForegroundWindow(m_hWnd);
         //} else if (wxAppBarIsDocked(m_state)) {
         //    // ZRCola window is currently docked.
 
