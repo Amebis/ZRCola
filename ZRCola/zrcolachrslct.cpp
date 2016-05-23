@@ -36,7 +36,7 @@ wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) :
 {
     Connect(wxID_ANY, wxEVT_SEARCH_COMPLETE, wxThreadEventHandler(wxZRColaCharSelect::OnSearchComplete), NULL, this);
 
-    m_unicode->SetValidator(wxHexValidator<wchar_t>(&m_char));
+    m_unicode->SetValidator(wxHexValidator<wchar_t>(&m_char, wxNUM_VAL_DEFAULT, 4));
 
     // Fill categories.
     ZRColaApp *app = (ZRColaApp*)wxTheApp;
@@ -169,8 +169,11 @@ void wxZRColaCharSelect::OnSearchComplete(wxThreadEvent& event)
 void wxZRColaCharSelect::OnResultSelectCell(wxGridEvent& event)
 {
     wxString val(m_gridResults->GetCellValue(event.GetRow(), event.GetCol()));
-    m_char = val.IsEmpty() ? 0 : val[0];
-    m_unicode->GetValidator()->TransferToWindow();
+    wchar_t c = val.IsEmpty() ? 0 : val[0];
+    if (m_char != c) {
+        m_char = c;
+        m_unicode->GetValidator()->TransferToWindow();
+    }
 }
 
 
