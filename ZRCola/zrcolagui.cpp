@@ -142,6 +142,10 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_menuHelpReqChar = new wxMenuItem( m_menuHelp, wxID_HELP_REQCHAR, wxString( _("&Request a new character...") ) , _("Submit a request to ZRC to add a new character"), wxITEM_NORMAL );
 	m_menuHelp->Append( m_menuHelpReqChar );
 	
+	wxMenuItem* m_menuHelpUpdate;
+	m_menuHelpUpdate = new wxMenuItem( m_menuHelp, wxID_HELP_UPDATE, wxString( _("Check for &Updates...") ) , _("Check online for product update"), wxITEM_NORMAL );
+	m_menuHelp->Append( m_menuHelpUpdate );
+	
 	m_menuHelp->AppendSeparator();
 	
 	wxMenuItem* m_menuHelpAbout;
@@ -798,4 +802,57 @@ wxZRColaAboutBase::wxZRColaAboutBase( wxWindow* parent, wxWindowID id, const wxS
 
 wxZRColaAboutBase::~wxZRColaAboutBase()
 {
+}
+
+wxZRColaUpdaterBase::wxZRColaUpdaterBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) : wxDialog( parent, id, title, pos, size, style, name )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizerContent;
+	bSizerContent = new wxBoxSizer( wxVERTICAL );
+	
+	wxStaticBoxSizer* sbSizerLog;
+	sbSizerLog = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Log") ), wxVERTICAL );
+	
+	m_log = new wxTextCtrl( sbSizerLog->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
+	m_log->SetMinSize( wxSize( 450,150 ) );
+	
+	sbSizerLog->Add( m_log, 1, wxEXPAND, 5 );
+	
+	
+	bSizerContent->Add( sbSizerLog, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizerContent->Add( 0, 0, 0, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizerButtons;
+	bSizerButtons = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_buttonUpdate = new wxButton( this, wxID_ANY, _("&Update"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_buttonUpdate->Enable( false );
+	
+	bSizerButtons->Add( m_buttonUpdate, 0, wxALL, 5 );
+	
+	m_buttonClose = new wxButton( this, wxID_OK, _("&Close"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizerButtons->Add( m_buttonClose, 0, wxALL, 5 );
+	
+	
+	bSizerContent->Add( bSizerButtons, 0, wxALIGN_RIGHT, 5 );
+	
+	
+	this->SetSizer( bSizerContent );
+	this->Layout();
+	bSizerContent->Fit( this );
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	m_buttonUpdate->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaUpdaterBase::OnUpdate ), NULL, this );
+}
+
+wxZRColaUpdaterBase::~wxZRColaUpdaterBase()
+{
+	// Disconnect Events
+	m_buttonUpdate->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaUpdaterBase::OnUpdate ), NULL, this );
+	
 }

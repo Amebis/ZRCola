@@ -90,6 +90,7 @@
     <ClCompile Include="zrcolagui.cpp" />
     <ClCompile Include="zrcolakeyhndlr.cpp" />
     <ClCompile Include="zrcolasettings.cpp" />
+    <ClCompile Include="zrcolaupdater.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -103,6 +104,7 @@
     <ClInclude Include="zrcolagui.h" />
     <ClInclude Include="zrcolakeyhndlr.h" />
     <ClInclude Include="zrcolasettings.h" />
+    <ClInclude Include="zrcolaupdater.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\lib\libZRColaUI\build\libZRColaUI.vcxproj">
@@ -113,6 +115,9 @@
     </ProjectReference>
     <ProjectReference Include="..\lib\wxExtend\build\wxExtend.vcxproj">
       <Project>{a3a36689-ac35-4026-93da-a3ba0c0e767c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Updater\Updater\build\Updater.vcxproj">
+      <Project>{990d8cf9-4457-4dc0-aa18-4968ef434741}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

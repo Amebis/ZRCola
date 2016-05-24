@@ -17,41 +17,35 @@
     along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 */
 
+///
+/// Forward declarations
+///
+class wxZRColaUpdater;
+
+
 #pragma once
 
-#include "../include/zrcola.h"
-#include "zrcolaabout.h"
-#include "zrcolaapp.h"
-#include "zrcolachrgrid.h"
-#include "zrcolachrcatpnl.h"
-#include "zrcolacomppnl.h"
-#include "zrcolafrm.h"
-#include "zrcolakeyhndlr.h"
-#include "zrcolasettings.h"
-#include "zrcolaupdater.h"
+#include "zrcolagui.h"
 
 #include <Updater/chkthread.h>
 
-#include <wxex/common.h>
-#include <wxex/persist/auimanager.h>
+#include <wx/log.h>
 
-#include <wx/ffile.h>
-#include <wx/msgdlg.h>
-#include <wx/persist.h>
-#include <wx/persist/toplevel.h>
-#include <wx/utils.h>
-#include <wx/valtext.h>
-#include <wx/socket.h>
 
-#include <fstream>
-#include <string>
-#include <utility>
-#include <vector>
+///
+/// ZRCola updater dialog
+///
+class wxZRColaUpdater : public wxZRColaUpdaterBase
+{
+public:
+    wxZRColaUpdater(wxWindow* parent);
+    virtual ~wxZRColaUpdater();
 
-#include <stdex/idrec.h>
+protected:
+    void OnCheckComplete(wxThreadEvent& event);
+    virtual void OnUpdate(wxCommandEvent& event);
 
-#if defined(__WXMSW__)
-#include <Msi.h>
-#include <ShObjIdl.h>
-#include <ShlGuid.h>
-#endif
+protected:
+    wxLog *m_logOrig;               ///< Original log
+    wxUpdCheckThread *m_updater;    ///< Updater thread
+};

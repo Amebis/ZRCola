@@ -70,7 +70,8 @@ class wxZRColaFrameBase : public wxFrame
 			wxID_TOOLBAR_EDIT,
 			wxID_TOOLBAR_COMPOSE,
 			wxID_PANEL_CHRGRPS,
-			wxID_HELP_REQCHAR
+			wxID_HELP_REQCHAR,
+			wxID_HELP_UPDATE
 		};
 		
 		wxMenuBar* m_menubar;
@@ -284,6 +285,29 @@ class wxZRColaAboutBase : public wxDialog
 		
 		wxZRColaAboutBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("About ZRCola"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaAbout") ); 
 		~wxZRColaAboutBase();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class wxZRColaUpdaterBase
+///////////////////////////////////////////////////////////////////////////////
+class wxZRColaUpdaterBase : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxTextCtrl* m_log;
+		wxButton* m_buttonUpdate;
+		wxButton* m_buttonClose;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnUpdate( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		wxZRColaUpdaterBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Product Update"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaUpdater") ); 
+		~wxZRColaUpdaterBase();
 	
 };
 

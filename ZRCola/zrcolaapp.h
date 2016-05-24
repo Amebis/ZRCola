@@ -74,8 +74,9 @@ public:
 
     wxZRColaFrame *m_mainWnd;       ///< Main window
 
-protected:
     wxLocale m_locale;              ///< Current locale
+
+protected:
 #ifdef __WXMSW__
     HANDLE m_running;               ///< Global Win32 event to determine if another instance of ZRCola is already running
 #endif

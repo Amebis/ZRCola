@@ -122,6 +122,7 @@ featZRCola	compZRCola.exe.$(PLAT)
 featZRCola	complibZRCola.dll.$(PLAT)
 featZRCola	complibZRColaUI.dll.$(PLAT)
 featZRCola	compwxExtend.dll.$(PLAT)
+featZRCola	compUpdater.dll.$(PLAT)
 featZRCola	compLocalizationRepositoryPath
 featZRCola	compLanguage
 featZRCola	compDatabasePath
@@ -132,6 +133,7 @@ featZRCola	compZRCola.mo.sl_SI
 featZRCola	compZRCola.zrcdb.mo.sl_SI
 featZRCola	complibZRColaUI.mo.sl_SI
 featZRCola	compwxExtend.mo.sl_SI
+featZRCola	compUpdater.mo.sl_SI
 featZRCola	compwxstd.mo.sl_SI
 !ENDIF
 <<NOKEEP

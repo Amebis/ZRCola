@@ -85,7 +85,8 @@ protected:
     void OnPanelCharacterCatalog(wxCommandEvent& event);
     void OnPanelCharacterCatalogFocus(wxCommandEvent& event);
     void OnHelpReqChar(wxCommandEvent& event);
-    void OnAbout(wxCommandEvent& event);
+    void OnHelpUpdate(wxCommandEvent& event);
+    void OnHelpAbout(wxCommandEvent& event);
     wxDECLARE_EVENT_TABLE();
 
 protected:

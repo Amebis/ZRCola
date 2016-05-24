@@ -50,8 +50,8 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
     EVT_MENU           (wxID_FOCUS_CHARACTER_CATALOG               , wxZRColaFrame::OnPanelCharacterCatalogFocus )
 
     EVT_MENU           (wxID_HELP_REQCHAR                          , wxZRColaFrame::OnHelpReqChar                )
-
-    EVT_MENU           (wxID_ABOUT                                 , wxZRColaFrame::OnAbout                      )
+    EVT_MENU           (wxID_HELP_UPDATE                           , wxZRColaFrame::OnHelpUpdate                 )
+    EVT_MENU           (wxID_ABOUT                                 , wxZRColaFrame::OnHelpAbout                  )
 wxEND_EVENT_TABLE()
 
 
@@ -337,7 +337,14 @@ void wxZRColaFrame::OnHelpReqChar(wxCommandEvent& event)
 }
 
 
-void wxZRColaFrame::OnAbout(wxCommandEvent& event)
+void wxZRColaFrame::OnHelpUpdate(wxCommandEvent& event)
+{
+    wxZRColaUpdater *dlg = new wxZRColaUpdater(this);
+    dlg->ShowModal();
+}
+
+
+void wxZRColaFrame::OnHelpAbout(wxCommandEvent& event)
 {
     wxZRColaAbout *dlg = new wxZRColaAbout(this);
     dlg->ShowModal();

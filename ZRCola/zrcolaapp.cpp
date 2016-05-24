@@ -64,6 +64,7 @@ bool ZRColaApp::OnInit()
             m_locale.AddCatalogLookupPathPrefix(sPath);
         wxVERIFY(m_locale.Init(language));
         wxVERIFY(m_locale.AddCatalog(wxT("wxExtend") wxT(wxExtendVersion)));
+        wxVERIFY(m_locale.AddCatalog(wxT("Updater") wxT(wxUpdaterVersion)));
         wxVERIFY(m_locale.AddCatalog(wxT("libZRColaUI")));
         wxVERIFY(m_locale.AddCatalog(wxT("ZRCola")));
         wxVERIFY(m_locale.AddCatalog(wxT("ZRCola-zrcdb")));
@@ -160,6 +161,9 @@ bool ZRColaApp::OnInit()
         } else
             wxFAIL_MSG(wxT("ZRCola.zrcdb is not a valid ZRCola database."));
     }
+
+    // Initialize sockets. Otherwise Updater thread will not work.
+    wxSocketBase::Initialize();
 
     m_mainWnd = new wxZRColaFrame();
     wxPersistentRegisterAndRestore<wxZRColaFrame>(m_mainWnd);

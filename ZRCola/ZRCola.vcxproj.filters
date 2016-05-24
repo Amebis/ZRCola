@@ -52,6 +52,9 @@
     <ClCompile Include="zrcolaabout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="zrcolaupdater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -85,6 +88,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="zrcolaabout.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zrcolaupdater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
