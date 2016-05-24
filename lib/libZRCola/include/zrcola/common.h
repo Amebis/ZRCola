@@ -475,9 +475,10 @@ namespace ZRCola {
         inline int compare(_In_count_(key_len) const T_key *key, _In_ size_t key_len, size_type pos) const
         {
             // Get key at position pos.
+            size_type pos_next = pos + 1;
             size_t
-                start    =                 base_t::at(pos    ).idx_key,
-                key2_len = (pos < size() ? base_t::at(pos + 1).idx_key : keys.size()) - start;
+                start    =                      base_t::at(pos     ).idx_key,
+                key2_len = (pos_next < size() ? base_t::at(pos_next).idx_key : keys.size()) - start;
             std::vector<T_key>::const_pointer key2 = &keys.at(start);
 
             // Compare keys.
