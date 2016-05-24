@@ -39,7 +39,7 @@ wxZRColaUpdater::wxZRColaUpdater(wxWindow* parent) :
     ZRColaApp *app = (ZRColaApp*)wxTheApp;
     m_updater = new wxUpdCheckThread(app->m_locale.GetCanonicalName(), this);
     if (m_updater->Run() != wxTHREAD_NO_ERROR) {
-        wxFAIL_MSG("Can't create the thread!");
+        wxFAIL_MSG(wxT("Can't create the thread!"));
         delete m_updater;
         m_updater = NULL;
     }
