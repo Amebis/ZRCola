@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-05-13 15:52+0200\n"
-"PO-Revision-Date: 2016-05-13 19:35+0200\n"
+"POT-Creation-Date: 2016-05-24 08:32+0200\n"
+"PO-Revision-Date: 2016-05-24 08:33+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: sl_SI\n"
@@ -16,8 +16,18 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: _\n"
 
-#: zrcolafrm.cpp:90 zrcolagui.h:98 MSIBuild/En.Win32.Release.Feature-2.idtx:4
+#: zrcolaabout.cpp:31
+#, c-format
+msgid "© 2004-%s ZRC SAZU"
+msgstr "© 2004-%s ZRC SAZU"
+
+#: zrcolaapp.cpp:78 zrcolafrm.cpp:90 zrcolagui.cpp:754 zrcolagui.h:100
+#: MSIBuild/En.Win32.Debug.Feature-2.idtx:4
+#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:4
+#: MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
+#: MSIBuild/En.x64.Debug.Feature-2.idtx:4
+#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
 msgid "ZRCola"
@@ -46,19 +56,6 @@ msgstr ""
 #: zrcolafrm.cpp:336
 msgid "http://zrcola-2.amebis.si/en/contact/"
 msgstr "http://zrcola-2.amebis.si/contact/"
-
-#: zrcolafrm.cpp:342
-#, c-format
-msgid ""
-"ZRCola v%s\n"
-"Copyright 2015-%s Amebis"
-msgstr ""
-"ZRCola v%s\n"
-"Vse pravice pridržane 2015-%s Amebis"
-
-#: zrcolafrm.cpp:342
-msgid "About ZRCola"
-msgstr "O ZRColi"
 
 #: zrcolagui.cpp:36
 msgid "E&xit"
@@ -192,7 +189,7 @@ msgstr "Prilepi izbor"
 msgid "Edit"
 msgstr "Urejanje"
 
-#: zrcolagui.cpp:166 zrcolagui.h:222
+#: zrcolagui.cpp:166 zrcolagui.h:224
 msgid "Character Selector"
 msgstr "Izbirnik znaka"
 
@@ -292,6 +289,20 @@ msgstr "S&amodejno zaženi ZRColo ob prijavi"
 msgid "Startup"
 msgstr "Zagon"
 
+#: zrcolagui.cpp:764
+msgid ""
+"Editor: Janoš Ježovnik\n"
+"Development: Amebis d. o. o.\n"
+"Development and maintenance (2004-2015): dr. Peter Weiss"
+msgstr ""
+"Urednik: Janoš Ježovnik\n"
+"Razvoj: Amebis d. o. o.\n"
+"Razvoj in vzdrževanje (2004-2015): dr. Peter Weiss"
+
+#: zrcolagui.cpp:772
+msgid "www.zrc-sazu.si"
+msgstr "www.zrc-sazu.si"
+
 #: zrcolakeyhndlr.cpp:44
 msgid ""
 "INS key is pressed. Type the Unicode code of desired character now (up to "
@@ -300,24 +311,36 @@ msgstr ""
 "Pritisnjena tipka INS. Zdaj vtpikajte kodo Unicode želenega znaka (do štiri "
 "šestnajstiške števke: 0-9, A-F), nato izpustite INS."
 
-#: zrcolasettings.cpp:116
+#: zrcolasettings.cpp:93
 msgid "Start ZRCola automatically on logon"
 msgstr "Samodejno zaženi ZRColo ob prijavi"
 
-#: zrcolagui.h:258
+#: zrcolagui.h:261
 msgid "Settings"
 msgstr "Nastavitve"
 
+#: zrcolagui.h:285
+msgid "About ZRCola"
+msgstr "O ZRColi"
+
 # Windows charset for this language (decimal)
+#: MSIBuild/En.Win32.Debug.Feature-2.idtx:3
+#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:3
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:3
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:3
+#: MSIBuild/En.x64.Debug.Feature-2.idtx:3
+#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:3
 #: MSIBuild/En.x64.Release.Feature-2.idtx:3
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:3
 msgid "1252"
 msgstr "1250"
 
+#: MSIBuild/En.Win32.Debug.Feature-2.idtx:4
+#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
+#: MSIBuild/En.x64.Debug.Feature-2.idtx:4
+#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
 msgid "Input system for linguistic use"
@@ -570,3 +593,10 @@ msgstr "Vnašalni sistem za jezikoslovno rabo"
 
 #~ msgid "Welcome to wxWidgets!"
 #~ msgstr "Dobrodošli v wxWidgets!"
+
+#~ msgid ""
+#~ "ZRCola v%s\n"
+#~ "Copyright 2015-%s Amebis"
+#~ msgstr ""
+#~ "ZRCola v%s\n"
+#~ "Vse pravice pridržane 2015-%s Amebis"

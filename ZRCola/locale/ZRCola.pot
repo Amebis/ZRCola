@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-05-13 19:35+0200\n"
+"POT-Creation-Date: 2016-05-24 08:32+0200\n"
 "PO-Revision-Date: 2016-05-13 15:52+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
@@ -18,8 +18,18 @@ msgstr ""
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: zrcolafrm.cpp:90 zrcolagui.h:98 MSIBuild/En.Win32.Release.Feature-2.idtx:4
+#: zrcolaabout.cpp:31
+#, fuzzy, c-format
+msgid "© 2004-%s ZRC SAZU"
+msgstr "© 2004-%s ZRC SAZU"
+
+#: zrcolaapp.cpp:78 zrcolafrm.cpp:90 zrcolagui.cpp:754 zrcolagui.h:100
+#: MSIBuild/En.Win32.Debug.Feature-2.idtx:4
+#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:4
+#: MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
+#: MSIBuild/En.x64.Debug.Feature-2.idtx:4
+#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
 #, fuzzy
@@ -53,20 +63,6 @@ msgstr ""
 #, fuzzy
 msgid "http://zrcola-2.amebis.si/en/contact/"
 msgstr "http://zrcola-2.amebis.si/contact/"
-
-#: zrcolafrm.cpp:342
-#, fuzzy, c-format
-msgid ""
-"ZRCola v%s\n"
-"Copyright 2015-%s Amebis"
-msgstr ""
-"ZRCola v%s\n"
-"Vse pravice pridržane 2015-%s Amebis"
-
-#: zrcolafrm.cpp:342
-#, fuzzy
-msgid "About ZRCola"
-msgstr "O ZRColi"
 
 #: zrcolagui.cpp:36
 #, fuzzy
@@ -211,7 +207,7 @@ msgstr "Izreži izbor"
 #: zrcolagui.cpp:158
 #, fuzzy
 msgid "Copy"
-msgstr "Kopiraj"
+msgstr "&Kopiraj"
 
 #: zrcolagui.cpp:158
 #, fuzzy
@@ -233,7 +229,7 @@ msgstr "Prilepi izbor"
 msgid "Edit"
 msgstr "Urejanje"
 
-#: zrcolagui.cpp:166 zrcolagui.h:222
+#: zrcolagui.cpp:166 zrcolagui.h:224
 #, fuzzy
 msgid "Character Selector"
 msgstr "Izbirnik znaka"
@@ -296,7 +292,7 @@ msgstr "Nedavno &uporabljeni"
 #: zrcolagui.cpp:494
 #, fuzzy
 msgid "Preview"
-msgstr "Predogled"
+msgstr "Predogled:"
 
 #: zrcolagui.cpp:499
 #, fuzzy
@@ -355,6 +351,18 @@ msgstr "S&amodejno zaženi ZRColo ob prijavi"
 msgid "Startup"
 msgstr "Zagon"
 
+#: zrcolagui.cpp:764
+msgid ""
+"Editor: Janoš Ježovnik\n"
+"Development: Amebis d. o. o.\n"
+"Development and maintenance (2004-2015): dr. Peter Weiss"
+msgstr ""
+
+#: zrcolagui.cpp:772
+#, fuzzy
+msgid "www.zrc-sazu.si"
+msgstr "www.zrc-sazu.si"
+
 #: zrcolakeyhndlr.cpp:44
 #, fuzzy
 msgid ""
@@ -369,21 +377,34 @@ msgstr ""
 msgid "Start ZRCola automatically on logon"
 msgstr "Samodejno zaženi ZRColo ob prijavi"
 
-#: zrcolagui.h:259
+#: zrcolagui.h:261
 #, fuzzy
 msgid "Settings"
 msgstr "Nastavitve"
 
+#: zrcolagui.h:285
+#, fuzzy
+msgid "About ZRCola"
+msgstr "O ZRColi"
+
+#: MSIBuild/En.Win32.Debug.Feature-2.idtx:3
+#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:3
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:3
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:3
+#: MSIBuild/En.x64.Debug.Feature-2.idtx:3
+#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:3
 #: MSIBuild/En.x64.Release.Feature-2.idtx:3
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:3
 #, fuzzy
 msgid "1252"
 msgstr "1250"
 
+#: MSIBuild/En.Win32.Debug.Feature-2.idtx:4
+#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
+#: MSIBuild/En.x64.Debug.Feature-2.idtx:4
+#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
 #, fuzzy

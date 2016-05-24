@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////////////////////
+﻿///////////////////////////////////////////////////////////////////////////
 // C++ code generated with wxFormBuilder (version Jun 17 2015)
 // http://www.wxformbuilder.org/
 //
@@ -47,6 +47,8 @@ class wxZRColaComposerPanel;
 #include <wx/checkbox.h>
 #include <wx/listbook.h>
 #include <wx/listctrl.h>
+#include <wx/statbmp.h>
+#include <wx/hyperlink.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -258,6 +260,30 @@ class wxZRColaSettingsBase : public wxDialog
 		
 		wxZRColaSettingsBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Settings"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaSettings") ); 
 		~wxZRColaSettingsBase();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class wxZRColaAboutBase
+///////////////////////////////////////////////////////////////////////////////
+class wxZRColaAboutBase : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxStaticBitmap* m_bitmapIcon;
+		wxStaticText* m_staticTextZRCola;
+		wxStaticText* m_staticTextVersion;
+		wxStaticText* m_staticTextColophone;
+		wxStaticText* m_staticTextCopyright;
+		wxHyperlinkCtrl* m_hyperlink;
+		wxStdDialogButtonSizer* m_sdbSizerButtons;
+		wxButton* m_sdbSizerButtonsOK;
+	
+	public:
+		
+		wxZRColaAboutBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("About ZRCola"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaAbout") ); 
+		~wxZRColaAboutBase();
 	
 };
 

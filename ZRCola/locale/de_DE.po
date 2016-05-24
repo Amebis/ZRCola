@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-05-13 19:37+0200\n"
-"PO-Revision-Date: 2016-05-13 19:37+0200\n"
+"POT-Creation-Date: 2016-05-24 08:33+0200\n"
+"PO-Revision-Date: 2016-05-24 08:33+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: de_DE\n"
@@ -15,8 +15,18 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: _\n"
 
-#: zrcolafrm.cpp:90 zrcolagui.h:98 MSIBuild/En.Win32.Release.Feature-2.idtx:4
+#: zrcolaabout.cpp:31
+#, c-format
+msgid "© 2004-%s ZRC SAZU"
+msgstr ""
+
+#: zrcolaapp.cpp:78 zrcolafrm.cpp:90 zrcolagui.cpp:754 zrcolagui.h:100
+#: MSIBuild/En.Win32.Debug.Feature-2.idtx:4
+#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:4
+#: MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
+#: MSIBuild/En.x64.Debug.Feature-2.idtx:4
+#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
 #, fuzzy
@@ -42,17 +52,6 @@ msgstr ""
 
 #: zrcolafrm.cpp:336
 msgid "http://zrcola-2.amebis.si/en/contact/"
-msgstr ""
-
-#: zrcolafrm.cpp:342
-#, c-format
-msgid ""
-"ZRCola v%s\n"
-"Copyright 2015-%s Amebis"
-msgstr ""
-
-#: zrcolafrm.cpp:342
-msgid "About ZRCola"
 msgstr ""
 
 #: zrcolagui.cpp:36
@@ -200,7 +199,7 @@ msgstr "Auswahl einfügen"
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: zrcolagui.cpp:166 zrcolagui.h:222
+#: zrcolagui.cpp:166 zrcolagui.h:224
 msgid "Character Selector"
 msgstr ""
 
@@ -297,6 +296,17 @@ msgstr ""
 msgid "Startup"
 msgstr ""
 
+#: zrcolagui.cpp:764
+msgid ""
+"Editor: Janoš Ježovnik\n"
+"Development: Amebis d. o. o.\n"
+"Development and maintenance (2004-2015): dr. Peter Weiss"
+msgstr ""
+
+#: zrcolagui.cpp:772
+msgid "www.zrc-sazu.si"
+msgstr ""
+
 #: zrcolakeyhndlr.cpp:44
 msgid ""
 "INS key is pressed. Type the Unicode code of desired character now (up to "
@@ -307,21 +317,33 @@ msgstr ""
 msgid "Start ZRCola automatically on logon"
 msgstr ""
 
-#: zrcolagui.h:259
+#: zrcolagui.h:261
 msgid "Settings"
 msgstr ""
 
+#: zrcolagui.h:285
+msgid "About ZRCola"
+msgstr ""
+
 # Windows charset for this language (decimal)
+#: MSIBuild/En.Win32.Debug.Feature-2.idtx:3
+#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:3
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:3
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:3
+#: MSIBuild/En.x64.Debug.Feature-2.idtx:3
+#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:3
 #: MSIBuild/En.x64.Release.Feature-2.idtx:3
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:3
 #, fuzzy
 msgid "1252"
 msgstr "1252"
 
+#: MSIBuild/En.Win32.Debug.Feature-2.idtx:4
+#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
+#: MSIBuild/En.x64.Debug.Feature-2.idtx:4
+#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
 msgid "Input system for linguistic use"

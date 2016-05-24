@@ -17,36 +17,22 @@
     along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 */
 
+///
+/// Forward declarations
+///
+class wxZRColaAbout;
+
+
 #pragma once
 
-#include <wx/ffile.h>
-#include <wx/msgdlg.h>
-#include <wx/persist.h>
-#include <wx/persist/toplevel.h>
-#include <wx/utils.h>
-#include <wx/valtext.h>
-#include <wxex/common.h>
-#include <wxex/persist/auimanager.h>
+#include "zrcolagui.h"
 
-#include <fstream>
-#include <string>
-#include <utility>
-#include <vector>
 
-#include <stdex/idrec.h>
-
-#if defined(__WXMSW__)
-#include <Msi.h>
-#include <ShObjIdl.h>
-#include <ShlGuid.h>
-#endif
-
-#include "../include/zrcola.h"
-#include "zrcolaabout.h"
-#include "zrcolaapp.h"
-#include "zrcolachrgrid.h"
-#include "zrcolachrcatpnl.h"
-#include "zrcolacomppnl.h"
-#include "zrcolafrm.h"
-#include "zrcolakeyhndlr.h"
-#include "zrcolasettings.h"
+///
+/// About ZRCola dialog
+///
+class wxZRColaAbout : public wxZRColaAboutBase
+{
+public:
+    wxZRColaAbout(wxWindow* parent);
+};

@@ -339,7 +339,8 @@ void wxZRColaFrame::OnHelpReqChar(wxCommandEvent& event)
 
 void wxZRColaFrame::OnAbout(wxCommandEvent& event)
 {
-    wxMessageBox(wxString::Format(_("ZRCola v%s\nCopyright 2015-%s Amebis"), wxT(ZRCOLA_VERSION_STR), wxT(ZRCOLA_BUILD_YEAR_STR)), _("About ZRCola"), wxOK | wxICON_INFORMATION);
+    wxZRColaAbout *dlg = new wxZRColaAbout(this);
+    dlg->ShowModal();
 }
 
 

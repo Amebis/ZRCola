@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////////////////////
+﻿///////////////////////////////////////////////////////////////////////////
 // C++ code generated with wxFormBuilder (version Jun 17 2015)
 // http://www.wxformbuilder.org/
 //
@@ -583,7 +583,7 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	bSizerColumns->Add( bSizerRight, 0, wxEXPAND, 5 );
 	
 	
-	bSizerContent->Add( bSizerColumns, 1, wxEXPAND, 5 );
+	bSizerContent->Add( bSizerColumns, 1, wxALL|wxEXPAND, 5 );
 	
 	
 	bSizerContent->Add( 5, 5, 0, wxALL|wxEXPAND, 5 );
@@ -733,4 +733,69 @@ wxZRColaSettingsBase::~wxZRColaSettingsBase()
 	m_sdbSizerButtonsApply->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaSettingsBase::OnApplyButtonClick ), NULL, this );
 	m_sdbSizerButtonsOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaSettingsBase::OnOKButtonClick ), NULL, this );
 	
+}
+
+wxZRColaAboutBase::wxZRColaAboutBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) : wxDialog( parent, id, title, pos, size, style, name )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizerContent;
+	bSizerContent = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* bSizerColumns;
+	bSizerColumns = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_bitmapIcon = new wxStaticBitmap( this, wxID_ANY, wxIcon( wxT("00_zrcola.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 32, 32 ), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizerColumns->Add( m_bitmapIcon, 0, wxALL, 5 );
+	
+	wxBoxSizer* bSizerText;
+	bSizerText = new wxBoxSizer( wxVERTICAL );
+	
+	m_staticTextZRCola = new wxStaticText( this, wxID_ANY, _("ZRCola"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticTextZRCola->Wrap( -1 );
+	m_staticTextZRCola->SetFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
+	
+	bSizerText->Add( m_staticTextZRCola, 0, wxALL|wxEXPAND, 5 );
+	
+	m_staticTextVersion = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticTextVersion->Wrap( -1 );
+	bSizerText->Add( m_staticTextVersion, 0, wxALL|wxEXPAND, 5 );
+	
+	m_staticTextColophone = new wxStaticText( this, wxID_ANY, _("Editor: Janoš Ježovnik\nDevelopment: Amebis d. o. o.\nDevelopment and maintenance (2004-2015): dr. Peter Weiss"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticTextColophone->Wrap( -1 );
+	bSizerText->Add( m_staticTextColophone, 0, wxALL|wxEXPAND, 5 );
+	
+	m_staticTextCopyright = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticTextCopyright->Wrap( -1 );
+	bSizerText->Add( m_staticTextCopyright, 0, wxALL|wxEXPAND, 5 );
+	
+	m_hyperlink = new wxHyperlinkCtrl( this, wxID_ANY, _("www.zrc-sazu.si"), wxT("http://www.zrc-sazu.si/"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
+	bSizerText->Add( m_hyperlink, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizerColumns->Add( bSizerText, 1, wxEXPAND, 5 );
+	
+	
+	bSizerContent->Add( bSizerColumns, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizerContent->Add( 0, 0, 0, wxALL|wxEXPAND, 5 );
+	
+	m_sdbSizerButtons = new wxStdDialogButtonSizer();
+	m_sdbSizerButtonsOK = new wxButton( this, wxID_OK );
+	m_sdbSizerButtons->AddButton( m_sdbSizerButtonsOK );
+	m_sdbSizerButtons->Realize();
+	
+	bSizerContent->Add( m_sdbSizerButtons, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	this->SetSizer( bSizerContent );
+	this->Layout();
+	bSizerContent->Fit( this );
+	
+	this->Centre( wxBOTH );
+}
+
+wxZRColaAboutBase::~wxZRColaAboutBase()
+{
 }

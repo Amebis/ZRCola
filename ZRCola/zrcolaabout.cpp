@@ -1,4 +1,4 @@
-/*
+﻿/*
     Copyright 2015-2016 Amebis
 
     This file is part of ZRCola.
@@ -17,36 +17,16 @@
     along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
+#include "stdafx.h"
 
-#include <wx/ffile.h>
-#include <wx/msgdlg.h>
-#include <wx/persist.h>
-#include <wx/persist/toplevel.h>
-#include <wx/utils.h>
-#include <wx/valtext.h>
-#include <wxex/common.h>
-#include <wxex/persist/auimanager.h>
 
-#include <fstream>
-#include <string>
-#include <utility>
-#include <vector>
+//////////////////////////////////////////////////////////////////////////
+// wxZRColaAbout
+//////////////////////////////////////////////////////////////////////////
 
-#include <stdex/idrec.h>
+wxZRColaAbout::wxZRColaAbout(wxWindow* parent) : wxZRColaAboutBase(parent)
+{
+    m_staticTextVersion->SetLabelText(wxT(ZRCOLA_VERSION_STR));
 
-#if defined(__WXMSW__)
-#include <Msi.h>
-#include <ShObjIdl.h>
-#include <ShlGuid.h>
-#endif
-
-#include "../include/zrcola.h"
-#include "zrcolaabout.h"
-#include "zrcolaapp.h"
-#include "zrcolachrgrid.h"
-#include "zrcolachrcatpnl.h"
-#include "zrcolacomppnl.h"
-#include "zrcolafrm.h"
-#include "zrcolakeyhndlr.h"
-#include "zrcolasettings.h"
+    m_staticTextCopyright->SetLabelText(wxString::Format(_("© 2004-%s ZRC SAZU"), wxT(ZRCOLA_BUILD_YEAR_STR)));
+}
