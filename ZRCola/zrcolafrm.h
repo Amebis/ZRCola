@@ -65,6 +65,7 @@ public:
     friend class wxZRColaComposerPanel;
 
 protected:
+    virtual void OnClose(wxCloseEvent& event);
     void OnExit(wxCommandEvent& event);
     void OnForwardEventUpdate(wxUpdateUIEvent& event);
     void OnForwardEvent(wxCommandEvent& event);

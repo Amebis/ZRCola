@@ -190,6 +190,7 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	this->Centre( wxBOTH );
 	
 	// Connect Events
+	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( wxZRColaFrameBase::OnClose ) );
 	this->Connect( wxEVT_ICONIZE, wxIconizeEventHandler( wxZRColaFrameBase::OnIconize ) );
 	this->Connect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaFrameBase::OnIdle ) );
 }
@@ -197,6 +198,7 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 wxZRColaFrameBase::~wxZRColaFrameBase()
 {
 	// Disconnect Events
+	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( wxZRColaFrameBase::OnClose ) );
 	this->Disconnect( wxEVT_ICONIZE, wxIconizeEventHandler( wxZRColaFrameBase::OnIconize ) );
 	this->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaFrameBase::OnIdle ) );
 	

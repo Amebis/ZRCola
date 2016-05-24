@@ -69,10 +69,6 @@ wxZRColaFrame::wxZRColaFrame() :
         m_toolbarCompose->SetWindowStyleFlag(m_toolbarCompose->GetWindowStyleFlag() | wxAUI_TB_HORIZONTAL);
     }
 
-    // Restore the wxAuiManager's state here to keep symmetric with save in the destructor below.
-    // See the comment in destructor why.
-    wxPersistentAuiManager(&m_mgr).Restore();
-
     // Load main window icons.
 #ifdef __WINDOWS__
     wxIcon icon_small(wxT("00_zrcola.ico"), wxBITMAP_TYPE_ICO_RESOURCE, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON));
@@ -135,6 +131,9 @@ wxZRColaFrame::wxZRColaFrame() :
         entries[0].Set(wxACCEL_NORMAL, WXK_F4, wxID_FOCUS_CHARACTER_CATALOG);
         SetAcceleratorTable(wxAcceleratorTable(_countof(entries), entries));
     }
+
+    // Restore persistent state of wxAuiManager manually, since m_mgr is not on the heap.
+    wxPersistentAuiManager(&m_mgr).Restore();
 }
 
 
@@ -161,10 +160,16 @@ wxZRColaFrame::~wxZRColaFrame()
         m_taskBarIcon->Disconnect(wxEVT_TASKBAR_LEFT_DOWN, wxTaskBarIconEventHandler(wxZRColaFrame::OnTaskbarIconClick), NULL, this);
         delete m_taskBarIcon;
     }
+}
 
-    // Save wxAuiManager's state before return to parent's destructor.
-    // Since the later calls m_mgr.UnInit() the regular persistence mechanism is useless to save wxAuiManager's state.
-    wxPersistentAuiManager((wxAuiManager*)&m_mgr).Save();
+
+void wxZRColaFrame::OnClose(wxCloseEvent& event)
+{
+    event.Skip();
+
+    // Save wxAuiManager's state before destructor.
+    // Since the destructor calls m_mgr.UnInit() the regular persistence mechanism is useless to save wxAuiManager's state.
+    wxPersistentAuiManager(&m_mgr).Save();
 }
 
 
