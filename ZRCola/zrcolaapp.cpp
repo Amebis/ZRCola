@@ -175,6 +175,8 @@ bool ZRColaApp::OnInit()
 
 int ZRColaApp::OnExit()
 {
+    wxSocketBase::Shutdown();
+
     int res = wxApp::OnExit();
 
 #ifdef __WXMSW__
