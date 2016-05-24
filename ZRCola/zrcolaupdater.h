@@ -46,6 +46,7 @@ protected:
     virtual void OnUpdate(wxCommandEvent& event);
 
 protected:
+    wxLogLevel m_logLevelOrig;      ///< Original log level
     wxLog *m_logOrig;               ///< Original log
     wxUpdCheckThread *m_updater;    ///< Updater thread
 };

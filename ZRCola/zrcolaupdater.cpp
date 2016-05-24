@@ -25,12 +25,15 @@
 //////////////////////////////////////////////////////////////////////////
 
 wxZRColaUpdater::wxZRColaUpdater(wxWindow* parent) :
+    m_logLevelOrig(wxLOG_Warning),
     m_logOrig(NULL),
     m_updater(NULL),
     wxZRColaUpdaterBase(parent)
 {
     // Setup logging.
     m_logOrig = wxLog::SetActiveTarget(new wxLogTextCtrl(m_log));
+    m_logLevelOrig = wxLog::GetLogLevel();
+    wxLog::SetLogLevel(wxLOG_Info);
 
     // Connect events.
     Connect(wxID_ANY, wxEVT_UPDATER_CHECK_COMPLETE, wxThreadEventHandler(wxZRColaUpdater::OnCheckComplete), NULL, this);
@@ -56,6 +59,7 @@ wxZRColaUpdater::~wxZRColaUpdater()
     // Disconnect events.
     Disconnect(wxID_ANY, wxEVT_UPDATER_CHECK_COMPLETE, wxThreadEventHandler(wxZRColaUpdater::OnCheckComplete), NULL, this);
 
+    wxLog::SetLogLevel(m_logLevelOrig);
     if (m_logOrig) {
         // Return logging to previous state.
         delete wxLog::SetActiveTarget(m_logOrig);
