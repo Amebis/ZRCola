@@ -339,15 +339,15 @@ void wxZRColaFrame::OnHelpReqChar(wxCommandEvent& event)
 
 void wxZRColaFrame::OnHelpUpdate(wxCommandEvent& event)
 {
-    wxZRColaUpdater *dlg = new wxZRColaUpdater(this);
-    dlg->ShowModal();
+    wxZRColaUpdater dlg(this);
+    dlg.ShowModal();
 }
 
 
 void wxZRColaFrame::OnHelpAbout(wxCommandEvent& event)
 {
-    wxZRColaAbout *dlg = new wxZRColaAbout(this);
-    dlg->ShowModal();
+    wxZRColaAbout dlg(this);
+    dlg.ShowModal();
 }
 
 
