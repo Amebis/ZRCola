@@ -5,7 +5,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: ZRColaCompile 2.0-beta\n"
+"X-Generator: ZRColaCompile 2.0-beta1\n"
 
 msgid "Albanian"
 msgstr ""
@@ -160,6 +160,9 @@ msgstr ""
 msgid "Letter Z"
 msgstr ""
 
+msgid "Letter a"
+msgstr ""
+
 msgid "Letter e"
 msgstr ""
 
@@ -203,9 +206,6 @@ msgid "Mark, Enclosing"
 msgstr ""
 
 msgid "Mark, Non-Spacing"
-msgstr ""
-
-msgid "Mark, Spacing Combining"
 msgstr ""
 
 msgid "Metric"
@@ -271,9 +271,6 @@ msgstr ""
 msgid "Other, Format"
 msgstr ""
 
-msgid "Other, Surrogate"
-msgstr ""
-
 msgid "Parentheses"
 msgstr ""
 
@@ -311,12 +308,6 @@ msgid "Romanian"
 msgstr ""
 
 msgid "Russian"
-msgstr ""
-
-msgid "Separator, Line"
-msgstr ""
-
-msgid "Separator, Paragraph"
 msgstr ""
 
 msgid "Separator, Space"

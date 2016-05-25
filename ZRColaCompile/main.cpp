@@ -385,6 +385,8 @@ int _tmain(int argc, _TCHAR *argv[])
         }
     }
 
+    set<ZRCola::chrcatid_t> categories_used;
+
     {
         // Get characters.
         ATL::CComPtr<ADORecordset> rs;
@@ -425,6 +427,9 @@ int _tmain(int argc, _TCHAR *argv[])
                         idxChrDsc   .add_keywords(chr.keywords.c_str(), chr.chr, 0);
                         idxChrDscSub.add_keywords(chr.desc    .c_str(), chr.chr, 3);
                         idxChrDscSub.add_keywords(chr.keywords.c_str(), chr.chr, 3);
+
+                        // Mark category used.
+                        categories_used.insert(chr.cat);
                     } else
                         has_errors = true;
 
@@ -468,21 +473,24 @@ int _tmain(int argc, _TCHAR *argv[])
                 while (!ZRCola::DBSource::IsEOF(rs)) {
                     // Read character category from the database.
                     if (src.GetCharacterCategory(rs, cc)) {
-                        // Add character category to index and data.
-                        unsigned __int32 idx = db.data.size();
-                        for (wstring::size_type i = 0; i < sizeof(ZRCola::chrcatid_t)/sizeof(unsigned __int16); i++)
-                            db.data.push_back(((const unsigned __int16*)cc.id.data)[i]);
-                        wxASSERT_MSG((int)0xffff8000 <= cc.rank && cc.rank <= (int)0x00007fff, wxT("character category rank out of bounds"));
-                        db.data.push_back((unsigned __int16)cc.rank);
-                        wstring::size_type n_name = cc.name.length();
-                        wxASSERT_MSG(n_name <= 0xffff, wxT("character category name too long"));
-                        db.data.push_back((unsigned __int16)n_name);
-                        for (wstring::size_type i = 0; i < n_name; i++)
-                            db.data.push_back(cc.name[i]);
-                        db.idxChrCat.push_back(idx);
-                        db.idxRnk   .push_back(idx);
-                        if (build_pot)
-                            pot.insert(cc.name);
+                        if (categories_used.find(cc.id) != categories_used.end()) {
+                            // Add character category to index and data.
+                            unsigned __int32 idx = db.data.size();
+                            for (wstring::size_type i = 0; i < sizeof(ZRCola::chrcatid_t)/sizeof(unsigned __int16); i++)
+                                db.data.push_back(((const unsigned __int16*)cc.id.data)[i]);
+                            wxASSERT_MSG((int)0xffff8000 <= cc.rank && cc.rank <= (int)0x00007fff, wxT("character category rank out of bounds"));
+                            db.data.push_back((unsigned __int16)cc.rank);
+                            wstring::size_type n_name = cc.name.length();
+                            wxASSERT_MSG(n_name <= 0xffff, wxT("character category name too long"));
+                            db.data.push_back((unsigned __int16)n_name);
+                            for (wstring::size_type i = 0; i < n_name; i++)
+                                db.data.push_back(cc.name[i]);
+                            db.idxChrCat.push_back(idx);
+                            db.idxRnk   .push_back(idx);
+                            if (build_pot)
+                                pot.insert(cc.name);
+                        } else
+                            _ftprintf(stderr, wxT("%s: warning ZCC0019: Ommiting empty category %ls.\n"), (LPCTSTR)filenameIn.c_str(), (LPCWSTR)cc.name.c_str());
                     } else
                         has_errors = true;
 

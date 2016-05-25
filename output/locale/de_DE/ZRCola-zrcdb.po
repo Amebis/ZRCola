@@ -167,6 +167,10 @@ msgstr ""
 msgid "Letter Z"
 msgstr ""
 
+#, fuzzy
+msgid "Letter a"
+msgstr "Letter Extra 9 1/2 x 12 Zoll"
+
 msgid "Letter e"
 msgstr ""
 
@@ -210,9 +214,6 @@ msgid "Mark, Enclosing"
 msgstr ""
 
 msgid "Mark, Non-Spacing"
-msgstr ""
-
-msgid "Mark, Spacing Combining"
 msgstr ""
 
 msgid "Metric"
@@ -279,9 +280,6 @@ msgstr ""
 msgid "Other, Format"
 msgstr ""
 
-msgid "Other, Surrogate"
-msgstr ""
-
 msgid "Parentheses"
 msgstr ""
 
@@ -319,12 +317,6 @@ msgid "Romanian"
 msgstr ""
 
 msgid "Russian"
-msgstr ""
-
-msgid "Separator, Line"
-msgstr ""
-
-msgid "Separator, Paragraph"
 msgstr ""
 
 msgid "Separator, Space"
@@ -429,7 +421,3 @@ msgstr "Windows Türkisch (CP 1254)"
 
 msgid "Ukrainian"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Letter a"
-#~ msgstr "Letter Extra 9 1/2 x 12 Zoll"

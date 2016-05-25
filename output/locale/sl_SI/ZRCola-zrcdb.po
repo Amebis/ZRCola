@@ -167,6 +167,9 @@ msgstr "Črka Y"
 msgid "Letter Z"
 msgstr "Črka Z"
 
+msgid "Letter a"
+msgstr "Črka a"
+
 msgid "Letter e"
 msgstr "Črka e"
 
@@ -211,9 +214,6 @@ msgstr "Ločevalo, obdajajoča"
 
 msgid "Mark, Non-Spacing"
 msgstr "Ločevalo, neločljivo"
-
-msgid "Mark, Spacing Combining"
-msgstr "Ločevalo, ločljivo"
 
 msgid "Metric"
 msgstr "Metrično"
@@ -278,9 +278,6 @@ msgstr "Druga spreminjevala"
 msgid "Other, Format"
 msgstr "Drugo, oblikovni"
 
-msgid "Other, Surrogate"
-msgstr "Drugo, nadomestni"
-
 msgid "Parentheses"
 msgstr "Oklepaji"
 
@@ -319,12 +316,6 @@ msgstr "romunščina"
 
 msgid "Russian"
 msgstr "ruščina"
-
-msgid "Separator, Line"
-msgstr "Ločilo, vrstic"
-
-msgid "Separator, Paragraph"
-msgstr "Ločilo, odstavkov"
 
 msgid "Separator, Space"
 msgstr "Ločilo, presledek"
@@ -416,8 +407,17 @@ msgstr "turščina"
 msgid "Ukrainian"
 msgstr "ukrajinščina"
 
-#~ msgid "Letter a"
-#~ msgstr "Črka a"
+#~ msgid "Mark, Spacing Combining"
+#~ msgstr "Ločevalo, ločljivo"
+
+#~ msgid "Other, Surrogate"
+#~ msgstr "Drugo, nadomestni"
+
+#~ msgid "Separator, Line"
+#~ msgstr "Ločilo, vrstic"
+
+#~ msgid "Separator, Paragraph"
+#~ msgstr "Ločilo, odstavkov"
 
 #~ msgid "Letter b"
 #~ msgstr "Črka b"
