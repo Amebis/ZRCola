@@ -60,6 +60,20 @@ namespace ZRCola {
                 bool shift;             ///< Shift modifier
                 bool ctrl;              ///< Ctrl modifier
                 bool alt;               ///< Alt modifier
+
+                ///
+                /// Translates keycode from Slovenian to English keyboard
+                ///
+                inline static wchar_t translate_slen(_In_ wchar_t key)
+                {
+                    switch (key) {
+                    case L'Z': return L'Y';
+                    case L'Y': return L'Z';
+                    case  191: return  189;
+                    case  189: return  191;
+                    default  : return key;
+                    }
+                }
             };
 
         public:
@@ -308,19 +322,6 @@ namespace ZRCola {
         /// - false otherwise
         ///
         bool GetUnicodeString(const ATL::CComPtr<ADOField>& f, std::wstring& str) const;
-
-
-        ///
-        /// Gets encoded key from ZRCola.zrc database
-        ///
-        /// \param[in]  f   Data field
-        /// \param[out] kc  Output key code
-        ///
-        /// \returns
-        /// - true when successful
-        /// - false otherwise
-        ///
-        bool GetKeyCode(const ATL::CComPtr<ADOField>& f, keyseq::keycode& kc) const;
 
 
         ///
