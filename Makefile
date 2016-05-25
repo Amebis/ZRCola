@@ -189,7 +189,12 @@ PublishPre :: \
 	$(REDIST_EN_WIN32) \
 	$(REDIST_EN_X64) \
 	$(REDIST_SL_WIN32) \
-	$(REDIST_SL_X64)
+	$(REDIST_SL_X64) \
+	"$(PUBLISH_DIR)" \
+	"$(PUBLISH_DIR)\ZRColaInstallDe.exe" \
+	"$(PUBLISH_DIR)\ZRColaInstallEn.exe" \
+	"$(PUBLISH_DIR)\ZRColaInstallRu.exe" \
+	"$(PUBLISH_DIR)\ZRColaInstallSl.exe"
 
 Publish :: \
 	PublishPre \
@@ -258,6 +263,18 @@ $(REDIST_SL_X64) : "$(OUTPUT_DIR)\ZRColaSl64.3.msi"
 "$(WINDIR)\Fonts\00_ZRCola_BI.ttf" : "$(OUTPUT_DIR)\00_ZRCola_BI.ttf"
 	copy /y $** $@ > NUL
 
+"$(PUBLISH_DIR)\ZRColaInstallDe.exe" : "$(OUTPUT_DIR)\Win32.Release\ZRColaInstallDe.exe"
+	copy /y $** $@ > NUL
+
+"$(PUBLISH_DIR)\ZRColaInstallEn.exe" : "$(OUTPUT_DIR)\Win32.Release\ZRColaInstallEn.exe"
+	copy /y $** $@ > NUL
+
+"$(PUBLISH_DIR)\ZRColaInstallRu.exe" : "$(OUTPUT_DIR)\Win32.Release\ZRColaInstallRu.exe"
+	copy /y $** $@ > NUL
+
+"$(PUBLISH_DIR)\ZRColaInstallSl.exe" : "$(OUTPUT_DIR)\Win32.Release\ZRColaInstallSl.exe"
+	copy /y $** $@ > NUL
+
 
 ######################################################################
 # Shortcut creation
@@ -306,6 +323,18 @@ $(REDIST_SL_X64) : "$(OUTPUT_DIR)\ZRColaSl64.3.msi"
 "$(OUTPUT_DIR)\ZRColaEn64D.3.msi" \
 "$(OUTPUT_DIR)\ZRColaSl64D.3.msi" ::
 	devenv.com "ZRCola.sln" /build "Debug|x64"
+
+"$(OUTPUT_DIR)\Win32.Release\ZRColaInstallDe.exe" \
+"$(OUTPUT_DIR)\Win32.Release\ZRColaInstallEn.exe" \
+"$(OUTPUT_DIR)\Win32.Release\ZRColaInstallRu.exe" \	
+"$(OUTPUT_DIR)\Win32.Release\ZRColaInstallSl.exe" ::
+	devenv.com "ZRColaUtils.sln" /build "Release|Win32"
+
+"$(OUTPUT_DIR)\Win32.Debug\ZRColaInstallDe.exe" \
+"$(OUTPUT_DIR)\Win32.Debug\ZRColaInstallEn.exe" \
+"$(OUTPUT_DIR)\Win32.Debug\ZRColaInstallRu.exe" \	
+"$(OUTPUT_DIR)\Win32.Debug\ZRColaInstallSl.exe" ::
+	devenv.com "ZRColaUtils.sln" /build "Debug|Win32"
 
 "$(OUTPUT_DIR)\ZRColaEn32.3.msi" \
 "$(OUTPUT_DIR)\ZRColaSl32.3.msi" ::
