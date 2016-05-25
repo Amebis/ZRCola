@@ -19,6 +19,7 @@
 
 #include "stdafx.h"
 
+using namespace std;
 
 
 bool ZRCola::DBSource::character_desc_idx::add_keywords(const wchar_t *str, wchar_t chr, size_t sub)
@@ -37,7 +38,7 @@ bool ZRCola::DBSource::character_desc_idx::add_keywords(const wchar_t *str, wcha
         }
 
         // Get term.
-        std::wstring term;
+        wstring term;
         if (*str == L'"') {
             const wchar_t *str_end = ++str;
             for (;;) {
@@ -60,13 +61,13 @@ bool ZRCola::DBSource::character_desc_idx::add_keywords(const wchar_t *str, wcha
         }
 
         if (!term.empty()) {
-            std::transform(term.begin(), term.end(), term.begin(), std::towlower);
+            transform(term.begin(), term.end(), term.begin(), towlower);
             if (sub) {
-                std::wstring::size_type j_end = term.size();
+                wstring::size_type j_end = term.size();
                 if (j_end >= sub) {
                     // Insert all keyword substrings "sub" or more characters long.
-                    for (std::wstring::size_type i = 0, i_end = j_end - sub; i <= i_end; ++i) {
-                        for (std::wstring::size_type j = i + sub; j <= j_end; ++j)
+                    for (wstring::size_type i = 0, i_end = j_end - sub; i <= i_end; ++i) {
+                        for (wstring::size_type j = i + sub; j <= j_end; ++j)
                             add_keyword(term.substr(i, j - i), chr);
                     }
                 }
@@ -88,8 +89,8 @@ void ZRCola::DBSource::character_desc_idx::save(ZRCola::textindex<wchar_t, wchar
     idx.values.clear();
 
     // Pre-allocate memory.
-    std::vector<wchar_t>::size_type size_keys   = 0;
-    std::vector<wchar_t>::size_type size_values = 0;
+    vector<wchar_t>::size_type size_keys   = 0;
+    vector<wchar_t>::size_type size_values = 0;
     for (const_iterator i = cbegin(), i_end = cend(); i != i_end; ++i) {
         size_keys   += i->first.size();
         size_values += i->second.size();
@@ -137,7 +138,7 @@ bool ZRCola::DBSource::Open(LPCTSTR filename)
     HRESULT hr = ::CoCreateInstance(CLSID_CADOConnection, NULL, CLSCTX_ALL, IID_IADOConnection, (LPVOID*)&m_db);
     if (SUCCEEDED(hr)) {
         // Open the database.
-        std::wstring cn;
+        wstring cn;
         cn  = L"Driver={Microsoft Access Driver (*.mdb)};";
         cn += L"Dbq=";
         cn += filename;
@@ -238,7 +239,7 @@ bool ZRCola::DBSource::GetValue(const ATL::CComPtr<ADOField>& f, int& val) const
 }
 
 
-bool ZRCola::DBSource::GetValue(const ATL::CComPtr<ADOField>& f, std::wstring& val) const
+bool ZRCola::DBSource::GetValue(const ATL::CComPtr<ADOField>& f, wstring& val) const
 {
     wxASSERT_MSG(f, wxT("field is empty"));
 
@@ -290,7 +291,7 @@ bool ZRCola::DBSource::GetUnicodeCharacter(const ATL::CComPtr<ADOField>& f, wcha
 }
 
 
-bool ZRCola::DBSource::GetUnicodeString(const ATL::CComPtr<ADOField>& f, std::wstring& str) const
+bool ZRCola::DBSource::GetUnicodeString(const ATL::CComPtr<ADOField>& f, wstring& str) const
 {
     wxASSERT_MSG(f, wxT("field is empty"));
 
@@ -655,7 +656,7 @@ bool ZRCola::DBSource::GetCharacterGroup(const ATL::CComPtr<ADORecordset>& rs, c
 
     ATL::CComPtr<ADOFields> flds;
     wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
-    std::wstring id;
+    wstring id;
 
     {
         ATL::CComPtr<ADOField> f;
@@ -816,7 +817,7 @@ bool ZRCola::DBSource::GetCharacterCategory(const ATL::CComPtr<ADORecordset>& rs
 
     ATL::CComPtr<ADOFields> flds;
     wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
-    std::wstring id;
+    wstring id;
 
     {
         ATL::CComPtr<ADOField> f;

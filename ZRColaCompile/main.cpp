@@ -19,6 +19,8 @@
 
 #include "stdafx.h"
 
+using namespace std;
+
 
 ///
 /// Main function
@@ -87,7 +89,7 @@ int _tmain(int argc, _TCHAR *argv[])
     }
 
     const wxString& filenameOut = parser.GetParam(1);
-    std::fstream dst((LPCTSTR)filenameOut, std::ios_base::out | std::ios_base::trunc | std::ios_base::binary);
+    fstream dst((LPCTSTR)filenameOut, ios_base::out | ios_base::trunc | ios_base::binary);
     if (dst.fail()) {
         _ftprintf(stderr, wxT("%s: error ZCC0002: Error opening output file.\n"), filenameOut.fn_str());
         return 1;
@@ -97,10 +99,10 @@ int _tmain(int argc, _TCHAR *argv[])
 
     // Set of strings to translate.
     bool build_pot = parser.GetParamCount() > 2;
-    std::set<std::wstring> pot;
+    set<wstring> pot;
 
     // Open file ID.
-    std::streamoff dst_start = stdex::idrec::open<ZRCola::recordid_t, ZRCola::recordsize_t>(dst, ZRCOLA_DB_ID);
+    streamoff dst_start = stdex::idrec::open<ZRCola::recordid_t, ZRCola::recordsize_t>(dst, ZRCOLA_DB_ID);
 
     {
         // Get translations.
@@ -125,10 +127,10 @@ int _tmain(int argc, _TCHAR *argv[])
                         db.data.push_back(trans.chr);
                         wxASSERT_MSG((int)0xffff8000 <= trans.rank && trans.rank <= (int)0x00007fff, wxT("transformation rank out of bounds"));
                         db.data.push_back((unsigned __int16)trans.rank);
-                        std::wstring::size_type n = trans.str.length();
+                        wstring::size_type n = trans.str.length();
                         wxASSERT_MSG(n <= 0xffff, wxT("transformation string too long"));
                         db.data.push_back((unsigned __int16)n);
-                        for (std::wstring::size_type i = 0; i < n; i++)
+                        for (wstring::size_type i = 0; i < n; i++)
                             db.data.push_back(trans.str[i]);
                         db.idxComp  .push_back(idx);
                         db.idxDecomp.push_back(idx);
@@ -175,10 +177,10 @@ int _tmain(int argc, _TCHAR *argv[])
                         // Add key sequence to index and data.
                         unsigned __int32 idx = db.data.size();
                         db.data.push_back(ks.chr);
-                        std::vector<ZRCola::DBSource::keyseq::keycode>::size_type n = ks.seq.size();
+                        vector<ZRCola::DBSource::keyseq::keycode>::size_type n = ks.seq.size();
                         wxASSERT_MSG(n <= 0xffff, wxT("key sequence too long"));
                         db.data.push_back((unsigned __int16)n);
-                        for (std::vector<ZRCola::DBSource::keyseq::keycode>::size_type i = 0; i < n; i++) {
+                        for (vector<ZRCola::DBSource::keyseq::keycode>::size_type i = 0; i < n; i++) {
                             const ZRCola::DBSource::keyseq::keycode &kc = ks.seq[i];
                             db.data.push_back(kc.key);
                             db.data.push_back(
@@ -242,12 +244,12 @@ int _tmain(int argc, _TCHAR *argv[])
                     if (src.GetLanguage(rs, lang)) {
                         // Add language to index and data.
                         unsigned __int32 idx = db.data.size();
-                        for (std::wstring::size_type i = 0; i < sizeof(ZRCola::langid_t)/sizeof(unsigned __int16); i++)
+                        for (wstring::size_type i = 0; i < sizeof(ZRCola::langid_t)/sizeof(unsigned __int16); i++)
                             db.data.push_back(((const unsigned __int16*)lang.id.data)[i]);
-                        std::wstring::size_type n = lang.name.length();
+                        wstring::size_type n = lang.name.length();
                         wxASSERT_MSG(n <= 0xffff, wxT("language name too long"));
                         db.data.push_back((unsigned __int16)n);
-                        for (std::wstring::size_type i = 0; i < n; i++)
+                        for (wstring::size_type i = 0; i < n; i++)
                             db.data.push_back(lang.name[i]);
                         db.idxLng.push_back(idx);
                         if (build_pot)
@@ -296,7 +298,7 @@ int _tmain(int argc, _TCHAR *argv[])
                         // Add language characters to index and data.
                         unsigned __int32 idx = db.data.size();
                         db.data.push_back(lc.chr);
-                        for (std::wstring::size_type i = 0; i < sizeof(ZRCola::langid_t)/sizeof(unsigned __int16); i++)
+                        for (wstring::size_type i = 0; i < sizeof(ZRCola::langid_t)/sizeof(unsigned __int16); i++)
                             db.data.push_back(((const unsigned __int16*)lc.lang.data)[i]);
                         db.idxChr.push_back(idx);
 #ifdef ZRCOLA_LANGCHAR_LANG_IDX
@@ -349,15 +351,15 @@ int _tmain(int argc, _TCHAR *argv[])
                         db.data.push_back((unsigned __int16)cg.id);
                         wxASSERT_MSG((int)0xffff8000 <= cg.rank && cg.rank <= (int)0x00007fff, wxT("character group rank out of bounds"));
                         db.data.push_back((unsigned __int16)cg.rank);
-                        std::wstring::size_type n_name = cg.name.length();
+                        wstring::size_type n_name = cg.name.length();
                         wxASSERT_MSG(n_name <= 0xffff, wxT("character group name too long"));
                         db.data.push_back((unsigned __int16)n_name);
-                        std::wstring::size_type n_char = cg.chars.length();
+                        wstring::size_type n_char = cg.chars.length();
                         wxASSERT_MSG(n_char <= 0xffff, wxT("too many character group characters"));
                         db.data.push_back((unsigned __int16)n_char);
-                        for (std::wstring::size_type i = 0; i < n_name; i++)
+                        for (wstring::size_type i = 0; i < n_name; i++)
                             db.data.push_back(cg.name[i]);
-                        for (std::wstring::size_type i = 0; i < n_char; i++)
+                        for (wstring::size_type i = 0; i < n_char; i++)
                             db.data.push_back(cg.chars[i]);
                         db.idxRnk.push_back(idx);
                         if (build_pot)
@@ -404,17 +406,17 @@ int _tmain(int argc, _TCHAR *argv[])
                         // Add character to index and data.
                         unsigned __int32 idx = db.data.size();
                         db.data.push_back((unsigned __int16)chr.chr);
-                        for (std::wstring::size_type i = 0; i < sizeof(ZRCola::chrcatid_t)/sizeof(unsigned __int16); i++)
+                        for (wstring::size_type i = 0; i < sizeof(ZRCola::chrcatid_t)/sizeof(unsigned __int16); i++)
                             db.data.push_back(((const unsigned __int16*)chr.cat.data)[i]);
-                        std::wstring::size_type n_desc = chr.desc.length();
+                        wstring::size_type n_desc = chr.desc.length();
                         wxASSERT_MSG(n_desc <= 0xffff, wxT("character description too long"));
                         db.data.push_back((unsigned __int16)n_desc);
-                        std::wstring::size_type n_rel = chr.rel.length();
+                        wstring::size_type n_rel = chr.rel.length();
                         wxASSERT_MSG(n_rel <= 0xffff, wxT("too many related characters"));
                         db.data.push_back((unsigned __int16)n_rel);
-                        for (std::wstring::size_type i = 0; i < n_desc; i++)
+                        for (wstring::size_type i = 0; i < n_desc; i++)
                             db.data.push_back(chr.desc[i]);
-                        for (std::wstring::size_type i = 0; i < n_rel; i++)
+                        for (wstring::size_type i = 0; i < n_rel; i++)
                             db.data.push_back(chr.rel[i]);
                         db.idxChr.push_back(idx);
 
@@ -468,14 +470,14 @@ int _tmain(int argc, _TCHAR *argv[])
                     if (src.GetCharacterCategory(rs, cc)) {
                         // Add character category to index and data.
                         unsigned __int32 idx = db.data.size();
-                        for (std::wstring::size_type i = 0; i < sizeof(ZRCola::chrcatid_t)/sizeof(unsigned __int16); i++)
+                        for (wstring::size_type i = 0; i < sizeof(ZRCola::chrcatid_t)/sizeof(unsigned __int16); i++)
                             db.data.push_back(((const unsigned __int16*)cc.id.data)[i]);
                         wxASSERT_MSG((int)0xffff8000 <= cc.rank && cc.rank <= (int)0x00007fff, wxT("character category rank out of bounds"));
                         db.data.push_back((unsigned __int16)cc.rank);
-                        std::wstring::size_type n_name = cc.name.length();
+                        wstring::size_type n_name = cc.name.length();
                         wxASSERT_MSG(n_name <= 0xffff, wxT("character category name too long"));
                         db.data.push_back((unsigned __int16)n_name);
-                        for (std::wstring::size_type i = 0; i < n_name; i++)
+                        for (wstring::size_type i = 0; i < n_name; i++)
                             db.data.push_back(cc.name[i]);
                         db.idxChrCat.push_back(idx);
                         db.idxRnk   .push_back(idx);
@@ -512,21 +514,21 @@ int _tmain(int argc, _TCHAR *argv[])
 
     if (!has_errors && build_pot) {
         const wxString& filenamePot = parser.GetParam(2);
-        std::fstream dst((LPCTSTR)filenamePot, std::ios_base::out | std::ios_base::trunc);
+        fstream dst((LPCTSTR)filenamePot, ios_base::out | ios_base::trunc);
         if (dst.good()) {
-            dst << "msgid \"\"" << std::endl
-                << "msgstr \"\"" << std::endl
-                << "\"Project-Id-Version: ZRCola.zrcdb\\n\"" << std::endl
-                << "\"Language: en\\n\"" << std::endl
-                << "\"MIME-Version: 1.0\\n\"" << std::endl
-                << "\"Content-Type: text/plain; charset=UTF-8\\n\"" << std::endl
-                << "\"Content-Transfer-Encoding: 8bit\\n\"" << std::endl
-                << "\"X-Generator: ZRColaCompile " << ZRCOLA_VERSION_STR << "\\n\"" << std::endl;
+            dst << "msgid \"\"" << endl
+                << "msgstr \"\"" << endl
+                << "\"Project-Id-Version: ZRCola.zrcdb\\n\"" << endl
+                << "\"Language: en\\n\"" << endl
+                << "\"MIME-Version: 1.0\\n\"" << endl
+                << "\"Content-Type: text/plain; charset=UTF-8\\n\"" << endl
+                << "\"Content-Transfer-Encoding: 8bit\\n\"" << endl
+                << "\"X-Generator: ZRColaCompile " << ZRCOLA_VERSION_STR << "\\n\"" << endl;
 
-            std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
-            for (std::set<std::wstring>::const_iterator i = pot.cbegin(); i != pot.cend(); ++i) {
+            wstring_convert<codecvt_utf8<wchar_t>> conv;
+            for (set<wstring>::const_iterator i = pot.cbegin(); i != pot.cend(); ++i) {
                 // Convert UTF-16 to UTF-8 and escape.
-                std::string t(conv.to_bytes(*i)), u;
+                string t(conv.to_bytes(*i)), u;
                 for (size_t i = 0, n = t.size(); i < n; i++) {
                     char c = t[i];
                     switch (c) {
@@ -537,9 +539,9 @@ int _tmain(int argc, _TCHAR *argv[])
                     default  : u += c;
                     }
                 }
-                dst << std::endl
-                    << "msgid \"" << u << "\"" << std::endl
-                    << "msgstr \"\"" << std::endl;
+                dst << endl
+                    << "msgid \"" << u << "\"" << endl
+                    << "msgstr \"\"" << endl;
             }
 
             if (dst.fail()) {
