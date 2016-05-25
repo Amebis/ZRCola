@@ -251,7 +251,7 @@ bool ZRCola::DBSource::GetValue(const ATL::CComPtr<ADOField>& f, wstring& val) c
         val.reserve(::SysStringLen(V_BSTR(&v)));
         val = V_BSTR(&v);
     } else
-        val.empty();
+        val.clear();
 
     return true;
 }
