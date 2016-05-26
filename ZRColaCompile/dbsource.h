@@ -177,7 +177,21 @@ namespace ZRCola {
 
             public:
                 build_related_worker(_In_ character_bank *cb, _In_ size_type from, _In_ size_type to);
+                virtual ~build_related_worker();
+
+                inline void join()
+                {
+                    HANDLE h = get();
+                    if (h)
+                        WaitForSingleObject(h, INFINITE);
+                }
+
+            private:
+                // This class is non-copyable AND non-movable
+                build_related_worker(_Inout_ build_related_worker &othr);
                 build_related_worker(_Inout_ build_related_worker &&othr);
+                build_related_worker& operator=(_Inout_ build_related_worker &othr);
+                build_related_worker& operator=(_Inout_ build_related_worker &&othr);
 
             protected:
                 unsigned int process();
@@ -186,6 +200,7 @@ namespace ZRCola {
             protected:
                 character_bank *m_cb;
                 size_type m_from, m_to;
+                HANDLE m_heap;
             };
         };
 

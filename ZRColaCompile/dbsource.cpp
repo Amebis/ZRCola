@@ -37,61 +37,82 @@ void ZRCola::DBSource::character_bank::build_related()
     SYSTEM_INFO si;
     GetSystemInfo(&si);
 
-    // Launch threads.
-    vector<build_related_worker> threads;
-    threads.reserve(si.dwNumberOfProcessors);
+    // Launch workers.
+    build_related_worker **workers = new build_related_worker*[si.dwNumberOfProcessors];
     size_type from = 0, to;
     for (DWORD i = 0; i < si.dwNumberOfProcessors; i++) {
         to = MulDiv(i + 1, 0x10000, si.dwNumberOfProcessors);
-        threads.push_back(build_related_worker(this, from, to));
+        workers[i] = new build_related_worker(this, from, to);
         from = to;
     }
 
-    // Wait for threads.
+    // Wait for workers.
     for (DWORD i = 0; i < si.dwNumberOfProcessors; i++) {
-        HANDLE h = threads[i].get();
-        if (h) WaitForSingleObject(h, INFINITE);
+        if (workers[i]) {
+            workers[i]->join();
+            delete workers[i];
+        }
     }
+
+    delete workers; // This line of code sounds horrible, I know.
 }
 
 
 ZRCola::DBSource::character_bank::build_related_worker::build_related_worker(_In_ character_bank *cb, _In_ size_type from, _In_ size_type to) :
     thread_type((HANDLE)_beginthreadex(NULL, 0, process, this, CREATE_SUSPENDED, NULL)),
+    m_heap(HeapCreate(0, 0, 0)),
     m_cb(cb),
     m_from(from),
     m_to(to)
 {
+    // Now that members of this class are surely initialized, proceed.
     ResumeThread(get());
 }
 
 
-ZRCola::DBSource::character_bank::build_related_worker::build_related_worker(_Inout_ build_related_worker &&othr) :
-    thread_type((thread_type&&)othr),
-    m_cb(othr.m_cb),
-    m_from(othr.m_from),
-    m_to(othr.m_to)
+ZRCola::DBSource::character_bank::build_related_worker::~build_related_worker()
 {
-    othr.release();
+    assert(m_heap);
+    HeapDestroy(m_heap);
 }
 
 
 unsigned int ZRCola::DBSource::character_bank::build_related_worker::process()
 {
+    stdex::heap_allocator<wchar_t> al(m_heap);
+    basic_string<wchar_t, char_traits<wchar_t>, stdex::heap_allocator<wchar_t> > rel(al);
+
     for (size_type i = m_from; i < m_to; i++) {
         ZRCola::DBSource::character &chr = *(m_cb->at(i).get());
         if (&chr == NULL) continue;
 
+        rel.clear();
+
         // Remove all unexisting, inactive, or self related characters.
-        for (wstring::size_type i = chr.rel.length(); i--;) {
-            if (!m_cb->at(chr.rel[i]) || (wchar_t)i == chr.rel[i])
-                chr.rel.erase(i, 1);
+        for (wstring::size_type j = chr.rel.length(); j--;) {
+            wchar_t c = chr.rel[j];
+            if (m_cb->at(c) && (wchar_t)j != c)
+                rel += c;
         }
 
-        //for (size_t j = 0, j_end = size(); j < j_end; j++) {
-        //    if (i == j) continue;
-        //    ZRCola::DBSource::character &chr = *(chrs[i].get());
-        //    if (&chr == NULL) continue;
-        //}
+        // Add all characters that share enought keywords.
+        for (size_type j = 0, j_end = m_cb->size(); j < j_end; j++) {
+            if (i == j) continue;
+            const ZRCola::DBSource::character &chr2 = *(m_cb->at(j).get());
+            if (&chr2 == NULL) continue;
+
+            std::list<std::wstring>::size_type matching = 0;
+            for (std::list<std::wstring>::const_iterator term = chr.terms.cbegin(), term_end = chr.terms.cend(); term != term_end; ++term)
+                for (std::list<std::wstring>::const_iterator term2 = chr2.terms.cbegin(), term2_end = chr2.terms.cend(); term2 != term2_end; ++term2)
+                    if (*term == *term2)
+                        matching++;
+
+            // If 7/8 terms match, assume related.
+            if (matching*8 > std::min<std::list<std::wstring>::size_type>(chr.terms.size(), chr2.terms.size())*7)
+                rel += chr2.chr;
+        }
+
+        chr.rel.assign(rel.c_str(), rel.length());
     }
 
     return 0;
