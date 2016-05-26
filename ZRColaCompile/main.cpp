@@ -20,6 +20,7 @@
 #include "stdafx.h"
 
 using namespace std;
+using namespace stdex;
 
 
 ///
@@ -102,7 +103,7 @@ int _tmain(int argc, _TCHAR *argv[])
     set<wstring> pot;
 
     // Open file ID.
-    streamoff dst_start = stdex::idrec::open<ZRCola::recordid_t, ZRCola::recordsize_t>(dst, ZRCOLA_DB_ID);
+    streamoff dst_start = idrec::open<ZRCola::recordid_t, ZRCola::recordsize_t>(dst, ZRCOLA_DB_ID);
 
     {
         // Get translations.
@@ -526,7 +527,7 @@ int _tmain(int argc, _TCHAR *argv[])
         }
     }
 
-    stdex::idrec::close<ZRCola::recordid_t, ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>(dst, dst_start);
+    idrec::close<ZRCola::recordid_t, ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>(dst, dst_start);
 
     if (dst.fail()) {
         _ftprintf(stderr, wxT("%s: error ZCC1000: Writing to output file failed.\n"), (LPCTSTR)filenameOut.c_str());

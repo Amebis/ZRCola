@@ -20,6 +20,7 @@
 #include "stdafx.h"
 
 using namespace std;
+using namespace stdex;
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -79,8 +80,8 @@ ZRCola::DBSource::character_bank::build_related_worker::~build_related_worker()
 
 unsigned int ZRCola::DBSource::character_bank::build_related_worker::process()
 {
-    stdex::heap_allocator<wchar_t> al(m_heap);
-    basic_string<wchar_t, char_traits<wchar_t>, stdex::heap_allocator<wchar_t> > rel(al);
+    heap_allocator<wchar_t> al(m_heap);
+    basic_string<wchar_t, char_traits<wchar_t>, heap_allocator<wchar_t> > rel(al);
 
     for (size_type i = m_from; i < m_to; i++) {
         ZRCola::DBSource::character &chr = *(m_cb->at(i).get());
