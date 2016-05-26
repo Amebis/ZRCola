@@ -61,7 +61,6 @@ void ZRCola::DBSource::character_bank::build_related()
 
 ZRCola::DBSource::character_bank::build_related_worker::build_related_worker(_In_ character_bank *cb, _In_ size_type from, _In_ size_type to) :
     thread_type((HANDLE)_beginthreadex(NULL, 0, process, this, CREATE_SUSPENDED, NULL)),
-    m_heap(HeapCreate(0, 0, 0)),
     m_cb(cb),
     m_from(from),
     m_to(to)
@@ -71,17 +70,9 @@ ZRCola::DBSource::character_bank::build_related_worker::build_related_worker(_In
 }
 
 
-ZRCola::DBSource::character_bank::build_related_worker::~build_related_worker()
-{
-    assert(m_heap);
-    HeapDestroy(m_heap);
-}
-
-
 unsigned int ZRCola::DBSource::character_bank::build_related_worker::process()
 {
-    heap_allocator<wchar_t> al(m_heap);
-    basic_string<wchar_t, char_traits<wchar_t>, heap_allocator<wchar_t> > rel(al);
+    wstring rel;
 
     for (size_type i = m_from; i < m_to; i++) {
         ZRCola::DBSource::character &chr = *(m_cb->at(i).get());

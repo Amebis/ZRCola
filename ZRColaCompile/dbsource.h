@@ -177,7 +177,6 @@ namespace ZRCola {
 
             public:
                 build_related_worker(_In_ character_bank *cb, _In_ size_type from, _In_ size_type to);
-                virtual ~build_related_worker();
 
                 inline void join()
                 {
@@ -200,7 +199,6 @@ namespace ZRCola {
             protected:
                 character_bank *m_cb;
                 size_type m_from, m_to;
-                HANDLE m_heap;
             };
         };
 
