@@ -166,10 +166,27 @@ namespace ZRCola {
         class character_bank : public std::vector<std::unique_ptr<character> >
         {
         public:
-            character_bank() : std::vector<std::unique_ptr<character> >()
+            character_bank();
+            void build_related();
+
+        protected:
+            class build_related_worker : public std::unique_ptr<void, stdex::CloseHandle_delete<void> >
             {
-                resize(0x10000);
-            }
+            public:
+                typedef std::unique_ptr<void, stdex::CloseHandle_delete<void> > thread_type;
+
+            public:
+                build_related_worker(_In_ character_bank *cb, _In_ size_type from, _In_ size_type to);
+                build_related_worker(_Inout_ build_related_worker &&othr);
+
+            protected:
+                unsigned int process();
+                static unsigned int __stdcall process(_In_ void *param);
+
+            protected:
+                character_bank *m_cb;
+                size_type m_from, m_to;
+            };
         };
 
 

@@ -22,6 +22,92 @@
 using namespace std;
 
 
+//////////////////////////////////////////////////////////////////////////
+// ZRCola::DBSource::character_bank
+//////////////////////////////////////////////////////////////////////////
+
+ZRCola::DBSource::character_bank::character_bank() : vector<unique_ptr<ZRCola::DBSource::character> >()
+{
+    resize(0x10000);
+}
+
+
+void ZRCola::DBSource::character_bank::build_related()
+{
+    SYSTEM_INFO si;
+    GetSystemInfo(&si);
+
+    // Launch threads.
+    vector<build_related_worker> threads;
+    threads.reserve(si.dwNumberOfProcessors);
+    size_type from = 0, to;
+    for (DWORD i = 0; i < si.dwNumberOfProcessors; i++) {
+        to = MulDiv(i + 1, 0x10000, si.dwNumberOfProcessors);
+        threads.push_back(build_related_worker(this, from, to));
+        from = to;
+    }
+
+    // Wait for threads.
+    for (DWORD i = 0; i < si.dwNumberOfProcessors; i++) {
+        HANDLE h = threads[i].get();
+        if (h) WaitForSingleObject(h, INFINITE);
+    }
+}
+
+
+ZRCola::DBSource::character_bank::build_related_worker::build_related_worker(_In_ character_bank *cb, _In_ size_type from, _In_ size_type to) :
+    thread_type((HANDLE)_beginthreadex(NULL, 0, process, this, CREATE_SUSPENDED, NULL)),
+    m_cb(cb),
+    m_from(from),
+    m_to(to)
+{
+    ResumeThread(get());
+}
+
+
+ZRCola::DBSource::character_bank::build_related_worker::build_related_worker(_Inout_ build_related_worker &&othr) :
+    thread_type((thread_type&&)othr),
+    m_cb(othr.m_cb),
+    m_from(othr.m_from),
+    m_to(othr.m_to)
+{
+    othr.release();
+}
+
+
+unsigned int ZRCola::DBSource::character_bank::build_related_worker::process()
+{
+    for (size_type i = m_from; i < m_to; i++) {
+        ZRCola::DBSource::character &chr = *(m_cb->at(i).get());
+        if (&chr == NULL) continue;
+
+        // Remove all unexisting, inactive, or self related characters.
+        for (wstring::size_type i = chr.rel.length(); i--;) {
+            if (!m_cb->at(chr.rel[i]) || (wchar_t)i == chr.rel[i])
+                chr.rel.erase(i, 1);
+        }
+
+        //for (size_t j = 0, j_end = size(); j < j_end; j++) {
+        //    if (i == j) continue;
+        //    ZRCola::DBSource::character &chr = *(chrs[i].get());
+        //    if (&chr == NULL) continue;
+        //}
+    }
+
+    return 0;
+}
+
+
+unsigned int __stdcall ZRCola::DBSource::character_bank::build_related_worker::process(_In_ void *param)
+{
+    return ((ZRCola::DBSource::character_bank::build_related_worker*)param)->process();
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+// ZRCola::DBSource::character_desc_idx
+//////////////////////////////////////////////////////////////////////////
+
 void ZRCola::DBSource::character_desc_idx::parse_keywords(const wchar_t *str, list<wstring> &terms)
 {
     wxASSERT_MSG(str, wxT("string is NULL"));
@@ -114,6 +200,10 @@ void ZRCola::DBSource::character_desc_idx::save(ZRCola::textindex<wchar_t, wchar
     }
 }
 
+
+//////////////////////////////////////////////////////////////////////////
+// ZRCola::DBSource
+//////////////////////////////////////////////////////////////////////////
 
 ZRCola::DBSource::DBSource()
 {

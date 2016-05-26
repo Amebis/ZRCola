@@ -411,22 +411,7 @@ int _tmain(int argc, _TCHAR *argv[])
                 }
 
                 // Phase 2: Build related character lists.
-                for (size_t i = 0, i_end = chrs.size(); i < i_end; i++) {
-                    ZRCola::DBSource::character &chr = *(chrs[i].get());
-                    if (&chr == NULL) continue;
-                
-                    // Remove all unexisting, inactive, or self related characters.
-                    for (wstring::size_type i = chr.rel.length(); i--;) {
-                        if (!chrs[chr.rel[i]] || (wchar_t)i == chr.rel[i])
-                            chr.rel.erase(i, 1);
-                    }
-
-                    //for (size_t j = 0, j_end = chrs.size(); j < j_end; j++) {
-                    //    if (i == j) continue;
-                    //    ZRCola::DBSource::character &chr = *(chrs[i].get());
-                    //    if (&chr == NULL) continue;
-                    //}
-                }
+                chrs.build_related();
 
                 ZRCola::character_db db;
 
