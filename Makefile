@@ -326,13 +326,13 @@ $(REDIST_SL_X64) : "$(OUTPUT_DIR)\ZRColaSl64.3.msi"
 
 "$(OUTPUT_DIR)\Win32.Release\ZRColaInstallDe.exe" \
 "$(OUTPUT_DIR)\Win32.Release\ZRColaInstallEn.exe" \
-"$(OUTPUT_DIR)\Win32.Release\ZRColaInstallRu.exe" \	
+"$(OUTPUT_DIR)\Win32.Release\ZRColaInstallRu.exe" \
 "$(OUTPUT_DIR)\Win32.Release\ZRColaInstallSl.exe" ::
 	devenv.com "ZRColaUtils.sln" /build "Release|Win32"
 
 "$(OUTPUT_DIR)\Win32.Debug\ZRColaInstallDe.exe" \
 "$(OUTPUT_DIR)\Win32.Debug\ZRColaInstallEn.exe" \
-"$(OUTPUT_DIR)\Win32.Debug\ZRColaInstallRu.exe" \	
+"$(OUTPUT_DIR)\Win32.Debug\ZRColaInstallRu.exe" \
 "$(OUTPUT_DIR)\Win32.Debug\ZRColaInstallSl.exe" ::
 	devenv.com "ZRColaUtils.sln" /build "Debug|Win32"
 
