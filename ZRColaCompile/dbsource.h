@@ -26,6 +26,7 @@
 #include <adoint.h>
 #include <list>
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -156,6 +157,19 @@ namespace ZRCola {
             std::wstring desc;              ///< Character description
             std::list<std::wstring> terms;  ///< Search terms
             std::wstring rel;               ///< Related characters
+        };
+
+
+        ///
+        /// Character bank
+        ///
+        class character_bank : public std::vector<std::unique_ptr<character> >
+        {
+        public:
+            character_bank() : std::vector<std::unique_ptr<character> >()
+            {
+                resize(0x10000);
+            }
         };
 
 

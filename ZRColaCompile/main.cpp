@@ -395,8 +395,7 @@ int _tmain(int argc, _TCHAR *argv[])
             if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
                 ZRCola::DBSource::character_desc_idx idxChrDsc, idxChrDscSub;
 
-                vector<unique_ptr<ZRCola::DBSource::character> > chrs;
-                chrs.resize(0x10000);
+                ZRCola::DBSource::character_bank chrs;
 
                 // Phase 1: Parse characters and build indexes.
                 while (!ZRCola::DBSource::IsEOF(rs)) {
@@ -405,10 +404,6 @@ int _tmain(int argc, _TCHAR *argv[])
                     if (src.GetCharacter(rs, *c)) {
                         const ZRCola::DBSource::character &chr = *c.get();
                         chrs[chr.chr].swap(c);
-
-                        // Add description (and keywords) to index.
-                        idxChrDsc   .add_keywords(chr.terms, chr.chr, 0);
-                        idxChrDscSub.add_keywords(chr.terms, chr.chr, 3);
                     } else
                         has_errors = true;
 
@@ -420,11 +415,17 @@ int _tmain(int argc, _TCHAR *argv[])
                     ZRCola::DBSource::character &chr = *(chrs[i].get());
                     if (&chr == NULL) continue;
                 
-                    // Remove all unexisting or inactive related characters.
+                    // Remove all unexisting, inactive, or self related characters.
                     for (wstring::size_type i = chr.rel.length(); i--;) {
-                        if (!chrs[chr.rel[i]])
+                        if (!chrs[chr.rel[i]] || (wchar_t)i == chr.rel[i])
                             chr.rel.erase(i, 1);
                     }
+
+                    //for (size_t j = 0, j_end = chrs.size(); j < j_end; j++) {
+                    //    if (i == j) continue;
+                    //    ZRCola::DBSource::character &chr = *(chrs[i].get());
+                    //    if (&chr == NULL) continue;
+                    //}
                 }
 
                 ZRCola::character_db db;
@@ -454,6 +455,10 @@ int _tmain(int argc, _TCHAR *argv[])
                     for (wstring::size_type i = 0; i < n_rel; i++)
                         db.data.push_back(chr.rel[i]);
                     db.idxChr.push_back(idx);
+
+                    // Add description (and keywords) to index.
+                    idxChrDsc   .add_keywords(chr.terms, chr.chr, 0);
+                    idxChrDscSub.add_keywords(chr.terms, chr.chr, 3);
 
                     // Mark category used.
                     categories_used.insert(chr.cat);
