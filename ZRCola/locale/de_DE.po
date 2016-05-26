@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-05-24 16:27+0200\n"
-"PO-Revision-Date: 2016-05-24 16:27+0200\n"
+"POT-Creation-Date: 2016-05-26 17:15+0200\n"
+"PO-Revision-Date: 2016-05-26 17:15+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: de_DE\n"
@@ -20,37 +20,33 @@ msgstr ""
 msgid "© 2004-%s ZRC SAZU"
 msgstr ""
 
-#: zrcolaapp.cpp:78 zrcolafrm.cpp:90 zrcolagui.cpp:758 zrcolagui.h:101
-#: MSIBuild/En.Win32.Debug.Feature-2.idtx:4
-#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:4
+#: zrcolaapp.cpp:79 zrcolafrm.cpp:86 zrcolagui.cpp:781 zrcolagui.h:102
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
-#: MSIBuild/En.x64.Debug.Feature-2.idtx:4
-#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
 #, fuzzy
 msgid "ZRCola"
 msgstr "ZRCola:."
 
-#: zrcolafrm.cpp:108
+#: zrcolafrm.cpp:104
 msgid ""
 "ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality "
 "will not be available."
 msgstr ""
 
-#: zrcolafrm.cpp:108 zrcolafrm.cpp:110
+#: zrcolafrm.cpp:104 zrcolafrm.cpp:106
 #, fuzzy
 msgid "Warning"
 msgstr "Warnung: "
 
-#: zrcolafrm.cpp:110
+#: zrcolafrm.cpp:106
 msgid ""
 "ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality "
 "will not be available."
 msgstr ""
 
-#: zrcolafrm.cpp:336
+#: zrcolafrm.cpp:341
 msgid "http://zrcola-2.amebis.si/en/contact/"
 msgstr ""
 
@@ -207,7 +203,7 @@ msgstr "Auswahl einfügen"
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: zrcolagui.cpp:170 zrcolagui.h:225
+#: zrcolagui.cpp:170 zrcolagui.h:232
 msgid "Character Selector"
 msgstr ""
 
@@ -231,101 +227,115 @@ msgstr ""
 msgid "(De)Composer"
 msgstr ""
 
-#: zrcolagui.cpp:222
+#: zrcolagui.cpp:224
 msgid "Decomposed Text"
 msgstr ""
 
-#: zrcolagui.cpp:242
+#: zrcolagui.cpp:244
 msgid "Decomposed Unicode Dump"
 msgstr ""
 
-#: zrcolagui.cpp:269
+#: zrcolagui.cpp:271
 msgid "Composed Text"
 msgstr ""
 
-#: zrcolagui.cpp:289
+#: zrcolagui.cpp:291
 msgid "Composed Unicode Dump"
 msgstr ""
 
-#: zrcolagui.cpp:409
+#: zrcolagui.cpp:411
 #, fuzzy
 msgid "&Browse"
 msgstr "Durchsuchen"
 
-#: zrcolagui.cpp:457
+#: zrcolagui.cpp:423
+#, fuzzy
+msgid "All"
+msgstr "Alle"
+
+#: zrcolagui.cpp:426
+#, fuzzy
+msgid "None"
+msgstr "Kein"
+
+#: zrcolagui.cpp:429
+msgid "Invert"
+msgstr ""
+
+#: zrcolagui.cpp:474
 msgid "Re&cently Used"
 msgstr ""
 
-#: zrcolagui.cpp:498
+#: zrcolagui.cpp:515
 #, fuzzy
 msgid "Preview"
 msgstr " Vorschau"
 
-#: zrcolagui.cpp:503
+#: zrcolagui.cpp:520
 #, fuzzy
 msgid "U+"
 msgstr "Hilfeverzeichnis %u nicht gefunden."
 
-#: zrcolagui.cpp:554
+#: zrcolagui.cpp:571
 msgid "Re&lated"
 msgstr ""
 
-#: zrcolagui.cpp:654
+#: zrcolagui.cpp:677
 msgid ""
 "Some character native to specific language you are working with should not "
 "decompose to primitives.\n"
 "For optimal decomposition you should set the language correctly."
 msgstr ""
 
-#: zrcolagui.cpp:658
+#: zrcolagui.cpp:681
 msgid "Select language &automatically according to selected keyboard"
 msgstr ""
 
-#: zrcolagui.cpp:661
+#: zrcolagui.cpp:684
 msgid "&Manually select the language from the list below:"
 msgstr ""
 
-#: zrcolagui.cpp:673
+#: zrcolagui.cpp:696
 msgid "Text Language"
 msgstr ""
 
-#: zrcolagui.cpp:678
+#: zrcolagui.cpp:701
 msgid ""
 "ZRCola can be launched every time you log in to your computer.\n"
 "It will be available on the system tray and via registered shortcuts Win+F5 "
 "and Win+F6."
 msgstr ""
 
-#: zrcolagui.cpp:682
+#: zrcolagui.cpp:705
 msgid "Start ZRCola &automatically on logon"
 msgstr ""
 
-#: zrcolagui.cpp:689
+#: zrcolagui.cpp:712
 msgid "Startup"
 msgstr ""
 
-#: zrcolagui.cpp:768
+#: zrcolagui.cpp:791
 msgid ""
 "Editor: Janoš Ježovnik\n"
 "Development: Amebis d. o. o.\n"
 "Development and maintenance (2004-2015): dr. Peter Weiss"
 msgstr ""
 
-#: zrcolagui.cpp:776
+#: zrcolagui.cpp:799
 msgid "www.zrc-sazu.si"
 msgstr ""
 
-#: zrcolagui.cpp:815
+#: zrcolagui.cpp:838
 #, fuzzy
 msgid "Log"
 msgstr "&Log"
 
-#: zrcolagui.cpp:831
+#: zrcolagui.cpp:854
 #, fuzzy
 msgid "&Update"
 msgstr "Kann Benutzer-Konfigurationsdatei nicht aktualisieren."
 
-#: zrcolagui.cpp:836
+#: zrcolagui.cpp:859
 #, fuzzy
 msgid "&Close"
 msgstr "&Schließen"
@@ -340,37 +350,29 @@ msgstr ""
 msgid "Start ZRCola automatically on logon"
 msgstr ""
 
-#: zrcolagui.h:262
+#: zrcolagui.h:269
 msgid "Settings"
 msgstr ""
 
-#: zrcolagui.h:286
+#: zrcolagui.h:293
 msgid "About ZRCola"
 msgstr ""
 
-#: zrcolagui.h:309
+#: zrcolagui.h:316
 msgid "Product Update"
 msgstr ""
 
 # Windows charset for this language (decimal)
-#: MSIBuild/En.Win32.Debug.Feature-2.idtx:3
-#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:3
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:3
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:3
-#: MSIBuild/En.x64.Debug.Feature-2.idtx:3
-#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:3
 #: MSIBuild/En.x64.Release.Feature-2.idtx:3
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:3
 #, fuzzy
 msgid "1252"
 msgstr "1252"
 
-#: MSIBuild/En.Win32.Debug.Feature-2.idtx:4
-#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
-#: MSIBuild/En.x64.Debug.Feature-2.idtx:4
-#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
 msgid "Input system for linguistic use"

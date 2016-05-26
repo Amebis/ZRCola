@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-05-24 16:26+0200\n"
+"POT-Creation-Date: 2016-05-26 17:15+0200\n"
 "PO-Revision-Date: 2016-05-13 15:52+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
@@ -23,20 +23,16 @@ msgstr ""
 msgid "© 2004-%s ZRC SAZU"
 msgstr "© 2004-%s ZRC SAZU"
 
-#: zrcolaapp.cpp:78 zrcolafrm.cpp:90 zrcolagui.cpp:758 zrcolagui.h:101
-#: MSIBuild/En.Win32.Debug.Feature-2.idtx:4
-#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:4
+#: zrcolaapp.cpp:79 zrcolafrm.cpp:86 zrcolagui.cpp:781 zrcolagui.h:102
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
-#: MSIBuild/En.x64.Debug.Feature-2.idtx:4
-#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
 #, fuzzy
 msgid "ZRCola"
 msgstr "ZRCola"
 
-#: zrcolafrm.cpp:108
+#: zrcolafrm.cpp:104
 #, fuzzy
 msgid ""
 "ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality "
@@ -45,12 +41,12 @@ msgstr ""
 "ZRColine bližnjice na tipkovnici Win+F5 ni mogoče registrirati. Nekaj "
 "funkcionalnosti ne bo na voljo."
 
-#: zrcolafrm.cpp:108 zrcolafrm.cpp:110
+#: zrcolafrm.cpp:104 zrcolafrm.cpp:106
 #, fuzzy
 msgid "Warning"
 msgstr "Opozorilo"
 
-#: zrcolafrm.cpp:110
+#: zrcolafrm.cpp:106
 #, fuzzy
 msgid ""
 "ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality "
@@ -59,7 +55,7 @@ msgstr ""
 "ZRColine bližnjice na tipkovnici Win+F6 ni mogoče registrirati. Nekaj "
 "funkcionalnosti ne bo na voljo."
 
-#: zrcolafrm.cpp:336
+#: zrcolafrm.cpp:341
 #, fuzzy
 msgid "http://zrcola-2.amebis.si/en/contact/"
 msgstr "http://zrcola-2.amebis.si/contact/"
@@ -190,12 +186,14 @@ msgid "Submit a request to ZRC to add a new character"
 msgstr "Oddaj prošnjo ZRC-u za dodajanje novega znaka"
 
 #: zrcolagui.cpp:146
+#, fuzzy
 msgid "Check for &Updates..."
-msgstr ""
+msgstr "Preveri za &posodobitev ..."
 
 #: zrcolagui.cpp:146
+#, fuzzy
 msgid "Check online for product update"
-msgstr ""
+msgstr "Preveri na spletu za posodobitev izdelka"
 
 #: zrcolagui.cpp:155
 #, fuzzy
@@ -237,7 +235,7 @@ msgstr "Prilepi izbor"
 msgid "Edit"
 msgstr "Urejanje"
 
-#: zrcolagui.cpp:170 zrcolagui.h:225
+#: zrcolagui.cpp:170 zrcolagui.h:232
 #, fuzzy
 msgid "Character Selector"
 msgstr "Izbirnik znaka"
@@ -267,52 +265,66 @@ msgstr "Katalog znakov"
 msgid "(De)Composer"
 msgstr "Raz/Sestavljalnik"
 
-#: zrcolagui.cpp:222
+#: zrcolagui.cpp:224
 #, fuzzy
 msgid "Decomposed Text"
 msgstr "Razstavljeno besedilo"
 
-#: zrcolagui.cpp:242
+#: zrcolagui.cpp:244
 #, fuzzy
 msgid "Decomposed Unicode Dump"
 msgstr "Unicode razstavljenega"
 
-#: zrcolagui.cpp:269
+#: zrcolagui.cpp:271
 #, fuzzy
 msgid "Composed Text"
 msgstr "Sestavljeno besedilo"
 
-#: zrcolagui.cpp:289
+#: zrcolagui.cpp:291
 #, fuzzy
 msgid "Composed Unicode Dump"
 msgstr "Unicode sestavljenega"
 
-#: zrcolagui.cpp:409
+#: zrcolagui.cpp:411
 #, fuzzy
 msgid "&Browse"
 msgstr "Pre&brskaj"
 
-#: zrcolagui.cpp:457
+#: zrcolagui.cpp:423
+#, fuzzy
+msgid "All"
+msgstr "Vse"
+
+#: zrcolagui.cpp:426
+#, fuzzy
+msgid "None"
+msgstr "Nič"
+
+#: zrcolagui.cpp:429
+msgid "Invert"
+msgstr ""
+
+#: zrcolagui.cpp:474
 #, fuzzy
 msgid "Re&cently Used"
 msgstr "Nedavno &uporabljeni"
 
-#: zrcolagui.cpp:498
+#: zrcolagui.cpp:515
 #, fuzzy
 msgid "Preview"
 msgstr "Predogled:"
 
-#: zrcolagui.cpp:503
+#: zrcolagui.cpp:520
 #, fuzzy
 msgid "U+"
 msgstr "U+"
 
-#: zrcolagui.cpp:554
+#: zrcolagui.cpp:571
 #, fuzzy
 msgid "Re&lated"
 msgstr "&Sorodni"
 
-#: zrcolagui.cpp:654
+#: zrcolagui.cpp:677
 #, fuzzy
 msgid ""
 "Some character native to specific language you are working with should not "
@@ -323,22 +335,22 @@ msgstr ""
 "razstaviti v dele.\n"
 "Za optimalno razstavljanje izberite pravilni jezik."
 
-#: zrcolagui.cpp:658
+#: zrcolagui.cpp:681
 #, fuzzy
 msgid "Select language &automatically according to selected keyboard"
 msgstr "S&amodejno izberi jezik glede na izbrano tipkovnico"
 
-#: zrcolagui.cpp:661
+#: zrcolagui.cpp:684
 #, fuzzy
 msgid "&Manually select the language from the list below:"
 msgstr "Ročno izberi jezik na spodnje&m spisku:"
 
-#: zrcolagui.cpp:673
+#: zrcolagui.cpp:696
 #, fuzzy
 msgid "Text Language"
 msgstr "Jezik besedila"
 
-#: zrcolagui.cpp:678
+#: zrcolagui.cpp:701
 #, fuzzy
 msgid ""
 "ZRCola can be launched every time you log in to your computer.\n"
@@ -349,17 +361,17 @@ msgstr ""
 "Na voljo bo na vrstici za sistemska obvestila ter preko registriranih "
 "bližnjic Win+F5 in Win+F6."
 
-#: zrcolagui.cpp:682
+#: zrcolagui.cpp:705
 #, fuzzy
 msgid "Start ZRCola &automatically on logon"
 msgstr "S&amodejno zaženi ZRColo ob prijavi"
 
-#: zrcolagui.cpp:689
+#: zrcolagui.cpp:712
 #, fuzzy
 msgid "Startup"
 msgstr "Zagon"
 
-#: zrcolagui.cpp:768
+#: zrcolagui.cpp:791
 #, fuzzy
 msgid ""
 "Editor: Janoš Ježovnik\n"
@@ -370,22 +382,22 @@ msgstr ""
 "Razvoj: Amebis d. o. o.\n"
 "Razvoj in vzdrževanje (2004-2015): dr. Peter Weiss"
 
-#: zrcolagui.cpp:776
+#: zrcolagui.cpp:799
 #, fuzzy
 msgid "www.zrc-sazu.si"
 msgstr "www.zrc-sazu.si"
 
-#: zrcolagui.cpp:815
+#: zrcolagui.cpp:838
 #, fuzzy
 msgid "Log"
-msgstr "Prijavi me"
+msgstr "Dnevnik"
 
-#: zrcolagui.cpp:831
+#: zrcolagui.cpp:854
 #, fuzzy
 msgid "&Update"
-msgstr "Potrdite osvežitev registra"
+msgstr "&Posodobi"
 
-#: zrcolagui.cpp:836
+#: zrcolagui.cpp:859
 #, fuzzy
 msgid "&Close"
 msgstr "&Zapri"
@@ -404,38 +416,31 @@ msgstr ""
 msgid "Start ZRCola automatically on logon"
 msgstr "Samodejno zaženi ZRColo ob prijavi"
 
-#: zrcolagui.h:262
+#: zrcolagui.h:269
 #, fuzzy
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: zrcolagui.h:286
+#: zrcolagui.h:293
 #, fuzzy
 msgid "About ZRCola"
 msgstr "O ZRColi"
 
-#: zrcolagui.h:309
+#: zrcolagui.h:316
+#, fuzzy
 msgid "Product Update"
-msgstr ""
+msgstr "Posodabljanje izdelka"
 
-#: MSIBuild/En.Win32.Debug.Feature-2.idtx:3
-#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:3
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:3
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:3
-#: MSIBuild/En.x64.Debug.Feature-2.idtx:3
-#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:3
 #: MSIBuild/En.x64.Release.Feature-2.idtx:3
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:3
 #, fuzzy
 msgid "1252"
 msgstr "1250"
 
-#: MSIBuild/En.Win32.Debug.Feature-2.idtx:4
-#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
-#: MSIBuild/En.x64.Debug.Feature-2.idtx:4
-#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
 #, fuzzy

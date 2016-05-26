@@ -417,6 +417,21 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	m_search->ShowCancelButton( true );
 	sbSizerBrowse->Add( m_search, 0, wxALL|wxEXPAND, 5 );
 	
+	wxBoxSizer* bSizerCategoriesCtrl;
+	bSizerCategoriesCtrl = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_categoriesAll = new wxHyperlinkCtrl( sbSizerBrowse->GetStaticBox(), wxID_ANY, _("All"), wxEmptyString, wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
+	bSizerCategoriesCtrl->Add( m_categoriesAll, 0, wxALL, 5 );
+	
+	m_categoriesNone = new wxHyperlinkCtrl( sbSizerBrowse->GetStaticBox(), wxID_ANY, _("None"), wxEmptyString, wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
+	bSizerCategoriesCtrl->Add( m_categoriesNone, 0, wxALL, 5 );
+	
+	m_categoriesInvert = new wxHyperlinkCtrl( sbSizerBrowse->GetStaticBox(), wxID_ANY, _("Invert"), wxEmptyString, wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
+	bSizerCategoriesCtrl->Add( m_categoriesInvert, 0, wxALL, 5 );
+	
+	
+	sbSizerBrowse->Add( bSizerCategoriesCtrl, 0, wxALIGN_RIGHT, 5 );
+	
 	wxArrayString m_categoriesChoices;
 	m_categories = new wxCheckListBox( sbSizerBrowse->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( -1,60 ), m_categoriesChoices, 0 );
 	sbSizerBrowse->Add( m_categories, 0, wxALL|wxEXPAND, 5 );
@@ -611,6 +626,9 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	// Connect Events
 	this->Connect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaCharSelectBase::OnIdle ) );
 	m_search->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaCharSelectBase::OnSearchText ), NULL, this );
+	m_categoriesAll->Connect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnCategoriesAll ), NULL, this );
+	m_categoriesNone->Connect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnCategoriesNone ), NULL, this );
+	m_categoriesInvert->Connect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnCategoriesInvert ), NULL, this );
 	m_categories->Connect( wxEVT_COMMAND_CHECKLISTBOX_TOGGLED, wxCommandEventHandler( wxZRColaCharSelectBase::OnCategoriesToggle ), NULL, this );
 	m_gridResults->Connect( wxEVT_GRID_CELL_LEFT_DCLICK, wxGridEventHandler( wxZRColaCharSelectBase::OnResultCellDClick ), NULL, this );
 	m_gridResults->Connect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( wxZRColaCharSelectBase::OnResultSelectCell ), NULL, this );
@@ -628,6 +646,9 @@ wxZRColaCharSelectBase::~wxZRColaCharSelectBase()
 	// Disconnect Events
 	this->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaCharSelectBase::OnIdle ) );
 	m_search->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaCharSelectBase::OnSearchText ), NULL, this );
+	m_categoriesAll->Disconnect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnCategoriesAll ), NULL, this );
+	m_categoriesNone->Disconnect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnCategoriesNone ), NULL, this );
+	m_categoriesInvert->Disconnect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnCategoriesInvert ), NULL, this );
 	m_categories->Disconnect( wxEVT_COMMAND_CHECKLISTBOX_TOGGLED, wxCommandEventHandler( wxZRColaCharSelectBase::OnCategoriesToggle ), NULL, this );
 	m_gridResults->Disconnect( wxEVT_GRID_CELL_LEFT_DCLICK, wxGridEventHandler( wxZRColaCharSelectBase::OnResultCellDClick ), NULL, this );
 	m_gridResults->Disconnect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( wxZRColaCharSelectBase::OnResultSelectCell ), NULL, this );

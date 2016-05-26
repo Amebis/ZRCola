@@ -53,6 +53,9 @@ public:
 protected:
     virtual void OnIdle(wxIdleEvent& event);
     virtual void OnSearchText(wxCommandEvent& event);
+    virtual void OnCategoriesAll(wxHyperlinkEvent& event);
+    virtual void OnCategoriesNone(wxHyperlinkEvent& event);
+    virtual void OnCategoriesInvert(wxHyperlinkEvent& event);
     virtual void OnCategoriesToggle(wxCommandEvent& event);
     void OnSearchComplete(wxThreadEvent& event);
     virtual void OnResultSelectCell(wxGridEvent& event);

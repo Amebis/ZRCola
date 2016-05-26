@@ -146,6 +146,42 @@ void wxZRColaCharSelect::OnSearchText(wxCommandEvent& event)
 }
 
 
+void wxZRColaCharSelect::OnCategoriesAll(wxHyperlinkEvent& event)
+{
+    event.StopPropagation();
+
+    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++)
+        m_categories->Check(i, true);
+
+    m_searchChanged = true;
+}
+
+
+void wxZRColaCharSelect::OnCategoriesNone(wxHyperlinkEvent& event)
+{
+    event.StopPropagation();
+
+    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++)
+        m_categories->Check(i, false);
+
+    m_searchChanged = true;
+}
+
+
+void wxZRColaCharSelect::OnCategoriesInvert(wxHyperlinkEvent& event)
+{
+    event.StopPropagation();
+
+    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++)
+        m_categories->Check(i, !m_categories->IsChecked(i));
+
+    m_searchChanged = true;
+}
+
+
 void wxZRColaCharSelect::OnCategoriesToggle(wxCommandEvent& event)
 {
     event.Skip();

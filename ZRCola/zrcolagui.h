@@ -38,6 +38,7 @@ class wxZRColaComposerPanel;
 #include <wx/choice.h>
 #include <wx/grid.h>
 #include <wx/srchctrl.h>
+#include <wx/hyperlink.h>
 #include <wx/checklst.h>
 #include <wx/stattext.h>
 #include <wx/button.h>
@@ -48,7 +49,6 @@ class wxZRColaComposerPanel;
 #include <wx/listbook.h>
 #include <wx/listctrl.h>
 #include <wx/statbmp.h>
-#include <wx/hyperlink.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -193,6 +193,9 @@ class wxZRColaCharSelectBase : public wxDialog
 	
 	protected:
 		wxSearchCtrl* m_search;
+		wxHyperlinkCtrl* m_categoriesAll;
+		wxHyperlinkCtrl* m_categoriesNone;
+		wxHyperlinkCtrl* m_categoriesInvert;
 		wxCheckListBox* m_categories;
 		wxZRColaCharGrid* m_gridResults;
 		wxZRColaCharGrid* m_gridRecent;
@@ -209,6 +212,9 @@ class wxZRColaCharSelectBase : public wxDialog
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnIdle( wxIdleEvent& event ) { event.Skip(); }
 		virtual void OnSearchText( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnCategoriesAll( wxHyperlinkEvent& event ) { event.Skip(); }
+		virtual void OnCategoriesNone( wxHyperlinkEvent& event ) { event.Skip(); }
+		virtual void OnCategoriesInvert( wxHyperlinkEvent& event ) { event.Skip(); }
 		virtual void OnCategoriesToggle( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnResultCellDClick( wxGridEvent& event ) { event.Skip(); }
 		virtual void OnResultSelectCell( wxGridEvent& event ) { event.Skip(); }
