@@ -52,4 +52,6 @@
 #include <codecvt>
 #include <cwctype>
 #include <fstream>
+#include <memory>
 #include <set>
+#include <vector>

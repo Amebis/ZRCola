@@ -22,7 +22,7 @@
 using namespace std;
 
 
-bool ZRCola::DBSource::character_desc_idx::add_keywords(const wchar_t *str, wchar_t chr, size_t sub)
+void ZRCola::DBSource::character_desc_idx::parse_keywords(const wchar_t *str, list<wstring> &terms)
 {
     wxASSERT_MSG(str, wxT("string is NULL"));
 
@@ -30,7 +30,7 @@ bool ZRCola::DBSource::character_desc_idx::add_keywords(const wchar_t *str, wcha
         // Skip white space.
         for (;;) {
             if (*str == 0)
-                return true;
+                return;
             else if (!iswspace(*str))
                 break;
             else
@@ -62,23 +62,29 @@ bool ZRCola::DBSource::character_desc_idx::add_keywords(const wchar_t *str, wcha
 
         if (!term.empty()) {
             transform(term.begin(), term.end(), term.begin(), towlower);
-            if (sub) {
-                wstring::size_type j_end = term.size();
-                if (j_end >= sub) {
-                    // Insert all keyword substrings "sub" or more characters long.
-                    for (wstring::size_type i = 0, i_end = j_end - sub; i <= i_end; ++i) {
-                        for (wstring::size_type j = i + sub; j <= j_end; ++j)
-                            add_keyword(term.substr(i, j - i), chr);
-                    }
-                }
-            } else {
-                // Insert exact keyword only.
-                add_keyword(term, chr);
-            }
+            terms.push_back(term);
         }
     }
+}
 
-    return true;
+
+void ZRCola::DBSource::character_desc_idx::add_keywords(const std::list<std::wstring> &terms, wchar_t chr, size_t sub)
+{
+    for (list<wstring>::const_iterator term = terms.cbegin(), term_end = terms.cend(); term != term_end; ++term) {
+        if (sub) {
+            wstring::size_type j_end = term->size();
+            if (j_end >= sub) {
+                // Insert all keyword substrings "sub" or more characters long.
+                for (wstring::size_type i = 0, i_end = j_end - sub; i <= i_end; ++i) {
+                    for (wstring::size_type j = i + sub; j <= j_end; ++j)
+                        add_keyword(term->substr(i, j - i), chr);
+                }
+            }
+        } else {
+            // Insert exact keyword only.
+            add_keyword(*term, chr);
+        }
+    }
 }
 
 
@@ -772,12 +778,15 @@ bool ZRCola::DBSource::GetCharacter(const ATL::CComPtr<ADORecordset>& rs, charac
         wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"opis_en"), &f)));
         wxCHECK(GetValue(f, chr.desc), false);
     }
+    ZRCola::DBSource::character_desc_idx::parse_keywords(chr.desc.c_str(), chr.terms);
 
+    wstring keywords;
     {
         ATL::CComPtr<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"klj_bes_en"), &f)));
-        wxCHECK(GetValue(f, chr.keywords), false);
+        wxCHECK(GetValue(f, keywords), false);
     }
+    ZRCola::DBSource::character_desc_idx::parse_keywords(keywords.c_str(), chr.terms);
 
     {
         ATL::CComPtr<ADOField> f;

@@ -393,47 +393,70 @@ int _tmain(int argc, _TCHAR *argv[])
         if (src.SelectCharacters(rs)) {
             size_t count = src.GetRecordsetCount(rs);
             if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
-                ZRCola::DBSource::character chr;
-                ZRCola::character_db db;
                 ZRCola::DBSource::character_desc_idx idxChrDsc, idxChrDscSub;
+
+                vector<unique_ptr<ZRCola::DBSource::character> > chrs;
+                chrs.resize(0x10000);
+
+                // Phase 1: Parse characters and build indexes.
+                while (!ZRCola::DBSource::IsEOF(rs)) {
+                    // Read character from the database.
+                    unique_ptr<ZRCola::DBSource::character> c(new ZRCola::DBSource::character);
+                    if (src.GetCharacter(rs, *c)) {
+                        const ZRCola::DBSource::character &chr = *c.get();
+                        chrs[chr.chr].swap(c);
+
+                        // Add description (and keywords) to index.
+                        idxChrDsc   .add_keywords(chr.terms, chr.chr, 0);
+                        idxChrDscSub.add_keywords(chr.terms, chr.chr, 3);
+                    } else
+                        has_errors = true;
+
+                    wxVERIFY(SUCCEEDED(rs->MoveNext()));
+                }
+
+                // Phase 2: Build related character lists.
+                for (size_t i = 0, i_end = chrs.size(); i < i_end; i++) {
+                    ZRCola::DBSource::character &chr = *(chrs[i].get());
+                    if (&chr == NULL) continue;
+                
+                    // Remove all unexisting or inactive related characters.
+                    for (wstring::size_type i = chr.rel.length(); i--;) {
+                        if (!chrs[chr.rel[i]])
+                            chr.rel.erase(i, 1);
+                    }
+                }
+
+                ZRCola::character_db db;
 
                 // Preallocate memory.
                 db.idxChr.reserve(count);
                 db.data  .reserve(count*4);
 
-                // Parse characters and build index and data.
-                while (!ZRCola::DBSource::IsEOF(rs)) {
-                    // Read character from the database.
-                    if (src.GetCharacter(rs, chr)) {
-                        // Add character to index and data.
-                        unsigned __int32 idx = db.data.size();
-                        db.data.push_back((unsigned __int16)chr.chr);
-                        for (wstring::size_type i = 0; i < sizeof(ZRCola::chrcatid_t)/sizeof(unsigned __int16); i++)
-                            db.data.push_back(((const unsigned __int16*)chr.cat.data)[i]);
-                        wstring::size_type n_desc = chr.desc.length();
-                        wxASSERT_MSG(n_desc <= 0xffff, wxT("character description too long"));
-                        db.data.push_back((unsigned __int16)n_desc);
-                        wstring::size_type n_rel = chr.rel.length();
-                        wxASSERT_MSG(n_rel <= 0xffff, wxT("too many related characters"));
-                        db.data.push_back((unsigned __int16)n_rel);
-                        for (wstring::size_type i = 0; i < n_desc; i++)
-                            db.data.push_back(chr.desc[i]);
-                        for (wstring::size_type i = 0; i < n_rel; i++)
-                            db.data.push_back(chr.rel[i]);
-                        db.idxChr.push_back(idx);
+                // Phase 3: Parse characters and build index and data.
+                for (size_t i = 0, i_end = chrs.size(); i < i_end; i++) {
+                    const ZRCola::DBSource::character &chr = *(chrs[i].get());
+                    if (&chr == NULL) continue;
 
-                        // Add description (and keywords) to index.
-                        idxChrDsc   .add_keywords(chr.desc    .c_str(), chr.chr, 0);
-                        idxChrDsc   .add_keywords(chr.keywords.c_str(), chr.chr, 0);
-                        idxChrDscSub.add_keywords(chr.desc    .c_str(), chr.chr, 3);
-                        idxChrDscSub.add_keywords(chr.keywords.c_str(), chr.chr, 3);
+                    // Add character to index and data.
+                    unsigned __int32 idx = db.data.size();
+                    db.data.push_back((unsigned __int16)chr.chr);
+                    for (wstring::size_type i = 0; i < sizeof(ZRCola::chrcatid_t)/sizeof(unsigned __int16); i++)
+                        db.data.push_back(((const unsigned __int16*)chr.cat.data)[i]);
+                    wstring::size_type n_desc = chr.desc.length();
+                    wxASSERT_MSG(n_desc <= 0xffff, wxT("character description too long"));
+                    db.data.push_back((unsigned __int16)n_desc);
+                    wstring::size_type n_rel = chr.rel.length();
+                    wxASSERT_MSG(n_rel <= 0xffff, wxT("too many related characters"));
+                    db.data.push_back((unsigned __int16)n_rel);
+                    for (wstring::size_type i = 0; i < n_desc; i++)
+                        db.data.push_back(chr.desc[i]);
+                    for (wstring::size_type i = 0; i < n_rel; i++)
+                        db.data.push_back(chr.rel[i]);
+                    db.idxChr.push_back(idx);
 
-                        // Mark category used.
-                        categories_used.insert(chr.cat);
-                    } else
-                        has_errors = true;
-
-                    wxVERIFY(SUCCEEDED(rs->MoveNext()));
+                    // Mark category used.
+                    categories_used.insert(chr.cat);
                 }
 
                 // Sort indices.

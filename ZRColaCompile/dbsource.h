@@ -24,6 +24,7 @@
 
 #include <atlbase.h>
 #include <adoint.h>
+#include <list>
 #include <map>
 #include <string>
 #include <vector>
@@ -119,11 +120,42 @@ namespace ZRCola {
         ///
         class character {
         public:
-            wchar_t chr;                ///< Character
-            ZRCola::chrcatid_t cat;     ///> Category ID
-            std::wstring desc;          ///< Character description
-            std::wstring keywords;      ///< Additional keywords
-            std::wstring rel;           ///< Related characters
+            inline character()
+            {
+                chr = 0;
+                cat.data[0] = 0;
+                cat.data[1] = 0;
+            }
+
+            inline character(_In_ const character &othr) :
+                chr  (othr.chr),
+                cat  (othr.cat),
+                desc (othr.desc),
+                terms(othr.terms),
+                rel  (othr.rel)
+            {
+            }
+
+            inline bool operator==(_In_ const character &othr) const
+            {
+                return
+                    chr   == othr.chr   &&
+                    cat   == othr.cat   &&
+                    desc  == othr.desc  &&
+                    terms == othr.terms &&
+                    rel   == othr.rel;
+            }
+
+            inline bool operator!=(_In_ const character &othr) const
+            {
+                return !operator==(othr);
+            }
+
+            wchar_t chr;                    ///< Character
+            ZRCola::chrcatid_t cat;         ///< Category ID
+            std::wstring desc;              ///< Character description
+            std::list<std::wstring> terms;  ///< Search terms
+            std::wstring rel;               ///< Related characters
         };
 
 
@@ -153,7 +185,14 @@ namespace ZRCola {
         class character_desc_idx : public std::map<std::wstring, std::vector<wchar_t>, character_desc_idx_less>
         {
         public:
-            bool add_keywords(const wchar_t *str, wchar_t chr, size_t sub = 0);
+            static void parse_keywords(const wchar_t *str, std::list<std::wstring> &terms);
+            void add_keywords(const std::list<std::wstring> &terms, wchar_t chr, size_t sub = 0);
+            inline void add_keywords(const wchar_t *str, wchar_t chr, size_t sub = 0)
+            {
+                std::list<std::wstring> terms;
+                parse_keywords(str, terms);
+                add_keywords(terms, chr, sub);
+            }
 
             void save(ZRCola::textindex<wchar_t, wchar_t, unsigned __int32> &idx) const;
 
