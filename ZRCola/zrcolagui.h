@@ -38,8 +38,8 @@ class wxZRColaComposerPanel;
 #include <wx/choice.h>
 #include <wx/grid.h>
 #include <wx/srchctrl.h>
-#include <wx/hyperlink.h>
 #include <wx/checklst.h>
+#include <wx/hyperlink.h>
 #include <wx/stattext.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
@@ -193,10 +193,10 @@ class wxZRColaCharSelectBase : public wxDialog
 	
 	protected:
 		wxSearchCtrl* m_search;
+		wxCheckListBox* m_categories;
 		wxHyperlinkCtrl* m_categoriesAll;
 		wxHyperlinkCtrl* m_categoriesNone;
 		wxHyperlinkCtrl* m_categoriesInvert;
-		wxCheckListBox* m_categories;
 		wxZRColaCharGrid* m_gridResults;
 		wxZRColaCharGrid* m_gridRecent;
 		wxStaticText* m_labelUnicode;
@@ -204,6 +204,8 @@ class wxZRColaCharSelectBase : public wxDialog
 		wxGrid* m_gridPreview;
 		wxTextCtrl* m_description;
 		wxTextCtrl* m_category;
+		wxHyperlinkCtrl* m_navigateBack;
+		wxHyperlinkCtrl* m_navigateForward;
 		wxZRColaCharGrid* m_gridRelated;
 		wxStdDialogButtonSizer* m_sdbSizerButtons;
 		wxButton* m_sdbSizerButtonsOK;
@@ -212,10 +214,10 @@ class wxZRColaCharSelectBase : public wxDialog
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnIdle( wxIdleEvent& event ) { event.Skip(); }
 		virtual void OnSearchText( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnCategoriesToggle( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnCategoriesAll( wxHyperlinkEvent& event ) { event.Skip(); }
 		virtual void OnCategoriesNone( wxHyperlinkEvent& event ) { event.Skip(); }
 		virtual void OnCategoriesInvert( wxHyperlinkEvent& event ) { event.Skip(); }
-		virtual void OnCategoriesToggle( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnResultCellDClick( wxGridEvent& event ) { event.Skip(); }
 		virtual void OnResultSelectCell( wxGridEvent& event ) { event.Skip(); }
 		virtual void OnResultsKeyDown( wxKeyEvent& event ) { event.Skip(); }
@@ -223,6 +225,8 @@ class wxZRColaCharSelectBase : public wxDialog
 		virtual void OnRecentSelectCell( wxGridEvent& event ) { event.Skip(); }
 		virtual void OnRecentKeyDown( wxKeyEvent& event ) { event.Skip(); }
 		virtual void OnUnicodeText( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnNavigateBack( wxHyperlinkEvent& event ) { event.Skip(); }
+		virtual void OnNavigateForward( wxHyperlinkEvent& event ) { event.Skip(); }
 		virtual void OnRelatedSelectCell( wxGridEvent& event ) { event.Skip(); }
 		virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		

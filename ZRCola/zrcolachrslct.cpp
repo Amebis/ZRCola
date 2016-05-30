@@ -48,6 +48,12 @@ wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) :
     }
 
     ResetResults();
+
+    NavigationState state;
+    state.m_char = m_char;
+    state.m_related.m_selected.SetCol(m_gridRelated->GetGridCursorCol());
+    state.m_related.m_selected.SetRow(m_gridRelated->GetGridCursorRow());
+    m_historyCursor = m_history.insert(m_history.end(), state);
 }
 
 
@@ -75,7 +81,7 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
             size_t start;
             if (app->m_chr_db.idxChr.find(*(ZRCola::character_db::character*)chr, start)) {
                 const ZRCola::character_db::character &chr = app->m_chr_db.idxChr[start];
-                // Update characted rescription.
+                // Update characted description.
                 m_description->SetValue(wxString(chr.data, chr.desc_len));
                 {
                     char cc[sizeof(ZRCola::chrcat_db::chrcat)] = {};
@@ -95,7 +101,8 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
                 m_category->SetValue(wxEmptyString);
                 m_gridRelated->ClearGrid();
             }
-            m_gridRelated->Scroll(0, 0);
+
+            m_gridRelated->GoToCell(m_historyCursor->m_related.m_selected);
 
             wxGridCellCoords coord(m_gridResults->GetCharacterCoords(m_char));
             if (coord.GetRow() != -1 && coord.GetCol() != -1) {
@@ -212,12 +219,11 @@ void wxZRColaCharSelect::OnSearchComplete(wxThreadEvent& event)
 
 void wxZRColaCharSelect::OnResultSelectCell(wxGridEvent& event)
 {
+    if (m_unicodeChanged) return;
+
     wxString val(m_gridResults->GetCellValue(event.GetRow(), event.GetCol()));
-    wchar_t c = val.IsEmpty() ? 0 : val[0];
-    if (m_char != c) {
-        m_char = c;
-        m_unicode->GetValidator()->TransferToWindow();
-    }
+    if (!val.IsEmpty())
+        NavigateTo(val[0]);
 }
 
 
@@ -227,7 +233,7 @@ void wxZRColaCharSelect::OnResultCellDClick(wxGridEvent& event)
 
     wxString val(m_gridResults->GetCellValue(event.GetRow(), event.GetCol()));
     if (!val.IsEmpty()) {
-        m_char = val[0];
+        NavigateTo(val[0]);
         wxCommandEvent e(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
         m_sdbSizerButtonsOK->GetEventHandler()->ProcessEvent(e);
     }
@@ -241,7 +247,7 @@ void wxZRColaCharSelect::OnResultsKeyDown(wxKeyEvent& event)
     case WXK_NUMPAD_ENTER:
         wxString val(m_gridResults->GetCellValue(m_gridResults->GetCursorRow(), m_gridResults->GetCursorColumn()));
         if (!val.IsEmpty()) {
-            m_char = val[0];
+            NavigateTo(val[0]);
             wxCommandEvent e(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
             m_sdbSizerButtonsOK->GetEventHandler()->ProcessEvent(e);
 
@@ -256,9 +262,11 @@ void wxZRColaCharSelect::OnResultsKeyDown(wxKeyEvent& event)
 
 void wxZRColaCharSelect::OnRecentSelectCell(wxGridEvent& event)
 {
+    if (m_unicodeChanged) return;
+
     wxString val(m_gridRecent->GetCellValue(event.GetRow(), event.GetCol()));
-    m_char = val.IsEmpty() ? 0 : val[0];
-    m_unicode->GetValidator()->TransferToWindow();
+    if (!val.IsEmpty())
+        NavigateTo(val[0]);
 }
 
 
@@ -268,7 +276,7 @@ void wxZRColaCharSelect::OnRecentCellDClick(wxGridEvent& event)
 
     wxString val(m_gridRecent->GetCellValue(event.GetRow(), event.GetCol()));
     if (!val.IsEmpty()) {
-        m_char = val[0];
+        NavigateTo(val[0]);
         wxCommandEvent e(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
         m_sdbSizerButtonsOK->GetEventHandler()->ProcessEvent(e);
     }
@@ -282,7 +290,7 @@ void wxZRColaCharSelect::OnRecentKeyDown(wxKeyEvent& event)
     case WXK_NUMPAD_ENTER:
         wxString val(m_gridRecent->GetCellValue(m_gridRecent->GetCursorRow(), m_gridRecent->GetCursorColumn()));
         if (!val.IsEmpty()) {
-            m_char = val[0];
+            NavigateTo(val[0]);
             wxCommandEvent e(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
             m_sdbSizerButtonsOK->GetEventHandler()->ProcessEvent(e);
 
@@ -295,19 +303,38 @@ void wxZRColaCharSelect::OnRecentKeyDown(wxKeyEvent& event)
 }
 
 
-void wxZRColaCharSelect::OnRelatedSelectCell(wxGridEvent& event)
-{
-    wxString val(m_gridRelated->GetCellValue(event.GetRow(), event.GetCol()));
-    m_char = val.IsEmpty() ? 0 : val[0];
-    m_unicode->GetValidator()->TransferToWindow();
-}
-
-
 void wxZRColaCharSelect::OnUnicodeText(wxCommandEvent& event)
 {
     event.Skip();
 
     m_unicodeChanged = true;
+}
+
+
+void wxZRColaCharSelect::OnNavigateBack(wxHyperlinkEvent& event)
+{
+    event.StopPropagation();
+
+    NavigateBy(-1);
+}
+
+
+void wxZRColaCharSelect::OnNavigateForward(wxHyperlinkEvent& event)
+{
+    event.StopPropagation();
+
+    NavigateBy(+1);
+}
+
+
+
+void wxZRColaCharSelect::OnRelatedSelectCell(wxGridEvent& event)
+{
+    if (m_unicodeChanged) return;
+
+    wxString val(m_gridRelated->GetCellValue(event.GetRow(), event.GetCol()));
+    if (!val.IsEmpty())
+        NavigateTo(val[0]);
 }
 
 
@@ -342,6 +369,73 @@ void wxZRColaCharSelect::ResetResults()
             val += chr.chr;
     }
     m_gridResults->SetCharacters(val);
+}
+
+
+void wxZRColaCharSelect::NavigateBy(int offset)
+{
+    if (offset != 0) {
+        // Update history state
+        m_historyCursor->m_related.m_selected.SetCol(m_gridRelated->GetGridCursorCol());
+        m_historyCursor->m_related.m_selected.SetRow(m_gridRelated->GetGridCursorRow());
+
+        if (offset < 0) {
+            while (m_historyCursor != m_history.begin() && offset) {
+                --m_historyCursor; offset++;
+                m_char = m_historyCursor->m_char;
+                m_unicodeChanged = true;
+            }
+        } else {
+            while (offset) {
+                ++m_historyCursor;
+                if (m_historyCursor == m_history.end()) {
+                    // We're past the last history entry.
+                    --m_historyCursor;
+                    break;
+                }
+                offset--;
+                m_char = m_historyCursor->m_char;
+                m_unicodeChanged = true;
+            }
+        }
+
+        m_navigateBack->Enable(m_historyCursor != m_history.begin());
+        std::list<NavigationState>::iterator cursor_next(m_historyCursor);
+        ++cursor_next;
+        m_navigateForward->Enable(cursor_next != m_history.end());
+
+        if (m_unicodeChanged)
+            m_unicode->GetValidator()->TransferToWindow();
+    }
+}
+
+
+void wxZRColaCharSelect::NavigateTo(wchar_t c)
+{
+    if (m_char != c) {
+        // Update history state
+        m_historyCursor->m_related.m_selected.SetCol(m_gridRelated->GetGridCursorCol());
+        m_historyCursor->m_related.m_selected.SetRow(m_gridRelated->GetGridCursorRow());
+
+        ++m_historyCursor;
+
+        // Create new state.
+        NavigationState state;
+        state.m_char = m_char = c;
+        state.m_related.m_selected.SetCol(0);
+        state.m_related.m_selected.SetRow(0);
+        m_historyCursor = m_history.insert(m_historyCursor, state);
+
+        // Purge the history's tail.
+        std::list<NavigationState>::iterator cursor_next(m_historyCursor);
+        ++cursor_next;
+        m_history.erase(cursor_next, m_history.end());
+
+        m_unicode->GetValidator()->TransferToWindow();
+
+        m_navigateBack->Enable(true);
+        m_navigateForward->Enable(false);
+    }
 }
 
 

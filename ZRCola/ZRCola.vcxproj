@@ -126,6 +126,8 @@
     <None Include="res\edit_copy.ico" />
     <None Include="res\edit_cut.ico" />
     <None Include="res\edit_paste.ico" />
+    <None Include="res\navigate_back.ico" />
+    <None Include="res\navigate_forward.ico" />
     <None Include="res\send_abort.ico" />
     <None Include="res\send_composed.ico" />
     <None Include="res\send_decomposed.ico" />

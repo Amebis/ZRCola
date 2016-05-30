@@ -125,6 +125,12 @@
     <None Include="locale\ZRCola.pot">
       <Filter>Resource Files\Localization</Filter>
     </None>
+    <None Include="res\navigate_back.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\navigate_forward.ico">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZRCola.rc">

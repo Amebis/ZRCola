@@ -32,6 +32,7 @@ class wxPersistentZRColaCharSelect;
 #include <wxex/persist/dialog.h>
 #include <wx/event.h>
 #include <wx/thread.h>
+#include <list>
 #include <map>
 
 
@@ -64,11 +65,15 @@ protected:
     virtual void OnRecentSelectCell(wxGridEvent& event);
     virtual void OnRecentCellDClick(wxGridEvent& event);
     virtual void OnRecentKeyDown(wxKeyEvent& event);
-    virtual void OnRelatedSelectCell(wxGridEvent& event);
+    virtual void OnNavigateBack(wxHyperlinkEvent& event);
+    virtual void OnNavigateForward(wxHyperlinkEvent& event);
     virtual void OnUnicodeText(wxCommandEvent& event);
+    virtual void OnRelatedSelectCell(wxGridEvent& event);
     virtual void OnOKButtonClick(wxCommandEvent& event);
 
     void ResetResults();
+    void NavigateBy(int offset);
+    void NavigateTo(wchar_t c);
 
 public:
     wchar_t m_char;                                 ///< Currently selected character (0 when none)
@@ -100,6 +105,20 @@ protected:
     protected:
         wxZRColaCharSelect *m_parent;               ///< Thread owner
     } *m_searchThread;                              ///< Search thread
+
+
+    ///
+    /// Navigation state
+    ///
+    struct NavigationState
+    {
+        wchar_t m_char;
+        struct {
+            wxGridCellCoords m_selected;
+        } m_related;
+    };
+    std::list<NavigationState> m_history;                   ///< Navigation history
+    std::list<NavigationState>::iterator m_historyCursor;   ///< Navigation history cursor
 };
 
 

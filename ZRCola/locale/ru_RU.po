@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-05-26 17:15+0200\n"
-"PO-Revision-Date: 2016-05-26 17:15+0200\n"
+"POT-Creation-Date: 2016-05-27 09:31+0200\n"
+"PO-Revision-Date: 2016-05-27 09:31+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: ru_RU\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "© 2004-%s ZRC SAZU"
 msgstr ""
 
-#: zrcolaapp.cpp:79 zrcolafrm.cpp:86 zrcolagui.cpp:781 zrcolagui.h:102
+#: zrcolaapp.cpp:79 zrcolafrm.cpp:86 zrcolagui.cpp:809 zrcolagui.h:102
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
@@ -190,7 +190,7 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: zrcolagui.cpp:170 zrcolagui.h:232
+#: zrcolagui.cpp:170 zrcolagui.h:236
 msgid "Character Selector"
 msgstr ""
 
@@ -234,89 +234,117 @@ msgstr ""
 msgid "&Browse"
 msgstr ""
 
-#: zrcolagui.cpp:423
+#: zrcolagui.cpp:427
 #, fuzzy
 msgid "All"
 msgstr "Alt"
 
-#: zrcolagui.cpp:426
+#: zrcolagui.cpp:428
+msgid "Select all categories"
+msgstr ""
+
+#: zrcolagui.cpp:432
 msgid "None"
 msgstr ""
 
-#: zrcolagui.cpp:429
+#: zrcolagui.cpp:433
+msgid "Clear category selection"
+msgstr ""
+
+#: zrcolagui.cpp:437
 msgid "Invert"
 msgstr ""
 
-#: zrcolagui.cpp:474
+#: zrcolagui.cpp:438
+msgid "Invert category selection"
+msgstr ""
+
+#: zrcolagui.cpp:480
 msgid "Re&cently Used"
 msgstr ""
 
-#: zrcolagui.cpp:515
+#: zrcolagui.cpp:521
 msgid "Preview"
 msgstr ""
 
-#: zrcolagui.cpp:520
+#: zrcolagui.cpp:526
 msgid "U+"
 msgstr ""
 
-#: zrcolagui.cpp:571
+#: zrcolagui.cpp:576
+msgid "« Back"
+msgstr ""
+
+#: zrcolagui.cpp:578
+msgid "To previously viewed character"
+msgstr ""
+
+#: zrcolagui.cpp:582
+msgid "Forward »"
+msgstr ""
+
+#: zrcolagui.cpp:584
+msgid "To following viewed character"
+msgstr ""
+
+#: zrcolagui.cpp:595
 msgid "Re&lated"
 msgstr ""
 
-#: zrcolagui.cpp:677
+#: zrcolagui.cpp:705
 msgid ""
 "Some character native to specific language you are working with should not "
 "decompose to primitives.\n"
 "For optimal decomposition you should set the language correctly."
 msgstr ""
 
-#: zrcolagui.cpp:681
+#: zrcolagui.cpp:709
 msgid "Select language &automatically according to selected keyboard"
 msgstr ""
 
-#: zrcolagui.cpp:684
+#: zrcolagui.cpp:712
 msgid "&Manually select the language from the list below:"
 msgstr ""
 
-#: zrcolagui.cpp:696
+#: zrcolagui.cpp:724
 msgid "Text Language"
 msgstr ""
 
-#: zrcolagui.cpp:701
+#: zrcolagui.cpp:729
 msgid ""
 "ZRCola can be launched every time you log in to your computer.\n"
 "It will be available on the system tray and via registered shortcuts Win+F5 "
 "and Win+F6."
 msgstr ""
 
-#: zrcolagui.cpp:705
+#: zrcolagui.cpp:733
 msgid "Start ZRCola &automatically on logon"
 msgstr ""
 
-#: zrcolagui.cpp:712
+#: zrcolagui.cpp:740
 msgid "Startup"
 msgstr ""
 
-#: zrcolagui.cpp:791
+#: zrcolagui.cpp:819
 msgid ""
 "Editor: Janoš Ježovnik\n"
 "Development: Amebis d. o. o.\n"
 "Development and maintenance (2004-2015): dr. Peter Weiss"
 msgstr ""
 
-#: zrcolagui.cpp:799
+#: zrcolagui.cpp:827
 msgid "www.zrc-sazu.si"
 msgstr ""
 
-#: zrcolagui.cpp:838
+#: zrcolagui.cpp:866
 msgid "Log"
 msgstr ""
 
-#: zrcolagui.cpp:854
+#: zrcolagui.cpp:882
 msgid "&Update"
 msgstr ""
 
-#: zrcolagui.cpp:859
+#: zrcolagui.cpp:887
 msgid "&Close"
 msgstr ""
 
@@ -330,15 +358,15 @@ msgstr ""
 msgid "Start ZRCola automatically on logon"
 msgstr ""
 
-#: zrcolagui.h:269
+#: zrcolagui.h:273
 msgid "Settings"
 msgstr ""
 
-#: zrcolagui.h:293
+#: zrcolagui.h:297
 msgid "About ZRCola"
 msgstr ""
 
-#: zrcolagui.h:316
+#: zrcolagui.h:320
 msgid "Product Update"
 msgstr ""
 
