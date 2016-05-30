@@ -35,6 +35,17 @@ ZRCola::DBSource::character_bank::character_bank() : vector<unique_ptr<ZRCola::D
 
 void ZRCola::DBSource::character_bank::build_related()
 {
+    // Initialize ignore list.
+    m_ignore.insert(L"letter");
+    m_ignore.insert(L"modifier");
+    m_ignore.insert(L"symbol");
+    m_ignore.insert(L"accent");
+    m_ignore.insert(L"with");
+    m_ignore.insert(L"and");
+    m_ignore.insert(L"capital");
+    m_ignore.insert(L"small");
+    m_ignore.insert(L"combining");
+
     SYSTEM_INFO si;
     GetSystemInfo(&si);
 
@@ -59,8 +70,9 @@ void ZRCola::DBSource::character_bank::build_related()
 }
 
 
-ZRCola::DBSource::character_bank::build_related_worker::build_related_worker(_In_ character_bank *cb, _In_ size_type from, _In_ size_type to) :
+ZRCola::DBSource::character_bank::build_related_worker::build_related_worker(_In_ const character_bank *cb, _In_ size_type from, _In_ size_type to) :
     thread_type((HANDLE)_beginthreadex(NULL, 0, process, this, CREATE_SUSPENDED, NULL)),
+    m_heap(HeapCreate(0, 0, 0)),
     m_cb(cb),
     m_from(from),
     m_to(to)
@@ -70,9 +82,18 @@ ZRCola::DBSource::character_bank::build_related_worker::build_related_worker(_In
 }
 
 
+ZRCola::DBSource::character_bank::build_related_worker::~build_related_worker()
+{
+    assert(m_heap);
+    HeapDestroy(m_heap);
+}
+
+
 unsigned int ZRCola::DBSource::character_bank::build_related_worker::process()
 {
-    wstring rel;
+    heap_allocator<wchar_t> al(m_heap);
+    basic_string<wchar_t, char_traits<wchar_t>, heap_allocator<wchar_t> > rel(al);
+    set<wstring, less<wstring>, heap_allocator<wstring> > matching(less<wstring>(), al);
 
     for (size_type i = m_from; i < m_to; i++) {
         ZRCola::DBSource::character &chr = *(m_cb->at(i).get());
@@ -89,19 +110,34 @@ unsigned int ZRCola::DBSource::character_bank::build_related_worker::process()
 
         // Add all characters that share enought keywords.
         for (size_type j = 0, j_end = m_cb->size(); j < j_end; j++) {
-            if (i == j) continue;
+            if (i == j || rel.find((wchar_t)j) != wstring::npos)
+                continue;
             const ZRCola::DBSource::character &chr2 = *(m_cb->at(j).get());
-            if (&chr2 == NULL) continue;
+            if (&chr2 == NULL)
+                continue;
 
-            std::list<std::wstring>::size_type matching = 0;
-            for (std::list<std::wstring>::const_iterator term = chr.terms.cbegin(), term_end = chr.terms.cend(); term != term_end; ++term)
-                for (std::list<std::wstring>::const_iterator term2 = chr2.terms.cbegin(), term2_end = chr2.terms.cend(); term2 != term2_end; ++term2)
+            set<wstring>::size_type comparisons = 0;
+            matching.clear();
+            for (set<wstring>::const_iterator term = chr.terms.cbegin(), term_end = chr.terms.cend(); term != term_end; ++term) {
+                // Test for ignored word(s).
+                if (m_cb->m_ignore.find(*term) != m_cb->m_ignore.cend())
+                    continue;
+                for (set<wstring>::const_iterator term2 = chr2.terms.cbegin(), term2_end = chr2.terms.cend(); term2 != term2_end; ++term2) {
+                    // Test for ignored word(s).
+                    if (m_cb->m_ignore.find(*term2) != m_cb->m_ignore.cend())
+                        continue;
+                    comparisons++;
                     if (*term == *term2)
-                        matching++;
+                        matching.insert(*term);
+                }
+            }
 
-            // If 7/8 terms match, assume related.
-            if (matching*8 > std::min<std::list<std::wstring>::size_type>(chr.terms.size(), chr2.terms.size())*7)
-                rel += chr2.chr;
+            if (comparisons) {
+                // If 1/2 terms match, assume related.
+                set<wstring>::size_type hits = matching.size();
+                if (hits*hits*2 >= comparisons)
+                    rel += chr2.chr;
+            }
         }
 
         chr.rel.assign(rel.c_str(), rel.length());
@@ -121,7 +157,7 @@ unsigned int __stdcall ZRCola::DBSource::character_bank::build_related_worker::p
 // ZRCola::DBSource::character_desc_idx
 //////////////////////////////////////////////////////////////////////////
 
-void ZRCola::DBSource::character_desc_idx::parse_keywords(const wchar_t *str, list<wstring> &terms)
+void ZRCola::DBSource::character_desc_idx::parse_keywords(const wchar_t *str, set<wstring> &terms)
 {
     wxASSERT_MSG(str, wxT("string is NULL"));
 
@@ -161,15 +197,15 @@ void ZRCola::DBSource::character_desc_idx::parse_keywords(const wchar_t *str, li
 
         if (!term.empty()) {
             transform(term.begin(), term.end(), term.begin(), towlower);
-            terms.push_back(term);
+            terms.insert(term);
         }
     }
 }
 
 
-void ZRCola::DBSource::character_desc_idx::add_keywords(const std::list<std::wstring> &terms, wchar_t chr, size_t sub)
+void ZRCola::DBSource::character_desc_idx::add_keywords(const set<wstring> &terms, wchar_t chr, size_t sub)
 {
-    for (list<wstring>::const_iterator term = terms.cbegin(), term_end = terms.cend(); term != term_end; ++term) {
+    for (set<wstring>::const_iterator term = terms.cbegin(), term_end = terms.cend(); term != term_end; ++term) {
         if (sub) {
             wstring::size_type j_end = term->size();
             if (j_end >= sub) {

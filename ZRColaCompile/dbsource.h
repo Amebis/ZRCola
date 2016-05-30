@@ -24,9 +24,9 @@
 
 #include <atlbase.h>
 #include <adoint.h>
-#include <list>
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -155,7 +155,7 @@ namespace ZRCola {
             wchar_t chr;                    ///< Character
             ZRCola::chrcatid_t cat;         ///< Category ID
             std::wstring desc;              ///< Character description
-            std::list<std::wstring> terms;  ///< Search terms
+            std::set<std::wstring> terms;   ///< Search terms
             std::wstring rel;               ///< Related characters
         };
 
@@ -176,7 +176,8 @@ namespace ZRCola {
                 typedef std::unique_ptr<void, stdex::CloseHandle_delete<void> > thread_type;
 
             public:
-                build_related_worker(_In_ character_bank *cb, _In_ size_type from, _In_ size_type to);
+                build_related_worker(_In_ const character_bank *cb, _In_ size_type from, _In_ size_type to);
+                virtual ~build_related_worker();
 
                 inline void join()
                 {
@@ -197,9 +198,13 @@ namespace ZRCola {
                 static unsigned int __stdcall process(_In_ void *param);
 
             protected:
-                character_bank *m_cb;
+                const character_bank *m_cb;
                 size_type m_from, m_to;
+                HANDLE m_heap;
             };
+
+        protected:
+            std::set<std::wstring> m_ignore;
         };
 
 
@@ -229,11 +234,11 @@ namespace ZRCola {
         class character_desc_idx : public std::map<std::wstring, std::vector<wchar_t>, character_desc_idx_less>
         {
         public:
-            static void parse_keywords(const wchar_t *str, std::list<std::wstring> &terms);
-            void add_keywords(const std::list<std::wstring> &terms, wchar_t chr, size_t sub = 0);
+            static void parse_keywords(const wchar_t *str, std::set<std::wstring> &terms);
+            void add_keywords(const std::set<std::wstring> &terms, wchar_t chr, size_t sub = 0);
             inline void add_keywords(const wchar_t *str, wchar_t chr, size_t sub = 0)
             {
-                std::list<std::wstring> terms;
+                std::set<std::wstring> terms;
                 parse_keywords(str, terms);
                 add_keywords(terms, chr, sub);
             }
