@@ -533,7 +533,7 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	
 	sbSizerPreview->Add( bSizerUnicode, 0, wxALIGN_CENTER|wxALL, 5 );
 	
-	m_gridPreview = new wxGrid( sbSizerPreview->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSTATIC_BORDER );
+	m_gridPreview = new wxGrid( sbSizerPreview->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSTATIC_BORDER|wxTAB_TRAVERSAL );
 	
 	// Grid
 	m_gridPreview->CreateGrid( 1, 1 );
@@ -661,6 +661,7 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	m_gridRecent->Connect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( wxZRColaCharSelectBase::OnRecentSelectCell ), NULL, this );
 	m_gridRecent->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( wxZRColaCharSelectBase::OnRecentKeyDown ), NULL, this );
 	m_unicode->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaCharSelectBase::OnUnicodeText ), NULL, this );
+	m_gridPreview->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( wxZRColaCharSelectBase::OnPreviewKeyDown ), NULL, this );
 	m_navigateBack->Connect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnNavigateBack ), NULL, this );
 	m_navigateForward->Connect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnNavigateForward ), NULL, this );
 	m_gridRelated->Connect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( wxZRColaCharSelectBase::OnRelatedSelectCell ), NULL, this );
@@ -683,6 +684,7 @@ wxZRColaCharSelectBase::~wxZRColaCharSelectBase()
 	m_gridRecent->Disconnect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( wxZRColaCharSelectBase::OnRecentSelectCell ), NULL, this );
 	m_gridRecent->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( wxZRColaCharSelectBase::OnRecentKeyDown ), NULL, this );
 	m_unicode->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaCharSelectBase::OnUnicodeText ), NULL, this );
+	m_gridPreview->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( wxZRColaCharSelectBase::OnPreviewKeyDown ), NULL, this );
 	m_navigateBack->Disconnect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnNavigateBack ), NULL, this );
 	m_navigateForward->Disconnect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnNavigateForward ), NULL, this );
 	m_gridRelated->Disconnect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( wxZRColaCharSelectBase::OnRelatedSelectCell ), NULL, this );

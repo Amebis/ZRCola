@@ -225,6 +225,7 @@ class wxZRColaCharSelectBase : public wxDialog
 		virtual void OnRecentSelectCell( wxGridEvent& event ) { event.Skip(); }
 		virtual void OnRecentKeyDown( wxKeyEvent& event ) { event.Skip(); }
 		virtual void OnUnicodeText( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnPreviewKeyDown( wxKeyEvent& event ) { event.Skip(); }
 		virtual void OnNavigateBack( wxHyperlinkEvent& event ) { event.Skip(); }
 		virtual void OnNavigateForward( wxHyperlinkEvent& event ) { event.Skip(); }
 		virtual void OnRelatedSelectCell( wxGridEvent& event ) { event.Skip(); }

@@ -311,6 +311,23 @@ void wxZRColaCharSelect::OnUnicodeText(wxCommandEvent& event)
 }
 
 
+void wxZRColaCharSelect::OnPreviewKeyDown(wxKeyEvent& event)
+{
+    int key_code = event.GetKeyCode();
+    if (key_code == WXK_TAB != NULL) {
+        wxNavigationKeyEvent eventNav;
+        eventNav.SetDirection(!event.ShiftDown());
+        eventNav.SetWindowChange(event.ControlDown());
+        eventNav.SetEventObject(this);
+
+        if (HandleWindowEvent(eventNav))
+            return;
+    }
+
+    event.Skip();
+}
+
+
 void wxZRColaCharSelect::OnNavigateBack(wxHyperlinkEvent& event)
 {
     event.StopPropagation();

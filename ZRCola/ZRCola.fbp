@@ -3388,7 +3388,7 @@
                                                 <event name="OnGridRangeSelect"></event>
                                                 <event name="OnGridRowSize"></event>
                                                 <event name="OnGridSelectCell"></event>
-                                                <event name="OnKeyDown"></event>
+                                                <event name="OnKeyDown">OnPreviewKeyDown</event>
                                                 <event name="OnKeyUp"></event>
                                                 <event name="OnKillFocus"></event>
                                                 <event name="OnLeaveWindow"></event>

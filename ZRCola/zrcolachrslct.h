@@ -68,6 +68,7 @@ protected:
     virtual void OnNavigateBack(wxHyperlinkEvent& event);
     virtual void OnNavigateForward(wxHyperlinkEvent& event);
     virtual void OnUnicodeText(wxCommandEvent& event);
+    virtual void OnPreviewKeyDown(wxKeyEvent& event);
     virtual void OnRelatedSelectCell(wxGridEvent& event);
     virtual void OnOKButtonClick(wxCommandEvent& event);
 
