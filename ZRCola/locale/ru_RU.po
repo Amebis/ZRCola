@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-05-27 09:31+0200\n"
-"PO-Revision-Date: 2016-05-27 09:31+0200\n"
+"POT-Creation-Date: 2016-05-31 08:29+0200\n"
+"PO-Revision-Date: 2016-05-31 08:29+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: ru_RU\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "© 2004-%s ZRC SAZU"
 msgstr ""
 
-#: zrcolaapp.cpp:79 zrcolafrm.cpp:86 zrcolagui.cpp:809 zrcolagui.h:102
+#: zrcolaapp.cpp:79 zrcolafrm.cpp:86 zrcolagui.cpp:831 zrcolagui.h:102
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
@@ -190,7 +190,7 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: zrcolagui.cpp:170 zrcolagui.h:236
+#: zrcolagui.cpp:170 zrcolagui.h:238
 msgid "Character Selector"
 msgstr ""
 
@@ -234,117 +234,161 @@ msgstr ""
 msgid "&Browse"
 msgstr ""
 
-#: zrcolagui.cpp:427
+#: zrcolagui.cpp:418
+msgid ""
+"Full or partial terms from Unicode character description (in English) to "
+"search for"
+msgstr ""
+
+#: zrcolagui.cpp:424
+msgid "List of Unicode character categories to search in"
+msgstr ""
+
+#: zrcolagui.cpp:431
 #, fuzzy
 msgid "All"
 msgstr "Alt"
 
-#: zrcolagui.cpp:428
+#: zrcolagui.cpp:432
 msgid "Select all categories"
 msgstr ""
 
-#: zrcolagui.cpp:432
+#: zrcolagui.cpp:436
 msgid "None"
 msgstr ""
 
-#: zrcolagui.cpp:433
+#: zrcolagui.cpp:437
 msgid "Clear category selection"
 msgstr ""
 
-#: zrcolagui.cpp:437
+#: zrcolagui.cpp:441
 msgid "Invert"
 msgstr ""
 
-#: zrcolagui.cpp:438
+#: zrcolagui.cpp:442
 msgid "Invert category selection"
 msgstr ""
 
-#: zrcolagui.cpp:480
+#: zrcolagui.cpp:475
+#, fuzzy
+msgid "Character search results"
+msgstr "Skupine &znakov"
+
+#: zrcolagui.cpp:485
 msgid "Re&cently Used"
 msgstr ""
 
-#: zrcolagui.cpp:521
+#: zrcolagui.cpp:513
+msgid "List of recently inserted characters"
+msgstr ""
+
+#: zrcolagui.cpp:527
 msgid "Preview"
 msgstr ""
 
-#: zrcolagui.cpp:526
+#: zrcolagui.cpp:532
 msgid "U+"
 msgstr ""
 
-#: zrcolagui.cpp:576
+#: zrcolagui.cpp:537
+msgid "Unicode hexadecimal code"
+msgstr ""
+
+#: zrcolagui.cpp:542
+msgid "Keyboard shortcut in Composer window"
+msgstr ""
+
+#: zrcolagui.cpp:577
+#, fuzzy
+msgid "Character preview"
+msgstr "Skupine &znakov"
+
+#: zrcolagui.cpp:582
+msgid "Unicode character description"
+msgstr ""
+
+#: zrcolagui.cpp:587
+msgid "Unicode character category"
+msgstr ""
+
+#: zrcolagui.cpp:594
 msgid "« Back"
 msgstr ""
 
-#: zrcolagui.cpp:578
+#: zrcolagui.cpp:596
 msgid "To previously viewed character"
 msgstr ""
 
-#: zrcolagui.cpp:582
+#: zrcolagui.cpp:600
 msgid "Forward »"
 msgstr ""
 
-#: zrcolagui.cpp:584
+#: zrcolagui.cpp:602
 msgid "To following viewed character"
 msgstr ""
 
-#: zrcolagui.cpp:595
+#: zrcolagui.cpp:613
 msgid "Re&lated"
 msgstr ""
 
-#: zrcolagui.cpp:705
+#: zrcolagui.cpp:640
+msgid "List of related characters"
+msgstr ""
+
+#: zrcolagui.cpp:727
 msgid ""
 "Some character native to specific language you are working with should not "
 "decompose to primitives.\n"
 "For optimal decomposition you should set the language correctly."
 msgstr ""
 
-#: zrcolagui.cpp:709
+#: zrcolagui.cpp:731
 msgid "Select language &automatically according to selected keyboard"
 msgstr ""
 
-#: zrcolagui.cpp:712
+#: zrcolagui.cpp:734
 msgid "&Manually select the language from the list below:"
 msgstr ""
 
-#: zrcolagui.cpp:724
+#: zrcolagui.cpp:746
 msgid "Text Language"
 msgstr ""
 
-#: zrcolagui.cpp:729
+#: zrcolagui.cpp:751
 msgid ""
 "ZRCola can be launched every time you log in to your computer.\n"
 "It will be available on the system tray and via registered shortcuts Win+F5 "
 "and Win+F6."
 msgstr ""
 
-#: zrcolagui.cpp:733
+#: zrcolagui.cpp:755
 msgid "Start ZRCola &automatically on logon"
 msgstr ""
 
-#: zrcolagui.cpp:740
+#: zrcolagui.cpp:762
 msgid "Startup"
 msgstr ""
 
-#: zrcolagui.cpp:819
+#: zrcolagui.cpp:841
 msgid ""
 "Editor: Janoš Ježovnik\n"
 "Development: Amebis d. o. o.\n"
 "Development and maintenance (2004-2015): dr. Peter Weiss"
 msgstr ""
 
-#: zrcolagui.cpp:827
+#: zrcolagui.cpp:849
 msgid "www.zrc-sazu.si"
 msgstr ""
 
-#: zrcolagui.cpp:866
+#: zrcolagui.cpp:888
 msgid "Log"
 msgstr ""
 
-#: zrcolagui.cpp:882
+#: zrcolagui.cpp:904
 msgid "&Update"
 msgstr ""
 
-#: zrcolagui.cpp:887
+#: zrcolagui.cpp:909
 msgid "&Close"
 msgstr ""
 
@@ -358,15 +402,15 @@ msgstr ""
 msgid "Start ZRCola automatically on logon"
 msgstr ""
 
-#: zrcolagui.h:273
+#: zrcolagui.h:275
 msgid "Settings"
 msgstr ""
 
-#: zrcolagui.h:297
+#: zrcolagui.h:299
 msgid "About ZRCola"
 msgstr ""
 
-#: zrcolagui.h:320
+#: zrcolagui.h:322
 msgid "Product Update"
 msgstr ""
 

@@ -415,10 +415,14 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	m_search->ShowSearchButton( true );
 	#endif
 	m_search->ShowCancelButton( true );
+	m_search->SetToolTip( _("Full or partial terms from Unicode character description (in English) to search for") );
+	
 	sbSizerBrowse->Add( m_search, 0, wxALL|wxEXPAND, 5 );
 	
 	wxArrayString m_categoriesChoices;
 	m_categories = new wxCheckListBox( sbSizerBrowse->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( -1,60 ), m_categoriesChoices, 0 );
+	m_categories->SetToolTip( _("List of Unicode character categories to search in") );
+	
 	sbSizerBrowse->Add( m_categories, 0, wxALL|wxEXPAND, 5 );
 	
 	wxBoxSizer* bSizerCategoriesCtrl;
@@ -468,6 +472,7 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	m_gridResults->SetDefaultCellFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
 	m_gridResults->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	m_gridResults->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 90, false, wxEmptyString ) );
+	m_gridResults->SetToolTip( _("Character search results") );
 	m_gridResults->SetMinSize( wxSize( 560,35 ) );
 	m_gridResults->SetMaxSize( wxSize( 560,-1 ) );
 	
@@ -505,6 +510,7 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	m_gridRecent->SetDefaultCellFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
 	m_gridRecent->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	m_gridRecent->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 90, false, wxEmptyString ) );
+	m_gridRecent->SetToolTip( _("List of recently inserted characters") );
 	
 	sbSizerRecent->Add( m_gridRecent, 0, wxALL|wxEXPAND, 5 );
 	
@@ -525,15 +531,22 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	
 	m_labelUnicode = new wxStaticText( sbSizerPreview->GetStaticBox(), wxID_ANY, _("U+"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_labelUnicode->Wrap( -1 );
-	bSizerUnicode->Add( m_labelUnicode, 0, wxALIGN_CENTER, 5 );
+	bSizerUnicode->Add( m_labelUnicode, 0, wxALIGN_CENTER|wxBOTTOM|wxLEFT|wxTOP, 5 );
 	
 	m_unicode = new wxTextCtrl( sbSizerPreview->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 50,-1 ), 0 );
-	bSizerUnicode->Add( m_unicode, 0, wxALIGN_CENTER, 5 );
+	m_unicode->SetToolTip( _("Unicode hexadecimal code") );
+	
+	bSizerUnicode->Add( m_unicode, 0, wxALIGN_CENTER|wxBOTTOM|wxRIGHT|wxTOP, 5 );
+	
+	m_shortcut = new wxTextCtrl( sbSizerPreview->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_READONLY );
+	m_shortcut->SetToolTip( _("Keyboard shortcut in Composer window") );
+	
+	bSizerUnicode->Add( m_shortcut, 1, wxALL|wxEXPAND, 5 );
 	
 	
-	sbSizerPreview->Add( bSizerUnicode, 0, wxALIGN_CENTER|wxALL, 5 );
+	sbSizerPreview->Add( bSizerUnicode, 0, wxEXPAND, 5 );
 	
-	m_gridPreview = new wxGrid( sbSizerPreview->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSTATIC_BORDER|wxTAB_TRAVERSAL );
+	m_gridPreview = new wxGrid( sbSizerPreview->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSTATIC_BORDER );
 	
 	// Grid
 	m_gridPreview->CreateGrid( 1, 1 );
@@ -561,13 +574,18 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	m_gridPreview->SetDefaultCellFont( wxFont( 96, 70, 90, 90, false, wxT("00 ZRCola") ) );
 	m_gridPreview->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	m_gridPreview->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
+	m_gridPreview->SetToolTip( _("Character preview") );
 	
 	sbSizerPreview->Add( m_gridPreview, 0, wxALL|wxEXPAND, 5 );
 	
 	m_description = new wxTextCtrl( sbSizerPreview->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_MULTILINE|wxTE_READONLY );
+	m_description->SetToolTip( _("Unicode character description") );
+	
 	sbSizerPreview->Add( m_description, 1, wxALL|wxEXPAND, 5 );
 	
 	m_category = new wxTextCtrl( sbSizerPreview->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_READONLY );
+	m_category->SetToolTip( _("Unicode character category") );
+	
 	sbSizerPreview->Add( m_category, 0, wxALL|wxEXPAND, 5 );
 	
 	wxBoxSizer* bSizerNavigateButtons;
@@ -619,6 +637,8 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	// Cell Defaults
 	m_gridRelated->SetDefaultCellFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
 	m_gridRelated->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	m_gridRelated->SetToolTip( _("List of related characters") );
+	
 	sbSizerRelated->Add( m_gridRelated, 1, wxALL|wxEXPAND, 5 );
 	
 	

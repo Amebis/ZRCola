@@ -84,6 +84,21 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
                 // Update characted description.
                 m_description->SetValue(wxString(chr.data, chr.desc_len));
                 {
+                    // See if this character has a key sequence registered.
+                    ZRCola::keyseq_db::indexKey::size_type start;
+                    char ks[sizeof(ZRCola::keyseq_db::keyseq)] = {};
+                    ((ZRCola::keyseq_db::keyseq*)ks)->chr = m_char;
+                    if (app->m_ks_db.idxChr.find(*(ZRCola::keyseq_db::keyseq*)ks, start)) {
+                        ZRCola::keyseq_db::keyseq &seq = app->m_ks_db.idxChr[start];
+                        wxString ks_str;
+                        if (ZRCola::keyseq_db::GetSequenceAsText(seq.seq, seq.seq_len, ks_str))
+                            m_shortcut->SetValue(ks_str);
+                        else
+                            m_shortcut->SetValue(wxEmptyString);
+                    } else
+                        m_shortcut->SetValue(wxEmptyString);
+                }
+                {
                     char cc[sizeof(ZRCola::chrcat_db::chrcat)] = {};
                     ((ZRCola::chrcat_db::chrcat*)cc)->id = chr.cat;
                     size_t start;
@@ -98,6 +113,7 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
                 m_gridRelated->SetCharacters(wxString(chr.data + chr.desc_len, chr.rel_len));
             } else {
                 m_description->SetValue(wxEmptyString);
+                m_shortcut->SetValue(wxEmptyString);
                 m_category->SetValue(wxEmptyString);
                 m_gridRelated->ClearGrid();
             }
@@ -342,7 +358,6 @@ void wxZRColaCharSelect::OnNavigateForward(wxHyperlinkEvent& event)
 
     NavigateBy(+1);
 }
-
 
 
 void wxZRColaCharSelect::OnRelatedSelectCell(wxGridEvent& event)

@@ -201,6 +201,7 @@ class wxZRColaCharSelectBase : public wxDialog
 		wxZRColaCharGrid* m_gridRecent;
 		wxStaticText* m_labelUnicode;
 		wxTextCtrl* m_unicode;
+		wxTextCtrl* m_shortcut;
 		wxGrid* m_gridPreview;
 		wxTextCtrl* m_description;
 		wxTextCtrl* m_category;
