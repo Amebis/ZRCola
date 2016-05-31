@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-05-31 08:29+0200\n"
-"PO-Revision-Date: 2016-05-31 08:29+0200\n"
+"POT-Creation-Date: 2016-05-31 08:47+0200\n"
+"PO-Revision-Date: 2016-05-31 08:47+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: de_DE\n"
@@ -401,17 +401,30 @@ msgstr ""
 msgid "www.zrc-sazu.si"
 msgstr ""
 
-#: zrcolagui.cpp:888
+#: zrcolagui.cpp:855
+msgid ""
+"Texts made using ZRCola have to include in the colophon, foreword, footnote "
+"or some other appropriate part of the publication the note below:"
+msgstr ""
+
+#: zrcolagui.cpp:859
+msgid ""
+"This text was written using the ZRCola input system (http://zrcola.zrc-sazu."
+"si), developed at the Science and Research Centre of SAZU in Ljubljana "
+"(http://www.zrc-sazu.si) by Dr. Peter Weiss."
+msgstr ""
+
+#: zrcolagui.cpp:900
 #, fuzzy
 msgid "Log"
 msgstr "&Log"
 
-#: zrcolagui.cpp:904
+#: zrcolagui.cpp:916
 #, fuzzy
 msgid "&Update"
 msgstr "Kann Benutzer-Konfigurationsdatei nicht aktualisieren."
 
-#: zrcolagui.cpp:909
+#: zrcolagui.cpp:921
 #, fuzzy
 msgid "&Close"
 msgstr "&Schließen"
@@ -430,11 +443,11 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: zrcolagui.h:299
+#: zrcolagui.h:301
 msgid "About ZRCola"
 msgstr ""
 
-#: zrcolagui.h:322
+#: zrcolagui.h:324
 msgid "Product Update"
 msgstr ""
 

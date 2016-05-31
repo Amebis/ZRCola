@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola MSI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-13 19:27+0200\n"
+"POT-Creation-Date: 2016-05-31 10:09+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <simon.rozman@amebis.si>\n"
@@ -17,15 +17,23 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
 # wxLanguage enum value for this language (decimal, # prefixed)
-#: En.Win32.Release.Registry-2.idtx:4 En.x64.Release.Registry-2.idtx:4
+#: En.Win32.Debug.Registry-2.idtx:4 En.Win32.Release.Registry-2.idtx:4 En.x64.Debug.Registry-2.idtx:4 En.x64.Release.Registry-2.idtx:4
 msgid "#60"
 msgstr "#176"
+
+#: En.Win32.Debug.Control-2.idtx:11 En.Win32.Release.Control-2.idtx:11 En.x64.Debug.Control-2.idtx:11 En.x64.Release.Control-2.idtx:11
+msgid "&Continue"
+msgstr "&Nadaljuj"
+
+#: En.Win32.Debug.Control-2.idtx:6 En.Win32.Release.Control-2.idtx:6 En.x64.Debug.Control-2.idtx:6 En.x64.Release.Control-2.idtx:6
+msgid "[DlgTitleFont][SimpleProductName] Declaration"
+msgstr "[DlgTitleFont]Deklaracija [SimpleProductName]"
 
 # Licence Agreement
 # 1. Translate as a separate RTF document.
 # 2. Remove ALL line breaks from RTF file.
 # 3. Paste translation.
-#: En.Win32.Release.Control-2.idtx:4 En.x64.Release.Control-2.idtx:4
+#: En.Win32.Debug.Control-2.idtx:4 En.Win32.Release.Control-2.idtx:4 En.x64.Debug.Control-2.idtx:4 En.x64.Release.Control-2.idtx:4
 msgid ""
 "{\\rtf1\\adeflang1025\\ansi"
 "\\ansicpg1250\\uc1\\adeff0\\deff0\\stshfdbch31505\\stshfloch31506\\stshfhich31506\\stshfbi31507\\deflang1060\\deflangfe1060\themelang1060\themelangfe0\themelangcs0{\\fonttbl{\\f0\\fbidi "
@@ -1497,28 +1505,65 @@ msgstr ""
 "TOC Heading;}}{\\*\\datastore "
 "0105000002000000180000004d73786d6c322e534158584d4c5265616465722e362e3000000000000000000000060000d0cf11e0a1b11ae1000000000000000000000000000000003e000300feff090006000000000000000000000001000000010000000000000000100000feffffff00000000feffffff0000000000000000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdfffffffeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff52006f006f007400200045006e00740072007900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016000500ffffffffffffffffffffffff0c6ad98892f1d411a65f0040963251e5000000000000000000000000c0ef044c8850cf01feffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000105000000000000}}"
 
-#: En.Win32.Release.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5
+# Declaration
+# 1. Translate as a separate RTF document.
+# 2. Remove ALL line breaks from RTF file.
+# 3. Paste translation.
+#: En.Win32.Debug.Control-2.idtx:8 En.Win32.Release.Control-2.idtx:8 En.x64.Debug.Control-2.idtx:8 En.x64.Release.Control-2.idtx:8
+msgid ""
+"{\\rtf1\\ansi\\ansicpg1250\\deff0\\deflang1060\\deflangfe1060\\deftab708{\\fonttbl{\\f0\\fswiss\\fprq2\\fcharset238 Calibri;}{\\f1\\froman\\fprq2\\fcharset238{\\*\\fname Times New "
+"Roman;}Times New Roman CE;}}{\\colortbl ;\\red0\\green0\\blue255;}{\\*\\generator Msftedit 5.41.21.2510;}\\viewkind4\\uc1\\pard\\sa200\\sl276\\slmult1\\i\\f0\\fs22 This text was written "
+"using the ZRCola input system (http://zrcola.zrc-sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana (http://www.zrc-sazu.si) by Dr. Peter Weiss.\\f1\\par}"
+msgstr ""
+"{\\rtf1\\ansi\\ansicpg1250\\deff0\\deflang1060\\deflangfe1060\\deftab708{\\fonttbl{\\f0\\fswiss\\fprq2\\fcharset238 Calibri;}{\\f1\\froman\\fprq2\\fcharset238{\\*\\fname Times New "
+"Roman;}Times New Roman CE;}}{\\colortbl ;\\red0\\green0\\blue255;}{\\*\\generator Msftedit 5.41.21.2510;}\\viewkind4\\uc1\\pard\\sa200\\sl276\\slmult1\\i\\f0\\fs22 Besedilo je bilo "
+"pripravljeno z vna\\'9aalnim sistemom ZRCola (http://zrcola.zrc-sazu.si), ki ga je na Znanstvenoraziskovalnem centru SAZU v Ljubljani (http://www.zrc-sazu.si) razvil dr. Peter Weiss."
+"\\i0\\f1\\par}"
+
+#: En.Win32.Debug.Feature-2.idtx:5 En.Win32.Release.Feature-2.idtx:5 En.x64.Debug.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5
 msgid "00 ZRCola"
 msgstr "00 ZRCola"
 
 # Windows charset for this language (decimal)
-#: En.Win32.Release.Control-2.idtx:3 En.Win32.Release.Directory-2.idtx:3 En.Win32.Release.Feature-2.idtx:3 En.Win32.Release.Registry-2.idtx:3 En.x64.Release.Control-2.idtx:3
-#: En.x64.Release.Directory-2.idtx:3 En.x64.Release.Feature-2.idtx:3 En.x64.Release.Registry-2.idtx:3
+#: En.Win32.Debug.Control-2.idtx:3 En.Win32.Debug.Directory-2.idtx:3 En.Win32.Debug.Feature-2.idtx:3 En.Win32.Debug.Registry-2.idtx:3 En.Win32.Release.Control-2.idtx:3
+#: En.Win32.Release.Directory-2.idtx:3 En.Win32.Release.Feature-2.idtx:3 En.Win32.Release.Registry-2.idtx:3 En.x64.Debug.Control-2.idtx:3 En.x64.Debug.Directory-2.idtx:3
+#: En.x64.Debug.Feature-2.idtx:3 En.x64.Debug.Registry-2.idtx:3 En.x64.Release.Control-2.idtx:3 En.x64.Release.Directory-2.idtx:3 En.x64.Release.Feature-2.idtx:3
+#: En.x64.Release.Registry-2.idtx:3
 msgid "1252"
 msgstr "1250"
 
-#: En.Win32.Release.Feature-2.idtx:4 En.x64.Release.Feature-2.idtx:4
+#: En.Win32.Debug.Control-2.idtx:5 En.Win32.Release.Control-2.idtx:5 En.x64.Debug.Control-2.idtx:5 En.x64.Release.Control-2.idtx:5
+msgid "binUIHeader.bmp"
+msgstr "binUIHeader.bmp"
+
+#: En.Win32.Debug.Feature-2.idtx:4 En.Win32.Release.Feature-2.idtx:4 En.x64.Debug.Feature-2.idtx:4 En.x64.Release.Feature-2.idtx:4
 msgid "Fonts"
 msgstr "Pisave"
 
-#: En.Win32.Release.Feature-2.idtx:4 En.x64.Release.Feature-2.idtx:4
+#: En.Win32.Debug.Feature-2.idtx:4 En.Win32.Release.Feature-2.idtx:4 En.x64.Debug.Feature-2.idtx:4 En.x64.Release.Feature-2.idtx:4
 msgid "Fonts used by ZRCola"
 msgstr "Pisave, ki jih uporablja ZRCola"
 
-#: En.Win32.Release.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5
+#: En.Win32.Debug.Control-2.idtx:10 En.Win32.Release.Control-2.idtx:10 En.x64.Debug.Control-2.idtx:10 En.x64.Release.Control-2.idtx:10
+msgid "I &agree."
+msgstr "&Strinjam se."
+
+#: En.Win32.Debug.Control-2.idtx:9 En.Win32.Release.Control-2.idtx:9 En.x64.Debug.Control-2.idtx:9 En.x64.Release.Control-2.idtx:9
+msgid "Note: This declaration is also available in [SimpleProductName]'s about dialog or on its website."
+msgstr "Opomba: Ta deklaracija je na voljo tudi v dialogu vizitke [SimpleProductName] ali na spletni strani."
+
+#: En.Win32.Debug.Control-2.idtx:7 En.Win32.Release.Control-2.idtx:7 En.x64.Debug.Control-2.idtx:7 En.x64.Release.Control-2.idtx:7
+msgid "Texts made using ZRCola have to include in the colophon, foreword, footnote or some other appropriate part of the publication the note below:"
+msgstr "Besedilo, nastalo z uporabo ZRCole, mora biti v kolofonu, predgovoru, v opombi ali na drugem ustreznem mestu v publikaciji opremljeno z naslednjim zapisom:"
+
+#: En.Win32.Debug.Feature-2.idtx:5 En.Win32.Release.Feature-2.idtx:5 En.x64.Debug.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5
 msgid "Times New Roman based font"
 msgstr "Pisava na osnovi Times New Roman"
 
-#: En.Win32.Release.Directory-2.idtx:4 En.x64.Release.Directory-2.idtx:4
+#: En.Win32.Debug.Directory-2.idtx:4 En.Win32.Release.Directory-2.idtx:4 En.x64.Debug.Directory-2.idtx:4 En.x64.Release.Directory-2.idtx:4
 msgid "ZRCola:."
 msgstr "ZRCola:."
+
+#, fuzzy
+#~ msgid "Determining required space for installation..."
+#~ msgstr "Ugotavljanje potrebnega prostora za namestitev ..."

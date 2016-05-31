@@ -291,6 +291,8 @@ class wxZRColaAboutBase : public wxDialog
 		wxStaticText* m_staticTextColophone;
 		wxStaticText* m_staticTextCopyright;
 		wxHyperlinkCtrl* m_hyperlink;
+		wxStaticText* m_staticTextDeclaration;
+		wxTextCtrl* m_declaration;
 		wxStdDialogButtonSizer* m_sdbSizerButtons;
 		wxButton* m_sdbSizerButtonsOK;
 	

@@ -814,7 +814,7 @@ wxZRColaSettingsBase::~wxZRColaSettingsBase()
 
 wxZRColaAboutBase::wxZRColaAboutBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) : wxDialog( parent, id, title, pos, size, style, name )
 {
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	this->SetSizeHints( wxDefaultSize, wxSize( -1,-1 ) );
 	
 	wxBoxSizer* bSizerContent;
 	bSizerContent = new wxBoxSizer( wxVERTICAL );
@@ -848,6 +848,18 @@ wxZRColaAboutBase::wxZRColaAboutBase( wxWindow* parent, wxWindowID id, const wxS
 	
 	m_hyperlink = new wxHyperlinkCtrl( this, wxID_ANY, _("www.zrc-sazu.si"), wxT("http://www.zrc-sazu.si/"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
 	bSizerText->Add( m_hyperlink, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizerText->Add( 0, 10, 1, wxEXPAND, 5 );
+	
+	m_staticTextDeclaration = new wxStaticText( this, wxID_ANY, _("Texts made using ZRCola have to include in the colophon, foreword, footnote or some other appropriate part of the publication the note below:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticTextDeclaration->Wrap( 400 );
+	bSizerText->Add( m_staticTextDeclaration, 0, wxALL|wxEXPAND, 5 );
+	
+	m_declaration = new wxTextCtrl( this, wxID_ANY, _("This text was written using the ZRCola input system (http://zrcola.zrc-sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana (http://www.zrc-sazu.si) by Dr. Peter Weiss."), wxDefaultPosition, wxSize( -1,80 ), wxTE_MULTILINE|wxTE_READONLY );
+	m_declaration->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 93, 90, false, wxEmptyString ) );
+	
+	bSizerText->Add( m_declaration, 0, wxALL|wxEXPAND, 5 );
 	
 	
 	bSizerColumns->Add( bSizerText, 1, wxEXPAND, 5 );

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-05-31 08:25+0200\n"
+"POT-Creation-Date: 2016-05-31 08:45+0200\n"
 "PO-Revision-Date: 2016-05-13 15:52+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
@@ -291,14 +291,17 @@ msgid "&Browse"
 msgstr "Pre&brskaj"
 
 #: zrcolagui.cpp:418
+#, fuzzy
 msgid ""
 "Full or partial terms from Unicode character description (in English) to "
 "search for"
 msgstr ""
+"Polne ali delne besede iz opisa znaka Unicode (v angleščini) za iskanje"
 
 #: zrcolagui.cpp:424
+#, fuzzy
 msgid "List of Unicode character categories to search in"
-msgstr ""
+msgstr "Seznam kategorij znaka Unicode za iskanje"
 
 #: zrcolagui.cpp:431
 #, fuzzy
@@ -331,8 +334,9 @@ msgid "Invert category selection"
 msgstr "Obrni izbor kategorij"
 
 #: zrcolagui.cpp:475
+#, fuzzy
 msgid "Character search results"
-msgstr ""
+msgstr "Rezultati iskanja znakov"
 
 #: zrcolagui.cpp:485
 #, fuzzy
@@ -340,8 +344,9 @@ msgid "Re&cently Used"
 msgstr "Nedavno &uporabljeni"
 
 #: zrcolagui.cpp:513
+#, fuzzy
 msgid "List of recently inserted characters"
-msgstr ""
+msgstr "Seznam nedavno vstavljenih znakov"
 
 #: zrcolagui.cpp:527
 #, fuzzy
@@ -354,24 +359,29 @@ msgid "U+"
 msgstr "U+"
 
 #: zrcolagui.cpp:537
+#, fuzzy
 msgid "Unicode hexadecimal code"
-msgstr ""
+msgstr "Šestnajstiška koda Unicode"
 
 #: zrcolagui.cpp:542
+#, fuzzy
 msgid "Keyboard shortcut in Composer window"
-msgstr ""
+msgstr "Bližnjica na tipkovnici v oknu sestavljalnika"
 
 #: zrcolagui.cpp:577
+#, fuzzy
 msgid "Character preview"
-msgstr ""
+msgstr "Predogled znaka"
 
 #: zrcolagui.cpp:582
+#, fuzzy
 msgid "Unicode character description"
-msgstr ""
+msgstr "Opis znaka Unicode"
 
 #: zrcolagui.cpp:587
+#, fuzzy
 msgid "Unicode character category"
-msgstr ""
+msgstr "Kategorija znaka Unicode"
 
 #: zrcolagui.cpp:594
 #, fuzzy
@@ -399,8 +409,9 @@ msgid "Re&lated"
 msgstr "&Sorodni"
 
 #: zrcolagui.cpp:640
+#, fuzzy
 msgid "List of related characters"
-msgstr ""
+msgstr "Seznam sorodnih znakov"
 
 #: zrcolagui.cpp:727
 #, fuzzy
@@ -465,17 +476,30 @@ msgstr ""
 msgid "www.zrc-sazu.si"
 msgstr "www.zrc-sazu.si"
 
-#: zrcolagui.cpp:888
+#: zrcolagui.cpp:855
+msgid ""
+"Texts made using ZRCola have to include in the colophon, foreword, footnote "
+"or some other appropriate part of the publication the note below:"
+msgstr ""
+
+#: zrcolagui.cpp:859
+msgid ""
+"This text was written using the ZRCola input system (http://zrcola.zrc-sazu."
+"si), developed at the Science and Research Centre of SAZU in Ljubljana "
+"(http://www.zrc-sazu.si) by Dr. Peter Weiss."
+msgstr ""
+
+#: zrcolagui.cpp:900
 #, fuzzy
 msgid "Log"
 msgstr "Dnevnik"
 
-#: zrcolagui.cpp:904
+#: zrcolagui.cpp:916
 #, fuzzy
 msgid "&Update"
 msgstr "&Posodobi"
 
-#: zrcolagui.cpp:909
+#: zrcolagui.cpp:921
 #, fuzzy
 msgid "&Close"
 msgstr "&Zapri"
@@ -499,12 +523,12 @@ msgstr "Samodejno zaženi ZRColo ob prijavi"
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: zrcolagui.h:299
+#: zrcolagui.h:301
 #, fuzzy
 msgid "About ZRCola"
 msgstr "O ZRColi"
 
-#: zrcolagui.h:322
+#: zrcolagui.h:324
 #, fuzzy
 msgid "Product Update"
 msgstr "Posodabljanje izdelka"
