@@ -59,6 +59,7 @@ wxZRColaFrame::wxZRColaFrame() :
     m_hWndSource(NULL),
     m_chrSelect(NULL),
     m_settings(NULL),
+    m_chrReq(NULL),
     wxZRColaFrameBase(NULL)
 {
     {
@@ -95,6 +96,9 @@ wxZRColaFrame::wxZRColaFrame() :
 
     m_chrSelect = new wxZRColaCharSelect(this);
     wxPersistentRegisterAndRestore<wxZRColaCharSelect>(m_chrSelect);
+
+    m_chrReq = new wxZRColaCharRequest(this);
+    wxPersistentRegisterAndRestore<wxZRColaCharRequest>(m_chrReq);
 
     // Set focus.
     m_panel->m_decomposed->SetFocus();
@@ -149,6 +153,9 @@ wxZRColaFrame::~wxZRColaFrame()
     // Unregister global hotkey(s).
     UnregisterHotKey(wxZRColaHKID_INVOKE_DECOMPOSE);
     UnregisterHotKey(wxZRColaHKID_INVOKE_COMPOSE);
+
+    if (m_chrReq)
+        delete m_chrReq;
 
     if (m_chrSelect)
         delete m_chrSelect;
@@ -338,7 +345,7 @@ void wxZRColaFrame::OnPanelCharacterCatalogFocus(wxCommandEvent& event)
 
 void wxZRColaFrame::OnHelpReqChar(wxCommandEvent& event)
 {
-    wxLaunchDefaultBrowser(_("http://zrcola-2.amebis.si/en/contact/"));
+    m_chrReq->ShowModal();
 }
 
 

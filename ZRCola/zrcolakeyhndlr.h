@@ -25,6 +25,8 @@ class wxZRColaKeyHandler;
 
 #pragma once
 
+#include <zrcolaui/keyboard.h>
+
 #include <wx/event.h>
 #include <vector>
 

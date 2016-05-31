@@ -326,4 +326,33 @@ class wxZRColaUpdaterBase : public wxDialog
 	
 };
 
+///////////////////////////////////////////////////////////////////////////////
+/// Class wxZRColaCharRequestBase
+///////////////////////////////////////////////////////////////////////////////
+class wxZRColaCharRequestBase : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_characterLbl;
+		wxTextCtrl* m_character;
+		wxStaticText* m_characterNote;
+		wxStaticText* m_contextLbl;
+		wxTextCtrl* m_context;
+		wxStaticText* m_note;
+		wxStdDialogButtonSizer* m_sdbSizerButtons;
+		wxButton* m_sdbSizerButtonsOK;
+		wxButton* m_sdbSizerButtonsCancel;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		wxZRColaCharRequestBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Request a New Character"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaCharRequest") ); 
+		~wxZRColaCharRequestBase();
+	
+};
+
 #endif //__ZRCOLAGUI_H__

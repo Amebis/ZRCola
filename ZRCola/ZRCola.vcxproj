@@ -84,6 +84,7 @@
     <ClCompile Include="zrcolaapp.cpp" />
     <ClCompile Include="zrcolachrcatpnl.cpp" />
     <ClCompile Include="zrcolachrgrid.cpp" />
+    <ClCompile Include="zrcolachrreq.cpp" />
     <ClCompile Include="zrcolachrslct.cpp" />
     <ClCompile Include="zrcolacomppnl.cpp" />
     <ClCompile Include="zrcolafrm.cpp" />
@@ -98,6 +99,7 @@
     <ClInclude Include="zrcolaapp.h" />
     <ClInclude Include="zrcolachrcatpnl.h" />
     <ClInclude Include="zrcolachrgrid.h" />
+    <ClInclude Include="zrcolachrreq.h" />
     <ClInclude Include="zrcolachrslct.h" />
     <ClInclude Include="zrcolacomppnl.h" />
     <ClInclude Include="zrcolafrm.h" />

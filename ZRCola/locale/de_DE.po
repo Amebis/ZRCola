@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-05-31 08:47+0200\n"
-"PO-Revision-Date: 2016-05-31 08:47+0200\n"
+"POT-Creation-Date: 2016-05-31 14:26+0200\n"
+"PO-Revision-Date: 2016-05-31 14:26+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: de_DE\n"
@@ -29,6 +29,10 @@ msgstr ""
 msgid "ZRCola"
 msgstr "ZRCola:."
 
+#: zrcolachrreq.cpp:49 zrcolagui.h:353
+msgid "Request a New Character"
+msgstr ""
+
 #: zrcolafrm.cpp:104
 msgid ""
 "ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality "
@@ -44,10 +48,6 @@ msgstr "Warnung: "
 msgid ""
 "ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality "
 "will not be available."
-msgstr ""
-
-#: zrcolafrm.cpp:341
-msgid "http://zrcola-2.amebis.si/en/contact/"
 msgstr ""
 
 #: zrcolagui.cpp:36
@@ -428,6 +428,50 @@ msgstr "Kann Benutzer-Konfigurationsdatei nicht aktualisieren."
 #, fuzzy
 msgid "&Close"
 msgstr "&Schließen"
+
+#: zrcolagui.cpp:953
+#, fuzzy
+msgid "Character"
+msgstr "Eingabe eines Zeichenstils"
+
+#: zrcolagui.cpp:955
+msgid "Enter the &character you would like to request:"
+msgstr ""
+
+#: zrcolagui.cpp:961
+msgid "Decomposed character to request"
+msgstr ""
+
+#: zrcolagui.cpp:965
+msgid ""
+"Please, use the decomposed form.\n"
+"You can use ZRCola keyboard shortcuts to enter the character or Copy&&Paste "
+"it from the Decomposed window."
+msgstr ""
+
+#: zrcolagui.cpp:973
+#, fuzzy
+msgid "Context"
+msgstr "Konnte den Kontext auf dem überlagerten Fenster nicht initialisieren."
+
+#: zrcolagui.cpp:975
+msgid ""
+"The &context, examples or short description why and where the character is "
+"required:"
+msgstr ""
+
+#: zrcolagui.cpp:981
+msgid "Additional notes for character request"
+msgstr ""
+
+#: zrcolagui.cpp:988
+msgid ""
+"After clicking OK button, your e-mail application should open allowing you "
+"to submit the new character request to ZRCola Editor.\n"
+"Your e-mail application might not display all the characters correctly, but "
+"we'll encode the necessarry information so the Editor will be able to read "
+"it correctly."
+msgstr ""
 
 #: zrcolakeyhndlr.cpp:44
 msgid ""

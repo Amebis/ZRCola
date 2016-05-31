@@ -22,8 +22,9 @@
 #include "../include/zrcola.h"
 #include "zrcolaabout.h"
 #include "zrcolaapp.h"
-#include "zrcolachrgrid.h"
 #include "zrcolachrcatpnl.h"
+#include "zrcolachrgrid.h"
+#include "zrcolachrreq.h"
 #include "zrcolacomppnl.h"
 #include "zrcolafrm.h"
 #include "zrcolakeyhndlr.h"
@@ -33,6 +34,7 @@
 #include <Updater/chkthread.h>
 
 #include <wxex/common.h>
+#include <wxex/url.h>
 #include <wxex/persist/auimanager.h>
 
 #include <wx/ffile.h>

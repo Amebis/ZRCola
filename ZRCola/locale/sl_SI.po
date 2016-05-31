@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-05-31 08:46+0200\n"
-"PO-Revision-Date: 2016-05-31 08:46+0200\n"
+"POT-Creation-Date: 2016-05-31 14:24+0200\n"
+"PO-Revision-Date: 2016-05-31 14:26+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: sl_SI\n"
@@ -29,6 +29,10 @@ msgstr "© 2004-%s ZRC SAZU"
 msgid "ZRCola"
 msgstr "ZRCola"
 
+#: zrcolachrreq.cpp:49 zrcolagui.h:353
+msgid "Request a New Character"
+msgstr "Zahtevaj nov znak"
+
 #: zrcolafrm.cpp:104
 msgid ""
 "ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality "
@@ -48,10 +52,6 @@ msgid ""
 msgstr ""
 "ZRColine bližnjice na tipkovnici Win+F6 ni mogoče registrirati. Nekaj "
 "funkcionalnosti ne bo na voljo."
-
-#: zrcolafrm.cpp:341
-msgid "http://zrcola-2.amebis.si/en/contact/"
-msgstr "http://zrcola-2.amebis.si/contact/"
 
 #: zrcolagui.cpp:36
 msgid "E&xit"
@@ -421,6 +421,57 @@ msgstr "&Posodobi"
 msgid "&Close"
 msgstr "&Zapri"
 
+#: zrcolagui.cpp:953
+msgid "Character"
+msgstr "Znak"
+
+#: zrcolagui.cpp:955
+msgid "Enter the &character you would like to request:"
+msgstr "Vpišite &znak, ki ga želite zahtevati:"
+
+#: zrcolagui.cpp:961
+msgid "Decomposed character to request"
+msgstr "Razstavljen znak, ki ga zahtevate"
+
+# Please use a double && for final "&" character
+#: zrcolagui.cpp:965
+msgid ""
+"Please, use the decomposed form.\n"
+"You can use ZRCola keyboard shortcuts to enter the character or Copy&&Paste "
+"it from the Decomposed window."
+msgstr ""
+"Uporabite razstavljeno obliko.\n"
+"Za vnos znaka lahko uporavite ZRColine bližnjice na tipkovnici ali kopirate "
+"in prilepite iz okna z razstavljenim besedilom."
+
+#: zrcolagui.cpp:973
+msgid "Context"
+msgstr "Kontekst"
+
+#: zrcolagui.cpp:975
+msgid ""
+"The &context, examples or short description why and where the character is "
+"required:"
+msgstr "&Kontekst, primeri oz. kratek opis zakaj in kje potrebujete novi znak:"
+
+#: zrcolagui.cpp:981
+msgid "Additional notes for character request"
+msgstr "Dodatne opombe za zahtevo znaka"
+
+#: zrcolagui.cpp:988
+msgid ""
+"After clicking OK button, your e-mail application should open allowing you "
+"to submit the new character request to ZRCola Editor.\n"
+"Your e-mail application might not display all the characters correctly, but "
+"we'll encode the necessarry information so the Editor will be able to read "
+"it correctly."
+msgstr ""
+"Ko boste kliknili gumb V redu, se bo odprl vaš program za e-pošto, s katerim "
+"boste lahko oddali zahtevo za novi znak uredniku ZRCole.\n"
+"Vaš e-poštni program mogoče ne bo prikazal vseh znakov pravilno, toda mi "
+"bomo vse potrebne podatke ustrezno kodirali, da jih bo urednik lahko "
+"pravilno prebral."
+
 #: zrcolakeyhndlr.cpp:44
 msgid ""
 "INS key is pressed. Type the Unicode code of desired character now (up to "
@@ -707,6 +758,9 @@ msgstr "Vnašalni sistem za jezikoslovno rabo"
 
 #~ msgid "Welcome to wxWidgets!"
 #~ msgstr "Dobrodošli v wxWidgets!"
+
+#~ msgid "http://zrcola-2.amebis.si/en/contact/"
+#~ msgstr "http://zrcola-2.amebis.si/contact/"
 
 #~ msgid ""
 #~ "ZRCola v%s\n"

@@ -850,7 +850,7 @@ wxZRColaAboutBase::wxZRColaAboutBase( wxWindow* parent, wxWindowID id, const wxS
 	bSizerText->Add( m_hyperlink, 0, wxALL|wxEXPAND, 5 );
 	
 	
-	bSizerText->Add( 0, 10, 1, wxEXPAND, 5 );
+	bSizerText->Add( 0, 0, 0, wxALL|wxEXPAND, 5 );
 	
 	m_staticTextDeclaration = new wxStaticText( this, wxID_ANY, _("Texts made using ZRCola have to include in the colophon, foreword, footnote or some other appropriate part of the publication the note below:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextDeclaration->Wrap( 400 );
@@ -939,5 +939,83 @@ wxZRColaUpdaterBase::~wxZRColaUpdaterBase()
 {
 	// Disconnect Events
 	m_buttonUpdate->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaUpdaterBase::OnUpdate ), NULL, this );
+	
+}
+
+wxZRColaCharRequestBase::wxZRColaCharRequestBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) : wxDialog( parent, id, title, pos, size, style, name )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizerContent;
+	bSizerContent = new wxBoxSizer( wxVERTICAL );
+	
+	wxStaticBoxSizer* sbSizerCharacter;
+	sbSizerCharacter = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Character") ), wxVERTICAL );
+	
+	m_characterLbl = new wxStaticText( sbSizerCharacter->GetStaticBox(), wxID_ANY, _("Enter the &character you would like to request:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_characterLbl->Wrap( 400 );
+	sbSizerCharacter->Add( m_characterLbl, 0, wxALL|wxEXPAND, 5 );
+	
+	m_character = new wxTextCtrl( sbSizerCharacter->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_character->SetMaxLength( 20 ); 
+	m_character->SetFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
+	m_character->SetToolTip( _("Decomposed character to request") );
+	
+	sbSizerCharacter->Add( m_character, 0, wxALL|wxEXPAND, 5 );
+	
+	m_characterNote = new wxStaticText( sbSizerCharacter->GetStaticBox(), wxID_ANY, _("Please, use the decomposed form.\nYou can use ZRCola keyboard shortcuts to enter the character or Copy&&Paste it from the Decomposed window."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_characterNote->Wrap( 400 );
+	sbSizerCharacter->Add( m_characterNote, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizerContent->Add( sbSizerCharacter, 40, wxALL|wxEXPAND, 5 );
+	
+	wxStaticBoxSizer* sbSizerContext;
+	sbSizerContext = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Context") ), wxVERTICAL );
+	
+	m_contextLbl = new wxStaticText( sbSizerContext->GetStaticBox(), wxID_ANY, _("The &context, examples or short description why and where the character is required:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_contextLbl->Wrap( 400 );
+	sbSizerContext->Add( m_contextLbl, 0, wxALL|wxEXPAND, 5 );
+	
+	m_context = new wxTextCtrl( sbSizerContext->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
+	m_context->SetFont( wxFont( 16, 70, 90, 90, false, wxT("00 ZRCola") ) );
+	m_context->SetToolTip( _("Additional notes for character request") );
+	
+	sbSizerContext->Add( m_context, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizerContent->Add( sbSizerContext, 60, wxALL|wxEXPAND, 5 );
+	
+	m_note = new wxStaticText( this, wxID_ANY, _("After clicking OK button, your e-mail application should open allowing you to submit the new character request to ZRCola Editor.\nYour e-mail application might not display all the characters correctly, but we'll encode the necessarry information so the Editor will be able to read it correctly."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_note->Wrap( 400 );
+	bSizerContent->Add( m_note, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizerContent->Add( 0, 0, 0, wxALL|wxEXPAND, 5 );
+	
+	m_sdbSizerButtons = new wxStdDialogButtonSizer();
+	m_sdbSizerButtonsOK = new wxButton( this, wxID_OK );
+	m_sdbSizerButtons->AddButton( m_sdbSizerButtonsOK );
+	m_sdbSizerButtonsCancel = new wxButton( this, wxID_CANCEL );
+	m_sdbSizerButtons->AddButton( m_sdbSizerButtonsCancel );
+	m_sdbSizerButtons->Realize();
+	
+	bSizerContent->Add( m_sdbSizerButtons, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	this->SetSizer( bSizerContent );
+	this->Layout();
+	bSizerContent->Fit( this );
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	m_sdbSizerButtonsOK->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaCharRequestBase::OnOKButtonClick ), NULL, this );
+}
+
+wxZRColaCharRequestBase::~wxZRColaCharRequestBase()
+{
+	// Disconnect Events
+	m_sdbSizerButtonsOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaCharRequestBase::OnOKButtonClick ), NULL, this );
 	
 }

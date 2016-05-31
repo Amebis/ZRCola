@@ -27,6 +27,7 @@ class wxZRColaFrame;
 
 #include "zrcolagui.h"
 #include "zrcolachrslct.h"
+#include "zrcolachrreq.h"
 #include "zrcolasettings.h"
 #include <zrcola/language.h>
 #include <wx/taskbar.h>
@@ -118,6 +119,7 @@ protected:
     WXHWND m_hWndSource;                ///< Handle of the active window, when the ZRCola hotkey was pressed
     wxTaskBarIcon *m_taskBarIcon;       ///< Taskbar icon
     wxZRColaCharSelect *m_chrSelect;    ///< Character selection dialog
+    wxZRColaCharRequest *m_chrReq;      ///< Request a New Character dialog
     wxZRColaSettings *m_settings;       ///< Configuration dialog
 };
 
