@@ -34,6 +34,7 @@ class wxPersistentZRColaCharSelect;
 #include <wx/thread.h>
 #include <list>
 #include <map>
+#include <vector>
 
 
 wxDECLARE_EVENT(wxEVT_SEARCH_COMPLETE, wxThreadEvent);
@@ -101,7 +102,7 @@ protected:
     public:
         std::wstring m_search;                      ///< Search phrase
         std::set<ZRCola::chrcatid_t> m_cats;        ///< Search categories
-        std::vector< std::pair<unsigned long, wchar_t> > m_hits; ///< Search results
+        std::vector<std::pair<ZRCola::charrank_t, wchar_t> > m_hits; ///< Search results
 
     protected:
         wxZRColaCharSelect *m_parent;               ///< Thread owner

@@ -20,7 +20,7 @@
 #include "stdafx.h"
 
 
-bool ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<wchar_t, unsigned long> &hits, _Inout_ std::map<wchar_t, unsigned long> &hits_sub, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
+bool ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<wchar_t, charrank_t> &hits, _Inout_ std::map<wchar_t, charrank_t> &hits_sub, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
 {
     assert(str);
 
@@ -77,13 +77,13 @@ bool ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set
                     if (fn_abort && fn_abort(cookie)) return false;
                     wchar_t c = data[i];
                     if (cats.find(GetCharCat(c)) != cats.end()) {
-                        std::map<wchar_t, unsigned long>::iterator idx = hits.find(c);
+                        std::map<wchar_t, charrank_t>::iterator idx = hits.find(c);
                         if (idx == hits.end()) {
                             // New character.
-                            hits.insert(std::make_pair(data[i], 1));
+                            hits.insert(std::make_pair(data[i], 1.0/len));
                         } else {
-                            // Increment existing character.
-                            idx->second++;
+                            // Increase rating of existing character.
+                            idx->second += 1.0/len;
                         }
                     }
                 }
@@ -95,13 +95,13 @@ bool ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set
                     if (fn_abort && fn_abort(cookie)) return false;
                     wchar_t c = data[i];
                     if (cats.find(GetCharCat(c)) != cats.end()) {
-                        std::map<wchar_t, unsigned long>::iterator idx = hits_sub.find(c);
+                        std::map<wchar_t, charrank_t>::iterator idx = hits_sub.find(c);
                         if (idx == hits_sub.end()) {
                             // New character.
-                            hits_sub.insert(std::make_pair(data[i], 1));
+                            hits_sub.insert(std::make_pair(data[i], 1.0/len));
                         } else {
-                            // Increment existing character.
-                            idx->second++;
+                            // Increase rating of existing character.
+                            idx->second += 1.0/len;
                         }
                     }
                 }

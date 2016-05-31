@@ -37,6 +37,11 @@
 
 namespace ZRCola {
     ///
+    /// Character rank type
+    ///
+    typedef double charrank_t;
+
+    ///
     /// Character category ID type
     /// Two letter abbreviation, non-terminated
     ///
@@ -237,7 +242,7 @@ namespace ZRCola {
         /// \param[in]    fn_abort  Pointer to function to periodically test for search cancellation
         /// \param[in]    cookie    Cookie for \p fn_abort call
         ///
-        bool Search(_In_z_ const wchar_t *str, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<wchar_t, unsigned long> &hits, _Inout_ std::map<wchar_t, unsigned long> &hits_sub, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
+        bool Search(_In_z_ const wchar_t *str, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<wchar_t, charrank_t> &hits, _Inout_ std::map<wchar_t, charrank_t> &hits_sub, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
 
         ///
         /// Get character category

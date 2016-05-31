@@ -221,7 +221,7 @@ void wxZRColaCharSelect::OnSearchComplete(wxThreadEvent& event)
         // Display results.
         wxString chars;
         chars.reserve(m_searchThread->m_hits.size());
-        for (std::vector< std::pair<unsigned long, wchar_t> >::const_iterator i = m_searchThread->m_hits.cbegin(), i_end = m_searchThread->m_hits.cend(); i != i_end; ++i)
+        for (std::vector<std::pair<ZRCola::charrank_t, wchar_t> >::const_iterator i = m_searchThread->m_hits.cbegin(), i_end = m_searchThread->m_hits.cend(); i != i_end; ++i)
             chars += i->second;
         m_gridResults->SetCharacters(chars);
 
@@ -483,17 +483,17 @@ wxZRColaCharSelect::SearchThread::SearchThread(wxZRColaCharSelect *parent) :
 wxThread::ExitCode wxZRColaCharSelect::SearchThread::Entry()
 {
     ZRColaApp *app = (ZRColaApp*)wxTheApp;
-    std::map<wchar_t, unsigned long> hits;
+    std::map<wchar_t, ZRCola::charrank_t> hits;
 
     if (TestDestroy()) return (wxThread::ExitCode)1;
 
     {
         // Search by indexes and merge results.
-        std::map<wchar_t, unsigned long> hits_sub;
+        std::map<wchar_t, ZRCola::charrank_t> hits_sub;
         if (!app->m_chr_db.Search(m_search.c_str(), m_cats, hits, hits_sub, TestDestroyS, this)) return (wxThread::ExitCode)1;
-        for (std::map<wchar_t, unsigned long>::const_iterator i = hits_sub.cbegin(), i_end = hits_sub.cend(); i != i_end; ++i) {
+        for (std::map<wchar_t, ZRCola::charrank_t>::const_iterator i = hits_sub.cbegin(), i_end = hits_sub.cend(); i != i_end; ++i) {
             if (TestDestroy()) return (wxThread::ExitCode)1;
-            std::map<wchar_t, unsigned long>::iterator idx = hits.find(i->first);
+            std::map<wchar_t, ZRCola::charrank_t>::iterator idx = hits.find(i->first);
             if (idx == hits.end())
                 hits.insert(std::make_pair(i->first, i->second / 4));
             else
@@ -501,13 +501,23 @@ wxThread::ExitCode wxZRColaCharSelect::SearchThread::Entry()
         }
     }
 
-    // Now sort the characters by rank.
-    m_hits.reserve(hits.size());
-    for (std::map<wchar_t, unsigned long>::const_iterator i = hits.cbegin(), i_end = hits.cend(); i != i_end; ++i) {
+    // Get best rank.
+    ZRCola::charrank_t rank_ref = 0;
+    for (std::map<wchar_t, ZRCola::charrank_t>::const_iterator i = hits.cbegin(), i_end = hits.cend(); i != i_end; ++i) {
         if (TestDestroy()) return (wxThread::ExitCode)1;
-        m_hits.push_back(std::make_pair(i->second, i->first));
+        if (i->second > rank_ref)
+            rank_ref = i->second;
     }
-    std::qsort(m_hits.data(), m_hits.size(), sizeof(std::pair<unsigned long, wchar_t>), CompareHits);
+
+    // Now sort the characters by rank (taking only top 3/4 by rank).
+    ZRCola::charrank_t rank_threshold = rank_ref*3/4;
+    m_hits.reserve(hits.size());
+    for (std::map<wchar_t, ZRCola::charrank_t>::const_iterator i = hits.cbegin(), i_end = hits.cend(); i != i_end; ++i) {
+        if (TestDestroy()) return (wxThread::ExitCode)1;
+        if (i->second > rank_threshold)
+            m_hits.push_back(std::make_pair(i->second, i->first));
+    }
+    std::qsort(m_hits.data(), m_hits.size(), sizeof(std::pair<ZRCola::charrank_t, wchar_t>), CompareHits);
 
     // Signal the event handler that this thread is going to be destroyed.
     // NOTE: here we assume that using the m_parent pointer is safe,
@@ -520,8 +530,8 @@ wxThread::ExitCode wxZRColaCharSelect::SearchThread::Entry()
 
 int __cdecl wxZRColaCharSelect::SearchThread::CompareHits(const void *a, const void *b)
 {
-    const std::pair<unsigned long, wchar_t> *_a = (const std::pair<unsigned long, wchar_t>*)a;
-    const std::pair<unsigned long, wchar_t> *_b = (const std::pair<unsigned long, wchar_t>*)b;
+    const std::pair<ZRCola::charrank_t, wchar_t> *_a = (const std::pair<ZRCola::charrank_t, wchar_t>*)a;
+    const std::pair<ZRCola::charrank_t, wchar_t> *_b = (const std::pair<ZRCola::charrank_t, wchar_t>*)b;
 
          if (_a->first > _b->first) return -1;
     else if (_a->first < _b->first) return  1;
