@@ -138,6 +138,16 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_menubar->Append( m_menuView, _("&View") ); 
 	
 	m_menuHelp = new wxMenu();
+	wxMenuItem* m_menuHelpInstructions;
+	m_menuHelpInstructions = new wxMenuItem( m_menuHelp, wxID_HELP_INSTRUCTIONS, wxString( _("&Instructions...") ) + wxT('\t') + wxT("F1"), _("Open a web site with product instructions"), wxITEM_NORMAL );
+	m_menuHelp->Append( m_menuHelpInstructions );
+	
+	wxMenuItem* m_menuHelpShortcuts;
+	m_menuHelpShortcuts = new wxMenuItem( m_menuHelp, wxID_HELP_SHORTCUTS, wxString( _("Keyboard &Shortcuts...") ) , _("Open a list of keyboard shortcuts"), wxITEM_NORMAL );
+	m_menuHelp->Append( m_menuHelpShortcuts );
+	
+	m_menuHelp->AppendSeparator();
+	
 	wxMenuItem* m_menuHelpReqChar;
 	m_menuHelpReqChar = new wxMenuItem( m_menuHelp, wxID_HELP_REQCHAR, wxString( _("&Request a new character...") ) , _("Submit a request to ZRC to add a new character"), wxITEM_NORMAL );
 	m_menuHelp->Append( m_menuHelpReqChar );

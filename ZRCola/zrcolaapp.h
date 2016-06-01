@@ -60,9 +60,14 @@ public:
     virtual int OnExit();
 
     ///
-    /// \returns Path to ZRCola.zrcdb file
+    /// \returns Path to database files
     ///
     inline wxString GetDatabasePath() const;
+
+    ///
+    /// \returns Path to ZRCola.zrcdb file
+    ///
+    inline wxString GetDatabaseFilePath() const;
 
 public:
     ZRCola::translation_db m_t_db;  ///< Translation database
@@ -91,12 +96,17 @@ inline wxString ZRColaApp::GetDatabasePath() const
     wxString sPath;
     if (wxConfigBase::Get()->Read(wxT("DatabasePath"), &sPath)) {
         if (!wxEndsWithPathSeparator(sPath))
-            sPath << wxFILE_SEP_PATH;
+            sPath += wxFILE_SEP_PATH;
     } else {
         sPath = wxPathOnly(argv[0]);
-        sPath << wxT("\\..\\data\\");
+        sPath += wxT("\\..\\data\\");
     }
-    sPath << wxT("ZRCola.zrcdb");
 
     return sPath;
+}
+
+
+inline wxString ZRColaApp::GetDatabaseFilePath() const
+{
+    return GetDatabasePath() + wxT("ZRCola.zrcdb");
 }

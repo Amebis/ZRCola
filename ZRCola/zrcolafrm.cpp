@@ -49,6 +49,9 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
     EVT_MENU           (wxID_PANEL_CHRGRPS                         , wxZRColaFrame::OnPanelCharacterCatalog      )
     EVT_MENU           (wxID_FOCUS_CHARACTER_CATALOG               , wxZRColaFrame::OnPanelCharacterCatalogFocus )
 
+    EVT_MENU           (wxID_HELP_INSTRUCTIONS                     , wxZRColaFrame::OnHelpInstructions           )
+    EVT_MENU           (wxID_HELP_SHORTCUTS                        , wxZRColaFrame::OnHelpShortcuts              )
+
     EVT_MENU           (wxID_HELP_REQCHAR                          , wxZRColaFrame::OnHelpReqChar                )
     EVT_MENU           (wxID_HELP_UPDATE                           , wxZRColaFrame::OnHelpUpdate                 )
     EVT_MENU           (wxID_ABOUT                                 , wxZRColaFrame::OnHelpAbout                  )
@@ -340,6 +343,36 @@ void wxZRColaFrame::OnPanelCharacterCatalogFocus(wxCommandEvent& event)
     }
 
     m_panelChrCat->SetFocus();
+}
+
+
+void wxZRColaFrame::OnHelpInstructions(wxCommandEvent& event)
+{
+    wxLaunchDefaultBrowser(_("http://zrcola-2.amebis.si/en/info/instructions/"));
+}
+
+
+void wxZRColaFrame::OnHelpShortcuts(wxCommandEvent& event)
+{
+    winstd::tstring pdf_path;
+
+#ifdef __WXMSW__
+    // Search and try to launch installed PDF.
+    INSTALLSTATE pdf_is = ::MsiGetComponentPath(_T(ZRCOLA_VERSION_GUID), _T("{68AC2C38-10E2-41A3-B92C-844C03FFDF6A}"), pdf_path);
+    if ((pdf_is == INSTALLSTATE_LOCAL || pdf_is == INSTALLSTATE_SOURCE) &&
+        wxFileExists(pdf_path) &&
+        (int)::ShellExecute(GetHWND(), NULL, pdf_path.c_str(), NULL, NULL, SW_SHOWNORMAL) > 32) return;
+#endif
+
+    // Search and try to launch local PDF copy.
+    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    pdf_path  = app->GetDatabasePath();
+    pdf_path += _T("ZRCola_keyboard.pdf");
+    if (wxFileExists(pdf_path) &&
+        (int)::ShellExecute(GetHWND(), NULL, pdf_path.c_str(), NULL, NULL, SW_SHOWNORMAL) > 32) return;
+
+    // When everything else fail, try the online version.
+    wxLaunchDefaultBrowser(_("http://zrcola-2.amebis.si/wp-content/uploads/2016/04/5_ZRCola-Tipkovnica_2009-06-21.pdf"));
 }
 
 

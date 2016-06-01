@@ -31,7 +31,7 @@ END_EVENT_TABLE()
 
 wxZRColaCharacterCatalogPanel::wxZRColaCharacterCatalogPanel(wxWindow* parent) : wxZRColaCharacterCatalogPanelBase(parent)
 {
-    std::fstream dat((LPCTSTR)((ZRColaApp*)wxTheApp)->GetDatabasePath(), std::ios_base::in | std::ios_base::binary);
+    std::fstream dat((LPCTSTR)((ZRColaApp*)wxTheApp)->GetDatabaseFilePath(), std::ios_base::in | std::ios_base::binary);
     if (dat.good()) {
         if (stdex::idrec::find<ZRCola::recordid_t, ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>(dat, ZRCOLA_DB_ID, sizeof(ZRCola::recordid_t))) {
             ZRCola::recordsize_t size;

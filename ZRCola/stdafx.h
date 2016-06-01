@@ -45,6 +45,8 @@
 #include <wx/valtext.h>
 #include <wx/socket.h>
 
+#include <WinStd/MSI.h>
+
 #include <fstream>
 #include <string>
 #include <utility>

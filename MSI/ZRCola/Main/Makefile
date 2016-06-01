@@ -60,6 +60,7 @@ compLocalizationRepositoryPath	{0E96110A-C38D-4600-9AE2-B8B59AF53A00}	ZRCOLALOCD
 compLanguage	{B78359AC-9484-402C-8384-3A4595B39389}	ZRCOLALOCDIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		regLanguage
 compDatabasePath	{DF3C720D-50BB-4377-9EE0-9AC21C02B9DD}	ZRCOLADATADIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		regDatabasePath
 compZRCola.zrcdb	{0585A51F-1411-43A3-AC50-F04A253FDED4}	ZRCOLADATADIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola.zrcdb
+compZRCola_keyboard.pdf	{68AC2C38-10E2-41A3-B92C-844C03FFDF6A}	ZRCOLADATADIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola_keyboard.pdf
 comp00_ZRCola_Re.ttf	{B6CE8B39-11DC-4B59-B10C-3F0FFE8F81AF}	FontsFolder	0		file00_ZRCola_Re.ttf
 comp00_ZRCola_It.ttf	{10613965-2874-470D-9D5A-B7D535AA3317}	FontsFolder	0		file00_ZRCola_It.ttf
 comp00_ZRCola_Bd.ttf	{C036BE8D-6D2F-4DBF-99D6-F53702EAEBB6}	FontsFolder	0		file00_ZRCola_Bd.ttf
@@ -242,6 +243,8 @@ s$(MSIBUILD_LENGTH_ID)	S$(MSIBUILD_LENGTH_ID)	L64	L255	I2	i2	S$(MSIBUILD_LENGTH_
 1252	Feature	Feature
 featZRColaFonts		Fonts	Fonts used by ZRCola	101	1	ZRCOLAFONTDIR	8
 featZRColaFonts00	featZRColaFonts	00 ZRCola	Times New Roman based font	1	1	ZRCOLAFONTDIR	8
+featZRColaDoc		Documentation	ZRCola Documentation	201	3	ZRCOLADATADIR	8
+featZRCola_keyboard	featZRColaDoc	Keyboard Shortcuts	PDF document with a list of ZRCola keyboard shortcuts	1	3	ZRCOLADATADIR	8
 <<NOKEEP
 
 "De.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\de_DE.po"
@@ -268,6 +271,7 @@ All :: "$(LANG).$(PLAT).$(CFG).FeatureComponents-1.idt"
 Feature_	Component_
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)
 FeatureComponents	Feature_	Component_
+featZRCola_keyboard	compZRCola_keyboard.pdf
 featZRColaFonts00	comp00_ZRCola_Re.ttf
 featZRColaFonts00	comp00_ZRCola_It.ttf
 featZRColaFonts00	comp00_ZRCola_Bd.ttf
@@ -290,6 +294,7 @@ File	File
 filewxstd.mo.sl_SI	compwxstd.mo.sl_SI	wxstd.mo	0		1060	0	1
 !ENDIF
 fileZRCola.zrcdb	compZRCola.zrcdb	ZRCOLA~1.ZRC|ZRCola.zrcdb	0			0	1
+fileZRCola_keyboard.pdf	compZRCola_keyboard.pdf	ZRCOLA~1.PDF|ZRCola_keyboard.pdf	0			0	1
 file00_ZRCola_Re.ttf	comp00_ZRCola_Re.ttf	00_ZRC~1.TTF|00_ZRCola_Re.ttf	0			0	1
 file00_ZRCola_It.ttf	comp00_ZRCola_It.ttf	00_ZRC~2.TTF|00_ZRCola_It.ttf	0			0	1
 file00_ZRCola_Bd.ttf	comp00_ZRCola_Bd.ttf	00_ZRC~3.TTF|00_ZRCola_Bd.ttf	0			0	1
@@ -316,6 +321,26 @@ file00_ZRCola_It.ttf
 file00_ZRCola_Bd.ttf	
 file00_ZRCola_BI.ttf	
 <<NOKEEP
+
+
+######################################################################
+# Icon
+
+All :: \
+	"$(LANG).$(PLAT).$(CFG).Icon-1.idt" \
+	"$(LANG).$(PLAT).$(CFG).Icon-1\PDF.ico"
+
+"$(LANG).$(PLAT).$(CFG).Icon-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak" "$(LANG).$(PLAT).$(CFG).Icon-1"
+	-if exist $@ del /f /q $@
+	move /y << $@ > NUL
+Name	Data
+s$(MSIBUILD_LENGTH_ID)	v0
+Icon	Name
+iconPDF.ico	PDF.ico
+<<NOKEEP
+
+"$(LANG).$(PLAT).$(CFG).Icon-1\PDF.ico" : "Icon\PDF.ico"
+	copy /y $** $@ > NUL
 
 
 ######################################################################
@@ -377,7 +402,7 @@ All :: "$(LANG).$(PLAT).$(CFG).Property-1.idt"
 Property	Value
 s$(MSIBUILD_LENGTH_ID)	l0
 Property	Property
-ARPPRODUCTICON	iconZRCola.ico
+ARPPRODUCTICON	iconPDF.ico
 ALLUSERS	1
 DISABLEADVTSHORTCUTS	1
 INSTALLLEVEL	3
@@ -422,6 +447,48 @@ regLanguage	2	SOFTWARE\Amebis\ZRCola	Language	#60	compLanguage
 	rcxgettext.exe idtp $@ $**
 
 "Sl.$(PLAT).$(CFG).Registry-2.idt" : "En.$(PLAT).$(CFG).Registry-2.idtx" "..\locale\sl_SI.po"
+	rcxgettext.exe idtp $@ $**
+
+
+######################################################################
+# RemoveFile
+
+All :: "$(LANG).$(PLAT).$(CFG).RemoveFile-1.idt"
+
+"$(LANG).$(PLAT).$(CFG).RemoveFile-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
+	-if exist $@ del /f /q $@
+	move /y << $@ > NUL
+FileKey	Component_	FileName	DirProperty	InstallMode
+s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	L255	s$(MSIBUILD_LENGTH_ID)	i2
+RemoveFile	FileKey
+rmfiZRCola_keyboard	compZRCola_keyboard.pdf		ZRColaShortcutDir	2
+<<NOKEEP
+
+
+######################################################################
+# Shortcut
+
+All :: "$(LANG).$(PLAT).$(CFG).Shortcut-2.idt"
+
+"En.$(PLAT).$(CFG).Shortcut-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
+	-if exist $@ del /f /q $@
+	move /y << $@ > NUL
+Shortcut	Directory_	Name	Component_	Target	Arguments	Description	Hotkey	Icon_	IconIndex	ShowCmd	WkDir
+s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l128	s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	S255	L255	I2	S$(MSIBUILD_LENGTH_ID)	I2	I2	S$(MSIBUILD_LENGTH_ID)
+1252	Shortcut	Shortcut
+shctZRCola_keyboard	ZRColaShortcutDir	ZRCOLA~1|ZRCola Keyboard Shortcuts	compZRCola_keyboard.pdf	featZRCola_keyboard		ZRCola Keyboard Shortcuts		iconPDF.ico			ZRCOLADATADIR
+<<NOKEEP
+
+"De.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\de_DE.po"
+	rcxgettext.exe idtp $@ $**
+
+"En.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx"
+	copy /y $** $@ > NUL
+
+"It.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\it_IT.po"
+	rcxgettext.exe idtp $@ $**
+
+"Sl.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\sl_SI.po"
 	rcxgettext.exe idtp $@ $**
 
 

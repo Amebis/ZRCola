@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola MSI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-31 10:09+0200\n"
+"POT-Creation-Date: 2016-06-01 19:00+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <simon.rozman@amebis.si>\n"
@@ -13,19 +13,19 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 # wxLanguage enum value for this language (decimal, # prefixed)
-#: En.Win32.Debug.Registry-2.idtx:4 En.Win32.Release.Registry-2.idtx:4 En.x64.Debug.Registry-2.idtx:4 En.x64.Release.Registry-2.idtx:4
+#: En.Win32.Release.Registry-2.idtx:4 En.x64.Release.Registry-2.idtx:4
 msgid "#60"
 msgstr "#158"
 
-#: En.Win32.Debug.Control-2.idtx:11 En.Win32.Release.Control-2.idtx:11 En.x64.Debug.Control-2.idtx:11 En.x64.Release.Control-2.idtx:11
+#: En.Win32.Release.Control-2.idtx:11 En.x64.Release.Control-2.idtx:11
 msgid "&Continue"
 msgstr ""
 
-#: En.Win32.Debug.Control-2.idtx:6 En.Win32.Release.Control-2.idtx:6 En.x64.Debug.Control-2.idtx:6 En.x64.Release.Control-2.idtx:6
+#: En.Win32.Release.Control-2.idtx:6 En.x64.Release.Control-2.idtx:6
 msgid "[DlgTitleFont][SimpleProductName] Declaration"
 msgstr ""
 
@@ -33,7 +33,7 @@ msgstr ""
 # 1. Translate as a separate RTF document.
 # 2. Remove ALL line breaks from RTF file.
 # 3. Paste translation.
-#: En.Win32.Debug.Control-2.idtx:4 En.Win32.Release.Control-2.idtx:4 En.x64.Debug.Control-2.idtx:4 En.x64.Release.Control-2.idtx:4
+#: En.Win32.Release.Control-2.idtx:4 En.x64.Release.Control-2.idtx:4
 msgid ""
 "{\\rtf1\\adeflang1025\\ansi"
 "\\ansicpg1250\\uc1\\adeff0\\deff0\\stshfdbch31505\\stshfloch31506\\stshfhich31506\\stshfbi31507\\deflang1060\\deflangfe1060\themelang1060\themelangfe0\themelangcs0{\\fonttbl{\\f0\\fbidi "
@@ -1509,53 +1509,75 @@ msgstr ""
 # 1. Translate as a separate RTF document.
 # 2. Remove ALL line breaks from RTF file.
 # 3. Paste translation.
-#: En.Win32.Debug.Control-2.idtx:8 En.Win32.Release.Control-2.idtx:8 En.x64.Debug.Control-2.idtx:8 En.x64.Release.Control-2.idtx:8
+#: En.Win32.Release.Control-2.idtx:8 En.x64.Release.Control-2.idtx:8
 msgid ""
 "{\\rtf1\\ansi\\ansicpg1250\\deff0\\deflang1060\\deflangfe1060\\deftab708{\\fonttbl{\\f0\\fswiss\\fprq2\\fcharset238 Calibri;}{\\f1\\froman\\fprq2\\fcharset238{\\*\\fname Times New "
 "Roman;}Times New Roman CE;}}{\\colortbl ;\\red0\\green0\\blue255;}{\\*\\generator Msftedit 5.41.21.2510;}\\viewkind4\\uc1\\pard\\sa200\\sl276\\slmult1\\i\\f0\\fs22 This text was written "
 "using the ZRCola input system (http://zrcola.zrc-sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana (http://www.zrc-sazu.si) by Dr. Peter Weiss.\\f1\\par}"
 msgstr ""
 
-#: En.Win32.Debug.Feature-2.idtx:5 En.Win32.Release.Feature-2.idtx:5 En.x64.Debug.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5
+#: En.Win32.Release.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5
 msgid "00 ZRCola"
 msgstr "00 ZRCola"
 
 # Windows charset for this language (decimal)
-#: En.Win32.Debug.Control-2.idtx:3 En.Win32.Debug.Directory-2.idtx:3 En.Win32.Debug.Feature-2.idtx:3 En.Win32.Debug.Registry-2.idtx:3 En.Win32.Release.Control-2.idtx:3
-#: En.Win32.Release.Directory-2.idtx:3 En.Win32.Release.Feature-2.idtx:3 En.Win32.Release.Registry-2.idtx:3 En.x64.Debug.Control-2.idtx:3 En.x64.Debug.Directory-2.idtx:3
-#: En.x64.Debug.Feature-2.idtx:3 En.x64.Debug.Registry-2.idtx:3 En.x64.Release.Control-2.idtx:3 En.x64.Release.Directory-2.idtx:3 En.x64.Release.Feature-2.idtx:3
-#: En.x64.Release.Registry-2.idtx:3
+#: En.Win32.Release.Control-2.idtx:3 En.Win32.Release.Directory-2.idtx:3 En.Win32.Release.Feature-2.idtx:3 En.Win32.Release.Registry-2.idtx:3 En.Win32.Release.Shortcut-2.idtx:3
+#: En.x64.Release.Control-2.idtx:3 En.x64.Release.Directory-2.idtx:3 En.x64.Release.Feature-2.idtx:3 En.x64.Release.Registry-2.idtx:3 En.x64.Release.Shortcut-2.idtx:3
 msgid "1252"
 msgstr "1251"
 
-#: En.Win32.Debug.Control-2.idtx:5 En.Win32.Release.Control-2.idtx:5 En.x64.Debug.Control-2.idtx:5 En.x64.Release.Control-2.idtx:5
+#: En.Win32.Release.Control-2.idtx:5 En.x64.Release.Control-2.idtx:5
 msgid "binUIHeader.bmp"
 msgstr "binUIHeader.bmp"
 
-#: En.Win32.Debug.Feature-2.idtx:4 En.Win32.Release.Feature-2.idtx:4 En.x64.Debug.Feature-2.idtx:4 En.x64.Release.Feature-2.idtx:4
+#: En.Win32.Release.Feature-2.idtx:6 En.x64.Release.Feature-2.idtx:6
+msgid "Documentation"
+msgstr ""
+
+#: En.Win32.Release.Feature-2.idtx:4 En.x64.Release.Feature-2.idtx:4
 msgid "Fonts"
 msgstr ""
 
-#: En.Win32.Debug.Feature-2.idtx:4 En.Win32.Release.Feature-2.idtx:4 En.x64.Debug.Feature-2.idtx:4 En.x64.Release.Feature-2.idtx:4
+#: En.Win32.Release.Feature-2.idtx:4 En.x64.Release.Feature-2.idtx:4
 msgid "Fonts used by ZRCola"
 msgstr ""
 
-#: En.Win32.Debug.Control-2.idtx:10 En.Win32.Release.Control-2.idtx:10 En.x64.Debug.Control-2.idtx:10 En.x64.Release.Control-2.idtx:10
+#: En.Win32.Release.Control-2.idtx:10 En.x64.Release.Control-2.idtx:10
 msgid "I &agree."
 msgstr ""
 
-#: En.Win32.Debug.Control-2.idtx:9 En.Win32.Release.Control-2.idtx:9 En.x64.Debug.Control-2.idtx:9 En.x64.Release.Control-2.idtx:9
+#: En.Win32.Release.Feature-2.idtx:7 En.x64.Release.Feature-2.idtx:7
+msgid "Keyboard Shortcuts"
+msgstr ""
+
+#: En.Win32.Release.Control-2.idtx:9 En.x64.Release.Control-2.idtx:9
 msgid "Note: This declaration is also available in [SimpleProductName]'s about dialog or on its website."
 msgstr ""
 
-#: En.Win32.Debug.Control-2.idtx:7 En.Win32.Release.Control-2.idtx:7 En.x64.Debug.Control-2.idtx:7 En.x64.Release.Control-2.idtx:7
+#: En.Win32.Release.Feature-2.idtx:7 En.x64.Release.Feature-2.idtx:7
+msgid "PDF document with a list of ZRCola keyboard shortcuts"
+msgstr ""
+
+#: En.Win32.Release.Control-2.idtx:7 En.x64.Release.Control-2.idtx:7
 msgid "Texts made using ZRCola have to include in the colophon, foreword, footnote or some other appropriate part of the publication the note below:"
 msgstr ""
 
-#: En.Win32.Debug.Feature-2.idtx:5 En.Win32.Release.Feature-2.idtx:5 En.x64.Debug.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5
+#: En.Win32.Release.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5
 msgid "Times New Roman based font"
 msgstr ""
 
-#: En.Win32.Debug.Directory-2.idtx:4 En.Win32.Release.Directory-2.idtx:4 En.x64.Debug.Directory-2.idtx:4 En.x64.Release.Directory-2.idtx:4
+#: En.Win32.Release.Feature-2.idtx:6 En.x64.Release.Feature-2.idtx:6
+msgid "ZRCola Documentation"
+msgstr ""
+
+#: En.Win32.Release.Shortcut-2.idtx:4 En.x64.Release.Shortcut-2.idtx:4
+msgid "ZRCola Keyboard Shortcuts"
+msgstr ""
+
+#: En.Win32.Release.Directory-2.idtx:4 En.x64.Release.Directory-2.idtx:4
 msgid "ZRCola:."
 msgstr "ZRCola:."
+
+#: En.Win32.Release.Shortcut-2.idtx:4 En.x64.Release.Shortcut-2.idtx:4
+msgid "ZRCOLA~1|ZRCola Keyboard Shortcuts"
+msgstr ""

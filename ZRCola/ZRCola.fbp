@@ -371,6 +371,40 @@
                         <property name="bitmap"></property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
+                        <property name="help">Open a web site with product instructions</property>
+                        <property name="id">wxID_HELP_INSTRUCTIONS</property>
+                        <property name="kind">wxITEM_NORMAL</property>
+                        <property name="label">&amp;Instructions...</property>
+                        <property name="name">m_menuHelpInstructions</property>
+                        <property name="permission">none</property>
+                        <property name="shortcut">F1</property>
+                        <property name="unchecked_bitmap"></property>
+                        <event name="OnMenuSelection"></event>
+                        <event name="OnUpdateUI"></event>
+                    </object>
+                    <object class="wxMenuItem" expanded="0">
+                        <property name="bitmap"></property>
+                        <property name="checked">0</property>
+                        <property name="enabled">1</property>
+                        <property name="help">Open a list of keyboard shortcuts</property>
+                        <property name="id">wxID_HELP_SHORTCUTS</property>
+                        <property name="kind">wxITEM_NORMAL</property>
+                        <property name="label">Keyboard &amp;Shortcuts...</property>
+                        <property name="name">m_menuHelpShortcuts</property>
+                        <property name="permission">none</property>
+                        <property name="shortcut"></property>
+                        <property name="unchecked_bitmap"></property>
+                        <event name="OnMenuSelection"></event>
+                        <event name="OnUpdateUI"></event>
+                    </object>
+                    <object class="separator" expanded="0">
+                        <property name="name">separator</property>
+                        <property name="permission">none</property>
+                    </object>
+                    <object class="wxMenuItem" expanded="0">
+                        <property name="bitmap"></property>
+                        <property name="checked">0</property>
+                        <property name="enabled">1</property>
                         <property name="help">Submit a request to ZRC to add a new character</property>
                         <property name="id">wxID_HELP_REQCHAR</property>
                         <property name="kind">wxITEM_NORMAL</property>

@@ -70,6 +70,8 @@ class wxZRColaFrameBase : public wxFrame
 			wxID_TOOLBAR_EDIT,
 			wxID_TOOLBAR_COMPOSE,
 			wxID_PANEL_CHRGRPS,
+			wxID_HELP_INSTRUCTIONS,
+			wxID_HELP_SHORTCUTS,
 			wxID_HELP_REQCHAR,
 			wxID_HELP_UPDATE
 		};
