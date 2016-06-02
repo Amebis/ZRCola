@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-06-02 20:39+0200\n"
-"PO-Revision-Date: 2016-06-02 20:40+0200\n"
+"POT-Creation-Date: 2016-06-02 20:53+0200\n"
+"PO-Revision-Date: 2016-06-02 20:53+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: ru_RU\n"
@@ -92,24 +92,27 @@ msgid "Select all text"
 msgstr ""
 
 #: zrcolagui.cpp:78
-msgid "C&haracter Selector..."
-msgstr ""
+#, fuzzy
+msgid "Find C&haracter..."
+msgstr "Skupine &znakov"
 
 #: zrcolagui.cpp:78 zrcolagui.cpp:180
-msgid "Display character selector to select character to insert into text"
+msgid "Display character search to select character to insert into text"
 msgstr ""
 
 #: zrcolagui.cpp:89
+#, fuzzy
 msgid "&Send Composed"
-msgstr ""
+msgstr "Pošlji sestavljeno (F5)"
 
 #: zrcolagui.cpp:89 zrcolagui.cpp:182
 msgid "Send composed text to source window"
 msgstr ""
 
 #: zrcolagui.cpp:98
+#, fuzzy
 msgid "Send &Decomposed"
-msgstr ""
+msgstr "Pošlji razstavljeno (F6)"
 
 #: zrcolagui.cpp:98 zrcolagui.cpp:184
 msgid "Send decomposed text to source window"
@@ -208,16 +211,18 @@ msgid "Cut selection"
 msgstr ""
 
 #: zrcolagui.cpp:172
+#, fuzzy
 msgid "Copy"
-msgstr ""
+msgstr "&Kopiraj"
 
 #: zrcolagui.cpp:172
 msgid "Copy selection"
 msgstr ""
 
 #: zrcolagui.cpp:174
+#, fuzzy
 msgid "Paste"
-msgstr ""
+msgstr "&Prilepi"
 
 #: zrcolagui.cpp:174
 msgid "Paste selection"
@@ -227,17 +232,20 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: zrcolagui.cpp:180 zrcolagui.h:240
-msgid "Character Selector"
-msgstr ""
+#: zrcolagui.cpp:180
+#, fuzzy
+msgid "Find Character"
+msgstr "Skupine &znakov"
 
 #: zrcolagui.cpp:182
+#, fuzzy
 msgid "Send Composed"
-msgstr ""
+msgstr "Pošlji sestavljeno (F5)"
 
 #: zrcolagui.cpp:184
+#, fuzzy
 msgid "Send Decomposed"
-msgstr ""
+msgstr "Pošlji razstavljeno (F6)"
 
 #: zrcolagui.cpp:187
 msgid "Compose"
@@ -503,6 +511,11 @@ msgstr ""
 #: zrcolaupdater.cpp:94 zrcolagui.h:328
 msgid "Product Update"
 msgstr ""
+
+#: zrcolagui.h:240
+#, fuzzy
+msgid "Character Search"
+msgstr "Skupine &znakov"
 
 #: zrcolagui.h:277
 msgid "Settings"

@@ -75,7 +75,7 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_menuEdit->AppendSeparator();
 	
 	wxMenuItem* m_menuCharSelect;
-	m_menuCharSelect = new wxMenuItem( m_menuEdit, wxID_CHARACTER_SELECTOR, wxString( _("C&haracter Selector...") ) + wxT('\t') + wxT("F8"), _("Display character selector to select character to insert into text"), wxITEM_NORMAL );
+	m_menuCharSelect = new wxMenuItem( m_menuEdit, wxID_CHARACTER_SELECTOR, wxString( _("Find C&haracter...") ) + wxT('\t') + wxT("F8"), _("Display character search to select character to insert into text"), wxITEM_NORMAL );
 	#ifdef __WXMSW__
 	m_menuCharSelect->SetBitmaps( wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
 	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
@@ -177,7 +177,7 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_mgr.AddPane( m_toolbarEdit, wxAuiPaneInfo().Name( wxT("toolbarEdit") ).Top().Caption( _("Edit") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );
 	
 	m_toolbarCompose = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT ); 
-	m_toolCharSelect = m_toolbarCompose->AddTool( wxID_CHARACTER_SELECTOR, _("Character Selector"), wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Character Selector"), _("Display character selector to select character to insert into text"), NULL ); 
+	m_toolCharSelect = m_toolbarCompose->AddTool( wxID_CHARACTER_SELECTOR, _("Find Character"), wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Find Character"), _("Display character search to select character to insert into text"), NULL ); 
 	
 	m_toolSendComposed = m_toolbarCompose->AddTool( wxID_SEND_COMPOSED, _("Send Composed"), wxIcon( wxT("send_composed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Composed"), _("Send composed text to source window"), NULL ); 
 	

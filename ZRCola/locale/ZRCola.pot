@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-06-02 20:39+0200\n"
+"POT-Creation-Date: 2016-06-02 20:52+0200\n"
 "PO-Revision-Date: 2016-05-13 15:52+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
@@ -110,14 +110,12 @@ msgid "Select all text"
 msgstr "Izberi celotno besedilo"
 
 #: zrcolagui.cpp:78
-#, fuzzy
-msgid "C&haracter Selector..."
-msgstr "Izbirnik &znaka ..."
+msgid "Find C&haracter..."
+msgstr ""
 
 #: zrcolagui.cpp:78 zrcolagui.cpp:180
-#, fuzzy
-msgid "Display character selector to select character to insert into text"
-msgstr "Prikaži izbirnik znaka za izbor znaka za vstavljanje v besedilo"
+msgid "Display character search to select character to insert into text"
+msgstr ""
 
 #: zrcolagui.cpp:89
 #, fuzzy
@@ -279,10 +277,9 @@ msgstr "Prilepi izbor"
 msgid "Edit"
 msgstr "Urejanje"
 
-#: zrcolagui.cpp:180 zrcolagui.h:240
-#, fuzzy
-msgid "Character Selector"
-msgstr "Izbirnik znaka"
+#: zrcolagui.cpp:180
+msgid "Find Character"
+msgstr ""
 
 #: zrcolagui.cpp:182
 #, fuzzy
@@ -640,6 +637,11 @@ msgstr ""
 #, fuzzy
 msgid "Product Update"
 msgstr "Posodabljanje izdelka"
+
+#: zrcolagui.h:240
+#, fuzzy
+msgid "Character Search"
+msgstr "Rezultati iskanja znakov"
 
 #: zrcolagui.h:277
 #, fuzzy

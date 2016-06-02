@@ -237,7 +237,7 @@ class wxZRColaCharSelectBase : public wxDialog
 	
 	public:
 		
-		wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Character Selector"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaCharSelect") ); 
+		wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Character Search"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaCharSelect") ); 
 		~wxZRColaCharSelectBase();
 	
 };
