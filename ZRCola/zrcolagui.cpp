@@ -848,7 +848,7 @@ wxZRColaAboutBase::wxZRColaAboutBase( wxWindow* parent, wxWindowID id, const wxS
 	m_staticTextVersion->Wrap( -1 );
 	bSizerText->Add( m_staticTextVersion, 0, wxALL|wxEXPAND, 5 );
 	
-	m_staticTextColophone = new wxStaticText( this, wxID_ANY, _("Editor: Janoš Ježovnik\nDevelopment: Amebis d. o. o.\nDevelopment and maintenance (2004-2015): dr. Peter Weiss"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticTextColophone = new wxStaticText( this, wxID_ANY, _("Program and Website Editor: Janoš Ježovnik\nDevelopment: Amebis, d. o. o., Kamnik\nDevelopment and maintenance (2004-2015): dr. Peter Weiss"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextColophone->Wrap( -1 );
 	bSizerText->Add( m_staticTextColophone, 0, wxALL|wxEXPAND, 5 );
 	
@@ -856,7 +856,7 @@ wxZRColaAboutBase::wxZRColaAboutBase( wxWindow* parent, wxWindowID id, const wxS
 	m_staticTextCopyright->Wrap( -1 );
 	bSizerText->Add( m_staticTextCopyright, 0, wxALL|wxEXPAND, 5 );
 	
-	m_hyperlink = new wxHyperlinkCtrl( this, wxID_ANY, _("www.zrc-sazu.si"), wxT("http://www.zrc-sazu.si/"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
+	m_hyperlink = new wxHyperlinkCtrl( this, wxID_ANY, _("zrcola.zrc-sazu.si"), wxT("http://zrcola.zrc-sazu.si/"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
 	bSizerText->Add( m_hyperlink, 0, wxALL|wxEXPAND, 5 );
 	
 	

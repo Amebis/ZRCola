@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-06-02 20:26+0200\n"
+"POT-Creation-Date: 2016-06-02 20:39+0200\n"
 "PO-Revision-Date: 2016-05-13 15:52+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
@@ -507,18 +507,17 @@ msgstr "Zagon"
 #: zrcolagui.cpp:851
 #, fuzzy
 msgid ""
-"Editor: Janoš Ježovnik\n"
-"Development: Amebis d. o. o.\n"
+"Program and Website Editor: Janoš Ježovnik\n"
+"Development: Amebis, d. o. o., Kamnik\n"
 "Development and maintenance (2004-2015): dr. Peter Weiss"
 msgstr ""
-"Urednik: Janoš Ježovnik\n"
-"Razvoj: Amebis d. o. o.\n"
+"Urednik programa in spletne strani: Janoš Ježovnik\n"
+"Razvoj: Amebis, d. o. o., Kamnik\n"
 "Razvoj in vzdrževanje (2004-2015): dr. Peter Weiss"
 
 #: zrcolagui.cpp:859
-#, fuzzy
-msgid "www.zrc-sazu.si"
-msgstr "www.zrc-sazu.si"
+msgid "zrcola.zrc-sazu.si"
+msgstr ""
 
 #: zrcolagui.cpp:865
 #, fuzzy
@@ -549,7 +548,7 @@ msgstr "Dnevnik"
 #: zrcolagui.cpp:926
 #, fuzzy
 msgid "Quit and &Update..."
-msgstr "Za&ustavi in posodobi"
+msgstr "Za&ustavi in posodobi ..."
 
 #: zrcolagui.cpp:928
 #, fuzzy

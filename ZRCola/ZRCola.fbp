@@ -5346,7 +5346,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">Editor: Janoš Ježovnik&#x0A;Development: Amebis d. o. o.&#x0A;Development and maintenance (2004-2015): dr. Peter Weiss</property>
+                                        <property name="label">Program and Website Editor: Janoš Ježovnik&#x0A;Development: Amebis, d. o. o., Kamnik&#x0A;Development and maintenance (2004-2015): dr. Peter Weiss</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -5513,7 +5513,7 @@
                                         <property name="hidden">0</property>
                                         <property name="hover_color"></property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">www.zrc-sazu.si</property>
+                                        <property name="label">zrcola.zrc-sazu.si</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -5536,7 +5536,7 @@
                                         <property name="subclass"></property>
                                         <property name="toolbar_pane">0</property>
                                         <property name="tooltip"></property>
-                                        <property name="url">http://www.zrc-sazu.si/</property>
+                                        <property name="url">http://zrcola.zrc-sazu.si/</property>
                                         <property name="visited_color"></property>
                                         <property name="window_extra_style"></property>
                                         <property name="window_name"></property>
