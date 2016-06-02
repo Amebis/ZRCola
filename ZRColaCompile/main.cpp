@@ -346,6 +346,11 @@ int _tmain(int argc, _TCHAR *argv[])
                 while (!ZRCola::DBSource::IsEOF(rs)) {
                     // Read character group from the database.
                     if (src.GetCharacterGroup(rs, cg)) {
+                        if (cg.chars.empty()) {
+                            // Skip empty character groups.
+                            continue;
+                        }
+
                         // Add character group to index and data.
                         unsigned __int32 idx = db.data.size();
                         wxASSERT_MSG((int)0xffff8000 <= cg.id && cg.id <= (int)0x00007fff, wxT("character group ID out of bounds"));

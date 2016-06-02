@@ -300,7 +300,7 @@ bool ZRCola::DBSource::Open(LPCTSTR filename)
             wxVERIFY(SUCCEEDED(::CoCreateInstance(CLSID_CADOCommand, NULL, CLSCTX_ALL, IID_IADOCommand, (LPVOID*)&m_comCharacterGroup)));
             wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_ActiveConnection(ATL::CComVariant(m_db))));
             wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_CommandType(adCmdText)));
-            wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_CommandText(ATL::CComBSTR(L"SELECT [Znak] FROM [VRS_SkupineZnakov] WHERE [Skupina]=? ORDER BY [Rang] ASC, [Znak] ASC"))));
+            wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_CommandText(ATL::CComBSTR(L"SELECT [VRS_SkupineZnakov].[Znak] FROM [VRS_SkupineZnakov] LEFT JOIN [VRS_CharList] ON [VRS_SkupineZnakov].[Znak]=[VRS_CharList].[znak] WHERE [VRS_CharList].[aktiven]=1 AND [VRS_SkupineZnakov].[Skupina]=? ORDER BY [VRS_SkupineZnakov].[Rang] ASC, [VRS_SkupineZnakov].[Znak] ASC"))));
             {
                 // Create and add command parameters.
                 ATL::CComPtr<ADOParameters> params;
