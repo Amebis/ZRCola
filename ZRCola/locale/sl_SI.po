@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-06-01 18:56+0200\n"
-"PO-Revision-Date: 2016-06-01 18:57+0200\n"
+"POT-Creation-Date: 2016-06-02 20:26+0200\n"
+"PO-Revision-Date: 2016-06-02 20:26+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: sl_SI\n"
@@ -29,15 +29,15 @@ msgstr "© 2004-%s ZRC SAZU"
 msgid "ZRCola"
 msgstr "ZRCola"
 
-#: zrcolachrreq.cpp:49 zrcolagui.cpp:963
+#: zrcolachrreq.cpp:49 zrcolagui.cpp:970
 msgid "Character"
 msgstr "Znak"
 
-#: zrcolachrreq.cpp:58 zrcolagui.cpp:984
+#: zrcolachrreq.cpp:58 zrcolagui.cpp:991
 msgid "Context"
 msgstr "Kontekst"
 
-#: zrcolachrreq.cpp:64 zrcolagui.h:355
+#: zrcolachrreq.cpp:64 zrcolagui.h:357
 msgid "Request a New Character"
 msgstr "Zahtevaj nov znak"
 
@@ -65,7 +65,7 @@ msgstr ""
 msgid "http://zrcola-2.amebis.si/en/info/instructions/"
 msgstr "http://zrcola-2.amebis.si/info/instructions/"
 
-#: zrcolafrm.cpp:373
+#: zrcolafrm.cpp:375
 msgid ""
 "http://zrcola-2.amebis.si/wp-content/uploads/2016/04/5_ZRCola-"
 "Tipkovnica_2009-06-21.pdf"
@@ -450,23 +450,31 @@ msgid "Log"
 msgstr "Dnevnik"
 
 #: zrcolagui.cpp:926
-msgid "&Update"
-msgstr "&Posodobi"
+msgid "Quit and &Update..."
+msgstr "Za&ustavi in posodobi ..."
 
-#: zrcolagui.cpp:931
+#: zrcolagui.cpp:928
+msgid "Exit this program and launch product update"
+msgstr "Zaustavi ta program in zaženi posodobitev izdelka"
+
+#: zrcolagui.cpp:932
 msgid "&Close"
 msgstr "&Zapri"
 
-#: zrcolagui.cpp:965
+#: zrcolagui.cpp:933
+msgid "Close this window"
+msgstr "Zapri to okno"
+
+#: zrcolagui.cpp:972
 msgid "Enter the &character you would like to request:"
 msgstr "Vpišite &znak, ki ga želite zahtevati:"
 
-#: zrcolagui.cpp:972
+#: zrcolagui.cpp:979
 msgid "Decomposed character to request"
 msgstr "Razstavljen znak, ki ga zahtevate"
 
 # Please use a double && for final "&" character
-#: zrcolagui.cpp:976
+#: zrcolagui.cpp:983
 msgid ""
 "Please, use the decomposed form.\n"
 "You can use ZRCola keyboard shortcuts to enter the character or Copy&&Paste "
@@ -476,17 +484,17 @@ msgstr ""
 "Za vnos znaka lahko uporavite ZRColine bližnjice na tipkovnici ali kopirate "
 "in prilepite iz okna z razstavljenim besedilom."
 
-#: zrcolagui.cpp:986
+#: zrcolagui.cpp:993
 msgid ""
 "The &context, examples or short description why and where the character is "
 "required:"
 msgstr "&Kontekst, primeri oz. kratek opis zakaj in kje potrebujete novi znak:"
 
-#: zrcolagui.cpp:992
+#: zrcolagui.cpp:999
 msgid "Additional notes for character request"
 msgstr "Dodatne opombe za zahtevo znaka"
 
-#: zrcolagui.cpp:999
+#: zrcolagui.cpp:1006
 msgid ""
 "After clicking OK button, your e-mail application should open allowing you "
 "to submit the new character request to ZRCola Editor.\n"
@@ -512,6 +520,18 @@ msgstr ""
 msgid "Start ZRCola automatically on logon"
 msgstr "Samodejno zaženi ZRColo ob prijavi"
 
+#: zrcolaupdater.cpp:94
+msgid ""
+"This program will now close and the upgrade will be launched.\n"
+"Are you sure?"
+msgstr ""
+"Ta program se bo zdaj zaprl in zagnala se bo posodobitev.\n"
+"Ali ste prepričani?"
+
+#: zrcolaupdater.cpp:94 zrcolagui.h:328
+msgid "Product Update"
+msgstr "Posodabljanje izdelka"
+
 #: zrcolagui.h:277
 msgid "Settings"
 msgstr "Nastavitve"
@@ -519,10 +539,6 @@ msgstr "Nastavitve"
 #: zrcolagui.h:303
 msgid "About ZRCola"
 msgstr "O ZRColi"
-
-#: zrcolagui.h:326
-msgid "Product Update"
-msgstr "Posodabljanje izdelka"
 
 # Windows charset for this language (decimal)
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:3

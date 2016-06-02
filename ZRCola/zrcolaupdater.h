@@ -42,11 +42,14 @@ public:
     virtual ~wxZRColaUpdater();
 
 protected:
-    void OnCheckComplete(wxThreadEvent& event);
+    //void OnCheckComplete(wxThreadEvent& event);
+    virtual void OnIdle(wxIdleEvent& event);
     virtual void OnUpdate(wxCommandEvent& event);
+    virtual void OnClose(wxCommandEvent& event);
 
 protected:
     wxLogLevel m_logLevelOrig;      ///< Original log level
     wxLog *m_logOrig;               ///< Original log
     wxUpdCheckThread *m_updater;    ///< Updater thread
+    bool m_finished;                ///< Is Updater finished?
 };

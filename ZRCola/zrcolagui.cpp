@@ -923,12 +923,15 @@ wxZRColaUpdaterBase::wxZRColaUpdaterBase( wxWindow* parent, wxWindowID id, const
 	wxBoxSizer* bSizerButtons;
 	bSizerButtons = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_buttonUpdate = new wxButton( this, wxID_ANY, _("&Update"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_buttonUpdate = new wxButton( this, wxID_ANY, _("Quit and &Update..."), wxDefaultPosition, wxDefaultSize, 0 );
 	m_buttonUpdate->Enable( false );
+	m_buttonUpdate->SetToolTip( _("Exit this program and launch product update") );
 	
 	bSizerButtons->Add( m_buttonUpdate, 0, wxALL, 5 );
 	
 	m_buttonClose = new wxButton( this, wxID_OK, _("&Close"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_buttonClose->SetToolTip( _("Close this window") );
+	
 	bSizerButtons->Add( m_buttonClose, 0, wxALL, 5 );
 	
 	
@@ -942,13 +945,17 @@ wxZRColaUpdaterBase::wxZRColaUpdaterBase( wxWindow* parent, wxWindowID id, const
 	this->Centre( wxBOTH );
 	
 	// Connect Events
+	this->Connect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaUpdaterBase::OnIdle ) );
 	m_buttonUpdate->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaUpdaterBase::OnUpdate ), NULL, this );
+	m_buttonClose->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaUpdaterBase::OnClose ), NULL, this );
 }
 
 wxZRColaUpdaterBase::~wxZRColaUpdaterBase()
 {
 	// Disconnect Events
+	this->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaUpdaterBase::OnIdle ) );
 	m_buttonUpdate->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaUpdaterBase::OnUpdate ), NULL, this );
+	m_buttonClose->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaUpdaterBase::OnClose ), NULL, this );
 	
 }
 

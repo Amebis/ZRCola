@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-06-01 18:55+0200\n"
+"POT-Creation-Date: 2016-06-02 20:26+0200\n"
 "PO-Revision-Date: 2016-05-13 15:52+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
@@ -32,17 +32,17 @@ msgstr "© 2004-%s ZRC SAZU"
 msgid "ZRCola"
 msgstr "ZRCola"
 
-#: zrcolachrreq.cpp:49 zrcolagui.cpp:963
+#: zrcolachrreq.cpp:49 zrcolagui.cpp:970
 #, fuzzy
 msgid "Character"
 msgstr "Znak"
 
-#: zrcolachrreq.cpp:58 zrcolagui.cpp:984
+#: zrcolachrreq.cpp:58 zrcolagui.cpp:991
 #, fuzzy
 msgid "Context"
 msgstr "Kontekst"
 
-#: zrcolachrreq.cpp:64 zrcolagui.h:355
+#: zrcolachrreq.cpp:64 zrcolagui.h:357
 #, fuzzy
 msgid "Request a New Character"
 msgstr "Zahtevaj nov znak"
@@ -71,14 +71,18 @@ msgstr ""
 "funkcionalnosti ne bo na voljo."
 
 #: zrcolafrm.cpp:351
+#, fuzzy
 msgid "http://zrcola-2.amebis.si/en/info/instructions/"
-msgstr ""
+msgstr "http://zrcola-2.amebis.si/info/instructions/"
 
-#: zrcolafrm.cpp:373
+#: zrcolafrm.cpp:375
+#, fuzzy
 msgid ""
 "http://zrcola-2.amebis.si/wp-content/uploads/2016/04/5_ZRCola-"
 "Tipkovnica_2009-06-21.pdf"
 msgstr ""
+"http://zrcola-2.amebis.si/wp-content/uploads/2016/04/5_ZRCola-"
+"Tipkovnica_2009-06-21.pdf"
 
 #: zrcolagui.cpp:36
 #, fuzzy
@@ -196,21 +200,24 @@ msgid "&View"
 msgstr "Po&gled"
 
 #: zrcolagui.cpp:142
+#, fuzzy
 msgid "&Instructions..."
-msgstr ""
+msgstr "Navod&ila ..."
 
 #: zrcolagui.cpp:142
+#, fuzzy
 msgid "Open a web site with product instructions"
-msgstr ""
+msgstr "Odpri spletno stran z navodili izdelka"
 
 #: zrcolagui.cpp:146
 #, fuzzy
 msgid "Keyboard &Shortcuts..."
-msgstr "Bližnjice na tipkovnici"
+msgstr "&Bližnjice na tipkovnici ..."
 
 #: zrcolagui.cpp:146
+#, fuzzy
 msgid "Open a list of keyboard shortcuts"
-msgstr ""
+msgstr "Odpri seznam bližnjic na tipkovnici"
 
 #: zrcolagui.cpp:152
 #, fuzzy
@@ -541,25 +548,35 @@ msgstr "Dnevnik"
 
 #: zrcolagui.cpp:926
 #, fuzzy
-msgid "&Update"
-msgstr "&Posodobi"
+msgid "Quit and &Update..."
+msgstr "Za&ustavi in posodobi"
 
-#: zrcolagui.cpp:931
+#: zrcolagui.cpp:928
+#, fuzzy
+msgid "Exit this program and launch product update"
+msgstr "Zaustavi ta program in zaženi posodobitev izdelka"
+
+#: zrcolagui.cpp:932
 #, fuzzy
 msgid "&Close"
 msgstr "&Zapri"
 
-#: zrcolagui.cpp:965
+#: zrcolagui.cpp:933
+#, fuzzy
+msgid "Close this window"
+msgstr "Zapri to okno"
+
+#: zrcolagui.cpp:972
 #, fuzzy
 msgid "Enter the &character you would like to request:"
 msgstr "Vpišite &znak, ki ga želite zahtevati:"
 
-#: zrcolagui.cpp:972
+#: zrcolagui.cpp:979
 #, fuzzy
 msgid "Decomposed character to request"
 msgstr "Razstavljen znak, ki ga zahtevate"
 
-#: zrcolagui.cpp:976
+#: zrcolagui.cpp:983
 #, fuzzy
 msgid ""
 "Please, use the decomposed form.\n"
@@ -570,19 +587,19 @@ msgstr ""
 "Za vnos znaka lahko uporavite ZRColine bližnjice na tipkovnici ali kopirate "
 "in prilepite iz okna z razstavljenim besedilom."
 
-#: zrcolagui.cpp:986
+#: zrcolagui.cpp:993
 #, fuzzy
 msgid ""
 "The &context, examples or short description why and where the character is "
 "required:"
 msgstr "&Kontekst, primeri oz. kratek opis zakaj in kje potrebujete novi znak:"
 
-#: zrcolagui.cpp:992
+#: zrcolagui.cpp:999
 #, fuzzy
 msgid "Additional notes for character request"
 msgstr "Dodatne opombe za zahtevo znaka"
 
-#: zrcolagui.cpp:999
+#: zrcolagui.cpp:1006
 #, fuzzy
 msgid ""
 "After clicking OK button, your e-mail application should open allowing you "
@@ -611,6 +628,20 @@ msgstr ""
 msgid "Start ZRCola automatically on logon"
 msgstr "Samodejno zaženi ZRColo ob prijavi"
 
+#: zrcolaupdater.cpp:94
+#, fuzzy
+msgid ""
+"This program will now close and the upgrade will be launched.\n"
+"Are you sure?"
+msgstr ""
+"Ta program se bo zdaj zaprl in zagnala se bo posodobitev.\n"
+"Ali ste prepričani?"
+
+#: zrcolaupdater.cpp:94 zrcolagui.h:328
+#, fuzzy
+msgid "Product Update"
+msgstr "Posodabljanje izdelka"
+
 #: zrcolagui.h:277
 #, fuzzy
 msgid "Settings"
@@ -620,11 +651,6 @@ msgstr "Nastavitve"
 #, fuzzy
 msgid "About ZRCola"
 msgstr "O ZRColi"
-
-#: zrcolagui.h:326
-#, fuzzy
-msgid "Product Update"
-msgstr "Posodabljanje izdelka"
 
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:3
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:3
