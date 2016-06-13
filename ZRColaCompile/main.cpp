@@ -120,7 +120,7 @@ int _tmain(int argc, _TCHAR *argv[])
                 db.data     .reserve(count*4);
 
                 // Parse translations and build index and data.
-                while (!ZRCola::DBSource::IsEOF(rs)) {
+                for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
                     // Read translation from the database.
                     if (src.GetTranslation(rs, trans)) {
                         // Add translation to index and data.
@@ -137,8 +137,6 @@ int _tmain(int argc, _TCHAR *argv[])
                         db.idxDecomp.push_back(idx);
                     } else
                         has_errors = true;
-
-                    wxVERIFY(SUCCEEDED(rs->MoveNext()));
                 }
 
                 // Sort indices.
@@ -172,7 +170,7 @@ int _tmain(int argc, _TCHAR *argv[])
                 db.data  .reserve(count*4);
 
                 // Parse key sequences and build index and data.
-                while (!ZRCola::DBSource::IsEOF(rs)) {
+                for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
                     // Read key sequence from the database.
                     if (src.GetKeySequence(rs, ks)) {
                         // Add key sequence to index and data.
@@ -193,8 +191,6 @@ int _tmain(int argc, _TCHAR *argv[])
                         db.idxKey.push_back(idx);
                     } else
                         has_errors = true;
-
-                    wxVERIFY(SUCCEEDED(rs->MoveNext()));
                 }
 
                 // Sort indices.
@@ -240,9 +236,12 @@ int _tmain(int argc, _TCHAR *argv[])
                 db.data  .reserve(count*4);
 
                 // Parse languages and build index and data.
-                while (!ZRCola::DBSource::IsEOF(rs)) {
+                for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
                     // Read language from the database.
                     if (src.GetLanguage(rs, lang)) {
+                        if (build_pot)
+                            pot.insert(lang.name);
+
                         // Add language to index and data.
                         unsigned __int32 idx = db.data.size();
                         for (wstring::size_type i = 0; i < sizeof(ZRCola::langid_t)/sizeof(unsigned __int16); i++)
@@ -253,12 +252,8 @@ int _tmain(int argc, _TCHAR *argv[])
                         for (wstring::size_type i = 0; i < n; i++)
                             db.data.push_back(lang.name[i]);
                         db.idxLng.push_back(idx);
-                        if (build_pot)
-                            pot.insert(lang.name);
                     } else
                         has_errors = true;
-
-                    wxVERIFY(SUCCEEDED(rs->MoveNext()));
                 }
 
                 // Sort indices.
@@ -293,7 +288,7 @@ int _tmain(int argc, _TCHAR *argv[])
                 db.data  .reserve(count*4);
 
                 // Parse language characters and build index and data.
-                while (!ZRCola::DBSource::IsEOF(rs)) {
+                for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
                     // Read language characters from the database.
                     if (src.GetLanguageCharacter(rs, lc)) {
                         // Add language characters to index and data.
@@ -307,8 +302,6 @@ int _tmain(int argc, _TCHAR *argv[])
 #endif
                     } else
                         has_errors = true;
-
-                    wxVERIFY(SUCCEEDED(rs->MoveNext()));
                 }
 
                 // Sort indices.
@@ -343,9 +336,12 @@ int _tmain(int argc, _TCHAR *argv[])
                 db.data  .reserve(count*4);
 
                 // Parse character groups and build index and data.
-                while (!ZRCola::DBSource::IsEOF(rs)) {
+                for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
                     // Read character group from the database.
                     if (src.GetCharacterGroup(rs, cg)) {
+                        if (build_pot)
+                            pot.insert(cg.name);
+
                         if (cg.chars.empty()) {
                             // Skip empty character groups.
                             continue;
@@ -368,12 +364,8 @@ int _tmain(int argc, _TCHAR *argv[])
                         for (wstring::size_type i = 0; i < n_char; i++)
                             db.data.push_back(cg.chars[i]);
                         db.idxRnk.push_back(idx);
-                        if (build_pot)
-                            pot.insert(cg.name);
                     } else
                         has_errors = true;
-
-                    wxVERIFY(SUCCEEDED(rs->MoveNext()));
                 }
 
                 // Sort indices.
@@ -404,7 +396,7 @@ int _tmain(int argc, _TCHAR *argv[])
                 ZRCola::DBSource::character_bank chrs;
 
                 // Phase 1: Parse characters and build indexes.
-                while (!ZRCola::DBSource::IsEOF(rs)) {
+                for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
                     // Read character from the database.
                     unique_ptr<ZRCola::DBSource::character> c(new ZRCola::DBSource::character);
                     if (src.GetCharacter(rs, *c)) {
@@ -412,8 +404,6 @@ int _tmain(int argc, _TCHAR *argv[])
                         chrs[chr.chr].swap(c);
                     } else
                         has_errors = true;
-
-                    wxVERIFY(SUCCEEDED(rs->MoveNext()));
                 }
 
                 // Phase 2: Build related character lists.
@@ -489,31 +479,32 @@ int _tmain(int argc, _TCHAR *argv[])
                 db.data     .reserve(count*4);
 
                 // Parse character categories and build index and data.
-                while (!ZRCola::DBSource::IsEOF(rs)) {
+                for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
                     // Read character category from the database.
                     if (src.GetCharacterCategory(rs, cc)) {
-                        if (categories_used.find(cc.id) != categories_used.end()) {
-                            // Add character category to index and data.
-                            unsigned __int32 idx = db.data.size();
-                            for (wstring::size_type i = 0; i < sizeof(ZRCola::chrcatid_t)/sizeof(unsigned __int16); i++)
-                                db.data.push_back(((const unsigned __int16*)cc.id.data)[i]);
-                            wxASSERT_MSG((int)0xffff8000 <= cc.rank && cc.rank <= (int)0x00007fff, wxT("character category rank out of bounds"));
-                            db.data.push_back((unsigned __int16)cc.rank);
-                            wstring::size_type n_name = cc.name.length();
-                            wxASSERT_MSG(n_name <= 0xffff, wxT("character category name too long"));
-                            db.data.push_back((unsigned __int16)n_name);
-                            for (wstring::size_type i = 0; i < n_name; i++)
-                                db.data.push_back(cc.name[i]);
-                            db.idxChrCat.push_back(idx);
-                            db.idxRnk   .push_back(idx);
-                            if (build_pot)
-                                pot.insert(cc.name);
-                        } else
-                            _ftprintf(stderr, wxT("%s: warning ZCC0019: Ommiting empty category %ls.\n"), (LPCTSTR)filenameIn.c_str(), (LPCWSTR)cc.name.c_str());
+                        if (build_pot)
+                            pot.insert(cc.name);
+
+                        if (categories_used.find(cc.id) == categories_used.end()) {
+                            // Skip empty character categories.
+                            continue;
+                        }
+
+                        // Add character category to index and data.
+                        unsigned __int32 idx = db.data.size();
+                        for (wstring::size_type i = 0; i < sizeof(ZRCola::chrcatid_t)/sizeof(unsigned __int16); i++)
+                            db.data.push_back(((const unsigned __int16*)cc.id.data)[i]);
+                        wxASSERT_MSG((int)0xffff8000 <= cc.rank && cc.rank <= (int)0x00007fff, wxT("character category rank out of bounds"));
+                        db.data.push_back((unsigned __int16)cc.rank);
+                        wstring::size_type n_name = cc.name.length();
+                        wxASSERT_MSG(n_name <= 0xffff, wxT("character category name too long"));
+                        db.data.push_back((unsigned __int16)n_name);
+                        for (wstring::size_type i = 0; i < n_name; i++)
+                            db.data.push_back(cc.name[i]);
+                        db.idxChrCat.push_back(idx);
+                        db.idxRnk   .push_back(idx);
                     } else
                         has_errors = true;
-
-                    wxVERIFY(SUCCEEDED(rs->MoveNext()));
                 }
 
                 // Sort indices.
