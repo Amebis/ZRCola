@@ -106,12 +106,6 @@ wxZRColaFrame::wxZRColaFrame() :
     // Set focus.
     m_panel->m_decomposed->SetFocus();
 
-    // Register global hotkey(s).
-    if (!RegisterHotKey(wxZRColaHKID_INVOKE_COMPOSE, wxMOD_WIN, VK_F5))
-        wxMessageBox(_("ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
-    if (!RegisterHotKey(wxZRColaHKID_INVOKE_DECOMPOSE, wxMOD_WIN, VK_F6))
-        wxMessageBox(_("ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
-
 #if defined(__WXMSW__)
     // Register notification sink for language detection.
     m_ulRefCount = 1;
@@ -141,21 +135,27 @@ wxZRColaFrame::wxZRColaFrame() :
 
     // Restore persistent state of wxAuiManager manually, since m_mgr is not on the heap.
     wxPersistentAuiManager(&m_mgr).Restore();
+
+    // Register global hotkey(s).
+    if (!RegisterHotKey(wxZRColaHKID_INVOKE_COMPOSE, wxMOD_WIN, VK_F5))
+        wxMessageBox(_("ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
+    if (!RegisterHotKey(wxZRColaHKID_INVOKE_DECOMPOSE, wxMOD_WIN, VK_F6))
+        wxMessageBox(_("ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
 }
 
 
 wxZRColaFrame::~wxZRColaFrame()
 {
+    // Unregister global hotkey(s).
+    UnregisterHotKey(wxZRColaHKID_INVOKE_DECOMPOSE);
+    UnregisterHotKey(wxZRColaHKID_INVOKE_COMPOSE);
+
 #if defined(__WXMSW__)
     if (m_tfSource) {
         m_tfSource->UnadviseSink(m_dwCookie);
         m_tfSource->Release();
     }
 #endif
-
-    // Unregister global hotkey(s).
-    UnregisterHotKey(wxZRColaHKID_INVOKE_DECOMPOSE);
-    UnregisterHotKey(wxZRColaHKID_INVOKE_COMPOSE);
 
     if (m_chrReq)
         delete m_chrReq;
