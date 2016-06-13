@@ -429,32 +429,49 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	
 	sbSizerBrowse->Add( m_search, 0, wxALL|wxEXPAND, 5 );
 	
+	m_search_more = new wxHyperlinkCtrl( sbSizerBrowse->GetStaticBox(), wxID_ANY, _("Search Options"), wxEmptyString, wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
+	m_search_more->SetToolTip( _("Shows/hides additional search options") );
+	
+	sbSizerBrowse->Add( m_search_more, 0, wxALL|wxEXPAND, 5 );
+	
+	m_search_panel = new wxPanel( sbSizerBrowse->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_search_panel->Hide();
+	
+	wxBoxSizer* sbSizerSearch;
+	sbSizerSearch = new wxBoxSizer( wxVERTICAL );
+	
 	wxArrayString m_categoriesChoices;
-	m_categories = new wxCheckListBox( sbSizerBrowse->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( -1,60 ), m_categoriesChoices, 0 );
+	m_categories = new wxCheckListBox( m_search_panel, wxID_ANY, wxDefaultPosition, wxSize( -1,60 ), m_categoriesChoices, 0 );
 	m_categories->SetToolTip( _("List of Unicode character categories to search in") );
 	
-	sbSizerBrowse->Add( m_categories, 0, wxALL|wxEXPAND, 5 );
+	sbSizerSearch->Add( m_categories, 0, wxALL|wxEXPAND, 5 );
 	
 	wxBoxSizer* bSizerCategoriesCtrl;
 	bSizerCategoriesCtrl = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_categoriesAll = new wxHyperlinkCtrl( sbSizerBrowse->GetStaticBox(), wxID_ANY, _("All"), wxEmptyString, wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
+	m_categoriesAll = new wxHyperlinkCtrl( m_search_panel, wxID_ANY, _("All"), wxEmptyString, wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
 	m_categoriesAll->SetToolTip( _("Select all categories") );
 	
 	bSizerCategoriesCtrl->Add( m_categoriesAll, 0, wxALL, 5 );
 	
-	m_categoriesNone = new wxHyperlinkCtrl( sbSizerBrowse->GetStaticBox(), wxID_ANY, _("None"), wxEmptyString, wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
+	m_categoriesNone = new wxHyperlinkCtrl( m_search_panel, wxID_ANY, _("None"), wxEmptyString, wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
 	m_categoriesNone->SetToolTip( _("Clear category selection") );
 	
 	bSizerCategoriesCtrl->Add( m_categoriesNone, 0, wxALL, 5 );
 	
-	m_categoriesInvert = new wxHyperlinkCtrl( sbSizerBrowse->GetStaticBox(), wxID_ANY, _("Invert"), wxEmptyString, wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
+	m_categoriesInvert = new wxHyperlinkCtrl( m_search_panel, wxID_ANY, _("Invert"), wxEmptyString, wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
 	m_categoriesInvert->SetToolTip( _("Invert category selection") );
 	
 	bSizerCategoriesCtrl->Add( m_categoriesInvert, 0, wxALL, 5 );
 	
 	
-	sbSizerBrowse->Add( bSizerCategoriesCtrl, 0, wxALIGN_RIGHT, 5 );
+	sbSizerSearch->Add( bSizerCategoriesCtrl, 0, wxALIGN_RIGHT, 5 );
+	
+	
+	m_search_panel->SetSizer( sbSizerSearch );
+	m_search_panel->Layout();
+	sbSizerSearch->Fit( m_search_panel );
+	sbSizerBrowse->Add( m_search_panel, 0, wxEXPAND, 5 );
 	
 	m_gridResults = new wxZRColaCharGrid( sbSizerBrowse->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxSTATIC_BORDER );
 	
@@ -680,6 +697,7 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	// Connect Events
 	this->Connect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaCharSelectBase::OnIdle ) );
 	m_search->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaCharSelectBase::OnSearchText ), NULL, this );
+	m_search_more->Connect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnSearchMore ), NULL, this );
 	m_categories->Connect( wxEVT_COMMAND_CHECKLISTBOX_TOGGLED, wxCommandEventHandler( wxZRColaCharSelectBase::OnCategoriesToggle ), NULL, this );
 	m_categoriesAll->Connect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnCategoriesAll ), NULL, this );
 	m_categoriesNone->Connect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnCategoriesNone ), NULL, this );
@@ -703,6 +721,7 @@ wxZRColaCharSelectBase::~wxZRColaCharSelectBase()
 	// Disconnect Events
 	this->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaCharSelectBase::OnIdle ) );
 	m_search->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaCharSelectBase::OnSearchText ), NULL, this );
+	m_search_more->Disconnect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnSearchMore ), NULL, this );
 	m_categories->Disconnect( wxEVT_COMMAND_CHECKLISTBOX_TOGGLED, wxCommandEventHandler( wxZRColaCharSelectBase::OnCategoriesToggle ), NULL, this );
 	m_categoriesAll->Disconnect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnCategoriesAll ), NULL, this );
 	m_categoriesNone->Disconnect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnCategoriesNone ), NULL, this );

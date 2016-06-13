@@ -38,8 +38,8 @@ class wxZRColaComposerPanel;
 #include <wx/choice.h>
 #include <wx/grid.h>
 #include <wx/srchctrl.h>
-#include <wx/checklst.h>
 #include <wx/hyperlink.h>
+#include <wx/checklst.h>
 #include <wx/stattext.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
@@ -195,6 +195,8 @@ class wxZRColaCharSelectBase : public wxDialog
 	
 	protected:
 		wxSearchCtrl* m_search;
+		wxHyperlinkCtrl* m_search_more;
+		wxPanel* m_search_panel;
 		wxCheckListBox* m_categories;
 		wxHyperlinkCtrl* m_categoriesAll;
 		wxHyperlinkCtrl* m_categoriesNone;
@@ -217,6 +219,7 @@ class wxZRColaCharSelectBase : public wxDialog
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnIdle( wxIdleEvent& event ) { event.Skip(); }
 		virtual void OnSearchText( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnSearchMore( wxHyperlinkEvent& event ) { event.Skip(); }
 		virtual void OnCategoriesToggle( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnCategoriesAll( wxHyperlinkEvent& event ) { event.Skip(); }
 		virtual void OnCategoriesNone( wxHyperlinkEvent& event ) { event.Skip(); }

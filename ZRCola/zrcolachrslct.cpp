@@ -1,4 +1,4 @@
-/*
+﻿/*
     Copyright 2015-2016 Amebis
 
     This file is part of ZRCola.
@@ -35,6 +35,8 @@ wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) :
     wxZRColaCharSelectBase(parent)
 {
     Connect(wxID_ANY, wxEVT_SEARCH_COMPLETE, wxThreadEventHandler(wxZRColaCharSelect::OnSearchComplete), NULL, this);
+
+    m_search_more->SetLabel(_(L"▸ Search Options"));
 
     m_unicode->SetValidator(wxHexValidator<wchar_t>(&m_char, wxNUM_VAL_DEFAULT, 4));
 
@@ -166,6 +168,22 @@ void wxZRColaCharSelect::OnSearchText(wxCommandEvent& event)
     event.Skip();
 
     m_searchChanged = true;
+}
+
+
+void wxZRColaCharSelect::OnSearchMore(wxHyperlinkEvent& event)
+{
+    event.StopPropagation();
+
+    if (m_search_panel->IsShown()) {
+        m_search_panel->Show(false);
+        m_search_more->SetLabel(_(L"▸ Search Options"));
+    } else {
+        m_search_panel->Show(true);
+        m_search_more->SetLabel(_(L"▾ Search Options"));
+    }
+
+    this->Layout();
 }
 
 
@@ -573,6 +591,8 @@ void wxPersistentZRColaCharSelect::Save() const
         name.Append(cc.id.data, _countof(cc.id.data));
         SaveValue(name, wnd->m_categories->IsChecked(i));
     }
+
+    SaveValue(wxT("searchPanel"), wnd->m_search_panel->IsShown());
 }
 
 
@@ -593,6 +613,18 @@ bool wxPersistentZRColaCharSelect::Restore()
         if (RestoreValue(name, &val))
             wnd->m_categories->Check(i, val);
     }
+
+    bool search_panel;
+    if (RestoreValue(wxT("searchPanel"), &search_panel)) {
+        if (search_panel) {
+            wnd->m_search_panel->Show(true);
+            wnd->m_search_more->SetLabel(_(L"▾ Search Options"));
+        } else {
+            wnd->m_search_panel->Show(false);
+            wnd->m_search_more->SetLabel(_(L"▸ Search Options"));
+        }
+    }
+
     wnd->ResetResults();
 
     return wxPersistentDialog::Restore();

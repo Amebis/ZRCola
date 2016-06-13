@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-06-02 20:53+0200\n"
-"PO-Revision-Date: 2016-06-02 20:53+0200\n"
+"POT-Creation-Date: 2016-06-13 13:21+0200\n"
+"PO-Revision-Date: 2016-06-13 13:21+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: de_DE\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "© 2004-%s ZRC SAZU"
 msgstr ""
 
-#: zrcolaapp.cpp:79 zrcolafrm.cpp:90 zrcolagui.cpp:841 zrcolagui.h:104
+#: zrcolaapp.cpp:79 zrcolafrm.cpp:90 zrcolagui.cpp:860 zrcolagui.h:104
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
@@ -29,18 +29,26 @@ msgstr ""
 msgid "ZRCola"
 msgstr "ZRCola:."
 
-#: zrcolachrreq.cpp:49 zrcolagui.cpp:970
+#: zrcolachrreq.cpp:49 zrcolagui.cpp:989
 #, fuzzy
 msgid "Character"
 msgstr "Eingabe eines Zeichenstils"
 
-#: zrcolachrreq.cpp:58 zrcolagui.cpp:991
+#: zrcolachrreq.cpp:58 zrcolagui.cpp:1010
 #, fuzzy
 msgid "Context"
 msgstr "Konnte den Kontext auf dem überlagerten Fenster nicht initialisieren."
 
-#: zrcolachrreq.cpp:64 zrcolagui.h:357
+#: zrcolachrreq.cpp:64 zrcolagui.h:360
 msgid "Request a New Character"
+msgstr ""
+
+#: zrcolachrslct.cpp:39 zrcolachrslct.cpp:180 zrcolachrslct.cpp:624
+msgid "▸ Search Options"
+msgstr ""
+
+#: zrcolachrslct.cpp:183 zrcolachrslct.cpp:621
+msgid "▾ Search Options"
 msgstr ""
 
 #: zrcolafrm.cpp:111
@@ -298,216 +306,224 @@ msgid ""
 "search for"
 msgstr ""
 
-#: zrcolagui.cpp:434
+#: zrcolagui.cpp:432
+msgid "Search Options"
+msgstr ""
+
+#: zrcolagui.cpp:433
+msgid "Shows/hides additional search options"
+msgstr ""
+
+#: zrcolagui.cpp:445
 msgid "List of Unicode character categories to search in"
-msgstr ""
-
-#: zrcolagui.cpp:441
-#, fuzzy
-msgid "All"
-msgstr "Alle"
-
-#: zrcolagui.cpp:442
-msgid "Select all categories"
-msgstr ""
-
-#: zrcolagui.cpp:446
-#, fuzzy
-msgid "None"
-msgstr "Kein"
-
-#: zrcolagui.cpp:447
-#, fuzzy
-msgid "Clear category selection"
-msgstr "Auswahl kopieren"
-
-#: zrcolagui.cpp:451
-msgid "Invert"
 msgstr ""
 
 #: zrcolagui.cpp:452
 #, fuzzy
+msgid "All"
+msgstr "Alle"
+
+#: zrcolagui.cpp:453
+msgid "Select all categories"
+msgstr ""
+
+#: zrcolagui.cpp:457
+#, fuzzy
+msgid "None"
+msgstr "Kein"
+
+#: zrcolagui.cpp:458
+#, fuzzy
+msgid "Clear category selection"
+msgstr "Auswahl kopieren"
+
+#: zrcolagui.cpp:462
+msgid "Invert"
+msgstr ""
+
+#: zrcolagui.cpp:463
+#, fuzzy
 msgid "Invert category selection"
 msgstr "Auswahl einfügen"
 
-#: zrcolagui.cpp:485
+#: zrcolagui.cpp:502
 #, fuzzy
 msgid "Character search results"
 msgstr "Skupine &znakov"
 
-#: zrcolagui.cpp:495
+#: zrcolagui.cpp:512
 msgid "Re&cently Used"
 msgstr ""
 
-#: zrcolagui.cpp:523
+#: zrcolagui.cpp:540
 msgid "List of recently inserted characters"
 msgstr ""
 
-#: zrcolagui.cpp:537
+#: zrcolagui.cpp:554
 #, fuzzy
 msgid "Preview"
 msgstr " Vorschau"
 
-#: zrcolagui.cpp:542
+#: zrcolagui.cpp:559
 #, fuzzy
 msgid "U+"
 msgstr "Hilfeverzeichnis %u nicht gefunden."
 
-#: zrcolagui.cpp:547
+#: zrcolagui.cpp:564
 msgid "Unicode hexadecimal code"
 msgstr ""
 
-#: zrcolagui.cpp:552
+#: zrcolagui.cpp:569
 msgid "Keyboard shortcut in Composer window"
-msgstr ""
-
-#: zrcolagui.cpp:587
-#, fuzzy
-msgid "Character preview"
-msgstr "Skupine &znakov"
-
-#: zrcolagui.cpp:592
-msgid "Unicode character description"
-msgstr ""
-
-#: zrcolagui.cpp:597
-msgid "Unicode character category"
 msgstr ""
 
 #: zrcolagui.cpp:604
 #, fuzzy
+msgid "Character preview"
+msgstr "Skupine &znakov"
+
+#: zrcolagui.cpp:609
+msgid "Unicode character description"
+msgstr ""
+
+#: zrcolagui.cpp:614
+msgid "Unicode character category"
+msgstr ""
+
+#: zrcolagui.cpp:621
+#, fuzzy
 msgid "« Back"
 msgstr "< &Zurück"
 
-#: zrcolagui.cpp:606
+#: zrcolagui.cpp:623
 msgid "To previously viewed character"
 msgstr ""
 
-#: zrcolagui.cpp:610
+#: zrcolagui.cpp:627
 #, fuzzy
 msgid "Forward »"
 msgstr "&Vorwärts"
 
-#: zrcolagui.cpp:612
+#: zrcolagui.cpp:629
 msgid "To following viewed character"
 msgstr ""
 
-#: zrcolagui.cpp:623
+#: zrcolagui.cpp:640
 msgid "Re&lated"
 msgstr ""
 
-#: zrcolagui.cpp:650
+#: zrcolagui.cpp:667
 msgid "List of related characters"
 msgstr ""
 
-#: zrcolagui.cpp:737
+#: zrcolagui.cpp:756
 msgid ""
 "Some character native to specific language you are working with should not "
 "decompose to primitives.\n"
 "For optimal decomposition you should set the language correctly."
 msgstr ""
 
-#: zrcolagui.cpp:741
+#: zrcolagui.cpp:760
 msgid "Select language &automatically according to selected keyboard"
 msgstr ""
 
-#: zrcolagui.cpp:744
+#: zrcolagui.cpp:763
 msgid "&Manually select the language from the list below:"
 msgstr ""
 
-#: zrcolagui.cpp:756
+#: zrcolagui.cpp:775
 msgid "Text Language"
 msgstr ""
 
-#: zrcolagui.cpp:761
+#: zrcolagui.cpp:780
 msgid ""
 "ZRCola can be launched every time you log in to your computer.\n"
 "It will be available on the system tray and via registered shortcuts Win+F5 "
 "and Win+F6."
 msgstr ""
 
-#: zrcolagui.cpp:765
+#: zrcolagui.cpp:784
 msgid "Start ZRCola &automatically on logon"
 msgstr ""
 
-#: zrcolagui.cpp:772
+#: zrcolagui.cpp:791
 msgid "Startup"
 msgstr ""
 
-#: zrcolagui.cpp:851
+#: zrcolagui.cpp:870
 msgid ""
 "Program and Website Editor: Janoš Ježovnik\n"
 "Development: Amebis, d. o. o., Kamnik\n"
 "Development and maintenance (2004-2015): dr. Peter Weiss"
 msgstr ""
 
-#: zrcolagui.cpp:859
+#: zrcolagui.cpp:878
 msgid "zrcola.zrc-sazu.si"
 msgstr ""
 
-#: zrcolagui.cpp:865
+#: zrcolagui.cpp:884
 msgid ""
 "Texts made using ZRCola have to include in the colophon, foreword, footnote "
 "or some other appropriate part of the publication the note below:"
 msgstr ""
 
-#: zrcolagui.cpp:869
+#: zrcolagui.cpp:888
 msgid ""
 "This text was written using the ZRCola input system (http://zrcola.zrc-sazu."
 "si), developed at the Science and Research Centre of SAZU in Ljubljana "
 "(http://www.zrc-sazu.si) by Dr. Peter Weiss."
 msgstr ""
 
-#: zrcolagui.cpp:910
+#: zrcolagui.cpp:929
 #, fuzzy
 msgid "Log"
 msgstr "&Log"
 
-#: zrcolagui.cpp:926
+#: zrcolagui.cpp:945
 #, fuzzy
 msgid "Quit and &Update..."
 msgstr "Kann Benutzer-Konfigurationsdatei nicht aktualisieren."
 
-#: zrcolagui.cpp:928
+#: zrcolagui.cpp:947
 msgid "Exit this program and launch product update"
 msgstr ""
 
-#: zrcolagui.cpp:932
+#: zrcolagui.cpp:951
 #, fuzzy
 msgid "&Close"
 msgstr "&Schließen"
 
-#: zrcolagui.cpp:933
+#: zrcolagui.cpp:952
 #, fuzzy
 msgid "Close this window"
 msgstr "Fenster schließen"
 
-#: zrcolagui.cpp:972
+#: zrcolagui.cpp:991
 msgid "Enter the &character you would like to request:"
 msgstr ""
 
-#: zrcolagui.cpp:979
+#: zrcolagui.cpp:998
 msgid "Decomposed character to request"
 msgstr ""
 
-#: zrcolagui.cpp:983
+#: zrcolagui.cpp:1002
 msgid ""
 "Please, use the decomposed form.\n"
 "You can use ZRCola keyboard shortcuts to enter the character or Copy&&Paste "
 "it from the Decomposed window."
 msgstr ""
 
-#: zrcolagui.cpp:993
+#: zrcolagui.cpp:1012
 msgid ""
 "The &context, examples or short description why and where the character is "
 "required:"
 msgstr ""
 
-#: zrcolagui.cpp:999
+#: zrcolagui.cpp:1018
 msgid "Additional notes for character request"
 msgstr ""
 
-#: zrcolagui.cpp:1006
+#: zrcolagui.cpp:1025
 msgid ""
 "After clicking OK button, your e-mail application should open allowing you "
 "to submit the new character request to ZRCola Editor.\n"
@@ -532,20 +548,20 @@ msgid ""
 "Are you sure?"
 msgstr ""
 
-#: zrcolaupdater.cpp:94 zrcolagui.h:328
+#: zrcolaupdater.cpp:94 zrcolagui.h:331
 msgid "Product Update"
 msgstr ""
 
-#: zrcolagui.h:240
+#: zrcolagui.h:243
 #, fuzzy
 msgid "Character Search"
 msgstr "Skupine &znakov"
 
-#: zrcolagui.h:277
+#: zrcolagui.h:280
 msgid "Settings"
 msgstr ""
 
-#: zrcolagui.h:303
+#: zrcolagui.h:306
 msgid "About ZRCola"
 msgstr ""
 
@@ -564,3 +580,257 @@ msgstr "1252"
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
 msgid "Input system for linguistic use"
 msgstr ""
+
+#~ msgid "Auto Start"
+#~ msgstr "Samodejni zagon"
+
+#~ msgid "Select %s language for decomposition"
+#~ msgstr "Izberi jezik %s za razstavljanje"
+
+#~ msgid "&Start on Logon"
+#~ msgstr "Z&aženi ob prijavi"
+
+#~ msgid "Start this program automatically on logon"
+#~ msgstr "Samodejno zaženi ta program ob prijavi"
+
+#~ msgid "Set language according to keyboard layout automatically"
+#~ msgstr "Samodejno nastavi jezik glede na izbrano tipkovnico"
+
+#~ msgid "&Unicode"
+#~ msgstr "&Unicode"
+
+#~ msgid "Esc"
+#~ msgstr "Esc"
+
+#~ msgid "F1"
+#~ msgstr "F1"
+
+#~ msgid "F2"
+#~ msgstr "F2"
+
+#~ msgid "F3"
+#~ msgstr "F3"
+
+#~ msgid "F4"
+#~ msgstr "F4"
+
+#~ msgid "F5"
+#~ msgstr "F5"
+
+#~ msgid "F6"
+#~ msgstr "F6"
+
+#~ msgid "F7"
+#~ msgstr "F7"
+
+#~ msgid "F8"
+#~ msgstr "F8"
+
+#~ msgid "F9"
+#~ msgstr "F9"
+
+#~ msgid "F10"
+#~ msgstr "F10"
+
+#~ msgid "F11"
+#~ msgstr "F11"
+
+#~ msgid "F12"
+#~ msgstr "F12"
+
+#~ msgid "Print Screen"
+#~ msgstr "Print Screen"
+
+#~ msgid "Scroll Lock"
+#~ msgstr "Scroll Lock"
+
+#~ msgid "Pause"
+#~ msgstr "Pause"
+
+#~ msgid "Backspace"
+#~ msgstr "Backspace"
+
+#~ msgid "Tab"
+#~ msgstr "Tab"
+
+#~ msgid "Caps Lock"
+#~ msgstr "Caps Lock"
+
+#~ msgid "Return"
+#~ msgstr "Return"
+
+#~ msgid "Space"
+#~ msgstr "preslednica"
+
+#~ msgid "Shift"
+#~ msgstr "Shift"
+
+#, fuzzy
+#~ msgid "Alt"
+#~ msgstr "Alle"
+
+#~ msgid "Ctrl"
+#~ msgstr "Ctrl"
+
+#~ msgid "Menu"
+#~ msgstr "Menu"
+
+#~ msgid "Insert"
+#~ msgstr "Insert"
+
+#~ msgid "Delete"
+#~ msgstr "Delete"
+
+#~ msgid "Page Up"
+#~ msgstr "Page Up"
+
+#~ msgid "Page Down"
+#~ msgstr "Page Down"
+
+#~ msgid "Home"
+#~ msgstr "Home"
+
+#~ msgid "End"
+#~ msgstr "End"
+
+#~ msgid "Left"
+#~ msgstr "Left"
+
+#~ msgid "Up"
+#~ msgstr "Up"
+
+#~ msgid "Right"
+#~ msgstr "Right"
+
+#~ msgid "Down"
+#~ msgstr "Down"
+
+#~ msgid "Num Lock"
+#~ msgstr "Num Lock"
+
+#~ msgid "`"
+#~ msgstr "`"
+
+#~ msgid "-"
+#~ msgstr "-"
+
+#~ msgid "["
+#~ msgstr "["
+
+#~ msgid "]"
+#~ msgstr "]"
+
+#~ msgid ":"
+#~ msgstr ":"
+
+#~ msgid "'"
+#~ msgstr "'"
+
+#~ msgid "\\"
+#~ msgstr "\\"
+
+#~ msgid ","
+#~ msgstr ","
+
+#~ msgid "."
+#~ msgstr "."
+
+#~ msgid "/"
+#~ msgstr "/"
+
+#~ msgid "INS"
+#~ msgstr "INS"
+
+#, fuzzy
+#~ msgid "Character &Groups"
+#~ msgstr "Eingabe eines Zeichenstils"
+
+#~ msgid "Language:"
+#~ msgstr "Jezik:"
+
+#~ msgid "&About"
+#~ msgstr "O progr&amu"
+
+#~ msgid "Cuts selected text and puts it on the clipboard"
+#~ msgstr "Izreže izbrano besedilo in ga shrani na odložišče"
+
+#~ msgid "Copies selected text to the clipboard"
+#~ msgstr "Kopira izbrano besedilo na odložišče"
+
+#~ msgid "Inserts text from the clipboard"
+#~ msgstr "Vstavi besedilo z odložišča"
+
+#, fuzzy
+#~ msgid "&Copy"
+#~ msgstr "Kopieren"
+
+#, fuzzy
+#~ msgid "&Paste"
+#~ msgstr "Einfügen"
+
+#~ msgid "&File"
+#~ msgstr "&Datoteka"
+
+#, fuzzy
+#~ msgid "Send Decomposed (F6)"
+#~ msgstr "Pošlji razstavljeno (F6)"
+
+#, fuzzy
+#~ msgid "Send Composed (F5)"
+#~ msgstr "Pošlji sestavljeno (F5)"
+
+#~ msgid ""
+#~ "ZRCola keyboard shortcut Win+Shift+Z could not be registered. Some "
+#~ "functionality will not be available."
+#~ msgstr ""
+#~ "ZRColine bližnjice na tipkovnici Win+Shift+Z ni mogoče registrirati. "
+#~ "Nekaj funkcionalnosti ne bo na voljo."
+
+#, fuzzy
+#~ msgid "Authentication progress real time monitor"
+#~ msgstr "Nadzira postopek overovljanja v realnem času"
+
+#~ msgid "Grave\t&7"
+#~ msgstr "Krativec\t&7"
+
+#~ msgid "Acute\t&9"
+#~ msgstr "Ostrivec\t&9"
+
+#~ msgid "Circumflex\t&3"
+#~ msgstr "Cirkumfleks\t&3"
+
+#~ msgid "Inverted &breve"
+#~ msgstr "O&brnjen polkrog"
+
+#~ msgid "&Accents"
+#~ msgstr "N&aglasi"
+
+#~ msgid ""
+#~ "There is already an auto hidden bar on this edge.\n"
+#~ "Only one auto hidden bar is allowed on each edge.\n"
+#~ "Auto-hide feature is now off."
+#~ msgstr ""
+#~ "Ob tem robu je že samodejno skrita pasica.\n"
+#~ "Na vsakem robu je lahko samo ena samodejno skrita pasica.\n"
+#~ "Samodejno skrivanje je zdaj izklopljeno."
+
+#~ msgid "Hello World"
+#~ msgstr "Zdravo svet"
+
+#~ msgid "&Hello...\tCtrl+H"
+#~ msgstr "&Pozdrav ...\tCtrl+H"
+
+#~ msgid "Help string shown in status bar for this menu item"
+#~ msgstr "Niz s pomočjo prikazan v statusni vrstici za to točko menija"
+
+#~ msgid "This is a wxWidgets' Hello world sample"
+#~ msgstr "To je primer Zdravo svet v wxWidgets"
+
+#~ msgid "About Hello World"
+#~ msgstr "O Zdravo svet"
+
+#~ msgid "Hello world from wxWidgets!"
+#~ msgstr "Zdravo svet iz wxWidgets!"
+
+#~ msgid "Welcome to wxWidgets!"
+#~ msgstr "Dobrodošli v wxWidgets!"

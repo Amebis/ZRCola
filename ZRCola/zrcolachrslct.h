@@ -55,6 +55,7 @@ public:
 protected:
     virtual void OnIdle(wxIdleEvent& event);
     virtual void OnSearchText(wxCommandEvent& event);
+    virtual void OnSearchMore(wxHyperlinkEvent& event);
     virtual void OnCategoriesAll(wxHyperlinkEvent& event);
     virtual void OnCategoriesNone(wxHyperlinkEvent& event);
     virtual void OnCategoriesInvert(wxHyperlinkEvent& event);
