@@ -158,24 +158,24 @@ UnregisterSettings ::
 !ENDIF
 
 InstallFonts :: \
-	"$(WINDIR)\Fonts\00_ZRCola_Re.ttf" \
-	"$(WINDIR)\Fonts\00_ZRCola_It.ttf" \
-	"$(WINDIR)\Fonts\00_ZRCola_Bd.ttf" \
-	"$(WINDIR)\Fonts\00_ZRCola_BI.ttf"
-	reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola (TrueType)"             /t REG_SZ /d "00_ZRCola_Re.ttf" $(REG_FLAGS) > NUL
-	reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola Italic (TrueType)"      /t REG_SZ /d "00_ZRCola_It.ttf" $(REG_FLAGS) > NUL
-	reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola Bold (TrueType)"        /t REG_SZ /d "00_ZRCola_Bd.ttf" $(REG_FLAGS) > NUL
-	reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola Bold Italic (TrueType)" /t REG_SZ /d "00_ZRCola_BI.ttf" $(REG_FLAGS) > NUL
+	"$(WINDIR)\Fonts\00_ZRCola_Re.otf" \
+	"$(WINDIR)\Fonts\00_ZRCola_It.otf" \
+	"$(WINDIR)\Fonts\00_ZRCola_Bd.otf" \
+	"$(WINDIR)\Fonts\00_ZRCola_BI.otf"
+	reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola (TrueType)"             /t REG_SZ /d "00_ZRCola_Re.otf" $(REG_FLAGS) > NUL
+	reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola Italic (TrueType)"      /t REG_SZ /d "00_ZRCola_It.otf" $(REG_FLAGS) > NUL
+	reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola Bold (TrueType)"        /t REG_SZ /d "00_ZRCola_Bd.otf" $(REG_FLAGS) > NUL
+	reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola Bold Italic (TrueType)" /t REG_SZ /d "00_ZRCola_BI.otf" $(REG_FLAGS) > NUL
 
 UninstallFonts::
 	-reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola (TrueType)"             $(REG_FLAGS) > NUL
 	-reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola Italic (TrueType)"      $(REG_FLAGS) > NUL
 	-reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola Bold (TrueType)"        $(REG_FLAGS) > NUL
 	-reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "00 ZRCola Bold Italic (TrueType)" $(REG_FLAGS) > NUL
-	-if exist "$(WINDIR)\Fonts\00_ZRCola_Re.ttf" rd /s /q "$(WINDIR)\Fonts\00_ZRCola_Re.ttf"
-	-if exist "$(WINDIR)\Fonts\00_ZRCola_It.ttf" rd /s /q "$(WINDIR)\Fonts\00_ZRCola_It.ttf"
-	-if exist "$(WINDIR)\Fonts\00_ZRCola_Bd.ttf" rd /s /q "$(WINDIR)\Fonts\00_ZRCola_Bd.ttf"
-	-if exist "$(WINDIR)\Fonts\00_ZRCola_BI.ttf" rd /s /q "$(WINDIR)\Fonts\00_ZRCola_BI.ttf"
+	-if exist "$(WINDIR)\Fonts\00_ZRCola_Re.otf" rd /s /q "$(WINDIR)\Fonts\00_ZRCola_Re.otf"
+	-if exist "$(WINDIR)\Fonts\00_ZRCola_It.otf" rd /s /q "$(WINDIR)\Fonts\00_ZRCola_It.otf"
+	-if exist "$(WINDIR)\Fonts\00_ZRCola_Bd.otf" rd /s /q "$(WINDIR)\Fonts\00_ZRCola_Bd.otf"
+	-if exist "$(WINDIR)\Fonts\00_ZRCola_BI.otf" rd /s /q "$(WINDIR)\Fonts\00_ZRCola_BI.otf"
 
 RegisterShortcuts :: \
 	"$(PROGRAMDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" \
@@ -251,16 +251,16 @@ $(REDIST_SL_X64) : "$(OUTPUT_DIR)\ZRColaSl64.3.msi"
 "$(OUTPUT_DIR)\Setup\ZRColaSl64D.msi" : "$(OUTPUT_DIR)\ZRColaSl64D.3.msi"
 	copy /y $** $@ > NUL
 
-"$(WINDIR)\Fonts\00_ZRCola_Re.ttf" : "$(OUTPUT_DIR)\00_ZRCola_Re.ttf"
+"$(WINDIR)\Fonts\00_ZRCola_Re.otf" : "$(OUTPUT_DIR)\00_ZRCola_Re.otf"
 	copy /y $** $@ > NUL
 
-"$(WINDIR)\Fonts\00_ZRCola_It.ttf" : "$(OUTPUT_DIR)\00_ZRCola_It.ttf"
+"$(WINDIR)\Fonts\00_ZRCola_It.otf" : "$(OUTPUT_DIR)\00_ZRCola_It.otf"
 	copy /y $** $@ > NUL
 
-"$(WINDIR)\Fonts\00_ZRCola_Bd.ttf" : "$(OUTPUT_DIR)\00_ZRCola_Bd.ttf"
+"$(WINDIR)\Fonts\00_ZRCola_Bd.otf" : "$(OUTPUT_DIR)\00_ZRCola_Bd.otf"
 	copy /y $** $@ > NUL
 
-"$(WINDIR)\Fonts\00_ZRCola_BI.ttf" : "$(OUTPUT_DIR)\00_ZRCola_BI.ttf"
+"$(WINDIR)\Fonts\00_ZRCola_BI.otf" : "$(OUTPUT_DIR)\00_ZRCola_BI.otf"
 	copy /y $** $@ > NUL
 
 "$(PUBLISH_DIR)\ZRColaInstallDe.exe" : "$(OUTPUT_DIR)\Win32.Release\ZRColaInstallDe.exe"

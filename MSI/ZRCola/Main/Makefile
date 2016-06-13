@@ -61,10 +61,10 @@ compLanguage	{B78359AC-9484-402C-8384-3A4595B39389}	ZRCOLALOCDIR	$(MSIBUILD_COMP
 compDatabasePath	{DF3C720D-50BB-4377-9EE0-9AC21C02B9DD}	ZRCOLADATADIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		regDatabasePath
 compZRCola.zrcdb	{0585A51F-1411-43A3-AC50-F04A253FDED4}	ZRCOLADATADIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola.zrcdb
 compZRCola_keyboard.pdf	{68AC2C38-10E2-41A3-B92C-844C03FFDF6A}	ZRCOLADATADIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola_keyboard.pdf
-comp00_ZRCola_Re.ttf	{B6CE8B39-11DC-4B59-B10C-3F0FFE8F81AF}	FontsFolder	0		file00_ZRCola_Re.ttf
-comp00_ZRCola_It.ttf	{10613965-2874-470D-9D5A-B7D535AA3317}	FontsFolder	0		file00_ZRCola_It.ttf
-comp00_ZRCola_Bd.ttf	{C036BE8D-6D2F-4DBF-99D6-F53702EAEBB6}	FontsFolder	0		file00_ZRCola_Bd.ttf
-comp00_ZRCola_BI.ttf	{883DDA9A-DA85-4FC4-95B7-EF0E08766DEF}	FontsFolder	0		file00_ZRCola_BI.ttf
+comp00_ZRCola_Re.otf	{A98CF048-44D1-405D-9217-C34900A1ADD5}	FontsFolder	0		file00_ZRCola_Re.otf
+comp00_ZRCola_It.otf	{B3CAE4B5-95D3-4522-9C23-66D015A69C48}	FontsFolder	0		file00_ZRCola_It.otf
+comp00_ZRCola_Bd.otf	{FC3D8EE1-7472-487F-97D5-7F65977CBEF7}	FontsFolder	0		file00_ZRCola_Bd.otf
+comp00_ZRCola_BI.otf	{F72CB82B-70BF-406E-A310-0294425C12A4}	FontsFolder	0		file00_ZRCola_BI.otf
 !IF "$(LANG)" == "Sl"
 compZRCola.zrcdb.mo.sl_SI	{6572EAD1-EE48-46A1-A28E-77985B667F67}	ZRCOLALOCSLSIDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola.zrcdb.mo.sl_SI
 !ENDIF
@@ -272,10 +272,10 @@ Feature_	Component_
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)
 FeatureComponents	Feature_	Component_
 featZRCola_keyboard	compZRCola_keyboard.pdf
-featZRColaFonts00	comp00_ZRCola_Re.ttf
-featZRColaFonts00	comp00_ZRCola_It.ttf
-featZRColaFonts00	comp00_ZRCola_Bd.ttf
-featZRColaFonts00	comp00_ZRCola_BI.ttf
+featZRColaFonts00	comp00_ZRCola_Re.otf
+featZRColaFonts00	comp00_ZRCola_It.otf
+featZRColaFonts00	comp00_ZRCola_Bd.otf
+featZRColaFonts00	comp00_ZRCola_BI.otf
 <<NOKEEP
 
 
@@ -295,10 +295,10 @@ filewxstd.mo.sl_SI	compwxstd.mo.sl_SI	wxstd.mo	0		1060	0	1
 !ENDIF
 fileZRCola.zrcdb	compZRCola.zrcdb	ZRCOLA~1.ZRC|ZRCola.zrcdb	0			0	1
 fileZRCola_keyboard.pdf	compZRCola_keyboard.pdf	ZRCOLA~1.PDF|ZRCola_keyboard.pdf	0			0	1
-file00_ZRCola_Re.ttf	comp00_ZRCola_Re.ttf	00_ZRC~1.TTF|00_ZRCola_Re.ttf	0			0	1
-file00_ZRCola_It.ttf	comp00_ZRCola_It.ttf	00_ZRC~2.TTF|00_ZRCola_It.ttf	0			0	1
-file00_ZRCola_Bd.ttf	comp00_ZRCola_Bd.ttf	00_ZRC~3.TTF|00_ZRCola_Bd.ttf	0			0	1
-file00_ZRCola_BI.ttf	comp00_ZRCola_BI.ttf	00_ZRC~4.TTF|00_ZRCola_BI.ttf	0			0	1
+file00_ZRCola_Re.otf	comp00_ZRCola_Re.otf	00_ZRC~1.OTF|00_ZRCola_Re.otf	0			0	1
+file00_ZRCola_It.otf	comp00_ZRCola_It.otf	00_ZRC~2.OTF|00_ZRCola_It.otf	0			0	1
+file00_ZRCola_Bd.otf	comp00_ZRCola_Bd.otf	00_ZRC~3.OTF|00_ZRCola_Bd.otf	0			0	1
+file00_ZRCola_BI.otf	comp00_ZRCola_BI.otf	00_ZRC~4.OTF|00_ZRCola_BI.otf	0			0	1
 !IF "$(LANG)" == "Sl"
 fileZRCola.zrcdb.mo.sl_SI	compZRCola.zrcdb.mo.sl_SI	ZRCOLA~1.MO|ZRCola-zrcdb.mo	0		1060	0	1
 !ENDIF
@@ -316,10 +316,10 @@ All :: "$(LANG).$(PLAT).$(CFG).Font-1.idt"
 File_	FontTitle
 s$(MSIBUILD_LENGTH_ID)	S255
 Font	File_
-file00_ZRCola_Re.ttf	
-file00_ZRCola_It.ttf	
-file00_ZRCola_Bd.ttf	
-file00_ZRCola_BI.ttf	
+file00_ZRCola_Re.otf	
+file00_ZRCola_It.otf	
+file00_ZRCola_Bd.otf	
+file00_ZRCola_BI.otf	
 <<NOKEEP
 
 

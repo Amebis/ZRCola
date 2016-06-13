@@ -9,13 +9,16 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
 "%100==4 ? 2 : 3);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 msgid "Albanian"
 msgstr "albanščina"
+
+msgid "Arabic"
+msgstr "Arabski znaki"
 
 msgid "Arrows"
 msgstr "Puščice"
@@ -41,17 +44,29 @@ msgstr "Kombinirano spodaj"
 msgid "Combine Over"
 msgstr "Kombinirano prečrtano"
 
+msgid "Combining Marks"
+msgstr "Sestavljiva znamenja"
+
 msgid "Croatian"
 msgstr "hrvaščina"
 
 msgid "Currencies"
 msgstr "Valute"
 
+msgid "Cyrillic"
+msgstr "Cirilski znaki"
+
 msgid "Czech"
 msgstr "češčina"
 
 msgid "Danish"
 msgstr "danščina"
+
+msgid "Diacritics"
+msgstr "Ločevalna znamenja"
+
+msgid "Encircled Characters"
+msgstr "Obkroženi znaki"
 
 msgid "English"
 msgstr "angleščina"
@@ -68,8 +83,20 @@ msgstr "francoščina"
 msgid "Friulian"
 msgstr "furlanščina"
 
+msgid "Geometrical Shapes"
+msgstr "Geometrijski liki"
+
 msgid "German"
 msgstr "nemščina"
+
+msgid "Glagolitic"
+msgstr "Glagolski znaki"
+
+msgid "Greek"
+msgstr "Grški znaki"
+
+msgid "Hebrew"
+msgstr "Hebrejski znaki"
 
 msgid "Hungarian"
 msgstr "madžarščina"
@@ -79,6 +106,99 @@ msgstr "irščina"
 
 msgid "Joined"
 msgstr "Povezano"
+
+msgid "Joined strings with A"
+msgstr "Povezajni nizi z A"
+
+msgid "Joined strings with B"
+msgstr "Povezajni nizi z B"
+
+msgid "Joined strings with C"
+msgstr "Povezajni nizi z C"
+
+msgid "Joined strings with D"
+msgstr "Povezajni nizi z D"
+
+msgid "Joined strings with E"
+msgstr "Povezajni nizi z E"
+
+msgid "Joined strings with F"
+msgstr "Povezajni nizi z F"
+
+msgid "Joined strings with G"
+msgstr "Povezajni nizi z G"
+
+msgid "Joined strings with H"
+msgstr "Povezajni nizi z H"
+
+msgid "Joined strings with I"
+msgstr "Povezajni nizi z I"
+
+msgid "Joined strings with J"
+msgstr "Povezajni nizi z J"
+
+msgid "Joined strings with K"
+msgstr "Povezajni nizi z K"
+
+msgid "Joined strings with L"
+msgstr "Povezajni nizi z L"
+
+msgid "Joined strings with M"
+msgstr "Povezajni nizi z M"
+
+msgid "Joined strings with N"
+msgstr "Povezajni nizi z N"
+
+msgid "Joined strings with O"
+msgstr "Povezajni nizi z O"
+
+msgid "Joined strings with P"
+msgstr "Povezajni nizi z P"
+
+msgid "Joined strings with Q"
+msgstr "Povezajni nizi z Q"
+
+msgid "Joined strings with R"
+msgstr "Povezajni nizi z R"
+
+msgid "Joined strings with S"
+msgstr "Povezajni nizi z S"
+
+msgid "Joined strings with T"
+msgstr "Povezajni nizi z T"
+
+msgid "Joined strings with U"
+msgstr "Povezajni nizi z U"
+
+msgid "Joined strings with V"
+msgstr "Povezajni nizi z V"
+
+msgid "Joined strings with W"
+msgstr "Povezajni nizi z W"
+
+msgid "Joined strings with X"
+msgstr "Povezajni nizi z X"
+
+msgid "Joined strings with Y"
+msgstr "Povezajni nizi z Y"
+
+msgid "Joined strings with Z"
+msgstr "Povezajni nizi z Z"
+
+msgid "Joined strings with a"
+msgstr "Povezajni nizi z a"
+
+msgid "Joined strings with e"
+msgstr "Povezajni nizi z e"
+
+msgid "Joined strings with i"
+msgstr "Povezajni nizi z i"
+
+msgid "Joined strings with o"
+msgstr "Povezajni nizi z o"
+
+msgid "Joined strings with u"
+msgstr "Povezajni nizi z u"
 
 msgid "Kashubian"
 msgstr "kašubščina"
@@ -215,6 +335,12 @@ msgstr "Ločevalo, obdajajoča"
 msgid "Mark, Non-Spacing"
 msgstr "Ločevalo, neločljivo"
 
+msgid "Mark, Spacing Combining"
+msgstr "Ločevalo, ločljivo"
+
+msgid "Mathematical And Physical Characters"
+msgstr "Matematični in fizikalni znaki"
+
 msgid "Metric"
 msgstr "Metrično"
 
@@ -226,6 +352,9 @@ msgstr "moldavščina – cirilica"
 
 msgid "Moldavian – Latinic"
 msgstr "moldavščina – latinica"
+
+msgid "Musical Characters"
+msgstr "Glasbeni znaki"
 
 msgid "Norwegian"
 msgstr "norveščina"
@@ -269,14 +398,20 @@ msgstr "Številka, črka"
 msgid "Number, Other"
 msgstr "Številka, drugo"
 
+msgid "Numbers"
+msgstr "Številke"
+
 msgid "Numbers - Circled"
 msgstr "Številke - obkroženo"
 
-msgid "Other modifiers"
+msgid "Other Modifiers"
 msgstr "Druga spreminjevala"
 
 msgid "Other, Format"
 msgstr "Drugo, oblikovni"
+
+msgid "Other, Surrogate"
+msgstr "Drugo, nadomestni"
 
 msgid "Parentheses"
 msgstr "Oklepaji"
@@ -286,6 +421,9 @@ msgstr "poljščina"
 
 msgid "Portuguese"
 msgstr "portugalščina"
+
+msgid "Punctuation"
+msgstr "Ločila"
 
 msgid "Punctuation, Close"
 msgstr "Ločilo, zapiralno"
@@ -317,6 +455,12 @@ msgstr "romunščina"
 msgid "Russian"
 msgstr "ruščina"
 
+msgid "Separator, Line"
+msgstr "Ločilo, vrstic"
+
+msgid "Separator, Paragraph"
+msgstr "Ločilo, odstavkov"
+
 msgid "Separator, Space"
 msgstr "Ločilo, presledek"
 
@@ -329,11 +473,17 @@ msgstr "srbščina – latinica"
 msgid "Slovak"
 msgstr "slovaščina"
 
+msgid "Slovene Historical Writings"
+msgstr "Slovenske zgodovinske pisave"
+
 msgid "Slovenian"
 msgstr "slovenščina"
 
 msgid "Sorbian"
 msgstr "lužiščini"
+
+msgid "Spaces"
+msgstr "Presledki"
 
 msgid "Spanish"
 msgstr "španščina"
@@ -343,6 +493,12 @@ msgstr "Posebni znaki"
 
 msgid "Strokes"
 msgstr "Poševnica"
+
+msgid "Subscript Characters"
+msgstr "Podpisani znaki"
+
+msgid "Superscript Sharacters"
+msgstr "Nadpisani znaki"
 
 msgid "Surrounded"
 msgstr "Obkroženi"
@@ -398,7 +554,13 @@ msgstr "Simbol, ločevalo"
 msgid "Symbol, Other"
 msgstr "Simbol, drugo"
 
+msgid "Technical Characters"
+msgstr "Tehnični znaki"
+
 msgid "Transliterated"
+msgstr "Prečrkovano"
+
+msgid "Transliterating Marks"
 msgstr "Prečrkovano"
 
 msgid "Turkish"
@@ -407,17 +569,8 @@ msgstr "turščina"
 msgid "Ukrainian"
 msgstr "ukrajinščina"
 
-#~ msgid "Mark, Spacing Combining"
-#~ msgstr "Ločevalo, ločljivo"
-
-#~ msgid "Other, Surrogate"
-#~ msgstr "Drugo, nadomestni"
-
-#~ msgid "Separator, Line"
-#~ msgstr "Ločilo, vrstic"
-
-#~ msgid "Separator, Paragraph"
-#~ msgstr "Ločilo, odstavkov"
+msgid "Units"
+msgstr "Enote"
 
 #~ msgid "Letter b"
 #~ msgstr "Črka b"
@@ -481,9 +634,6 @@ msgstr "ukrajinščina"
 
 #~ msgid "Letter z"
 #~ msgstr "Črka z"
-
-#~ msgid "Numbers"
-#~ msgstr "Številke"
 
 #~ msgid "Other, Control"
 #~ msgstr "Drugo, kontrolni"

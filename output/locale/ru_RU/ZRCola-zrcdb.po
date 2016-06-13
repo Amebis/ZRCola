@@ -9,12 +9,15 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 msgid "Albanian"
+msgstr ""
+
+msgid "Arabic"
 msgstr ""
 
 msgid "Arrows"
@@ -41,16 +44,28 @@ msgstr ""
 msgid "Combine Over"
 msgstr ""
 
+msgid "Combining Marks"
+msgstr ""
+
 msgid "Croatian"
 msgstr ""
 
 msgid "Currencies"
 msgstr ""
 
+msgid "Cyrillic"
+msgstr ""
+
 msgid "Czech"
 msgstr ""
 
 msgid "Danish"
+msgstr ""
+
+msgid "Diacritics"
+msgstr ""
+
+msgid "Encircled Characters"
 msgstr ""
 
 msgid "English"
@@ -68,7 +83,19 @@ msgstr ""
 msgid "Friulian"
 msgstr ""
 
+msgid "Geometrical Shapes"
+msgstr ""
+
 msgid "German"
+msgstr ""
+
+msgid "Glagolitic"
+msgstr ""
+
+msgid "Greek"
+msgstr ""
+
+msgid "Hebrew"
 msgstr ""
 
 msgid "Hungarian"
@@ -78,6 +105,99 @@ msgid "Irish Gaelic"
 msgstr ""
 
 msgid "Joined"
+msgstr ""
+
+msgid "Joined strings with A"
+msgstr ""
+
+msgid "Joined strings with B"
+msgstr ""
+
+msgid "Joined strings with C"
+msgstr ""
+
+msgid "Joined strings with D"
+msgstr ""
+
+msgid "Joined strings with E"
+msgstr ""
+
+msgid "Joined strings with F"
+msgstr ""
+
+msgid "Joined strings with G"
+msgstr ""
+
+msgid "Joined strings with H"
+msgstr ""
+
+msgid "Joined strings with I"
+msgstr ""
+
+msgid "Joined strings with J"
+msgstr ""
+
+msgid "Joined strings with K"
+msgstr ""
+
+msgid "Joined strings with L"
+msgstr ""
+
+msgid "Joined strings with M"
+msgstr ""
+
+msgid "Joined strings with N"
+msgstr ""
+
+msgid "Joined strings with O"
+msgstr ""
+
+msgid "Joined strings with P"
+msgstr ""
+
+msgid "Joined strings with Q"
+msgstr ""
+
+msgid "Joined strings with R"
+msgstr ""
+
+msgid "Joined strings with S"
+msgstr ""
+
+msgid "Joined strings with T"
+msgstr ""
+
+msgid "Joined strings with U"
+msgstr ""
+
+msgid "Joined strings with V"
+msgstr ""
+
+msgid "Joined strings with W"
+msgstr ""
+
+msgid "Joined strings with X"
+msgstr ""
+
+msgid "Joined strings with Y"
+msgstr ""
+
+msgid "Joined strings with Z"
+msgstr ""
+
+msgid "Joined strings with a"
+msgstr ""
+
+msgid "Joined strings with e"
+msgstr ""
+
+msgid "Joined strings with i"
+msgstr ""
+
+msgid "Joined strings with o"
+msgstr ""
+
+msgid "Joined strings with u"
 msgstr ""
 
 msgid "Kashubian"
@@ -215,6 +335,12 @@ msgstr ""
 msgid "Mark, Non-Spacing"
 msgstr ""
 
+msgid "Mark, Spacing Combining"
+msgstr ""
+
+msgid "Mathematical And Physical Characters"
+msgstr ""
+
 msgid "Metric"
 msgstr ""
 
@@ -225,6 +351,9 @@ msgid "Moldavian – Cyrillic"
 msgstr ""
 
 msgid "Moldavian – Latinic"
+msgstr ""
+
+msgid "Musical Characters"
 msgstr ""
 
 msgid "Norwegian"
@@ -269,13 +398,19 @@ msgstr ""
 msgid "Number, Other"
 msgstr ""
 
+msgid "Numbers"
+msgstr ""
+
 msgid "Numbers - Circled"
 msgstr ""
 
-msgid "Other modifiers"
+msgid "Other Modifiers"
 msgstr ""
 
 msgid "Other, Format"
+msgstr ""
+
+msgid "Other, Surrogate"
 msgstr ""
 
 msgid "Parentheses"
@@ -285,6 +420,9 @@ msgid "Polish"
 msgstr ""
 
 msgid "Portuguese"
+msgstr ""
+
+msgid "Punctuation"
 msgstr ""
 
 msgid "Punctuation, Close"
@@ -317,6 +455,12 @@ msgstr ""
 msgid "Russian"
 msgstr ""
 
+msgid "Separator, Line"
+msgstr ""
+
+msgid "Separator, Paragraph"
+msgstr ""
+
 msgid "Separator, Space"
 msgstr ""
 
@@ -329,10 +473,16 @@ msgstr ""
 msgid "Slovak"
 msgstr ""
 
+msgid "Slovene Historical Writings"
+msgstr ""
+
 msgid "Slovenian"
 msgstr ""
 
 msgid "Sorbian"
+msgstr ""
+
+msgid "Spaces"
 msgstr ""
 
 msgid "Spanish"
@@ -342,6 +492,12 @@ msgid "Special Characters"
 msgstr ""
 
 msgid "Strokes"
+msgstr ""
+
+msgid "Subscript Characters"
+msgstr ""
+
+msgid "Superscript Sharacters"
 msgstr ""
 
 msgid "Surrounded"
@@ -398,11 +554,20 @@ msgstr ""
 msgid "Symbol, Other"
 msgstr ""
 
+msgid "Technical Characters"
+msgstr ""
+
 msgid "Transliterated"
+msgstr ""
+
+msgid "Transliterating Marks"
 msgstr ""
 
 msgid "Turkish"
 msgstr ""
 
 msgid "Ukrainian"
+msgstr ""
+
+msgid "Units"
 msgstr ""
