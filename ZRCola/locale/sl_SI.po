@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-06-14 09:58+0200\n"
-"PO-Revision-Date: 2016-06-14 09:58+0200\n"
+"POT-Creation-Date: 2016-06-14 11:33+0200\n"
+"PO-Revision-Date: 2016-06-14 11:33+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: sl_SI\n"
@@ -21,27 +21,23 @@ msgstr ""
 msgid "© 2004-%s ZRC SAZU"
 msgstr "© 2004-%s ZRC SAZU"
 
-#: zrcolaapp.cpp:79 zrcolafrm.cpp:90 zrcolagui.cpp:860 zrcolagui.h:104
-#: MSIBuild/En.Win32.Debug.Feature-2.idtx:4
-#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:4
+#: zrcolaapp.cpp:79 zrcolafrm.cpp:90 zrcolagui.cpp:869 zrcolagui.h:104
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
-#: MSIBuild/En.x64.Debug.Feature-2.idtx:4
-#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
 msgid "ZRCola"
 msgstr "ZRCola"
 
-#: zrcolachrreq.cpp:49 zrcolagui.cpp:989
+#: zrcolachrreq.cpp:49 zrcolagui.cpp:998
 msgid "Character"
 msgstr "Znak"
 
-#: zrcolachrreq.cpp:58 zrcolagui.cpp:1010
+#: zrcolachrreq.cpp:58 zrcolagui.cpp:1019
 msgid "Context"
 msgstr "Kontekst"
 
-#: zrcolachrreq.cpp:64 zrcolagui.h:360
+#: zrcolachrreq.cpp:64 zrcolagui.h:362
 msgid "Request a New Character"
 msgstr "Zahtevaj nov znak"
 
@@ -281,118 +277,130 @@ msgstr "Sestavljeno besedilo"
 msgid "Composed Unicode Dump"
 msgstr "Unicode sestavljenega"
 
-#: zrcolagui.cpp:421
+#: zrcolagui.cpp:355
+msgid "Select category to display"
+msgstr "Izberi kategorijo za prikaz"
+
+#: zrcolagui.cpp:389
+msgid "Show &All"
+msgstr "Prik&aži vse"
+
+#: zrcolagui.cpp:390
+msgid "Toggle display of less frequent characters"
+msgstr "Prikaži/skrij manj pogoste znake"
+
+#: zrcolagui.cpp:430
 msgid "&Browse"
 msgstr "Pre&brskaj"
 
-#: zrcolagui.cpp:428
+#: zrcolagui.cpp:437
 msgid ""
 "Full or partial terms from Unicode character description (in English) to "
 "search for"
 msgstr ""
 "Polne ali delne besede iz opisa znaka Unicode (v angleščini) za iskanje"
 
-#: zrcolagui.cpp:432
+#: zrcolagui.cpp:441
 msgid "Search Options"
 msgstr "Možnosti iskanja"
 
-#: zrcolagui.cpp:433
+#: zrcolagui.cpp:442
 msgid "Shows/hides additional search options"
 msgstr "Prikaže/skrije dodatne možnosti iskanja"
 
-#: zrcolagui.cpp:445
+#: zrcolagui.cpp:454
 msgid "List of Unicode character categories to search in"
 msgstr "Seznam kategorij znaka Unicode za iskanje"
 
-#: zrcolagui.cpp:452
+#: zrcolagui.cpp:461
 msgid "All"
 msgstr "Vse"
 
-#: zrcolagui.cpp:453
+#: zrcolagui.cpp:462
 msgid "Select all categories"
 msgstr "Izberi vse kategorije"
 
-#: zrcolagui.cpp:457
+#: zrcolagui.cpp:466
 msgid "None"
 msgstr "Nič"
 
-#: zrcolagui.cpp:458
+#: zrcolagui.cpp:467
 msgid "Clear category selection"
 msgstr "Počisti izbor kategorij"
 
-#: zrcolagui.cpp:462
+#: zrcolagui.cpp:471
 msgid "Invert"
 msgstr "Obrni"
 
-#: zrcolagui.cpp:463
+#: zrcolagui.cpp:472
 msgid "Invert category selection"
 msgstr "Obrni izbor kategorij"
 
-#: zrcolagui.cpp:502
+#: zrcolagui.cpp:511
 msgid "Character search results"
 msgstr "Rezultati iskanja znakov"
 
-#: zrcolagui.cpp:512
+#: zrcolagui.cpp:521
 msgid "Re&cently Used"
 msgstr "Nedavno &uporabljeni"
 
-#: zrcolagui.cpp:540
+#: zrcolagui.cpp:549
 msgid "List of recently inserted characters"
 msgstr "Seznam nedavno vstavljenih znakov"
 
-#: zrcolagui.cpp:554
+#: zrcolagui.cpp:563
 msgid "Preview"
 msgstr "Predogled"
 
-#: zrcolagui.cpp:559
+#: zrcolagui.cpp:568
 msgid "U+"
 msgstr "U+"
 
-#: zrcolagui.cpp:564
+#: zrcolagui.cpp:573
 msgid "Unicode hexadecimal code"
 msgstr "Šestnajstiška koda Unicode"
 
-#: zrcolagui.cpp:569
+#: zrcolagui.cpp:578
 msgid "Keyboard shortcut in Composer window"
 msgstr "Bližnjica na tipkovnici v oknu sestavljalnika"
 
-#: zrcolagui.cpp:604
+#: zrcolagui.cpp:613
 msgid "Character preview"
 msgstr "Predogled znaka"
 
-#: zrcolagui.cpp:609
+#: zrcolagui.cpp:618
 msgid "Unicode character description"
 msgstr "Opis znaka Unicode"
 
-#: zrcolagui.cpp:614
+#: zrcolagui.cpp:623
 msgid "Unicode character category"
 msgstr "Kategorija znaka Unicode"
 
-#: zrcolagui.cpp:621
+#: zrcolagui.cpp:630
 msgid "« Back"
 msgstr "« Nazaj"
 
-#: zrcolagui.cpp:623
+#: zrcolagui.cpp:632
 msgid "To previously viewed character"
 msgstr "Na prejšnji prikazan znak"
 
-#: zrcolagui.cpp:627
+#: zrcolagui.cpp:636
 msgid "Forward »"
 msgstr "Naprej »"
 
-#: zrcolagui.cpp:629
+#: zrcolagui.cpp:638
 msgid "To following viewed character"
 msgstr "Na naslednji prikazan znak"
 
-#: zrcolagui.cpp:640
+#: zrcolagui.cpp:649
 msgid "Re&lated"
 msgstr "&Sorodni"
 
-#: zrcolagui.cpp:667
+#: zrcolagui.cpp:676
 msgid "List of related characters"
 msgstr "Seznam sorodnih znakov"
 
-#: zrcolagui.cpp:756
+#: zrcolagui.cpp:765
 msgid ""
 "Some character native to specific language you are working with should not "
 "decompose to primitives.\n"
@@ -402,19 +410,19 @@ msgstr ""
 "razstaviti v dele.\n"
 "Za optimalno razstavljanje izberite pravilni jezik."
 
-#: zrcolagui.cpp:760
+#: zrcolagui.cpp:769
 msgid "Select language &automatically according to selected keyboard"
 msgstr "S&amodejno izberi jezik glede na izbrano tipkovnico"
 
-#: zrcolagui.cpp:763
+#: zrcolagui.cpp:772
 msgid "&Manually select the language from the list below:"
 msgstr "Ročno izberi jezik na spodnje&m spisku:"
 
-#: zrcolagui.cpp:775
+#: zrcolagui.cpp:784
 msgid "Text Language"
 msgstr "Jezik besedila"
 
-#: zrcolagui.cpp:780
+#: zrcolagui.cpp:789
 msgid ""
 "ZRCola can be launched every time you log in to your computer.\n"
 "It will be available on the system tray and via registered shortcuts Win+F5 "
@@ -424,15 +432,15 @@ msgstr ""
 "Na voljo bo na vrstici za sistemska obvestila ter preko registriranih "
 "bližnjic Win+F5 in Win+F6."
 
-#: zrcolagui.cpp:784
+#: zrcolagui.cpp:793
 msgid "Start ZRCola &automatically on logon"
 msgstr "S&amodejno zaženi ZRColo ob prijavi"
 
-#: zrcolagui.cpp:791
+#: zrcolagui.cpp:800
 msgid "Startup"
 msgstr "Zagon"
 
-#: zrcolagui.cpp:870
+#: zrcolagui.cpp:879
 msgid ""
 "Program and Website Editor: Janoš Ježovnik\n"
 "Development: Amebis, d. o. o., Kamnik\n"
@@ -442,11 +450,11 @@ msgstr ""
 "Razvoj: Amebis, d. o. o., Kamnik\n"
 "Razvoj in vzdrževanje (2004-2015): dr. Peter Weiss"
 
-#: zrcolagui.cpp:878
+#: zrcolagui.cpp:887
 msgid "zrcola.zrc-sazu.si"
 msgstr "zrcola.zrc-sazu.si"
 
-#: zrcolagui.cpp:884
+#: zrcolagui.cpp:893
 msgid ""
 "Texts made using ZRCola have to include in the colophon, foreword, footnote "
 "or some other appropriate part of the publication the note below:"
@@ -455,7 +463,7 @@ msgstr ""
 "opombi ali na drugem ustreznem mestu v publikaciji opremljeno z naslednjim "
 "zapisom:"
 
-#: zrcolagui.cpp:888
+#: zrcolagui.cpp:897
 msgid ""
 "This text was written using the ZRCola input system (http://zrcola.zrc-sazu."
 "si), developed at the Science and Research Centre of SAZU in Ljubljana "
@@ -465,36 +473,36 @@ msgstr ""
 "sazu.si), ki ga je na Znanstvenoraziskovalnem centru SAZU v Ljubljani "
 "(http://www.zrc-sazu.si) razvil dr. Peter Weiss."
 
-#: zrcolagui.cpp:929
+#: zrcolagui.cpp:938
 msgid "Log"
 msgstr "Dnevnik"
 
-#: zrcolagui.cpp:945
+#: zrcolagui.cpp:954
 msgid "Quit and &Update..."
 msgstr "Za&ustavi in posodobi ..."
 
-#: zrcolagui.cpp:947
+#: zrcolagui.cpp:956
 msgid "Exit this program and launch product update"
 msgstr "Zaustavi ta program in zaženi posodobitev izdelka"
 
-#: zrcolagui.cpp:951
+#: zrcolagui.cpp:960
 msgid "&Close"
 msgstr "&Zapri"
 
-#: zrcolagui.cpp:952
+#: zrcolagui.cpp:961
 msgid "Close this window"
 msgstr "Zapri to okno"
 
-#: zrcolagui.cpp:991
+#: zrcolagui.cpp:1000
 msgid "Enter the &character you would like to request:"
 msgstr "Vpišite &znak, ki ga želite zahtevati:"
 
-#: zrcolagui.cpp:998
+#: zrcolagui.cpp:1007
 msgid "Decomposed character to request"
 msgstr "Razstavljen znak, ki ga zahtevate"
 
 # Please use a double && for final "&" character
-#: zrcolagui.cpp:1002
+#: zrcolagui.cpp:1011
 msgid ""
 "Please, use the decomposed form.\n"
 "You can use ZRCola keyboard shortcuts to enter the character or Copy&&Paste "
@@ -504,17 +512,17 @@ msgstr ""
 "Za vnos znaka lahko uporavite ZRColine bližnjice na tipkovnici ali kopirate "
 "in prilepite iz okna z razstavljenim besedilom."
 
-#: zrcolagui.cpp:1012
+#: zrcolagui.cpp:1021
 msgid ""
 "The &context, examples or short description why and where the character is "
 "required:"
 msgstr "&Kontekst, primeri oz. kratek opis zakaj in kje potrebujete novi znak:"
 
-#: zrcolagui.cpp:1018
+#: zrcolagui.cpp:1027
 msgid "Additional notes for character request"
 msgstr "Dodatne opombe za zahtevo znaka"
 
-#: zrcolagui.cpp:1025
+#: zrcolagui.cpp:1034
 msgid ""
 "After clicking OK button, your e-mail application should open allowing you "
 "to submit the new character request to ZRCola Editor.\n"
@@ -548,113 +556,81 @@ msgstr ""
 "Ta program se bo zdaj zaprl in zagnala se bo posodobitev.\n"
 "Ali ste prepričani?"
 
-#: zrcolaupdater.cpp:94 zrcolagui.h:331
+#: zrcolaupdater.cpp:94 zrcolagui.h:333
 msgid "Product Update"
 msgstr "Posodabljanje izdelka"
 
-#: zrcolagui.h:243
+#: zrcolagui.h:245
 msgid "Character Search"
 msgstr "Poišči znak"
 
-#: zrcolagui.h:280
+#: zrcolagui.h:282
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: zrcolagui.h:306
+#: zrcolagui.h:308
 msgid "About ZRCola"
 msgstr "O ZRColi"
 
-#: MSIBuild/En.Win32.Debug.Control-2.idtx:14
-#: MSIBuild/En.Win32.Debug.Control-2.idtx:19
-#: MSIBuild/En.Win32.Debug.Control-2.idtx:9
 #: MSIBuild/En.Win32.Release.Control-2.idtx:14
 #: MSIBuild/En.Win32.Release.Control-2.idtx:19
 #: MSIBuild/En.Win32.Release.Control-2.idtx:9
-#: MSIBuild/En.x64.Debug.Control-2.idtx:14
-#: MSIBuild/En.x64.Debug.Control-2.idtx:19
-#: MSIBuild/En.x64.Debug.Control-2.idtx:9
 #: MSIBuild/En.x64.Release.Control-2.idtx:14
 #: MSIBuild/En.x64.Release.Control-2.idtx:19
 #: MSIBuild/En.x64.Release.Control-2.idtx:9
 msgid "&Continue"
 msgstr "&Nadaljuj"
 
-#: MSIBuild/En.Win32.Debug.Control-2.idtx:11
 #: MSIBuild/En.Win32.Release.Control-2.idtx:11
-#: MSIBuild/En.x64.Debug.Control-2.idtx:11
 #: MSIBuild/En.x64.Release.Control-2.idtx:11
 msgid "[DlgTitleFont][SimpleProductName] Tutorial : Composition"
 msgstr "[DlgTitleFont]Vadnica [SimpleProductName] : Sestavljanje"
 
-#: MSIBuild/En.Win32.Debug.Control-2.idtx:16
 #: MSIBuild/En.Win32.Release.Control-2.idtx:16
-#: MSIBuild/En.x64.Debug.Control-2.idtx:16
 #: MSIBuild/En.x64.Release.Control-2.idtx:16
 msgid "[DlgTitleFont][SimpleProductName] Tutorial : Entering Characters"
 msgstr "[DlgTitleFont]Vadnica [SimpleProductName] : Vnos znakov"
 
-#: MSIBuild/En.Win32.Debug.Control-2.idtx:5
 #: MSIBuild/En.Win32.Release.Control-2.idtx:5
-#: MSIBuild/En.x64.Debug.Control-2.idtx:5
 #: MSIBuild/En.x64.Release.Control-2.idtx:5
 msgid "[DlgTitleFont][SimpleProductName] Tutorial : Starting"
 msgstr "[DlgTitleFont]Vadnica [SimpleProductName] : Zagon"
 
 # Windows charset for this language (decimal)
-#: MSIBuild/En.Win32.Debug.Control-2.idtx:3
-#: MSIBuild/En.Win32.Debug.Feature-2.idtx:3
-#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:3
 #: MSIBuild/En.Win32.Release.Control-2.idtx:3
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:3
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:3
-#: MSIBuild/En.x64.Debug.Control-2.idtx:3
-#: MSIBuild/En.x64.Debug.Feature-2.idtx:3
-#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:3
 #: MSIBuild/En.x64.Release.Control-2.idtx:3
 #: MSIBuild/En.x64.Release.Feature-2.idtx:3
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:3
 msgid "1252"
 msgstr "1250"
 
-#: MSIBuild/En.Win32.Debug.Control-2.idtx:6
 #: MSIBuild/En.Win32.Release.Control-2.idtx:6
-#: MSIBuild/En.x64.Debug.Control-2.idtx:6
 #: MSIBuild/En.x64.Release.Control-2.idtx:6
 msgid "bintutorial1.bmp"
 msgstr "bintutorial1.bmp"
 
-#: MSIBuild/En.Win32.Debug.Control-2.idtx:12
 #: MSIBuild/En.Win32.Release.Control-2.idtx:12
-#: MSIBuild/En.x64.Debug.Control-2.idtx:12
 #: MSIBuild/En.x64.Release.Control-2.idtx:12
 msgid "bintutorial2.bmp"
 msgstr "bintutorial2.bmp"
 
-#: MSIBuild/En.Win32.Debug.Control-2.idtx:17
 #: MSIBuild/En.Win32.Release.Control-2.idtx:17
-#: MSIBuild/En.x64.Debug.Control-2.idtx:17
 #: MSIBuild/En.x64.Release.Control-2.idtx:17
 msgid "bintutorial3.bmp"
 msgstr "bintutorial3.bmp"
 
-#: MSIBuild/En.Win32.Debug.Control-2.idtx:10
-#: MSIBuild/En.Win32.Debug.Control-2.idtx:15
-#: MSIBuild/En.Win32.Debug.Control-2.idtx:4
 #: MSIBuild/En.Win32.Release.Control-2.idtx:10
 #: MSIBuild/En.Win32.Release.Control-2.idtx:15
 #: MSIBuild/En.Win32.Release.Control-2.idtx:4
-#: MSIBuild/En.x64.Debug.Control-2.idtx:10
-#: MSIBuild/En.x64.Debug.Control-2.idtx:15
-#: MSIBuild/En.x64.Debug.Control-2.idtx:4
 #: MSIBuild/En.x64.Release.Control-2.idtx:10
 #: MSIBuild/En.x64.Release.Control-2.idtx:15
 #: MSIBuild/En.x64.Release.Control-2.idtx:4
 msgid "binUIHeader.bmp"
 msgstr "binUIHeader.bmp"
 
-#: MSIBuild/En.Win32.Debug.Control-2.idtx:18
 #: MSIBuild/En.Win32.Release.Control-2.idtx:18
-#: MSIBuild/En.x64.Debug.Control-2.idtx:18
 #: MSIBuild/En.x64.Release.Control-2.idtx:18
 msgid ""
 "Characters can be entered using keyboard shortcuts, the character catalogue "
@@ -663,9 +639,7 @@ msgstr ""
 "Znake lahko v vnosno vrstico vstavljamo s pomočjo bližnjic na tipkovnici, iz "
 "kataloga znakov (F4) ali z iskalnikom znakov (F8)."
 
-#: MSIBuild/En.Win32.Debug.Control-2.idtx:8
 #: MSIBuild/En.Win32.Release.Control-2.idtx:8
-#: MSIBuild/En.x64.Debug.Control-2.idtx:8
 #: MSIBuild/En.x64.Release.Control-2.idtx:8
 msgid ""
 "IMPORTANT: Upon pressing the combination Win+F5 the program memorises the "
@@ -677,20 +651,14 @@ msgstr ""
 "besedilu. Če ZRColo povečamo brez pritiska na ti dve tipki, program ne bo "
 "vedel, kam vstaviti želene znake!"
 
-#: MSIBuild/En.Win32.Debug.Feature-2.idtx:4
-#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
-#: MSIBuild/En.x64.Debug.Feature-2.idtx:4
-#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
 msgid "Input system for linguistic use"
 msgstr "Vnašalni sistem za jezikoslovno rabo"
 
-#: MSIBuild/En.Win32.Debug.Control-2.idtx:13
 #: MSIBuild/En.Win32.Release.Control-2.idtx:13
-#: MSIBuild/En.x64.Debug.Control-2.idtx:13
 #: MSIBuild/En.x64.Release.Control-2.idtx:13
 msgid ""
 "The string of basic and substitute characters is entered into the upper "
@@ -701,9 +669,7 @@ msgstr ""
 "programu. V spodnji vrstici se prikažejo sestavljeni znaki. V besedilo jih "
 "vnesemo s pritiskom na tipko F5."
 
-#: MSIBuild/En.Win32.Debug.Control-2.idtx:7
 #: MSIBuild/En.Win32.Release.Control-2.idtx:7
-#: MSIBuild/En.x64.Debug.Control-2.idtx:7
 #: MSIBuild/En.x64.Release.Control-2.idtx:7
 msgid ""
 "When configured, ZRCola starts at system startup and runs in the background. "

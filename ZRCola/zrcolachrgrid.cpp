@@ -69,7 +69,21 @@ void wxZRColaCharGrid::Init()
 
 void wxZRColaCharGrid::SetCharacters(const wxString &chars)
 {
+    m_chars = chars;
+    m_relevance.Clear();
+    m_regenerate = true;
+
+    // Invoke OnSize(), which will populate the grid.
+    wxSizeEvent e(GetSize(), m_windowId);
+    e.SetEventObject(this);
+    HandleWindowEvent(e);
+}
+
+
+void wxZRColaCharGrid::SetCharacters(const wxString &chars, const wxArrayShort &relevance)
+{
     m_chars      = chars;
+    m_relevance  = relevance;
     m_regenerate = true;
 
     // Invoke OnSize(), which will populate the grid.
@@ -137,6 +151,17 @@ void wxZRColaCharGrid::OnSize(wxSizeEvent& event)
             for (int c = 0; c < cols; c++, i++)
                 table->SetValue(r, c, i < (int)char_len ? wxString(1, m_chars[i]) : wxEmptyString);
         SetTable(table, true);
+        if (!m_relevance.IsEmpty()) {
+            const wxColour colour_def;
+            const wxColour colour_irr = wxSystemSettings::GetColour(wxSYS_COLOUR_BTNHIGHLIGHT);
+            for (int r = 0, i = 0; r < rows; r++)
+                for (int c = 0; c < cols; c++, i++)
+                    SetCellBackgroundColour(r, c, i >= (int)char_len || ((unsigned short)(m_relevance[i/16]) & (1<<(i%16))) ? colour_def : colour_irr);
+        } else {
+            for (int r = 0, i = 0; r < rows; r++)
+                for (int c = 0; c < cols; c++, i++)
+                    SetAttr(r, c, NULL);
+        }
         m_regenerate = false;
     }
 

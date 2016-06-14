@@ -363,6 +363,8 @@ int _tmain(int argc, _TCHAR *argv[])
                             db.data.push_back(cg.name[i]);
                         for (wstring::size_type i = 0; i < n_char; i++)
                             db.data.push_back(cg.chars[i]);
+                        for (std::vector<unsigned __int16>::size_type i = 0, n = cg.show.size(); i < n; i++)
+                            db.data.push_back(cg.show[i]);
                         db.idxRnk.push_back(idx);
                     } else
                         has_errors = true;

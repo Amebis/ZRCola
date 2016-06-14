@@ -300,7 +300,7 @@ bool ZRCola::DBSource::Open(LPCTSTR filename)
             wxVERIFY(SUCCEEDED(::CoCreateInstance(CLSID_CADOCommand, NULL, CLSCTX_ALL, IID_IADOCommand, (LPVOID*)&m_comCharacterGroup)));
             wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_ActiveConnection(ATL::CComVariant(m_db))));
             wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_CommandType(adCmdText)));
-            wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_CommandText(ATL::CComBSTR(L"SELECT [VRS_SkupineZnakov].[Znak] FROM [VRS_SkupineZnakov] LEFT JOIN [VRS_CharList] ON [VRS_SkupineZnakov].[Znak]=[VRS_CharList].[znak] WHERE [VRS_CharList].[aktiven]=1 AND [VRS_SkupineZnakov].[Skupina]=? ORDER BY [VRS_SkupineZnakov].[Rang] ASC, [VRS_SkupineZnakov].[Znak] ASC"))));
+            wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_CommandText(ATL::CComBSTR(L"SELECT [VRS_SkupineZnakov].[Znak], [VRS_SkupineZnakov].[pogost] FROM [VRS_SkupineZnakov] LEFT JOIN [VRS_CharList] ON [VRS_SkupineZnakov].[Znak]=[VRS_CharList].[znak] WHERE [VRS_CharList].[aktiven]=1 AND [VRS_SkupineZnakov].[Skupina]=? ORDER BY [VRS_SkupineZnakov].[Rang] ASC, [VRS_SkupineZnakov].[Znak] ASC"))));
             {
                 // Create and add command parameters.
                 ATL::CComPtr<ADOParameters> params;
@@ -844,12 +844,20 @@ bool ZRCola::DBSource::GetCharacterGroup(const ATL::CComPtr<ADORecordset>& rs, c
         cg.chars.clear();
         ATL::CComPtr<ADOFields> flds;
         wxVERIFY(SUCCEEDED(rs_chars->get_Fields(&flds)));
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"Znak"), &f)));
+        ATL::CComPtr<ADOField> f_char, f_show;
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"Znak"  ), &f_char)));
+        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"pogost"), &f_show)));
         for (VARIANT_BOOL eof = VARIANT_TRUE; SUCCEEDED(rs_chars->get_EOF(&eof)) && !eof; rs_chars->MoveNext()) {
             wchar_t c;
-            wxCHECK(GetUnicodeCharacter(f, c), false);
+            wxCHECK(GetUnicodeCharacter(f_char, c), false);
+            size_t n = cg.chars.length();
             cg.chars += c;
+            bool show;
+            wxCHECK(GetValue(f_show, show), false);
+            if ((n % 16) == 0)
+                cg.show.push_back(show ? 1 : 0);
+            else if (show)
+                cg.show[n / 16] |= 1 << (n % 16);
         }
     }
 

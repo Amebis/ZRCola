@@ -50,8 +50,11 @@ protected:
     virtual void OnChoice(wxCommandEvent& event);
     virtual void OnGridClick(wxGridEvent& event);
     virtual void OnGridKeyDown(wxKeyEvent& event);
+    virtual void OnShowAll(wxCommandEvent& event);
     void OnFocusDecomposed(wxCommandEvent& event);
     DECLARE_EVENT_TABLE()
+
+    void Update();
 
 protected:
     ZRCola::chrgrp_db m_cg_db;      ///< Character group database

@@ -23,6 +23,7 @@
 #include <zrcola/common.h>
 
 #include <stdex/idrec.h>
+#include <assert.h>
 #include <istream>
 #include <ostream>
 #include <vector>
@@ -50,6 +51,28 @@ namespace ZRCola {
             unsigned __int16 name_len;          ///< Character group name length in \c data
             unsigned __int16 char_len;          ///< Character list length in \c data
             wchar_t data[];                     ///< Character group name and character list
+
+            inline const wchar_t* get_chars() const
+            {
+                return data + name_len;
+            }
+
+            inline wchar_t get_char(size_t index) const
+            {
+                assert(index < char_len);
+                return data[name_len + index];
+            }
+
+            inline const unsigned __int16* get_char_shown() const
+            {
+                return (const unsigned __int16*)(data + name_len + char_len);
+            }
+
+            inline bool is_char_shown(size_t index) const
+            {
+                assert(index < char_len);
+                return (data[name_len + char_len + index / 16] & (1 << (index % 16))) ? true : false;
+            }
         };
 #pragma pack(pop)
 

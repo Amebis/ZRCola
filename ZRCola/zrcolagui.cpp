@@ -352,6 +352,8 @@ wxZRColaCharacterCatalogPanelBase::wxZRColaCharacterCatalogPanelBase( wxWindow* 
 	wxArrayString m_choiceChoices;
 	m_choice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choiceChoices, 0 );
 	m_choice->SetSelection( 0 );
+	m_choice->SetToolTip( _("Select category to display") );
+	
 	bSizer->Add( m_choice, 0, wxALL|wxEXPAND, 5 );
 	
 	m_grid = new wxZRColaCharGrid( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
@@ -384,6 +386,11 @@ wxZRColaCharacterCatalogPanelBase::wxZRColaCharacterCatalogPanelBase( wxWindow* 
 	
 	bSizer->Add( m_grid, 1, wxALL|wxEXPAND, 5 );
 	
+	m_show_all = new wxCheckBox( this, wxID_ANY, _("Show &All"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_show_all->SetToolTip( _("Toggle display of less frequent characters") );
+	
+	bSizer->Add( m_show_all, 0, wxALL|wxEXPAND, 5 );
+	
 	
 	this->SetSizer( bSizer );
 	this->Layout();
@@ -393,6 +400,7 @@ wxZRColaCharacterCatalogPanelBase::wxZRColaCharacterCatalogPanelBase( wxWindow* 
 	m_choice->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( wxZRColaCharacterCatalogPanelBase::OnChoice ), NULL, this );
 	m_grid->Connect( wxEVT_GRID_CELL_LEFT_CLICK, wxGridEventHandler( wxZRColaCharacterCatalogPanelBase::OnGridClick ), NULL, this );
 	m_grid->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( wxZRColaCharacterCatalogPanelBase::OnGridKeyDown ), NULL, this );
+	m_show_all->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( wxZRColaCharacterCatalogPanelBase::OnShowAll ), NULL, this );
 }
 
 wxZRColaCharacterCatalogPanelBase::~wxZRColaCharacterCatalogPanelBase()
@@ -401,6 +409,7 @@ wxZRColaCharacterCatalogPanelBase::~wxZRColaCharacterCatalogPanelBase()
 	m_choice->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( wxZRColaCharacterCatalogPanelBase::OnChoice ), NULL, this );
 	m_grid->Disconnect( wxEVT_GRID_CELL_LEFT_CLICK, wxGridEventHandler( wxZRColaCharacterCatalogPanelBase::OnGridClick ), NULL, this );
 	m_grid->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( wxZRColaCharacterCatalogPanelBase::OnGridKeyDown ), NULL, this );
+	m_show_all->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( wxZRColaCharacterCatalogPanelBase::OnShowAll ), NULL, this );
 	
 }
 

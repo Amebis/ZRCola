@@ -109,10 +109,11 @@ namespace ZRCola {
         ///
         class chrgrp {
         public:
-            int id;                     ///< Character group ID
-            int rank;                   ///< Character group rank
-            std::wstring name;          ///< Character group name
-            std::wstring chars;         ///< Character group characters
+            int id;                             ///< Character group ID
+            int rank;                           ///< Character group rank
+            std::wstring name;                  ///< Character group name
+            std::wstring chars;                 ///< Character group characters
+            std::vector<unsigned __int16> show; ///< Bit vector if particular character is displayed initially
         };
 
 

@@ -37,6 +37,7 @@ class wxZRColaComposerPanel;
 #include <wx/timer.h>
 #include <wx/choice.h>
 #include <wx/grid.h>
+#include <wx/checkbox.h>
 #include <wx/srchctrl.h>
 #include <wx/hyperlink.h>
 #include <wx/checklst.h>
@@ -45,7 +46,6 @@ class wxZRColaComposerPanel;
 #include <wx/dialog.h>
 #include <wx/radiobut.h>
 #include <wx/listbox.h>
-#include <wx/checkbox.h>
 #include <wx/listbook.h>
 #include <wx/listctrl.h>
 #include <wx/statbmp.h>
@@ -172,11 +172,13 @@ class wxZRColaCharacterCatalogPanelBase : public wxPanel
 	protected:
 		wxChoice* m_choice;
 		wxZRColaCharGrid* m_grid;
+		wxCheckBox* m_show_all;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnChoice( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnGridClick( wxGridEvent& event ) { event.Skip(); }
 		virtual void OnGridKeyDown( wxKeyEvent& event ) { event.Skip(); }
+		virtual void OnShowAll( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:

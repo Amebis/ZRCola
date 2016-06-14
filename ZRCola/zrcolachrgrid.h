@@ -59,6 +59,14 @@ public:
     void SetCharacters(const wxString &chars);
 
     ///
+    /// Sets new array of characters to display
+    ///
+    /// \param[in] chars      The string containing characters to display
+    /// \param[in] relevance  Bit-array of \p chars relevance (1=more relevant, 0=less relevant)
+    ///
+    void SetCharacters(const wxString &chars, const wxArrayShort &relevance);
+
+    ///
     /// Returns displayed characters
     ///
     /// \returns  The string containing displayed characters
@@ -91,14 +99,15 @@ protected:
     DECLARE_EVENT_TABLE()
 
 private:
-    void Init();            // common part of all ctors
+    void Init();                // common part of all ctors
 
 protected:
-    wxString m_chars;       ///< Array of Unicode characters to display in the grid
+    wxString m_chars;           ///< Array of Unicode characters to display in the grid
+    wxArrayShort m_relevance;   ///< Bit-array of `m_chars` relevance
 
 private:
-    bool m_regenerate;      ///< Force regenerate grid table
-    bool m_isResizing;      ///< Prevents nesting of OnSize() method.
-    wxTimer m_timerToolTip; ///< Timer for displaying tooltip
-    size_t m_toolTipIdx;    ///< Index of cell for tooltip display
+    bool m_regenerate;          ///< Force regenerate grid table
+    bool m_isResizing;          ///< Prevents nesting of OnSize() method.
+    wxTimer m_timerToolTip;     ///< Timer for displaying tooltip
+    size_t m_toolTipIdx;        ///< Index of cell for tooltip display
 };

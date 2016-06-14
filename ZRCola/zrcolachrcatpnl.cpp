@@ -64,10 +64,7 @@ wxZRColaCharacterCatalogPanel::wxZRColaCharacterCatalogPanel(wxWindow* parent) :
         m_cg_id = m_cg_db.idxRnk[0].id;
         m_choice->Select(0);
 
-        // Update grid by simulating wxEVT_COMMAND_CHOICE_SELECTED event.
-        wxCommandEvent e(wxEVT_COMMAND_CHOICE_SELECTED, m_grid->GetId());
-        e.SetInt(0);
-        OnChoice(e);
+        Update();
     }
 
     // Register frame specific hotkey(s).
@@ -86,13 +83,12 @@ wxZRColaCharacterCatalogPanel::~wxZRColaCharacterCatalogPanel()
 
 void wxZRColaCharacterCatalogPanel::OnChoice(wxCommandEvent& event)
 {
-    ZRCola::chrgrp_db::chrgrp &cg = m_cg_db.idxRnk[event.GetSelection()];
+    const ZRCola::chrgrp_db::chrgrp &cg = m_cg_db.idxRnk[event.GetSelection()];
 
-    m_cg_id = cg.id;
-    m_grid->SetCharacters(wxString(cg.data + cg.name_len, cg.char_len));
-
-    // As size of the grid might have changed, relayout the panel.
-    Layout();
+    if (m_cg_id != cg.id) {
+        m_cg_id = cg.id;
+        Update();
+    }
 
     event.Skip();
 }
@@ -129,6 +125,16 @@ void wxZRColaCharacterCatalogPanel::OnGridKeyDown(wxKeyEvent& event)
 }
 
 
+void wxZRColaCharacterCatalogPanel::OnShowAll(wxCommandEvent& event)
+{
+    UNREFERENCED_PARAMETER(event);
+
+    Update();
+
+    event.Skip();
+}
+
+
 void wxZRColaCharacterCatalogPanel::OnFocusDecomposed(wxCommandEvent& event)
 {
     ZRColaApp *app = (ZRColaApp*)wxTheApp;
@@ -140,6 +146,33 @@ void wxZRColaCharacterCatalogPanel::OnFocusDecomposed(wxCommandEvent& event)
     }
 
     event.Skip();
+}
+
+
+void wxZRColaCharacterCatalogPanel::Update()
+{
+    const ZRCola::chrgrp_db::chrgrp &cg = m_cg_db.idxRnk[m_choice->GetSelection()];
+
+    if (m_show_all->GetValue()) {
+        m_grid->SetCharacters(
+            wxString(cg.get_chars(), cg.char_len),
+            wxArrayShort((const short*)cg.get_char_shown(), (const short*)cg.get_char_shown() + (cg.char_len + 15)/16));
+    } else {
+        // Select frequently used characters only.
+        const wchar_t *src = cg.get_chars();
+        const unsigned __int16 *shown = cg.get_char_shown();
+        wxString chars;
+        for (unsigned __int16 i = 0, j = 0; i < cg.char_len; j++) {
+            for (unsigned __int16 k = 0, mask = shown[j]; k < 16 && i < cg.char_len; k++, mask >>= 1, i++) {
+                if (mask & 1)
+                    chars += src[i];
+            }
+        }
+        m_grid->SetCharacters(chars);
+    }
+
+    // As size of the grid might have changed, relayout the panel.
+    Layout();
 }
 
 
@@ -163,6 +196,7 @@ void wxPersistentZRColaCharacterCatalogPanel::Save() const
     const wxZRColaCharacterCatalogPanel * const wnd = static_cast<const wxZRColaCharacterCatalogPanel*>(GetWindow());
 
     SaveValue(wxT("charGroup"), wnd->m_cg_id);
+    SaveValue(wxT("showAll"  ), wnd->m_show_all->GetValue());
 }
 
 
@@ -170,24 +204,35 @@ bool wxPersistentZRColaCharacterCatalogPanel::Restore()
 {
     wxZRColaCharacterCatalogPanel * const wnd = static_cast<wxZRColaCharacterCatalogPanel*>(GetWindow());
 
+    bool update = false;
+
     // Restore selected character group.
     int cg_id;
     if (RestoreValue(wxT("charGroup"), &cg_id)) {
         for (size_t i = 0, n = wnd->m_cg_db.idxRnk.size(); i < n; i++) {
             const ZRCola::chrgrp_db::chrgrp &cg = wnd->m_cg_db.idxRnk[i];
             if (cg.id == cg_id) {
-                wnd->m_cg_id = cg.id;
-                wnd->m_choice->Select(i);
-
-                // Update grid by simulating wxEVT_COMMAND_CHOICE_SELECTED event.
-                wxCommandEvent e(wxEVT_COMMAND_CHOICE_SELECTED, wnd->m_grid->GetId());
-                e.SetInt(i);
-                wnd->OnChoice(e);
+                if (wnd->m_cg_id != cg.id) {
+                    wnd->m_cg_id = cg.id;
+                    wnd->m_choice->Select(i);
+                    update = true;
+                }
 
                 break;
             }
         }
     }
+
+    bool show_all;
+    if (RestoreValue(wxT("showAll"), &show_all)) {
+        if (wnd->m_show_all->GetValue() != show_all) {
+            wnd->m_show_all->SetValue(show_all);
+            update = true;
+        }
+    }
+
+    if (update)
+        wnd->Update();
 
     return true;
 }
