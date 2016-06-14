@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-06-13 13:20+0200\n"
+"POT-Creation-Date: 2016-06-14 09:58+0200\n"
 "PO-Revision-Date: 2016-05-13 15:52+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
@@ -24,8 +24,12 @@ msgid "© 2004-%s ZRC SAZU"
 msgstr "© 2004-%s ZRC SAZU"
 
 #: zrcolaapp.cpp:79 zrcolafrm.cpp:90 zrcolagui.cpp:860 zrcolagui.h:104
+#: MSIBuild/En.Win32.Debug.Feature-2.idtx:4
+#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
+#: MSIBuild/En.x64.Debug.Feature-2.idtx:4
+#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
 #, fuzzy
@@ -50,14 +54,14 @@ msgstr "Zahtevaj nov znak"
 #: zrcolachrslct.cpp:39 zrcolachrslct.cpp:180 zrcolachrslct.cpp:624
 #, fuzzy
 msgid "▸ Search Options"
-msgstr "▶ Možnosti iskanja"
+msgstr "▸ Možnosti iskanja"
 
 #: zrcolachrslct.cpp:183 zrcolachrslct.cpp:621
 #, fuzzy
 msgid "▾ Search Options"
-msgstr "▶ Možnosti iskanja"
+msgstr "▾ Možnosti iskanja"
 
-#: zrcolafrm.cpp:111
+#: zrcolafrm.cpp:141
 #, fuzzy
 msgid ""
 "ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality "
@@ -66,12 +70,12 @@ msgstr ""
 "ZRColine bližnjice na tipkovnici Win+F5 ni mogoče registrirati. Nekaj "
 "funkcionalnosti ne bo na voljo."
 
-#: zrcolafrm.cpp:111 zrcolafrm.cpp:113
+#: zrcolafrm.cpp:141 zrcolafrm.cpp:143
 #, fuzzy
 msgid "Warning"
 msgstr "Opozorilo"
 
-#: zrcolafrm.cpp:113
+#: zrcolafrm.cpp:143
 #, fuzzy
 msgid ""
 "ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality "
@@ -677,21 +681,166 @@ msgstr "Nastavitve"
 msgid "About ZRCola"
 msgstr "O ZRColi"
 
+#: MSIBuild/En.Win32.Debug.Control-2.idtx:14
+#: MSIBuild/En.Win32.Debug.Control-2.idtx:19
+#: MSIBuild/En.Win32.Debug.Control-2.idtx:9
+#: MSIBuild/En.Win32.Release.Control-2.idtx:14
+#: MSIBuild/En.Win32.Release.Control-2.idtx:19
+#: MSIBuild/En.Win32.Release.Control-2.idtx:9
+#: MSIBuild/En.x64.Debug.Control-2.idtx:14
+#: MSIBuild/En.x64.Debug.Control-2.idtx:19
+#: MSIBuild/En.x64.Debug.Control-2.idtx:9
+#: MSIBuild/En.x64.Release.Control-2.idtx:14
+#: MSIBuild/En.x64.Release.Control-2.idtx:19
+#: MSIBuild/En.x64.Release.Control-2.idtx:9
+#, fuzzy
+msgid "&Continue"
+msgstr "&Nadaljuj"
+
+#: MSIBuild/En.Win32.Debug.Control-2.idtx:11
+#: MSIBuild/En.Win32.Release.Control-2.idtx:11
+#: MSIBuild/En.x64.Debug.Control-2.idtx:11
+#: MSIBuild/En.x64.Release.Control-2.idtx:11
+#, fuzzy
+msgid "[DlgTitleFont][SimpleProductName] Tutorial : Composition"
+msgstr "[DlgTitleFont]Vadnica [SimpleProductName] : Sestavljanje"
+
+#: MSIBuild/En.Win32.Debug.Control-2.idtx:16
+#: MSIBuild/En.Win32.Release.Control-2.idtx:16
+#: MSIBuild/En.x64.Debug.Control-2.idtx:16
+#: MSIBuild/En.x64.Release.Control-2.idtx:16
+#, fuzzy
+msgid "[DlgTitleFont][SimpleProductName] Tutorial : Entering Characters"
+msgstr "[DlgTitleFont]Vadnica [SimpleProductName] : Vnos znakov"
+
+#: MSIBuild/En.Win32.Debug.Control-2.idtx:5
+#: MSIBuild/En.Win32.Release.Control-2.idtx:5
+#: MSIBuild/En.x64.Debug.Control-2.idtx:5
+#: MSIBuild/En.x64.Release.Control-2.idtx:5
+#, fuzzy
+msgid "[DlgTitleFont][SimpleProductName] Tutorial : Starting"
+msgstr "[DlgTitleFont]Vadnica [SimpleProductName] : Zagon"
+
+#: MSIBuild/En.Win32.Debug.Control-2.idtx:3
+#: MSIBuild/En.Win32.Debug.Feature-2.idtx:3
+#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:3
+#: MSIBuild/En.Win32.Release.Control-2.idtx:3
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:3
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:3
+#: MSIBuild/En.x64.Debug.Control-2.idtx:3
+#: MSIBuild/En.x64.Debug.Feature-2.idtx:3
+#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:3
+#: MSIBuild/En.x64.Release.Control-2.idtx:3
 #: MSIBuild/En.x64.Release.Feature-2.idtx:3
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:3
 #, fuzzy
 msgid "1252"
 msgstr "1250"
 
+#: MSIBuild/En.Win32.Debug.Control-2.idtx:6
+#: MSIBuild/En.Win32.Release.Control-2.idtx:6
+#: MSIBuild/En.x64.Debug.Control-2.idtx:6
+#: MSIBuild/En.x64.Release.Control-2.idtx:6
+#, fuzzy
+msgid "bintutorial1.bmp"
+msgstr "bintutorial1.bmp"
+
+#: MSIBuild/En.Win32.Debug.Control-2.idtx:12
+#: MSIBuild/En.Win32.Release.Control-2.idtx:12
+#: MSIBuild/En.x64.Debug.Control-2.idtx:12
+#: MSIBuild/En.x64.Release.Control-2.idtx:12
+#, fuzzy
+msgid "bintutorial2.bmp"
+msgstr "bintutorial2.bmp"
+
+#: MSIBuild/En.Win32.Debug.Control-2.idtx:17
+#: MSIBuild/En.Win32.Release.Control-2.idtx:17
+#: MSIBuild/En.x64.Debug.Control-2.idtx:17
+#: MSIBuild/En.x64.Release.Control-2.idtx:17
+#, fuzzy
+msgid "bintutorial3.bmp"
+msgstr "bintutorial3.bmp"
+
+#: MSIBuild/En.Win32.Debug.Control-2.idtx:10
+#: MSIBuild/En.Win32.Debug.Control-2.idtx:15
+#: MSIBuild/En.Win32.Debug.Control-2.idtx:4
+#: MSIBuild/En.Win32.Release.Control-2.idtx:10
+#: MSIBuild/En.Win32.Release.Control-2.idtx:15
+#: MSIBuild/En.Win32.Release.Control-2.idtx:4
+#: MSIBuild/En.x64.Debug.Control-2.idtx:10
+#: MSIBuild/En.x64.Debug.Control-2.idtx:15
+#: MSIBuild/En.x64.Debug.Control-2.idtx:4
+#: MSIBuild/En.x64.Release.Control-2.idtx:10
+#: MSIBuild/En.x64.Release.Control-2.idtx:15
+#: MSIBuild/En.x64.Release.Control-2.idtx:4
+#, fuzzy
+msgid "binUIHeader.bmp"
+msgstr "binUIHeader.bmp"
+
+#: MSIBuild/En.Win32.Debug.Control-2.idtx:18
+#: MSIBuild/En.Win32.Release.Control-2.idtx:18
+#: MSIBuild/En.x64.Debug.Control-2.idtx:18
+#: MSIBuild/En.x64.Release.Control-2.idtx:18
+#, fuzzy
+msgid ""
+"Characters can be entered using keyboard shortcuts, the character catalogue "
+"(F4) or the character finding tool (F8)."
+msgstr ""
+"Znake lahko v vnosno vrstico vstavljamo s pomočjo bližnjic na tipkovnici, iz "
+"kataloga znakov (F4) ali z iskalnikom znakov (F8)."
+
+#: MSIBuild/En.Win32.Debug.Control-2.idtx:8
+#: MSIBuild/En.Win32.Release.Control-2.idtx:8
+#: MSIBuild/En.x64.Debug.Control-2.idtx:8
+#: MSIBuild/En.x64.Release.Control-2.idtx:8
+#, fuzzy
+msgid ""
+"IMPORTANT: Upon pressing the combination Win+F5 the program memorises the "
+"location of the cursor in the text. If ZRCola is brought to the foreground "
+"without using the aforementioned combination of keys, the program won't know "
+"where to insert the special characters!"
+msgstr ""
+"POMEMBNO: Ob pritisku na Win+F5 si program zapomni mesto kurzorja v "
+"besedilu. Če ZRColo povečamo brez pritiska na ti dve tipki, program ne bo "
+"vedel, kam vstaviti želene znake!"
+
+#: MSIBuild/En.Win32.Debug.Feature-2.idtx:4
+#: MSIBuild/En.Win32.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
+#: MSIBuild/En.x64.Debug.Feature-2.idtx:4
+#: MSIBuild/En.x64.Debug.Shortcut-2.idtx:4
 #: MSIBuild/En.x64.Release.Feature-2.idtx:4
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
 #, fuzzy
 msgid "Input system for linguistic use"
 msgstr "Vnašalni sistem za jezikoslovno rabo"
+
+#: MSIBuild/En.Win32.Debug.Control-2.idtx:13
+#: MSIBuild/En.Win32.Release.Control-2.idtx:13
+#: MSIBuild/En.x64.Debug.Control-2.idtx:13
+#: MSIBuild/En.x64.Release.Control-2.idtx:13
+#, fuzzy
+msgid ""
+"The string of basic and substitute characters is entered into the upper "
+"input window of the program. In the window below the resulted special "
+"characters are displayed. To insert them in the text, the F5 key is used."
+msgstr ""
+"Želeni niz osnovnih in nadomestnih znakov vnesemo v zgornjo vrstico v "
+"programu. V spodnji vrstici se prikažejo sestavljeni znaki. V besedilo jih "
+"vnesemo s pritiskom na tipko F5."
+
+#: MSIBuild/En.Win32.Debug.Control-2.idtx:7
+#: MSIBuild/En.Win32.Release.Control-2.idtx:7
+#: MSIBuild/En.x64.Debug.Control-2.idtx:7
+#: MSIBuild/En.x64.Release.Control-2.idtx:7
+#, fuzzy
+msgid ""
+"When configured, ZRCola starts at system startup and runs in the background. "
+"If needed, it can be brought up by pressing the combination Win+F5."
+msgstr ""
+"Če jo tako nastavimo, se ZRCola zažene samodejno in teče v ozadju. V "
+"ospredje jo prikličemo s pritiskom na bližnjico Win+F5."
 
 #~ msgid "Auto Start"
 #~ msgstr "Samodejni zagon"

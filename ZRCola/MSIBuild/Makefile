@@ -38,6 +38,36 @@ OLDZRCOLADIR	clZRCola.exe.$(PLAT)
 
 
 ######################################################################
+# Binary
+
+All :: \
+	"$(LANG).$(PLAT).$(CFG).Binary-1.idt" \
+	"$(LANG).$(PLAT).$(CFG).Binary-1\tutorial1.bmp" \
+	"$(LANG).$(PLAT).$(CFG).Binary-1\tutorial2.bmp" \
+	"$(LANG).$(PLAT).$(CFG).Binary-1\tutorial3.bmp"
+
+"$(LANG).$(PLAT).$(CFG).Binary-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak" "$(LANG).$(PLAT).$(CFG).Binary-1"
+	-if exist $@ del /f /q $@
+	move /y << $@ > NUL
+Name	Data
+s$(MSIBUILD_LENGTH_ID)	v0
+Binary	Name
+bintutorial1.bmp	tutorial1.bmp
+bintutorial2.bmp	tutorial2.bmp
+bintutorial3.bmp	tutorial3.bmp
+<<NOKEEP
+
+"$(LANG).$(PLAT).$(CFG).Binary-1\tutorial1.bmp" : "Binary\tutorial1.bmp"
+	copy /y $** $@ > NUL
+
+"$(LANG).$(PLAT).$(CFG).Binary-1\tutorial2.bmp" : "Binary\tutorial2.bmp"
+	copy /y $** $@ > NUL
+
+"$(LANG).$(PLAT).$(CFG).Binary-1\tutorial3.bmp" : "Binary\tutorial3.bmp"
+	copy /y $** $@ > NUL
+
+
+######################################################################
 # CompLocator
 
 All :: "$(LANG).$(PLAT).$(CFG).CompLocator-1.idt"
@@ -77,6 +107,99 @@ compZRCola.exe.x64	{D45B105D-2303-459A-AF4B-52AC3AAD5510}	ZRCOLABINDIR	256		file
 !IF "$(LANG)" == "Sl"
 compZRCola.mo.sl_SI	{7FF95C71-D8DE-4D2B-A26D-FEB5A1F54D63}	ZRCOLALOCSLSIDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola.mo.sl_SI
 !ENDIF
+<<NOKEEP
+
+
+######################################################################
+# Control
+
+All :: "$(LANG).$(PLAT).$(CFG).Control-2.idt"
+
+"En.$(PLAT).$(CFG).Control-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+	-if exist $@ del /f /q $@
+	move /y << $@ > NUL
+Dialog_	Control	Type	X	Y	Width	Height	Attributes	Property	Text	Control_Next	Help
+s$(MSIBUILD_LENGTH_ID)	s50	s20	i2	i2	i2	i2	I4	S50	L0	S50	L$(MSIBUILD_LENGTH_HELP)
+1252	Control	Dialog_	Control
+dlgTutorial1	ctlBannerBitmap	Bitmap	0	0	400	45	1		binUIHeader.bmp	ctlTitle	
+dlgTutorial1	ctlTitle	Text	15	15	320	15	196611		[DlgTitleFont][SimpleProductName] Tutorial : Starting	ctlScreenshot	
+dlgTutorial1	ctlScreenshot	Bitmap	154	60	92	54	5		bintutorial1.bmp	ctlText1	
+dlgTutorial1	ctlText1	Text	15	119	370	24	196611		When configured, ZRCola starts at system startup and runs in the background. If needed, it can be brought up by pressing the combination Win+F5.	ctlText2	
+dlgTutorial1	ctlText2	Text	15	148	370	36	196611		IMPORTANT: Upon pressing the combination Win+F5 the program memorises the location of the cursor in the text. If ZRCola is brought to the foreground without using the aforementioned combination of keys, the program won't know where to insert the special characters!	ctlContinue	
+dlgTutorial1	ctlContinue	PushButton	325	265	60	20	3		&Continue	ctlBannerBitmap	
+dlgTutorial2	ctlBannerBitmap	Bitmap	0	0	400	45	1		binUIHeader.bmp	ctlTitle	
+dlgTutorial2	ctlTitle	Text	15	15	320	15	196611		[DlgTitleFont][SimpleProductName] Tutorial : Composition	ctlScreenshot	
+dlgTutorial2	ctlScreenshot	Bitmap	81	60	238	137	5		bintutorial2.bmp	ctlText1	
+dlgTutorial2	ctlText1	Text	15	202	370	36	196611		The string of basic and substitute characters is entered into the upper input window of the program. In the window below the resulted special characters are displayed. To insert them in the text, the F5 key is used.	ctlContinue	
+dlgTutorial2	ctlContinue	PushButton	325	265	60	20	3		&Continue	ctlBannerBitmap	
+dlgTutorial3	ctlBannerBitmap	Bitmap	0	0	400	45	1		binUIHeader.bmp	ctlTitle	
+dlgTutorial3	ctlTitle	Text	15	15	320	15	196611		[DlgTitleFont][SimpleProductName] Tutorial : Entering Characters	ctlScreenshot	
+dlgTutorial3	ctlScreenshot	Bitmap	147	60	106	112	5		bintutorial3.bmp	ctlText1	
+dlgTutorial3	ctlText1	Text	15	177	370	24	196611		Characters can be entered using keyboard shortcuts, the character catalogue (F4) or the character finding tool (F8).	ctlContinue	
+dlgTutorial3	ctlContinue	PushButton	325	265	60	20	3		&Continue	ctlBannerBitmap	
+<<NOKEEP
+
+"De.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx" "..\locale\de_DE.po"
+	rcxgettext.exe idtp $@ $**
+
+"En.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx"
+	copy /y $** $@ > NUL
+
+"It.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx" "..\locale\it_IT.po"
+	rcxgettext.exe idtp $@ $**
+
+"Sl.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx" "..\locale\sl_SI.po"
+	rcxgettext.exe idtp $@ $**
+
+
+######################################################################
+# ControlEvent
+
+All :: "$(LANG).$(PLAT).$(CFG).ControlEvent-1.idt"
+
+"$(LANG).$(PLAT).$(CFG).ControlEvent-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+	-if exist $@ del /f /q $@
+	move /y << $@ > NUL
+Dialog_	Control_	Event	Argument	Condition	Ordering
+s$(MSIBUILD_LENGTH_ID)	s50	s50	s255	S255	I2
+ControlEvent	Dialog_	Control_	Event	Argument	Condition
+dlgTutorial1	ctlContinue	EndDialog	Return	1	1000
+dlgTutorial2	ctlContinue	EndDialog	Return	1	1000
+dlgTutorial3	ctlContinue	EndDialog	Return	1	1000
+<<NOKEEP
+
+
+######################################################################
+# Dialog
+
+All :: "$(LANG).$(PLAT).$(CFG).Dialog-1.idt"
+
+"$(LANG).$(PLAT).$(CFG).Dialog-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+	-if exist $@ del /f /q $@
+	move /y << $@ > NUL
+Dialog	HCentering	VCentering	Width	Height	Attributes	Title	Control_First	Control_Default	Control_Cancel
+s$(MSIBUILD_LENGTH_ID)	i2	i2	i2	i2	I4	L128	s50	S50	S50
+Dialog	Dialog
+dlgTutorial1	50	50	400	300	3	[Setup] [SimpleProductName] [DisplayVersion]	ctlTitle	ctlContinue	ctlContinue
+dlgTutorial2	50	50	400	300	3	[Setup] [SimpleProductName] [DisplayVersion]	ctlTitle	ctlContinue	ctlContinue
+dlgTutorial3	50	50	400	300	3	[Setup] [SimpleProductName] [DisplayVersion]	ctlTitle	ctlContinue	ctlContinue
+<<NOKEEP
+
+
+######################################################################
+# InstallUISequence
+
+All :: "$(LANG).$(PLAT).$(CFG).InstallUISequence-1.idt"
+
+"$(LANG).$(PLAT).$(CFG).InstallUISequence-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+	-if exist $@ del /f /q $@
+	move /y << $@ > NUL
+Action	Condition	Sequence
+s$(MSIBUILD_LENGTH_ID)	S255	I2
+InstallUISequence	Action
+dlgTutorial1	NOT Installed	1400
+dlgTutorial2	NOT Installed	1401
+dlgTutorial3	NOT Installed	1402
 <<NOKEEP
 
 
