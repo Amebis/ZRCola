@@ -402,7 +402,7 @@ All :: "$(LANG).$(PLAT).$(CFG).Property-1.idt"
 Property	Value
 s$(MSIBUILD_LENGTH_ID)	l0
 Property	Property
-ARPPRODUCTICON	iconPDF.ico
+ARPPRODUCTICON	iconZRCola.ico
 ALLUSERS	1
 DISABLEADVTSHORTCUTS	1
 INSTALLLEVEL	3
