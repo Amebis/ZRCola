@@ -343,7 +343,7 @@ msgstr ""
 msgid "Mark, Spacing Combining"
 msgstr ""
 
-msgid "Mathematical And Physical Characters"
+msgid "Mathematical And Physical Symbols"
 msgstr ""
 
 msgid "Metric"

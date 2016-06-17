@@ -5,7 +5,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: ZRColaCompile 2.0-beta4\n"
+"X-Generator: ZRColaCompile 2.0-beta6\n"
 
 msgid "Albanian"
 msgstr ""
@@ -331,7 +331,7 @@ msgstr ""
 msgid "Mark, Spacing Combining"
 msgstr ""
 
-msgid "Mathematical And Physical Characters"
+msgid "Mathematical And Physical Symbols"
 msgstr ""
 
 msgid "Metric"
