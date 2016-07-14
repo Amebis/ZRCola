@@ -44,6 +44,11 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
                 pFrame->SetStatusText(_("INS key is pressed. Type the Unicode code of desired character now (up to four hexadecimal digits: 0-9, A-F), then release INS."));
         } else if (m_is_insert) {
             wxChar chr = e.GetUnicodeKey();
+            if (!chr) {
+                int key = e.GetKeyCode();
+                if (WXK_NUMPAD0 <= key && key <= WXK_NUMPAD9)
+                    chr = '0' + (key - WXK_NUMPAD0);
+            }
             wxFrame *pFrame = wxDynamicCast(((ZRColaApp*)wxTheApp)->m_mainWnd, wxFrame);
             if (('0' <= chr && chr <= '9' || 'A' <= chr && chr <= 'F') && m_insert_seq.size() < 4) {
                 // A hex-digit pressed. Save it.
