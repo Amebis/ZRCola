@@ -9,325 +9,325 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.7\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 msgid "Albanian"
-msgstr ""
+msgstr "албанский"
 
 msgid "Arabic"
-msgstr ""
+msgstr "Арабские знаки"
 
 msgid "Arrows"
-msgstr ""
+msgstr "Стрелки"
 
 msgid "Belarusian"
-msgstr ""
+msgstr "белорусский"
 
 msgid "Bosnian – Cyrillic"
-msgstr ""
+msgstr "боснийский – кириллица"
 
 msgid "Bosnian – Latinic"
-msgstr ""
+msgstr "боснийский – латиница"
 
 msgid "Combine"
-msgstr ""
+msgstr "Средние замещающие знаки"
 
 msgid "Combine Above"
-msgstr ""
+msgstr "Верхние замещающие знаки"
 
 msgid "Combine Below"
-msgstr ""
+msgstr "Низжние замещающие знаки"
 
 msgid "Combine Over"
-msgstr ""
+msgstr "Неотдельные замещающие знаки"
 
 msgid "Combining Marks"
-msgstr ""
+msgstr "Модифицирующие символы"
 
 msgid "Croatian"
-msgstr ""
+msgstr "хорватский"
 
 msgid "Currencies"
-msgstr ""
+msgstr "Валюты"
 
 msgid "Cyrillic"
-msgstr ""
+msgstr "Кириллические знаки"
 
 msgid "Czech"
-msgstr ""
+msgstr "чешский"
 
 msgid "Danish"
-msgstr ""
+msgstr "датский"
 
 msgid "Diacritics"
-msgstr ""
+msgstr "Диакритики"
 
 msgid "Encircled Characters"
-msgstr ""
+msgstr "Знаки в круге"
 
 msgid "English"
-msgstr ""
+msgstr "английский"
 
 msgid "Estonian"
-msgstr ""
+msgstr "эстонский"
 
 msgid "Eva"
-msgstr ""
+msgstr "Эва"
 
 msgid "French"
-msgstr ""
+msgstr "французский"
 
 msgid "Friulian"
-msgstr ""
+msgstr "фриульский"
 
 msgid "Geometrical Shapes"
-msgstr ""
+msgstr "Геометрические фигуры"
 
 msgid "German"
-msgstr ""
+msgstr "немецкий"
 
 msgid "Glagolitic"
-msgstr ""
+msgstr "Глаголические знаки"
 
 msgid "Greek"
-msgstr ""
+msgstr "Греческие знаки"
 
 msgid "Hebrew"
-msgstr ""
+msgstr "Еврейские знаки"
 
 msgid "Hungarian"
-msgstr ""
+msgstr "венгерский"
 
 msgid "Irish Gaelic"
-msgstr ""
+msgstr "ирландский гэльский"
 
 msgid "Joined"
-msgstr ""
+msgstr "Объединительные замещающие знаки"
 
 msgid "Joined strings with A"
-msgstr ""
+msgstr "Объединительные серии с А"
 
 msgid "Joined strings with B"
-msgstr ""
+msgstr "Объединительные серии с Б"
 
 msgid "Joined strings with C"
-msgstr ""
+msgstr "Объединительные серии с Ц"
 
 msgid "Joined strings with D"
-msgstr ""
+msgstr "Объединительные серии с Д"
 
 msgid "Joined strings with E"
-msgstr ""
+msgstr "Объединительные серии с Е"
 
 msgid "Joined strings with F"
-msgstr ""
+msgstr "Объединительные серии с Ф"
 
 msgid "Joined strings with G"
-msgstr ""
+msgstr "Объединительные серии с Г"
 
 msgid "Joined strings with H"
-msgstr ""
+msgstr "Объединительные серии с Х"
 
 msgid "Joined strings with I"
-msgstr ""
+msgstr "Объединительные серии с И"
 
 msgid "Joined strings with J"
-msgstr ""
+msgstr "Объединительные серии с Й"
 
 msgid "Joined strings with K"
-msgstr ""
+msgstr "Объединительные серии с К"
 
 msgid "Joined strings with L"
-msgstr ""
+msgstr "Объединительные серии с Л"
 
 msgid "Joined strings with M"
-msgstr ""
+msgstr "Объединительные серии с М"
 
 msgid "Joined strings with N"
-msgstr ""
+msgstr "Объединительные серии с Н"
 
 msgid "Joined strings with O"
-msgstr ""
+msgstr "Объединительные серии с О"
 
 msgid "Joined strings with P"
-msgstr ""
+msgstr "Объединительные серии с П"
 
 msgid "Joined strings with Q"
-msgstr ""
+msgstr "Объединительные серии с латинским Q"
 
 msgid "Joined strings with R"
-msgstr ""
+msgstr "Объединительные серии с Р"
 
 msgid "Joined strings with S"
-msgstr ""
+msgstr "Объединительные серии с С"
 
 msgid "Joined strings with T"
-msgstr ""
+msgstr "Объединительные серии с Т"
 
 msgid "Joined strings with U"
-msgstr ""
+msgstr "Объединительные серии с У"
 
 msgid "Joined strings with V"
-msgstr ""
+msgstr "Объединительные серии с В"
 
 msgid "Joined strings with W"
-msgstr ""
+msgstr "Объединительные серии с латинским W"
 
 msgid "Joined strings with X"
-msgstr ""
+msgstr "Объединительные серии с латинским X"
 
 msgid "Joined strings with Y"
-msgstr ""
+msgstr "Объединительные серии с латинским Y"
 
 msgid "Joined strings with Z"
-msgstr ""
+msgstr "Объединительные серии с З"
 
 msgid "Joined strings with a"
-msgstr ""
+msgstr "Объединительные серии с а"
 
 msgid "Joined strings with e"
-msgstr ""
+msgstr "Объединительные серии с е"
 
 msgid "Joined strings with i"
-msgstr ""
+msgstr "Объединительные серии с и"
 
 msgid "Joined strings with o"
-msgstr ""
+msgstr "Объединительные серии с о"
 
 msgid "Joined strings with u"
-msgstr ""
+msgstr "Объединительные серии с у"
 
 msgid "Kashubian"
-msgstr ""
+msgstr "кашубский"
 
 msgid "Latin"
-msgstr ""
+msgstr "латинский"
 
 msgid "Latvian"
-msgstr ""
+msgstr "латышский"
 
 msgid "Letter A"
-msgstr ""
+msgstr "Буква А"
 
 msgid "Letter B"
-msgstr ""
+msgstr "Буква Б"
 
 msgid "Letter C"
-msgstr ""
+msgstr "Буква Ц"
 
 msgid "Letter D"
-msgstr ""
+msgstr "Буква Д"
 
 msgid "Letter E"
-msgstr ""
+msgstr "Буква Е"
 
 msgid "Letter F"
-msgstr ""
+msgstr "Буква Ф"
 
 msgid "Letter G"
-msgstr ""
+msgstr "Буква Г"
 
 msgid "Letter H"
-msgstr ""
+msgstr "Буква Х"
 
 msgid "Letter I"
-msgstr ""
+msgstr "Буква И"
 
 msgid "Letter J"
-msgstr ""
+msgstr "Буква Й"
 
 msgid "Letter K"
-msgstr ""
+msgstr "Буква К"
 
 msgid "Letter L"
-msgstr ""
+msgstr "Буква Л"
 
 msgid "Letter M"
-msgstr ""
+msgstr "Буква М"
 
 msgid "Letter N"
-msgstr ""
+msgstr "Буква Н"
 
 msgid "Letter O"
-msgstr ""
+msgstr "Буква О"
 
 msgid "Letter P"
-msgstr ""
+msgstr "Буква П"
 
 msgid "Letter Q"
-msgstr ""
+msgstr "Буква латинское Q"
 
 msgid "Letter R"
-msgstr ""
+msgstr "Буква Р"
 
 msgid "Letter S"
-msgstr ""
+msgstr "Буква С"
 
 msgid "Letter T"
-msgstr ""
+msgstr "Буква Т"
 
 msgid "Letter U"
-msgstr ""
+msgstr "Буква У"
 
 msgid "Letter V"
-msgstr ""
+msgstr "Буква В"
 
 msgid "Letter W"
-msgstr ""
+msgstr "Буква латинское W"
 
 msgid "Letter X"
-msgstr ""
+msgstr "Буква латинское Х"
 
 msgid "Letter Y"
-msgstr ""
+msgstr "Буква латинское Y"
 
 msgid "Letter Z"
-msgstr ""
+msgstr "Буква З"
 
 msgid "Letter a"
-msgstr ""
+msgstr "Буква а"
 
 msgid "Letter e"
-msgstr ""
+msgstr "Буква е"
 
 msgid "Letter i"
-msgstr ""
+msgstr "Буква и"
 
 msgid "Letter o"
-msgstr ""
+msgstr "Буква о"
 
 msgid "Letter u"
-msgstr ""
+msgstr "Буква у"
 
 msgid "Letter, Lowercase"
-msgstr ""
+msgstr "Буква, строчная"
 
 msgid "Letter, Modifier"
-msgstr ""
+msgstr "Буква, модификатор"
 
 msgid "Letter, Other"
-msgstr ""
+msgstr "Буква, остальное"
 
 msgid "Letter, Titlecase"
-msgstr ""
+msgstr "Буква, начальная"
 
 msgid "Letter, Uppercase"
-msgstr ""
+msgstr "Буква, прописная"
 
 msgid "Ligatures"
-msgstr ""
+msgstr "Лигатуры"
 
 msgid "Lithuanian"
-msgstr ""
+msgstr "литовский"
 
 msgid "Macedonian"
-msgstr ""
+msgstr "македонский"
 
 msgid "Maltese"
-msgstr ""
+msgstr "мальтийский"
 
 msgid "Mark, Enclosing"
 msgstr ""
@@ -339,73 +339,73 @@ msgid "Mark, Spacing Combining"
 msgstr ""
 
 msgid "Mathematical And Physical Symbols"
-msgstr ""
+msgstr "Математические и физические знаки"
 
 msgid "Metric"
-msgstr ""
+msgstr "Метрические знаки"
 
 msgid "Modified"
-msgstr ""
+msgstr "Изменяющие знаки"
 
 msgid "Moldavian – Cyrillic"
-msgstr ""
+msgstr "молдавский – кириллица"
 
 msgid "Moldavian – Latinic"
-msgstr ""
+msgstr "молдавский – латиница"
 
 msgid "Musical Characters"
-msgstr ""
+msgstr "Музыкальные символы"
 
 msgid "Norwegian"
-msgstr ""
+msgstr "норвежский"
 
 msgid "Number 0"
-msgstr ""
+msgstr "Число 0"
 
 msgid "Number 1"
-msgstr ""
+msgstr "Число 1"
 
 msgid "Number 2"
-msgstr ""
+msgstr "Число 2"
 
 msgid "Number 3"
-msgstr ""
+msgstr "Число 3"
 
 msgid "Number 4"
-msgstr ""
+msgstr "Число 4"
 
 msgid "Number 5"
-msgstr ""
+msgstr "Число 5"
 
 msgid "Number 6"
-msgstr ""
+msgstr "Число 6"
 
 msgid "Number 7"
-msgstr ""
+msgstr "Число 7"
 
 msgid "Number 8"
-msgstr ""
+msgstr "Число 8"
 
 msgid "Number 9"
-msgstr ""
+msgstr "Число 9"
 
 msgid "Number, Decimal Digit"
-msgstr ""
+msgstr "Число, децималная цифра"
 
 msgid "Number, Letter"
-msgstr ""
+msgstr "Число, буква"
 
 msgid "Number, Other"
-msgstr ""
+msgstr "Число, другое"
 
 msgid "Numbers"
-msgstr ""
+msgstr "Числа"
 
 msgid "Numbers - Circled"
-msgstr ""
+msgstr "Числа в круге"
 
 msgid "Other Modifiers"
-msgstr ""
+msgstr "Остальные замещающие знаки"
 
 msgid "Other, Format"
 msgstr ""
@@ -414,16 +414,16 @@ msgid "Other, Surrogate"
 msgstr ""
 
 msgid "Parentheses"
-msgstr ""
+msgstr "Скобкы"
 
 msgid "Polish"
-msgstr ""
+msgstr "польский"
 
 msgid "Portuguese"
-msgstr ""
+msgstr "португальский"
 
 msgid "Punctuation"
-msgstr ""
+msgstr "Знаки препинания"
 
 msgid "Punctuation, Close"
 msgstr ""
@@ -447,127 +447,128 @@ msgid "Punctuation, Other"
 msgstr ""
 
 msgid "Quotes"
-msgstr ""
+msgstr "Кавычки"
 
 msgid "Romanian"
-msgstr ""
+msgstr "румынский"
 
 msgid "Russian"
-msgstr ""
+msgstr "русский"
 
 msgid "Separator, Line"
-msgstr ""
+msgstr "Сепаратор, строчка"
 
 msgid "Separator, Paragraph"
-msgstr ""
+msgstr "Сепаратор, абзац"
 
 msgid "Separator, Space"
-msgstr ""
+msgstr "Сепаратор, пробел"
 
 msgid "Serbian – Cyrillic"
-msgstr ""
+msgstr "сербский – кириллица"
 
 msgid "Serbian – Latinic"
-msgstr ""
+msgstr "сербский – латиница"
 
 msgid "Slovak"
-msgstr ""
+msgstr "словацкий"
 
+# Preveri исторический!
 msgid "Slovene Historical Writings"
-msgstr ""
+msgstr "Словенские исторические письма"
 
 msgid "Slovenian"
-msgstr ""
+msgstr "словенский"
 
 msgid "Sorbian"
-msgstr ""
+msgstr "лужицкий"
 
 msgid "Spaces"
-msgstr ""
+msgstr "Пробелы"
 
 msgid "Spanish"
-msgstr ""
+msgstr "испанский"
 
 msgid "Special Characters"
-msgstr ""
+msgstr "Специальные знаки"
 
 msgid "Strokes"
-msgstr ""
+msgstr "Перечертка"
 
 msgid "Subscript Characters"
-msgstr ""
+msgstr "Форматирование нижнего индекса"
 
 msgid "Superscript Sharacters"
-msgstr ""
+msgstr "Форматирование надстрочного индекса"
 
 msgid "Surrounded"
-msgstr ""
+msgstr "В круге"
 
 msgid "Swedish"
-msgstr ""
+msgstr "шведский"
 
 msgid "Symbol !"
-msgstr ""
+msgstr "Симбол !"
 
 msgid "Symbol ("
-msgstr ""
+msgstr "Симбол ("
 
 msgid "Symbol )"
-msgstr ""
+msgstr "Симбол )"
 
 msgid "Symbol +"
-msgstr ""
+msgstr "Симбол +"
 
 msgid "Symbol ,"
-msgstr ""
+msgstr "Симбол ,"
 
 msgid "Symbol -"
-msgstr ""
+msgstr "Симбол -"
 
 msgid "Symbol :"
-msgstr ""
+msgstr "Симбол :"
 
 msgid "Symbol ;"
-msgstr ""
+msgstr "Симбол ;"
 
 msgid "Symbol <"
-msgstr ""
+msgstr "Симбол <"
 
 msgid "Symbol ="
-msgstr ""
+msgstr "Симбол ="
 
 msgid "Symbol >"
-msgstr ""
+msgstr "Симбол >"
 
 msgid "Symbol ?"
-msgstr ""
+msgstr "Симбол ?"
 
 msgid "Symbol, Currency"
-msgstr ""
+msgstr "Симбол, валюта"
 
 msgid "Symbol, Math"
-msgstr ""
+msgstr "Симбол, математический"
 
 msgid "Symbol, Modifier"
-msgstr ""
+msgstr "Симбол, модификатор"
 
 msgid "Symbol, Other"
-msgstr ""
+msgstr "Симбол, остальное"
 
 msgid "Technical Characters"
-msgstr ""
+msgstr "Технические символы"
 
 msgid "Transliterated"
-msgstr ""
+msgstr "Транслитерированные знаки"
 
 msgid "Transliterating Marks"
-msgstr ""
+msgstr "Транслитерирующие знаки"
 
 msgid "Turkish"
-msgstr ""
+msgstr "турецкий"
 
 msgid "Ukrainian"
-msgstr ""
+msgstr "украинский"
 
 msgid "Units"
-msgstr ""
+msgstr "Единицы"
