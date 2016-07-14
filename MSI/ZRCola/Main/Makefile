@@ -53,9 +53,6 @@ All :: "$(LANG).$(PLAT).$(CFG).Component-1.idt"
 Component	ComponentId	Directory_	Attributes	Condition	KeyPath
 s$(MSIBUILD_LENGTH_ID)	S38	s$(MSIBUILD_LENGTH_ID)	i2	S255	S$(MSIBUILD_LENGTH_ID)
 Component	Component
-!IF "$(LANG)" == "Sl"
-compwxstd.mo.sl_SI	{A5FEEA94-08CA-4E12-993F-A115601EF258}	ZRCOLALOCSLSIDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		filewxstd.mo.sl_SI
-!ENDIF
 compLocalizationRepositoryPath	{0E96110A-C38D-4600-9AE2-B8B59AF53A00}	ZRCOLALOCDIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		regLocalizationRepositoryPath
 compLanguage	{B78359AC-9484-402C-8384-3A4595B39389}	ZRCOLALOCDIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		regLanguage
 compDatabasePath	{DF3C720D-50BB-4377-9EE0-9AC21C02B9DD}	ZRCOLADATADIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		regDatabasePath
@@ -65,7 +62,12 @@ comp00_ZRCola_Re.otf	{A98CF048-44D1-405D-9217-C34900A1ADD5}	FontsFolder	0		file0
 comp00_ZRCola_It.otf	{B3CAE4B5-95D3-4522-9C23-66D015A69C48}	FontsFolder	0		file00_ZRCola_It.otf
 comp00_ZRCola_Bd.otf	{FC3D8EE1-7472-487F-97D5-7F65977CBEF7}	FontsFolder	0		file00_ZRCola_Bd.otf
 comp00_ZRCola_BI.otf	{F72CB82B-70BF-406E-A310-0294425C12A4}	FontsFolder	0		file00_ZRCola_BI.otf
+!IF "$(LANG)" == "Ru"
+compwxstd.mo.ru_RU	{342BD930-C88B-4759-A4A8-F62054E7EA88}	ZRCOLALOCRURUDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		filewxstd.mo.ru_RU
+compZRCola.zrcdb.mo.ru_RU	{BED0B2D2-CC08-4309-A2DB-A18B904B8D13}	ZRCOLALOCRURUDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola.zrcdb.mo.ru_RU
+!ENDIF
 !IF "$(LANG)" == "Sl"
+compwxstd.mo.sl_SI	{A5FEEA94-08CA-4E12-993F-A115601EF258}	ZRCOLALOCSLSIDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		filewxstd.mo.sl_SI
 compZRCola.zrcdb.mo.sl_SI	{6572EAD1-EE48-46A1-A28E-77985B667F67}	ZRCOLALOCSLSIDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola.zrcdb.mo.sl_SI
 !ENDIF
 <<NOKEEP
@@ -99,6 +101,9 @@ dlgDeclaration	ctlContinue	PushButton	325	265	60	20	3		&Continue	ctlBannerBitmap
 	copy /y $** $@ > NUL
 
 "It.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx" "..\locale\it_IT.po"
+	rcxgettext.exe idtp $@ $**
+
+"Ru.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx" "..\locale\ru_RU.po"
 	rcxgettext.exe idtp $@ $**
 
 "Sl.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx" "..\locale\sl_SI.po"
@@ -204,7 +209,12 @@ ZRCOLABINDIR	ZRCOLADIR	.:X64~1.DEB|x64.Debug
 ZRCOLABINDIR	ZRCOLADIR	.:X64~1.REL|x64.Release
 !ENDIF
 ZRCOLALOCDIR	ZRCOLADIR	locale
+!IF "$(LANG)" == "Ru"
+ZRCOLALOCRURUDIR	ZRCOLALOCDIR	ru_RU
+!ENDIF
+!IF "$(LANG)" == "Sl"
 ZRCOLALOCSLSIDIR	ZRCOLALOCDIR	sl_SI
+!ENDIF
 ZRCOLADATADIR	ZRCOLADIR	data
 <<NOKEEP
 
@@ -224,6 +234,9 @@ ZRCOLADIR	PROGRAMFILESDIR	ZRCola:.
 	copy /y $** $@ > NUL
 
 "It.$(PLAT).$(CFG).Directory-2.idt" : "En.$(PLAT).$(CFG).Directory-2.idtx" "..\locale\it_IT.po"
+	rcxgettext.exe idtp $@ $**
+
+"Ru.$(PLAT).$(CFG).Directory-2.idt" : "En.$(PLAT).$(CFG).Directory-2.idtx" "..\locale\ru_RU.po"
 	rcxgettext.exe idtp $@ $**
 
 "Sl.$(PLAT).$(CFG).Directory-2.idt" : "En.$(PLAT).$(CFG).Directory-2.idtx" "..\locale\sl_SI.po"
@@ -254,6 +267,9 @@ featZRCola_keyboard	featZRColaDoc	Keyboard Shortcuts	PDF document with a list of
 	copy /y $** $@ > NUL
 
 "It.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\it_IT.po"
+	rcxgettext.exe idtp $@ $**
+
+"Ru.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\ru_RU.po"
 	rcxgettext.exe idtp $@ $**
 
 "Sl.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\sl_SI.po"
@@ -290,16 +306,18 @@ All :: "$(LANG).$(PLAT).$(CFG).File-1.idt"
 File	Component_	FileName	FileSize	Version	Language	Attributes	Sequence
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l255	i4	S$(MSIBUILD_LENGTH_ID)	S20	I2	i2
 File	File
-!IF "$(LANG)" == "Sl"
-filewxstd.mo.sl_SI	compwxstd.mo.sl_SI	wxstd.mo	0		1060	0	1
-!ENDIF
 fileZRCola.zrcdb	compZRCola.zrcdb	ZRCOLA~1.ZRC|ZRCola.zrcdb	0			0	1
 fileZRCola_keyboard.pdf	compZRCola_keyboard.pdf	ZRCOLA~1.PDF|ZRCola_keyboard.pdf	0			0	1
 file00_ZRCola_Re.otf	comp00_ZRCola_Re.otf	00_ZRC~1.OTF|00_ZRCola_Re.otf	0			0	1
 file00_ZRCola_It.otf	comp00_ZRCola_It.otf	00_ZRC~2.OTF|00_ZRCola_It.otf	0			0	1
 file00_ZRCola_Bd.otf	comp00_ZRCola_Bd.otf	00_ZRC~3.OTF|00_ZRCola_Bd.otf	0			0	1
 file00_ZRCola_BI.otf	comp00_ZRCola_BI.otf	00_ZRC~4.OTF|00_ZRCola_BI.otf	0			0	1
+!IF "$(LANG)" == "Ru"
+filewxstd.mo.ru_RU	compwxstd.mo.ru_RU	wxstd.mo	0		1060	0	1
+fileZRCola.zrcdb.mo.ru_RU	compZRCola.zrcdb.mo.ru_RU	ZRCOLA~1.MO|ZRCola-zrcdb.mo	0		1060	0	1
+!ENDIF
 !IF "$(LANG)" == "Sl"
+filewxstd.mo.sl_SI	compwxstd.mo.sl_SI	wxstd.mo	0		1060	0	1
 fileZRCola.zrcdb.mo.sl_SI	compZRCola.zrcdb.mo.sl_SI	ZRCOLA~1.MO|ZRCola-zrcdb.mo	0		1060	0	1
 !ENDIF
 <<NOKEEP
@@ -446,6 +464,9 @@ regLanguage	2	SOFTWARE\Amebis\ZRCola	Language	#60	compLanguage
 "It.$(PLAT).$(CFG).Registry-2.idt" : "En.$(PLAT).$(CFG).Registry-2.idtx" "..\locale\it_IT.po"
 	rcxgettext.exe idtp $@ $**
 
+"Ru.$(PLAT).$(CFG).Registry-2.idt" : "En.$(PLAT).$(CFG).Registry-2.idtx" "..\locale\ru_RU.po"
+	rcxgettext.exe idtp $@ $**
+
 "Sl.$(PLAT).$(CFG).Registry-2.idt" : "En.$(PLAT).$(CFG).Registry-2.idtx" "..\locale\sl_SI.po"
 	rcxgettext.exe idtp $@ $**
 
@@ -486,6 +507,9 @@ shctZRCola_keyboard	ZRColaShortcutDir	ZRCOLA~1|ZRCola Keyboard Shortcuts	compZRC
 	copy /y $** $@ > NUL
 
 "It.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\it_IT.po"
+	rcxgettext.exe idtp $@ $**
+
+"Ru.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\ru_RU.po"
 	rcxgettext.exe idtp $@ $**
 
 "Sl.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\sl_SI.po"
