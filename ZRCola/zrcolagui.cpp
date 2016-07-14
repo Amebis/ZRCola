@@ -234,7 +234,7 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	bSizerDecomposedEdit2 = new wxStaticBoxSizer( new wxStaticBox( m_panelDecomposedEdit, wxID_ANY, _("Decomposed Text") ), wxVERTICAL );
 	
 	m_decomposed = new wxTextCtrl( bSizerDecomposedEdit2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
-	m_decomposed->SetFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
+	m_decomposed->SetFont( wxFont( 20, 70, 90, 90, false, wxT("ZRCola") ) );
 	m_decomposed->SetMinSize( wxSize( 100,25 ) );
 	
 	bSizerDecomposedEdit2->Add( m_decomposed, 1, wxEXPAND, 5 );
@@ -281,7 +281,7 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	bSizerComposedEdit2 = new wxStaticBoxSizer( new wxStaticBox( m_panelComposedEdit, wxID_ANY, _("Composed Text") ), wxVERTICAL );
 	
 	m_composed = new wxTextCtrl( bSizerComposedEdit2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
-	m_composed->SetFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
+	m_composed->SetFont( wxFont( 20, 70, 90, 90, false, wxT("ZRCola") ) );
 	m_composed->SetMinSize( wxSize( 100,25 ) );
 	
 	bSizerComposedEdit2->Add( m_composed, 1, wxEXPAND, 5 );
@@ -380,7 +380,7 @@ wxZRColaCharacterCatalogPanelBase::wxZRColaCharacterCatalogPanelBase( wxWindow* 
 	
 	// Cell Defaults
 	m_grid->SetDefaultCellBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNFACE ) );
-	m_grid->SetDefaultCellFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
+	m_grid->SetDefaultCellFont( wxFont( 20, 70, 90, 90, false, wxT("ZRCola") ) );
 	m_grid->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	m_grid->SetMinSize( wxSize( 35,35 ) );
 	
@@ -505,7 +505,7 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	// Label Appearance
 	
 	// Cell Defaults
-	m_gridResults->SetDefaultCellFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
+	m_gridResults->SetDefaultCellFont( wxFont( 20, 70, 90, 90, false, wxT("ZRCola") ) );
 	m_gridResults->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	m_gridResults->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 90, false, wxEmptyString ) );
 	m_gridResults->SetToolTip( _("Character search results") );
@@ -543,7 +543,7 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	// Label Appearance
 	
 	// Cell Defaults
-	m_gridRecent->SetDefaultCellFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
+	m_gridRecent->SetDefaultCellFont( wxFont( 20, 70, 90, 90, false, wxT("ZRCola") ) );
 	m_gridRecent->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	m_gridRecent->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 90, false, wxEmptyString ) );
 	m_gridRecent->SetToolTip( _("List of recently inserted characters") );
@@ -607,7 +607,7 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	// Label Appearance
 	
 	// Cell Defaults
-	m_gridPreview->SetDefaultCellFont( wxFont( 96, 70, 90, 90, false, wxT("00 ZRCola") ) );
+	m_gridPreview->SetDefaultCellFont( wxFont( 96, 70, 90, 90, false, wxT("ZRCola") ) );
 	m_gridPreview->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	m_gridPreview->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
 	m_gridPreview->SetToolTip( _("Character preview") );
@@ -671,7 +671,7 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	// Label Appearance
 	
 	// Cell Defaults
-	m_gridRelated->SetDefaultCellFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
+	m_gridRelated->SetDefaultCellFont( wxFont( 20, 70, 90, 90, false, wxT("ZRCola") ) );
 	m_gridRelated->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	m_gridRelated->SetToolTip( _("List of related characters") );
 	
@@ -868,7 +868,7 @@ wxZRColaAboutBase::wxZRColaAboutBase( wxWindow* parent, wxWindowID id, const wxS
 	
 	m_staticTextZRCola = new wxStaticText( this, wxID_ANY, _("ZRCola"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextZRCola->Wrap( -1 );
-	m_staticTextZRCola->SetFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
+	m_staticTextZRCola->SetFont( wxFont( 20, 70, 90, 90, false, wxT("ZRCola") ) );
 	
 	bSizerText->Add( m_staticTextZRCola, 0, wxALL|wxEXPAND, 5 );
 	
@@ -1003,7 +1003,7 @@ wxZRColaCharRequestBase::wxZRColaCharRequestBase( wxWindow* parent, wxWindowID i
 	
 	m_character = new wxTextCtrl( sbSizerCharacter->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	m_character->SetMaxLength( 20 ); 
-	m_character->SetFont( wxFont( 20, 70, 90, 90, false, wxT("00 ZRCola") ) );
+	m_character->SetFont( wxFont( 20, 70, 90, 90, false, wxT("ZRCola") ) );
 	m_character->SetToolTip( _("Decomposed character to request") );
 	
 	sbSizerCharacter->Add( m_character, 0, wxALL|wxEXPAND, 5 );
@@ -1023,7 +1023,7 @@ wxZRColaCharRequestBase::wxZRColaCharRequestBase( wxWindow* parent, wxWindowID i
 	sbSizerContext->Add( m_contextLbl, 0, wxALL|wxEXPAND, 5 );
 	
 	m_context = new wxTextCtrl( sbSizerContext->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
-	m_context->SetFont( wxFont( 16, 70, 90, 90, false, wxT("00 ZRCola") ) );
+	m_context->SetFont( wxFont( 16, 70, 90, 90, false, wxT("ZRCola") ) );
 	m_context->SetToolTip( _("Additional notes for character request") );
 	
 	sbSizerContext->Add( m_context, 1, wxALL|wxEXPAND, 5 );

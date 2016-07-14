@@ -250,7 +250,7 @@ featZRCola	compLocalizationRepositoryPath
 featZRCola	compLanguage
 featZRCola	compDatabasePath
 featZRCola	compZRCola.zrcdb
-featZRCola	comp00_ZRCola_Re.otf
+featZRCola	compZRCola_Re.otf
 !IF "$(LANG)" == "Sl"
 featZRCola	compZRCola.mo.sl_SI
 featZRCola	compZRCola.zrcdb.mo.sl_SI

@@ -1517,8 +1517,8 @@ msgid ""
 msgstr ""
 
 #: En.Win32.Debug.Feature-2.idtx:5 En.Win32.Release.Feature-2.idtx:5 En.x64.Debug.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5
-msgid "00 ZRCola"
-msgstr "00 ZRCola"
+msgid "ZRCola"
+msgstr "ZRCola"
 
 # Windows charset for this language (decimal)
 #: En.Win32.Debug.Control-2.idtx:3 En.Win32.Debug.Directory-2.idtx:3 En.Win32.Debug.Feature-2.idtx:3 En.Win32.Debug.Registry-2.idtx:3 En.Win32.Debug.Shortcut-2.idtx:3
