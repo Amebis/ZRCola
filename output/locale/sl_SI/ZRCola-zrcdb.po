@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.7\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
 "%100==4 ? 2 : 3);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -33,19 +33,19 @@ msgid "Bosnian – Latinic"
 msgstr "bosanščina – latinica"
 
 msgid "Combine"
-msgstr "Kombinirano"
+msgstr "Srednji nadomestni znaki"
 
 msgid "Combine Above"
-msgstr "Kombinirano zgoraj"
+msgstr "Zgornji nadomestni znaki"
 
 msgid "Combine Below"
-msgstr "Kombinirano spodaj"
+msgstr "Spodnji nadomestni znaki"
 
 msgid "Combine Over"
-msgstr "Kombinirano prečrtano"
+msgstr "Neločljivi nadomestni znaki"
 
 msgid "Combining Marks"
-msgstr "Sestavljiva znamenja"
+msgstr "Sestavljiva ločevalna znamenja"
 
 msgid "Croatian"
 msgstr "hrvaščina"
@@ -105,7 +105,7 @@ msgid "Irish Gaelic"
 msgstr "irščina"
 
 msgid "Joined"
-msgstr "Povezano"
+msgstr "Povezajni nadomestni znaki"
 
 msgid "Joined strings with A"
 msgstr "Povezajni nizi z A"
@@ -330,7 +330,7 @@ msgid "Maltese"
 msgstr "malteščina"
 
 msgid "Mark, Enclosing"
-msgstr "Ločevalo, obdajajoča"
+msgstr "Ločevalo, obdajajoče"
 
 msgid "Mark, Non-Spacing"
 msgstr "Ločevalo, neločljivo"
@@ -345,7 +345,7 @@ msgid "Metric"
 msgstr "Metrično"
 
 msgid "Modified"
-msgstr "Spremenjeno"
+msgstr "Spreminjevalni nadomestni znaki"
 
 msgid "Moldavian – Cyrillic"
 msgstr "moldavščina – cirilica"
@@ -402,16 +402,16 @@ msgid "Numbers"
 msgstr "Številke"
 
 msgid "Numbers - Circled"
-msgstr "Številke - obkroženo"
+msgstr "Številka, obkrožena"
 
 msgid "Other Modifiers"
 msgstr "Druga spreminjevala"
 
 msgid "Other, Format"
-msgstr "Drugo, oblikovni"
+msgstr "Drugo, oblikovni znaki"
 
 msgid "Other, Surrogate"
-msgstr "Drugo, nadomestni"
+msgstr "Drugo, nadomestni znaki"
 
 msgid "Parentheses"
 msgstr "Oklepaji"
@@ -456,10 +456,10 @@ msgid "Russian"
 msgstr "ruščina"
 
 msgid "Separator, Line"
-msgstr "Ločilo, vrstic"
+msgstr "Ločilo, vrstica"
 
 msgid "Separator, Paragraph"
-msgstr "Ločilo, odstavkov"
+msgstr "Ločilo, odstavek"
 
 msgid "Separator, Space"
 msgstr "Ločilo, presledek"
@@ -492,7 +492,7 @@ msgid "Special Characters"
 msgstr "Posebni znaki"
 
 msgid "Strokes"
-msgstr "Poševnica"
+msgstr "Poševnice"
 
 msgid "Subscript Characters"
 msgstr "Podpisani znaki"
@@ -501,7 +501,7 @@ msgid "Superscript Sharacters"
 msgstr "Nadpisani znaki"
 
 msgid "Surrounded"
-msgstr "Obkroženi"
+msgstr "Obkrožajni nadomestni znaki"
 
 msgid "Swedish"
 msgstr "švedščina"
@@ -561,7 +561,7 @@ msgid "Transliterated"
 msgstr "Prečrkovano"
 
 msgid "Transliterating Marks"
-msgstr "Prečrkovano"
+msgstr "Prečrkovalni nadomestni znaki"
 
 msgid "Turkish"
 msgstr "turščina"
