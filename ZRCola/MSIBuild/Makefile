@@ -259,7 +259,7 @@ featZRCola	compLocalizationRepositoryPath
 featZRCola	compLanguage
 featZRCola	compDatabasePath
 featZRCola	compZRCola.zrcdb
-featZRCola	comp00_ZRCola_Re.otf
+featZRCola	compZRCola_Re.otf
 !IF "$(LANG)" == "Ru"
 featZRCola	compZRCola.mo.ru_RU
 featZRCola	compZRCola.zrcdb.mo.ru_RU

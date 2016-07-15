@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola MSI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-15 10:24+0200\n"
+"POT-Creation-Date: 2016-07-15 21:44+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <simon.rozman@amebis.si>\n"
@@ -1520,10 +1520,6 @@ msgstr ""
 msgid "+386 1 470 6170"
 msgstr "+386 1 470 6170"
 
-#: En.Win32.Release.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5
-msgid "00 ZRCola"
-msgstr "00 ZRCola"
-
 # Windows charset for this language (decimal)
 #: En.Win32.Release.Control-2.idtx:3 En.Win32.Release.Directory-2.idtx:3 En.Win32.Release.Feature-2.idtx:3 En.Win32.Release.Property-2.idtx:3 En.Win32.Release.Registry-2.idtx:3
 #: En.Win32.Release.Shortcut-2.idtx:3 En.x64.Release.Control-2.idtx:3 En.x64.Release.Directory-2.idtx:3 En.x64.Release.Feature-2.idtx:3 En.x64.Release.Property-2.idtx:3
@@ -1593,6 +1589,10 @@ msgstr ""
 msgid "Times New Roman based font"
 msgstr ""
 
+#: En.Win32.Release.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5
+msgid "ZRCola"
+msgstr "ZRCola"
+
 #: En.Win32.Release.Feature-2.idtx:6 En.x64.Release.Feature-2.idtx:6
 msgid "ZRCola Documentation"
 msgstr ""
@@ -1608,6 +1608,9 @@ msgstr "ZRCola:."
 #: En.Win32.Release.Shortcut-2.idtx:4 En.x64.Release.Shortcut-2.idtx:4
 msgid "ZRCOLA~1|ZRCola Keyboard Shortcuts"
 msgstr ""
+
+#~ msgid "00 ZRCola"
+#~ msgstr "00 ZRCola"
 
 #~ msgid "http://zrcola-2.amebis.si/en/"
 #~ msgstr "http://zrcola-2.amebis.si/de/"

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola MSI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-15 10:23+0200\n"
+"POT-Creation-Date: 2016-07-15 21:43+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <simon.rozman@amebis.si>\n"
@@ -787,11 +787,6 @@ msgstr ""
 msgid "+386 1 470 6170"
 msgstr "01 470 6170"
 
-#: En.Win32.Release.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5
-#, fuzzy
-msgid "00 ZRCola"
-msgstr "00 ZRCola"
-
 #: En.Win32.Release.Control-2.idtx:3 En.Win32.Release.Directory-2.idtx:3 En.Win32.Release.Feature-2.idtx:3 En.Win32.Release.Property-2.idtx:3 En.Win32.Release.Registry-2.idtx:3
 #: En.Win32.Release.Shortcut-2.idtx:3 En.x64.Release.Control-2.idtx:3 En.x64.Release.Directory-2.idtx:3 En.x64.Release.Feature-2.idtx:3 En.x64.Release.Property-2.idtx:3
 #: En.x64.Release.Registry-2.idtx:3 En.x64.Release.Shortcut-2.idtx:3
@@ -873,6 +868,11 @@ msgstr "Besedilo, nastalo z uporabo ZRCole, mora biti v kolofonu, predgovoru, v 
 #, fuzzy
 msgid "Times New Roman based font"
 msgstr "Pisava na osnovi Times New Roman"
+
+#: En.Win32.Release.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5
+#, fuzzy
+msgid "ZRCola"
+msgstr "ZRCola"
 
 #: En.Win32.Release.Feature-2.idtx:6 En.x64.Release.Feature-2.idtx:6
 #, fuzzy

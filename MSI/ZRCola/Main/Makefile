@@ -58,10 +58,11 @@ compLanguage	{B78359AC-9484-402C-8384-3A4595B39389}	ZRCOLALOCDIR	$(MSIBUILD_COMP
 compDatabasePath	{DF3C720D-50BB-4377-9EE0-9AC21C02B9DD}	ZRCOLADATADIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		regDatabasePath
 compZRCola.zrcdb	{0585A51F-1411-43A3-AC50-F04A253FDED4}	ZRCOLADATADIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola.zrcdb
 compZRCola_keyboard.pdf	{68AC2C38-10E2-41A3-B92C-844C03FFDF6A}	ZRCOLADATADIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola_keyboard.pdf
-comp00_ZRCola_Re.otf	{A98CF048-44D1-405D-9217-C34900A1ADD5}	FontsFolder	0		file00_ZRCola_Re.otf
-comp00_ZRCola_It.otf	{B3CAE4B5-95D3-4522-9C23-66D015A69C48}	FontsFolder	0		file00_ZRCola_It.otf
-comp00_ZRCola_Bd.otf	{FC3D8EE1-7472-487F-97D5-7F65977CBEF7}	FontsFolder	0		file00_ZRCola_Bd.otf
-comp00_ZRCola_BI.otf	{F72CB82B-70BF-406E-A310-0294425C12A4}	FontsFolder	0		file00_ZRCola_BI.otf
+compZRCola_Re.otf	{CE2403F5-DD07-4116-B4D1-010AB0E4F899}	FontsFolder	8		fileZRCola_Re.otf
+compZRCola_It.otf	{FFBD408C-9FC1-4CD1-88BF-A0284AD17F96}	FontsFolder	8		fileZRCola_It.otf
+compZRCola_Bd.otf	{E84BB37C-1079-4299-A4BA-4EE48AFE5BCE}	FontsFolder	8		fileZRCola_Bd.otf
+compZRCola_BI.otf	{FDFE77E4-45CC-450A-9543-0A83C01A0A48}	FontsFolder	8		fileZRCola_BI.otf
+comp00_ZRCola	{63E512B4-33AC-4DB1-A762-071099CAA0DE}	ZRCOLADATADIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		reg00_ZRCola
 !IF "$(LANG)" == "Ru"
 compwxstd.mo.ru_RU	{342BD930-C88B-4759-A4A8-F62054E7EA88}	ZRCOLALOCRURUDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		filewxstd.mo.ru_RU
 compZRCola.zrcdb.mo.ru_RU	{BED0B2D2-CC08-4309-A2DB-A18B904B8D13}	ZRCOLALOCRURUDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola.zrcdb.mo.ru_RU
@@ -255,7 +256,7 @@ Feature	Feature_Parent	Title	Description	Display	Level	Directory_	Attributes
 s$(MSIBUILD_LENGTH_ID)	S$(MSIBUILD_LENGTH_ID)	L64	L255	I2	i2	S$(MSIBUILD_LENGTH_ID)	i2
 1252	Feature	Feature
 featZRColaFonts		Fonts	Fonts used by ZRCola	101	1	ZRCOLAFONTDIR	8
-featZRColaFonts00	featZRColaFonts	00 ZRCola	Times New Roman based font	1	1	ZRCOLAFONTDIR	8
+featZRColaFontsZRCola	featZRColaFonts	ZRCola	Times New Roman based font	1	1	ZRCOLAFONTDIR	8
 featZRColaDoc		Documentation	ZRCola Documentation	201	3	ZRCOLADATADIR	8
 featZRCola_keyboard	featZRColaDoc	Keyboard Shortcuts	PDF document with a list of ZRCola keyboard shortcuts	1	3	ZRCOLADATADIR	8
 <<NOKEEP
@@ -288,10 +289,11 @@ Feature_	Component_
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)
 FeatureComponents	Feature_	Component_
 featZRCola_keyboard	compZRCola_keyboard.pdf
-featZRColaFonts00	comp00_ZRCola_Re.otf
-featZRColaFonts00	comp00_ZRCola_It.otf
-featZRColaFonts00	comp00_ZRCola_Bd.otf
-featZRColaFonts00	comp00_ZRCola_BI.otf
+featZRColaFontsZRCola	compZRCola_Re.otf
+featZRColaFontsZRCola	compZRCola_It.otf
+featZRColaFontsZRCola	compZRCola_Bd.otf
+featZRColaFontsZRCola	compZRCola_BI.otf
+featZRColaFontsZRCola	comp00_ZRCola
 <<NOKEEP
 
 
@@ -308,10 +310,10 @@ s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l255	i4	S$(MSIBUILD_LENGTH_ID)	S20
 File	File
 fileZRCola.zrcdb	compZRCola.zrcdb	ZRCOLA~1.ZRC|ZRCola.zrcdb	0			0	1
 fileZRCola_keyboard.pdf	compZRCola_keyboard.pdf	ZRCOLA~1.PDF|ZRCola_keyboard.pdf	0			0	1
-file00_ZRCola_Re.otf	comp00_ZRCola_Re.otf	00_ZRC~1.OTF|00_ZRCola_Re.otf	0			0	1
-file00_ZRCola_It.otf	comp00_ZRCola_It.otf	00_ZRC~2.OTF|00_ZRCola_It.otf	0			0	1
-file00_ZRCola_Bd.otf	comp00_ZRCola_Bd.otf	00_ZRC~3.OTF|00_ZRCola_Bd.otf	0			0	1
-file00_ZRCola_BI.otf	comp00_ZRCola_BI.otf	00_ZRC~4.OTF|00_ZRCola_BI.otf	0			0	1
+fileZRCola_Re.otf	compZRCola_Re.otf	ZRCOLA~1.OTF|ZRCola_Re.otf	0			0	1
+fileZRCola_It.otf	compZRCola_It.otf	ZRCOLA~2.OTF|ZRCola_It.otf	0			0	1
+fileZRCola_Bd.otf	compZRCola_Bd.otf	ZRCOLA~3.OTF|ZRCola_Bd.otf	0			0	1
+fileZRCola_BI.otf	compZRCola_BI.otf	ZRCOLA~4.OTF|ZRCola_BI.otf	0			0	1
 !IF "$(LANG)" == "Ru"
 filewxstd.mo.ru_RU	compwxstd.mo.ru_RU	wxstd.mo	0		1060	0	1
 fileZRCola.zrcdb.mo.ru_RU	compZRCola.zrcdb.mo.ru_RU	ZRCOLA~1.MO|ZRCola-zrcdb.mo	0		1060	0	1
@@ -334,10 +336,10 @@ All :: "$(LANG).$(PLAT).$(CFG).Font-1.idt"
 File_	FontTitle
 s$(MSIBUILD_LENGTH_ID)	S255
 Font	File_
-file00_ZRCola_Re.otf	
-file00_ZRCola_It.otf	
-file00_ZRCola_Bd.otf	
-file00_ZRCola_BI.otf	
+fileZRCola_Re.otf	
+fileZRCola_It.otf	
+fileZRCola_Bd.otf	
+fileZRCola_BI.otf	
 <<NOKEEP
 
 
@@ -374,6 +376,7 @@ s$(MSIBUILD_LENGTH_ID)	S255	I2
 InstallExecuteSequence	Action
 caSetZRCOLADIR1	OLDZRCOLADIR AND UILevel < 4	1001
 caSetZRCOLADIR2	INSTALLDIR AND UILevel < 4	1002
+ScheduleReboot	?comp00_ZRCola<>3 AND $$comp00_ZRCola=3	1580
 <<NOKEEP
 
 
@@ -475,6 +478,7 @@ s$(MSIBUILD_LENGTH_ID)	i2	l255	L255	L0	s$(MSIBUILD_LENGTH_ID)
 Registry	Registry
 regLocalizationRepositoryPath	2	SOFTWARE\Amebis\ZRCola	LocalizationRepositoryPath	[ZRCOLALOCDIR]	compLocalizationRepositoryPath
 regDatabasePath	2	SOFTWARE\Amebis\ZRCola	DatabasePath	[ZRCOLADATADIR]	compDatabasePath
+reg00_ZRCola	2	SOFTWARE\Microsoft\Windows NT\CurrentVersion\FontSubstitutes	00 ZRCola	ZRCola	comp00_ZRCola
 <<NOKEEP
 
 "En.$(PLAT).$(CFG).Registry-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
