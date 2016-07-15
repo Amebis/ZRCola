@@ -437,11 +437,11 @@ Property	Value
 s$(MSIBUILD_LENGTH_ID)	l0
 1252	Property	Property
 Manufacturer	Amebis, Slovenia, E.U.
-ARPCONTACT	Amebis, p. p. 69, SI-1241 Kamnik, Slovenia, E.U.
-ARPHELPTELEPHONE	+386 1 8311 035
-ARPURLINFOABOUT	http://www.amebis.si/
-ARPHELPLINK	http://www.amebis.si/
-ARPURLUPDATEINFO	http://www.amebis.si/
+ARPCONTACT	Fran Ramovš Institute of Slovenian Language SRC SASA
+ARPHELPTELEPHONE	+386 1 470 6170
+ARPURLINFOABOUT	http://zrcola-2.amebis.si/en/contact/
+ARPHELPLINK	http://zrcola-2.amebis.si/en/info/instructions/
+ARPURLUPDATEINFO	http://zrcola-2.amebis.si/en/install/
 <<NOKEEP
 
 "De.$(PLAT).$(CFG).Property-2.idt" : "En.$(PLAT).$(CFG).Property-2.idtx" "..\locale\de_DE.po"
