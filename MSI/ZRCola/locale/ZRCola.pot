@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola MSI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-14 09:22+0200\n"
+"POT-Creation-Date: 2016-07-15 09:29+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <simon.rozman@amebis.si>\n"
@@ -782,18 +782,31 @@ msgstr ""
 "pripravljeno z vna\\'9aalnim sistemom ZRCola (http://zrcola.zrc-sazu.si), ki ga je na Znanstvenoraziskovalnem centru SAZU v Ljubljani (http://www.zrc-sazu.si) razvil dr. Peter Weiss."
 "\\i0\\f1\\par}"
 
+#: En.Win32.Debug.Property-2.idtx:6 En.Win32.Release.Property-2.idtx:6 En.x64.Debug.Property-2.idtx:6 En.x64.Release.Property-2.idtx:6
+msgid "+386 1 8311 035"
+msgstr ""
+
 #: En.Win32.Debug.Feature-2.idtx:5 En.Win32.Release.Feature-2.idtx:5 En.x64.Debug.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5
 #, fuzzy
 msgid "00 ZRCola"
 msgstr "00 ZRCola"
 
-#: En.Win32.Debug.Control-2.idtx:3 En.Win32.Debug.Directory-2.idtx:3 En.Win32.Debug.Feature-2.idtx:3 En.Win32.Debug.Registry-2.idtx:3 En.Win32.Debug.Shortcut-2.idtx:3
-#: En.Win32.Release.Control-2.idtx:3 En.Win32.Release.Directory-2.idtx:3 En.Win32.Release.Feature-2.idtx:3 En.Win32.Release.Registry-2.idtx:3 En.Win32.Release.Shortcut-2.idtx:3
-#: En.x64.Debug.Control-2.idtx:3 En.x64.Debug.Directory-2.idtx:3 En.x64.Debug.Feature-2.idtx:3 En.x64.Debug.Registry-2.idtx:3 En.x64.Debug.Shortcut-2.idtx:3 En.x64.Release.Control-2.idtx:3
-#: En.x64.Release.Directory-2.idtx:3 En.x64.Release.Feature-2.idtx:3 En.x64.Release.Registry-2.idtx:3 En.x64.Release.Shortcut-2.idtx:3
+#: En.Win32.Debug.Control-2.idtx:3 En.Win32.Debug.Directory-2.idtx:3 En.Win32.Debug.Feature-2.idtx:3 En.Win32.Debug.Property-2.idtx:3 En.Win32.Debug.Registry-2.idtx:3
+#: En.Win32.Debug.Shortcut-2.idtx:3 En.Win32.Release.Control-2.idtx:3 En.Win32.Release.Directory-2.idtx:3 En.Win32.Release.Feature-2.idtx:3 En.Win32.Release.Property-2.idtx:3
+#: En.Win32.Release.Registry-2.idtx:3 En.Win32.Release.Shortcut-2.idtx:3 En.x64.Debug.Control-2.idtx:3 En.x64.Debug.Directory-2.idtx:3 En.x64.Debug.Feature-2.idtx:3
+#: En.x64.Debug.Property-2.idtx:3 En.x64.Debug.Registry-2.idtx:3 En.x64.Debug.Shortcut-2.idtx:3 En.x64.Release.Control-2.idtx:3 En.x64.Release.Directory-2.idtx:3
+#: En.x64.Release.Feature-2.idtx:3 En.x64.Release.Property-2.idtx:3 En.x64.Release.Registry-2.idtx:3 En.x64.Release.Shortcut-2.idtx:3
 #, fuzzy
 msgid "1252"
 msgstr "1250"
+
+#: En.Win32.Debug.Property-2.idtx:5 En.Win32.Release.Property-2.idtx:5 En.x64.Debug.Property-2.idtx:5 En.x64.Release.Property-2.idtx:5
+msgid "Amebis, p. p. 69, SI-1241 Kamnik, Slovenia, E.U."
+msgstr ""
+
+#: En.Win32.Debug.Property-2.idtx:4 En.Win32.Release.Property-2.idtx:4 En.x64.Debug.Property-2.idtx:4 En.x64.Release.Property-2.idtx:4
+msgid "Amebis, Slovenia, E.U."
+msgstr ""
 
 #: En.Win32.Debug.Control-2.idtx:5 En.Win32.Release.Control-2.idtx:5 En.x64.Debug.Control-2.idtx:5 En.x64.Release.Control-2.idtx:5
 #, fuzzy
@@ -814,6 +827,12 @@ msgstr "Pisave"
 #, fuzzy
 msgid "Fonts used by ZRCola"
 msgstr "Pisave, ki jih uporablja ZRCola"
+
+#: En.Win32.Debug.Property-2.idtx:7 En.Win32.Debug.Property-2.idtx:8 En.Win32.Debug.Property-2.idtx:9 En.Win32.Release.Property-2.idtx:7 En.Win32.Release.Property-2.idtx:8
+#: En.Win32.Release.Property-2.idtx:9 En.x64.Debug.Property-2.idtx:7 En.x64.Debug.Property-2.idtx:8 En.x64.Debug.Property-2.idtx:9 En.x64.Release.Property-2.idtx:7
+#: En.x64.Release.Property-2.idtx:8 En.x64.Release.Property-2.idtx:9
+msgid "http://www.amebis.si/"
+msgstr ""
 
 #: En.Win32.Debug.Control-2.idtx:10 En.Win32.Release.Control-2.idtx:10 En.x64.Debug.Control-2.idtx:10 En.x64.Release.Control-2.idtx:10
 #, fuzzy

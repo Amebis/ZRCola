@@ -412,7 +412,9 @@ Media	DiskId
 ######################################################################
 # Property
 
-All :: "$(LANG).$(PLAT).$(CFG).Property-1.idt"
+All :: \
+	"$(LANG).$(PLAT).$(CFG).Property-1.idt" \
+	"$(LANG).$(PLAT).$(CFG).Property-2.idt"
 
 "$(LANG).$(PLAT).$(CFG).Property-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
@@ -427,6 +429,35 @@ INSTALLLEVEL	3
 InstallMode	Typical
 SecureCustomProperties	OLDPRODUCTFOUND;NEWPRODUCTFOUND
 <<NOKEEP
+
+"En.$(PLAT).$(CFG).Property-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
+	-if exist $@ del /f /q $@
+	move /y << $@ > NUL
+Property	Value
+s$(MSIBUILD_LENGTH_ID)	l0
+1252	Property	Property
+Manufacturer	Amebis, Slovenia, E.U.
+ARPCONTACT	Amebis, p. p. 69, SI-1241 Kamnik, Slovenia, E.U.
+ARPHELPTELEPHONE	+386 1 8311 035
+ARPURLINFOABOUT	http://www.amebis.si/
+ARPHELPLINK	http://www.amebis.si/
+ARPURLUPDATEINFO	http://www.amebis.si/
+<<NOKEEP
+
+"De.$(PLAT).$(CFG).Property-2.idt" : "En.$(PLAT).$(CFG).Property-2.idtx" "..\locale\de_DE.po"
+	rcxgettext.exe idtp $@ $**
+
+"En.$(PLAT).$(CFG).Property-2.idt" : "En.$(PLAT).$(CFG).Property-2.idtx"
+	copy /y $** $@ > NUL
+
+"It.$(PLAT).$(CFG).Property-2.idt" : "En.$(PLAT).$(CFG).Property-2.idtx" "..\locale\it_IT.po"
+	rcxgettext.exe idtp $@ $**
+
+"Ru.$(PLAT).$(CFG).Property-2.idt" : "En.$(PLAT).$(CFG).Property-2.idtx" "..\locale\ru_RU.po"
+	rcxgettext.exe idtp $@ $**
+
+"Sl.$(PLAT).$(CFG).Property-2.idt" : "En.$(PLAT).$(CFG).Property-2.idtx" "..\locale\sl_SI.po"
+	rcxgettext.exe idtp $@ $**
 
 
 ######################################################################
