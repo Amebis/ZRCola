@@ -27,7 +27,8 @@ MSIBUILD_IS_LOCALIZEABLE=1
 
 All :: \
 	"$(LANG).$(PLAT).$(CFG).Binary-1.idt" \
-	"$(LANG).$(PLAT).$(CFG).Binary-1\UIHeader.bmp"
+	"$(LANG).$(PLAT).$(CFG).Binary-1\UIHeader.bmp" \
+	"$(LANG).$(PLAT).$(CFG).Binary-1\fontsubst.bmp"
 
 "$(LANG).$(PLAT).$(CFG).Binary-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak" "$(LANG).$(PLAT).$(CFG).Binary-1"
 	-if exist $@ del /f /q $@
@@ -36,9 +37,13 @@ Name	Data
 s$(MSIBUILD_LENGTH_ID)	v0
 Binary	Name
 binUIHeader.bmp	UIHeader.bmp
+binfontsubst.bmp	fontsubst.bmp
 <<NOKEEP
 
 "$(LANG).$(PLAT).$(CFG).Binary-1\UIHeader.bmp" : "Binary\UIHeader.bmp"
+	copy /y $** $@ > NUL
+
+"$(LANG).$(PLAT).$(CFG).Binary-1\fontsubst.bmp" : "Binary\fontsubst.bmp"
 	copy /y $** $@ > NUL
 
 
@@ -93,6 +98,11 @@ dlgDeclaration	ctlDeclarationText	ScrollableText	15	89	370	149	7		{\rtf1\ansi\an
 dlgDeclaration	ctlNote	Text	15	243	370	12	196611		Note: This declaration is also available in [SimpleProductName]'s about dialog or on its website.	ctlIAgree	
 dlgDeclaration	ctlIAgree	CheckBox	15	265	300	15	19	IAgreeDecl	I &agree.	ctlContinue	
 dlgDeclaration	ctlContinue	PushButton	325	265	60	20	3		&Continue	ctlBannerBitmap	
+dlgFontSubstitutes	ctlBannerBitmap	Bitmap	0	0	400	45	1		binUIHeader.bmp	ctlTitle	
+dlgFontSubstitutes	ctlTitle	Text	15	15	320	15	196611		[DlgTitleFont]"00 ZRCola" to "ZRCola" Font	ctlScreenshot	
+dlgFontSubstitutes	ctlScreenshot	Bitmap	79	60	242	156	5		binfontsubst.bmp	ctlText1	
+dlgFontSubstitutes	ctlText1	Text	15	221	370	36	196611		The "00 ZRCola" font was succeeded by "ZRCola" font. To display your previous documents correctly, we have arranged a font substitution on your computer that will take effect after the next restart.	ctlContinue	
+dlgFontSubstitutes	ctlContinue	PushButton	325	265	60	20	3		&Continue	ctlBannerBitmap	
 <<NOKEEP
 
 "De.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx" "..\locale\de_DE.po"
@@ -141,6 +151,7 @@ ControlEvent	Dialog_	Control_	Event	Argument	Condition
 dlgPrepare	ctlBannerBitmap	SpawnDialog	dlgCancel	1	1000
 dlgDeclaration	ctlBannerBitmap	SpawnDialog	dlgCancel	1	1000
 dlgDeclaration	ctlContinue	EndDialog	Return	IAgreeDecl	1000
+dlgFontSubstitutes	ctlContinue	EndDialog	Return	1	1000
 <<NOKEEP
 
 
@@ -172,6 +183,7 @@ Dialog	HCentering	VCentering	Width	Height	Attributes	Title	Control_First	Control
 s$(MSIBUILD_LENGTH_ID)	i2	i2	i2	i2	I4	L128	s50	S50	S50
 Dialog	Dialog
 dlgDeclaration	50	50	400	300	3	[Setup] [SimpleProductName] [DisplayVersion]	ctlTitle	ctlContinue	ctlBannerBitmap
+dlgFontSubstitutes	50	50	400	300	3	[Setup] [SimpleProductName] [DisplayVersion]	ctlTitle	ctlContinue	ctlContinue
 <<NOKEEP
 
 
@@ -394,6 +406,7 @@ InstallUISequence	Action
 caSetZRCOLADIR1	OLDZRCOLADIR	1001
 caSetZRCOLADIR2	INSTALLDIR	1002
 dlgDeclaration	NOT Installed	1215
+dlgFontSubstitutes	?comp00_ZRCola<>3 AND $$comp00_ZRCola=3	1580
 <<NOKEEP
 
 

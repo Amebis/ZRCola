@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola MSI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-15 21:44+0200\n"
+"POT-Creation-Date: 2016-07-22 01:04+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <simon.rozman@amebis.si>\n"
@@ -21,8 +21,12 @@ msgstr ""
 msgid "#60"
 msgstr "#89"
 
-#: En.Win32.Release.Control-2.idtx:11 En.x64.Release.Control-2.idtx:11
+#: En.Win32.Release.Control-2.idtx:11 En.Win32.Release.Control-2.idtx:16 En.x64.Release.Control-2.idtx:11 En.x64.Release.Control-2.idtx:16
 msgid "&Continue"
+msgstr ""
+
+#: En.Win32.Release.Control-2.idtx:13 En.x64.Release.Control-2.idtx:13
+msgid "[DlgTitleFont]\"00 ZRCola\" to \"ZRCola\" Font"
 msgstr ""
 
 #: En.Win32.Release.Control-2.idtx:6 En.x64.Release.Control-2.idtx:6
@@ -1531,7 +1535,11 @@ msgstr "1252"
 msgid "Amebis, Slovenia, E.U."
 msgstr ""
 
-#: En.Win32.Release.Control-2.idtx:5 En.x64.Release.Control-2.idtx:5
+#: En.Win32.Release.Control-2.idtx:14 En.x64.Release.Control-2.idtx:14
+msgid "binfontsubst.bmp"
+msgstr ""
+
+#: En.Win32.Release.Control-2.idtx:12 En.Win32.Release.Control-2.idtx:5 En.x64.Release.Control-2.idtx:12 En.x64.Release.Control-2.idtx:5
 msgid "binUIHeader.bmp"
 msgstr "binUIHeader.bmp"
 
@@ -1583,6 +1591,12 @@ msgstr ""
 
 #: En.Win32.Release.Control-2.idtx:7 En.x64.Release.Control-2.idtx:7
 msgid "Texts made using ZRCola have to include in the colophon, foreword, footnote or some other appropriate part of the publication the note below:"
+msgstr ""
+
+#: En.Win32.Release.Control-2.idtx:15 En.x64.Release.Control-2.idtx:15
+msgid ""
+"The \"00 ZRCola\" font was succeeded by \"ZRCola\" font. To display your previous documents correctly, we have arranged a font substitution on your computer that will take effect after "
+"the next restart."
 msgstr ""
 
 #: En.Win32.Release.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5

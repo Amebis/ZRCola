@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola MSI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-15 21:43+0200\n"
+"POT-Creation-Date: 2016-07-22 01:01+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <simon.rozman@amebis.si>\n"
@@ -22,10 +22,14 @@ msgstr ""
 msgid "#60"
 msgstr "#176"
 
-#: En.Win32.Release.Control-2.idtx:11 En.x64.Release.Control-2.idtx:11
+#: En.Win32.Release.Control-2.idtx:11 En.Win32.Release.Control-2.idtx:16 En.x64.Release.Control-2.idtx:11 En.x64.Release.Control-2.idtx:16
 #, fuzzy
 msgid "&Continue"
 msgstr "&Nadaljuj"
+
+#: En.Win32.Release.Control-2.idtx:13 En.x64.Release.Control-2.idtx:13
+msgid "[DlgTitleFont]\"00 ZRCola\" to \"ZRCola\" Font"
+msgstr ""
 
 #: En.Win32.Release.Control-2.idtx:6 En.x64.Release.Control-2.idtx:6
 #, fuzzy
@@ -799,7 +803,11 @@ msgstr "1250"
 msgid "Amebis, Slovenia, E.U."
 msgstr "Amebis, d. o. o., Kamnik"
 
-#: En.Win32.Release.Control-2.idtx:5 En.x64.Release.Control-2.idtx:5
+#: En.Win32.Release.Control-2.idtx:14 En.x64.Release.Control-2.idtx:14
+msgid "binfontsubst.bmp"
+msgstr ""
+
+#: En.Win32.Release.Control-2.idtx:12 En.Win32.Release.Control-2.idtx:5 En.x64.Release.Control-2.idtx:12 En.x64.Release.Control-2.idtx:5
 #, fuzzy
 msgid "binUIHeader.bmp"
 msgstr "binUIHeader.bmp"
@@ -863,6 +871,12 @@ msgstr "Dokument PDF s seznamom ZRColinih bližnjic na tipkovnici"
 #, fuzzy
 msgid "Texts made using ZRCola have to include in the colophon, foreword, footnote or some other appropriate part of the publication the note below:"
 msgstr "Besedilo, nastalo z uporabo ZRCole, mora biti v kolofonu, predgovoru, v opombi ali na drugem ustreznem mestu v publikaciji opremljeno z naslednjim zapisom:"
+
+#: En.Win32.Release.Control-2.idtx:15 En.x64.Release.Control-2.idtx:15
+msgid ""
+"The \"00 ZRCola\" font was succeeded by \"ZRCola\" font. To display your previous documents correctly, we have arranged a font substitution on your computer that will take effect after "
+"the next restart."
+msgstr ""
 
 #: En.Win32.Release.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5
 #, fuzzy
