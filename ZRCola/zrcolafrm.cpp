@@ -348,7 +348,7 @@ void wxZRColaFrame::OnPanelCharacterCatalogFocus(wxCommandEvent& event)
 
 void wxZRColaFrame::OnHelpInstructions(wxCommandEvent& event)
 {
-    wxLaunchDefaultBrowser(_("http://zrcola-2.amebis.si/en/info/instructions/"));
+    wxLaunchDefaultBrowser(_("http://zrcola.zrc-sazu.si/en/info/instructions/"));
 }
 
 
@@ -372,7 +372,7 @@ void wxZRColaFrame::OnHelpShortcuts(wxCommandEvent& event)
         (int)::ShellExecute(GetHWND(), NULL, pdf_path.c_str(), NULL, NULL, SW_SHOWNORMAL) > 32) return;
 
     // When everything else fail, try the online version.
-    wxLaunchDefaultBrowser(_("http://zrcola-2.amebis.si/wp-content/uploads/2016/04/5_ZRCola-Tipkovnica_2009-06-21.pdf"));
+    wxLaunchDefaultBrowser(_("http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"));
 }
 
 

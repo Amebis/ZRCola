@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-06-14 11:33+0200\n"
-"PO-Revision-Date: 2016-06-14 11:33+0200\n"
+"POT-Creation-Date: 2016-08-02 17:32+0200\n"
+"PO-Revision-Date: 2016-08-02 17:32+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: sl_SI\n"
@@ -70,16 +70,16 @@ msgstr ""
 "funkcionalnosti ne bo na voljo."
 
 #: zrcolafrm.cpp:351
-msgid "http://zrcola-2.amebis.si/en/info/instructions/"
-msgstr "http://zrcola-2.amebis.si/info/instructions/"
+msgid "http://zrcola.zrc-sazu.si/en/info/instructions/"
+msgstr "http://zrcola.zrc-sazu.si/info/instructions/"
 
 #: zrcolafrm.cpp:375
 msgid ""
-"http://zrcola-2.amebis.si/wp-content/uploads/2016/04/5_ZRCola-"
-"Tipkovnica_2009-06-21.pdf"
+"http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/"
+"ZRCola_tipkovnica_Jun2016.pdf"
 msgstr ""
-"http://zrcola-2.amebis.si/wp-content/uploads/2016/04/5_ZRCola-"
-"Tipkovnica_2009-06-21.pdf"
+"http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/"
+"ZRCola_tipkovnica_Jun2016.pdf"
 
 #: zrcolagui.cpp:36
 msgid "E&xit"

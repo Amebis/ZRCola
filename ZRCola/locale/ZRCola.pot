@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-06-14 11:32+0200\n"
+"POT-Creation-Date: 2016-08-02 17:32+0200\n"
 "PO-Revision-Date: 2016-05-13 15:52+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
@@ -81,18 +81,14 @@ msgstr ""
 "funkcionalnosti ne bo na voljo."
 
 #: zrcolafrm.cpp:351
-#, fuzzy
-msgid "http://zrcola-2.amebis.si/en/info/instructions/"
-msgstr "http://zrcola-2.amebis.si/info/instructions/"
+msgid "http://zrcola.zrc-sazu.si/en/info/instructions/"
+msgstr ""
 
 #: zrcolafrm.cpp:375
-#, fuzzy
 msgid ""
-"http://zrcola-2.amebis.si/wp-content/uploads/2016/04/5_ZRCola-"
-"Tipkovnica_2009-06-21.pdf"
+"http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/"
+"ZRCola_tipkovnica_Jun2016.pdf"
 msgstr ""
-"http://zrcola-2.amebis.si/wp-content/uploads/2016/04/5_ZRCola-"
-"Tipkovnica_2009-06-21.pdf"
 
 #: zrcolagui.cpp:36
 #, fuzzy
@@ -340,17 +336,19 @@ msgid "Composed Unicode Dump"
 msgstr "Unicode sestavljenega"
 
 #: zrcolagui.cpp:355
+#, fuzzy
 msgid "Select category to display"
-msgstr ""
+msgstr "Izberi kategorijo za prikaz"
 
 #: zrcolagui.cpp:389
 #, fuzzy
 msgid "Show &All"
-msgstr "Prikaži vse"
+msgstr "Prik&aži vse"
 
 #: zrcolagui.cpp:390
+#, fuzzy
 msgid "Toggle display of less frequent characters"
-msgstr ""
+msgstr "Prikaži/skrij manj pogoste znake"
 
 #: zrcolagui.cpp:430
 #, fuzzy

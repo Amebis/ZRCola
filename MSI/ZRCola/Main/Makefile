@@ -455,9 +455,9 @@ s$(MSIBUILD_LENGTH_ID)	l0
 Manufacturer	Amebis, Slovenia, E.U.
 ARPCONTACT	Fran Ramovš Institute of Slovenian Language SRC SASA
 ARPHELPTELEPHONE	+386 1 470 6170
-ARPURLINFOABOUT	http://zrcola-2.amebis.si/en/contact/
-ARPHELPLINK	http://zrcola-2.amebis.si/en/info/instructions/
-ARPURLUPDATEINFO	http://zrcola-2.amebis.si/en/install/
+ARPURLINFOABOUT	http://zrcola.zrc-sazu.si/en/contact/
+ARPHELPLINK	http://zrcola.zrc-sazu.si/en/info/instructions/
+ARPURLUPDATEINFO	http://zrcola.zrc-sazu.si/en/install/
 <<NOKEEP
 
 "De.$(PLAT).$(CFG).Property-2.idt" : "En.$(PLAT).$(CFG).Property-2.idtx" "..\locale\de_DE.po"

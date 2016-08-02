@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola MSI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-22 01:01+0200\n"
+"POT-Creation-Date: 2016-08-02 17:45+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <simon.rozman@amebis.si>\n"
@@ -28,8 +28,9 @@ msgid "&Continue"
 msgstr "&Nadaljuj"
 
 #: En.Win32.Release.Control-2.idtx:13 En.x64.Release.Control-2.idtx:13
+#, fuzzy
 msgid "[DlgTitleFont]\"00 ZRCola\" to \"ZRCola\" Font"
-msgstr ""
+msgstr "[DlgTitleFont]\"00 ZRCola\" v pisavo \"ZRCola\""
 
 #: En.Win32.Release.Control-2.idtx:6 En.x64.Release.Control-2.idtx:6
 #, fuzzy
@@ -804,8 +805,9 @@ msgid "Amebis, Slovenia, E.U."
 msgstr "Amebis, d. o. o., Kamnik"
 
 #: En.Win32.Release.Control-2.idtx:14 En.x64.Release.Control-2.idtx:14
+#, fuzzy
 msgid "binfontsubst.bmp"
-msgstr ""
+msgstr "binfontsubst.bmp"
 
 #: En.Win32.Release.Control-2.idtx:12 En.Win32.Release.Control-2.idtx:5 En.x64.Release.Control-2.idtx:12 En.x64.Release.Control-2.idtx:5
 #, fuzzy
@@ -833,19 +835,17 @@ msgid "Fran Ramovš Institute of Slovenian Language SRC SASA"
 msgstr "Inštitut za slovenski jezik Frana Ramovša ZRC SAZU"
 
 #: En.Win32.Release.Property-2.idtx:7 En.x64.Release.Property-2.idtx:7
-#, fuzzy
-msgid "http://zrcola-2.amebis.si/en/contact/"
-msgstr "http://zrcola-2.amebis.si/contact/"
+msgid "http://zrcola.zrc-sazu.si/en/contact/"
+msgstr ""
 
 #: En.Win32.Release.Property-2.idtx:8 En.x64.Release.Property-2.idtx:8
 #, fuzzy
-msgid "http://zrcola-2.amebis.si/en/info/instructions/"
-msgstr "http://zrcola-2.amebis.si/info/instructions/"
+msgid "http://zrcola.zrc-sazu.si/en/info/instructions/"
+msgstr "http://zrcola.zrc-sazu.si/info/instructions/"
 
 #: En.Win32.Release.Property-2.idtx:9 En.x64.Release.Property-2.idtx:9
-#, fuzzy
-msgid "http://zrcola-2.amebis.si/en/install/"
-msgstr "http://zrcola-2.amebis.si/install/"
+msgid "http://zrcola.zrc-sazu.si/en/install/"
+msgstr ""
 
 #: En.Win32.Release.Control-2.idtx:10 En.x64.Release.Control-2.idtx:10
 #, fuzzy
@@ -873,10 +873,13 @@ msgid "Texts made using ZRCola have to include in the colophon, foreword, footno
 msgstr "Besedilo, nastalo z uporabo ZRCole, mora biti v kolofonu, predgovoru, v opombi ali na drugem ustreznem mestu v publikaciji opremljeno z naslednjim zapisom:"
 
 #: En.Win32.Release.Control-2.idtx:15 En.x64.Release.Control-2.idtx:15
+#, fuzzy
 msgid ""
 "The \"00 ZRCola\" font was succeeded by \"ZRCola\" font. To display your previous documents correctly, we have arranged a font substitution on your computer that will take effect after "
 "the next restart."
 msgstr ""
+"Pisavo \"00 ZRCola\" je nadomestila pisava \"ZRCola\". Da bodo vaši prejšnji dokumenti prikazani pravilno, smo na vašem računalniku uredili nadomeščanje pisave, ki bo stopilo v veljavo "
+"po naslednjem zagonu."
 
 #: En.Win32.Release.Feature-2.idtx:5 En.x64.Release.Feature-2.idtx:5
 #, fuzzy
