@@ -543,7 +543,7 @@ int _tmain(int argc, _TCHAR *argv[])
                 << "\"MIME-Version: 1.0\\n\"" << endl
                 << "\"Content-Type: text/plain; charset=UTF-8\\n\"" << endl
                 << "\"Content-Transfer-Encoding: 8bit\\n\"" << endl
-                << "\"X-Generator: ZRColaCompile " << ZRCOLA_VERSION_STR << "\\n\"" << endl;
+                << "\"X-Generator: ZRColaCompile\\n\"" << endl;
 
             wstring_convert<codecvt_utf8<wchar_t>> conv;
             for (set<wstring>::const_iterator i = pot.cbegin(); i != pot.cend(); ++i) {
