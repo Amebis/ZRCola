@@ -3,7 +3,7 @@
 A Microsoft Windows application for composing texts using a wide range of Slavic (and general) letters from or beyond Unicode.
 
 ## Project Website
-http://zrcola-2.amebis.si/en/ (Development version)
+http://zrcola.zrc-sazu.si/en/
 
 ## Binaries for Download
 https://www.amebis.si/prenos/ZRCola/
