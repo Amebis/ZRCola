@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
 "POT-Creation-Date: 2016-08-02 17:32+0200\n"
-"PO-Revision-Date: 2016-08-02 17:32+0200\n"
+"PO-Revision-Date: 2016-08-12 13:34+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: de_DE\n"
@@ -611,7 +611,6 @@ msgstr ""
 #: MSIBuild/En.x64.Release.Control-2.idtx:3
 #: MSIBuild/En.x64.Release.Feature-2.idtx:3
 #: MSIBuild/En.x64.Release.Shortcut-2.idtx:3
-#, fuzzy
 msgid "1252"
 msgstr "1252"
 
