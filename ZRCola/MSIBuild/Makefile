@@ -142,20 +142,13 @@ dlgTutorial3	ctlText1	Text	15	177	370	24	196611		Characters can be entered using
 dlgTutorial3	ctlContinue	PushButton	325	265	60	20	3		&Continue	ctlBannerBitmap	
 <<NOKEEP
 
-"De.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx" "..\locale\de_DE.po"
-	rcxgettext.exe idtp $@ $**
-
+!IF "$(LANG)" == "En"
 "En.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx"
 	copy /y $** $@ > NUL
-
-"It.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx" "..\locale\it_IT.po"
+!ELSE
+"$(LANG).$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx" "..\locale\$(MSIBUILD_LANG_PO).po"
 	rcxgettext.exe idtp $@ $**
-
-"Ru.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx" "..\locale\ru_RU.po"
-	rcxgettext.exe idtp $@ $**
-
-"Sl.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx" "..\locale\sl_SI.po"
-	rcxgettext.exe idtp $@ $**
+!ENDIF
 
 
 ######################################################################
@@ -223,20 +216,13 @@ s$(MSIBUILD_LENGTH_ID)	S$(MSIBUILD_LENGTH_ID)	L64	L255	I2	i2	S$(MSIBUILD_LENGTH_
 featZRCola		ZRCola	Input system for linguistic use	1	1	ZRCOLADIR	8
 <<NOKEEP
 
-"De.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\de_DE.po"
-	rcxgettext.exe idtp $@ $**
-
+!IF "$(LANG)" == "En"
 "En.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx"
 	copy /y $** $@ > NUL
-
-"It.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\it_IT.po"
+!ELSE
+"$(LANG).$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\$(MSIBUILD_LANG_PO).po"
 	rcxgettext.exe idtp $@ $**
-
-"Ru.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\ru_RU.po"
-	rcxgettext.exe idtp $@ $**
-
-"Sl.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\sl_SI.po"
-	rcxgettext.exe idtp $@ $**
+!ENDIF
 
 
 ######################################################################
@@ -349,20 +335,13 @@ s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l128	s$(MSIBUILD_LENGTH_ID)	s$(MSI
 shctZRCola	ZRColaShortcutDir	ZRCola	compZRCola.exe.$(PLAT)	featZRCola		Input system for linguistic use		iconZRCola.ico			ZRCOLABINDIR
 <<NOKEEP
 
-"De.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\de_DE.po"
-	rcxgettext.exe idtp $@ $**
-
+!IF "$(LANG)" == "En"
 "En.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx"
 	copy /y $** $@ > NUL
-
-"It.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\it_IT.po"
+!ELSE
+"$(LANG).$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\$(MSIBUILD_LANG_PO).po"
 	rcxgettext.exe idtp $@ $**
-
-"Ru.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\ru_RU.po"
-	rcxgettext.exe idtp $@ $**
-
-"Sl.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\sl_SI.po"
-	rcxgettext.exe idtp $@ $**
+!ENDIF
 
 
 ######################################################################

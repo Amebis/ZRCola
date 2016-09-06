@@ -105,20 +105,13 @@ dlgFontSubstitutes	ctlText1	Text	15	221	370	36	196611		The "00 ZRCola" font was 
 dlgFontSubstitutes	ctlContinue	PushButton	325	265	60	20	3		&Continue	ctlBannerBitmap	
 <<NOKEEP
 
-"De.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx" "..\locale\de_DE.po"
-	rcxgettext.exe idtp $@ $**
-
+!IF "$(LANG)" == "En"
 "En.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx"
 	copy /y $** $@ > NUL
-
-"It.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx" "..\locale\it_IT.po"
+!ELSE
+"$(LANG).$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx" "..\locale\$(MSIBUILD_LANG_PO).po"
 	rcxgettext.exe idtp $@ $**
-
-"Ru.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx" "..\locale\ru_RU.po"
-	rcxgettext.exe idtp $@ $**
-
-"Sl.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx" "..\locale\sl_SI.po"
-	rcxgettext.exe idtp $@ $**
+!ENDIF
 
 
 ######################################################################
@@ -240,20 +233,13 @@ s$(MSIBUILD_LENGTH_ID)	S$(MSIBUILD_LENGTH_ID)	l255
 ZRCOLADIR	PROGRAMFILESDIR	ZRCola:.
 <<NOKEEP
 
-"De.$(PLAT).$(CFG).Directory-2.idt" : "En.$(PLAT).$(CFG).Directory-2.idtx" "..\locale\de_DE.po"
-	rcxgettext.exe idtp $@ $**
-
+!IF "$(LANG)" == "En"
 "En.$(PLAT).$(CFG).Directory-2.idt" : "En.$(PLAT).$(CFG).Directory-2.idtx"
 	copy /y $** $@ > NUL
-
-"It.$(PLAT).$(CFG).Directory-2.idt" : "En.$(PLAT).$(CFG).Directory-2.idtx" "..\locale\it_IT.po"
+!ELSE
+"$(LANG).$(PLAT).$(CFG).Directory-2.idt" : "En.$(PLAT).$(CFG).Directory-2.idtx" "..\locale\$(MSIBUILD_LANG_PO).po"
 	rcxgettext.exe idtp $@ $**
-
-"Ru.$(PLAT).$(CFG).Directory-2.idt" : "En.$(PLAT).$(CFG).Directory-2.idtx" "..\locale\ru_RU.po"
-	rcxgettext.exe idtp $@ $**
-
-"Sl.$(PLAT).$(CFG).Directory-2.idt" : "En.$(PLAT).$(CFG).Directory-2.idtx" "..\locale\sl_SI.po"
-	rcxgettext.exe idtp $@ $**
+!ENDIF
 
 
 ######################################################################
@@ -273,20 +259,13 @@ featZRColaDoc		Documentation	ZRCola Documentation	201	3	ZRCOLADATADIR	8
 featZRCola_keyboard	featZRColaDoc	Keyboard Shortcuts	PDF document with a list of ZRCola keyboard shortcuts	1	3	ZRCOLADATADIR	8
 <<NOKEEP
 
-"De.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\de_DE.po"
-	rcxgettext.exe idtp $@ $**
-
+!IF "$(LANG)" == "En"
 "En.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx"
 	copy /y $** $@ > NUL
-
-"It.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\it_IT.po"
+!ELSE
+"$(LANG).$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\$(MSIBUILD_LANG_PO).po"
 	rcxgettext.exe idtp $@ $**
-
-"Ru.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\ru_RU.po"
-	rcxgettext.exe idtp $@ $**
-
-"Sl.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\sl_SI.po"
-	rcxgettext.exe idtp $@ $**
+!ENDIF
 
 
 ######################################################################
@@ -460,20 +439,13 @@ ARPHELPLINK	http://zrcola.zrc-sazu.si/en/info/instructions/
 ARPURLUPDATEINFO	http://zrcola.zrc-sazu.si/en/install/
 <<NOKEEP
 
-"De.$(PLAT).$(CFG).Property-2.idt" : "En.$(PLAT).$(CFG).Property-2.idtx" "..\locale\de_DE.po"
-	rcxgettext.exe idtp $@ $**
-
+!IF "$(LANG)" == "En"
 "En.$(PLAT).$(CFG).Property-2.idt" : "En.$(PLAT).$(CFG).Property-2.idtx"
 	copy /y $** $@ > NUL
-
-"It.$(PLAT).$(CFG).Property-2.idt" : "En.$(PLAT).$(CFG).Property-2.idtx" "..\locale\it_IT.po"
+!ELSE
+"$(LANG).$(PLAT).$(CFG).Property-2.idt" : "En.$(PLAT).$(CFG).Property-2.idtx" "..\locale\$(MSIBUILD_LANG_PO).po"
 	rcxgettext.exe idtp $@ $**
-
-"Ru.$(PLAT).$(CFG).Property-2.idt" : "En.$(PLAT).$(CFG).Property-2.idtx" "..\locale\ru_RU.po"
-	rcxgettext.exe idtp $@ $**
-
-"Sl.$(PLAT).$(CFG).Property-2.idt" : "En.$(PLAT).$(CFG).Property-2.idtx" "..\locale\sl_SI.po"
-	rcxgettext.exe idtp $@ $**
+!ENDIF
 
 
 ######################################################################
@@ -503,20 +475,13 @@ s$(MSIBUILD_LENGTH_ID)	i2	l255	L255	L0	s$(MSIBUILD_LENGTH_ID)
 regLanguage	2	SOFTWARE\Amebis\ZRCola	Language	#60	compLanguage
 <<NOKEEP
 
-"De.$(PLAT).$(CFG).Registry-2.idt" : "En.$(PLAT).$(CFG).Registry-2.idtx" "..\locale\de_DE.po"
-	rcxgettext.exe idtp $@ $**
-
+!IF "$(LANG)" == "En"
 "En.$(PLAT).$(CFG).Registry-2.idt" : "En.$(PLAT).$(CFG).Registry-2.idtx"
 	copy /y $** $@ > NUL
-
-"It.$(PLAT).$(CFG).Registry-2.idt" : "En.$(PLAT).$(CFG).Registry-2.idtx" "..\locale\it_IT.po"
+!ELSE
+"$(LANG).$(PLAT).$(CFG).Registry-2.idt" : "En.$(PLAT).$(CFG).Registry-2.idtx" "..\locale\$(MSIBUILD_LANG_PO).po"
 	rcxgettext.exe idtp $@ $**
-
-"Ru.$(PLAT).$(CFG).Registry-2.idt" : "En.$(PLAT).$(CFG).Registry-2.idtx" "..\locale\ru_RU.po"
-	rcxgettext.exe idtp $@ $**
-
-"Sl.$(PLAT).$(CFG).Registry-2.idt" : "En.$(PLAT).$(CFG).Registry-2.idtx" "..\locale\sl_SI.po"
-	rcxgettext.exe idtp $@ $**
+!ENDIF
 
 
 ######################################################################
@@ -548,20 +513,13 @@ s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l128	s$(MSIBUILD_LENGTH_ID)	s$(MSI
 shctZRCola_keyboard	ZRColaShortcutDir	ZRCOLA~1|ZRCola Keyboard Shortcuts	compZRCola_keyboard.pdf	featZRCola_keyboard		ZRCola Keyboard Shortcuts		iconPDF.ico			ZRCOLADATADIR
 <<NOKEEP
 
-"De.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\de_DE.po"
-	rcxgettext.exe idtp $@ $**
-
+!IF "$(LANG)" == "En"
 "En.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx"
 	copy /y $** $@ > NUL
-
-"It.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\it_IT.po"
+!ELSE
+"$(LANG).$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\$(MSIBUILD_LANG_PO).po"
 	rcxgettext.exe idtp $@ $**
-
-"Ru.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\ru_RU.po"
-	rcxgettext.exe idtp $@ $**
-
-"Sl.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\sl_SI.po"
-	rcxgettext.exe idtp $@ $**
+!ENDIF
 
 
 ######################################################################
