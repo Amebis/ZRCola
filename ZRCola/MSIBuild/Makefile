@@ -147,7 +147,7 @@ dlgTutorial3	ctlContinue	PushButton	325	265	60	20	3		&Continue	ctlBannerBitmap
 	copy /y $** $@ > NUL
 !ELSE
 "$(LANG).$(PLAT).$(CFG).Control-2.idt" : "en_US.$(PLAT).$(CFG).Control-2.idtx" "..\locale\$(LANG).po"
-	rcxgettext.exe idtp $@ $**
+	cscript.exe "..\..\MSI\MSIBuild\MSI.wsf" //Job:IDTTranslate //Nologo $@ $** /CP:$(MSIBUILD_CODEPAGE)
 !ENDIF
 
 
@@ -221,7 +221,7 @@ featZRCola		ZRCola	Input system for linguistic use	1	1	ZRCOLADIR	8
 	copy /y $** $@ > NUL
 !ELSE
 "$(LANG).$(PLAT).$(CFG).Feature-2.idt" : "en_US.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\$(LANG).po"
-	rcxgettext.exe idtp $@ $**
+	cscript.exe "..\..\MSI\MSIBuild\MSI.wsf" //Job:IDTTranslate //Nologo $@ $** /CP:$(MSIBUILD_CODEPAGE)
 !ENDIF
 
 
@@ -340,7 +340,7 @@ shctZRCola	ZRColaShortcutDir	ZRCola	compZRCola.exe.$(PLAT)	featZRCola		Input sys
 	copy /y $** $@ > NUL
 !ELSE
 "$(LANG).$(PLAT).$(CFG).Shortcut-2.idt" : "en_US.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\$(LANG).po"
-	rcxgettext.exe idtp $@ $**
+	cscript.exe "..\..\MSI\MSIBuild\MSI.wsf" //Job:IDTTranslate //Nologo $@ $** /CP:$(MSIBUILD_CODEPAGE)
 !ENDIF
 
 

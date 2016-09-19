@@ -110,7 +110,7 @@ dlgFontSubstitutes	ctlContinue	PushButton	325	265	60	20	3		&Continue	ctlBannerBi
 	copy /y $** $@ > NUL
 !ELSE
 "$(LANG).$(PLAT).$(CFG).Control-2.idt" : "en_US.$(PLAT).$(CFG).Control-2.idtx" "..\locale\$(LANG).po"
-	rcxgettext.exe idtp $@ $**
+	cscript.exe "..\..\MSIBuild\MSI.wsf" //Job:IDTTranslate //Nologo $@ $** /CP:$(MSIBUILD_CODEPAGE)
 !ENDIF
 
 
@@ -238,7 +238,7 @@ ZRCOLADIR	PROGRAMFILESDIR	ZRCola:.
 	copy /y $** $@ > NUL
 !ELSE
 "$(LANG).$(PLAT).$(CFG).Directory-2.idt" : "en_US.$(PLAT).$(CFG).Directory-2.idtx" "..\locale\$(LANG).po"
-	rcxgettext.exe idtp $@ $**
+	cscript.exe "..\..\MSIBuild\MSI.wsf" //Job:IDTTranslate //Nologo $@ $** /CP:$(MSIBUILD_CODEPAGE)
 !ENDIF
 
 
@@ -264,7 +264,7 @@ featZRCola_keyboard	featZRColaDoc	Keyboard Shortcuts	PDF document with a list of
 	copy /y $** $@ > NUL
 !ELSE
 "$(LANG).$(PLAT).$(CFG).Feature-2.idt" : "en_US.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\$(LANG).po"
-	rcxgettext.exe idtp $@ $**
+	cscript.exe "..\..\MSIBuild\MSI.wsf" //Job:IDTTranslate //Nologo $@ $** /CP:$(MSIBUILD_CODEPAGE)
 !ENDIF
 
 
@@ -444,7 +444,7 @@ ARPURLUPDATEINFO	http://zrcola.zrc-sazu.si/en/install/
 	copy /y $** $@ > NUL
 !ELSE
 "$(LANG).$(PLAT).$(CFG).Property-2.idt" : "en_US.$(PLAT).$(CFG).Property-2.idtx" "..\locale\$(LANG).po"
-	rcxgettext.exe idtp $@ $**
+	cscript.exe "..\..\MSIBuild\MSI.wsf" //Job:IDTTranslate //Nologo $@ $** /CP:$(MSIBUILD_CODEPAGE)
 !ENDIF
 
 
@@ -480,7 +480,7 @@ regLanguage	2	SOFTWARE\Amebis\ZRCola	Language	#60	compLanguage
 	copy /y $** $@ > NUL
 !ELSE
 "$(LANG).$(PLAT).$(CFG).Registry-2.idt" : "en_US.$(PLAT).$(CFG).Registry-2.idtx" "..\locale\$(LANG).po"
-	rcxgettext.exe idtp $@ $**
+	cscript.exe "..\..\MSIBuild\MSI.wsf" //Job:IDTTranslate //Nologo $@ $** /CP:$(MSIBUILD_CODEPAGE)
 !ENDIF
 
 
@@ -518,7 +518,7 @@ shctZRCola_keyboard	ZRColaShortcutDir	ZRCOLA~1|ZRCola Keyboard Shortcuts	compZRC
 	copy /y $** $@ > NUL
 !ELSE
 "$(LANG).$(PLAT).$(CFG).Shortcut-2.idt" : "en_US.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\$(LANG).po"
-	rcxgettext.exe idtp $@ $**
+	cscript.exe "..\..\MSIBuild\MSI.wsf" //Job:IDTTranslate //Nologo $@ $** /CP:$(MSIBUILD_CODEPAGE)
 !ENDIF
 
 
