@@ -68,11 +68,11 @@ compZRCola_It.otf	{FFBD408C-9FC1-4CD1-88BF-A0284AD17F96}	FontsFolder	8		fileZRCo
 compZRCola_Bd.otf	{E84BB37C-1079-4299-A4BA-4EE48AFE5BCE}	FontsFolder	8		fileZRCola_Bd.otf
 compZRCola_BI.otf	{FDFE77E4-45CC-450A-9543-0A83C01A0A48}	FontsFolder	8		fileZRCola_BI.otf
 comp00_ZRCola	{63E512B4-33AC-4DB1-A762-071099CAA0DE}	ZRCOLADATADIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		reg00_ZRCola
-!IF "$(LANG)" == "Ru"
+!IF "$(LANG)" == "ru_RU"
 compwxstd.mo.ru_RU	{342BD930-C88B-4759-A4A8-F62054E7EA88}	ZRCOLALOCRURUDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		filewxstd.mo.ru_RU
 compZRCola.zrcdb.mo.ru_RU	{BED0B2D2-CC08-4309-A2DB-A18B904B8D13}	ZRCOLALOCRURUDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola.zrcdb.mo.ru_RU
 !ENDIF
-!IF "$(LANG)" == "Sl"
+!IF "$(LANG)" == "sl_SI"
 compwxstd.mo.sl_SI	{A5FEEA94-08CA-4E12-993F-A115601EF258}	ZRCOLALOCSLSIDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		filewxstd.mo.sl_SI
 compZRCola.zrcdb.mo.sl_SI	{6572EAD1-EE48-46A1-A28E-77985B667F67}	ZRCOLALOCSLSIDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola.zrcdb.mo.sl_SI
 !ENDIF
@@ -84,7 +84,7 @@ compZRCola.zrcdb.mo.sl_SI	{6572EAD1-EE48-46A1-A28E-77985B667F67}	ZRCOLALOCSLSIDI
 
 All :: "$(LANG).$(PLAT).$(CFG).Control-2.idt"
 
-"En.$(PLAT).$(CFG).Control-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
+"en_US.$(PLAT).$(CFG).Control-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Dialog_	Control	Type	X	Y	Width	Height	Attributes	Property	Text	Control_Next	Help
@@ -105,11 +105,11 @@ dlgFontSubstitutes	ctlText1	Text	15	221	370	36	196611		The "00 ZRCola" font was 
 dlgFontSubstitutes	ctlContinue	PushButton	325	265	60	20	3		&Continue	ctlBannerBitmap	
 <<NOKEEP
 
-!IF "$(LANG)" == "En"
-"En.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx"
+!IF "$(LANG)" == "en_US"
+"en_US.$(PLAT).$(CFG).Control-2.idt" : "en_US.$(PLAT).$(CFG).Control-2.idtx"
 	copy /y $** $@ > NUL
 !ELSE
-"$(LANG).$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx" "..\locale\$(MSIBUILD_LANG_PO).po"
+"$(LANG).$(PLAT).$(CFG).Control-2.idt" : "en_US.$(PLAT).$(CFG).Control-2.idtx" "..\locale\$(LANG).po"
 	rcxgettext.exe idtp $@ $**
 !ENDIF
 
@@ -215,16 +215,16 @@ ZRCOLABINDIR	ZRCOLADIR	.:X64~1.DEB|x64.Debug
 ZRCOLABINDIR	ZRCOLADIR	.:X64~1.REL|x64.Release
 !ENDIF
 ZRCOLALOCDIR	ZRCOLADIR	locale
-!IF "$(LANG)" == "Ru"
+!IF "$(LANG)" == "ru_RU"
 ZRCOLALOCRURUDIR	ZRCOLALOCDIR	ru_RU
 !ENDIF
-!IF "$(LANG)" == "Sl"
+!IF "$(LANG)" == "sl_SI"
 ZRCOLALOCSLSIDIR	ZRCOLALOCDIR	sl_SI
 !ENDIF
 ZRCOLADATADIR	ZRCOLADIR	data
 <<NOKEEP
 
-"En.$(PLAT).$(CFG).Directory-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
+"en_US.$(PLAT).$(CFG).Directory-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Directory	Directory_Parent	DefaultDir
@@ -233,11 +233,11 @@ s$(MSIBUILD_LENGTH_ID)	S$(MSIBUILD_LENGTH_ID)	l255
 ZRCOLADIR	PROGRAMFILESDIR	ZRCola:.
 <<NOKEEP
 
-!IF "$(LANG)" == "En"
-"En.$(PLAT).$(CFG).Directory-2.idt" : "En.$(PLAT).$(CFG).Directory-2.idtx"
+!IF "$(LANG)" == "en_US"
+"en_US.$(PLAT).$(CFG).Directory-2.idt" : "en_US.$(PLAT).$(CFG).Directory-2.idtx"
 	copy /y $** $@ > NUL
 !ELSE
-"$(LANG).$(PLAT).$(CFG).Directory-2.idt" : "En.$(PLAT).$(CFG).Directory-2.idtx" "..\locale\$(MSIBUILD_LANG_PO).po"
+"$(LANG).$(PLAT).$(CFG).Directory-2.idt" : "en_US.$(PLAT).$(CFG).Directory-2.idtx" "..\locale\$(LANG).po"
 	rcxgettext.exe idtp $@ $**
 !ENDIF
 
@@ -247,7 +247,7 @@ ZRCOLADIR	PROGRAMFILESDIR	ZRCola:.
 
 All :: "$(LANG).$(PLAT).$(CFG).Feature-2.idt"
 
-"En.$(PLAT).$(CFG).Feature-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
+"en_US.$(PLAT).$(CFG).Feature-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Feature	Feature_Parent	Title	Description	Display	Level	Directory_	Attributes
@@ -259,11 +259,11 @@ featZRColaDoc		Documentation	ZRCola Documentation	201	3	ZRCOLADATADIR	8
 featZRCola_keyboard	featZRColaDoc	Keyboard Shortcuts	PDF document with a list of ZRCola keyboard shortcuts	1	3	ZRCOLADATADIR	8
 <<NOKEEP
 
-!IF "$(LANG)" == "En"
-"En.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx"
+!IF "$(LANG)" == "en_US"
+"en_US.$(PLAT).$(CFG).Feature-2.idt" : "en_US.$(PLAT).$(CFG).Feature-2.idtx"
 	copy /y $** $@ > NUL
 !ELSE
-"$(LANG).$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\$(MSIBUILD_LANG_PO).po"
+"$(LANG).$(PLAT).$(CFG).Feature-2.idt" : "en_US.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\$(LANG).po"
 	rcxgettext.exe idtp $@ $**
 !ENDIF
 
@@ -305,11 +305,11 @@ fileZRCola_Re.otf	compZRCola_Re.otf	ZRCOLA~1.OTF|ZRCola_Re.otf	0			0	1
 fileZRCola_It.otf	compZRCola_It.otf	ZRCOLA~2.OTF|ZRCola_It.otf	0			0	1
 fileZRCola_Bd.otf	compZRCola_Bd.otf	ZRCOLA~3.OTF|ZRCola_Bd.otf	0			0	1
 fileZRCola_BI.otf	compZRCola_BI.otf	ZRCOLA~4.OTF|ZRCola_BI.otf	0			0	1
-!IF "$(LANG)" == "Ru"
+!IF "$(LANG)" == "ru_RU"
 filewxstd.mo.ru_RU	compwxstd.mo.ru_RU	wxstd.mo	0		1060	0	1
 fileZRCola.zrcdb.mo.ru_RU	compZRCola.zrcdb.mo.ru_RU	ZRCOLA~1.MO|ZRCola-zrcdb.mo	0		1060	0	1
 !ENDIF
-!IF "$(LANG)" == "Sl"
+!IF "$(LANG)" == "sl_SI"
 filewxstd.mo.sl_SI	compwxstd.mo.sl_SI	wxstd.mo	0		1060	0	1
 fileZRCola.zrcdb.mo.sl_SI	compZRCola.zrcdb.mo.sl_SI	ZRCOLA~1.MO|ZRCola-zrcdb.mo	0		1060	0	1
 !ENDIF
@@ -425,7 +425,7 @@ InstallMode	Typical
 SecureCustomProperties	OLDPRODUCTFOUND;NEWPRODUCTFOUND
 <<NOKEEP
 
-"En.$(PLAT).$(CFG).Property-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
+"en_US.$(PLAT).$(CFG).Property-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Property	Value
@@ -439,11 +439,11 @@ ARPHELPLINK	http://zrcola.zrc-sazu.si/en/info/instructions/
 ARPURLUPDATEINFO	http://zrcola.zrc-sazu.si/en/install/
 <<NOKEEP
 
-!IF "$(LANG)" == "En"
-"En.$(PLAT).$(CFG).Property-2.idt" : "En.$(PLAT).$(CFG).Property-2.idtx"
+!IF "$(LANG)" == "en_US"
+"en_US.$(PLAT).$(CFG).Property-2.idt" : "en_US.$(PLAT).$(CFG).Property-2.idtx"
 	copy /y $** $@ > NUL
 !ELSE
-"$(LANG).$(PLAT).$(CFG).Property-2.idt" : "En.$(PLAT).$(CFG).Property-2.idtx" "..\locale\$(MSIBUILD_LANG_PO).po"
+"$(LANG).$(PLAT).$(CFG).Property-2.idt" : "en_US.$(PLAT).$(CFG).Property-2.idtx" "..\locale\$(LANG).po"
 	rcxgettext.exe idtp $@ $**
 !ENDIF
 
@@ -466,7 +466,7 @@ regDatabasePath	2	SOFTWARE\Amebis\ZRCola	DatabasePath	[ZRCOLADATADIR]	compDataba
 reg00_ZRCola	2	SOFTWARE\Microsoft\Windows NT\CurrentVersion\FontSubstitutes	00 ZRCola	ZRCola	comp00_ZRCola
 <<NOKEEP
 
-"En.$(PLAT).$(CFG).Registry-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
+"en_US.$(PLAT).$(CFG).Registry-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Registry	Root	Key	Name	Value	Component_
@@ -475,11 +475,11 @@ s$(MSIBUILD_LENGTH_ID)	i2	l255	L255	L0	s$(MSIBUILD_LENGTH_ID)
 regLanguage	2	SOFTWARE\Amebis\ZRCola	Language	#60	compLanguage
 <<NOKEEP
 
-!IF "$(LANG)" == "En"
-"En.$(PLAT).$(CFG).Registry-2.idt" : "En.$(PLAT).$(CFG).Registry-2.idtx"
+!IF "$(LANG)" == "en_US"
+"en_US.$(PLAT).$(CFG).Registry-2.idt" : "en_US.$(PLAT).$(CFG).Registry-2.idtx"
 	copy /y $** $@ > NUL
 !ELSE
-"$(LANG).$(PLAT).$(CFG).Registry-2.idt" : "En.$(PLAT).$(CFG).Registry-2.idtx" "..\locale\$(MSIBUILD_LANG_PO).po"
+"$(LANG).$(PLAT).$(CFG).Registry-2.idt" : "en_US.$(PLAT).$(CFG).Registry-2.idtx" "..\locale\$(LANG).po"
 	rcxgettext.exe idtp $@ $**
 !ENDIF
 
@@ -504,7 +504,7 @@ rmfiZRCola_keyboard	compZRCola_keyboard.pdf		ZRColaShortcutDir	2
 
 All :: "$(LANG).$(PLAT).$(CFG).Shortcut-2.idt"
 
-"En.$(PLAT).$(CFG).Shortcut-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
+"en_US.$(PLAT).$(CFG).Shortcut-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Shortcut	Directory_	Name	Component_	Target	Arguments	Description	Hotkey	Icon_	IconIndex	ShowCmd	WkDir
@@ -513,11 +513,11 @@ s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l128	s$(MSIBUILD_LENGTH_ID)	s$(MSI
 shctZRCola_keyboard	ZRColaShortcutDir	ZRCOLA~1|ZRCola Keyboard Shortcuts	compZRCola_keyboard.pdf	featZRCola_keyboard		ZRCola Keyboard Shortcuts		iconPDF.ico			ZRCOLADATADIR
 <<NOKEEP
 
-!IF "$(LANG)" == "En"
-"En.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx"
+!IF "$(LANG)" == "en_US"
+"en_US.$(PLAT).$(CFG).Shortcut-2.idt" : "en_US.$(PLAT).$(CFG).Shortcut-2.idtx"
 	copy /y $** $@ > NUL
 !ELSE
-"$(LANG).$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\$(MSIBUILD_LANG_PO).po"
+"$(LANG).$(PLAT).$(CFG).Shortcut-2.idt" : "en_US.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\$(LANG).po"
 	rcxgettext.exe idtp $@ $**
 !ENDIF
 

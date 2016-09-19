@@ -104,10 +104,10 @@ compZRCola.exe.Win32	{F30B6545-6203-4B7D-8575-85245A0F90E5}	ZRCOLABINDIR	0		file
 !IF "$(PLAT)" == "x64"
 compZRCola.exe.x64	{D45B105D-2303-459A-AF4B-52AC3AAD5510}	ZRCOLABINDIR	256		fileZRCola.exe.x64
 !ENDIF
-!IF "$(LANG)" == "Ru"
+!IF "$(LANG)" == "ru_RU"
 compZRCola.mo.ru_RU	{DEA5D11C-2B0E-4B85-ACE3-D76334866F50}	ZRCOLALOCRURUDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola.mo.ru_RU
 !ENDIF
-!IF "$(LANG)" == "Sl"
+!IF "$(LANG)" == "sl_SI"
 compZRCola.mo.sl_SI	{7FF95C71-D8DE-4D2B-A26D-FEB5A1F54D63}	ZRCOLALOCSLSIDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola.mo.sl_SI
 !ENDIF
 <<NOKEEP
@@ -118,7 +118,7 @@ compZRCola.mo.sl_SI	{7FF95C71-D8DE-4D2B-A26D-FEB5A1F54D63}	ZRCOLALOCSLSIDIR	$(MS
 
 All :: "$(LANG).$(PLAT).$(CFG).Control-2.idt"
 
-"En.$(PLAT).$(CFG).Control-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+"en_US.$(PLAT).$(CFG).Control-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Dialog_	Control	Type	X	Y	Width	Height	Attributes	Property	Text	Control_Next	Help
@@ -142,11 +142,11 @@ dlgTutorial3	ctlText1	Text	15	177	370	24	196611		Characters can be entered using
 dlgTutorial3	ctlContinue	PushButton	325	265	60	20	3		&Continue	ctlBannerBitmap	
 <<NOKEEP
 
-!IF "$(LANG)" == "En"
-"En.$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx"
+!IF "$(LANG)" == "en_US"
+"en_US.$(PLAT).$(CFG).Control-2.idt" : "en_US.$(PLAT).$(CFG).Control-2.idtx"
 	copy /y $** $@ > NUL
 !ELSE
-"$(LANG).$(PLAT).$(CFG).Control-2.idt" : "En.$(PLAT).$(CFG).Control-2.idtx" "..\locale\$(MSIBUILD_LANG_PO).po"
+"$(LANG).$(PLAT).$(CFG).Control-2.idt" : "en_US.$(PLAT).$(CFG).Control-2.idtx" "..\locale\$(LANG).po"
 	rcxgettext.exe idtp $@ $**
 !ENDIF
 
@@ -207,7 +207,7 @@ dlgTutorial3	NOT Installed	1402
 
 All :: "$(LANG).$(PLAT).$(CFG).Feature-2.idt"
 
-"En.$(PLAT).$(CFG).Feature-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+"en_US.$(PLAT).$(CFG).Feature-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Feature	Feature_Parent	Title	Description	Display	Level	Directory_	Attributes
@@ -216,11 +216,11 @@ s$(MSIBUILD_LENGTH_ID)	S$(MSIBUILD_LENGTH_ID)	L64	L255	I2	i2	S$(MSIBUILD_LENGTH_
 featZRCola		ZRCola	Input system for linguistic use	1	1	ZRCOLADIR	8
 <<NOKEEP
 
-!IF "$(LANG)" == "En"
-"En.$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx"
+!IF "$(LANG)" == "en_US"
+"en_US.$(PLAT).$(CFG).Feature-2.idt" : "en_US.$(PLAT).$(CFG).Feature-2.idtx"
 	copy /y $** $@ > NUL
 !ELSE
-"$(LANG).$(PLAT).$(CFG).Feature-2.idt" : "En.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\$(MSIBUILD_LANG_PO).po"
+"$(LANG).$(PLAT).$(CFG).Feature-2.idt" : "en_US.$(PLAT).$(CFG).Feature-2.idtx" "..\locale\$(LANG).po"
 	rcxgettext.exe idtp $@ $**
 !ENDIF
 
@@ -246,7 +246,7 @@ featZRCola	compLanguage
 featZRCola	compDatabasePath
 featZRCola	compZRCola.zrcdb
 featZRCola	compZRCola_Re.otf
-!IF "$(LANG)" == "Ru"
+!IF "$(LANG)" == "ru_RU"
 featZRCola	compZRCola.mo.ru_RU
 featZRCola	compZRCola.zrcdb.mo.ru_RU
 featZRCola	complibZRColaUI.mo.ru_RU
@@ -254,7 +254,7 @@ featZRCola	compwxExtend.mo.ru_RU
 featZRCola	compUpdater.mo.ru_RU
 featZRCola	compwxstd.mo.ru_RU
 !ENDIF
-!IF "$(LANG)" == "Sl"
+!IF "$(LANG)" == "sl_SI"
 featZRCola	compZRCola.mo.sl_SI
 featZRCola	compZRCola.zrcdb.mo.sl_SI
 featZRCola	complibZRColaUI.mo.sl_SI
@@ -277,10 +277,10 @@ File	Component_	FileName	FileSize	Version	Language	Attributes	Sequence
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l255	i4	S$(MSIBUILD_LENGTH_ID)	S20	I2	i2
 File	File
 fileZRCola.exe.$(PLAT)	compZRCola.exe.$(PLAT)	ZRCola.exe	0		0	1536	1
-!IF "$(LANG)" == "Ru"
+!IF "$(LANG)" == "ru_RU"
 fileZRCola.mo.ru_RU	compZRCola.mo.ru_RU	ZRCola.mo	0		1060	0	1
 !ENDIF
-!IF "$(LANG)" == "Sl"
+!IF "$(LANG)" == "sl_SI"
 fileZRCola.mo.sl_SI	compZRCola.mo.sl_SI	ZRCola.mo	0		1060	0	1
 !ENDIF
 <<NOKEEP
@@ -326,7 +326,7 @@ rmfiZRCola	compZRCola.exe.$(PLAT)		ZRColaShortcutDir	2
 
 All :: "$(LANG).$(PLAT).$(CFG).Shortcut-2.idt"
 
-"En.$(PLAT).$(CFG).Shortcut-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
+"en_US.$(PLAT).$(CFG).Shortcut-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Shortcut	Directory_	Name	Component_	Target	Arguments	Description	Hotkey	Icon_	IconIndex	ShowCmd	WkDir
@@ -335,11 +335,11 @@ s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l128	s$(MSIBUILD_LENGTH_ID)	s$(MSI
 shctZRCola	ZRColaShortcutDir	ZRCola	compZRCola.exe.$(PLAT)	featZRCola		Input system for linguistic use		iconZRCola.ico			ZRCOLABINDIR
 <<NOKEEP
 
-!IF "$(LANG)" == "En"
-"En.$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx"
+!IF "$(LANG)" == "en_US"
+"en_US.$(PLAT).$(CFG).Shortcut-2.idt" : "en_US.$(PLAT).$(CFG).Shortcut-2.idtx"
 	copy /y $** $@ > NUL
 !ELSE
-"$(LANG).$(PLAT).$(CFG).Shortcut-2.idt" : "En.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\$(MSIBUILD_LANG_PO).po"
+"$(LANG).$(PLAT).$(CFG).Shortcut-2.idt" : "en_US.$(PLAT).$(CFG).Shortcut-2.idtx" "..\locale\$(LANG).po"
 	rcxgettext.exe idtp $@ $**
 !ENDIF
 

@@ -37,22 +37,22 @@ Clean ::
 	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean
 	cd "$(MAKEDIR)"
 	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=De PLAT=Win32 CFG=Release
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=De PLAT=Win32 CFG=Debug
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=De PLAT=x64   CFG=Release
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=De PLAT=x64   CFG=Debug
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=En PLAT=Win32 CFG=Release
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=En PLAT=Win32 CFG=Debug
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=En PLAT=x64   CFG=Release
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=En PLAT=x64   CFG=Debug
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=Ru PLAT=Win32 CFG=Release
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=Ru PLAT=Win32 CFG=Debug
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=Ru PLAT=x64   CFG=Release
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=Ru PLAT=x64   CFG=Debug
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=Sl PLAT=Win32 CFG=Release
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=Sl PLAT=Win32 CFG=Debug
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=Sl PLAT=x64   CFG=Release
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=Sl PLAT=x64   CFG=Debug
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=de_DE PLAT=Win32 CFG=Release
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=de_DE PLAT=Win32 CFG=Debug
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=de_DE PLAT=x64   CFG=Release
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=de_DE PLAT=x64   CFG=Debug
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=en_US PLAT=Win32 CFG=Release
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=en_US PLAT=Win32 CFG=Debug
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=en_US PLAT=x64   CFG=Release
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=en_US PLAT=x64   CFG=Debug
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=ru_RU PLAT=Win32 CFG=Release
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=ru_RU PLAT=Win32 CFG=Debug
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=ru_RU PLAT=x64   CFG=Release
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=ru_RU PLAT=x64   CFG=Debug
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=sl_SI PLAT=Win32 CFG=Release
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=sl_SI PLAT=Win32 CFG=Debug
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=sl_SI PLAT=x64   CFG=Release
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=sl_SI PLAT=x64   CFG=Debug
 	cd "$(MAKEDIR)"
 	devenv.com "ZRCola.sln"          /clean "Release|Win32"
 	devenv.com "ZRCola.sln"          /clean "Debug|Win32"
@@ -436,82 +436,82 @@ $(REDIST_SL_X64) : "$(OUTPUT_DIR)\ZRColaSl64.3.msi"
 
 "$(OUTPUT_DIR)\ZRColaDe32.3.msi" ::
 	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=De PLAT=Win32 CFG=Release
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=de_DE PLAT=Win32 CFG=Release
 	cd "$(MAKEDIR)"
 
 "$(OUTPUT_DIR)\ZRColaDe32D.3.msi" ::
 	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=De PLAT=Win32 CFG=Debug
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=de_DE PLAT=Win32 CFG=Debug
 	cd "$(MAKEDIR)"
 
 "$(OUTPUT_DIR)\ZRColaDe64.3.msi" ::
 	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=De PLAT=x64 CFG=Release
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=de_DE PLAT=x64 CFG=Release
 	cd "$(MAKEDIR)"
 
 "$(OUTPUT_DIR)\ZRColaDe64D.3.msi" ::
 	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=De PLAT=x64 CFG=Debug
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=de_DE PLAT=x64 CFG=Debug
 	cd "$(MAKEDIR)"
 
 "$(OUTPUT_DIR)\ZRColaEn32.3.msi" ::
 	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=En PLAT=Win32 CFG=Release
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=en_US PLAT=Win32 CFG=Release
 	cd "$(MAKEDIR)"
 
 "$(OUTPUT_DIR)\ZRColaEn32D.3.msi" ::
 	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=En PLAT=Win32 CFG=Debug
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=en_US PLAT=Win32 CFG=Debug
 	cd "$(MAKEDIR)"
 
 "$(OUTPUT_DIR)\ZRColaEn64.3.msi" ::
 	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=En PLAT=x64 CFG=Release
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=en_US PLAT=x64 CFG=Release
 	cd "$(MAKEDIR)"
 
 "$(OUTPUT_DIR)\ZRColaEn64D.3.msi" ::
 	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=En PLAT=x64 CFG=Debug
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=en_US PLAT=x64 CFG=Debug
 	cd "$(MAKEDIR)"
 
 "$(OUTPUT_DIR)\ZRColaRu32.3.msi" ::
 	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=Ru PLAT=Win32 CFG=Release
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=ru_RU PLAT=Win32 CFG=Release
 	cd "$(MAKEDIR)"
 
 "$(OUTPUT_DIR)\ZRColaRu32D.3.msi" ::
 	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=Ru PLAT=Win32 CFG=Debug
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=ru_RU PLAT=Win32 CFG=Debug
 	cd "$(MAKEDIR)"
 
 "$(OUTPUT_DIR)\ZRColaRu64.3.msi" ::
 	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=Ru PLAT=x64 CFG=Release
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=ru_RU PLAT=x64 CFG=Release
 	cd "$(MAKEDIR)"
 
 "$(OUTPUT_DIR)\ZRColaRu64D.3.msi" ::
 	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=Ru PLAT=x64 CFG=Debug
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=ru_RU PLAT=x64 CFG=Debug
 	cd "$(MAKEDIR)"
 
 "$(OUTPUT_DIR)\ZRColaSl32.3.msi" ::
 	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=Sl PLAT=Win32 CFG=Release
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=sl_SI PLAT=Win32 CFG=Release
 	cd "$(MAKEDIR)"
 
 "$(OUTPUT_DIR)\ZRColaSl32D.3.msi" ::
 	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=Sl PLAT=Win32 CFG=Debug
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=sl_SI PLAT=Win32 CFG=Debug
 	cd "$(MAKEDIR)"
 
 "$(OUTPUT_DIR)\ZRColaSl64.3.msi" ::
 	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=Sl PLAT=x64 CFG=Release
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=sl_SI PLAT=x64 CFG=Release
 	cd "$(MAKEDIR)"
 
 "$(OUTPUT_DIR)\ZRColaSl64D.3.msi" ::
 	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=Sl PLAT=x64 CFG=Debug
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=sl_SI PLAT=x64 CFG=Debug
 	cd "$(MAKEDIR)"
 
 "$(PUBLISH_DIR)\catalog-0000.xml" : "$(OUTPUT_DIR)\catalog.xml"
