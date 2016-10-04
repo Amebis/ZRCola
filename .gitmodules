@@ -1,24 +1,24 @@
-[submodule "lib/wxExtend"]
-	path = lib/wxExtend
-	url = https://github.com/Amebis/wxExtend.git
-[submodule "lib/stdex"]
-	path = lib/stdex
-	url = https://github.com/Amebis/stdex.git
-[submodule "MSI/MSIBuild"]
-	path = MSI/MSIBuild
-	url = https://github.com/Amebis/MSIBuild.git
-[submodule "MSI/MSICA"]
-	path = MSI/MSICA
-	url = https://github.com/Amebis/MSICA.git
 [submodule "lib/atlex"]
 	path = lib/atlex
 	url = https://github.com/Amebis/atlex.git
 [submodule "lib/MSICALib"]
 	path = lib/MSICALib
 	url = https://github.com/Amebis/MSICALib.git
+[submodule "lib/stdex"]
+	path = lib/stdex
+	url = https://github.com/Amebis/stdex.git
 [submodule "lib/WinStd"]
 	path = lib/WinStd
 	url = https://github.com/Amebis/WinStd.git
+[submodule "lib/wxExtend"]
+	path = lib/wxExtend
+	url = https://github.com/Amebis/wxExtend.git
+[submodule "MSI/MSIBuild"]
+	path = MSI/MSIBuild
+	url = https://github.com/Amebis/MSIBuild.git
+[submodule "MSI/MSICA"]
+	path = MSI/MSICA
+	url = https://github.com/Amebis/MSICA.git
 [submodule "Updater"]
 	path = Updater
 	url = https://github.com/Amebis/Updater.git
