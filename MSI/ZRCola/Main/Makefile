@@ -367,7 +367,6 @@ s$(MSIBUILD_LENGTH_ID)	S255	I2
 InstallExecuteSequence	Action
 caSetZRCOLADIR1	OLDZRCOLADIR AND UILevel < 4	1001
 caSetZRCOLADIR2	INSTALLDIR AND UILevel < 4	1002
-ScheduleReboot	?comp00_ZRCola<>3 AND $$comp00_ZRCola=3	1580
 <<NOKEEP
 
 
