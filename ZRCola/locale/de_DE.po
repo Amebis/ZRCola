@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-08-02 17:32+0200\n"
-"PO-Revision-Date: 2016-08-12 13:34+0200\n"
+"POT-Creation-Date: 2016-10-05 10:56+0200\n"
+"PO-Revision-Date: 2016-10-05 10:58+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.9\n"
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -21,10 +21,14 @@ msgid "© 2004-%s ZRC SAZU"
 msgstr ""
 
 #: zrcolaapp.cpp:79 zrcolafrm.cpp:90 zrcolagui.cpp:869 zrcolagui.h:104
-#: MSIBuild/En.Win32.Release.Feature-2.idtx:4
-#: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
-#: MSIBuild/En.x64.Release.Feature-2.idtx:4
-#: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
+#: MSIBuild/en_US.Win32.Debug.Feature-2.idtx:4
+#: MSIBuild/en_US.Win32.Debug.Shortcut-2.idtx:4
+#: MSIBuild/en_US.Win32.Release.Feature-2.idtx:4
+#: MSIBuild/en_US.Win32.Release.Shortcut-2.idtx:4
+#: MSIBuild/en_US.x64.Debug.Feature-2.idtx:4
+#: MSIBuild/en_US.x64.Debug.Shortcut-2.idtx:4
+#: MSIBuild/en_US.x64.Release.Feature-2.idtx:4
+#: MSIBuild/en_US.x64.Release.Shortcut-2.idtx:4
 #, fuzzy
 msgid "ZRCola"
 msgstr "ZRCola"
@@ -73,13 +77,12 @@ msgid "http://zrcola.zrc-sazu.si/en/info/instructions/"
 msgstr "http://zrcola.zrc-sazu.si/de/info/instructions/"
 
 #: zrcolafrm.cpp:375
-#, fuzzy
 msgid ""
 "http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/"
 "ZRCola_tipkovnica_Jun2016.pdf"
 msgstr ""
-"http://zrcola.zrc-sazu.si/wp-content/uploads/2016/04/5_ZRCola-"
-"Tipkovnica_2009-06-21.pdf"
+"http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/"
+"ZRCola_tipkovnica_Jun2016.pdf"
 
 #: zrcolagui.cpp:36
 msgid "E&xit"
@@ -379,9 +382,8 @@ msgid "Preview"
 msgstr " Vorschau"
 
 #: zrcolagui.cpp:568
-#, fuzzy
 msgid "U+"
-msgstr "Hilfeverzeichnis %u nicht gefunden."
+msgstr "U+"
 
 #: zrcolagui.cpp:573
 msgid "Unicode hexadecimal code"
@@ -579,75 +581,48 @@ msgstr ""
 msgid "About ZRCola"
 msgstr ""
 
-#: MSIBuild/En.Win32.Release.Control-2.idtx:14
-#: MSIBuild/En.Win32.Release.Control-2.idtx:19
-#: MSIBuild/En.Win32.Release.Control-2.idtx:9
-#: MSIBuild/En.x64.Release.Control-2.idtx:14
-#: MSIBuild/En.x64.Release.Control-2.idtx:19
-#: MSIBuild/En.x64.Release.Control-2.idtx:9
-#, fuzzy
-msgid "&Continue"
-msgstr "Konnte den Kontext auf dem überlagerten Fenster nicht initialisieren."
-
-#: MSIBuild/En.Win32.Release.Control-2.idtx:11
-#: MSIBuild/En.x64.Release.Control-2.idtx:11
-msgid "[DlgTitleFont][SimpleProductName] Tutorial : Composition"
-msgstr ""
-
-#: MSIBuild/En.Win32.Release.Control-2.idtx:16
-#: MSIBuild/En.x64.Release.Control-2.idtx:16
-msgid "[DlgTitleFont][SimpleProductName] Tutorial : Entering Characters"
-msgstr ""
-
-#: MSIBuild/En.Win32.Release.Control-2.idtx:5
-#: MSIBuild/En.x64.Release.Control-2.idtx:5
-msgid "[DlgTitleFont][SimpleProductName] Tutorial : Starting"
-msgstr ""
-
-# Windows charset for this language (decimal)
-#: MSIBuild/En.Win32.Release.Control-2.idtx:3
-#: MSIBuild/En.Win32.Release.Feature-2.idtx:3
-#: MSIBuild/En.Win32.Release.Shortcut-2.idtx:3
-#: MSIBuild/En.x64.Release.Control-2.idtx:3
-#: MSIBuild/En.x64.Release.Feature-2.idtx:3
-#: MSIBuild/En.x64.Release.Shortcut-2.idtx:3
-msgid "1252"
-msgstr "1252"
-
-#: MSIBuild/En.Win32.Release.Control-2.idtx:6
-#: MSIBuild/En.x64.Release.Control-2.idtx:6
-msgid "bintutorial1.bmp"
-msgstr ""
-
-#: MSIBuild/En.Win32.Release.Control-2.idtx:12
-#: MSIBuild/En.x64.Release.Control-2.idtx:12
-msgid "bintutorial2.bmp"
-msgstr ""
-
-#: MSIBuild/En.Win32.Release.Control-2.idtx:17
-#: MSIBuild/En.x64.Release.Control-2.idtx:17
-msgid "bintutorial3.bmp"
-msgstr ""
-
-#: MSIBuild/En.Win32.Release.Control-2.idtx:10
-#: MSIBuild/En.Win32.Release.Control-2.idtx:15
-#: MSIBuild/En.Win32.Release.Control-2.idtx:4
-#: MSIBuild/En.x64.Release.Control-2.idtx:10
-#: MSIBuild/En.x64.Release.Control-2.idtx:15
-#: MSIBuild/En.x64.Release.Control-2.idtx:4
-#, fuzzy
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:4
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:10
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:15
+#: MSIBuild/en_US.Win32.Release.Control-2.idtx:4
+#: MSIBuild/en_US.Win32.Release.Control-2.idtx:10
+#: MSIBuild/en_US.Win32.Release.Control-2.idtx:15
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:4
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:10
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:15
+#: MSIBuild/en_US.x64.Release.Control-2.idtx:4
+#: MSIBuild/en_US.x64.Release.Control-2.idtx:10
+#: MSIBuild/en_US.x64.Release.Control-2.idtx:15
 msgid "binUIHeader.bmp"
 msgstr "binUIHeader.bmp"
 
-#: MSIBuild/En.Win32.Release.Control-2.idtx:18
-#: MSIBuild/En.x64.Release.Control-2.idtx:18
-msgid ""
-"Characters can be entered using keyboard shortcuts, the character catalogue "
-"(F4) or the character finding tool (F8)."
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:5
+#: MSIBuild/en_US.Win32.Release.Control-2.idtx:5
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:5
+#: MSIBuild/en_US.x64.Release.Control-2.idtx:5
+msgid "[DlgTitleFont][SimpleProductName] Tutorial : Starting"
 msgstr ""
 
-#: MSIBuild/En.Win32.Release.Control-2.idtx:8
-#: MSIBuild/En.x64.Release.Control-2.idtx:8
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:6
+#: MSIBuild/en_US.Win32.Release.Control-2.idtx:6
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:6
+#: MSIBuild/en_US.x64.Release.Control-2.idtx:6
+msgid "bintutorial1.bmp"
+msgstr "bintutorial1.bmp"
+
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:7
+#: MSIBuild/en_US.Win32.Release.Control-2.idtx:7
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:7
+#: MSIBuild/en_US.x64.Release.Control-2.idtx:7
+msgid ""
+"When configured, ZRCola starts at system startup and runs in the background. "
+"If needed, it can be brought up by pressing the combination Win+F5."
+msgstr ""
+
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:8
+#: MSIBuild/en_US.Win32.Release.Control-2.idtx:8
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:8
+#: MSIBuild/en_US.x64.Release.Control-2.idtx:8
 msgid ""
 "IMPORTANT: Upon pressing the combination Win+F5 the program memorises the "
 "location of the cursor in the text. If ZRCola is brought to the foreground "
@@ -655,278 +630,76 @@ msgid ""
 "where to insert the special characters!"
 msgstr ""
 
-#: MSIBuild/En.Win32.Release.Feature-2.idtx:4
-#: MSIBuild/En.Win32.Release.Shortcut-2.idtx:4
-#: MSIBuild/En.x64.Release.Feature-2.idtx:4
-#: MSIBuild/En.x64.Release.Shortcut-2.idtx:4
-msgid "Input system for linguistic use"
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:9
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:14
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:19
+#: MSIBuild/en_US.Win32.Release.Control-2.idtx:9
+#: MSIBuild/en_US.Win32.Release.Control-2.idtx:14
+#: MSIBuild/en_US.Win32.Release.Control-2.idtx:19
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:9
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:14
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:19
+#: MSIBuild/en_US.x64.Release.Control-2.idtx:9
+#: MSIBuild/en_US.x64.Release.Control-2.idtx:14
+#: MSIBuild/en_US.x64.Release.Control-2.idtx:19
+#, fuzzy
+msgid "&Continue"
+msgstr "Konnte den Kontext auf dem überlagerten Fenster nicht initialisieren."
+
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:11
+#: MSIBuild/en_US.Win32.Release.Control-2.idtx:11
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:11
+#: MSIBuild/en_US.x64.Release.Control-2.idtx:11
+msgid "[DlgTitleFont][SimpleProductName] Tutorial : Composition"
 msgstr ""
 
-#: MSIBuild/En.Win32.Release.Control-2.idtx:13
-#: MSIBuild/En.x64.Release.Control-2.idtx:13
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:12
+#: MSIBuild/en_US.Win32.Release.Control-2.idtx:12
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:12
+#: MSIBuild/en_US.x64.Release.Control-2.idtx:12
+msgid "bintutorial2.bmp"
+msgstr "bintutorial2.bmp"
+
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:13
+#: MSIBuild/en_US.Win32.Release.Control-2.idtx:13
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:13
+#: MSIBuild/en_US.x64.Release.Control-2.idtx:13
 msgid ""
 "The string of basic and substitute characters is entered into the upper "
 "input window of the program. In the window below the resulted special "
 "characters are displayed. To insert them in the text, the F5 key is used."
 msgstr ""
 
-#: MSIBuild/En.Win32.Release.Control-2.idtx:7
-#: MSIBuild/En.x64.Release.Control-2.idtx:7
-msgid ""
-"When configured, ZRCola starts at system startup and runs in the background. "
-"If needed, it can be brought up by pressing the combination Win+F5."
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:16
+#: MSIBuild/en_US.Win32.Release.Control-2.idtx:16
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:16
+#: MSIBuild/en_US.x64.Release.Control-2.idtx:16
+msgid "[DlgTitleFont][SimpleProductName] Tutorial : Entering Characters"
 msgstr ""
 
-#~ msgid "Auto Start"
-#~ msgstr "Samodejni zagon"
-
-#~ msgid "Select %s language for decomposition"
-#~ msgstr "Izberi jezik %s za razstavljanje"
-
-#~ msgid "&Start on Logon"
-#~ msgstr "Z&aženi ob prijavi"
-
-#~ msgid "Start this program automatically on logon"
-#~ msgstr "Samodejno zaženi ta program ob prijavi"
-
-#~ msgid "Set language according to keyboard layout automatically"
-#~ msgstr "Samodejno nastavi jezik glede na izbrano tipkovnico"
-
-#~ msgid "&Unicode"
-#~ msgstr "&Unicode"
-
-#~ msgid "Esc"
-#~ msgstr "Esc"
-
-#~ msgid "F1"
-#~ msgstr "F1"
-
-#~ msgid "F2"
-#~ msgstr "F2"
-
-#~ msgid "F3"
-#~ msgstr "F3"
-
-#~ msgid "F4"
-#~ msgstr "F4"
-
-#~ msgid "F5"
-#~ msgstr "F5"
-
-#~ msgid "F6"
-#~ msgstr "F6"
-
-#~ msgid "F7"
-#~ msgstr "F7"
-
-#~ msgid "F8"
-#~ msgstr "F8"
-
-#~ msgid "F9"
-#~ msgstr "F9"
-
-#~ msgid "F10"
-#~ msgstr "F10"
-
-#~ msgid "F11"
-#~ msgstr "F11"
-
-#~ msgid "F12"
-#~ msgstr "F12"
-
-#~ msgid "Print Screen"
-#~ msgstr "Print Screen"
-
-#~ msgid "Scroll Lock"
-#~ msgstr "Scroll Lock"
-
-#~ msgid "Pause"
-#~ msgstr "Pause"
-
-#~ msgid "Backspace"
-#~ msgstr "Backspace"
-
-#~ msgid "Tab"
-#~ msgstr "Tab"
-
-#~ msgid "Caps Lock"
-#~ msgstr "Caps Lock"
-
-#~ msgid "Return"
-#~ msgstr "Return"
-
-#~ msgid "Space"
-#~ msgstr "preslednica"
-
-#~ msgid "Shift"
-#~ msgstr "Shift"
-
-#, fuzzy
-#~ msgid "Alt"
-#~ msgstr "Alle"
-
-#~ msgid "Ctrl"
-#~ msgstr "Ctrl"
-
-#~ msgid "Menu"
-#~ msgstr "Menu"
-
-#~ msgid "Insert"
-#~ msgstr "Insert"
-
-#~ msgid "Delete"
-#~ msgstr "Delete"
-
-#~ msgid "Page Up"
-#~ msgstr "Page Up"
-
-#~ msgid "Page Down"
-#~ msgstr "Page Down"
-
-#~ msgid "Home"
-#~ msgstr "Home"
-
-#~ msgid "End"
-#~ msgstr "End"
-
-#~ msgid "Left"
-#~ msgstr "Left"
-
-#~ msgid "Up"
-#~ msgstr "Up"
-
-#~ msgid "Right"
-#~ msgstr "Right"
-
-#~ msgid "Down"
-#~ msgstr "Down"
-
-#~ msgid "Num Lock"
-#~ msgstr "Num Lock"
-
-#~ msgid "`"
-#~ msgstr "`"
-
-#~ msgid "-"
-#~ msgstr "-"
-
-#~ msgid "["
-#~ msgstr "["
-
-#~ msgid "]"
-#~ msgstr "]"
-
-#~ msgid ":"
-#~ msgstr ":"
-
-#~ msgid "'"
-#~ msgstr "'"
-
-#~ msgid "\\"
-#~ msgstr "\\"
-
-#~ msgid ","
-#~ msgstr ","
-
-#~ msgid "."
-#~ msgstr "."
-
-#~ msgid "/"
-#~ msgstr "/"
-
-#~ msgid "INS"
-#~ msgstr "INS"
-
-#, fuzzy
-#~ msgid "Character &Groups"
-#~ msgstr "Eingabe eines Zeichenstils"
-
-#~ msgid "Language:"
-#~ msgstr "Jezik:"
-
-#~ msgid "&About"
-#~ msgstr "O progr&amu"
-
-#~ msgid "Cuts selected text and puts it on the clipboard"
-#~ msgstr "Izreže izbrano besedilo in ga shrani na odložišče"
-
-#~ msgid "Copies selected text to the clipboard"
-#~ msgstr "Kopira izbrano besedilo na odložišče"
-
-#~ msgid "Inserts text from the clipboard"
-#~ msgstr "Vstavi besedilo z odložišča"
-
-#, fuzzy
-#~ msgid "&Copy"
-#~ msgstr "Kopieren"
-
-#, fuzzy
-#~ msgid "&Paste"
-#~ msgstr "Einfügen"
-
-#~ msgid "&File"
-#~ msgstr "&Datoteka"
-
-#, fuzzy
-#~ msgid "Send Decomposed (F6)"
-#~ msgstr "Pošlji razstavljeno (F6)"
-
-#, fuzzy
-#~ msgid "Send Composed (F5)"
-#~ msgstr "Pošlji sestavljeno (F5)"
-
-#~ msgid ""
-#~ "ZRCola keyboard shortcut Win+Shift+Z could not be registered. Some "
-#~ "functionality will not be available."
-#~ msgstr ""
-#~ "ZRColine bližnjice na tipkovnici Win+Shift+Z ni mogoče registrirati. "
-#~ "Nekaj funkcionalnosti ne bo na voljo."
-
-#, fuzzy
-#~ msgid "Authentication progress real time monitor"
-#~ msgstr "Nadzira postopek overovljanja v realnem času"
-
-#~ msgid "Grave\t&7"
-#~ msgstr "Krativec\t&7"
-
-#~ msgid "Acute\t&9"
-#~ msgstr "Ostrivec\t&9"
-
-#~ msgid "Circumflex\t&3"
-#~ msgstr "Cirkumfleks\t&3"
-
-#~ msgid "Inverted &breve"
-#~ msgstr "O&brnjen polkrog"
-
-#~ msgid "&Accents"
-#~ msgstr "N&aglasi"
-
-#~ msgid ""
-#~ "There is already an auto hidden bar on this edge.\n"
-#~ "Only one auto hidden bar is allowed on each edge.\n"
-#~ "Auto-hide feature is now off."
-#~ msgstr ""
-#~ "Ob tem robu je že samodejno skrita pasica.\n"
-#~ "Na vsakem robu je lahko samo ena samodejno skrita pasica.\n"
-#~ "Samodejno skrivanje je zdaj izklopljeno."
-
-#~ msgid "Hello World"
-#~ msgstr "Zdravo svet"
-
-#~ msgid "&Hello...\tCtrl+H"
-#~ msgstr "&Pozdrav ...\tCtrl+H"
-
-#~ msgid "Help string shown in status bar for this menu item"
-#~ msgstr "Niz s pomočjo prikazan v statusni vrstici za to točko menija"
-
-#~ msgid "This is a wxWidgets' Hello world sample"
-#~ msgstr "To je primer Zdravo svet v wxWidgets"
-
-#~ msgid "About Hello World"
-#~ msgstr "O Zdravo svet"
-
-#~ msgid "Hello world from wxWidgets!"
-#~ msgstr "Zdravo svet iz wxWidgets!"
-
-#~ msgid "Welcome to wxWidgets!"
-#~ msgstr "Dobrodošli v wxWidgets!"
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:17
+#: MSIBuild/en_US.Win32.Release.Control-2.idtx:17
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:17
+#: MSIBuild/en_US.x64.Release.Control-2.idtx:17
+msgid "bintutorial3.bmp"
+msgstr "bintutorial3.bmp"
+
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:18
+#: MSIBuild/en_US.Win32.Release.Control-2.idtx:18
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:18
+#: MSIBuild/en_US.x64.Release.Control-2.idtx:18
+msgid ""
+"Characters can be entered using keyboard shortcuts, the character catalogue "
+"(F4) or the character finding tool (F8)."
+msgstr ""
+
+#: MSIBuild/en_US.Win32.Debug.Feature-2.idtx:4
+#: MSIBuild/en_US.Win32.Debug.Shortcut-2.idtx:4
+#: MSIBuild/en_US.Win32.Release.Feature-2.idtx:4
+#: MSIBuild/en_US.Win32.Release.Shortcut-2.idtx:4
+#: MSIBuild/en_US.x64.Debug.Feature-2.idtx:4
+#: MSIBuild/en_US.x64.Debug.Shortcut-2.idtx:4
+#: MSIBuild/en_US.x64.Release.Feature-2.idtx:4
+#: MSIBuild/en_US.x64.Release.Shortcut-2.idtx:4
+msgid "Input system for linguistic use"
+msgstr ""

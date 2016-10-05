@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.9\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -330,13 +330,13 @@ msgid "Maltese"
 msgstr "мальтийский"
 
 msgid "Mark, Enclosing"
-msgstr ""
+msgstr "Метка, закрывающая"
 
 msgid "Mark, Non-Spacing"
-msgstr ""
+msgstr "Метка, несамостоятельная"
 
 msgid "Mark, Spacing Combining"
-msgstr ""
+msgstr "Метка, несамостоятельная ненулевой ширины"
 
 msgid "Mathematical And Physical Symbols"
 msgstr "Математические и физические знаки"
@@ -408,10 +408,10 @@ msgid "Other Modifiers"
 msgstr "Остальные замещающие знаки"
 
 msgid "Other, Format"
-msgstr ""
+msgstr "Другое, формат"
 
 msgid "Other, Surrogate"
-msgstr ""
+msgstr "Другое, суррогат"
 
 msgid "Parentheses"
 msgstr "Скобкы"
@@ -426,25 +426,25 @@ msgid "Punctuation"
 msgstr "Знаки препинания"
 
 msgid "Punctuation, Close"
-msgstr ""
+msgstr "Пунктуация, заключительная"
 
 msgid "Punctuation, Connector"
-msgstr ""
+msgstr "Пунктуация, соединитель"
 
 msgid "Punctuation, Dash"
-msgstr ""
+msgstr "Пунктуация, черта"
 
 msgid "Punctuation, Final quote"
-msgstr ""
+msgstr "Пунктуация, окончательная кавычка"
 
 msgid "Punctuation, Initial quote"
-msgstr ""
+msgstr "Пунктуация, начальная кавычка"
 
 msgid "Punctuation, Open"
-msgstr ""
+msgstr "Пунктуация, открывающая"
 
 msgid "Punctuation, Other"
-msgstr ""
+msgstr "Пунктуация, остальное"
 
 msgid "Quotes"
 msgstr "Кавычки"
