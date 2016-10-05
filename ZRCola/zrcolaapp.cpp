@@ -50,19 +50,15 @@ bool ZRColaApp::OnInit()
         ::MsiUseFeature(_T(ZRCOLA_VERSION_GUID), _T("featZRCola"));
 #endif
 
+    // Initialize configuration.
     wxConfigBase *cfgPrev = wxConfigBase::Set(new wxConfig(wxT(ZRCOLA_CFG_APPLICATION), wxT(ZRCOLA_CFG_VENDOR)));
     if (cfgPrev) wxDELETE(cfgPrev);
 
     if (!wxApp::OnInit())
         return false;
 
-    // Set desired locale.
-    wxLanguage language = (wxLanguage)wxConfigBase::Get()->Read(wxT("Language"), wxLANGUAGE_DEFAULT);
-    if (wxLocale::IsAvailable(language)) {
-        wxString sPath;
-        if (wxConfigBase::Get()->Read(wxT("LocalizationRepositoryPath"), &sPath))
-            m_locale.AddCatalogLookupPathPrefix(sPath);
-        wxVERIFY(m_locale.Init(language));
+    // Initialize locale.
+    if (wxInitializeLocale(m_locale)) {
         wxVERIFY(m_locale.AddCatalog(wxT("wxExtend") wxT(wxExtendVersion)));
         wxVERIFY(m_locale.AddCatalog(wxT("Updater") wxT(wxUpdaterVersion)));
         wxVERIFY(m_locale.AddCatalog(wxT("libZRColaUI")));

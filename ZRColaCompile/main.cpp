@@ -30,25 +30,21 @@ int _tmain(int argc, _TCHAR *argv[])
 {
     wxApp::CheckBuildOptions(WX_BUILD_OPTIONS_SIGNATURE, "program");
 
-    // Inizialize wxWidgets.
+    // Initialize wxWidgets.
     wxInitializer initializer;
     if (!initializer) {
         _ftprintf(stderr, wxT("Failed to initialize the wxWidgets library, aborting.\n"));
         return -1;
     }
 
-    wxConfig config(wxT(ZRCOLA_CFG_APPLICATION), wxT(ZRCOLA_CFG_VENDOR));
+    // Initialize configuration.
+    wxConfigBase *cfgPrev = wxConfigBase::Set(new wxConfig(wxT(ZRCOLA_CFG_APPLICATION), wxT(ZRCOLA_CFG_VENDOR)));
+    if (cfgPrev) wxDELETE(cfgPrev);
 
-    // Set desired locale.
+    // Initialize locale.
     wxLocale locale;
-    wxLanguage language = (wxLanguage)config.Read(wxT("Language"), wxLANGUAGE_DEFAULT);
-    if (wxLocale::IsAvailable(language)) {
-        wxString sPath;
-        if (config.Read(wxT("LocalizationRepositoryPath"), &sPath))
-            locale.AddCatalogLookupPathPrefix(sPath);
-        wxVERIFY(locale.Init(language));
+    if (wxInitializeLocale(locale))
         wxVERIFY(locale.AddCatalog(wxT("ZRColaCompile")));
-    }
 
     // Parse command line.
     static const wxCmdLineEntryDesc cmdLineDesc[] =

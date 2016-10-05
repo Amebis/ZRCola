@@ -436,7 +436,6 @@ ARPHELPTELEPHONE	+386 1 470 6170
 ARPURLINFOABOUT	http://zrcola.zrc-sazu.si/en/contact/
 ARPHELPLINK	http://zrcola.zrc-sazu.si/en/info/instructions/
 ARPURLUPDATEINFO	http://zrcola.zrc-sazu.si/en/install/
-LANGUAGE	#60
 <<NOKEEP
 
 !IF "$(LANG)" == "en_US"
@@ -460,7 +459,7 @@ Registry	Root	Key	Name	Value	Component_
 s$(MSIBUILD_LENGTH_ID)	i2	l255	L255	L0	s$(MSIBUILD_LENGTH_ID)
 Registry	Registry
 regLocalizationRepositoryPath	2	SOFTWARE\Amebis\ZRCola	LocalizationRepositoryPath	[ZRCOLALOCDIR]	compLocalizationRepositoryPath
-regLanguage	2	SOFTWARE\Amebis\ZRCola	Language	[LANGUAGE]	compLanguage
+regLanguage	2	SOFTWARE\Amebis\ZRCola	Language	$(LANG)	compLanguage
 regDatabasePath	2	SOFTWARE\Amebis\ZRCola	DatabasePath	[ZRCOLADATADIR]	compDatabasePath
 reg00_ZRCola	2	SOFTWARE\Microsoft\Windows NT\CurrentVersion\FontSubstitutes	00 ZRCola	ZRCola	comp00_ZRCola
 <<NOKEEP
