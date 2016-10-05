@@ -436,6 +436,7 @@ ARPHELPTELEPHONE	+386 1 470 6170
 ARPURLINFOABOUT	http://zrcola.zrc-sazu.si/en/contact/
 ARPHELPLINK	http://zrcola.zrc-sazu.si/en/info/instructions/
 ARPURLUPDATEINFO	http://zrcola.zrc-sazu.si/en/install/
+LANGUAGE	#60
 <<NOKEEP
 
 !IF "$(LANG)" == "en_US"
@@ -450,9 +451,7 @@ ARPURLUPDATEINFO	http://zrcola.zrc-sazu.si/en/install/
 ######################################################################
 # Registry
 
-All :: \
-	"$(LANG).$(PLAT).$(CFG).Registry-1.idt" \
-	"$(LANG).$(PLAT).$(CFG).Registry-2.idt"
+All :: "$(LANG).$(PLAT).$(CFG).Registry-1.idt"
 
 "$(LANG).$(PLAT).$(CFG).Registry-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
 	-if exist $@ del /f /q $@
@@ -461,26 +460,10 @@ Registry	Root	Key	Name	Value	Component_
 s$(MSIBUILD_LENGTH_ID)	i2	l255	L255	L0	s$(MSIBUILD_LENGTH_ID)
 Registry	Registry
 regLocalizationRepositoryPath	2	SOFTWARE\Amebis\ZRCola	LocalizationRepositoryPath	[ZRCOLALOCDIR]	compLocalizationRepositoryPath
+regLanguage	2	SOFTWARE\Amebis\ZRCola	Language	[LANGUAGE]	compLanguage
 regDatabasePath	2	SOFTWARE\Amebis\ZRCola	DatabasePath	[ZRCOLADATADIR]	compDatabasePath
 reg00_ZRCola	2	SOFTWARE\Microsoft\Windows NT\CurrentVersion\FontSubstitutes	00 ZRCola	ZRCola	comp00_ZRCola
 <<NOKEEP
-
-"en_US.$(PLAT).$(CFG).Registry-2.idtx" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
-	move /y << $@ > NUL
-Registry	Root	Key	Name	Value	Component_
-s$(MSIBUILD_LENGTH_ID)	i2	l255	L255	L0	s$(MSIBUILD_LENGTH_ID)
-1252	Registry	Registry
-regLanguage	2	SOFTWARE\Amebis\ZRCola	Language	#60	compLanguage
-<<NOKEEP
-
-!IF "$(LANG)" == "en_US"
-"en_US.$(PLAT).$(CFG).Registry-2.idt" : "en_US.$(PLAT).$(CFG).Registry-2.idtx"
-	copy /y $** $@ > NUL
-!ELSE
-"$(LANG).$(PLAT).$(CFG).Registry-2.idt" : "en_US.$(PLAT).$(CFG).Registry-2.idtx" "..\locale\$(LANG).po"
-	cscript.exe "..\..\MSIBuild\MSI.wsf" //Job:IDTTranslate //Nologo $@ $** /CP:$(MSIBUILD_CODEPAGE)
-!ENDIF
 
 
 ######################################################################
