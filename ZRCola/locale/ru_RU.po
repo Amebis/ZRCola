@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
 "POT-Creation-Date: 2016-10-05 10:58+0200\n"
-"PO-Revision-Date: 2016-10-05 11:55+0200\n"
+"PO-Revision-Date: 2016-10-05 12:41+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: ru_RU\n"
@@ -95,11 +95,11 @@ msgstr "Выйти из программы"
 
 #: zrcolagui.cpp:39
 msgid "&Program"
-msgstr "&Программа"
+msgstr "П&рограмма"
 
 #: zrcolagui.cpp:72
 msgid "Select &All"
-msgstr "Выделить &все"
+msgstr "Выделить в&се"
 
 #: zrcolagui.cpp:72
 msgid "Select all text"
@@ -151,7 +151,7 @@ msgstr "&Правка"
 
 #: zrcolagui.cpp:125
 msgid "&Edit Toolbar"
-msgstr "&Панель инструментов для правки"
+msgstr "Панель инструментов для &правки"
 
 #: zrcolagui.cpp:125
 msgid "Toggle edit toolbar"
@@ -159,7 +159,7 @@ msgstr "Переключить панель инструментов для пр
 
 #: zrcolagui.cpp:129
 msgid "&Compose Toolbar"
-msgstr "&Панель инструментов для составления"
+msgstr "Панель инструментов для &составления"
 
 #: zrcolagui.cpp:129
 msgid "Toggle compose toolbar"
@@ -167,7 +167,7 @@ msgstr "Переключить панель инструментов для со
 
 #: zrcolagui.cpp:135
 msgid "Character Catalo&g"
-msgstr "&Список знаков"
+msgstr "Список &знаков"
 
 #: zrcolagui.cpp:135
 msgid "Toggle character catalog panel"
