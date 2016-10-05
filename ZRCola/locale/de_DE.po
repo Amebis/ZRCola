@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-10-05 13:35+0200\n"
-"PO-Revision-Date: 2016-10-05 13:35+0200\n"
+"POT-Creation-Date: 2016-10-05 13:56+0200\n"
+"PO-Revision-Date: 2016-10-05 13:56+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: de_DE\n"
@@ -473,7 +473,10 @@ msgstr ""
 msgid ""
 "Program and Website Editor: Janoš Ježovnik\n"
 "Development: Amebis, d. o. o., Kamnik\n"
-"Development and maintenance (2004-2015): dr. Peter Weiss"
+"Translation into English: Janoš Ježovnik\n"
+"Translation into Russian language: Domen Krvina, Silvo Torkar, Anastasia "
+"Plotnikova\n"
+"Development and maintenance of the original program (2004–2015): Peter Weiss"
 msgstr ""
 
 #: zrcolagui.cpp:888
@@ -490,7 +493,7 @@ msgstr ""
 msgid ""
 "This text was written using the ZRCola input system (http://zrcola.zrc-sazu."
 "si), developed at the Science and Research Centre of SAZU in Ljubljana "
-"(http://www.zrc-sazu.si) by Dr. Peter Weiss."
+"(http://www.zrc-sazu.si) by Peter Weiss."
 msgstr ""
 
 #: zrcolagui.cpp:939
@@ -534,7 +537,7 @@ msgstr ""
 
 #: zrcolagui.cpp:1022
 msgid ""
-"The &context, examples or short description why and where the character is "
+"The &context, examples or description why and where the character is "
 "required:"
 msgstr ""
 
@@ -547,8 +550,7 @@ msgid ""
 "After clicking OK button, your e-mail application should open allowing you "
 "to submit the new character request to ZRCola Editor.\n"
 "Your e-mail application might not display all the characters correctly, but "
-"we'll encode the necessarry information so the Editor will be able to read "
-"it correctly."
+"the Editor will be able to read them correctly anyway."
 msgstr ""
 
 #: zrcolakeyhndlr.cpp:44

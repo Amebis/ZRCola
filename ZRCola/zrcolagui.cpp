@@ -877,8 +877,8 @@ wxZRColaAboutBase::wxZRColaAboutBase( wxWindow* parent, wxWindowID id, const wxS
 	m_staticTextVersion->Wrap( -1 );
 	bSizerText->Add( m_staticTextVersion, 0, wxALL|wxEXPAND, 5 );
 	
-	m_staticTextColophone = new wxStaticText( this, wxID_ANY, _("Program and Website Editor: Janoš Ježovnik\nDevelopment: Amebis, d. o. o., Kamnik\nDevelopment and maintenance (2004-2015): dr. Peter Weiss"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticTextColophone->Wrap( -1 );
+	m_staticTextColophone = new wxStaticText( this, wxID_ANY, _("Program and Website Editor: Janoš Ježovnik\nDevelopment: Amebis, d. o. o., Kamnik\nTranslation into English: Janoš Ježovnik\nTranslation into Russian language: Domen Krvina, Silvo Torkar, Anastasia Plotnikova\nDevelopment and maintenance of the original program (2004–2015): Peter Weiss"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticTextColophone->Wrap( 400 );
 	bSizerText->Add( m_staticTextColophone, 0, wxALL|wxEXPAND, 5 );
 	
 	m_staticTextCopyright = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -895,7 +895,7 @@ wxZRColaAboutBase::wxZRColaAboutBase( wxWindow* parent, wxWindowID id, const wxS
 	m_staticTextDeclaration->Wrap( 400 );
 	bSizerText->Add( m_staticTextDeclaration, 0, wxALL|wxEXPAND, 5 );
 	
-	m_declaration = new wxTextCtrl( this, wxID_ANY, _("This text was written using the ZRCola input system (http://zrcola.zrc-sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana (http://www.zrc-sazu.si) by Dr. Peter Weiss."), wxDefaultPosition, wxSize( -1,80 ), wxTE_MULTILINE|wxTE_READONLY );
+	m_declaration = new wxTextCtrl( this, wxID_ANY, _("This text was written using the ZRCola input system (http://zrcola.zrc-sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana (http://www.zrc-sazu.si) by Peter Weiss."), wxDefaultPosition, wxSize( -1,80 ), wxTE_MULTILINE|wxTE_READONLY );
 	m_declaration->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 93, 90, false, wxEmptyString ) );
 	
 	bSizerText->Add( m_declaration, 0, wxALL|wxEXPAND, 5 );
@@ -1019,7 +1019,7 @@ wxZRColaCharRequestBase::wxZRColaCharRequestBase( wxWindow* parent, wxWindowID i
 	wxStaticBoxSizer* sbSizerContext;
 	sbSizerContext = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Context") ), wxVERTICAL );
 	
-	m_contextLbl = new wxStaticText( sbSizerContext->GetStaticBox(), wxID_ANY, _("The &context, examples or short description why and where the character is required:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_contextLbl = new wxStaticText( sbSizerContext->GetStaticBox(), wxID_ANY, _("The &context, examples or description why and where the character is required:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_contextLbl->Wrap( 400 );
 	sbSizerContext->Add( m_contextLbl, 0, wxALL|wxEXPAND, 5 );
 	
@@ -1032,7 +1032,7 @@ wxZRColaCharRequestBase::wxZRColaCharRequestBase( wxWindow* parent, wxWindowID i
 	
 	bSizerContent->Add( sbSizerContext, 60, wxALL|wxEXPAND, 5 );
 	
-	m_note = new wxStaticText( this, wxID_ANY, _("After clicking OK button, your e-mail application should open allowing you to submit the new character request to ZRCola Editor.\nYour e-mail application might not display all the characters correctly, but we'll encode the necessarry information so the Editor will be able to read it correctly."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_note = new wxStaticText( this, wxID_ANY, _("After clicking OK button, your e-mail application should open allowing you to submit the new character request to ZRCola Editor.\nYour e-mail application might not display all the characters correctly, but the Editor will be able to read them correctly anyway."), wxDefaultPosition, wxDefaultSize, 0 );
 	m_note->Wrap( 400 );
 	bSizerContent->Add( m_note, 0, wxALL|wxEXPAND, 5 );
 	

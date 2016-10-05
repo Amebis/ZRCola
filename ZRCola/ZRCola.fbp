@@ -5607,7 +5607,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">Program and Website Editor: Janoš Ježovnik&#x0A;Development: Amebis, d. o. o., Kamnik&#x0A;Development and maintenance (2004-2015): dr. Peter Weiss</property>
+                                        <property name="label">Program and Website Editor: Janoš Ježovnik&#x0A;Development: Amebis, d. o. o., Kamnik&#x0A;Translation into English: Janoš Ježovnik&#x0A;Translation into Russian language: Domen Krvina, Silvo Torkar, Anastasia Plotnikova&#x0A;Development and maintenance of the original program (2004–2015): Peter Weiss</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -5632,7 +5632,7 @@
                                         <property name="window_extra_style"></property>
                                         <property name="window_name"></property>
                                         <property name="window_style"></property>
-                                        <property name="wrap">-1</property>
+                                        <property name="wrap">400</property>
                                         <event name="OnChar"></event>
                                         <event name="OnEnterWindow"></event>
                                         <event name="OnEraseBackground"></event>
@@ -5979,7 +5979,7 @@
                                         <property name="validator_style">wxFILTER_NONE</property>
                                         <property name="validator_type">wxDefaultValidator</property>
                                         <property name="validator_variable"></property>
-                                        <property name="value">This text was written using the ZRCola input system (http://zrcola.zrc-sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana (http://www.zrc-sazu.si) by Dr. Peter Weiss.</property>
+                                        <property name="value">This text was written using the ZRCola input system (http://zrcola.zrc-sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana (http://www.zrc-sazu.si) by Peter Weiss.</property>
                                         <property name="window_extra_style"></property>
                                         <property name="window_name"></property>
                                         <property name="window_style"></property>
@@ -6807,7 +6807,7 @@
                                 <property name="gripper">0</property>
                                 <property name="hidden">0</property>
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">The &amp;context, examples or short description why and where the character is required:</property>
+                                <property name="label">The &amp;context, examples or description why and where the character is required:</property>
                                 <property name="max_size"></property>
                                 <property name="maximize_button">0</property>
                                 <property name="maximum_size"></property>
@@ -6983,7 +6983,7 @@
                         <property name="gripper">0</property>
                         <property name="hidden">0</property>
                         <property name="id">wxID_ANY</property>
-                        <property name="label">After clicking OK button, your e-mail application should open allowing you to submit the new character request to ZRCola Editor.&#x0A;Your e-mail application might not display all the characters correctly, but we&apos;ll encode the necessarry information so the Editor will be able to read it correctly.</property>
+                        <property name="label">After clicking OK button, your e-mail application should open allowing you to submit the new character request to ZRCola Editor.&#x0A;Your e-mail application might not display all the characters correctly, but the Editor will be able to read them correctly anyway.</property>
                         <property name="max_size"></property>
                         <property name="maximize_button">0</property>
                         <property name="maximum_size"></property>

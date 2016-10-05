@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola MSI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-05 10:32+0200\n"
+"POT-Creation-Date: 2016-10-05 13:59+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <simon.rozman@amebis.si>\n"
@@ -1455,7 +1455,7 @@ msgstr "Текст, созданный с помощью системы ZRCola, 
 msgid ""
 "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang1033\\deflangfe1033\\deftab708{\\fonttbl{\\f0\\fswiss\\fprq2\\fcharset238 Calibri;}{\\f1\\froman\\fprq2\\fcharset238{\\*\\fname Times New Roman;}"
 "Times New Roman CE;}}{\\colortbl ;\\red0\\green0\\blue255;}{\\*\\generator Msftedit 5.41.21.2510;}\\viewkind4\\uc1\\pard\\sa200\\sl276\\slmult1\\i\\f0\\fs22 This text was written using the "
-"ZRCola input system (http://zrcola.zrc-sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana (http://www.zrc-sazu.si) by Dr. Peter Weiss.\\f1\\par}"
+"ZRCola input system (http://zrcola.zrc-sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana (http://www.zrc-sazu.si) by Peter Weiss.\\f1\\par}"
 msgstr ""
 "{\\rtf1\\ansi\\ansicpg1251\\deff0\\deflang1049\\deflangfe1049\\deftab708{\\fonttbl{\\f0\\fswiss\\fprq2\\fcharset204 Calibri;}{\\f1\\froman\\fprq2\\fcharset204{\\*\\fname Times New Roman;}"
 "Times New Roman CE;}}{\\colortbl ;\\red0\\green0\\blue255;}{\\*\\generator Msftedit 5.41.21.2510;}\\viewkind4\\uc1\\pard\\sa200\\sl276\\slmult1\\i\\f0\\fs22\\'d2\\'e5\\'ea\\'f1\\'f2 \\'ef"
@@ -1551,11 +1551,6 @@ msgstr "http://zrcola.zrc-sazu.si/ru/info/instructions/"
 msgid "http://zrcola.zrc-sazu.si/en/install/"
 msgstr "http://zrcola.zrc-sazu.si/ru/install/"
 
-# wxLanguage enum value for this language (decimal, # prefixed)
-#: en_US.Win32.Debug.Property-2.idtx:10 en_US.Win32.Release.Property-2.idtx:10 en_US.x64.Debug.Property-2.idtx:10 en_US.x64.Release.Property-2.idtx:10
-msgid "#60"
-msgstr "#158"
-
 #: en_US.Win32.Debug.Shortcut-2.idtx:4 en_US.Win32.Release.Shortcut-2.idtx:4 en_US.x64.Debug.Shortcut-2.idtx:4 en_US.x64.Release.Shortcut-2.idtx:4
 msgid "ZRCOLA~1|ZRCola Keyboard Shortcuts"
 msgstr "ZRCOLA~1|Сочетание клавиш системы ZRCola"
@@ -1563,3 +1558,7 @@ msgstr "ZRCOLA~1|Сочетание клавиш системы ZRCola"
 #: en_US.Win32.Debug.Shortcut-2.idtx:4 en_US.Win32.Release.Shortcut-2.idtx:4 en_US.x64.Debug.Shortcut-2.idtx:4 en_US.x64.Release.Shortcut-2.idtx:4
 msgid "ZRCola Keyboard Shortcuts"
 msgstr "Сочетание клавиш системы ZRCola"
+
+# wxLanguage enum value for this language (decimal, # prefixed)
+#~ msgid "#60"
+#~ msgstr "#158"
