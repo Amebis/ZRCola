@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-10-05 10:58+0200\n"
-"PO-Revision-Date: 2016-10-05 12:41+0200\n"
+"POT-Creation-Date: 2016-10-05 13:34+0200\n"
+"PO-Revision-Date: 2016-10-05 13:34+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: ru_RU\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "© 2004-%s ZRC SAZU"
 msgstr "© 2004–%s ZRC SAZU"
 
-#: zrcolaapp.cpp:79 zrcolafrm.cpp:90 zrcolagui.cpp:869 zrcolagui.h:104
+#: zrcolaapp.cpp:75 zrcolafrm.cpp:90 zrcolagui.cpp:869 zrcolagui.h:104
 #: MSIBuild/en_US.Win32.Debug.Feature-2.idtx:4
 #: MSIBuild/en_US.Win32.Debug.Shortcut-2.idtx:4
 #: MSIBuild/en_US.Win32.Release.Feature-2.idtx:4
@@ -33,11 +33,11 @@ msgstr "© 2004–%s ZRC SAZU"
 msgid "ZRCola"
 msgstr "ZRCola"
 
-#: zrcolachrreq.cpp:49 zrcolagui.cpp:998
+#: zrcolachrreq.cpp:49 zrcolagui.cpp:999
 msgid "Character"
 msgstr "Знак"
 
-#: zrcolachrreq.cpp:58 zrcolagui.cpp:1019
+#: zrcolachrreq.cpp:58 zrcolagui.cpp:1020
 msgid "Context"
 msgstr "Контекст"
 
@@ -208,6 +208,10 @@ msgstr "Проверить наличие &обновлений ..."
 #: zrcolagui.cpp:156
 msgid "Check online for product update"
 msgstr "Проверить наличие обновлений онлайн"
+
+#: zrcolagui.cpp:162
+msgid "&About..."
+msgstr "О прогр&амме ..."
 
 #: zrcolagui.cpp:165
 msgid "&Help"
@@ -442,7 +446,7 @@ msgstr "&Автоматически запустить систему ZRCola п�
 msgid "Startup"
 msgstr "Запуск"
 
-#: zrcolagui.cpp:879
+#: zrcolagui.cpp:880
 msgid ""
 "Program and Website Editor: Janoš Ježovnik\n"
 "Development: Amebis, d. o. o., Kamnik\n"
@@ -453,11 +457,11 @@ msgstr ""
 "Разработка in техническая поддержка первоначальной программы (2004–2015): "
 "Петер Вейсс (Peter Weiss)"
 
-#: zrcolagui.cpp:887
+#: zrcolagui.cpp:888
 msgid "zrcola.zrc-sazu.si"
 msgstr "zrcola.zrc-sazu.si"
 
-#: zrcolagui.cpp:893
+#: zrcolagui.cpp:894
 msgid ""
 "Texts made using ZRCola have to include in the colophon, foreword, footnote "
 "or some other appropriate part of the publication the note below:"
@@ -465,7 +469,7 @@ msgstr ""
 "Текст, созданный с помощью системы ZRCola, должен в примечании или другом "
 "соответствующем месте в публикации сопровождаться следующей записью:"
 
-#: zrcolagui.cpp:897
+#: zrcolagui.cpp:898
 msgid ""
 "This text was written using the ZRCola input system (http://zrcola.zrc-sazu."
 "si), developed at the Science and Research Centre of SAZU in Ljubljana "
@@ -475,35 +479,35 @@ msgstr ""
 "si), разработанной в Научно-исследовательском центре Словенской академии "
 "наук и искусств в Любляне (http://www.zrc-sazu.si) Петром Вейссoм."
 
-#: zrcolagui.cpp:938
+#: zrcolagui.cpp:939
 msgid "Log"
 msgstr "Журнал"
 
-#: zrcolagui.cpp:954
+#: zrcolagui.cpp:955
 msgid "Quit and &Update..."
 msgstr "Выйти и &обновить ..."
 
-#: zrcolagui.cpp:956
+#: zrcolagui.cpp:957
 msgid "Exit this program and launch product update"
 msgstr "Выйти из программы и запустить обновление"
 
-#: zrcolagui.cpp:960
+#: zrcolagui.cpp:961
 msgid "&Close"
 msgstr "&Закрыть"
 
-#: zrcolagui.cpp:961
+#: zrcolagui.cpp:962
 msgid "Close this window"
 msgstr "Закрыть это окно"
 
-#: zrcolagui.cpp:1000
+#: zrcolagui.cpp:1001
 msgid "Enter the &character you would like to request:"
 msgstr "Ввести запрашиваемый &знак:"
 
-#: zrcolagui.cpp:1007
+#: zrcolagui.cpp:1008
 msgid "Decomposed character to request"
 msgstr "Запрашиваемый разобранный знак"
 
-#: zrcolagui.cpp:1011
+#: zrcolagui.cpp:1012
 msgid ""
 "Please, use the decomposed form.\n"
 "You can use ZRCola keyboard shortcuts to enter the character or Copy&&Paste "
@@ -513,7 +517,7 @@ msgstr ""
 "Для ввода запрашиваемого знака можно использовать сочетания клавиш системы "
 "ZRCola либо копировать и вставить знаки из окна для разборки."
 
-#: zrcolagui.cpp:1021
+#: zrcolagui.cpp:1022
 msgid ""
 "The &context, examples or short description why and where the character is "
 "required:"
@@ -521,11 +525,11 @@ msgstr ""
 "&Контекст, примеры либо краткое описание запрашиваемого знака или "
 "объяснение, зачем он нужен:"
 
-#: zrcolagui.cpp:1027
+#: zrcolagui.cpp:1028
 msgid "Additional notes for character request"
 msgstr "Дополнительные примечания"
 
-#: zrcolagui.cpp:1034
+#: zrcolagui.cpp:1035
 msgid ""
 "After clicking OK button, your e-mail application should open allowing you "
 "to submit the new character request to ZRCola Editor.\n"
@@ -888,9 +892,6 @@ msgstr "Система ввода ZRCola для лингвистического
 
 #~ msgid "Language:"
 #~ msgstr "Jezik:"
-
-#~ msgid "&About"
-#~ msgstr "O progr&amu"
 
 #~ msgid "Cuts selected text and puts it on the clipboard"
 #~ msgstr "Izreže izbrano besedilo in ga shrani na odložišče"

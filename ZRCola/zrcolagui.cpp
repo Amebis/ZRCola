@@ -159,7 +159,7 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_menuHelp->AppendSeparator();
 	
 	wxMenuItem* m_menuHelpAbout;
-	m_menuHelpAbout = new wxMenuItem( m_menuHelp, wxID_ABOUT, wxString( wxEmptyString ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuHelpAbout = new wxMenuItem( m_menuHelp, wxID_ABOUT, wxString( _("&About...") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menuHelp->Append( m_menuHelpAbout );
 	
 	m_menubar->Append( m_menuHelp, _("&Help") ); 
