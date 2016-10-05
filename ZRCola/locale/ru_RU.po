@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
 "POT-Creation-Date: 2016-10-05 10:58+0200\n"
-"PO-Revision-Date: 2016-10-05 10:58+0200\n"
+"PO-Revision-Date: 2016-10-05 11:55+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: ru_RU\n"
@@ -87,7 +87,7 @@ msgstr ""
 
 #: zrcolagui.cpp:36
 msgid "E&xit"
-msgstr "Выход"
+msgstr "Вы&ход"
 
 #: zrcolagui.cpp:36
 msgid "Quit this program"
@@ -95,11 +95,11 @@ msgstr "Выйти из программы"
 
 #: zrcolagui.cpp:39
 msgid "&Program"
-msgstr "Программа"
+msgstr "&Программа"
 
 #: zrcolagui.cpp:72
 msgid "Select &All"
-msgstr "Выделить все"
+msgstr "Выделить &все"
 
 #: zrcolagui.cpp:72
 msgid "Select all text"
@@ -107,7 +107,7 @@ msgstr "Выделить весь текст"
 
 #: zrcolagui.cpp:78
 msgid "Find C&haracter..."
-msgstr "Поиск знака"
+msgstr "Поиск &знака ..."
 
 #: zrcolagui.cpp:78 zrcolagui.cpp:180
 msgid "Display character search to select character to insert into text"
@@ -115,7 +115,7 @@ msgstr "Показать браузер знаков для вставления
 
 #: zrcolagui.cpp:89
 msgid "&Send Composed"
-msgstr "Послать составленное"
+msgstr "&Послать составленное"
 
 #: zrcolagui.cpp:89 zrcolagui.cpp:182
 msgid "Send composed text to source window"
@@ -123,7 +123,7 @@ msgstr "Послать составленный текст в исходное �
 
 #: zrcolagui.cpp:98
 msgid "Send &Decomposed"
-msgstr "Послать разобранное"
+msgstr "Послать &разобранное"
 
 #: zrcolagui.cpp:98 zrcolagui.cpp:184
 msgid "Send decomposed text to source window"
@@ -139,7 +139,7 @@ msgstr "Прервать составление и возвратить фоку
 
 #: zrcolagui.cpp:118
 msgid "&Settings..."
-msgstr "Настройки"
+msgstr "&Настройки ..."
 
 #: zrcolagui.cpp:118
 msgid "Open program configuration dialog"
@@ -147,11 +147,11 @@ msgstr "Открыть диалог конфигурации программы"
 
 #: zrcolagui.cpp:121
 msgid "&Edit"
-msgstr "Правка"
+msgstr "&Правка"
 
 #: zrcolagui.cpp:125
 msgid "&Edit Toolbar"
-msgstr "Панель инструментов для правки"
+msgstr "&Панель инструментов для правки"
 
 #: zrcolagui.cpp:125
 msgid "Toggle edit toolbar"
@@ -159,7 +159,7 @@ msgstr "Переключить панель инструментов для пр
 
 #: zrcolagui.cpp:129
 msgid "&Compose Toolbar"
-msgstr "Панель инструментов для составления"
+msgstr "&Панель инструментов для составления"
 
 #: zrcolagui.cpp:129
 msgid "Toggle compose toolbar"
@@ -167,7 +167,7 @@ msgstr "Переключить панель инструментов для со
 
 #: zrcolagui.cpp:135
 msgid "Character Catalo&g"
-msgstr "Список знаков"
+msgstr "&Список знаков"
 
 #: zrcolagui.cpp:135
 msgid "Toggle character catalog panel"
@@ -175,11 +175,11 @@ msgstr "Переключить список знаков"
 
 #: zrcolagui.cpp:138
 msgid "&View"
-msgstr "Вид"
+msgstr "&Вид"
 
 #: zrcolagui.cpp:142
 msgid "&Instructions..."
-msgstr "Инструкции"
+msgstr "&Инструкции ..."
 
 #: zrcolagui.cpp:142
 msgid "Open a web site with product instructions"
@@ -187,7 +187,7 @@ msgstr "Открыть сайт с инструкциями по продукт�
 
 #: zrcolagui.cpp:146
 msgid "Keyboard &Shortcuts..."
-msgstr "Сочетания клавиш"
+msgstr "Сочетания &клавиш ..."
 
 #: zrcolagui.cpp:146
 msgid "Open a list of keyboard shortcuts"
@@ -195,7 +195,7 @@ msgstr "Открыть список сочетаний клавиш"
 
 #: zrcolagui.cpp:152
 msgid "&Request a new character..."
-msgstr "Запрос нового знака"
+msgstr "&Запрос нового знака ..."
 
 #: zrcolagui.cpp:152
 msgid "Submit a request to ZRC to add a new character"
@@ -203,7 +203,7 @@ msgstr "Отправить запрос нового знака"
 
 #: zrcolagui.cpp:156
 msgid "Check for &Updates..."
-msgstr "Проверить наличие обновлений"
+msgstr "Проверить наличие &обновлений ..."
 
 #: zrcolagui.cpp:156
 msgid "Check online for product update"
@@ -211,7 +211,7 @@ msgstr "Проверить наличие обновлений онлайн"
 
 #: zrcolagui.cpp:165
 msgid "&Help"
-msgstr "Справка"
+msgstr "&Справка"
 
 #: zrcolagui.cpp:170
 msgid "Cut"
@@ -287,7 +287,7 @@ msgstr "Выделить категории для отображения"
 
 #: zrcolagui.cpp:389
 msgid "Show &All"
-msgstr "Показать все"
+msgstr "Показать &все"
 
 #: zrcolagui.cpp:390
 msgid "Toggle display of less frequent characters"
@@ -295,7 +295,7 @@ msgstr "Переключить отображение редко использ�
 
 #: zrcolagui.cpp:430
 msgid "&Browse"
-msgstr "Обзор"
+msgstr "&Обзор"
 
 #: zrcolagui.cpp:437
 msgid ""
@@ -345,7 +345,7 @@ msgstr "Результаты поиска знаков"
 
 #: zrcolagui.cpp:521
 msgid "Re&cently Used"
-msgstr "Недавно использованное"
+msgstr "&Недавно использованное"
 
 #: zrcolagui.cpp:549
 msgid "List of recently inserted characters"
@@ -397,7 +397,7 @@ msgstr "К следующему знаку"
 
 #: zrcolagui.cpp:649
 msgid "Re&lated"
-msgstr "Связанное"
+msgstr "&Связанное"
 
 #: zrcolagui.cpp:676
 msgid "List of related characters"
@@ -414,11 +414,11 @@ msgstr ""
 
 #: zrcolagui.cpp:769
 msgid "Select language &automatically according to selected keyboard"
-msgstr "Автоматически установить язык на основе выбранной клавиатуры"
+msgstr "&Автоматически установить язык на основе выбранной клавиатуры"
 
 #: zrcolagui.cpp:772
 msgid "&Manually select the language from the list below:"
-msgstr "Вручную выбрать язык со списка:"
+msgstr "&Вручную выбрать язык со списка:"
 
 #: zrcolagui.cpp:784
 msgid "Text Language"
@@ -436,7 +436,7 @@ msgstr ""
 
 #: zrcolagui.cpp:793
 msgid "Start ZRCola &automatically on logon"
-msgstr "Автоматически запустить систему ZRCola при запуске компьютера"
+msgstr "&Автоматически запустить систему ZRCola при запуске компьютера"
 
 #: zrcolagui.cpp:800
 msgid "Startup"
@@ -481,7 +481,7 @@ msgstr "Журнал"
 
 #: zrcolagui.cpp:954
 msgid "Quit and &Update..."
-msgstr "Выйти и обновить"
+msgstr "Выйти и &обновить ..."
 
 #: zrcolagui.cpp:956
 msgid "Exit this program and launch product update"
@@ -489,7 +489,7 @@ msgstr "Выйти из программы и запустить обновле�
 
 #: zrcolagui.cpp:960
 msgid "&Close"
-msgstr "Закрыть"
+msgstr "&Закрыть"
 
 #: zrcolagui.cpp:961
 msgid "Close this window"
@@ -497,7 +497,7 @@ msgstr "Закрыть это окно"
 
 #: zrcolagui.cpp:1000
 msgid "Enter the &character you would like to request:"
-msgstr "Ввести запрашиваемый знак:"
+msgstr "Ввести запрашиваемый &знак:"
 
 #: zrcolagui.cpp:1007
 msgid "Decomposed character to request"
@@ -518,8 +518,8 @@ msgid ""
 "The &context, examples or short description why and where the character is "
 "required:"
 msgstr ""
-"Контекст, примеры либо краткое описание запрашиваемого знака или объяснение, "
-"зачем он нужен:"
+"&Контекст, примеры либо краткое описание запрашиваемого знака или "
+"объяснение, зачем он нужен:"
 
 #: zrcolagui.cpp:1027
 msgid "Additional notes for character request"
@@ -643,7 +643,7 @@ msgstr ""
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:14
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:19
 msgid "&Continue"
-msgstr "Продолжить"
+msgstr "&Продолжить"
 
 #: MSIBuild/en_US.Win32.Debug.Control-2.idtx:11
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:11
