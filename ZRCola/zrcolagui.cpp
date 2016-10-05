@@ -869,6 +869,7 @@ wxZRColaAboutBase::wxZRColaAboutBase( wxWindow* parent, wxWindowID id, const wxS
 	m_staticTextZRCola = new wxStaticText( this, wxID_ANY, _("ZRCola"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextZRCola->Wrap( -1 );
 	m_staticTextZRCola->SetFont( wxFont( 20, 70, 90, 90, false, wxT("ZRCola") ) );
+	m_staticTextZRCola->SetMaxSize( wxSize( 400,-1 ) );
 	
 	bSizerText->Add( m_staticTextZRCola, 0, wxALL|wxEXPAND, 5 );
 	
