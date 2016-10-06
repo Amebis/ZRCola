@@ -45,7 +45,7 @@ namespace ZRCola {
     /// Character category ID type
     /// Two letter abbreviation, non-terminated
     ///
-    struct chrcatid_t {
+    struct ZRCOLA_API chrcatid_t {
         char data[2];
 
         inline chrcatid_t& operator=(const chrcatid_t &src)
@@ -60,13 +60,12 @@ namespace ZRCola {
             data[1] = (data[0] = src[0]) != 0 ? src[1] : 0;
             return *this;
         }
+
+        ///
+        /// Blank character category
+        ///
+        static const chrcatid_t blank;
     };
-
-
-    ///
-    /// Blank character category
-    ///
-    const chrcatid_t chrcatid_t_blank = {};
 
 
     ///
@@ -251,14 +250,14 @@ namespace ZRCola {
         ///
         /// \returns
         /// - Character category if character found
-        /// - `ZRCola::chrcatid_t_blank` otherwise
+        /// - `ZRCola::chrcatid_t::blank` otherwise
         ///
         inline chrcatid_t GetCharCat(wchar_t c) const
         {
             char _chr[sizeof(character)];
             ((character *)_chr)->chr = c;
             indexChar::size_type start;
-            return idxChr.find(*((character *)_chr), start) ? idxChr[start].cat : chrcatid_t_blank;
+            return idxChr.find(*((character *)_chr), start) ? idxChr[start].cat : chrcatid_t::blank;
         }
     };
 

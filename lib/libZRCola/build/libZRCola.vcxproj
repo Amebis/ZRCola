@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\character.cpp" />
+    <ClCompile Include="..\src\common.cpp" />
     <ClCompile Include="..\src\language.cpp" />
     <ClCompile Include="..\src\mapping.cpp" />
     <ClCompile Include="..\src\normalize.cpp" />

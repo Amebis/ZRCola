@@ -76,7 +76,7 @@ namespace ZRCola {
     /// Language ID type
     /// Three letter abbreviation, zero terminated
     ///
-    struct langid_t {
+    struct ZRCOLA_API langid_t {
         char data[4];
 
         inline langid_t& operator=(const langid_t &src)
@@ -99,13 +99,12 @@ namespace ZRCola {
                       src[3] : 0;
             return *this;
         }
+
+        ///
+        /// Blank language ID
+        ///
+        static const langid_t blank;
     };
-
-
-    ///
-    /// Blank language ID
-    ///
-    const langid_t langid_t_blank = {};
 
 
     ///

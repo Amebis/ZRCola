@@ -20,6 +20,9 @@
 #include "stdafx.h"
 
 
+const ZRCola::chrcatid_t ZRCola::chrcatid_t::blank = {};
+
+
 bool ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<wchar_t, charrank_t> &hits, _Inout_ std::map<wchar_t, charrank_t> &hits_sub, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
 {
     assert(str);

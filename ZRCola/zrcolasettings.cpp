@@ -26,7 +26,7 @@
 
 wxZRColaSettings::wxZRColaSettings(wxWindow* parent) :
     m_lang_auto(true),
-    m_lang(ZRCola::langid_t_blank),
+    m_lang(ZRCola::langid_t::blank),
     wxZRColaSettingsBase(parent)
 {
     ZRColaApp *app = ((ZRColaApp*)wxTheApp);
@@ -184,7 +184,7 @@ bool wxPersistentZRColaSettings::Restore()
         const auto &lang = app->m_lang_db.idxLng[0];
         wnd->m_lang = lang.id;
     } else
-        wnd->m_lang = ZRCola::langid_t_blank;
+        wnd->m_lang = ZRCola::langid_t::blank;
 
     return wxPersistentDialog::Restore();
 }
