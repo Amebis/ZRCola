@@ -100,13 +100,10 @@ wxString wxZRColaCharGrid::GetToolTipText(int idx)
     ZRColaApp *app = (ZRColaApp*)wxTheApp;
 
     // See if this character has a key sequence registered.
-    ZRCola::keyseq_db::indexKey::size_type start;
-    bool found;
     char ks[sizeof(ZRCola::keyseq_db::keyseq)] = {};
     ((ZRCola::keyseq_db::keyseq*)ks)->chr = m_chars[idx];
-    found = app->m_ks_db.idxChr.find(*(ZRCola::keyseq_db::keyseq*)ks, start);
-
-    if (found) {
+    ZRCola::keyseq_db::indexKey::size_type start;
+    if (app->m_ks_db.idxChr.find(*(ZRCola::keyseq_db::keyseq*)ks, start)) {
         ZRCola::keyseq_db::keyseq &seq = app->m_ks_db.idxChr[start];
         wxString ks_str;
         if (ZRCola::keyseq_db::GetSequenceAsText(seq.seq, seq.seq_len, ks_str))

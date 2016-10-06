@@ -398,7 +398,7 @@ int _tmain(int argc, _TCHAR *argv[])
                     // Read character from the database.
                     unique_ptr<ZRCola::DBSource::character> c(new ZRCola::DBSource::character);
                     if (src.GetCharacter(rs, *c)) {
-                        const ZRCola::DBSource::character &chr = *c.get();
+                        const auto &chr = *c.get();
                         chrs[chr.chr].swap(c);
                     } else
                         has_errors = true;
@@ -415,7 +415,7 @@ int _tmain(int argc, _TCHAR *argv[])
 
                 // Phase 3: Parse characters and build index and data.
                 for (size_t i = 0, i_end = chrs.size(); i < i_end; i++) {
-                    const ZRCola::DBSource::character &chr = *(chrs[i].get());
+                    const auto &chr = *(chrs[i].get());
                     if (&chr == NULL) continue;
 
                     // Add character to index and data.
@@ -542,7 +542,7 @@ int _tmain(int argc, _TCHAR *argv[])
                 << "\"X-Generator: ZRColaCompile\\n\"" << endl;
 
             wstring_convert<codecvt_utf8<wchar_t>> conv;
-            for (set<wstring>::const_iterator i = pot.cbegin(); i != pot.cend(); ++i) {
+            for (auto i = pot.cbegin(); i != pot.cend(); ++i) {
                 // Convert UTF-16 to UTF-8 and escape.
                 string t(conv.to_bytes(*i)), u;
                 for (size_t i = 0, n = t.size(); i < n; i++) {

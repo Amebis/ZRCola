@@ -256,7 +256,7 @@ namespace ZRCola {
                 } else {
                     // Append to existing keyword.
                     std::vector<wchar_t> &val = idx->second;
-                    for (std::vector<wchar_t>::iterator i = val.begin(), i_end = val.end(); ; ++i) {
+                    for (auto i = val.cbegin(), i_end = val.cend(); ; ++i) {
                         if (i == i_end) {
                             // End-of-values reached. Append character.
                             val.push_back(chr);

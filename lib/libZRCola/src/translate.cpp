@@ -34,7 +34,7 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
     if (map)
         map->clear();
 
-    indexComp::size_type compositionsCount = idxComp.size();
+    auto compositionsCount = idxComp.size();
 
     for (size_t i = 0; i < inputMax;) {
         // Find the longest matching composition at i-th character.
@@ -116,7 +116,7 @@ void ZRCola::translation_db::Decompose(_In_z_count_(inputMax) const wchar_t* inp
     if (map)
         map->clear();
 
-    indexDecomp::size_type decompositionsCount = idxDecomp.size();
+    auto decompositionsCount = idxDecomp.size();
 
     for (size_t i = 0; i < inputMax;) {
         // Find whether the character can be decomposed.

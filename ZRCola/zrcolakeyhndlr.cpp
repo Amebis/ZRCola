@@ -96,7 +96,7 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
                     (e.AltDown()     ? ZRCola::keyseq_db::keyseq::ALT   : 0);
                 m_seq.push_back(key);
 
-                std::vector<ZRCola::keyseq_db::keyseq::key_t>::size_type n = m_seq.size();
+                auto n = m_seq.size();
                 ZRCola::keyseq_db::keyseq *ks = (ZRCola::keyseq_db::keyseq*)new char[sizeof(ZRCola::keyseq_db::keyseq) + sizeof(ZRCola::keyseq_db::keyseq::key_t)*n];
                 ks->chr = 0;
                 ks->seq_len = n;
@@ -147,7 +147,7 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
             if (pFrame && pFrame->GetStatusBar())
                 pFrame->SetStatusText(wxEmptyString);
 
-            std::vector<char>::size_type count = m_insert_seq.size();
+            auto count = m_insert_seq.size();
             if (count) {
                 // Zero terminate sequence and parse the Unicode value.
                 m_insert_seq.push_back(0);

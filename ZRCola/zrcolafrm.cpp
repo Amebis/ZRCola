@@ -459,7 +459,7 @@ void wxZRColaFrame::DoSend(const wxString& str)
 {
     // Prepare the INPUT table.
     wxString::size_type n = str.length();
-    wxString::const_iterator i_str = str.begin();
+    auto i_str = str.begin();
     std::vector<INPUT> input;
     input.reserve(n*2);
     for (std::vector<INPUT>::size_type i = 0; i < n; i++, i_str++) {

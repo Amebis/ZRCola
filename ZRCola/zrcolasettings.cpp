@@ -32,7 +32,7 @@ wxZRColaSettings::wxZRColaSettings(wxWindow* parent) :
     ZRColaApp *app = ((ZRColaApp*)wxTheApp);
     m_languages->Clear();
     for (size_t i = 0, n = app->m_lang_db.idxLng.size(); i < n; i++) {
-        const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[i];
+        const auto &lang = app->m_lang_db.idxLng[i];
         wxString
             label(lang.name, lang.name_len),
             label_tran(wxGetTranslation(label, wxT("ZRCola-zrcdb")));
@@ -122,7 +122,7 @@ void wxZRColaSettings::OnApplyButtonClick(wxCommandEvent& event)
         m_lang_auto = false;
 
         ZRColaApp *app = ((ZRColaApp*)wxTheApp);
-        const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[m_languages->GetSelection()];
+        const auto &lang = app->m_lang_db.idxLng[m_languages->GetSelection()];
 
         if (m_lang != lang.id) {
             m_lang = lang.id;
@@ -181,7 +181,7 @@ bool wxPersistentZRColaSettings::Restore()
         // The language was read from configuration.
         wnd->m_lang = lang.c_str();
     } else if (!app->m_lang_db.idxLng.empty()) {
-        const ZRCola::language_db::language &lang = app->m_lang_db.idxLng[0];
+        const auto &lang = app->m_lang_db.idxLng[0];
         wnd->m_lang = lang.id;
     } else
         wnd->m_lang = ZRCola::langid_t_blank;

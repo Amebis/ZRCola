@@ -264,7 +264,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::k
     stream << db.idxKey;
 
     // Write data count.
-    std::vector<unsigned __int16>::size_type data_count = db.data.size();
+    auto data_count = db.data.size();
 #if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
     // 4G check
     if (data_count > 0xffffffff) {

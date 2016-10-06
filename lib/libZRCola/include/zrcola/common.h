@@ -557,7 +557,7 @@ template <class T, class T_idx, class T_data>
 inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::index<T, T_idx, T_data> &idx)
 {
     // Write index count.
-    ZRCola::index<T, T_idx, T_data>::size_type idx_count = idx.size();
+    auto idx_count = idx.size();
 #if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
     // 4G check
     if (idx_count > 0xffffffff) {
@@ -619,7 +619,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
     unsigned __int32 count;
 
     // Write index count.
-    ZRCola::textindex<T_key, T_val, T_idx>::size_type idx_count = idx.size();
+    auto idx_count = idx.size();
 #if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
     // 4G check
     if (idx_count > 0xffffffff) {
@@ -636,7 +636,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
     stream.write((const char*)idx.data(), sizeof(ZRCola::textindex<T_key, T_val, T_idx>::value_type)*count);
 
     // Write key count.
-    std::vector<T_key>::size_type key_count = idx.keys.size();
+    auto key_count = idx.keys.size();
 #if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
     // 4G check
     if (idx_count > 0xffffffff) {
@@ -653,7 +653,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
     stream.write((const char*)idx.keys.data(), sizeof(std::vector<T_key>::value_type)*count);
 
     // Write value count.
-    std::vector<T_val>::size_type value_count = idx.values.size();
+    auto value_count = idx.values.size();
 #if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
     // 4G check
     if (idx_count > 0xffffffff) {

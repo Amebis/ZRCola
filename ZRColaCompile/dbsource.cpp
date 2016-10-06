@@ -96,13 +96,13 @@ unsigned int ZRCola::DBSource::character_bank::build_related_worker::process()
     set<wstring, less<wstring>, heap_allocator<wstring> > matching(less<wstring>(), al);
 
     for (size_type i = m_from; i < m_to; i++) {
-        ZRCola::DBSource::character &chr = *(m_cb->at(i).get());
+        auto &chr = *(m_cb->at(i).get());
         if (&chr == NULL) continue;
 
         rel.clear();
 
         // Remove all unexisting, inactive, or self related characters.
-        for (wstring::size_type j = chr.rel.length(); j--;) {
+        for (auto j = chr.rel.length(); j--;) {
             wchar_t c = chr.rel[j];
             if (m_cb->at(c) && (wchar_t)j != c)
                 rel += c;
@@ -112,17 +112,17 @@ unsigned int ZRCola::DBSource::character_bank::build_related_worker::process()
         for (size_type j = 0, j_end = m_cb->size(); j < j_end; j++) {
             if (i == j || rel.find((wchar_t)j) != wstring::npos)
                 continue;
-            const ZRCola::DBSource::character &chr2 = *(m_cb->at(j).get());
+            const auto &chr2 = *(m_cb->at(j).get());
             if (&chr2 == NULL)
                 continue;
 
             set<wstring>::size_type comparisons = 0;
             matching.clear();
-            for (set<wstring>::const_iterator term = chr.terms.cbegin(), term_end = chr.terms.cend(); term != term_end; ++term) {
+            for (auto term = chr.terms.cbegin(), term_end = chr.terms.cend(); term != term_end; ++term) {
                 // Test for ignored word(s).
                 if (m_cb->m_ignore.find(*term) != m_cb->m_ignore.cend())
                     continue;
-                for (set<wstring>::const_iterator term2 = chr2.terms.cbegin(), term2_end = chr2.terms.cend(); term2 != term2_end; ++term2) {
+                for (auto term2 = chr2.terms.cbegin(), term2_end = chr2.terms.cend(); term2 != term2_end; ++term2) {
                     // Test for ignored word(s).
                     if (m_cb->m_ignore.find(*term2) != m_cb->m_ignore.cend())
                         continue;
@@ -134,7 +134,7 @@ unsigned int ZRCola::DBSource::character_bank::build_related_worker::process()
 
             if (comparisons) {
                 // If 1/2 terms match, assume related.
-                set<wstring>::size_type hits = matching.size();
+                auto hits = matching.size();
                 if (hits*hits*2 >= comparisons)
                     rel += chr2.chr;
             }
@@ -205,7 +205,7 @@ void ZRCola::DBSource::character_desc_idx::parse_keywords(const wchar_t *str, se
 
 void ZRCola::DBSource::character_desc_idx::add_keywords(const set<wstring> &terms, wchar_t chr, size_t sub)
 {
-    for (set<wstring>::const_iterator term = terms.cbegin(), term_end = terms.cend(); term != term_end; ++term) {
+    for (auto term = terms.cbegin(), term_end = terms.cend(); term != term_end; ++term) {
         if (sub) {
             wstring::size_type j_end = term->size();
             if (j_end >= sub) {

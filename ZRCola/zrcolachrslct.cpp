@@ -43,7 +43,7 @@ wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) :
     // Fill categories.
     ZRColaApp *app = (ZRColaApp*)wxTheApp;
     for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
-        const ZRCola::chrcat_db::chrcat &cc = app->m_cc_db.idxRnk[i];
+        const auto &cc = app->m_cc_db.idxRnk[i];
         int idx = m_categories->Insert(wxGetTranslation(wxString(cc.name, cc.name_len), wxT("ZRCola-zrcdb")), i);
         m_categories->Check(idx);
         m_ccOrder.insert(std::make_pair(cc.id, idx));
@@ -82,14 +82,14 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
             ((ZRCola::character_db::character*)chr)->chr = m_char;
             size_t start;
             if (app->m_chr_db.idxChr.find(*(ZRCola::character_db::character*)chr, start)) {
-                const ZRCola::character_db::character &chr = app->m_chr_db.idxChr[start];
+                const auto &chr = app->m_chr_db.idxChr[start];
                 // Update characted description.
                 m_description->SetValue(wxString(chr.data, chr.desc_len));
                 {
                     // See if this character has a key sequence registered.
-                    ZRCola::keyseq_db::indexKey::size_type start;
                     char ks[sizeof(ZRCola::keyseq_db::keyseq)] = {};
                     ((ZRCola::keyseq_db::keyseq*)ks)->chr = m_char;
+                    ZRCola::keyseq_db::indexKey::size_type start;
                     if (app->m_ks_db.idxChr.find(*(ZRCola::keyseq_db::keyseq*)ks, start)) {
                         ZRCola::keyseq_db::keyseq &seq = app->m_ks_db.idxChr[start];
                         wxString ks_str;
@@ -106,7 +106,7 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
                     size_t start;
                     // Update character category.
                     if (app->m_cc_db.idxChrCat.find(*((ZRCola::chrcat_db::chrcat*)cc), start)) {
-                        const ZRCola::chrcat_db::chrcat &cat = app->m_cc_db.idxChrCat[start];
+                        const auto &cat = app->m_cc_db.idxChrCat[start];
                         m_category->SetValue(wxGetTranslation(wxString(cat.name, cat.name_len), wxT("ZRCola-zrcdb")));
                     } else
                         m_category->SetValue(wxEmptyString);
@@ -145,7 +145,7 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
 
             // Select categories.
             for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
-                const ZRCola::chrcat_db::chrcat &cc = app->m_cc_db.idxRnk[i];
+                const auto &cc = app->m_cc_db.idxRnk[i];
                 if (m_categories->IsChecked(i))
                     m_searchThread->m_cats.insert(cc.id);
             }
@@ -239,7 +239,7 @@ void wxZRColaCharSelect::OnSearchComplete(wxThreadEvent& event)
         // Display results.
         wxString chars;
         chars.reserve(m_searchThread->m_hits.size());
-        for (std::vector<std::pair<ZRCola::charrank_t, wchar_t> >::const_iterator i = m_searchThread->m_hits.cbegin(), i_end = m_searchThread->m_hits.cend(); i != i_end; ++i)
+        for (auto i = m_searchThread->m_hits.cbegin(), i_end = m_searchThread->m_hits.cend(); i != i_end; ++i)
             chars += i->second;
         m_gridResults->SetCharacters(chars);
 
@@ -413,8 +413,8 @@ void wxZRColaCharSelect::ResetResults()
     wxString val;
     val.reserve(n);
     for (i = 0; i < n; i++) {
-        const ZRCola::character_db::character &chr = app->m_chr_db.idxChr[i];
-        std::map<ZRCola::chrcatid_t, int>::const_iterator idx = m_ccOrder.find(chr.cat);
+        const auto &chr = app->m_chr_db.idxChr[i];
+        auto idx = m_ccOrder.find(chr.cat);
         if (idx == m_ccOrder.end() || m_categories->IsChecked(idx->second))
             val += chr.chr;
     }
@@ -450,7 +450,7 @@ void wxZRColaCharSelect::NavigateBy(int offset)
         }
 
         m_navigateBack->Enable(m_historyCursor != m_history.begin());
-        std::list<NavigationState>::iterator cursor_next(m_historyCursor);
+        auto cursor_next = m_historyCursor;
         ++cursor_next;
         m_navigateForward->Enable(cursor_next != m_history.end());
 
@@ -477,7 +477,7 @@ void wxZRColaCharSelect::NavigateTo(wchar_t c)
         m_historyCursor = m_history.insert(m_historyCursor, state);
 
         // Purge the history's tail.
-        std::list<NavigationState>::iterator cursor_next(m_historyCursor);
+        auto cursor_next = m_historyCursor;
         ++cursor_next;
         m_history.erase(cursor_next, m_history.end());
 
@@ -509,9 +509,9 @@ wxThread::ExitCode wxZRColaCharSelect::SearchThread::Entry()
         // Search by indexes and merge results.
         std::map<wchar_t, ZRCola::charrank_t> hits_sub;
         if (!app->m_chr_db.Search(m_search.c_str(), m_cats, hits, hits_sub, TestDestroyS, this)) return (wxThread::ExitCode)1;
-        for (std::map<wchar_t, ZRCola::charrank_t>::const_iterator i = hits_sub.cbegin(), i_end = hits_sub.cend(); i != i_end; ++i) {
+        for (auto i = hits_sub.cbegin(), i_end = hits_sub.cend(); i != i_end; ++i) {
             if (TestDestroy()) return (wxThread::ExitCode)1;
-            std::map<wchar_t, ZRCola::charrank_t>::iterator idx = hits.find(i->first);
+            auto idx = hits.find(i->first);
             if (idx == hits.end())
                 hits.insert(std::make_pair(i->first, i->second / 4));
             else
@@ -521,7 +521,7 @@ wxThread::ExitCode wxZRColaCharSelect::SearchThread::Entry()
 
     // Get best rank.
     ZRCola::charrank_t rank_ref = 0;
-    for (std::map<wchar_t, ZRCola::charrank_t>::const_iterator i = hits.cbegin(), i_end = hits.cend(); i != i_end; ++i) {
+    for (auto i = hits.cbegin(), i_end = hits.cend(); i != i_end; ++i) {
         if (TestDestroy()) return (wxThread::ExitCode)1;
         if (i->second > rank_ref)
             rank_ref = i->second;
@@ -530,7 +530,7 @@ wxThread::ExitCode wxZRColaCharSelect::SearchThread::Entry()
     // Now sort the characters by rank (taking only top 3/4 by rank).
     ZRCola::charrank_t rank_threshold = rank_ref*3/4;
     m_hits.reserve(hits.size());
-    for (std::map<wchar_t, ZRCola::charrank_t>::const_iterator i = hits.cbegin(), i_end = hits.cend(); i != i_end; ++i) {
+    for (auto i = hits.cbegin(), i_end = hits.cend(); i != i_end; ++i) {
         if (TestDestroy()) return (wxThread::ExitCode)1;
         if (i->second > rank_threshold)
             m_hits.push_back(std::make_pair(i->second, i->first));
@@ -586,7 +586,7 @@ void wxPersistentZRColaCharSelect::Save() const
 
     ZRColaApp *app = (ZRColaApp*)wxTheApp;
     for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
-        const ZRCola::chrcat_db::chrcat &cc = app->m_cc_db.idxRnk[i];
+        const auto &cc = app->m_cc_db.idxRnk[i];
         wxString name(wxT("category"));
         name.Append(cc.id.data, _countof(cc.id.data));
         SaveValue(name, wnd->m_categories->IsChecked(i));
@@ -606,7 +606,7 @@ bool wxPersistentZRColaCharSelect::Restore()
 
     ZRColaApp *app = (ZRColaApp*)wxTheApp;
     for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
-        const ZRCola::chrcat_db::chrcat &cc = app->m_cc_db.idxRnk[i];
+        const auto &cc = app->m_cc_db.idxRnk[i];
         wxString name(wxT("category"));
         name.Append(cc.id.data, _countof(cc.id.data));
         bool val;
