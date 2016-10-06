@@ -24,6 +24,55 @@ using namespace stdex;
 using namespace winstd;
 
 
+typedef map<wchar_t, set<ZRCola::DBSource::charseq, ZRCola::DBSource::charseq::less_rank_str> > translation_db;
+
+
+static set<wstring> decompose(_In_ const translation_db &db, _In_z_ const wchar_t *str, _Inout_ set<wchar_t> &path)
+{
+    set<wstring> res;
+
+    if (*str) {
+        // Decompose remainder first.
+        auto rem = decompose(db, str + 1, path);
+        if (rem.empty())
+            return res;
+
+        auto const t = db.find(*str);
+        if (t != db.end()) {
+            // Current characted decomposed. Iterate all possible decompositions and combine them with the remainder.
+            auto p = path.insert(*str);
+            if (!p.second) {
+                // Path already contains this character: Cycle detected!
+                return res;
+            }
+            for (auto d = t->second.cbegin(), d_end = t->second.cend(); d != d_end; ++d) {
+                auto dec = decompose(db, d->str.c_str(), path);
+                if (!dec.empty()) {
+                    for (auto dd = dec.cbegin(), dd_end = dec.cend(); dd != dd_end; ++dd) {
+                        for (auto r = rem.cbegin(), r_end = rem.cend(); r != r_end; ++r)
+                            res.insert(*dd + *r);
+                    }
+                } else {
+                    // Cycle detected. Do not continue decomposition.
+                    for (auto r = rem.cbegin(), r_end = rem.cend(); r != r_end; ++r)
+                        res.insert(wstring(1, *str) + *r);
+                }
+            }
+            path.erase(p.first);
+        } else {
+            // Current character is non-decomposable. Combine it with the remainder(s).
+            for (auto r = rem.cbegin(), r_end = rem.cend(); r != r_end; ++r)
+                res.insert(wstring(1, *str) + *r);
+        }
+    } else {
+        // Empty string results in empty decomposition.
+        res.insert(L"");
+    }
+
+    return res;
+}
+
+
 ///
 /// Main function
 ///
@@ -108,7 +157,48 @@ int _tmain(int argc, _TCHAR *argv[])
         if (src.SelectTranslations(rs)) {
             size_t count = src.GetRecordsetCount(rs);
             if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
-                ZRCola::DBSource::translation trans;
+                // Parse translations and build temporary database.
+                translation_db db_temp1;
+                for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
+                    // Read translation from the database.
+                    ZRCola::DBSource::translation trans;
+                    if (src.GetTranslation(rs, trans)) {
+                        // Add translation to temporary database.
+                        auto const t = db_temp1.find(trans.chr);
+                        if (t != db_temp1.end())
+                            t->second.insert(std::move(trans.decomp));
+                        else {
+                            translation_db::mapped_type d;
+                            d.insert(std::move(trans.decomp));
+                            db_temp1.insert(std::move(pair<translation_db::key_type, translation_db::mapped_type>(trans.chr, std::move(d))));
+                        }
+                    } else
+                        has_errors = true;
+                }
+
+                // Decompose decompositions down to non-decomposable characters.
+                translation_db db_temp2;
+                for (auto t1 = db_temp1.cbegin(), t1_end = db_temp1.cend(); t1 != t1_end; ++t1) {
+                    for (auto d1 = t1->second.cbegin(), d1_end = t1->second.cend(); d1 != d1_end; ++d1) {
+                        set<wchar_t> path;
+                        path.insert(t1->first);
+                        auto str = decompose(db_temp1, d1->str.c_str(), path);
+                        assert(!str.empty());
+
+                        // Add translation to temporary database.
+                        auto const t2 = db_temp2.find(t1->first);
+                        if (t2 != db_temp2.end()) {
+                            for (auto s = str.cbegin(), s_end = str.cend(); s != s_end; ++s)
+                                t2->second.insert(std::move(ZRCola::DBSource::charseq(d1->rank, s->c_str())));
+                        } else {
+                            translation_db::mapped_type d2;
+                            for (auto s = str.cbegin(), s_end = str.cend(); s != s_end; ++s)
+                                d2.insert(std::move(ZRCola::DBSource::charseq(d1->rank, s->c_str())));
+                            db_temp2.insert(std::move(pair<translation_db::key_type, translation_db::mapped_type>(t1->first, std::move(d2))));
+                        }
+                    }
+                }
+
                 ZRCola::translation_db db;
 
                 // Preallocate memory.
@@ -117,23 +207,21 @@ int _tmain(int argc, _TCHAR *argv[])
                 db.data     .reserve(count*4);
 
                 // Parse translations and build index and data.
-                for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
-                    // Read translation from the database.
-                    if (src.GetTranslation(rs, trans)) {
-                        // Add translation to index and data.
+                for (auto t = db_temp2.cbegin(), t_end = db_temp2.cend(); t != t_end; ++t) {
+                    // Add translation to index and data.
+                    for (auto d = t->second.cbegin(), d_end = t->second.cend(); d != d_end; ++d) {
                         unsigned __int32 idx = db.data.size();
-                        db.data.push_back(trans.chr);
-                        wxASSERT_MSG((int)0xffff8000 <= trans.decomp.rank && trans.decomp.rank <= (int)0x00007fff, wxT("transformation rank out of bounds"));
-                        db.data.push_back((unsigned __int16)trans.decomp.rank);
-                        wstring::size_type n = trans.decomp.str.length();
+                        db.data.push_back(t->first);
+                        wxASSERT_MSG((int)0xffff8000 <= d->rank && d->rank <= (int)0x00007fff, wxT("transformation rank out of bounds"));
+                        db.data.push_back((unsigned __int16)d->rank);
+                        wstring::size_type n = d->str.length();
                         wxASSERT_MSG(n <= 0xffff, wxT("transformation string too long"));
                         db.data.push_back((unsigned __int16)n);
                         for (wstring::size_type i = 0; i < n; i++)
-                            db.data.push_back(trans.decomp.str[i]);
+                            db.data.push_back(d->str[i]);
                         db.idxComp  .push_back(idx);
                         db.idxDecomp.push_back(idx);
-                    } else
-                        has_errors = true;
+                    }
                 }
 
                 // Sort indices.
