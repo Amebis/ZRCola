@@ -22,7 +22,9 @@
 #include <zrcola/character.h>
 #include <zrcola/common.h>
 
-#include <atlbase.h>
+#include <WinStd/COM.h>
+#include <WinStd/Win.h>
+
 #include <adoint.h>
 #include <map>
 #include <memory>
@@ -39,13 +41,45 @@ namespace ZRCola {
     {
     public:
         ///
+        /// Character sequence
+        ///
+        class charseq {
+        public:
+            int rank;         ///< Sequence rank
+            std::wstring str; ///< Sequence string
+
+            inline charseq()
+            {
+            }
+
+            inline charseq(_In_ int _rank, _In_z_ const wchar_t *_str) :
+                rank(_rank),
+                str (_str)
+            {
+            }
+
+            ///
+            /// Functor to compare two sequences by `rank`, and `str` members respectively
+            ///
+            struct less_rank_str {
+                inline bool operator()(_In_ const charseq& a, _In_ const charseq& b) const
+                {
+                         if (a.rank < b.rank) return true;
+                    else if (a.rank > b.rank) return false;
+                    else if (a.str  < b.str ) return true;
+                    else                      return false;
+                }
+            };
+        };
+
+
+        ///
         /// Translation
         ///
         class translation {
         public:
             wchar_t chr;                ///< Composed character
-            std::wstring str;           ///< Decomposed string
-            int rank;                   ///< Decomposition rank
+            charseq decomp;             ///< Decomposed sequence
         };
 
 
@@ -171,20 +205,15 @@ namespace ZRCola {
             void build_related();
 
         protected:
-            class build_related_worker : public std::unique_ptr<void, stdex::CloseHandle_delete<void> >
+            class build_related_worker : public winstd::win_handle
             {
             public:
-                typedef std::unique_ptr<void, stdex::CloseHandle_delete<void> > thread_type;
-
-            public:
                 build_related_worker(_In_ const character_bank *cb, _In_ size_type from, _In_ size_type to);
-                virtual ~build_related_worker();
 
                 inline void join()
                 {
-                    HANDLE h = get();
-                    if (h)
-                        WaitForSingleObject(h, INFINITE);
+                    if (m_h)
+                        WaitForSingleObject(m_h, INFINITE);
                 }
 
             private:
@@ -201,7 +230,7 @@ namespace ZRCola {
             protected:
                 const character_bank *m_cb;
                 size_type m_from, m_to;
-                HANDLE m_heap;
+                winstd::heap m_heap;
             };
 
         protected:
@@ -314,7 +343,7 @@ namespace ZRCola {
         /// - true when at end
         /// - false otherwise
         ///
-        static inline bool IsEOF(const ATL::CComPtr<ADORecordset>& rs)
+        static inline bool IsEOF(const winstd::com_obj<ADORecordset>& rs)
         {
             VARIANT_BOOL eof = VARIANT_TRUE;
             return FAILED(rs->get_EOF(&eof)) || eof ? true : false;
@@ -328,7 +357,7 @@ namespace ZRCola {
         ///
         /// \returns Number of records
         ///
-        static inline size_t GetRecordsetCount(const ATL::CComPtr<ADORecordset>& rs)
+        static inline size_t GetRecordsetCount(const winstd::com_obj<ADORecordset>& rs)
         {
             ADO_LONGPTR count;
             return SUCCEEDED(rs->get_RecordCount(&count)) ? count : (size_t)-1;
@@ -358,7 +387,7 @@ namespace ZRCola {
         /// - true when successful
         /// - false otherwise
         ///
-        bool GetValue(const ATL::CComPtr<ADOField>& f, bool& val) const;
+        bool GetValue(const winstd::com_obj<ADOField>& f, bool& val) const;
 
 
         ///
@@ -371,7 +400,7 @@ namespace ZRCola {
         /// - true when successful
         /// - false otherwise
         ///
-        bool GetValue(const ATL::CComPtr<ADOField>& f, int& val) const;
+        bool GetValue(const winstd::com_obj<ADOField>& f, int& val) const;
 
 
         ///
@@ -384,7 +413,7 @@ namespace ZRCola {
         /// - true when successful
         /// - false otherwise
         ///
-        bool GetValue(const ATL::CComPtr<ADOField>& f, std::wstring& val) const;
+        bool GetValue(const winstd::com_obj<ADOField>& f, std::wstring& val) const;
 
 
         ///
@@ -397,7 +426,7 @@ namespace ZRCola {
         /// - true when successful
         /// - false otherwise
         ///
-        bool GetUnicodeCharacter(const ATL::CComPtr<ADOField>& f, wchar_t& chr) const;
+        bool GetUnicodeCharacter(const winstd::com_obj<ADOField>& f, wchar_t& chr) const;
 
 
         ///
@@ -410,7 +439,7 @@ namespace ZRCola {
         /// - true when successful
         /// - false otherwise
         ///
-        bool GetUnicodeString(const ATL::CComPtr<ADOField>& f, std::wstring& str) const;
+        bool GetUnicodeString(const winstd::com_obj<ADOField>& f, std::wstring& str) const;
 
 
         ///
@@ -423,7 +452,7 @@ namespace ZRCola {
         /// - true when successful
         /// - false otherwise
         ///
-        bool GetLanguage(const ATL::CComPtr<ADOField>& f, langid_t& lang) const;
+        bool GetLanguage(const winstd::com_obj<ADOField>& f, langid_t& lang) const;
 
 
         ///
@@ -436,7 +465,7 @@ namespace ZRCola {
         /// - true when successful
         /// - false otherwise
         ///
-        bool GetChrCat(const ATL::CComPtr<ADOField>& f, chrcatid_t& cc) const;
+        bool GetChrCat(const winstd::com_obj<ADOField>& f, chrcatid_t& cc) const;
 
 
         ///
@@ -448,7 +477,7 @@ namespace ZRCola {
         /// - true when query succeeds
         /// - false otherwise
         ///
-        bool SelectTranslations(ATL::CComPtr<ADORecordset>& rs) const;
+        bool SelectTranslations(winstd::com_obj<ADORecordset>& rs) const;
 
 
         ///
@@ -461,7 +490,7 @@ namespace ZRCola {
         /// - true when succeeded
         /// - false otherwise
         ///
-        bool GetTranslation(const ATL::CComPtr<ADORecordset>& rs, translation& t) const;
+        bool GetTranslation(const winstd::com_obj<ADORecordset>& rs, translation& t) const;
 
 
         ///
@@ -473,7 +502,7 @@ namespace ZRCola {
         /// - true when query succeeds
         /// - false otherwise
         ///
-        bool SelectKeySequences(ATL::CComPtr<ADORecordset>& rs) const;
+        bool SelectKeySequences(winstd::com_obj<ADORecordset>& rs) const;
 
 
         ///
@@ -486,7 +515,7 @@ namespace ZRCola {
         /// - true when succeeded
         /// - false otherwise
         ///
-        bool GetKeySequence(const ATL::CComPtr<ADORecordset>& rs, keyseq& ks) const;
+        bool GetKeySequence(const winstd::com_obj<ADORecordset>& rs, keyseq& ks) const;
 
 
         ///
@@ -498,7 +527,7 @@ namespace ZRCola {
         /// - true when query succeeds
         /// - false otherwise
         ///
-        bool SelectLanguages(ATL::CComPtr<ADORecordset>& rs) const;
+        bool SelectLanguages(winstd::com_obj<ADORecordset>& rs) const;
 
 
         ///
@@ -511,7 +540,7 @@ namespace ZRCola {
         /// - true when succeeded
         /// - false otherwise
         ///
-        bool GetLanguage(const ATL::CComPtr<ADORecordset>& rs, language& lang) const;
+        bool GetLanguage(const winstd::com_obj<ADORecordset>& rs, language& lang) const;
 
 
         ///
@@ -523,7 +552,7 @@ namespace ZRCola {
         /// - true when query succeeds
         /// - false otherwise
         ///
-        bool SelectLanguageCharacters(ATL::CComPtr<ADORecordset>& rs) const;
+        bool SelectLanguageCharacters(winstd::com_obj<ADORecordset>& rs) const;
 
 
         ///
@@ -536,7 +565,7 @@ namespace ZRCola {
         /// - true when succeeded
         /// - false otherwise
         ///
-        bool GetLanguageCharacter(const ATL::CComPtr<ADORecordset>& rs, langchar& lc) const;
+        bool GetLanguageCharacter(const winstd::com_obj<ADORecordset>& rs, langchar& lc) const;
 
 
         ///
@@ -548,7 +577,7 @@ namespace ZRCola {
         /// - true when query succeeds
         /// - false otherwise
         ///
-        bool SelectCharacterGroups(ATL::CComPtr<ADORecordset>& rs) const;
+        bool SelectCharacterGroups(winstd::com_obj<ADORecordset>& rs) const;
 
 
         ///
@@ -561,7 +590,7 @@ namespace ZRCola {
         /// - true when succeeded
         /// - false otherwise
         ///
-        bool GetCharacterGroup(const ATL::CComPtr<ADORecordset>& rs, chrgrp& cg) const;
+        bool GetCharacterGroup(const winstd::com_obj<ADORecordset>& rs, chrgrp& cg) const;
 
         ///
         /// Returns characters
@@ -572,7 +601,7 @@ namespace ZRCola {
         /// - true when query succeeds
         /// - false otherwise
         ///
-        bool SelectCharacters(ATL::CComPtr<ADORecordset>& rs) const;
+        bool SelectCharacters(winstd::com_obj<ADORecordset>& rs) const;
 
 
         ///
@@ -585,7 +614,7 @@ namespace ZRCola {
         /// - true when succeeded
         /// - false otherwise
         ///
-        bool GetCharacter(const ATL::CComPtr<ADORecordset>& rs, character& chr) const;
+        bool GetCharacter(const winstd::com_obj<ADORecordset>& rs, character& chr) const;
 
         ///
         /// Returns character categories
@@ -596,7 +625,7 @@ namespace ZRCola {
         /// - true when query succeeds
         /// - false otherwise
         ///
-        bool SelectCharacterCategories(ATL::CComPtr<ADORecordset>& rs) const;
+        bool SelectCharacterCategories(winstd::com_obj<ADORecordset>& rs) const;
 
 
         ///
@@ -609,14 +638,14 @@ namespace ZRCola {
         /// - true when succeeded
         /// - false otherwise
         ///
-        bool GetCharacterCategory(const ATL::CComPtr<ADORecordset>& rs, chrcat& cc) const;
+        bool GetCharacterCategory(const winstd::com_obj<ADORecordset>& rs, chrcat& cc) const;
 
     protected:
         std::basic_string<TCHAR> m_filename;    ///< Database filename
-        ATL::CComPtr<ADOConnection> m_db;       ///< Database
+        winstd::com_obj<ADOConnection> m_db;       ///< Database
         _locale_t m_locale;                     ///< Database locale
 
-        ATL::CComPtr<ADOCommand> m_comCharacterGroup;   ///< ADO Command for GetCharacterGroup subquery
-        ATL::CComPtr<ADOParameter> m_pCharacterGroup1;  ///< \c m_comCharacterGroup parameter
+        winstd::com_obj<ADOCommand> m_comCharacterGroup;   ///< ADO Command for GetCharacterGroup subquery
+        winstd::com_obj<ADOParameter> m_pCharacterGroup1;  ///< \c m_comCharacterGroup parameter
     };
 };

@@ -21,6 +21,7 @@
 
 using namespace std;
 using namespace stdex;
+using namespace winstd;
 
 
 ///
@@ -103,7 +104,7 @@ int _tmain(int argc, _TCHAR *argv[])
 
     {
         // Get translations.
-        ATL::CComPtr<ADORecordset> rs;
+        com_obj<ADORecordset> rs;
         if (src.SelectTranslations(rs)) {
             size_t count = src.GetRecordsetCount(rs);
             if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
@@ -122,13 +123,13 @@ int _tmain(int argc, _TCHAR *argv[])
                         // Add translation to index and data.
                         unsigned __int32 idx = db.data.size();
                         db.data.push_back(trans.chr);
-                        wxASSERT_MSG((int)0xffff8000 <= trans.rank && trans.rank <= (int)0x00007fff, wxT("transformation rank out of bounds"));
-                        db.data.push_back((unsigned __int16)trans.rank);
-                        wstring::size_type n = trans.str.length();
+                        wxASSERT_MSG((int)0xffff8000 <= trans.decomp.rank && trans.decomp.rank <= (int)0x00007fff, wxT("transformation rank out of bounds"));
+                        db.data.push_back((unsigned __int16)trans.decomp.rank);
+                        wstring::size_type n = trans.decomp.str.length();
                         wxASSERT_MSG(n <= 0xffff, wxT("transformation string too long"));
                         db.data.push_back((unsigned __int16)n);
                         for (wstring::size_type i = 0; i < n; i++)
-                            db.data.push_back(trans.str[i]);
+                            db.data.push_back(trans.decomp.str[i]);
                         db.idxComp  .push_back(idx);
                         db.idxDecomp.push_back(idx);
                     } else
@@ -153,7 +154,7 @@ int _tmain(int argc, _TCHAR *argv[])
 
     {
         // Get key sequences.
-        ATL::CComPtr<ADORecordset> rs;
+        com_obj<ADORecordset> rs;
         if (src.SelectKeySequences(rs)) {
             size_t count = src.GetRecordsetCount(rs);
             if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
@@ -220,7 +221,7 @@ int _tmain(int argc, _TCHAR *argv[])
 
     {
         // Get languages.
-        ATL::CComPtr<ADORecordset> rs;
+        com_obj<ADORecordset> rs;
         if (src.SelectLanguages(rs)) {
             size_t count = src.GetRecordsetCount(rs);
             if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
@@ -269,7 +270,7 @@ int _tmain(int argc, _TCHAR *argv[])
 
     {
         // Get language characters.
-        ATL::CComPtr<ADORecordset> rs;
+        com_obj<ADORecordset> rs;
         if (src.SelectLanguageCharacters(rs)) {
             size_t count = src.GetRecordsetCount(rs);
             if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
@@ -320,7 +321,7 @@ int _tmain(int argc, _TCHAR *argv[])
 
     {
         // Get character groups.
-        ATL::CComPtr<ADORecordset> rs;
+        com_obj<ADORecordset> rs;
         if (src.SelectCharacterGroups(rs)) {
             size_t count = src.GetRecordsetCount(rs);
             if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
@@ -385,7 +386,7 @@ int _tmain(int argc, _TCHAR *argv[])
 
     {
         // Get characters.
-        ATL::CComPtr<ADORecordset> rs;
+        com_obj<ADORecordset> rs;
         if (src.SelectCharacters(rs)) {
             size_t count = src.GetRecordsetCount(rs);
             if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
@@ -464,7 +465,7 @@ int _tmain(int argc, _TCHAR *argv[])
 
     {
         // Get character categories.
-        ATL::CComPtr<ADORecordset> rs;
+        com_obj<ADORecordset> rs;
         if (src.SelectCharacterCategories(rs)) {
             size_t count = src.GetRecordsetCount(rs);
             if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)

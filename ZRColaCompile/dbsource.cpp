@@ -21,6 +21,7 @@
 
 using namespace std;
 using namespace stdex;
+using namespace winstd;
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -71,21 +72,14 @@ void ZRCola::DBSource::character_bank::build_related()
 
 
 ZRCola::DBSource::character_bank::build_related_worker::build_related_worker(_In_ const character_bank *cb, _In_ size_type from, _In_ size_type to) :
-    thread_type((HANDLE)_beginthreadex(NULL, 0, process, this, CREATE_SUSPENDED, NULL)),
+    win_handle((HANDLE)_beginthreadex(NULL, 0, process, this, CREATE_SUSPENDED, NULL)),
     m_heap(HeapCreate(0, 0, 0)),
     m_cb(cb),
     m_from(from),
     m_to(to)
 {
     // Now that members of this class are surely initialized, proceed.
-    ResumeThread(get());
-}
-
-
-ZRCola::DBSource::character_bank::build_related_worker::~build_related_worker()
-{
-    assert(m_heap);
-    HeapDestroy(m_heap);
+    ResumeThread(m_h);
 }
 
 
@@ -261,11 +255,9 @@ ZRCola::DBSource::DBSource()
 
 ZRCola::DBSource::~DBSource()
 {
-    if (m_pCharacterGroup1)
-        m_pCharacterGroup1.Release();
-
-    if (m_comCharacterGroup)
-        m_comCharacterGroup.Release();
+    // Manually release all COM objects related to the database before we close the database.
+    m_pCharacterGroup1.free();
+    m_comCharacterGroup.free();
 
     if (m_db)
         m_db->Close();
@@ -288,7 +280,7 @@ bool ZRCola::DBSource::Open(LPCTSTR filename)
         cn += L"Dbq=";
         cn += filename;
         cn += L";Uid=;Pwd=;";
-        hr = m_db->Open(ATL::CComBSTR(cn.c_str()));
+        hr = m_db->Open(bstr(cn.c_str()));
         if (SUCCEEDED(hr)) {
             // Database open and ready.
             m_filename = filename;
@@ -298,15 +290,15 @@ bool ZRCola::DBSource::Open(LPCTSTR filename)
 
             // Create ADO command(s).
             wxVERIFY(SUCCEEDED(::CoCreateInstance(CLSID_CADOCommand, NULL, CLSCTX_ALL, IID_IADOCommand, (LPVOID*)&m_comCharacterGroup)));
-            wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_ActiveConnection(ATL::CComVariant(m_db))));
+            wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_ActiveConnection(variant(m_db))));
             wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_CommandType(adCmdText)));
-            wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_CommandText(ATL::CComBSTR(L"SELECT [VRS_SkupineZnakov].[Znak], [VRS_SkupineZnakov].[pogost] FROM [VRS_SkupineZnakov] LEFT JOIN [VRS_CharList] ON [VRS_SkupineZnakov].[Znak]=[VRS_CharList].[znak] WHERE [VRS_CharList].[aktiven]=1 AND [VRS_SkupineZnakov].[Skupina]=? ORDER BY [VRS_SkupineZnakov].[Rang] ASC, [VRS_SkupineZnakov].[Znak] ASC"))));
+            wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_CommandText(bstr(L"SELECT [VRS_SkupineZnakov].[Znak], [VRS_SkupineZnakov].[pogost] FROM [VRS_SkupineZnakov] LEFT JOIN [VRS_CharList] ON [VRS_SkupineZnakov].[Znak]=[VRS_CharList].[znak] WHERE [VRS_CharList].[aktiven]=1 AND [VRS_SkupineZnakov].[Skupina]=? ORDER BY [VRS_SkupineZnakov].[Rang] ASC, [VRS_SkupineZnakov].[Znak] ASC"))));
             {
                 // Create and add command parameters.
-                ATL::CComPtr<ADOParameters> params;
+                com_obj<ADOParameters> params;
                 wxVERIFY(SUCCEEDED(m_comCharacterGroup->get_Parameters(&params)));
                 wxASSERT_MSG(!m_pCharacterGroup1, wxT("ADO command parameter already created"));
-                wxVERIFY(SUCCEEDED(m_comCharacterGroup->CreateParameter(ATL::CComBSTR(L"@Skupina"), adVarWChar, adParamInput, 50, ATL::CComVariant(DISP_E_PARAMNOTFOUND, VT_ERROR), &m_pCharacterGroup1)));
+                wxVERIFY(SUCCEEDED(m_comCharacterGroup->CreateParameter(bstr(L"@Skupina"), adVarWChar, adParamInput, 50, variant(DISP_E_PARAMNOTFOUND, VT_ERROR), &m_pCharacterGroup1)));
                 wxVERIFY(SUCCEEDED(params->Append(m_pCharacterGroup1)));
             }
 
@@ -315,7 +307,7 @@ bool ZRCola::DBSource::Open(LPCTSTR filename)
             _ftprintf(stderr, wxT("%s: error ZCC0011: Could not open database (0x%x).\n"), (LPCTSTR)filename, hr);
             LogErrors();
         }
-        m_db.Release();
+        m_db.free();
     } else
         _ftprintf(stderr, wxT("%s: error ZCC0012: Creating ADOConnection object failed (0x%x).\n"), (LPCTSTR)filename, hr);
 
@@ -337,12 +329,12 @@ void ZRCola::DBSource::LogErrors() const
         // Iterate the errors.
         for (long i = 0; i < n; i++) {
             ADOError *err = NULL;
-            if (SUCCEEDED(errors->get_Item(ATL::CComVariant(i), &err))) {
+            if (SUCCEEDED(errors->get_Item(variant(i), &err))) {
                 // Write error number and description to the log.
                 long num = 0;
                 wxVERIFY(SUCCEEDED(err->get_Number(&num)));
 
-                ATL::CComBSTR desc;
+                bstr desc;
                 wxVERIFY(SUCCEEDED(err->get_Description(&desc)));
 
                 _ftprintf(stderr, wxT("    error ADO%x: %ls\n"), num, (BSTR)desc);
@@ -356,13 +348,13 @@ void ZRCola::DBSource::LogErrors() const
 }
 
 
-bool ZRCola::DBSource::GetValue(const ATL::CComPtr<ADOField>& f, bool& val) const
+bool ZRCola::DBSource::GetValue(const com_obj<ADOField>& f, bool& val) const
 {
     wxASSERT_MSG(f, wxT("field is empty"));
 
-    ATL::CComVariant v;
+    variant v;
     wxVERIFY(SUCCEEDED(f->get_Value(&v)));
-    wxCHECK(SUCCEEDED(v.ChangeType(VT_BOOL)), false);
+    wxCHECK(SUCCEEDED(v.change_type(VT_BOOL)), false);
 
     val = V_BOOL(&v) ? true : false;
 
@@ -370,13 +362,13 @@ bool ZRCola::DBSource::GetValue(const ATL::CComPtr<ADOField>& f, bool& val) cons
 }
 
 
-bool ZRCola::DBSource::GetValue(const ATL::CComPtr<ADOField>& f, int& val) const
+bool ZRCola::DBSource::GetValue(const com_obj<ADOField>& f, int& val) const
 {
     wxASSERT_MSG(f, wxT("field is empty"));
 
-    ATL::CComVariant v;
+    variant v;
     wxVERIFY(SUCCEEDED(f->get_Value(&v)));
-    wxCHECK(SUCCEEDED(v.ChangeType(VT_I4)), false);
+    wxCHECK(SUCCEEDED(v.change_type(VT_I4)), false);
 
     val = V_I4(&v);
 
@@ -384,14 +376,14 @@ bool ZRCola::DBSource::GetValue(const ATL::CComPtr<ADOField>& f, int& val) const
 }
 
 
-bool ZRCola::DBSource::GetValue(const ATL::CComPtr<ADOField>& f, wstring& val) const
+bool ZRCola::DBSource::GetValue(const com_obj<ADOField>& f, wstring& val) const
 {
     wxASSERT_MSG(f, wxT("field is empty"));
 
-    ATL::CComVariant v;
+    variant v;
     wxVERIFY(SUCCEEDED(f->get_Value(&v)));
     if (V_VT(&v) != VT_NULL) {
-        wxCHECK(SUCCEEDED(v.ChangeType(VT_BSTR)), false);
+        wxCHECK(SUCCEEDED(v.change_type(VT_BSTR)), false);
 
         val.reserve(::SysStringLen(V_BSTR(&v)));
         val = V_BSTR(&v);
@@ -402,14 +394,14 @@ bool ZRCola::DBSource::GetValue(const ATL::CComPtr<ADOField>& f, wstring& val) c
 }
 
 
-bool ZRCola::DBSource::GetUnicodeCharacter(const ATL::CComPtr<ADOField>& f, wchar_t& chr) const
+bool ZRCola::DBSource::GetUnicodeCharacter(const com_obj<ADOField>& f, wchar_t& chr) const
 {
     wxASSERT_MSG(f, wxT("field is empty"));
 
-    ATL::CComVariant v;
+    variant v;
     wxVERIFY(SUCCEEDED(f->get_Value(&v)));
     if (V_VT(&v) != VT_NULL) {
-        wxCHECK(SUCCEEDED(v.ChangeType(VT_BSTR)), false);
+        wxCHECK(SUCCEEDED(v.change_type(VT_BSTR)), false);
 
         // Parse the field. Must be exactly one Unicode code.
         UINT i = 0, n = ::SysStringLen(V_BSTR(&v));
@@ -421,12 +413,12 @@ bool ZRCola::DBSource::GetUnicodeCharacter(const ATL::CComPtr<ADOField>& f, wcha
             else break;
         }
         if (i <= 0 && 4 < i) {
-            ATL::CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
-            _ftprintf(stderr, wxT("%s: error ZCC0030: Syntax error in \"%.*ls\" field (\"%.*ls\"). Unicode code must be one to four hexadecimal characters long.\n"), m_filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
+            bstr fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
+            _ftprintf(stderr, wxT("%s: error ZCC0030: Syntax error in \"%.*ls\" field (\"%.*ls\"). Unicode code must be one to four hexadecimal characters long.\n"), m_filename.c_str(), fieldname.length(), (BSTR)fieldname, n, V_BSTR(&v));
             return false;
         } else if (i != n) {
-            ATL::CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
-            _ftprintf(stderr, wxT("%s: error ZCC0031: Syntax error in \"%.*ls\" field (\"%.*ls\"). Extra trailing characters.\n"), m_filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
+            bstr fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
+            _ftprintf(stderr, wxT("%s: error ZCC0031: Syntax error in \"%.*ls\" field (\"%.*ls\"). Extra trailing characters.\n"), m_filename.c_str(), fieldname.length(), (BSTR)fieldname, n, V_BSTR(&v));
             return false;
         }
     } else
@@ -436,13 +428,13 @@ bool ZRCola::DBSource::GetUnicodeCharacter(const ATL::CComPtr<ADOField>& f, wcha
 }
 
 
-bool ZRCola::DBSource::GetUnicodeString(const ATL::CComPtr<ADOField>& f, wstring& str) const
+bool ZRCola::DBSource::GetUnicodeString(const com_obj<ADOField>& f, wstring& str) const
 {
     wxASSERT_MSG(f, wxT("field is empty"));
 
-    ATL::CComVariant v;
+    variant v;
     wxVERIFY(SUCCEEDED(f->get_Value(&v)));
-    wxCHECK(SUCCEEDED(v.ChangeType(VT_BSTR)), false);
+    wxCHECK(SUCCEEDED(v.change_type(VT_BSTR)), false);
 
     // Parse the field. Must be "xxxx+xxxx+xxxx..." sequence.
     str.clear();
@@ -457,8 +449,8 @@ bool ZRCola::DBSource::GetUnicodeString(const ATL::CComPtr<ADOField>& f, wstring
             else break;
         }
         if (j <= 0 || 4 < j) {
-            ATL::CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
-            _ftprintf(stderr, wxT("%s: error ZCC0020: Syntax error in \"%.*ls\" field (\"%.*ls\"). Unicode code must be one to four hexadecimal characters long.\n"), m_filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
+            bstr fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
+            _ftprintf(stderr, wxT("%s: error ZCC0020: Syntax error in \"%.*ls\" field (\"%.*ls\"). Unicode code must be one to four hexadecimal characters long.\n"), m_filename.c_str(), fieldname.length(), (BSTR)fieldname, n, V_BSTR(&v));
             return false;
         }
         str += c;
@@ -471,13 +463,13 @@ bool ZRCola::DBSource::GetUnicodeString(const ATL::CComPtr<ADOField>& f, wstring
 }
 
 
-bool ZRCola::DBSource::GetLanguage(const ATL::CComPtr<ADOField>& f, ZRCola::langid_t& lang) const
+bool ZRCola::DBSource::GetLanguage(const com_obj<ADOField>& f, ZRCola::langid_t& lang) const
 {
     wxASSERT_MSG(f, wxT("field is empty"));
 
-    ATL::CComVariant v;
+    variant v;
     wxVERIFY(SUCCEEDED(f->get_Value(&v)));
-    wxCHECK(SUCCEEDED(v.ChangeType(VT_BSTR)), false);
+    wxCHECK(SUCCEEDED(v.change_type(VT_BSTR)), false);
 
     // Convert to lowercase.
     _wcslwr_l(V_BSTR(&v), m_locale);
@@ -485,8 +477,8 @@ bool ZRCola::DBSource::GetLanguage(const ATL::CComPtr<ADOField>& f, ZRCola::lang
     // Parse the field.
     size_t n = wcsnlen(V_BSTR(&v), ::SysStringLen(V_BSTR(&v)));
     if (n != 3) {
-            ATL::CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
-            _ftprintf(stderr, wxT("%s: error ZCC0080: Syntax error in \"%.*ls\" field (\"%.*ls\"). Language ID must be exactly three (3) characters long.\n"), m_filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
+            bstr fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
+            _ftprintf(stderr, wxT("%s: error ZCC0080: Syntax error in \"%.*ls\" field (\"%.*ls\"). Language ID must be exactly three (3) characters long.\n"), m_filename.c_str(), fieldname.length(), (BSTR)fieldname, n, V_BSTR(&v));
             return false;
     }
     for (size_t i = 0;; i++) {
@@ -494,8 +486,8 @@ bool ZRCola::DBSource::GetLanguage(const ATL::CComPtr<ADOField>& f, ZRCola::lang
             if (i < n) {
                 wchar_t c = V_BSTR(&v)[i];
                 if ((unsigned short)c > 0x7f) {
-                    ATL::CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
-                    _ftprintf(stderr, wxT("%s: error ZCC0081: Syntax error in \"%.*ls\" field (\"%.*ls\"). Language ID must contain ASCII characters only.\n"), m_filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
+                    bstr fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
+                    _ftprintf(stderr, wxT("%s: error ZCC0081: Syntax error in \"%.*ls\" field (\"%.*ls\"). Language ID must contain ASCII characters only.\n"), m_filename.c_str(), fieldname.length(), (BSTR)fieldname, n, V_BSTR(&v));
                     return false;
                 }
                 lang.data[i] = (char)c;
@@ -509,20 +501,20 @@ bool ZRCola::DBSource::GetLanguage(const ATL::CComPtr<ADOField>& f, ZRCola::lang
 }
 
 
-bool ZRCola::DBSource::GetChrCat(const ATL::CComPtr<ADOField>& f, chrcatid_t& cc) const
+bool ZRCola::DBSource::GetChrCat(const com_obj<ADOField>& f, chrcatid_t& cc) const
 {
     wxASSERT_MSG(f, wxT("field is empty"));
 
-    ATL::CComVariant v;
+    variant v;
     wxVERIFY(SUCCEEDED(f->get_Value(&v)));
     if (V_VT(&v) != VT_NULL) {
-        wxCHECK(SUCCEEDED(v.ChangeType(VT_BSTR)), false);
+        wxCHECK(SUCCEEDED(v.change_type(VT_BSTR)), false);
 
         // Parse the field.
         size_t n = wcsnlen(V_BSTR(&v), ::SysStringLen(V_BSTR(&v)));
         if (n < 1 || 2 < n) {
-                ATL::CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
-                _ftprintf(stderr, wxT("%s: error ZCC0110: Syntax error in \"%.*ls\" field (\"%.*ls\"). Character category ID must be one (1) or two (2) characters long.\n"), m_filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
+                bstr fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
+                _ftprintf(stderr, wxT("%s: error ZCC0110: Syntax error in \"%.*ls\" field (\"%.*ls\"). Character category ID must be one (1) or two (2) characters long.\n"), m_filename.c_str(), fieldname.length(), (BSTR)fieldname, n, V_BSTR(&v));
                 return false;
         }
         for (size_t i = 0;; i++) {
@@ -530,8 +522,8 @@ bool ZRCola::DBSource::GetChrCat(const ATL::CComPtr<ADOField>& f, chrcatid_t& cc
                 if (i < n) {
                     wchar_t c = V_BSTR(&v)[i];
                     if ((unsigned short)c > 0x7f) {
-                        ATL::CComBSTR fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
-                        _ftprintf(stderr, wxT("%s: error ZCC0111: Syntax error in \"%.*ls\" field (\"%.*ls\"). Character category ID must contain ASCII characters only.\n"), m_filename.c_str(), fieldname.Length(), (BSTR)fieldname, n, V_BSTR(&v));
+                        bstr fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
+                        _ftprintf(stderr, wxT("%s: error ZCC0111: Syntax error in \"%.*ls\" field (\"%.*ls\"). Character category ID must contain ASCII characters only.\n"), m_filename.c_str(), fieldname.length(), (BSTR)fieldname, n, V_BSTR(&v));
                         return false;
                     }
                     cc.data[i] = (char)c;
@@ -547,18 +539,18 @@ bool ZRCola::DBSource::GetChrCat(const ATL::CComPtr<ADOField>& f, chrcatid_t& cc
 }
 
 
-bool ZRCola::DBSource::SelectTranslations(ATL::CComPtr<ADORecordset> &rs) const
+bool ZRCola::DBSource::SelectTranslations(com_obj<ADORecordset> &rs) const
 {
     // Create a new recordset.
-    if (rs) rs.Release();
+    rs.free();
     wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
 
     // Open it.
-    if (FAILED(rs->Open(ATL::CComVariant(
+    if (FAILED(rs->Open(variant(
         L"SELECT [komb], [znak], [rang_znak] "
         L"FROM [VRS_ReplChar] "
         L"WHERE [rang_komb]=1 "
-        L"ORDER BY [znak], [rang_znak], [komb]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
+        L"ORDER BY [znak], [rang_znak], [komb]"), variant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
     {
         _ftprintf(stderr, wxT("%s: error ZCC0040: Error loading compositions from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
         LogErrors();
@@ -569,46 +561,46 @@ bool ZRCola::DBSource::SelectTranslations(ATL::CComPtr<ADORecordset> &rs) const
 }
 
 
-bool ZRCola::DBSource::GetTranslation(const ATL::CComPtr<ADORecordset>& rs, ZRCola::DBSource::translation& t) const
+bool ZRCola::DBSource::GetTranslation(const com_obj<ADORecordset>& rs, ZRCola::DBSource::translation& t) const
 {
     wxASSERT_MSG(rs, wxT("recordset is empty"));
 
-    ATL::CComPtr<ADOFields> flds;
+    com_obj<ADOFields> flds;
     wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"komb"), &f)));
-        wxCHECK(GetUnicodeString(f, t.str), false);
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"komb"), &f)));
+        wxCHECK(GetUnicodeString(f, t.decomp.str), false);
     }
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"znak"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"znak"), &f)));
         wxCHECK(GetUnicodeCharacter(f, t.chr), false);
     }
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"rang_znak"), &f)));
-        wxCHECK(GetValue(f, t.rank), false);
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"rang_znak"), &f)));
+        wxCHECK(GetValue(f, t.decomp.rank), false);
     }
 
     return true;
 }
 
 
-bool ZRCola::DBSource::SelectKeySequences(ATL::CComPtr<ADORecordset> &rs) const
+bool ZRCola::DBSource::SelectKeySequences(com_obj<ADORecordset> &rs) const
 {
     // Create a new recordset.
-    if (rs) rs.Release();
+    rs.free();
     wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
 
     // Open it.
-    if (FAILED(rs->Open(ATL::CComVariant(
+    if (FAILED(rs->Open(variant(
         L"SELECT DISTINCT [VRS_KeyCodes].[Znak], [VRS_CharGroup].[CharGroup], IIF([VRS_CharGroup].[Arg1] IS NOT NULL, [VRS_CharGroup].[Arg1], 0)+IIF([VRS_CharGroup].[Arg2] IS NOT NULL, [VRS_CharGroup].[Arg2], 0)+IIF([VRS_CharGroup].[Arg3] IS NOT NULL, [VRS_CharGroup].[Arg3], 0) AS [Modifiers], IIF([VRS_CharGroup].[Arg4] IS NOT NULL, [VRS_CharGroup].[Arg4], 0) AS [KeyCodePre], [VRS_KeyCodes].[KeyCode], [VRS_KeyCodes].[Shift] "
         L"FROM [VRS_KeyCodes] LEFT JOIN [VRS_CharGroup] ON [VRS_CharGroup].[CharGroup]=[VRS_KeyCodes].[CharGroup] "
-        L"ORDER BY [VRS_CharGroup].[CharGroup], [VRS_KeyCodes].[KeyCode], [VRS_KeyCodes].[Shift], [VRS_KeyCodes].[Znak]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
+        L"ORDER BY [VRS_CharGroup].[CharGroup], [VRS_KeyCodes].[KeyCode], [VRS_KeyCodes].[Shift], [VRS_KeyCodes].[Znak]"), variant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
     {
         _ftprintf(stderr, wxT("%s: error ZCC0050: Error loading key sequences from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
         LogErrors();
@@ -619,44 +611,44 @@ bool ZRCola::DBSource::SelectKeySequences(ATL::CComPtr<ADORecordset> &rs) const
 }
 
 
-bool ZRCola::DBSource::GetKeySequence(const ATL::CComPtr<ADORecordset>& rs, ZRCola::DBSource::keyseq& ks) const
+bool ZRCola::DBSource::GetKeySequence(const com_obj<ADORecordset>& rs, ZRCola::DBSource::keyseq& ks) const
 {
     wxASSERT_MSG(rs, wxT("recordset is empty"));
 
-    ATL::CComPtr<ADOFields> flds;
+    com_obj<ADOFields> flds;
     wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"Znak"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Znak"), &f)));
         wxCHECK(GetUnicodeCharacter(f, ks.chr), false);
     }
 
     int modifiers;
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"Modifiers"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Modifiers"), &f)));
         wxCHECK(GetValue(f, modifiers), false);
     }
 
     int keycode1;
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"KeyCodePre"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"KeyCodePre"), &f)));
         wxCHECK(GetValue(f, keycode1), false);
     }
 
     int keycode;
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"KeyCode"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"KeyCode"), &f)));
         wxCHECK(GetValue(f, keycode), false);
     }
 
     bool shift;
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"Shift"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Shift"), &f)));
         wxCHECK(GetValue(f, shift), false);
     }
 
@@ -686,17 +678,17 @@ bool ZRCola::DBSource::GetKeySequence(const ATL::CComPtr<ADORecordset>& rs, ZRCo
 }
 
 
-bool ZRCola::DBSource::SelectLanguages(ATL::CComPtr<ADORecordset> &rs) const
+bool ZRCola::DBSource::SelectLanguages(com_obj<ADORecordset> &rs) const
 {
     // Create a new recordset.
-    if (rs) rs.Release();
+    rs.free();
     wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
 
     // Open it.
-    if (FAILED(rs->Open(ATL::CComVariant(
+    if (FAILED(rs->Open(variant(
         L"SELECT DISTINCT [entCode], [Jezik_En] "
         L"FROM [VRS_Jezik] "
-        L"ORDER BY [entCode], [Jezik_En]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
+        L"ORDER BY [entCode], [Jezik_En]"), variant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
     {
         _ftprintf(stderr, wxT("%s: error ZCC0060: Error loading languages from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
         LogErrors();
@@ -707,22 +699,22 @@ bool ZRCola::DBSource::SelectLanguages(ATL::CComPtr<ADORecordset> &rs) const
 }
 
 
-bool ZRCola::DBSource::GetLanguage(const ATL::CComPtr<ADORecordset>& rs, ZRCola::DBSource::language& lang) const
+bool ZRCola::DBSource::GetLanguage(const com_obj<ADORecordset>& rs, ZRCola::DBSource::language& lang) const
 {
     wxASSERT_MSG(rs, wxT("recordset is empty"));
 
-    ATL::CComPtr<ADOFields> flds;
+    com_obj<ADOFields> flds;
     wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"entCode"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"entCode"), &f)));
         wxCHECK(GetLanguage(f, lang.id), false);
     }
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"Jezik_En"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Jezik_En"), &f)));
         wxCHECK(GetValue(f, lang.name), false);
     }
 
@@ -730,17 +722,17 @@ bool ZRCola::DBSource::GetLanguage(const ATL::CComPtr<ADORecordset>& rs, ZRCola:
 }
 
 
-bool ZRCola::DBSource::SelectLanguageCharacters(ATL::CComPtr<ADORecordset> &rs) const
+bool ZRCola::DBSource::SelectLanguageCharacters(com_obj<ADORecordset> &rs) const
 {
     // Create a new recordset.
-    if (rs) rs.Release();
+    rs.free();
     wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
 
     // Open it.
-    if (FAILED(rs->Open(ATL::CComVariant(
+    if (FAILED(rs->Open(variant(
         L"SELECT DISTINCT [znak], [lang] "
         L"FROM [VRS_CharLocal] "
-        L"ORDER BY [znak], [lang]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
+        L"ORDER BY [znak], [lang]"), variant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
     {
         _ftprintf(stderr, wxT("%s: error ZCC0090: Error loading language characters from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
         LogErrors();
@@ -751,22 +743,22 @@ bool ZRCola::DBSource::SelectLanguageCharacters(ATL::CComPtr<ADORecordset> &rs) 
 }
 
 
-bool ZRCola::DBSource::GetLanguageCharacter(const ATL::CComPtr<ADORecordset>& rs, ZRCola::DBSource::langchar& lc) const
+bool ZRCola::DBSource::GetLanguageCharacter(const com_obj<ADORecordset>& rs, ZRCola::DBSource::langchar& lc) const
 {
     wxASSERT_MSG(rs, wxT("recordset is empty"));
 
-    ATL::CComPtr<ADOFields> flds;
+    com_obj<ADOFields> flds;
     wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"znak"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"znak"), &f)));
         wxCHECK(GetUnicodeCharacter(f, lc.chr), false);
     }
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"lang"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"lang"), &f)));
         wxCHECK(GetLanguage(f, lc.lang), false);
     }
 
@@ -774,17 +766,17 @@ bool ZRCola::DBSource::GetLanguageCharacter(const ATL::CComPtr<ADORecordset>& rs
 }
 
 
-bool ZRCola::DBSource::SelectCharacterGroups(ATL::CComPtr<ADORecordset>& rs) const
+bool ZRCola::DBSource::SelectCharacterGroups(com_obj<ADORecordset>& rs) const
 {
     // Create a new recordset.
-    if (rs) rs.Release();
+    rs.free();
     wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
 
     // Open it.
-    if (FAILED(rs->Open(ATL::CComVariant(
+    if (FAILED(rs->Open(variant(
         L"SELECT DISTINCT [id], [Skupina], [opis_en], [Rang] "
         L"FROM [VRS_SkupinaZnakov] "
-        L"ORDER BY [Rang], [opis_en]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
+        L"ORDER BY [Rang], [opis_en]"), variant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
     {
         _ftprintf(stderr, wxT("%s: error ZCC0090: Error loading character groups from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
         LogErrors();
@@ -795,46 +787,46 @@ bool ZRCola::DBSource::SelectCharacterGroups(ATL::CComPtr<ADORecordset>& rs) con
 }
 
 
-bool ZRCola::DBSource::GetCharacterGroup(const ATL::CComPtr<ADORecordset>& rs, chrgrp& cg) const
+bool ZRCola::DBSource::GetCharacterGroup(const com_obj<ADORecordset>& rs, chrgrp& cg) const
 {
     wxASSERT_MSG(rs, wxT("recordset is empty"));
 
-    ATL::CComPtr<ADOFields> flds;
+    com_obj<ADOFields> flds;
     wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
     wstring id;
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"id"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"id"), &f)));
         wxCHECK(GetValue(f, cg.id), false);
     }
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"Skupina"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Skupina"), &f)));
         wxCHECK(GetValue(f, id), false);
     }
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"Rang"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Rang"), &f)));
         wxCHECK(GetValue(f, cg.rank), false);
     }
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"opis_en"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"opis_en"), &f)));
         wxCHECK(GetValue(f, cg.name), false);
     }
 
     // Read character list from database.
-    wxVERIFY(SUCCEEDED(m_pCharacterGroup1->put_Value(ATL::CComVariant(id.c_str()))));
-    ATL::CComPtr<ADORecordset> rs_chars;
+    wxVERIFY(SUCCEEDED(m_pCharacterGroup1->put_Value(variant(id.c_str()))));
+    com_obj<ADORecordset> rs_chars;
     wxVERIFY(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs_chars)));
     wxVERIFY(SUCCEEDED(rs_chars->put_CursorLocation(adUseClient)));
     wxVERIFY(SUCCEEDED(rs_chars->put_CursorType(adOpenForwardOnly)));
     wxVERIFY(SUCCEEDED(rs_chars->put_LockType(adLockReadOnly)));
-    if (FAILED(rs_chars->Open(ATL::CComVariant(m_comCharacterGroup), ATL::CComVariant(DISP_E_PARAMNOTFOUND, VT_ERROR)))) {
+    if (FAILED(rs_chars->Open(variant(m_comCharacterGroup), variant(DISP_E_PARAMNOTFOUND, VT_ERROR)))) {
         _ftprintf(stderr, wxT("%s: error ZCC0100: Error loading character group characters from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
         LogErrors();
         return false;
@@ -842,11 +834,11 @@ bool ZRCola::DBSource::GetCharacterGroup(const ATL::CComPtr<ADORecordset>& rs, c
 
     {
         cg.chars.clear();
-        ATL::CComPtr<ADOFields> flds;
+        com_obj<ADOFields> flds;
         wxVERIFY(SUCCEEDED(rs_chars->get_Fields(&flds)));
-        ATL::CComPtr<ADOField> f_char, f_show;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"Znak"  ), &f_char)));
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"pogost"), &f_show)));
+        com_obj<ADOField> f_char, f_show;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Znak"  ), &f_char)));
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"pogost"), &f_show)));
         for (VARIANT_BOOL eof = VARIANT_TRUE; SUCCEEDED(rs_chars->get_EOF(&eof)) && !eof; rs_chars->MoveNext()) {
             wchar_t c;
             wxCHECK(GetUnicodeCharacter(f_char, c), false);
@@ -865,20 +857,20 @@ bool ZRCola::DBSource::GetCharacterGroup(const ATL::CComPtr<ADORecordset>& rs, c
 }
 
 
-bool ZRCola::DBSource::SelectCharacters(ATL::CComPtr<ADORecordset>& rs) const
+bool ZRCola::DBSource::SelectCharacters(com_obj<ADORecordset>& rs) const
 {
     // Create a new recordset.
-    if (rs) rs.Release();
+    rs.free();
     wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
 
     // Open it.
-    if (FAILED(rs->Open(ATL::CComVariant(
+    if (FAILED(rs->Open(variant(
         L"SELECT DISTINCT [znak], [opis_en], [klj_bes_en], [kat], [znak_v], [znak_m] "
         L"FROM [VRS_CharList] "
         L"WHERE "
         L"[aktiven]=1 AND " // Active characters only
         L"[kat]<>'g' "      // Ignore "Other, Control" category!
-        L"ORDER BY [znak]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
+        L"ORDER BY [znak]"), variant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
     {
         _ftprintf(stderr, wxT("%s: error ZCC0120: Error loading characters from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
         LogErrors();
@@ -889,55 +881,55 @@ bool ZRCola::DBSource::SelectCharacters(ATL::CComPtr<ADORecordset>& rs) const
 }
 
 
-bool ZRCola::DBSource::GetCharacter(const ATL::CComPtr<ADORecordset>& rs, character& chr) const
+bool ZRCola::DBSource::GetCharacter(const com_obj<ADORecordset>& rs, character& chr) const
 {
     wxASSERT_MSG(rs, wxT("recordset is empty"));
 
-    ATL::CComPtr<ADOFields> flds;
+    com_obj<ADOFields> flds;
     wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
     wchar_t c;
     chr.rel.clear();
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"znak"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"znak"), &f)));
         wxCHECK(GetUnicodeCharacter(f, chr.chr), false);
     }
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"znak_v"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"znak_v"), &f)));
         wxCHECK(GetUnicodeCharacter(f, c), false);
         if (c && c != chr.chr)
             chr.rel += c;
     }
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"znak_m"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"znak_m"), &f)));
         wxCHECK(GetUnicodeCharacter(f, c), false);
         if (c && c != chr.chr)
             chr.rel += c;
     }
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"opis_en"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"opis_en"), &f)));
         wxCHECK(GetValue(f, chr.desc), false);
     }
     ZRCola::DBSource::character_desc_idx::parse_keywords(chr.desc.c_str(), chr.terms);
 
     wstring keywords;
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"klj_bes_en"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"klj_bes_en"), &f)));
         wxCHECK(GetValue(f, keywords), false);
     }
     ZRCola::DBSource::character_desc_idx::parse_keywords(keywords.c_str(), chr.terms);
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"kat"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"kat"), &f)));
         wxCHECK(GetChrCat(f, chr.cat), false);
     }
 
@@ -945,18 +937,18 @@ bool ZRCola::DBSource::GetCharacter(const ATL::CComPtr<ADORecordset>& rs, charac
 }
 
 
-bool ZRCola::DBSource::SelectCharacterCategories(ATL::CComPtr<ADORecordset>& rs) const
+bool ZRCola::DBSource::SelectCharacterCategories(com_obj<ADORecordset>& rs) const
 {
     // Create a new recordset.
-    if (rs) rs.Release();
+    rs.free();
     wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
 
     // Open it.
-    if (FAILED(rs->Open(ATL::CComVariant(
+    if (FAILED(rs->Open(variant(
         L"SELECT DISTINCT [kat], [opis_en], [Rang] "
         L"FROM [VRS_CharCategory] "
         L"WHERE [kat]<>'g' "    // Ignore "Other, Control" category!
-        L"ORDER BY [Rang], [opis_en]"), ATL::CComVariant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
+        L"ORDER BY [Rang], [opis_en]"), variant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
     {
         _ftprintf(stderr, wxT("%s: error ZCC0130: Error loading character categories from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
         LogErrors();
@@ -967,29 +959,29 @@ bool ZRCola::DBSource::SelectCharacterCategories(ATL::CComPtr<ADORecordset>& rs)
 }
 
 
-bool ZRCola::DBSource::GetCharacterCategory(const ATL::CComPtr<ADORecordset>& rs, chrcat& cc) const
+bool ZRCola::DBSource::GetCharacterCategory(const com_obj<ADORecordset>& rs, chrcat& cc) const
 {
     wxASSERT_MSG(rs, wxT("recordset is empty"));
 
-    ATL::CComPtr<ADOFields> flds;
+    com_obj<ADOFields> flds;
     wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
     wstring id;
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"kat"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"kat"), &f)));
         wxCHECK(GetChrCat(f, cc.id), false);
     }
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"Rang"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Rang"), &f)));
         wxCHECK(GetValue(f, cc.rank), false);
     }
 
     {
-        ATL::CComPtr<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(ATL::CComVariant(L"opis_en"), &f)));
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"opis_en"), &f)));
         wxCHECK(GetValue(f, cc.name), false);
     }
 

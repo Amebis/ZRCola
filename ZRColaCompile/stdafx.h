@@ -19,8 +19,6 @@
 
 #pragma once
 
-#define _ATL_NO_AUTOMATIC_NAMESPACE
-
 #include "../include/zrcola.h"
 #include "dbsource.h"
 
@@ -39,11 +37,13 @@
 
 #include <stdex/idrec.h>
 
+#include <WinStd/Common.h>
+
 #include <initguid.h> // GUID helper to prevent LNK2001 errors (unresolved external symbol IID_IADO...)
 #include <adoint.h>
 #include <adoid.h>
-#include <atlcomcli.h>
 
+#include <process.h>
 #include <tchar.h>
 
 #include <stdlib.h>
