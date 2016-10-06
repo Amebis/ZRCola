@@ -26,6 +26,7 @@ class ZRColaApp;
 #pragma once
 
 #include "zrcolafrm.h"
+#include <WinStd/Win.h>
 #include <wx/app.h>
 #include <wx/config.h>
 #include <wx/intl.h>
@@ -83,7 +84,7 @@ public:
 
 protected:
 #ifdef __WXMSW__
-    HANDLE m_running;               ///< Global Win32 event to determine if another instance of ZRCola is already running
+    winstd::win_handle m_running;   ///< Global Win32 event to determine if another instance of ZRCola is already running
 #endif
 };
 
