@@ -117,26 +117,24 @@ All :: \
 	Setup
 
 Setup :: \
-	"$(OUTPUT_DIR)\Setup" \
-#	"$(OUTPUT_DIR)\Setup\ZRColaDe32.msi" \
-#	"$(OUTPUT_DIR)\Setup\ZRColaDe64.msi" \
-	"$(OUTPUT_DIR)\Setup\ZRColaEn32.msi" \
-	"$(OUTPUT_DIR)\Setup\ZRColaEn64.msi" \
-	"$(OUTPUT_DIR)\Setup\ZRColaRu32.msi" \
-	"$(OUTPUT_DIR)\Setup\ZRColaRu64.msi" \
-	"$(OUTPUT_DIR)\Setup\ZRColaSl32.msi" \
-	"$(OUTPUT_DIR)\Setup\ZRColaSl64.msi"
+#	"$(OUTPUT_DIR)\ZRColaDe32.msi" \
+#	"$(OUTPUT_DIR)\ZRColaDe64.msi" \
+	"$(OUTPUT_DIR)\ZRColaEn32.msi" \
+	"$(OUTPUT_DIR)\ZRColaEn64.msi" \
+	"$(OUTPUT_DIR)\ZRColaRu32.msi" \
+	"$(OUTPUT_DIR)\ZRColaRu64.msi" \
+	"$(OUTPUT_DIR)\ZRColaSl32.msi" \
+	"$(OUTPUT_DIR)\ZRColaSl64.msi"
 
 SetupDebug :: \
-	"$(OUTPUT_DIR)\Setup" \
-#	"$(OUTPUT_DIR)\Setup\ZRColaDe32D.msi" \
-#	"$(OUTPUT_DIR)\Setup\ZRColaDe64D.msi" \
-	"$(OUTPUT_DIR)\Setup\ZRColaEn32D.msi" \
-	"$(OUTPUT_DIR)\Setup\ZRColaEn64D.msi" \
-	"$(OUTPUT_DIR)\Setup\ZRColaRu32D.msi" \
-	"$(OUTPUT_DIR)\Setup\ZRColaRu64D.msi" \
-	"$(OUTPUT_DIR)\Setup\ZRColaSl32D.msi" \
-	"$(OUTPUT_DIR)\Setup\ZRColaSl64D.msi"
+#	"$(OUTPUT_DIR)\ZRColaDe32D.msi" \
+#	"$(OUTPUT_DIR)\ZRColaDe64D.msi" \
+	"$(OUTPUT_DIR)\ZRColaEn32D.msi" \
+	"$(OUTPUT_DIR)\ZRColaEn64D.msi" \
+	"$(OUTPUT_DIR)\ZRColaRu32D.msi" \
+	"$(OUTPUT_DIR)\ZRColaRu64D.msi" \
+	"$(OUTPUT_DIR)\ZRColaSl32D.msi" \
+	"$(OUTPUT_DIR)\ZRColaSl64D.msi"
 
 
 ######################################################################
@@ -249,15 +247,13 @@ Localization :: \
 "$(OUTPUT_DIR)\locale\de_DE" \
 "$(OUTPUT_DIR)\locale\ru_RU" \
 "$(OUTPUT_DIR)\locale\sl_SI" \
-"$(OUTPUT_DIR)\Setup" \
 "$(PUBLISH_DIR)" \
 "$(PUBLISH_PACKAGE_DIR)" \
 "$(PROGRAMDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" :
 	if not exist $@ md $@
 
 "$(OUTPUT_DIR)\Keys" \
-"$(OUTPUT_DIR)\locale" \
-"$(OUTPUT_DIR)\Setup" : "$(OUTPUT_DIR)"
+"$(OUTPUT_DIR)\locale" : "$(OUTPUT_DIR)"
 
 "$(OUTPUT_DIR)\locale\de_DE" \
 "$(OUTPUT_DIR)\locale\ru_RU" \
@@ -430,25 +426,25 @@ Localization :: \
 	output\$(PLAT).Release\UpdSignXML.exe $** $@
 
 "$(OUTPUT_DIR)\catalog.xml" : \
-#	"$(OUTPUT_DIR)\Setup\ZRColaDe32.msi" \
-#	"$(OUTPUT_DIR)\Setup\ZRColaDe64.msi" \
-	"$(OUTPUT_DIR)\Setup\ZRColaEn32.msi" \
-	"$(OUTPUT_DIR)\Setup\ZRColaEn64.msi" \
-	"$(OUTPUT_DIR)\Setup\ZRColaRu32.msi" \
-	"$(OUTPUT_DIR)\Setup\ZRColaRu64.msi" \
-	"$(OUTPUT_DIR)\Setup\ZRColaSl32.msi" \
-	"$(OUTPUT_DIR)\Setup\ZRColaSl64.msi"
+#	"$(OUTPUT_DIR)\ZRColaDe32.msi" \
+#	"$(OUTPUT_DIR)\ZRColaDe64.msi" \
+	"$(OUTPUT_DIR)\ZRColaEn32.msi" \
+	"$(OUTPUT_DIR)\ZRColaEn64.msi" \
+	"$(OUTPUT_DIR)\ZRColaRu32.msi" \
+	"$(OUTPUT_DIR)\ZRColaRu64.msi" \
+	"$(OUTPUT_DIR)\ZRColaSl32.msi" \
+	"$(OUTPUT_DIR)\ZRColaSl64.msi"
 	-if exist $@ del /f /q $@
 	-if exist "$(@:"=).tmp" del /f /q "$(@:"=).tmp"
 	copy /y "$(PUBLISH_DIR)\catalog-0000.xml" "$(@:"=).tmp" > NUL
-#	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-x86   de_DE "$(PUBLISH_PACKAGE_URL)/ZRColaDe32.msi" -f "$(OUTPUT_DIR)\Setup\ZRColaDe32.msi"
-#	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 de_DE "$(PUBLISH_PACKAGE_URL)/ZRColaDe64.msi" -f "$(OUTPUT_DIR)\Setup\ZRColaDe64.msi"
-	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-x86   en_US "$(PUBLISH_PACKAGE_URL)/ZRColaEn32.msi" -f "$(OUTPUT_DIR)\Setup\ZRColaEn32.msi"
-	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 en_US "$(PUBLISH_PACKAGE_URL)/ZRColaEn64.msi" -f "$(OUTPUT_DIR)\Setup\ZRColaEn64.msi"
-	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-x86   ru_RU "$(PUBLISH_PACKAGE_URL)/ZRColaRu32.msi" -f "$(OUTPUT_DIR)\Setup\ZRColaRu32.msi"
-	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 ru_RU "$(PUBLISH_PACKAGE_URL)/ZRColaRu64.msi" -f "$(OUTPUT_DIR)\Setup\ZRColaRu64.msi"
-	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-x86   sl_SI "$(PUBLISH_PACKAGE_URL)/ZRColaSl32.msi" -f "$(OUTPUT_DIR)\Setup\ZRColaSl32.msi"
-	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 sl_SI "$(PUBLISH_PACKAGE_URL)/ZRColaSl64.msi" -f "$(OUTPUT_DIR)\Setup\ZRColaSl64.msi"
+#	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-x86   de_DE "$(PUBLISH_PACKAGE_URL)/ZRColaDe32.msi" -f "$(OUTPUT_DIR)\ZRColaDe32.msi"
+#	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 de_DE "$(PUBLISH_PACKAGE_URL)/ZRColaDe64.msi" -f "$(OUTPUT_DIR)\ZRColaDe64.msi"
+	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-x86   en_US "$(PUBLISH_PACKAGE_URL)/ZRColaEn32.msi" -f "$(OUTPUT_DIR)\ZRColaEn32.msi"
+	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 en_US "$(PUBLISH_PACKAGE_URL)/ZRColaEn64.msi" -f "$(OUTPUT_DIR)\ZRColaEn64.msi"
+	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-x86   ru_RU "$(PUBLISH_PACKAGE_URL)/ZRColaRu32.msi" -f "$(OUTPUT_DIR)\ZRColaRu32.msi"
+	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 ru_RU "$(PUBLISH_PACKAGE_URL)/ZRColaRu64.msi" -f "$(OUTPUT_DIR)\ZRColaRu64.msi"
+	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-x86   sl_SI "$(PUBLISH_PACKAGE_URL)/ZRColaSl32.msi" -f "$(OUTPUT_DIR)\ZRColaSl32.msi"
+	output\$(PLAT).Release\UpdPublish.exe "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 sl_SI "$(PUBLISH_PACKAGE_URL)/ZRColaSl64.msi" -f "$(OUTPUT_DIR)\ZRColaSl64.msi"
 	move /y "$(@:"=).tmp" $@ > NUL
 
 !ENDIF
