@@ -88,7 +88,7 @@ int _tmain(int argc, _TCHAR *argv[])
     }
 
     // Initialize configuration.
-    wxConfigBase *cfgPrev = wxConfigBase::Set(new wxConfig(wxT(ZRCOLA_CFG_APPLICATION), wxT(ZRCOLA_CFG_VENDOR)));
+    wxConfigBase *cfgPrev = wxConfigBase::Set(new wxConfig(wxT(PRODUCT_CFG_APPLICATION), wxT(PRODUCT_CFG_VENDOR)));
     if (cfgPrev) wxDELETE(cfgPrev);
 
     // Initialize locale.

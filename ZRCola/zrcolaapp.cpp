@@ -43,12 +43,12 @@ bool ZRColaApp::OnInit()
     // To compensate migration to non-advertised shortcut, do the Microsoft Installer's feature completeness check manually.
     // If execution got this far in the first place (EXE and dependent DLLs are present and loadable).
     // Furthermore, this increments program usage counter.
-    if (::MsiQueryFeatureState(_T(ZRCOLA_VERSION_GUID), _T("featZRCola")) != INSTALLSTATE_UNKNOWN)
-        ::MsiUseFeature(_T(ZRCOLA_VERSION_GUID), _T("featZRCola"));
+    if (::MsiQueryFeatureState(_T(PRODUCT_VERSION_GUID), _T("featZRCola")) != INSTALLSTATE_UNKNOWN)
+        ::MsiUseFeature(_T(PRODUCT_VERSION_GUID), _T("featZRCola"));
 #endif
 
     // Initialize configuration.
-    wxConfigBase *cfgPrev = wxConfigBase::Set(new wxConfig(wxT(ZRCOLA_CFG_APPLICATION), wxT(ZRCOLA_CFG_VENDOR)));
+    wxConfigBase *cfgPrev = wxConfigBase::Set(new wxConfig(wxT(PRODUCT_CFG_APPLICATION), wxT(PRODUCT_CFG_VENDOR)));
     if (cfgPrev) wxDELETE(cfgPrev);
 
     if (!wxApp::OnInit())
@@ -65,7 +65,7 @@ bool ZRColaApp::OnInit()
 
 #ifdef __WXMSW__
     // Create global event.
-    m_running.attach(::CreateEvent(NULL, FALSE, FALSE, _T(ZRCOLA_CFG_APPLICATION) _T("{BBDE7AAD-29B6-4B83-ADA1-92AFA81A0883}")));
+    m_running.attach(::CreateEvent(NULL, FALSE, FALSE, _T(PRODUCT_CFG_APPLICATION) _T("{BBDE7AAD-29B6-4B83-ADA1-92AFA81A0883}")));
     if (::GetLastError() == ERROR_ALREADY_EXISTS) {
         // ZRCola is already running. Find its window.
         HWND okno = ::FindWindow(_T("wxWindowNR"), _("ZRCola"));

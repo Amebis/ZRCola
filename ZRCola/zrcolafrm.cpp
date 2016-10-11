@@ -358,7 +358,7 @@ void wxZRColaFrame::OnHelpShortcuts(wxCommandEvent& event)
 
 #ifdef __WXMSW__
     // Search and try to launch installed PDF.
-    INSTALLSTATE pdf_is = ::MsiGetComponentPath(_T(ZRCOLA_VERSION_GUID), _T("{68AC2C38-10E2-41A3-B92C-844C03FFDF6A}"), pdf_path);
+    INSTALLSTATE pdf_is = ::MsiGetComponentPath(_T(PRODUCT_VERSION_GUID), _T("{68AC2C38-10E2-41A3-B92C-844C03FFDF6A}"), pdf_path);
     if ((pdf_is == INSTALLSTATE_LOCAL || pdf_is == INSTALLSTATE_SOURCE) &&
         wxFileExists(pdf_path) &&
         (int)::ShellExecute(GetHWND(), NULL, pdf_path.c_str(), NULL, NULL, SW_SHOWNORMAL) > 32) return;

@@ -28,9 +28,9 @@
 // Product version as a single DWORD
 // Note: Used for version comparison within C/C++ code.
 //
-#define UPDATER_PRODUCT_VERSION     ZRCOLA_VERSION
+#define UPDATER_PRODUCT_VERSION     PRODUCT_VERSION
 
 //
 // Human readable product version and build year for UI
 //
-#define UPDATER_PRODUCT_VERSION_STR ZRCOLA_VERSION_STR
+#define UPDATER_PRODUCT_VERSION_STR PRODUCT_VERSION_STR

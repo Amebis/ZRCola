@@ -26,7 +26,7 @@
 
 wxZRColaAbout::wxZRColaAbout(wxWindow* parent) : wxZRColaAboutBase(parent)
 {
-    m_staticTextVersion->SetLabelText(wxT(ZRCOLA_VERSION_STR));
+    m_staticTextVersion->SetLabelText(wxT(PRODUCT_VERSION_STR));
 
-    m_staticTextCopyright->SetLabelText(wxString::Format(_("© 2004-%s ZRC SAZU"), wxT(ZRCOLA_BUILD_YEAR_STR)));
+    m_staticTextCopyright->SetLabelText(wxString::Format(_("© 2004-%s ZRC SAZU"), wxT(PRODUCT_BUILD_YEAR_STR)));
 }
