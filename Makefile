@@ -127,16 +127,6 @@ Publish :: "MSI\MSIBuild\Version\Version.mak"
 PUBLISH_PACKAGE_DIR=$(PUBLISH_DIR)\$(MSIBUILD_VERSION_STR)
 PUBLISH_PACKAGE_URL=http://www.amebis.si/prenos/ZRCola/$(MSIBUILD_VERSION_STR)
 
-REDIST_DE_WIN32="$(PUBLISH_PACKAGE_DIR)\ZRColaDe32.msi"
-REDIST_DE_X64="$(PUBLISH_PACKAGE_DIR)\ZRColaDe64.msi"
-REDIST_EN_WIN32="$(PUBLISH_PACKAGE_DIR)\ZRColaEn32.msi"
-REDIST_EN_X64="$(PUBLISH_PACKAGE_DIR)\ZRColaEn64.msi"
-REDIST_RU_WIN32="$(PUBLISH_PACKAGE_DIR)\ZRColaRu32.msi"
-REDIST_RU_X64="$(PUBLISH_PACKAGE_DIR)\ZRColaRu64.msi"
-REDIST_SL_WIN32="$(PUBLISH_PACKAGE_DIR)\ZRColaSl32.msi"
-REDIST_SL_X64="$(PUBLISH_PACKAGE_DIR)\ZRColaSl64.msi"
-
-
 ######################################################################
 # Main targets
 ######################################################################
@@ -173,14 +163,14 @@ SetupDebug :: \
 
 PublishPre :: \
 	"$(PUBLISH_PACKAGE_DIR)" \
-#	$(REDIST_DE_WIN32) \
-#	$(REDIST_DE_X64) \
-	$(REDIST_EN_WIN32) \
-	$(REDIST_EN_X64) \
-#	$(REDIST_RU_WIN32) \
-#	$(REDIST_RU_X64) \
-	$(REDIST_SL_WIN32) \
-	$(REDIST_SL_X64) \
+#	"$(PUBLISH_PACKAGE_DIR)\ZRColaDe32.msi" \
+#	"$(PUBLISH_PACKAGE_DIR)\ZRColaDe64.msi" \
+	"$(PUBLISH_PACKAGE_DIR)\ZRColaEn32.msi" \
+	"$(PUBLISH_PACKAGE_DIR)\ZRColaEn64.msi" \
+#	"$(PUBLISH_PACKAGE_DIR)\ZRColaRu32.msi" \
+#	"$(PUBLISH_PACKAGE_DIR)\ZRColaRu64.msi" \
+	"$(PUBLISH_PACKAGE_DIR)\ZRColaSl32.msi" \
+	"$(PUBLISH_PACKAGE_DIR)\ZRColaSl64.msi" \
 	"$(PUBLISH_DIR)" \
 #	"$(PUBLISH_DIR)\ZRColaInstallDe.exe" \
 	"$(PUBLISH_DIR)\ZRColaInstallEn.exe" \
@@ -299,56 +289,56 @@ Localization :: \
 ######################################################################
 
 "$(OUTPUT_DIR)\Setup\ZRColaDe32.msi" \
-$(REDIST_DE_WIN32) : "$(OUTPUT_DIR)\ZRColaDe32.3.msi"
+"$(PUBLISH_PACKAGE_DIR)\ZRColaDe32.msi" : "$(OUTPUT_DIR)\ZRColaDe32.3.msi"
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\Setup\ZRColaDe32D.msi" : "$(OUTPUT_DIR)\ZRColaDe32D.3.msi"
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\Setup\ZRColaDe64.msi" \
-$(REDIST_DE_X64) : "$(OUTPUT_DIR)\ZRColaDe64.3.msi"
+"$(PUBLISH_PACKAGE_DIR)\ZRColaDe64.msi" : "$(OUTPUT_DIR)\ZRColaDe64.3.msi"
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\Setup\ZRColaDe64D.msi" : "$(OUTPUT_DIR)\ZRColaDe64D.3.msi"
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\Setup\ZRColaEn32.msi" \
-$(REDIST_EN_WIN32) : "$(OUTPUT_DIR)\ZRColaEn32.3.msi"
+"$(PUBLISH_PACKAGE_DIR)\ZRColaEn32.msi" : "$(OUTPUT_DIR)\ZRColaEn32.3.msi"
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\Setup\ZRColaEn32D.msi" : "$(OUTPUT_DIR)\ZRColaEn32D.3.msi"
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\Setup\ZRColaEn64.msi" \
-$(REDIST_EN_X64) : "$(OUTPUT_DIR)\ZRColaEn64.3.msi"
+"$(PUBLISH_PACKAGE_DIR)\ZRColaEn64.msi" : "$(OUTPUT_DIR)\ZRColaEn64.3.msi"
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\Setup\ZRColaEn64D.msi" : "$(OUTPUT_DIR)\ZRColaEn64D.3.msi"
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\Setup\ZRColaRu32.msi" \
-$(REDIST_RU_WIN32) : "$(OUTPUT_DIR)\ZRColaRu32.3.msi"
+"$(PUBLISH_PACKAGE_DIR)\ZRColaRu32.msi" : "$(OUTPUT_DIR)\ZRColaRu32.3.msi"
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\Setup\ZRColaRu32D.msi" : "$(OUTPUT_DIR)\ZRColaRu32D.3.msi"
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\Setup\ZRColaRu64.msi" \
-$(REDIST_RU_X64) : "$(OUTPUT_DIR)\ZRColaRu64.3.msi"
+"$(PUBLISH_PACKAGE_DIR)\ZRColaRu64.msi" : "$(OUTPUT_DIR)\ZRColaRu64.3.msi"
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\Setup\ZRColaRu64D.msi" : "$(OUTPUT_DIR)\ZRColaRu64D.3.msi"
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\Setup\ZRColaSl32.msi" \
-$(REDIST_SL_WIN32) : "$(OUTPUT_DIR)\ZRColaSl32.3.msi"
+"$(PUBLISH_PACKAGE_DIR)\ZRColaSl32.msi" : "$(OUTPUT_DIR)\ZRColaSl32.3.msi"
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\Setup\ZRColaSl32D.msi" : "$(OUTPUT_DIR)\ZRColaSl32D.3.msi"
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\Setup\ZRColaSl64.msi" \
-$(REDIST_SL_X64) : "$(OUTPUT_DIR)\ZRColaSl64.3.msi"
+"$(PUBLISH_PACKAGE_DIR)\ZRColaSl64.msi" : "$(OUTPUT_DIR)\ZRColaSl64.3.msi"
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\Setup\ZRColaSl64D.msi" : "$(OUTPUT_DIR)\ZRColaSl64D.3.msi"
