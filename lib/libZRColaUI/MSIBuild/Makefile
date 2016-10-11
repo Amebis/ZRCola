@@ -72,8 +72,12 @@ complibZRColaUI.dll.Win32	{D9A5BF44-DDFE-4A22-89F4-14D291581829}	ZRCOLABINDIR	0	
 !IF "$(PLAT)" == "x64"
 complibZRColaUI.dll.x64	{360E78E5-9560-4C52-B806-45EDC682BB17}	ZRCOLABINDIR	256		filelibZRColaUI.dll.x64
 !ENDIF
+!IF "$(LANG)" == "ru_RU"
 complibZRColaUI.mo.ru_RU	{2099A205-5D5E-4AD9-BD31-EECC87FEAB47}	ZRCOLALOCRURUDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		filelibZRColaUI.mo.ru_RU
+!ENDIF
+!IF "$(LANG)" == "sl_SI"
 complibZRColaUI.mo.sl_SI	{EAE1C699-8415-4FC6-9EC7-FE74AFC432A9}	ZRCOLALOCSLSIDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		filelibZRColaUI.mo.sl_SI
+!ENDIF
 <<NOKEEP
 
 
@@ -104,8 +108,12 @@ filelibZRColaUI.dll.x64	complibZRColaUI.dll.x64	LIBZRC~6.DLL|libZRColaUI10u_vc10
 filelibZRColaUI.dll.x64	complibZRColaUI.dll.x64	LIBZRC~8.DLL|libZRColaUI10ud_vc100_x64.dll	0		0	1536	1
 !ENDIF
 !ENDIF
+!IF "$(LANG)" == "ru_RU"
 filelibZRColaUI.mo.ru_RU	complibZRColaUI.mo.ru_RU	LIBZRC~1.MO|libZRColaUI.mo	0		1060	0	1
+!ENDIF
+!IF "$(LANG)" == "sl_SI"
 filelibZRColaUI.mo.sl_SI	complibZRColaUI.mo.sl_SI	LIBZRC~1.MO|libZRColaUI.mo	0		1060	0	1
+!ENDIF
 <<NOKEEP
 
 
