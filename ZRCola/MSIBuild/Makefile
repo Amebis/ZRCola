@@ -104,12 +104,8 @@ compZRCola.exe.Win32	{F30B6545-6203-4B7D-8575-85245A0F90E5}	ZRCOLABINDIR	0		file
 !IF "$(PLAT)" == "x64"
 compZRCola.exe.x64	{D45B105D-2303-459A-AF4B-52AC3AAD5510}	ZRCOLABINDIR	256		fileZRCola.exe.x64
 !ENDIF
-!IF "$(LANG)" == "ru_RU"
 compZRCola.mo.ru_RU	{DEA5D11C-2B0E-4B85-ACE3-D76334866F50}	ZRCOLALOCRURUDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola.mo.ru_RU
-!ENDIF
-!IF "$(LANG)" == "sl_SI"
 compZRCola.mo.sl_SI	{7FF95C71-D8DE-4D2B-A26D-FEB5A1F54D63}	ZRCOLALOCSLSIDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola.mo.sl_SI
-!ENDIF
 <<NOKEEP
 
 
@@ -246,22 +242,18 @@ featZRCola	compLanguage
 featZRCola	compDatabasePath
 featZRCola	compZRCola.zrcdb
 featZRCola	compZRCola_Re.otf
-!IF "$(LANG)" == "ru_RU"
 featZRCola	compZRCola.mo.ru_RU
 featZRCola	compZRCola.zrcdb.mo.ru_RU
 featZRCola	complibZRColaUI.mo.ru_RU
 featZRCola	compwxExtend.mo.ru_RU
 featZRCola	compUpdater.mo.ru_RU
 featZRCola	compwxstd.mo.ru_RU
-!ENDIF
-!IF "$(LANG)" == "sl_SI"
 featZRCola	compZRCola.mo.sl_SI
 featZRCola	compZRCola.zrcdb.mo.sl_SI
 featZRCola	complibZRColaUI.mo.sl_SI
 featZRCola	compwxExtend.mo.sl_SI
 featZRCola	compUpdater.mo.sl_SI
 featZRCola	compwxstd.mo.sl_SI
-!ENDIF
 <<NOKEEP
 
 
@@ -277,12 +269,8 @@ File	Component_	FileName	FileSize	Version	Language	Attributes	Sequence
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l255	i4	S$(MSIBUILD_LENGTH_ID)	S20	I2	i2
 File	File
 fileZRCola.exe.$(PLAT)	compZRCola.exe.$(PLAT)	ZRCola.exe	0		0	1536	1
-!IF "$(LANG)" == "ru_RU"
 fileZRCola.mo.ru_RU	compZRCola.mo.ru_RU	ZRCola.mo	0		1060	0	1
-!ENDIF
-!IF "$(LANG)" == "sl_SI"
 fileZRCola.mo.sl_SI	compZRCola.mo.sl_SI	ZRCola.mo	0		1060	0	1
-!ENDIF
 <<NOKEEP
 
 

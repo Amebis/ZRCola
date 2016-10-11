@@ -68,14 +68,10 @@ compZRCola_It.otf	{FFBD408C-9FC1-4CD1-88BF-A0284AD17F96}	FontsFolder	8		fileZRCo
 compZRCola_Bd.otf	{E84BB37C-1079-4299-A4BA-4EE48AFE5BCE}	FontsFolder	8		fileZRCola_Bd.otf
 compZRCola_BI.otf	{FDFE77E4-45CC-450A-9543-0A83C01A0A48}	FontsFolder	8		fileZRCola_BI.otf
 comp00_ZRCola	{63E512B4-33AC-4DB1-A762-071099CAA0DE}	ZRCOLADATADIR	$(MSIBUILD_COMPONENT_ATTRIB_REGISTRY)		reg00_ZRCola
-!IF "$(LANG)" == "ru_RU"
 compwxstd.mo.ru_RU	{342BD930-C88B-4759-A4A8-F62054E7EA88}	ZRCOLALOCRURUDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		filewxstd.mo.ru_RU
 compZRCola.zrcdb.mo.ru_RU	{BED0B2D2-CC08-4309-A2DB-A18B904B8D13}	ZRCOLALOCRURUDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola.zrcdb.mo.ru_RU
-!ENDIF
-!IF "$(LANG)" == "sl_SI"
 compwxstd.mo.sl_SI	{A5FEEA94-08CA-4E12-993F-A115601EF258}	ZRCOLALOCSLSIDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		filewxstd.mo.sl_SI
 compZRCola.zrcdb.mo.sl_SI	{6572EAD1-EE48-46A1-A28E-77985B667F67}	ZRCOLALOCSLSIDIR	$(MSIBUILD_COMPONENT_ATTRIB_FILE)		fileZRCola.zrcdb.mo.sl_SI
-!ENDIF
 <<NOKEEP
 
 
@@ -215,12 +211,8 @@ ZRCOLABINDIR	ZRCOLADIR	.:X64~1.DEB|x64.Debug
 ZRCOLABINDIR	ZRCOLADIR	.:X64~1.REL|x64.Release
 !ENDIF
 ZRCOLALOCDIR	ZRCOLADIR	locale
-!IF "$(LANG)" == "ru_RU"
 ZRCOLALOCRURUDIR	ZRCOLALOCDIR	ru_RU
-!ENDIF
-!IF "$(LANG)" == "sl_SI"
 ZRCOLALOCSLSIDIR	ZRCOLALOCDIR	sl_SI
-!ENDIF
 ZRCOLADATADIR	ZRCOLADIR	data
 <<NOKEEP
 
@@ -305,14 +297,10 @@ fileZRCola_Re.otf	compZRCola_Re.otf	ZRCOLA~1.OTF|ZRCola_Re.otf	0			0	1
 fileZRCola_It.otf	compZRCola_It.otf	ZRCOLA~2.OTF|ZRCola_It.otf	0			0	1
 fileZRCola_Bd.otf	compZRCola_Bd.otf	ZRCOLA~3.OTF|ZRCola_Bd.otf	0			0	1
 fileZRCola_BI.otf	compZRCola_BI.otf	ZRCOLA~4.OTF|ZRCola_BI.otf	0			0	1
-!IF "$(LANG)" == "ru_RU"
 filewxstd.mo.ru_RU	compwxstd.mo.ru_RU	wxstd.mo	0		1060	0	1
 fileZRCola.zrcdb.mo.ru_RU	compZRCola.zrcdb.mo.ru_RU	ZRCOLA~1.MO|ZRCola-zrcdb.mo	0		1060	0	1
-!ENDIF
-!IF "$(LANG)" == "sl_SI"
 filewxstd.mo.sl_SI	compwxstd.mo.sl_SI	wxstd.mo	0		1060	0	1
 fileZRCola.zrcdb.mo.sl_SI	compZRCola.zrcdb.mo.sl_SI	ZRCOLA~1.MO|ZRCola-zrcdb.mo	0		1060	0	1
-!ENDIF
 <<NOKEEP
 
 
