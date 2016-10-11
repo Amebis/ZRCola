@@ -36,24 +36,6 @@ Clean ::
 	cd "MSI\MSIBuild\Version"
 	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean
 	cd "$(MAKEDIR)"
-	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=de_DE PLAT=Win32 CFG=Release
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=de_DE PLAT=Win32 CFG=Debug
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=de_DE PLAT=x64   CFG=Release
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=de_DE PLAT=x64   CFG=Debug
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=en_US PLAT=Win32 CFG=Release
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=en_US PLAT=Win32 CFG=Debug
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=en_US PLAT=x64   CFG=Release
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=en_US PLAT=x64   CFG=Debug
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=ru_RU PLAT=Win32 CFG=Release
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=ru_RU PLAT=Win32 CFG=Debug
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=ru_RU PLAT=x64   CFG=Release
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=ru_RU PLAT=x64   CFG=Debug
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=sl_SI PLAT=Win32 CFG=Release
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=sl_SI PLAT=Win32 CFG=Debug
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=sl_SI PLAT=x64   CFG=Release
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean LANG=sl_SI PLAT=x64   CFG=Debug
-	cd "$(MAKEDIR)"
 	devenv.com "ZRCola.sln"          /clean "Release|Win32"
 	devenv.com "ZRCola.sln"          /clean "Debug|Win32"
 	devenv.com "ZRCola.sln"          /clean "Release|x64"
@@ -74,22 +56,22 @@ Clean ::
 	-if exist "$(OUTPUT_DIR)\locale\de_DE\ZRCola-zrcdb.mo" del /f /q "$(OUTPUT_DIR)\locale\de_DE\ZRCola-zrcdb.mo"
 	-if exist "$(OUTPUT_DIR)\locale\ru_RU\ZRCola-zrcdb.mo" del /f /q "$(OUTPUT_DIR)\locale\ru_RU\ZRCola-zrcdb.mo"
 	-if exist "$(OUTPUT_DIR)\locale\sl_SI\ZRCola-zrcdb.mo" del /f /q "$(OUTPUT_DIR)\locale\sl_SI\ZRCola-zrcdb.mo"
-	-if exist "$(OUTPUT_DIR)\Setup\ZRColaDe32.msi"         del /f /q "$(OUTPUT_DIR)\Setup\ZRColaDe32.msi"
-	-if exist "$(OUTPUT_DIR)\Setup\ZRColaDe32D.msi"        del /f /q "$(OUTPUT_DIR)\Setup\ZRColaDe32D.msi"
-	-if exist "$(OUTPUT_DIR)\Setup\ZRColaDe64.msi"         del /f /q "$(OUTPUT_DIR)\Setup\ZRColaDe64.msi"
-	-if exist "$(OUTPUT_DIR)\Setup\ZRColaDe64D.msi"        del /f /q "$(OUTPUT_DIR)\Setup\ZRColaDe64D.msi"
-	-if exist "$(OUTPUT_DIR)\Setup\ZRColaEn32.msi"         del /f /q "$(OUTPUT_DIR)\Setup\ZRColaEn32.msi"
-	-if exist "$(OUTPUT_DIR)\Setup\ZRColaEn32D.msi"        del /f /q "$(OUTPUT_DIR)\Setup\ZRColaEn32D.msi"
-	-if exist "$(OUTPUT_DIR)\Setup\ZRColaEn64.msi"         del /f /q "$(OUTPUT_DIR)\Setup\ZRColaEn64.msi"
-	-if exist "$(OUTPUT_DIR)\Setup\ZRColaEn64D.msi"        del /f /q "$(OUTPUT_DIR)\Setup\ZRColaEn64D.msi"
-	-if exist "$(OUTPUT_DIR)\Setup\ZRColaRu32.msi"         del /f /q "$(OUTPUT_DIR)\Setup\ZRColaRu32.msi"
-	-if exist "$(OUTPUT_DIR)\Setup\ZRColaRu32D.msi"        del /f /q "$(OUTPUT_DIR)\Setup\ZRColaRu32D.msi"
-	-if exist "$(OUTPUT_DIR)\Setup\ZRColaRu64.msi"         del /f /q "$(OUTPUT_DIR)\Setup\ZRColaRu64.msi"
-	-if exist "$(OUTPUT_DIR)\Setup\ZRColaRu64D.msi"        del /f /q "$(OUTPUT_DIR)\Setup\ZRColaRu64D.msi"
-	-if exist "$(OUTPUT_DIR)\Setup\ZRColaSl32.msi"         del /f /q "$(OUTPUT_DIR)\Setup\ZRColaSl32.msi"
-	-if exist "$(OUTPUT_DIR)\Setup\ZRColaSl32D.msi"        del /f /q "$(OUTPUT_DIR)\Setup\ZRColaSl32D.msi"
-	-if exist "$(OUTPUT_DIR)\Setup\ZRColaSl64.msi"         del /f /q "$(OUTPUT_DIR)\Setup\ZRColaSl64.msi"
-	-if exist "$(OUTPUT_DIR)\Setup\ZRColaSl64D.msi"        del /f /q "$(OUTPUT_DIR)\Setup\ZRColaSl64D.msi"
+	-if exist "$(OUTPUT_DIR)\ZRCola32.ddf"                 del /f /q "$(OUTPUT_DIR)\ZRCola32.ddf"
+	-if exist "$(OUTPUT_DIR)\ZRCola32D.ddf"                del /f /q "$(OUTPUT_DIR)\ZRCola32D.ddf"
+	-if exist "$(OUTPUT_DIR)\ZRCola64.ddf"                 del /f /q "$(OUTPUT_DIR)\ZRCola64.ddf"
+	-if exist "$(OUTPUT_DIR)\ZRCola64D.ddf"                del /f /q "$(OUTPUT_DIR)\ZRCola64D.ddf"
+	-if exist "$(OUTPUT_DIR)\ZRCola32.cab"                 del /f /q "$(OUTPUT_DIR)\ZRCola32.cab"
+	-if exist "$(OUTPUT_DIR)\ZRCola32.inf"                 del /f /q "$(OUTPUT_DIR)\ZRCola32.inf"
+	-if exist "$(OUTPUT_DIR)\ZRCola32.rpt"                 del /f /q "$(OUTPUT_DIR)\ZRCola32.rpt"
+	-if exist "$(OUTPUT_DIR)\ZRCola32D.cab"                del /f /q "$(OUTPUT_DIR)\ZRCola32D.cab"
+	-if exist "$(OUTPUT_DIR)\ZRCola32D.inf"                del /f /q "$(OUTPUT_DIR)\ZRCola32D.inf"
+	-if exist "$(OUTPUT_DIR)\ZRCola32D.rpt"                del /f /q "$(OUTPUT_DIR)\ZRCola32D.rpt"
+	-if exist "$(OUTPUT_DIR)\ZRCola64.cab"                 del /f /q "$(OUTPUT_DIR)\ZRCola64.cab"
+	-if exist "$(OUTPUT_DIR)\ZRCola64.inf"                 del /f /q "$(OUTPUT_DIR)\ZRCola64.inf"
+	-if exist "$(OUTPUT_DIR)\ZRCola64.rpt"                 del /f /q "$(OUTPUT_DIR)\ZRCola64.rpt"
+	-if exist "$(OUTPUT_DIR)\ZRCola64D.cab"                del /f /q "$(OUTPUT_DIR)\ZRCola64D.cab"
+	-if exist "$(OUTPUT_DIR)\ZRCola64D.inf"                del /f /q "$(OUTPUT_DIR)\ZRCola64D.inf"
+	-if exist "$(OUTPUT_DIR)\ZRCola64D.rpt"                del /f /q "$(OUTPUT_DIR)\ZRCola64D.rpt"
 	-if exist "$(OUTPUT_DIR)\catalog.xml"                  del /f /q "$(OUTPUT_DIR)\catalog.xml"
 
 !IFNDEF HAS_VERSION
@@ -167,8 +149,8 @@ PublishPre :: \
 #	"$(PUBLISH_PACKAGE_DIR)\ZRColaDe64.msi" \
 	"$(PUBLISH_PACKAGE_DIR)\ZRColaEn32.msi" \
 	"$(PUBLISH_PACKAGE_DIR)\ZRColaEn64.msi" \
-#	"$(PUBLISH_PACKAGE_DIR)\ZRColaRu32.msi" \
-#	"$(PUBLISH_PACKAGE_DIR)\ZRColaRu64.msi" \
+	"$(PUBLISH_PACKAGE_DIR)\ZRColaRu32.msi" \
+	"$(PUBLISH_PACKAGE_DIR)\ZRColaRu64.msi" \
 	"$(PUBLISH_PACKAGE_DIR)\ZRColaSl32.msi" \
 	"$(PUBLISH_PACKAGE_DIR)\ZRColaSl64.msi" \
 	"$(PUBLISH_DIR)" \
@@ -288,62 +270,6 @@ Localization :: \
 # File copy
 ######################################################################
 
-"$(OUTPUT_DIR)\Setup\ZRColaDe32.msi" \
-"$(PUBLISH_PACKAGE_DIR)\ZRColaDe32.msi" : "$(OUTPUT_DIR)\ZRColaDe32.3.msi"
-	copy /y $** $@ > NUL
-
-"$(OUTPUT_DIR)\Setup\ZRColaDe32D.msi" : "$(OUTPUT_DIR)\ZRColaDe32D.3.msi"
-	copy /y $** $@ > NUL
-
-"$(OUTPUT_DIR)\Setup\ZRColaDe64.msi" \
-"$(PUBLISH_PACKAGE_DIR)\ZRColaDe64.msi" : "$(OUTPUT_DIR)\ZRColaDe64.3.msi"
-	copy /y $** $@ > NUL
-
-"$(OUTPUT_DIR)\Setup\ZRColaDe64D.msi" : "$(OUTPUT_DIR)\ZRColaDe64D.3.msi"
-	copy /y $** $@ > NUL
-
-"$(OUTPUT_DIR)\Setup\ZRColaEn32.msi" \
-"$(PUBLISH_PACKAGE_DIR)\ZRColaEn32.msi" : "$(OUTPUT_DIR)\ZRColaEn32.3.msi"
-	copy /y $** $@ > NUL
-
-"$(OUTPUT_DIR)\Setup\ZRColaEn32D.msi" : "$(OUTPUT_DIR)\ZRColaEn32D.3.msi"
-	copy /y $** $@ > NUL
-
-"$(OUTPUT_DIR)\Setup\ZRColaEn64.msi" \
-"$(PUBLISH_PACKAGE_DIR)\ZRColaEn64.msi" : "$(OUTPUT_DIR)\ZRColaEn64.3.msi"
-	copy /y $** $@ > NUL
-
-"$(OUTPUT_DIR)\Setup\ZRColaEn64D.msi" : "$(OUTPUT_DIR)\ZRColaEn64D.3.msi"
-	copy /y $** $@ > NUL
-
-"$(OUTPUT_DIR)\Setup\ZRColaRu32.msi" \
-"$(PUBLISH_PACKAGE_DIR)\ZRColaRu32.msi" : "$(OUTPUT_DIR)\ZRColaRu32.3.msi"
-	copy /y $** $@ > NUL
-
-"$(OUTPUT_DIR)\Setup\ZRColaRu32D.msi" : "$(OUTPUT_DIR)\ZRColaRu32D.3.msi"
-	copy /y $** $@ > NUL
-
-"$(OUTPUT_DIR)\Setup\ZRColaRu64.msi" \
-"$(PUBLISH_PACKAGE_DIR)\ZRColaRu64.msi" : "$(OUTPUT_DIR)\ZRColaRu64.3.msi"
-	copy /y $** $@ > NUL
-
-"$(OUTPUT_DIR)\Setup\ZRColaRu64D.msi" : "$(OUTPUT_DIR)\ZRColaRu64D.3.msi"
-	copy /y $** $@ > NUL
-
-"$(OUTPUT_DIR)\Setup\ZRColaSl32.msi" \
-"$(PUBLISH_PACKAGE_DIR)\ZRColaSl32.msi" : "$(OUTPUT_DIR)\ZRColaSl32.3.msi"
-	copy /y $** $@ > NUL
-
-"$(OUTPUT_DIR)\Setup\ZRColaSl32D.msi" : "$(OUTPUT_DIR)\ZRColaSl32D.3.msi"
-	copy /y $** $@ > NUL
-
-"$(OUTPUT_DIR)\Setup\ZRColaSl64.msi" \
-"$(PUBLISH_PACKAGE_DIR)\ZRColaSl64.msi" : "$(OUTPUT_DIR)\ZRColaSl64.3.msi"
-	copy /y $** $@ > NUL
-
-"$(OUTPUT_DIR)\Setup\ZRColaSl64D.msi" : "$(OUTPUT_DIR)\ZRColaSl64D.3.msi"
-	copy /y $** $@ > NUL
-
 "$(WINDIR)\Fonts\ZRCola_Re.otf" : "$(OUTPUT_DIR)\ZRCola_Re.otf"
 	copy /y $** $@ > NUL
 
@@ -354,18 +280,6 @@ Localization :: \
 	copy /y $** $@ > NUL
 
 "$(WINDIR)\Fonts\ZRCola_BI.otf" : "$(OUTPUT_DIR)\ZRCola_BI.otf"
-	copy /y $** $@ > NUL
-
-"$(PUBLISH_DIR)\ZRColaInstallDe.exe" : "$(OUTPUT_DIR)\Win32.Release\ZRColaInstallDe.exe"
-	copy /y $** $@ > NUL
-
-"$(PUBLISH_DIR)\ZRColaInstallEn.exe" : "$(OUTPUT_DIR)\Win32.Release\ZRColaInstallEn.exe"
-	copy /y $** $@ > NUL
-
-"$(PUBLISH_DIR)\ZRColaInstallRu.exe" : "$(OUTPUT_DIR)\Win32.Release\ZRColaInstallRu.exe"
-	copy /y $** $@ > NUL
-
-"$(PUBLISH_DIR)\ZRColaInstallSl.exe" : "$(OUTPUT_DIR)\Win32.Release\ZRColaInstallSl.exe"
 	copy /y $** $@ > NUL
 
 
@@ -403,205 +317,113 @@ Localization :: \
 "$(OUTPUT_DIR)\Win32.Release\libZRColaUI10u_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Release\stdex10u_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Release\wxExtend10u_vc100.dll" \
-"$(OUTPUT_DIR)\Win32.Release\ZRCola.exe" \
-"$(OUTPUT_DIR)\ZRColaDe32.3.msi" \
-"$(OUTPUT_DIR)\ZRColaEn32.3.msi" \
-"$(OUTPUT_DIR)\ZRColaRu32.3.msi" \
-"$(OUTPUT_DIR)\ZRColaSl32.3.msi" :: Localization
+"$(OUTPUT_DIR)\Win32.Release\ZRCola.exe" :: Localization
 
 "$(OUTPUT_DIR)\Win32.Debug\libZRCola10ud_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Debug\libZRColaUI10ud_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Debug\stdex10ud_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Debug\wxExtend10ud_vc100.dll" \
-"$(OUTPUT_DIR)\Win32.Debug\ZRCola.exe" \
-"$(OUTPUT_DIR)\ZRColaDe32D.3.msi" \
-"$(OUTPUT_DIR)\ZRColaEn32D.3.msi" \
-"$(OUTPUT_DIR)\ZRColaRu32D.3.msi" \
-"$(OUTPUT_DIR)\ZRColaSl32D.3.msi" :: Localization
+"$(OUTPUT_DIR)\Win32.Debug\ZRCola.exe" :: Localization
 
 "$(OUTPUT_DIR)\x64.Release\libZRCola10u_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Release\libZRColaUI10u_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Release\stdex10u_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Release\wxExtend10u_vc100.dll" \
-"$(OUTPUT_DIR)\x64.Release\ZRCola.exe" \
-"$(OUTPUT_DIR)\ZRColaDe64.3.msi" \
-"$(OUTPUT_DIR)\ZRColaEn64.3.msi" \
-"$(OUTPUT_DIR)\ZRColaRu64.3.msi" \
-"$(OUTPUT_DIR)\ZRColaSl64.3.msi" :: Localization
+"$(OUTPUT_DIR)\x64.Release\ZRCola.exe" :: Localization
 
 "$(OUTPUT_DIR)\x64.Debug\libZRCola10ud_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Debug\libZRColaUI10ud_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Debug\stdex10ud_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Debug\wxExtend10ud_vc100.dll" \
-"$(OUTPUT_DIR)\x64.Debug\ZRCola.exe" \
-"$(OUTPUT_DIR)\ZRColaDe64D.3.msi" \
-"$(OUTPUT_DIR)\ZRColaEn64D.3.msi" \
-"$(OUTPUT_DIR)\ZRColaRu64D.3.msi" \
-"$(OUTPUT_DIR)\ZRColaSl64D.3.msi" :: Localization
+"$(OUTPUT_DIR)\x64.Debug\ZRCola.exe" :: Localization
 
 "$(OUTPUT_DIR)\Win32.Release\libZRCola10u_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Release\libZRColaUI10u_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Release\stdex10u_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Release\wxExtend10u_vc100.dll" \
-"$(OUTPUT_DIR)\Win32.Release\ZRCola.exe" \
-"$(OUTPUT_DIR)\ZRColaDe32.3.msi" \
-"$(OUTPUT_DIR)\ZRColaEn32.3.msi" \
-"$(OUTPUT_DIR)\ZRColaRu32.3.msi" \
-"$(OUTPUT_DIR)\ZRColaSl32.3.msi" ::
+"$(OUTPUT_DIR)\Win32.Release\ZRCola.exe" ::
 	devenv.com "ZRCola.sln" /build "Release|Win32"
 
 "$(OUTPUT_DIR)\Win32.Debug\libZRCola10ud_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Debug\libZRColaUI10ud_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Debug\stdex10ud_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Debug\wxExtend10ud_vc100.dll" \
-"$(OUTPUT_DIR)\Win32.Debug\ZRCola.exe" \
-"$(OUTPUT_DIR)\ZRColaDe32D.3.msi" \
-"$(OUTPUT_DIR)\ZRColaEn32D.3.msi" \
-"$(OUTPUT_DIR)\ZRColaRu32D.3.msi" \
-"$(OUTPUT_DIR)\ZRColaSl32D.3.msi" ::
+"$(OUTPUT_DIR)\Win32.Debug\ZRCola.exe" ::
 	devenv.com "ZRCola.sln" /build "Debug|Win32"
 
 "$(OUTPUT_DIR)\x64.Release\libZRCola10u_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Release\libZRColaUI10u_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Release\stdex10u_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Release\wxExtend10u_vc100.dll" \
-"$(OUTPUT_DIR)\x64.Release\ZRCola.exe" \
-"$(OUTPUT_DIR)\ZRColaDe64.3.msi" \
-"$(OUTPUT_DIR)\ZRColaEn64.3.msi" \
-"$(OUTPUT_DIR)\ZRColaRu64.3.msi" \
-"$(OUTPUT_DIR)\ZRColaSl64.3.msi" ::
+"$(OUTPUT_DIR)\x64.Release\ZRCola.exe" ::
 	devenv.com "ZRCola.sln" /build "Release|x64"
 
 "$(OUTPUT_DIR)\x64.Debug\libZRCola10ud_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Debug\libZRColaUI10ud_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Debug\stdex10ud_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Debug\wxExtend10ud_vc100.dll" \
-"$(OUTPUT_DIR)\x64.Debug\ZRCola.exe" \
-"$(OUTPUT_DIR)\ZRColaDe64D.3.msi" \
-"$(OUTPUT_DIR)\ZRColaEn64D.3.msi" \
-"$(OUTPUT_DIR)\ZRColaRu64D.3.msi" \
-"$(OUTPUT_DIR)\ZRColaSl64D.3.msi" ::
+"$(OUTPUT_DIR)\x64.Debug\ZRCola.exe" ::
 	devenv.com "ZRCola.sln" /build "Debug|x64"
 
-"$(OUTPUT_DIR)\Win32.Release\ZRColaInstallDe.exe" \
-"$(OUTPUT_DIR)\Win32.Release\ZRColaInstallEn.exe" \
-"$(OUTPUT_DIR)\Win32.Release\ZRColaInstallRu.exe" \
-"$(OUTPUT_DIR)\Win32.Release\ZRColaInstallSl.exe" ::
-	devenv.com "ZRColaUtils.sln" /build "Release|Win32"
+"$(OUTPUT_DIR)\ZRCola32.ddf" : \
+#	"$(OUTPUT_DIR)\ZRCola.de_DE.32.2.msi" \
+	"$(OUTPUT_DIR)\ZRCola.en_US.32.2.msi" \
+	"$(OUTPUT_DIR)\ZRCola.ru_RU.32.2.msi" \
+	"$(OUTPUT_DIR)\ZRCola.sl_SI.32.2.msi"
+	-if exist $@ del /f /q $@
+	-if exist "$(@:"=).tmp" del /f /q "$(@:"=).tmp"
+	cscript.exe "MSI\MSIBuild\MSI.wsf" //Job:MakeDDF //Nologo "$(@:"=).tmp" $** /O:"$(OUTPUT_DIR)\ZRCola32" /C:LZX
+	move /y "$(@:"=).tmp" $@ > NUL
 
-"$(OUTPUT_DIR)\Win32.Debug\ZRColaInstallDe.exe" \
-"$(OUTPUT_DIR)\Win32.Debug\ZRColaInstallEn.exe" \
-"$(OUTPUT_DIR)\Win32.Debug\ZRColaInstallRu.exe" \
-"$(OUTPUT_DIR)\Win32.Debug\ZRColaInstallSl.exe" ::
-	devenv.com "ZRColaUtils.sln" /build "Debug|Win32"
+"$(OUTPUT_DIR)\ZRCola32D.ddf" : \
+#	"$(OUTPUT_DIR)\ZRCola.de_DE.32D.2.msi" \
+	"$(OUTPUT_DIR)\ZRCola.en_US.32D.2.msi" \
+	"$(OUTPUT_DIR)\ZRCola.ru_RU.32D.2.msi" \
+	"$(OUTPUT_DIR)\ZRCola.sl_SI.32D.2.msi"
+	-if exist $@ del /f /q $@
+	-if exist "$(@:"=).tmp" del /f /q "$(@:"=).tmp"
+	cscript.exe "MSI\MSIBuild\MSI.wsf" //Job:MakeDDF //Nologo "$(@:"=).tmp" $** /O:"$(OUTPUT_DIR)\ZRCola32D" /C:LZX
+	move /y "$(@:"=).tmp" $@ > NUL
 
-"$(OUTPUT_DIR)\ZRColaDe32.3.msi" \
-"$(OUTPUT_DIR)\ZRColaEn32.3.msi" \
-"$(OUTPUT_DIR)\ZRColaRu32.3.msi" \
-"$(OUTPUT_DIR)\ZRColaSl32.3.msi" ::
-	devenv.com "MSI\MSICA\MSICA.sln" /build "Release|Win32"
-	devenv.com "Updater\Updater.sln" /build "Release|Win32"
+"$(OUTPUT_DIR)\ZRCola64.ddf" : \
+#	"$(OUTPUT_DIR)\ZRCola.de_DE.64.2.msi" \
+	"$(OUTPUT_DIR)\ZRCola.en_US.64.2.msi" \
+	"$(OUTPUT_DIR)\ZRCola.ru_RU.64.2.msi" \
+	"$(OUTPUT_DIR)\ZRCola.sl_SI.64.2.msi"
+	-if exist $@ del /f /q $@
+	-if exist "$(@:"=).tmp" del /f /q "$(@:"=).tmp"
+	cscript.exe "MSI\MSIBuild\MSI.wsf" //Job:MakeDDF //Nologo "$(@:"=).tmp" $** /O:"$(OUTPUT_DIR)\ZRCola64" /C:LZX
+	move /y "$(@:"=).tmp" $@ > NUL
 
-"$(OUTPUT_DIR)\ZRColaDe32D.3.msi" \
-"$(OUTPUT_DIR)\ZRColaEn32D.3.msi" \
-"$(OUTPUT_DIR)\ZRColaRu32D.3.msi" \
-"$(OUTPUT_DIR)\ZRColaSl32D.3.msi" ::
-	devenv.com "MSI\MSICA\MSICA.sln" /build "Debug|Win32"
-	devenv.com "Updater\Updater.sln" /build "Debug|Win32"
+"$(OUTPUT_DIR)\ZRCola64D.ddf" : \
+#	"$(OUTPUT_DIR)\ZRCola.de_DE.64D.2.msi" \
+	"$(OUTPUT_DIR)\ZRCola.en_US.64D.2.msi" \
+	"$(OUTPUT_DIR)\ZRCola.ru_RU.64D.2.msi" \
+	"$(OUTPUT_DIR)\ZRCola.sl_SI.64D.2.msi"
+	-if exist $@ del /f /q $@
+	-if exist "$(@:"=).tmp" del /f /q "$(@:"=).tmp"
+	cscript.exe "MSI\MSIBuild\MSI.wsf" //Job:MakeDDF //Nologo "$(@:"=).tmp" $** /O:"$(OUTPUT_DIR)\ZRCola64D" /C:LZX
+	move /y "$(@:"=).tmp" $@ > NUL
 
-"$(OUTPUT_DIR)\ZRColaDe64.3.msi" \
-"$(OUTPUT_DIR)\ZRColaEn64.3.msi" \
-"$(OUTPUT_DIR)\ZRColaRu64.3.msi" \
-"$(OUTPUT_DIR)\ZRColaSl64.3.msi" ::
-	devenv.com "MSI\MSICA\MSICA.sln" /build "Release|x64"
-	devenv.com "Updater\Updater.sln" /build "Release|x64"
+"$(OUTPUT_DIR)\ZRCola32.cab" \
+"$(OUTPUT_DIR)\ZRCola32.inf" \
+"$(OUTPUT_DIR)\ZRCola32.rpt" : "$(OUTPUT_DIR)\ZRCola32.ddf"
+	makecab.exe /F $**
 
-"$(OUTPUT_DIR)\ZRColaDe64D.3.msi" \
-"$(OUTPUT_DIR)\ZRColaEn64D.3.msi" \
-"$(OUTPUT_DIR)\ZRColaRu64D.3.msi" \
-"$(OUTPUT_DIR)\ZRColaSl64D.3.msi" ::
-	devenv.com "MSI\MSICA\MSICA.sln" /build "Debug|x64"
-	devenv.com "Updater\Updater.sln" /build "Debug|x64"
+"$(OUTPUT_DIR)\ZRCola32D.cab" \
+"$(OUTPUT_DIR)\ZRCola32D.inf" \
+"$(OUTPUT_DIR)\ZRCola32D.rpt" : "$(OUTPUT_DIR)\ZRCola32D.ddf"
+	makecab.exe /F $**
 
-"$(OUTPUT_DIR)\ZRColaDe32.3.msi" ::
-	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=de_DE PLAT=Win32 CFG=Release
-	cd "$(MAKEDIR)"
+"$(OUTPUT_DIR)\ZRCola64.cab" \
+"$(OUTPUT_DIR)\ZRCola64.inf" \
+"$(OUTPUT_DIR)\ZRCola64.rpt" : "$(OUTPUT_DIR)\ZRCola64.ddf"
+	makecab.exe /F $**
 
-"$(OUTPUT_DIR)\ZRColaDe32D.3.msi" ::
-	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=de_DE PLAT=Win32 CFG=Debug
-	cd "$(MAKEDIR)"
-
-"$(OUTPUT_DIR)\ZRColaDe64.3.msi" ::
-	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=de_DE PLAT=x64 CFG=Release
-	cd "$(MAKEDIR)"
-
-"$(OUTPUT_DIR)\ZRColaDe64D.3.msi" ::
-	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=de_DE PLAT=x64 CFG=Debug
-	cd "$(MAKEDIR)"
-
-"$(OUTPUT_DIR)\ZRColaEn32.3.msi" ::
-	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=en_US PLAT=Win32 CFG=Release
-	cd "$(MAKEDIR)"
-
-"$(OUTPUT_DIR)\ZRColaEn32D.3.msi" ::
-	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=en_US PLAT=Win32 CFG=Debug
-	cd "$(MAKEDIR)"
-
-"$(OUTPUT_DIR)\ZRColaEn64.3.msi" ::
-	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=en_US PLAT=x64 CFG=Release
-	cd "$(MAKEDIR)"
-
-"$(OUTPUT_DIR)\ZRColaEn64D.3.msi" ::
-	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=en_US PLAT=x64 CFG=Debug
-	cd "$(MAKEDIR)"
-
-"$(OUTPUT_DIR)\ZRColaRu32.3.msi" ::
-	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=ru_RU PLAT=Win32 CFG=Release
-	cd "$(MAKEDIR)"
-
-"$(OUTPUT_DIR)\ZRColaRu32D.3.msi" ::
-	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=ru_RU PLAT=Win32 CFG=Debug
-	cd "$(MAKEDIR)"
-
-"$(OUTPUT_DIR)\ZRColaRu64.3.msi" ::
-	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=ru_RU PLAT=x64 CFG=Release
-	cd "$(MAKEDIR)"
-
-"$(OUTPUT_DIR)\ZRColaRu64D.3.msi" ::
-	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=ru_RU PLAT=x64 CFG=Debug
-	cd "$(MAKEDIR)"
-
-"$(OUTPUT_DIR)\ZRColaSl32.3.msi" ::
-	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=sl_SI PLAT=Win32 CFG=Release
-	cd "$(MAKEDIR)"
-
-"$(OUTPUT_DIR)\ZRColaSl32D.3.msi" ::
-	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=sl_SI PLAT=Win32 CFG=Debug
-	cd "$(MAKEDIR)"
-
-"$(OUTPUT_DIR)\ZRColaSl64.3.msi" ::
-	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=sl_SI PLAT=x64 CFG=Release
-	cd "$(MAKEDIR)"
-
-"$(OUTPUT_DIR)\ZRColaSl64D.3.msi" ::
-	cd "MSI\ZRCola"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) LANG=sl_SI PLAT=x64 CFG=Debug
-	cd "$(MAKEDIR)"
+"$(OUTPUT_DIR)\ZRCola64D.cab" \
+"$(OUTPUT_DIR)\ZRCola64D.inf" \
+"$(OUTPUT_DIR)\ZRCola64D.rpt" : "$(OUTPUT_DIR)\ZRCola64D.ddf"
+	makecab.exe /F $**
 
 "$(PUBLISH_DIR)\catalog-0000.xml" : "$(OUTPUT_DIR)\catalog.xml"
 	if exist $@  del /f /q $@
@@ -630,3 +452,20 @@ Localization :: \
 	move /y "$(@:"=).tmp" $@ > NUL
 
 !ENDIF
+
+
+LANG=de_DE
+LANG_OUT=De
+!INCLUDE "MSILocal.mak"
+
+LANG=en_US
+LANG_OUT=En
+!INCLUDE "MSILocal.mak"
+
+LANG=ru_RU
+LANG_OUT=Ru
+!INCLUDE "MSILocal.mak"
+
+LANG=sl_SI
+LANG_OUT=Sl
+!INCLUDE "MSILocal.mak"
