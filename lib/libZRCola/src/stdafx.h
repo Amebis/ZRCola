@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "../../../include/zrcola.h"
+#include "../../../include/version.h"
 
 #include "../include/zrcola/character.h"
 #include "../include/zrcola/language.h"

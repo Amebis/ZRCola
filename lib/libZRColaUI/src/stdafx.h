@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "../../../include/zrcola.h"
+#include "../../../include/version.h"
 #include "../include/zrcolaui/chargroup.h"
 #include "../include/zrcolaui/keyboard.h"
 

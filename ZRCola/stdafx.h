@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "../include/zrcola.h"
+#include "../include/version.h"
 #include "zrcolaabout.h"
 #include "zrcolaapp.h"
 #include "zrcolachrcatpnl.h"
