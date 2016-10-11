@@ -250,12 +250,14 @@ featZRCola	compLanguage
 featZRCola	compDatabasePath
 featZRCola	compZRCola.zrcdb
 featZRCola	compZRCola_Re.otf
+!IF "$(LANG)" != "en_US"
 featZRCola	compZRCola.mo.$(LANG)
 featZRCola	compZRCola.zrcdb.mo.$(LANG)
 featZRCola	complibZRColaUI.mo.$(LANG)
 featZRCola	compwxExtend.mo.$(LANG)
 featZRCola	compUpdater.mo.$(LANG)
 featZRCola	compwxstd.mo.$(LANG)
+!ENDIF
 <<NOKEEP
 
 
@@ -271,7 +273,9 @@ File	Component_	FileName	FileSize	Version	Language	Attributes	Sequence
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l255	i4	S$(MSIBUILD_LENGTH_ID)	S20	I2	i2
 File	File
 fileZRCola.exe.$(PLAT)	compZRCola.exe.$(PLAT)	ZRCola.exe	0		0	1536	1
+!IF "$(LANG)" != "en_US"
 fileZRCola.mo.$(LANG)	compZRCola.mo.$(LANG)	ZRCola.mo	0		$(MSIBUILD_LANGID)	0	1
+!ENDIF
 <<NOKEEP
 
 

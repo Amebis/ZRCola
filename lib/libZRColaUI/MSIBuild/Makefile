@@ -112,7 +112,9 @@ filelibZRColaUI.dll.x64	complibZRColaUI.dll.x64	LIBZRC~6.DLL|libZRColaUI10u_vc10
 filelibZRColaUI.dll.x64	complibZRColaUI.dll.x64	LIBZRC~8.DLL|libZRColaUI10ud_vc100_x64.dll	0		0	1536	1
 !ENDIF
 !ENDIF
+!IF "$(LANG)" != "en_US"
 filelibZRColaUI.mo.$(LANG)	complibZRColaUI.mo.$(LANG)	LIBZRC~1.MO|libZRColaUI.mo	0		$(MSIBUILD_LANGID)	0	1
+!ENDIF
 <<NOKEEP
 
 

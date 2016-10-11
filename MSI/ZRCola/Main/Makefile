@@ -309,8 +309,10 @@ fileZRCola_Re.otf	compZRCola_Re.otf	ZRCOLA~1.OTF|ZRCola_Re.otf	0			0	1
 fileZRCola_It.otf	compZRCola_It.otf	ZRCOLA~2.OTF|ZRCola_It.otf	0			0	1
 fileZRCola_Bd.otf	compZRCola_Bd.otf	ZRCOLA~3.OTF|ZRCola_Bd.otf	0			0	1
 fileZRCola_BI.otf	compZRCola_BI.otf	ZRCOLA~4.OTF|ZRCola_BI.otf	0			0	1
+!IF "$(LANG)" != "en_US"
 filewxstd.mo.$(LANG)	compwxstd.mo.$(LANG)	wxstd.mo	0		$(MSIBUILD_LANGID)	0	1
 fileZRCola.zrcdb.mo.$(LANG)	compZRCola.zrcdb.mo.$(LANG)	ZRCOLA~1.MO|ZRCola-zrcdb.mo	0		$(MSIBUILD_LANGID)	0	1
+!ENDIF
 <<NOKEEP
 
 
