@@ -21,7 +21,9 @@
   <ImportGroup Label="ExtensionSettings">
     <Import Project="xgettext.props" />
   </ImportGroup>
-  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Label="UserMacros">
+    <UpdaterVersion>ZRCola</UpdaterVersion>
+  </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>ZRCola Common</_PropertySheetDisplayName>
     <IntDir>temp\$(MSBuildProjectName).$(Platform).$(Configuration).$(PlatformToolset)\</IntDir>
