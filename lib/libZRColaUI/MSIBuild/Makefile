@@ -19,6 +19,10 @@
 
 !INCLUDE "..\..\..\include\MSIBuildCfg.mak"
 
+!IFNDEF MSIBUILD_LANGID
+!ERROR Parameter MSIBUILD_LANGID is undefined.
+!ENDIF
+
 
 ######################################################################
 # AppSearch
@@ -108,12 +112,7 @@ filelibZRColaUI.dll.x64	complibZRColaUI.dll.x64	LIBZRC~6.DLL|libZRColaUI10u_vc10
 filelibZRColaUI.dll.x64	complibZRColaUI.dll.x64	LIBZRC~8.DLL|libZRColaUI10ud_vc100_x64.dll	0		0	1536	1
 !ENDIF
 !ENDIF
-!IF "$(LANG)" == "ru_RU"
-filelibZRColaUI.mo.ru_RU	complibZRColaUI.mo.ru_RU	LIBZRC~1.MO|libZRColaUI.mo	0		1060	0	1
-!ENDIF
-!IF "$(LANG)" == "sl_SI"
-filelibZRColaUI.mo.sl_SI	complibZRColaUI.mo.sl_SI	LIBZRC~1.MO|libZRColaUI.mo	0		1060	0	1
-!ENDIF
+filelibZRColaUI.mo.$(LANG)	complibZRColaUI.mo.$(LANG)	LIBZRC~1.MO|libZRColaUI.mo	0		$(MSIBUILD_LANGID)	0	1
 <<NOKEEP
 
 

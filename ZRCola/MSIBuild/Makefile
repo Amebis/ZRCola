@@ -19,6 +19,10 @@
 
 !INCLUDE "..\..\include\MSIBuildCfg.mak"
 
+!IFNDEF MSIBUILD_LANGID
+!ERROR Parameter MSIBUILD_LANGID is undefined.
+!ENDIF
+
 MSIBUILD_IS_LOCALIZEABLE=1
 
 
@@ -246,22 +250,12 @@ featZRCola	compLanguage
 featZRCola	compDatabasePath
 featZRCola	compZRCola.zrcdb
 featZRCola	compZRCola_Re.otf
-!IF "$(LANG)" == "ru_RU"
-featZRCola	compZRCola.mo.ru_RU
-featZRCola	compZRCola.zrcdb.mo.ru_RU
-featZRCola	complibZRColaUI.mo.ru_RU
-featZRCola	compwxExtend.mo.ru_RU
-featZRCola	compUpdater.mo.ru_RU
-featZRCola	compwxstd.mo.ru_RU
-!ENDIF
-!IF "$(LANG)" == "sl_SI"
-featZRCola	compZRCola.mo.sl_SI
-featZRCola	compZRCola.zrcdb.mo.sl_SI
-featZRCola	complibZRColaUI.mo.sl_SI
-featZRCola	compwxExtend.mo.sl_SI
-featZRCola	compUpdater.mo.sl_SI
-featZRCola	compwxstd.mo.sl_SI
-!ENDIF
+featZRCola	compZRCola.mo.$(LANG)
+featZRCola	compZRCola.zrcdb.mo.$(LANG)
+featZRCola	complibZRColaUI.mo.$(LANG)
+featZRCola	compwxExtend.mo.$(LANG)
+featZRCola	compUpdater.mo.$(LANG)
+featZRCola	compwxstd.mo.$(LANG)
 <<NOKEEP
 
 
@@ -277,12 +271,7 @@ File	Component_	FileName	FileSize	Version	Language	Attributes	Sequence
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l255	i4	S$(MSIBUILD_LENGTH_ID)	S20	I2	i2
 File	File
 fileZRCola.exe.$(PLAT)	compZRCola.exe.$(PLAT)	ZRCola.exe	0		0	1536	1
-!IF "$(LANG)" == "ru_RU"
-fileZRCola.mo.ru_RU	compZRCola.mo.ru_RU	ZRCola.mo	0		1060	0	1
-!ENDIF
-!IF "$(LANG)" == "sl_SI"
-fileZRCola.mo.sl_SI	compZRCola.mo.sl_SI	ZRCola.mo	0		1060	0	1
-!ENDIF
+fileZRCola.mo.$(LANG)	compZRCola.mo.$(LANG)	ZRCola.mo	0		$(MSIBUILD_LANGID)	0	1
 <<NOKEEP
 
 
