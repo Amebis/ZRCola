@@ -26,6 +26,7 @@
 #include <WinStd/Win.h>
 
 #include <adoint.h>
+#include <list>
 #include <map>
 #include <memory>
 #include <set>
@@ -311,10 +312,29 @@ namespace ZRCola {
         };
 
 
+        ///
+        /// Character tag
+        ///
+        class chrtag {
+        public:
+            wchar_t chr;                ///> Character
+            int tag;                    ///< Tag ID
+        };
+
+
+        ///
+        /// Tag name
+        ///
+        class tagname {
+        public:
+            int tag;                    ///< Tag ID
+            std::map<LCID, std::list<std::wstring> > names; ///< Names
+        };
+
+
     public:
         DBSource();
         virtual ~DBSource();
-
 
         ///
         /// Opens the database
@@ -327,12 +347,10 @@ namespace ZRCola {
         ///
         bool Open(LPCTSTR filename);
 
-
         ///
         /// Logs errors in database connections
         ///
         void LogErrors() const;
-
 
         ///
         /// Is recordset at end
@@ -349,7 +367,6 @@ namespace ZRCola {
             return FAILED(rs->get_EOF(&eof)) || eof ? true : false;
         }
 
-
         ///
         /// Gets number of records in a recordset
         ///
@@ -363,7 +380,6 @@ namespace ZRCola {
             return SUCCEEDED(rs->get_RecordCount(&count)) ? count : (size_t)-1;
         }
 
-
         ///
         /// Splits string to individual keywords
         ///
@@ -375,7 +391,6 @@ namespace ZRCola {
         /// - false otherwise
         ///
         static bool GetKeywords(const wchar_t *str, std::vector< std::wstring > &keywords);
-
 
         ///
         /// Gets boolean from ZRCola.zrc database
@@ -389,7 +404,6 @@ namespace ZRCola {
         ///
         bool GetValue(const winstd::com_obj<ADOField>& f, bool& val) const;
 
-
         ///
         /// Gets integer from ZRCola.zrc database
         ///
@@ -401,7 +415,6 @@ namespace ZRCola {
         /// - false otherwise
         ///
         bool GetValue(const winstd::com_obj<ADOField>& f, int& val) const;
-
 
         ///
         /// Gets string from ZRCola.zrc database
@@ -415,7 +428,6 @@ namespace ZRCola {
         ///
         bool GetValue(const winstd::com_obj<ADOField>& f, std::wstring& val) const;
 
-
         ///
         /// Gets encoded Unicode character from ZRCola.zrc database
         ///
@@ -427,7 +439,6 @@ namespace ZRCola {
         /// - false otherwise
         ///
         bool GetUnicodeCharacter(const winstd::com_obj<ADOField>& f, wchar_t& chr) const;
-
 
         ///
         /// Gets encoded Unicode string from ZRCola.zrc database
@@ -441,7 +452,6 @@ namespace ZRCola {
         ///
         bool GetUnicodeString(const winstd::com_obj<ADOField>& f, std::wstring& str) const;
 
-
         ///
         /// Gets language ID from ZRCola.zrc database
         ///
@@ -453,7 +463,6 @@ namespace ZRCola {
         /// - false otherwise
         ///
         bool GetLanguage(const winstd::com_obj<ADOField>& f, langid_t& lang) const;
-
 
         ///
         /// Gets character category ID from ZRCola.zrc database
@@ -467,6 +476,17 @@ namespace ZRCola {
         ///
         bool GetChrCat(const winstd::com_obj<ADOField>& f, chrcatid_t& cc) const;
 
+        ///
+        /// Gets tag names from ZRCola.zrc database
+        ///
+        /// \param[in]  f      Data field
+        /// \param[out] names  Output names
+        ///
+        /// \returns
+        /// - true when successful
+        /// - false otherwise
+        ///
+        bool GetTagNames(const winstd::com_obj<ADOField>& f, LCID lcid, std::list<std::wstring>& names) const;
 
         ///
         /// Returns character translations
@@ -478,7 +498,6 @@ namespace ZRCola {
         /// - false otherwise
         ///
         bool SelectTranslations(winstd::com_obj<ADORecordset>& rs) const;
-
 
         ///
         /// Returns translation data
@@ -492,7 +511,6 @@ namespace ZRCola {
         ///
         bool GetTranslation(const winstd::com_obj<ADORecordset>& rs, translation& t) const;
 
-
         ///
         /// Returns key sequences
         ///
@@ -503,7 +521,6 @@ namespace ZRCola {
         /// - false otherwise
         ///
         bool SelectKeySequences(winstd::com_obj<ADORecordset>& rs) const;
-
 
         ///
         /// Returns key sequence data
@@ -517,7 +534,6 @@ namespace ZRCola {
         ///
         bool GetKeySequence(const winstd::com_obj<ADORecordset>& rs, keyseq& ks) const;
 
-
         ///
         /// Returns languages
         ///
@@ -528,7 +544,6 @@ namespace ZRCola {
         /// - false otherwise
         ///
         bool SelectLanguages(winstd::com_obj<ADORecordset>& rs) const;
-
 
         ///
         /// Returns language data
@@ -542,7 +557,6 @@ namespace ZRCola {
         ///
         bool GetLanguage(const winstd::com_obj<ADORecordset>& rs, language& lang) const;
 
-
         ///
         /// Returns language character
         ///
@@ -553,7 +567,6 @@ namespace ZRCola {
         /// - false otherwise
         ///
         bool SelectLanguageCharacters(winstd::com_obj<ADORecordset>& rs) const;
-
 
         ///
         /// Returns language character data
@@ -567,7 +580,6 @@ namespace ZRCola {
         ///
         bool GetLanguageCharacter(const winstd::com_obj<ADORecordset>& rs, langchar& lc) const;
 
-
         ///
         /// Returns character groups
         ///
@@ -578,7 +590,6 @@ namespace ZRCola {
         /// - false otherwise
         ///
         bool SelectCharacterGroups(winstd::com_obj<ADORecordset>& rs) const;
-
 
         ///
         /// Returns character group data
@@ -603,7 +614,6 @@ namespace ZRCola {
         ///
         bool SelectCharacters(winstd::com_obj<ADORecordset>& rs) const;
 
-
         ///
         /// Returns character data
         ///
@@ -627,7 +637,6 @@ namespace ZRCola {
         ///
         bool SelectCharacterCategories(winstd::com_obj<ADORecordset>& rs) const;
 
-
         ///
         /// Returns character category data
         ///
@@ -639,6 +648,52 @@ namespace ZRCola {
         /// - false otherwise
         ///
         bool GetCharacterCategory(const winstd::com_obj<ADORecordset>& rs, chrcat& cc) const;
+
+        ///
+        /// Returns character tags
+        ///
+        /// \param[out] rs  Recordset with results
+        ///
+        /// \returns
+        /// - true when query succeeds
+        /// - false otherwise
+        ///
+        bool SelectCharacterTags(winstd::com_obj<ADORecordset>& rs) const;
+
+        ///
+        /// Returns character tag data
+        ///
+        /// \param[in]  rs    Recordset with results
+        /// \param[out] cc    Character tag
+        ///
+        /// \returns
+        /// - true when succeeded
+        /// - false otherwise
+        ///
+        bool GetCharacterTag(const winstd::com_obj<ADORecordset>& rs, chrtag& tc) const;
+
+        ///
+        /// Returns tag names
+        ///
+        /// \param[out] rs  Recordset with results
+        ///
+        /// \returns
+        /// - true when query succeeds
+        /// - false otherwise
+        ///
+        bool SelectTagNames(winstd::com_obj<ADORecordset>& rs) const;
+
+        ///
+        /// Returns tag name data
+        ///
+        /// \param[in]  rs    Recordset with results
+        /// \param[out] tn    Tag name
+        ///
+        /// \returns
+        /// - true when succeeded
+        /// - false otherwise
+        ///
+        bool GetTagName(const winstd::com_obj<ADORecordset>& rs, tagname& tn) const;
 
     protected:
         std::basic_string<TCHAR> m_filename;    ///< Database filename

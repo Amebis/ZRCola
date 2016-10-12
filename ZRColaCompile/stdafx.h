@@ -24,6 +24,7 @@
 
 #include <zrcola/language.h>
 #include <zrcola/translate.h>
+#include <zrcola/tag.h>
 #include <zrcolaui/chargroup.h>
 #include <zrcolaui/keyboard.h>
 

@@ -539,6 +539,50 @@ bool ZRCola::DBSource::GetChrCat(const com_obj<ADOField>& f, chrcatid_t& cc) con
 }
 
 
+bool ZRCola::DBSource::GetTagNames(const winstd::com_obj<ADOField>& f, LCID lcid, list<wstring>& names) const
+{
+    wxASSERT_MSG(f, wxT("field is empty"));
+
+    variant v;
+    wxVERIFY(SUCCEEDED(f->get_Value(&v)));
+    wxCHECK(SUCCEEDED(v.change_type(VT_BSTR)), false);
+
+    // Parse the field. Must be "name, name, name..." sequence.
+    names.clear();
+    for (UINT i = 0, n = ::SysStringLen(V_BSTR(&v)); i < n && V_BSTR(&v)[i];) {
+        if (iswspace(V_BSTR(&v)[i])) {
+            // Skip leading white space.
+            i++; continue;
+        }
+
+        // Parse name.
+        UINT j = i, j_end = i;
+        for (; i < n && V_BSTR(&v)[i]; i++) {
+            if (V_BSTR(&v)[i] == L',' || V_BSTR(&v)[i] == L';') {
+                // Delimiter found.
+                i++; break;
+            } else if (!iswspace(V_BSTR(&v)[i])) {
+                // Remember last non-white space character.
+                j_end = i + 1;
+            }
+        }
+        wstring name(V_BSTR(&v) + j, V_BSTR(&v) + j_end);
+        for (auto n = names.cbegin(), n_end = names.cend(); ; ++n) {
+            if (n == n_end) {
+                // Add name to the list.
+                names.push_back(std::move(name));
+                break;
+            } else if (ZRCola::tagname_db::tagname::CompareName(lcid, n->data(), (unsigned __int16)n->length(), name.data(), (unsigned __int16)name.length()) == CSTR_EQUAL) {
+                // Name is already on the list.
+                break;
+            }
+        }
+    }
+
+    return true;
+}
+
+
 bool ZRCola::DBSource::SelectTranslations(com_obj<ADORecordset> &rs) const
 {
     // Create a new recordset.
@@ -975,6 +1019,118 @@ bool ZRCola::DBSource::GetCharacterCategory(const com_obj<ADORecordset>& rs, chr
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"opis_en"), &f)));
         wxCHECK(GetValue(f, cc.name), false);
+    }
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::SelectCharacterTags(winstd::com_obj<ADORecordset>& rs) const
+{
+    // Create a new recordset.
+    rs.free();
+    wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
+
+    // Open it.
+    if (FAILED(rs->Open(variant(
+        L"SELECT DISTINCT [znak], [oznaka] "
+        L"FROM [VRS_CharTags] "
+        L"ORDER BY [znak], [oznaka]"), variant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
+    {
+        _ftprintf(stderr, wxT("%s: error ZCC0130: Error loading character tags from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
+        LogErrors();
+        return false;
+    }
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::GetCharacterTag(const winstd::com_obj<ADORecordset>& rs, chrtag& ct) const
+{
+    wxASSERT_MSG(rs, wxT("recordset is empty"));
+
+    com_obj<ADOFields> flds;
+    wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
+    wstring id;
+
+    {
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"znak"), &f)));
+        wxCHECK(GetUnicodeCharacter(f, ct.chr), false);
+    }
+
+    {
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"oznaka"), &f)));
+        wxCHECK(GetValue(f, ct.tag), false);
+    }
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::SelectTagNames(winstd::com_obj<ADORecordset>& rs) const
+{
+    // Create a new recordset.
+    rs.free();
+    wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
+
+    // Open it.
+    if (FAILED(rs->Open(variant(
+        L"SELECT DISTINCT [oznaka], [opis_en], [opis_sl], [opis_ru] "
+        L"FROM [VRS_Tags] "
+        L"ORDER BY [oznaka]"), variant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
+    {
+        _ftprintf(stderr, wxT("%s: error ZCC0130: Error loading tags from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
+        LogErrors();
+        return false;
+    }
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::GetTagName(const winstd::com_obj<ADORecordset>& rs, tagname& tn) const
+{
+    wxASSERT_MSG(rs, wxT("recordset is empty"));
+
+    com_obj<ADOFields> flds;
+    wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
+    wstring id;
+    tn.names.clear();
+
+    {
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"oznaka"), &f)));
+        wxCHECK(GetValue(f, tn.tag), false);
+    }
+
+    {
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"opis_en"), &f)));
+        LCID lcid = MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_DEFAULT), SORT_DEFAULT);
+        list<wstring> names;
+        wxCHECK(GetTagNames(f, lcid, names), false);
+        tn.names.insert(std::move(pair<LCID, list<wstring> >(lcid, std::move(names))));
+    }
+
+    {
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"opis_sl"), &f)));
+        LCID lcid = MAKELCID(MAKELANGID(LANG_SLOVENIAN, SUBLANG_DEFAULT), SORT_DEFAULT);
+        list<wstring> names;
+        wxCHECK(GetTagNames(f, lcid, names), false);
+        tn.names.insert(std::move(pair<LCID, list<wstring> >(lcid, std::move(names))));
+    }
+
+    {
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"opis_ru"), &f)));
+        LCID lcid = MAKELCID(MAKELANGID(LANG_RUSSIAN, SUBLANG_DEFAULT), SORT_DEFAULT);
+        list<wstring> names;
+        wxCHECK(GetTagNames(f, lcid, names), false);
+        tn.names.insert(std::move(pair<LCID, list<wstring> >(lcid, std::move(names))));
     }
 
     return true;

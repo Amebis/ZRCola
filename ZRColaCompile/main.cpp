@@ -610,6 +610,103 @@ int _tmain(int argc, _TCHAR *argv[])
         }
     }
 
+    {
+        // Get characters tags.
+        com_obj<ADORecordset> rs;
+        if (src.SelectCharacterTags(rs)) {
+            size_t count = src.GetRecordsetCount(rs);
+            if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
+                ZRCola::DBSource::chrtag ct;
+                ZRCola::chrtag_db db;
+
+                // Preallocate memory.
+                db.idxChr.reserve(count);
+                db.idxTag.reserve(count);
+                db.data  .reserve(count*4);
+
+                // Parse characters tags and build index and data.
+                for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
+                    // Read characters tags from the database.
+                    if (src.GetCharacterTag(rs, ct)) {
+                        // Add characters tags to index and data.
+                        unsigned __int32 idx = db.data.size();
+                        db.data.push_back(ct.chr);
+                        wxASSERT_MSG((int)0xffff8000 <= ct.tag && ct.tag <= (int)0x00007fff, wxT("tag out of bounds"));
+                        db.data.push_back((unsigned __int16)ct.tag);
+                        db.idxChr.push_back(idx);
+                        db.idxTag.push_back(idx);
+                    } else
+                        has_errors = true;
+                }
+
+                // Sort indices.
+                db.idxChr .sort();
+                db.idxTag.sort();
+
+                // Write characters tags to file.
+                dst << ZRCola::chrtag_rec(db);
+            } else {
+                _ftprintf(stderr, wxT("%s: error ZCC0021: Error getting characters tags count from database or too many character tags.\n"), (LPCTSTR)filenameIn.c_str());
+                has_errors = true;
+            }
+        } else {
+            _ftprintf(stderr, wxT("%s: error ZCC0020: Error getting characters tags from database. Please make sure the file is ZRCola.zrc compatible.\n"), (LPCTSTR)filenameIn.c_str());
+            has_errors = true;
+        }
+    }
+
+    {
+        // Get tag names.
+        com_obj<ADORecordset> rs;
+        if (src.SelectTagNames(rs)) {
+            size_t count = src.GetRecordsetCount(rs);
+            if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
+                ZRCola::DBSource::tagname tn;
+                ZRCola::tagname_db db;
+
+                // Preallocate memory.
+                db.idxName.reserve(count*3);
+                db.data   .reserve(count*3*4);
+
+                // Parse tags and build index and data.
+                for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
+                    // Read tag name from the database.
+                    if (src.GetTagName(rs, tn)) {
+                        // Add tag name to index and data.
+                        for (auto ln = tn.names.cbegin(), ln_end = tn.names.cend(); ln != ln_end; ++ln) {
+                            for (auto nm = ln->second.cbegin(), nm_end = ln->second.cend(); nm != nm_end; ++nm) {
+                                unsigned __int32 idx = db.data.size();
+                                wxASSERT_MSG((int)0xffff8000 <= tn.tag && tn.tag <= (int)0x00007fff, wxT("tag out of bounds"));
+                                db.data.push_back((unsigned __int16)tn.tag);
+                                db.data.push_back(LOWORD(ln->first));
+                                db.data.push_back(HIWORD(ln->first));
+                                wstring::size_type n = nm->length();
+                                wxASSERT_MSG(n <= 0xffff, wxT("tag name too long"));
+                                db.data.push_back((unsigned __int16)n);
+                                for (wstring::size_type i = 0; i < n; i++)
+                                    db.data.push_back(nm->at(i));
+                                db.idxName.push_back(idx);
+                            }
+                        }
+                    } else
+                        has_errors = true;
+                }
+
+                // Sort indices.
+                db.idxName.sort();
+
+                // Write tags to file.
+                dst << ZRCola::tagname_rec(db);
+            } else {
+                _ftprintf(stderr, wxT("%s: error ZCC0023: Error getting tag name count from database or too many tags.\n"), (LPCTSTR)filenameIn.c_str());
+                has_errors = true;
+            }
+        } else {
+            _ftprintf(stderr, wxT("%s: error ZCC0022: Error getting tags from database. Please make sure the file is ZRCola.zrc compatible.\n"), (LPCTSTR)filenameIn.c_str());
+            has_errors = true;
+        }
+    }
+
     idrec::close<ZRCola::recordid_t, ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>(dst, dst_start);
 
     if (dst.fail()) {

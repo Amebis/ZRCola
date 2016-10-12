@@ -37,6 +37,7 @@
     <ClInclude Include="..\include\zrcola\common.h" />
     <ClInclude Include="..\include\zrcola\language.h" />
     <ClInclude Include="..\include\zrcola\normalize.h" />
+    <ClInclude Include="..\include\zrcola\tag.h" />
     <ClInclude Include="..\include\zrcola\translate.h" />
     <ClInclude Include="..\src\stdafx.h" />
   </ItemGroup>

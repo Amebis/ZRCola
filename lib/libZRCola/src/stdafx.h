@@ -25,6 +25,7 @@
 #include "../include/zrcola/language.h"
 #include "../include/zrcola/normalize.h"
 #include "../include/zrcola/translate.h"
+#include "../include/zrcola/tag.h"
 
 #include <assert.h>
 
