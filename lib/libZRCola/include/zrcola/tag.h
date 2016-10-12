@@ -188,14 +188,14 @@ namespace ZRCola {
         ///
         struct tagname {
             tagid_t tag;                ///< Tag ID
-            LCID lang;                  ///< Language ID
+            LCID locale;                ///< Locale ID
             unsigned __int16 name_len;  ///< \c name length (in characters)
             wchar_t name[];             ///< Tag localized name
 
             ///
             /// Compares two names
             ///
-            /// \param[in] lcid     Locale ID to use for compare
+            /// \param[in] locale   Locale ID to use for compare
             /// \param[in] str_a    First name
             /// \param[in] count_a  Number of characters in string \p str_a
             /// \param[in] str_b    Second name
@@ -210,9 +210,9 @@ namespace ZRCola {
             /// The function does not treat \\0 characters as terminators for performance reasons.
             /// Therefore \p count_a and \p count_b must represent exact string lengths.
             ///
-            static inline int CompareName(LCID lcid, const wchar_t *str_a, unsigned __int16 count_a, const wchar_t *str_b, unsigned __int16 count_b)
+            static inline int CompareName(LCID locale, const wchar_t *str_a, unsigned __int16 count_a, const wchar_t *str_b, unsigned __int16 count_b)
             {
-                switch (CompareString(lcid, LINGUISTIC_IGNORECASE | LINGUISTIC_IGNOREDIACRITIC | NORM_LINGUISTIC_CASING | NORM_IGNOREWIDTH, str_a, count_a, str_b, count_b)) {
+                switch (CompareString(locale, LINGUISTIC_IGNORECASE | LINGUISTIC_IGNOREDIACRITIC | NORM_LINGUISTIC_CASING | NORM_IGNOREWIDTH, str_a, count_a, str_b, count_b)) {
                     case CSTR_LESS_THAN   : return -1;
                     case CSTR_EQUAL       : return  0;
                     case CSTR_GREATER_THAN: return  1;
@@ -231,8 +231,8 @@ namespace ZRCola {
             ///
             /// Constructs the index
             ///
-            /// \param[in] h     Reference to vector holding the data
-            /// \param[in] lcid  Locale used to perform tag name comparison
+            /// \param[in] h       Reference to vector holding the data
+            /// \param[in] locale  Locale used to perform tag name comparison
             ///
             indexName(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, tagname>(h) {}
 
@@ -249,10 +249,10 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const tagname &a, _In_ const tagname &b) const
             {
-                     if (a.lang < b.lang) return -1;
-                else if (a.lang > b.lang) return  1;
+                     if (a.locale < b.locale) return -1;
+                else if (a.locale > b.locale) return  1;
 
-                int r = tagname::CompareName(a.lang, a.name, a.name_len, b.name, b.name_len);
+                int r = tagname::CompareName(a.locale, a.name, a.name_len, b.name, b.name_len);
                 if (r != 0) return r;
 
                 return 0;
@@ -271,10 +271,10 @@ namespace ZRCola {
             ///
             virtual int compare_sort(_In_ const tagname &a, _In_ const tagname &b) const
             {
-                     if (a.lang < b.lang) return -1;
-                else if (a.lang > b.lang) return  1;
+                     if (a.locale < b.locale) return -1;
+                else if (a.locale > b.locale) return  1;
 
-                int r = tagname::CompareName(a.lang, a.name, a.name_len, b.name, b.name_len);
+                int r = tagname::CompareName(a.locale, a.name, a.name_len, b.name, b.name_len);
                 if (r != 0) return r;
 
                      if (a.tag < b.tag) return -1;
@@ -289,8 +289,6 @@ namespace ZRCola {
     public:
         ///
         /// Constructs the database
-        ///
-        /// \param[in] lcid  Locale used to perform tag name comparison
         ///
         inline tagname_db() : idxName(data) {}
     };
