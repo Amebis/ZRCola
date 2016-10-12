@@ -291,6 +291,17 @@ namespace ZRCola {
         /// Constructs the database
         ///
         inline tagname_db() : idxName(data) {}
+
+        ///
+        /// Search for tags by names
+        ///
+        /// \param[in   ] str       Search string
+        /// \param[in   ] locale    Locale to search tags in
+        /// \param[inout] hits      (tag, count) map to append hits to
+        /// \param[in   ] fn_abort  Pointer to function to periodically test for search cancellation
+        /// \param[in   ] cookie    Cookie for \p fn_abort call
+        ///
+        bool Search(_In_z_ const wchar_t *str, _In_ LCID locale, _Inout_ std::map<tagid_t, unsigned __int16> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
     };
 
 
