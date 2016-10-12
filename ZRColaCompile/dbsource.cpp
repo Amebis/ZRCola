@@ -865,7 +865,7 @@ bool ZRCola::DBSource::SelectCharacters(com_obj<ADORecordset>& rs) const
 
     // Open it.
     if (FAILED(rs->Open(variant(
-        L"SELECT DISTINCT [znak], [opis_en], [klj_bes_en], [kat], [znak_v], [znak_m] "
+        L"SELECT DISTINCT [znak], [opis_en], [kat], [znak_v], [znak_m] "
         L"FROM [VRS_CharList] "
         L"WHERE "
         L"[aktiven]=1 AND " // Active characters only
@@ -918,14 +918,6 @@ bool ZRCola::DBSource::GetCharacter(const com_obj<ADORecordset>& rs, character& 
         wxCHECK(GetValue(f, chr.desc), false);
     }
     ZRCola::DBSource::character_desc_idx::parse_keywords(chr.desc.c_str(), chr.terms);
-
-    wstring keywords;
-    {
-        com_obj<ADOField> f;
-        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"klj_bes_en"), &f)));
-        wxCHECK(GetValue(f, keywords), false);
-    }
-    ZRCola::DBSource::character_desc_idx::parse_keywords(keywords.c_str(), chr.terms);
 
     {
         com_obj<ADOField> f;
