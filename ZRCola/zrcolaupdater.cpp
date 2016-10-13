@@ -40,7 +40,7 @@ wxZRColaUpdater::wxZRColaUpdater(wxWindow* parent) :
     //Connect(wxID_ANY, wxEVT_UPDATER_CHECK_COMPLETE, wxThreadEventHandler(wxZRColaUpdater::OnCheckComplete), NULL, this);
 
     // Prepare Updater.
-    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     m_updater = new wxUpdCheckThread(app->m_locale.GetCanonicalName(), this);
     //if (m_updater->Run() != wxTHREAD_NO_ERROR) {
     //    wxFAIL_MSG(wxT("Can't create the thread!"));
@@ -95,7 +95,7 @@ void wxZRColaUpdater::OnUpdate(wxCommandEvent& event)
             m_updater->LaunchUpdate();
 
             Close(true);
-            ((ZRColaApp*)wxTheApp)->m_mainWnd->Close();
+            dynamic_cast<ZRColaApp*>(wxTheApp)->m_mainWnd->Close();
         }
     }
 }

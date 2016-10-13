@@ -31,7 +31,7 @@ END_EVENT_TABLE()
 
 wxZRColaCharacterCatalogPanel::wxZRColaCharacterCatalogPanel(wxWindow* parent) : wxZRColaCharacterCatalogPanelBase(parent)
 {
-    std::fstream dat((LPCTSTR)((ZRColaApp*)wxTheApp)->GetDatabaseFilePath(), std::ios_base::in | std::ios_base::binary);
+    std::fstream dat((LPCTSTR)dynamic_cast<ZRColaApp*>(wxTheApp)->GetDatabaseFilePath(), std::ios_base::in | std::ios_base::binary);
     if (dat.good()) {
         if (stdex::idrec::find<ZRCola::recordid_t, ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>(dat, ZRCOLA_DB_ID, sizeof(ZRCola::recordid_t))) {
             ZRCola::recordsize_t size;
@@ -96,7 +96,7 @@ void wxZRColaCharacterCatalogPanel::OnChoice(wxCommandEvent& event)
 
 void wxZRColaCharacterCatalogPanel::OnGridClick(wxGridEvent& event)
 {
-    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     if (app->m_mainWnd) {
         app->m_mainWnd->m_panel->m_decomposed->WriteText(m_grid->GetCellValue(event.GetRow(), event.GetCol()));
         app->m_mainWnd->m_panel->m_decomposed->SetFocus();
@@ -111,7 +111,7 @@ void wxZRColaCharacterCatalogPanel::OnGridKeyDown(wxKeyEvent& event)
     switch (event.GetKeyCode()) {
     case WXK_RETURN:
     case WXK_NUMPAD_ENTER:
-        ZRColaApp *app = (ZRColaApp*)wxTheApp;
+        auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
         if (app->m_mainWnd) {
             app->m_mainWnd->m_panel->m_decomposed->WriteText(m_grid->GetCellValue(m_grid->GetCursorRow(), m_grid->GetCursorColumn()));
             app->m_mainWnd->m_panel->m_decomposed->SetFocus();
@@ -137,7 +137,7 @@ void wxZRColaCharacterCatalogPanel::OnShowAll(wxCommandEvent& event)
 
 void wxZRColaCharacterCatalogPanel::OnFocusDecomposed(wxCommandEvent& event)
 {
-    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     if (app->m_mainWnd) {
         app->m_mainWnd->m_panel->m_decomposed->SetFocus();
 
@@ -193,7 +193,7 @@ wxString wxPersistentZRColaCharacterCatalogPanel::GetKind() const
 
 void wxPersistentZRColaCharacterCatalogPanel::Save() const
 {
-    const wxZRColaCharacterCatalogPanel * const wnd = static_cast<const wxZRColaCharacterCatalogPanel*>(GetWindow());
+    auto wnd = static_cast<const wxZRColaCharacterCatalogPanel*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
 
     SaveValue(wxT("charGroup"), wnd->m_cg_id);
     SaveValue(wxT("showAll"  ), wnd->m_show_all->GetValue());
@@ -202,8 +202,7 @@ void wxPersistentZRColaCharacterCatalogPanel::Save() const
 
 bool wxPersistentZRColaCharacterCatalogPanel::Restore()
 {
-    wxZRColaCharacterCatalogPanel * const wnd = static_cast<wxZRColaCharacterCatalogPanel*>(GetWindow());
-
+    auto wnd = dynamic_cast<wxZRColaCharacterCatalogPanel*>(GetWindow());
     bool update = false;
 
     // Restore selected character group.

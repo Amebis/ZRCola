@@ -29,7 +29,7 @@ wxZRColaSettings::wxZRColaSettings(wxWindow* parent) :
     m_lang(ZRCola::langid_t::blank),
     wxZRColaSettingsBase(parent)
 {
-    ZRColaApp *app = ((ZRColaApp*)wxTheApp);
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     m_languages->Clear();
     for (size_t i = 0, n = app->m_lang_db.idxLng.size(); i < n; i++) {
         const auto &lang = app->m_lang_db.idxLng[i];
@@ -57,7 +57,7 @@ void wxZRColaSettings::OnInitDialog(wxInitDialogEvent& event)
     m_languages->Enable(!m_lang_auto);
     (m_lang_auto ? m_langAuto : m_langManual)->SetValue(true);
 
-    ZRColaApp *app = ((ZRColaApp*)wxTheApp);
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     char l[sizeof(ZRCola::language_db::language)] = {};
     ((ZRCola::language_db::language*)l)->id = m_lang;
     ZRCola::language_db::indexLang::size_type start;
@@ -121,7 +121,7 @@ void wxZRColaSettings::OnApplyButtonClick(wxCommandEvent& event)
     } else {
         m_lang_auto = false;
 
-        ZRColaApp *app = ((ZRColaApp*)wxTheApp);
+        auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
         const auto &lang = app->m_lang_db.idxLng[m_languages->GetSelection()];
 
         if (m_lang != lang.id) {
@@ -155,7 +155,7 @@ void wxPersistentZRColaSettings::Save() const
 {
     wxPersistentDialog::Save();
 
-    const wxZRColaSettings * const wnd = static_cast<const wxZRColaSettings*>(GetWindow());
+    auto wnd = static_cast<const wxZRColaSettings*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
 
     SaveValue(wxT("langAuto"), wnd->m_lang_auto);
     SaveValue(wxT("lang"    ), wxString::FromAscii(wnd->m_lang.data, _countof(wnd->m_lang.data)));
@@ -164,9 +164,8 @@ void wxPersistentZRColaSettings::Save() const
 
 bool wxPersistentZRColaSettings::Restore()
 {
-    wxZRColaSettings * const wnd = static_cast<wxZRColaSettings*>(GetWindow());
-
-    ZRColaApp *app = ((ZRColaApp*)wxTheApp);
+    auto wnd = dynamic_cast<wxZRColaSettings*>(GetWindow());
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     wxString lang;
 
     // Restore automatic language detection setting first.

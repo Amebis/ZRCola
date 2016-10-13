@@ -39,7 +39,7 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
         if (e.GetKeyCode() == WXK_INSERT) {
             // Insert key has been pressed.
             m_is_insert = true;
-            wxFrame *pFrame = wxDynamicCast(((ZRColaApp*)wxTheApp)->m_mainWnd, wxFrame);
+            wxFrame *pFrame = wxDynamicCast(dynamic_cast<ZRColaApp*>(wxTheApp)->m_mainWnd, wxFrame);
             if (pFrame && pFrame->GetStatusBar())
                 pFrame->SetStatusText(_("INS key is pressed. Type the Unicode code of desired character now (up to four hexadecimal digits: 0-9, A-F), then release INS."));
         } else if (m_is_insert) {
@@ -49,7 +49,7 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
                 if (WXK_NUMPAD0 <= key && key <= WXK_NUMPAD9)
                     chr = '0' + (key - WXK_NUMPAD0);
             }
-            wxFrame *pFrame = wxDynamicCast(((ZRColaApp*)wxTheApp)->m_mainWnd, wxFrame);
+            wxFrame *pFrame = wxDynamicCast(dynamic_cast<ZRColaApp*>(wxTheApp)->m_mainWnd, wxFrame);
             if (('0' <= chr && chr <= '9' || 'A' <= chr && chr <= 'F') && m_insert_seq.size() < 4) {
                 // A hex-digit pressed. Save it.
                 m_insert_seq.push_back((char)chr);
@@ -73,7 +73,7 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
 #endif
             )
         {
-            ZRColaApp *app = (ZRColaApp*)wxTheApp;
+            auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
             ZRCola::keyseq_db::indexKey::size_type start;
             bool found;
             wxFrame *pFrame = wxDynamicCast(app->m_mainWnd, wxFrame);
@@ -143,7 +143,7 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
         wxKeyEvent &e = (wxKeyEvent&)event;
         if (m_is_insert && e.GetKeyCode() == WXK_INSERT) {
             // Insert key has been depressed.
-            wxFrame *pFrame = wxDynamicCast(((ZRColaApp*)wxTheApp)->m_mainWnd, wxFrame);
+            wxFrame *pFrame = wxDynamicCast(dynamic_cast<ZRColaApp*>(wxTheApp)->m_mainWnd, wxFrame);
             if (pFrame && pFrame->GetStatusBar())
                 pFrame->SetStatusText(wxEmptyString);
 
