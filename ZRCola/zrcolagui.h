@@ -210,6 +210,7 @@ class wxZRColaCharSelectBase : public wxDialog
 		wxTextCtrl* m_shortcut;
 		wxGrid* m_gridPreview;
 		wxTextCtrl* m_description;
+		wxTextCtrl* m_tags;
 		wxTextCtrl* m_category;
 		wxHyperlinkCtrl* m_navigateBack;
 		wxHyperlinkCtrl* m_navigateForward;

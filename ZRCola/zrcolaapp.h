@@ -33,6 +33,7 @@ class ZRColaApp;
 #include <zrcola/character.h>
 #include <zrcola/language.h>
 #include <zrcola/translate.h>
+#include <zrcola/tag.h>
 #include <zrcolaui/keyboard.h>
 
 
@@ -77,6 +78,8 @@ public:
     ZRCola::keyseq_db m_ks_db;      ///< Key sequence database
     ZRCola::character_db m_chr_db;  ///< Character database
     ZRCola::chrcat_db m_cc_db;      ///< Characted category database
+    ZRCola::chrtag_db m_ct_db;      ///< Character tag database
+    ZRCola::tagname_db m_tn_db;     ///< Tag name database
 
     wxZRColaFrame *m_mainWnd;       ///< Main window
 

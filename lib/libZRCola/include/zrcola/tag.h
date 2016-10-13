@@ -180,6 +180,16 @@ namespace ZRCola {
             idxTag.clear();
             data  .clear();
         }
+
+        ///
+        /// Search for characters by tags
+        ///
+        /// \param[in   ] tags      Search tags
+        /// \param[inout] hits      (character, count) map to append hits to
+        /// \param[in   ] fn_abort  Pointer to function to periodically test for search cancellation
+        /// \param[in   ] cookie    Cookie for \p fn_abort call
+        ///
+        bool Search(_In_ const std::map<tagid_t, unsigned __int16> &tags, _Inout_ std::map<wchar_t, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
     };
 
 
@@ -294,13 +304,50 @@ namespace ZRCola {
             }
         } idxName;      ///< Name index
 
+        ///
+        /// Tag index
+        ///
+        class indexTag : public index<unsigned __int16, unsigned __int32, tagname>
+        {
+        public:
+            ///
+            /// Constructs the index
+            ///
+            /// \param[in] h       Reference to vector holding the data
+            /// \param[in] locale  Locale used to perform tag name comparison
+            ///
+            indexTag(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, tagname>(h) {}
+
+            ///
+            /// Compares two tag names by tag (for searching)
+            ///
+            /// \param[in] a  Pointer to first element
+            /// \param[in] b  Pointer to second element
+            ///
+            /// \returns
+            /// - <0 when a <  b
+            /// - =0 when a == b
+            /// - >0 when a >  b
+            ///
+            virtual int compare(_In_ const tagname &a, _In_ const tagname &b) const
+            {
+                     if (a.locale < b.locale) return -1;
+                else if (a.locale > b.locale) return  1;
+
+                     if (a.tag < b.tag) return -1;
+                else if (a.tag > b.tag) return  1;
+
+                return 0;
+            }
+        } idxTag;      ///< Tag index
+
         std::vector<unsigned __int16> data;     ///< Tag data
 
     public:
         ///
         /// Constructs the database
         ///
-        inline tagname_db() : idxName(data) {}
+        inline tagname_db() : idxName(data), idxTag(data) {}
 
         ///
         /// Clears the database
@@ -308,6 +355,7 @@ namespace ZRCola {
         inline void clear()
         {
             idxName.clear();
+            idxTag .clear();
             data   .clear();
         }
 
@@ -415,9 +463,13 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::chrtag
 ///
 inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::tagname_db &db)
 {
-    // Write tag index.
+    // Write name index.
     if (stream.fail()) return stream;
     stream << db.idxName;
+
+    // Write tag index.
+    if (stream.fail()) return stream;
+    stream << db.idxTag;
 
     // Write data count.
     auto data_count = db.data.size();
@@ -450,8 +502,12 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
 ///
 inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::tagname_db &db)
 {
-    // Read tag index.
+    // Read name index.
     stream >> db.idxName;
+    if (!stream.good()) return stream;
+
+    // Read tag index.
+    stream >> db.idxTag;
     if (!stream.good()) return stream;
 
     // Read data count.

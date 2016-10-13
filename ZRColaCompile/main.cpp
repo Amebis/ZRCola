@@ -666,6 +666,7 @@ int _tmain(int argc, _TCHAR *argv[])
 
                 // Preallocate memory.
                 db.idxName.reserve(count*3);
+                db.idxTag .reserve(count*3);
                 db.data   .reserve(count*3*4);
 
                 // Parse tags and build index and data.
@@ -686,6 +687,7 @@ int _tmain(int argc, _TCHAR *argv[])
                                 for (wstring::size_type i = 0; i < n; i++)
                                     db.data.push_back(nm->at(i));
                                 db.idxName.push_back(idx);
+                                db.idxTag .push_back(idx);
                             }
                         }
                     } else
@@ -694,6 +696,7 @@ int _tmain(int argc, _TCHAR *argv[])
 
                 // Sort indices.
                 db.idxName.sort();
+                db.idxTag .sort();
 
                 // Write tags to file.
                 dst << ZRCola::tagname_rec(db);

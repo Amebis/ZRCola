@@ -34,6 +34,13 @@ wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) :
     m_searchThread(NULL),
     wxZRColaCharSelectBase(parent)
 {
+    // Set tag lookup locale.
+    auto language = static_cast<wxLanguage>(dynamic_cast<ZRColaApp*>(wxTheApp)->m_locale.GetLanguage());
+         if (wxLANGUAGE_ENGLISH   <= language && language <= wxLANGUAGE_ENGLISH_ZIMBABWE) m_locale = MAKELCID(MAKELANGID(LANG_ENGLISH  , SUBLANG_DEFAULT), SORT_DEFAULT);
+    else if (wxLANGUAGE_RUSSIAN   <= language && language <= wxLANGUAGE_RUSSIAN_UKRAINE ) m_locale = MAKELCID(MAKELANGID(LANG_RUSSIAN  , SUBLANG_DEFAULT), SORT_DEFAULT);
+    else if (wxLANGUAGE_SLOVENIAN == language                                           ) m_locale = MAKELCID(MAKELANGID(LANG_SLOVENIAN, SUBLANG_DEFAULT), SORT_DEFAULT);
+    else                                                                                  m_locale = MAKELCID(MAKELANGID(LANG_ENGLISH  , SUBLANG_DEFAULT), SORT_DEFAULT);
+
     Connect(wxID_ANY, wxEVT_SEARCH_COMPLETE, wxThreadEventHandler(wxZRColaCharSelect::OnSearchComplete), NULL, this);
 
     m_search_more->SetLabel(_(L"▸ Search Options"));
@@ -83,7 +90,7 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
             size_t start;
             if (app->m_chr_db.idxChr.find(*(ZRCola::character_db::character*)chr, start)) {
                 const auto &chr = app->m_chr_db.idxChr[start];
-                // Update characted description.
+                // Update character description.
                 m_description->SetValue(wxString(chr.data, chr.desc_len));
                 {
                     // See if this character has a key sequence registered.
@@ -119,6 +126,45 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
                 m_category->SetValue(wxEmptyString);
                 m_gridRelated->ClearGrid();
             }
+
+            // Find character tags.
+            std::list<std::wstring> tag_names;
+            ZRCola::chrtag_db::chrtag ct = { m_char };
+            size_t end;
+            if (app->m_ct_db.idxChr.find(ct, start, end)) {
+                for (size_t i = start; i < end; i++) {
+                    const ZRCola::chrtag_db::chrtag &ct = app->m_ct_db.idxChr[i];
+
+                    // Find tag names.
+                    char tn[sizeof(ZRCola::tagname_db::tagname)] = {};
+                    ((ZRCola::tagname_db::tagname*)tn)->locale = m_locale;
+                    ((ZRCola::tagname_db::tagname*)tn)->tag    = ct.tag;
+                    size_t start, end;
+                    if (app->m_tn_db.idxTag.find(*((ZRCola::tagname_db::tagname*)tn), start, end)) {
+                        for (size_t i = start; i < end; i++) {
+                            const ZRCola::tagname_db::tagname &tn = app->m_tn_db.idxTag[i];
+
+                            // Add tag name to the list (prevent duplicates).
+                            for (auto name = tag_names.cbegin(), name_end = tag_names.cend();; ++name) {
+                                if (name == name_end) {
+                                    // Add name to the list.
+                                    tag_names.push_back(std::wstring(tn.name, tn.name + tn.name_len));
+                                    break;
+                                } else if (ZRCola::tagname_db::tagname::CompareName(m_locale, name->data(), (unsigned __int16)name->length(), tn.name, tn.name_len) == 0)
+                                    // Name is already on the list.
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+            wxString tags;
+            for (auto name = tag_names.cbegin(), name_end = tag_names.cend(); name != name_end; ++name) {
+                if (!tags.empty())
+                    tags += _(", ");
+                tags += *name;
+            }
+            m_tags->SetValue(tags);
 
             m_gridRelated->GoToCell(m_historyCursor->m_related.m_selected);
 
@@ -506,7 +552,14 @@ wxThread::ExitCode wxZRColaCharSelect::SearchThread::Entry()
     if (TestDestroy()) return (wxThread::ExitCode)1;
 
     {
-        // Search by indexes and merge results.
+        // Search by tags: Get tags with given names. Then, get characters of found tags.
+        std::map<ZRCola::tagid_t, unsigned __int16> hits_tag;
+        if (!app->m_tn_db.Search(m_search.c_str(), m_parent->m_locale, hits_tag, TestDestroyS, this)) return (wxThread::ExitCode)1;
+        if (!app->m_ct_db.Search(hits_tag, hits, TestDestroyS, this)) return (wxThread::ExitCode)1;
+    }
+
+    {
+        // Search by description and merge results.
         std::map<wchar_t, ZRCola::charrank_t> hits_sub;
         if (!app->m_chr_db.Search(m_search.c_str(), m_cats, hits, hits_sub, TestDestroyS, this)) return (wxThread::ExitCode)1;
         for (auto i = hits_sub.cbegin(), i_end = hits_sub.cend(); i != i_end; ++i) {

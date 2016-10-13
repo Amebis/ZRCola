@@ -131,6 +131,18 @@ bool ZRColaApp::OnInit()
                             wxFAIL_MSG(wxT("Error reading character category data from ZRCola.zrcdb."));
                             m_cc_db.clear();
                         }
+                    } else if (id == ZRCola::chrtag_rec::id) {
+                        dat >> ZRCola::chrtag_rec(m_ct_db);
+                        if (!dat.good()) {
+                            wxFAIL_MSG(wxT("Error reading character tag data from ZRCola.zrcdb."));
+                            m_ct_db.clear();
+                        }
+                    } else if (id == ZRCola::tagname_rec::id) {
+                        dat >> ZRCola::tagname_rec(m_tn_db);
+                        if (!dat.good()) {
+                            wxFAIL_MSG(wxT("Error reading tag name data from ZRCola.zrcdb."));
+                            m_tn_db.clear();
+                        }
                     } else
                         stdex::idrec::ignore<ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>(dat);
                 }

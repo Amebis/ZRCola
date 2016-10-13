@@ -82,6 +82,7 @@ public:
     wchar_t m_char;                                 ///< Currently selected character (0 when none)
 
 protected:
+    LCID m_locale;                                  ///< Locale for tag lookup
     bool m_searchChanged;                           ///< Did Search field or category selection change?
     std::map<ZRCola::chrcatid_t, int> m_ccOrder;    ///< Character category order
     bool m_unicodeChanged;                          ///< Did Unicode field change?

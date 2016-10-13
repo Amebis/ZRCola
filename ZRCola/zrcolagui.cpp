@@ -619,6 +619,11 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	
 	sbSizerPreview->Add( m_description, 1, wxALL|wxEXPAND, 5 );
 	
+	m_tags = new wxTextCtrl( sbSizerPreview->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_MULTILINE|wxTE_READONLY );
+	m_tags->SetToolTip( _("Character tags") );
+	
+	sbSizerPreview->Add( m_tags, 1, wxALL|wxEXPAND, 5 );
+	
 	m_category = new wxTextCtrl( sbSizerPreview->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_READONLY );
 	m_category->SetToolTip( _("Unicode character category") );
 	
