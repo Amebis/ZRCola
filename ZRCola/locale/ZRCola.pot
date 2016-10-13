@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-10-05 13:54+0200\n"
+"POT-Creation-Date: 2016-10-13 11:49+0200\n"
 "PO-Revision-Date: 2016-05-13 15:52+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "© 2004-%s ZRC SAZU"
 msgstr ""
 
-#: zrcolaapp.cpp:75 zrcolafrm.cpp:90 zrcolagui.cpp:869 zrcolagui.h:104
+#: zrcolaapp.cpp:71 zrcolafrm.cpp:90 zrcolagui.cpp:874 zrcolagui.h:104
 #: MSIBuild/en_US.Win32.Debug.Feature-2.idtx:4
 #: MSIBuild/en_US.Win32.Debug.Shortcut-2.idtx:4
 #: MSIBuild/en_US.Win32.Release.Feature-2.idtx:4
@@ -35,23 +35,27 @@ msgstr ""
 msgid "ZRCola"
 msgstr ""
 
-#: zrcolachrreq.cpp:49 zrcolagui.cpp:999
+#: zrcolachrreq.cpp:49 zrcolagui.cpp:1004
 msgid "Character"
 msgstr ""
 
-#: zrcolachrreq.cpp:58 zrcolagui.cpp:1020
+#: zrcolachrreq.cpp:58 zrcolagui.cpp:1025
 msgid "Context"
 msgstr ""
 
-#: zrcolachrreq.cpp:64 zrcolagui.h:362
+#: zrcolachrreq.cpp:64 zrcolagui.h:363
 msgid "Request a New Character"
 msgstr ""
 
-#: zrcolachrslct.cpp:39 zrcolachrslct.cpp:180 zrcolachrslct.cpp:624
+#: zrcolachrslct.cpp:46 zrcolachrslct.cpp:226 zrcolachrslct.cpp:677
 msgid "▸ Search Options"
 msgstr ""
 
-#: zrcolachrslct.cpp:183 zrcolachrslct.cpp:621
+#: zrcolachrslct.cpp:164
+msgid ", "
+msgstr ""
+
+#: zrcolachrslct.cpp:229 zrcolachrslct.cpp:674
 msgid "▾ Search Options"
 msgstr ""
 
@@ -376,68 +380,72 @@ msgid "Unicode character description"
 msgstr ""
 
 #: zrcolagui.cpp:623
+msgid "Character tags"
+msgstr ""
+
+#: zrcolagui.cpp:628
 msgid "Unicode character category"
 msgstr ""
 
-#: zrcolagui.cpp:630
+#: zrcolagui.cpp:635
 msgid "« Back"
 msgstr ""
 
-#: zrcolagui.cpp:632
+#: zrcolagui.cpp:637
 msgid "To previously viewed character"
 msgstr ""
 
-#: zrcolagui.cpp:636
+#: zrcolagui.cpp:641
 msgid "Forward »"
 msgstr ""
 
-#: zrcolagui.cpp:638
+#: zrcolagui.cpp:643
 msgid "To following viewed character"
 msgstr ""
 
-#: zrcolagui.cpp:649
+#: zrcolagui.cpp:654
 msgid "Re&lated"
 msgstr ""
 
-#: zrcolagui.cpp:676
+#: zrcolagui.cpp:681
 msgid "List of related characters"
 msgstr ""
 
-#: zrcolagui.cpp:765
+#: zrcolagui.cpp:770
 msgid ""
 "Some character native to specific language you are working with should not "
 "decompose to primitives.\n"
 "For optimal decomposition you should set the language correctly."
 msgstr ""
 
-#: zrcolagui.cpp:769
+#: zrcolagui.cpp:774
 msgid "Select language &automatically according to selected keyboard"
 msgstr ""
 
-#: zrcolagui.cpp:772
+#: zrcolagui.cpp:777
 msgid "&Manually select the language from the list below:"
 msgstr ""
 
-#: zrcolagui.cpp:784
+#: zrcolagui.cpp:789
 msgid "Text Language"
 msgstr ""
 
-#: zrcolagui.cpp:789
+#: zrcolagui.cpp:794
 msgid ""
 "ZRCola can be launched every time you log in to your computer.\n"
 "It will be available on the system tray and via registered shortcuts Win+F5 "
 "and Win+F6."
 msgstr ""
 
-#: zrcolagui.cpp:793
+#: zrcolagui.cpp:798
 msgid "Start ZRCola &automatically on logon"
 msgstr ""
 
-#: zrcolagui.cpp:800
+#: zrcolagui.cpp:805
 msgid "Startup"
 msgstr ""
 
-#: zrcolagui.cpp:880
+#: zrcolagui.cpp:885
 msgid ""
 "Program and Website Editor: Janoš Ježovnik\n"
 "Development: Amebis, d. o. o., Kamnik\n"
@@ -447,69 +455,69 @@ msgid ""
 "Development and maintenance of the original program (2004–2015): Peter Weiss"
 msgstr ""
 
-#: zrcolagui.cpp:888
+#: zrcolagui.cpp:893
 msgid "zrcola.zrc-sazu.si"
 msgstr ""
 
-#: zrcolagui.cpp:894
+#: zrcolagui.cpp:899
 msgid ""
 "Texts made using ZRCola have to include in the colophon, foreword, footnote "
 "or some other appropriate part of the publication the note below:"
 msgstr ""
 
-#: zrcolagui.cpp:898
+#: zrcolagui.cpp:903
 msgid ""
 "This text was written using the ZRCola input system (http://zrcola.zrc-sazu."
 "si), developed at the Science and Research Centre of SAZU in Ljubljana "
 "(http://www.zrc-sazu.si) by Peter Weiss."
 msgstr ""
 
-#: zrcolagui.cpp:939
+#: zrcolagui.cpp:944
 msgid "Log"
 msgstr ""
 
-#: zrcolagui.cpp:955
+#: zrcolagui.cpp:960
 msgid "Quit and &Update..."
 msgstr ""
 
-#: zrcolagui.cpp:957
+#: zrcolagui.cpp:962
 msgid "Exit this program and launch product update"
 msgstr ""
 
-#: zrcolagui.cpp:961
+#: zrcolagui.cpp:966
 msgid "&Close"
 msgstr ""
 
-#: zrcolagui.cpp:962
+#: zrcolagui.cpp:967
 msgid "Close this window"
 msgstr ""
 
-#: zrcolagui.cpp:1001
+#: zrcolagui.cpp:1006
 msgid "Enter the &character you would like to request:"
 msgstr ""
 
-#: zrcolagui.cpp:1008
+#: zrcolagui.cpp:1013
 msgid "Decomposed character to request"
 msgstr ""
 
-#: zrcolagui.cpp:1012
+#: zrcolagui.cpp:1017
 msgid ""
 "Please, use the decomposed form.\n"
 "You can use ZRCola keyboard shortcuts to enter the character or Copy&&Paste "
 "it from the Decomposed window."
 msgstr ""
 
-#: zrcolagui.cpp:1022
+#: zrcolagui.cpp:1027
 msgid ""
 "The &context, examples or description why and where the character is "
 "required:"
 msgstr ""
 
-#: zrcolagui.cpp:1028
+#: zrcolagui.cpp:1033
 msgid "Additional notes for character request"
 msgstr ""
 
-#: zrcolagui.cpp:1035
+#: zrcolagui.cpp:1040
 msgid ""
 "After clicking OK button, your e-mail application should open allowing you "
 "to submit the new character request to ZRCola Editor.\n"
@@ -533,19 +541,19 @@ msgid ""
 "Are you sure?"
 msgstr ""
 
-#: zrcolaupdater.cpp:94 zrcolagui.h:333
+#: zrcolaupdater.cpp:94 zrcolagui.h:334
 msgid "Product Update"
 msgstr ""
 
-#: zrcolagui.h:245
+#: zrcolagui.h:246
 msgid "Character Search"
 msgstr ""
 
-#: zrcolagui.h:282
+#: zrcolagui.h:283
 msgid "Settings"
 msgstr ""
 
-#: zrcolagui.h:308
+#: zrcolagui.h:309
 msgid "About ZRCola"
 msgstr ""
 
