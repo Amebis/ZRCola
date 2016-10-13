@@ -99,49 +99,37 @@ bool ZRColaApp::OnInit()
                             has_translation_data = true;
                         } else {
                             wxFAIL_MSG(wxT("Error reading translation data from ZRCola.zrcdb."));
-                            m_t_db.idxComp  .clear();
-                            m_t_db.idxDecomp.clear();
-                            m_t_db.data     .clear();
+                            m_t_db.clear();
                         }
                     } else if (id == ZRCola::langchar_rec::id) {
                         dat >> ZRCola::langchar_rec(m_lc_db);
                         if (!dat.good()) {
                             wxFAIL_MSG(wxT("Error reading language character data from ZRCola.zrcdb."));
-                            m_lc_db.idxChr.clear();
-#ifdef ZRCOLA_LANGCHAR_LANG_IDX
-                            m_lc_db.idxLng.clear();
-#endif
-                            m_lc_db.data  .clear();
+                            m_lc_db.clear();
                         }
                     } else if (id == ZRCola::language_rec::id) {
                         dat >> ZRCola::language_rec(m_lang_db);
                         if (!dat.good()) {
                             wxFAIL_MSG(wxT("Error reading language character data from ZRCola.zrcdb."));
-                            m_lang_db.idxLng.clear();
-                            m_lang_db.data  .clear();
+                            m_lang_db.clear();
                         }
                     } else if (id == ZRCola::keyseq_rec::id) {
                         dat >> ZRCola::keyseq_rec(m_ks_db);
                         if (!dat.good()) {
                             wxFAIL_MSG(wxT("Error reading key sequences data from ZRCola.zrcdb."));
-                            m_ks_db.idxChr.clear();
-                            m_ks_db.idxKey.clear();
-                            m_ks_db.data  .clear();
+                            m_ks_db.clear();
                         }
                     } else if (id == ZRCola::character_rec::id) {
                         dat >> ZRCola::character_rec(m_chr_db);
                         if (!dat.good()) {
                             wxFAIL_MSG(wxT("Error reading character data from ZRCola.zrcdb."));
-                            m_chr_db.idxChr.clear();
-                            m_chr_db.data  .clear();
+                            m_chr_db.clear();
                         }
                     } else if (id == ZRCola::chrcat_rec::id) {
                         dat >> ZRCola::chrcat_rec(m_cc_db);
                         if (!dat.good()) {
                             wxFAIL_MSG(wxT("Error reading character category data from ZRCola.zrcdb."));
-                            m_cc_db.idxChrCat.clear();
-                            m_cc_db.idxRnk   .clear();
-                            m_cc_db.data     .clear();
+                            m_cc_db.clear();
                         }
                     } else
                         stdex::idrec::ignore<ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>(dat);

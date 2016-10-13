@@ -170,6 +170,16 @@ namespace ZRCola {
         /// Constructs the database
         ///
         inline chrtag_db() : idxChr(data), idxTag(data) {}
+
+        ///
+        /// Clears the database
+        ///
+        inline void clear()
+        {
+            idxChr.clear();
+            idxTag.clear();
+            data  .clear();
+        }
     };
 
 
@@ -291,6 +301,15 @@ namespace ZRCola {
         /// Constructs the database
         ///
         inline tagname_db() : idxName(data) {}
+
+        ///
+        /// Clears the database
+        ///
+        inline void clear()
+        {
+            idxName.clear();
+            data   .clear();
+        }
 
         ///
         /// Search for tags by names

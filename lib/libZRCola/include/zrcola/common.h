@@ -440,6 +440,17 @@ namespace ZRCola {
 
 
         ///
+        /// Clears the index
+        ///
+        inline void clear()
+        {
+            std::vector< mappair_t<T_idx> >::clear();
+            keys  .clear();
+            values.clear();
+        }
+
+
+        ///
         /// Finds data for given key
         ///
         /// \param[in ] key      Pointer to key

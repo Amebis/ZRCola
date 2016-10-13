@@ -210,6 +210,16 @@ namespace ZRCola {
         inline keyseq_db() : idxChr(data), idxKey(data) {}
 
         ///
+        /// Clears the database
+        ///
+        inline void clear()
+        {
+            idxChr.clear();
+            idxKey.clear();
+            data  .clear();
+        }
+
+        ///
         /// Get text representation of a given key sequence
         ///
         /// \param[in]  seq      Key sequence

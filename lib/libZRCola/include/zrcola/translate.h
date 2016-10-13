@@ -205,6 +205,16 @@ namespace ZRCola {
         inline translation_db() : idxComp(data), idxDecomp(data) {}
 
         ///
+        /// Clears the database
+        ///
+        inline void clear()
+        {
+            idxComp  .clear();
+            idxDecomp.clear();
+            data     .clear();
+        }
+
+        ///
         /// Composes string
         ///
         /// \param[in]  input     Input string (UTF-16)

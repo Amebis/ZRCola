@@ -176,6 +176,18 @@ namespace ZRCola {
         {}
 
         ///
+        /// Clears the database
+        ///
+        inline void clear()
+        {
+            idxChr.clear();
+#ifdef ZRCOLA_LANGCHAR_LANG_IDX
+            idxLng.clear();
+#endif
+            data  .clear();
+        }
+
+        ///
         /// Tests presence of character in the given language
         ///
         /// \param[in]  chr   Character (UTF-16)
@@ -248,6 +260,15 @@ namespace ZRCola {
         /// Constructs the database
         ///
         inline language_db() : idxLng(data) {}
+
+        ///
+        /// Clears the database
+        ///
+        inline void clear()
+        {
+            idxLng.clear();
+            data  .clear();
+        }
     };
 
 

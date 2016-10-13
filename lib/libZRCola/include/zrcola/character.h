@@ -232,6 +232,17 @@ namespace ZRCola {
         inline character_db() : idxChr(data) {}
 
         ///
+        /// Clears the database
+        ///
+        inline void clear()
+        {
+            idxChr   .clear();
+            idxDsc   .clear();
+            idxDscSub.clear();
+            data     .clear();
+        }
+
+        ///
         /// Search for characters by description in given categories
         ///
         /// \param[in   ] str       Search string
@@ -379,6 +390,16 @@ namespace ZRCola {
         /// Constructs the database
         ///
         inline chrcat_db() : idxChrCat(data), idxRnk(data) {}
+
+        ///
+        /// Clears the database
+        ///
+        inline void clear()
+        {
+            idxChrCat.clear();
+            idxRnk   .clear();
+            data     .clear();
+        }
     };
 
 
