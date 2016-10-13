@@ -86,14 +86,15 @@ void wxZRColaComposerPanel::SynchronizePanels()
     if (m_decomposedChanged) {
         m_timerSave.Stop();
 
+        auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
         wxString src;
         size_t len = GetValue(m_decomposed, src);
 
         std::wstring norm;
-        ((ZRColaApp*)wxTheApp)->m_t_db.Decompose(src.data(), len, norm, &m_mapping1);
+        app->m_t_db.Decompose(src.data(), len, norm, &m_mapping1);
 
         std::wstring dst;
-        ((ZRColaApp*)wxTheApp)->m_t_db.Compose(norm.data(), norm.size(), dst, &m_mapping2);
+        app->m_t_db.Compose(norm.data(), norm.size(), dst, &m_mapping2);
 
         m_decomposed->GetSelection(&m_selDecomposed.first, &m_selDecomposed.second);
 
@@ -115,7 +116,7 @@ void wxZRColaComposerPanel::SynchronizePanels()
         wxString src;
         size_t len = GetValue(m_composed, src);
 
-        ZRColaApp *app = (ZRColaApp*)wxTheApp;
+        auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
         std::wstring dst;
         wxZRColaFrame *mainWnd = dynamic_cast<wxZRColaFrame*>(wxGetActiveWindow());
         if (mainWnd)
@@ -382,7 +383,7 @@ wxString wxPersistentZRColaComposerPanel::GetKind() const
 
 void wxPersistentZRColaComposerPanel::Save() const
 {
-    const wxZRColaComposerPanel * const wnd = static_cast<const wxZRColaComposerPanel*>(GetWindow());
+    auto const wnd = static_cast<const wxZRColaComposerPanel*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
 
     SaveValue(wxT("splitDecomposed"), wnd->m_splitterDecomposed->GetSashPosition());
     SaveValue(wxT("splitComposed"  ), wnd->m_splitterComposed  ->GetSashPosition());
@@ -391,7 +392,7 @@ void wxPersistentZRColaComposerPanel::Save() const
 
 bool wxPersistentZRColaComposerPanel::Restore()
 {
-    wxZRColaComposerPanel * const wnd = static_cast<wxZRColaComposerPanel*>(GetWindow());
+    auto wnd = dynamic_cast<wxZRColaComposerPanel*>(GetWindow());
 
     int sashVal;
 

@@ -97,7 +97,7 @@ wxString wxZRColaCharGrid::GetToolTipText(int idx)
 {
     wxASSERT_MSG(idx < (int)m_chars.Length(), wxT("index out of bounds"));
 
-    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
 
     // See if this character has a key sequence registered.
     char ks[sizeof(ZRCola::keyseq_db::keyseq)] = {};

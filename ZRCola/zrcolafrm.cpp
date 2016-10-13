@@ -365,7 +365,7 @@ void wxZRColaFrame::OnHelpShortcuts(wxCommandEvent& event)
 #endif
 
     // Search and try to launch local PDF copy.
-    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     pdf_path  = app->GetDatabasePath();
     pdf_path += _T("ZRCola_keyboard.pdf");
     if (wxFileExists(pdf_path) &&
@@ -549,23 +549,21 @@ wxPersistentZRColaFrame::wxPersistentZRColaFrame(wxZRColaFrame *wnd) : wxPersist
 
 void wxPersistentZRColaFrame::Save() const
 {
-    const wxZRColaFrame * const wnd = static_cast<const wxZRColaFrame*>(GetWindow());
+    wxPersistentTLW::Save();
+
+    auto wnd = static_cast<const wxZRColaFrame*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
 
     wxPersistentZRColaComposerPanel(wnd->m_panel).Save();
     wxPersistentZRColaCharacterCatalogPanel(wnd->m_panelChrCat).Save();
-
-    wxPersistentTLW::Save();
 }
 
 
 bool wxPersistentZRColaFrame::Restore()
 {
-    const bool r = wxPersistentTLW::Restore();
-
-    wxZRColaFrame * const wnd = static_cast<wxZRColaFrame*>(GetWindow());
+    auto wnd = dynamic_cast<wxZRColaFrame*>(GetWindow());
 
     wxPersistentZRColaCharacterCatalogPanel(wnd->m_panelChrCat).Restore();
     wxPersistentZRColaComposerPanel(wnd->m_panel).Restore();
 
-    return r;
+    return wxPersistentTLW::Restore();
 }

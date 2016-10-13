@@ -41,7 +41,7 @@ wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) :
     m_unicode->SetValidator(wxHexValidator<wchar_t>(&m_char, wxNUM_VAL_DEFAULT, 4));
 
     // Fill categories.
-    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
         const auto &cc = app->m_cc_db.idxRnk[i];
         int idx = m_categories->Insert(wxGetTranslation(wxString(cc.name, cc.name_len), wxT("ZRCola-zrcdb")), i);
@@ -74,7 +74,7 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
 
     if (m_unicodeChanged) {
         if (m_unicode->GetValidator()->TransferFromWindow()) {
-            ZRColaApp *app = (ZRColaApp*)wxTheApp;
+            auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
 
             m_gridPreview->SetCellValue(wxString(1, m_char), 0, 0);
 
@@ -137,7 +137,7 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
 
         wxString val(m_search->GetValue());
         if (!val.IsEmpty()) {
-            ZRColaApp *app = (ZRColaApp*)wxTheApp;
+            auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
 
             m_searchThread = new SearchThread(this);
 
@@ -191,7 +191,7 @@ void wxZRColaCharSelect::OnCategoriesAll(wxHyperlinkEvent& event)
 {
     event.StopPropagation();
 
-    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++)
         m_categories->Check(i, true);
 
@@ -203,7 +203,7 @@ void wxZRColaCharSelect::OnCategoriesNone(wxHyperlinkEvent& event)
 {
     event.StopPropagation();
 
-    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++)
         m_categories->Check(i, false);
 
@@ -215,7 +215,7 @@ void wxZRColaCharSelect::OnCategoriesInvert(wxHyperlinkEvent& event)
 {
     event.StopPropagation();
 
-    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++)
         m_categories->Check(i, !m_categories->IsChecked(i));
 
@@ -408,7 +408,7 @@ void wxZRColaCharSelect::OnOKButtonClick(wxCommandEvent& event)
 void wxZRColaCharSelect::ResetResults()
 {
     // Fill the results.
-    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     size_t i, n = app->m_chr_db.idxChr.size();
     wxString val;
     val.reserve(n);
@@ -500,7 +500,7 @@ wxZRColaCharSelect::SearchThread::SearchThread(wxZRColaCharSelect *parent) :
 
 wxThread::ExitCode wxZRColaCharSelect::SearchThread::Entry()
 {
-    ZRColaApp *app = (ZRColaApp*)wxTheApp;
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     std::map<wchar_t, ZRCola::charrank_t> hits;
 
     if (TestDestroy()) return (wxThread::ExitCode)1;
@@ -580,11 +580,11 @@ void wxPersistentZRColaCharSelect::Save() const
 {
     wxPersistentDialog::Save();
 
-    const wxZRColaCharSelect * const wnd = static_cast<const wxZRColaCharSelect*>(GetWindow());
+    auto wnd = static_cast<const wxZRColaCharSelect*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
 
     SaveValue(wxT("recentChars"), wnd->m_gridRecent->GetCharacters());
 
-    ZRColaApp *app = (ZRColaApp*)wxTheApp;
     for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
         const auto &cc = app->m_cc_db.idxRnk[i];
         wxString name(wxT("category"));
@@ -598,13 +598,13 @@ void wxPersistentZRColaCharSelect::Save() const
 
 bool wxPersistentZRColaCharSelect::Restore()
 {
-    wxZRColaCharSelect * const wnd = static_cast<wxZRColaCharSelect*>(GetWindow());
+    auto wnd = dynamic_cast<wxZRColaCharSelect*>(GetWindow());
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
 
     wxString recent;
     if (RestoreValue(wxT("recentChars"), &recent))
         wnd->m_gridRecent->SetCharacters(recent);
 
-    ZRColaApp *app = (ZRColaApp*)wxTheApp;
     for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
         const auto &cc = app->m_cc_db.idxRnk[i];
         wxString name(wxT("category"));
