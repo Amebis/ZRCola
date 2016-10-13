@@ -20,7 +20,7 @@
 #include "stdafx.h"
 
 
-bool ZRCola::chrtag_db::Search(_In_ const std::map<tagid_t, unsigned __int16> &tags, _Inout_ std::map<wchar_t, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
+bool ZRCola::chrtag_db::Search(_In_ const std::map<tagid_t, unsigned __int16> &tags, _In_ const character_db &ch_db, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<wchar_t, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
 {
     for (auto tag = tags.cbegin(), tag_end = tags.cend(); tag != tag_end; ++tag) {
         if (fn_abort && fn_abort(cookie)) return false;
@@ -32,13 +32,15 @@ bool ZRCola::chrtag_db::Search(_In_ const std::map<tagid_t, unsigned __int16> &t
             for (size_t i = start; i < end; i++) {
                 if (fn_abort && fn_abort(cookie)) return false;
                 const chrtag &ct = idxTag[i];
-                auto idx = hits.find(ct.chr);
-                if (idx == hits.end()) {
-                    // New character.
-                    hits.insert(std::make_pair(ct.chr, tag->second));
-                } else {
-                    // Increase count for existing character.
-                    idx->second += tag->second;
+                if (cats.find(ch_db.GetCharCat(ct.chr)) != cats.end()) {
+                    auto idx = hits.find(ct.chr);
+                    if (idx == hits.end()) {
+                        // New character.
+                        hits.insert(std::make_pair(ct.chr, tag->second));
+                    } else {
+                        // Increase count for existing character.
+                        idx->second += tag->second;
+                    }
                 }
             }
         }

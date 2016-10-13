@@ -185,11 +185,13 @@ namespace ZRCola {
         /// Search for characters by tags
         ///
         /// \param[in   ] tags      Search tags
+        /// \param[in   ] ch_db     Character database
+        /// \param[in   ] cats      Set of categories from \p ch_db, character must be a part of
         /// \param[inout] hits      (character, count) map to append hits to
         /// \param[in   ] fn_abort  Pointer to function to periodically test for search cancellation
         /// \param[in   ] cookie    Cookie for \p fn_abort call
         ///
-        bool Search(_In_ const std::map<tagid_t, unsigned __int16> &tags, _Inout_ std::map<wchar_t, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
+        bool Search(_In_ const std::map<tagid_t, unsigned __int16> &tags, _In_ const character_db &ch_db, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<wchar_t, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
     };
 
 

@@ -555,7 +555,7 @@ wxThread::ExitCode wxZRColaCharSelect::SearchThread::Entry()
         // Search by tags: Get tags with given names. Then, get characters of found tags.
         std::map<ZRCola::tagid_t, unsigned __int16> hits_tag;
         if (!app->m_tn_db.Search(m_search.c_str(), m_parent->m_locale, hits_tag, TestDestroyS, this)) return (wxThread::ExitCode)1;
-        if (!app->m_ct_db.Search(hits_tag, hits, TestDestroyS, this)) return (wxThread::ExitCode)1;
+        if (!app->m_ct_db.Search(hits_tag, app->m_chr_db, m_cats, hits, TestDestroyS, this)) return (wxThread::ExitCode)1;
     }
 
     {
