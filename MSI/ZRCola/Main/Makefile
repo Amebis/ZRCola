@@ -431,7 +431,7 @@ Property	Value
 s$(MSIBUILD_LENGTH_ID)	l0
 1252	Property	Property
 Manufacturer	Amebis, Slovenia, E.U.
-ARPCONTACT	Fran Ramovš Institute of Slovenian Language SRC SASA
+ARPCONTACT	Fran Ramovš Institute of Slovenian Language ZRC SAZU
 ARPHELPTELEPHONE	+386 1 470 6170
 ARPURLINFOABOUT	http://zrcola.zrc-sazu.si/en/contact/
 ARPHELPLINK	http://zrcola.zrc-sazu.si/en/info/instructions/

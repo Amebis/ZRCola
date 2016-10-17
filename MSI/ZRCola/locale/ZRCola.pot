@@ -814,7 +814,7 @@ msgid "Amebis, Slovenia, E.U."
 msgstr ""
 
 #: en_US.Win32.Debug.Property-2.idtx:5 en_US.Win32.Release.Property-2.idtx:5 en_US.x64.Debug.Property-2.idtx:5 en_US.x64.Release.Property-2.idtx:5
-msgid "Fran Ramovš Institute of Slovenian Language SRC SASA"
+msgid "Fran Ramovš Institute of Slovenian Language ZRC SAZU"
 msgstr ""
 
 #: en_US.Win32.Debug.Property-2.idtx:6 en_US.Win32.Release.Property-2.idtx:6 en_US.x64.Debug.Property-2.idtx:6 en_US.x64.Release.Property-2.idtx:6
