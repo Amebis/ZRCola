@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
 "POT-Creation-Date: 2016-10-17 09:17+0200\n"
-"PO-Revision-Date: 2016-10-17 09:27+0200\n"
+"PO-Revision-Date: 2016-10-17 10:32+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: ru_RU\n"
@@ -51,7 +51,6 @@ msgstr "▸ Опции поиска"
 
 # Recitation separator
 #: zrcolachrslct.cpp:164
-#, fuzzy
 msgid ", "
 msgstr ", "
 
@@ -386,9 +385,8 @@ msgid "Unicode character description"
 msgstr "Описание знака Юникод"
 
 #: zrcolagui.cpp:623
-#, fuzzy
 msgid "Character tags"
-msgstr "Список знаков"
+msgstr "Ключевые слова"
 
 #: zrcolagui.cpp:628
 msgid "Unicode character category"
