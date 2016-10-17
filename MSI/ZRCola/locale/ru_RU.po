@@ -1479,7 +1479,7 @@ msgstr "Продолжить"
 
 #: en_US.Win32.Debug.Control-2.idtx:13 en_US.Win32.Release.Control-2.idtx:13 en_US.x64.Debug.Control-2.idtx:13 en_US.x64.Release.Control-2.idtx:13
 msgid "[DlgTitleFont]\"00 ZRCola\" to \"ZRCola\" Font"
-msgstr ""
+msgstr "[DlgTitleFont]Шрифт «00 ZRCola» в «ZRCola»"
 
 #: en_US.Win32.Debug.Control-2.idtx:14 en_US.Win32.Release.Control-2.idtx:14 en_US.x64.Debug.Control-2.idtx:14 en_US.x64.Release.Control-2.idtx:14
 msgid "binfontsubst.bmp"
@@ -1490,6 +1490,8 @@ msgid ""
 "The \"00 ZRCola\" font was succeeded by \"ZRCola\" font. To display your previous documents correctly, we have arranged a font substitution on your computer that will take effect after the "
 "next restart."
 msgstr ""
+"Шрифт «00 ZRCola» заменился шрифтом «ZRCola». Для правильного показа предыдущих документов в вашем компьютере проведена субституция шрифтов, которая вступит в силу после следующего запуска "
+"компьютера."
 
 #: en_US.Win32.Debug.Directory-2.idtx:4 en_US.Win32.Release.Directory-2.idtx:4 en_US.x64.Debug.Directory-2.idtx:4 en_US.x64.Release.Directory-2.idtx:4
 msgid "ZRCola:."
@@ -1533,7 +1535,7 @@ msgstr "Amebis, Словения, ЕС"
 
 #: en_US.Win32.Debug.Property-2.idtx:5 en_US.Win32.Release.Property-2.idtx:5 en_US.x64.Debug.Property-2.idtx:5 en_US.x64.Release.Property-2.idtx:5
 msgid "Fran Ramovš Institute of Slovenian Language SRC SASA"
-msgstr ""
+msgstr "Институт словенского языка им. Франа Рамовша ZRC SAZU"
 
 #: en_US.Win32.Debug.Property-2.idtx:6 en_US.Win32.Release.Property-2.idtx:6 en_US.x64.Debug.Property-2.idtx:6 en_US.x64.Release.Property-2.idtx:6
 msgid "+386 1 470 6170"

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2016-10-13 11:53+0200\n"
-"PO-Revision-Date: 2016-10-13 11:54+0200\n"
+"POT-Creation-Date: 2016-10-17 09:17+0200\n"
+"PO-Revision-Date: 2016-10-17 09:17+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: ru_RU\n"
@@ -49,11 +49,10 @@ msgstr "Запрос нового знака"
 msgid "▸ Search Options"
 msgstr "▸ Опции поиска"
 
-# Recitation separator
 #: zrcolachrslct.cpp:164
 #, fuzzy
 msgid ", "
-msgstr ", "
+msgstr ","
 
 #: zrcolachrslct.cpp:229 zrcolachrslct.cpp:674
 msgid "▾ Search Options"
@@ -535,7 +534,6 @@ msgstr ""
 "ZRCola либо копировать и вставить знаки из окна для разборки."
 
 #: zrcolagui.cpp:1027
-#, fuzzy
 msgid ""
 "The &context, examples or description why and where the character is "
 "required:"
@@ -548,14 +546,13 @@ msgid "Additional notes for character request"
 msgstr "Дополнительные примечания"
 
 #: zrcolagui.cpp:1040
-#, fuzzy
 msgid ""
 "After clicking OK button, your e-mail application should open allowing you "
 "to submit the new character request to ZRCola Editor.\n"
 "Your e-mail application might not display all the characters correctly, but "
 "the Editor will be able to read them correctly anyway."
 msgstr ""
-"После нажатия на кнопку \"OK\" ваша почтовая программа должна открытся для "
+"После нажатия на кнопку «OK» ваша почтовая программа должна открытся для "
 "отправки запроса нового знака администратору системы ZRCola.\n"
 "Возможно, не все знаки будут отображены правильно, но все информации будут "
 "закодированны таким образом, что администратор сможет их правильно прочитать."
