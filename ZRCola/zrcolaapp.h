@@ -84,6 +84,7 @@ public:
     wxZRColaFrame *m_mainWnd;       ///< Main window
 
     wxLocale m_locale;              ///< Current locale
+    wxLanguage m_lang_ui;           ///< Translation language (language of User Interface, wxLANGUAGE_DEFAULT = English)
 
 protected:
 #ifdef __WXMSW__

@@ -32,6 +32,7 @@ wxIMPLEMENT_APP(ZRColaApp);
 
 ZRColaApp::ZRColaApp() :
     m_mainWnd(NULL),
+    m_lang_ui(wxLANGUAGE_DEFAULT),
     wxApp()
 {
 }
@@ -55,7 +56,7 @@ bool ZRColaApp::OnInit()
         return false;
 
     // Initialize locale.
-    if (wxInitializeLocale(m_locale)) {
+    if (wxInitializeLocale(m_locale, &m_lang_ui)) {
         wxVERIFY(m_locale.AddCatalog(wxT("wxExtend") wxT(wxExtendVersion)));
         wxVERIFY(m_locale.AddCatalog(wxT("UpdaterZRCola")));
         wxVERIFY(m_locale.AddCatalog(wxT("libZRColaUI")));

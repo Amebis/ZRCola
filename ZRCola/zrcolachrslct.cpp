@@ -35,8 +35,9 @@ wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) :
     wxZRColaCharSelectBase(parent)
 {
     // Set tag lookup locale.
-    auto language = static_cast<wxLanguage>(dynamic_cast<ZRColaApp*>(wxTheApp)->m_locale.GetLanguage());
-         if (wxLANGUAGE_ENGLISH   <= language && language <= wxLANGUAGE_ENGLISH_ZIMBABWE) m_locale = MAKELCID(MAKELANGID(LANG_ENGLISH  , SUBLANG_DEFAULT), SORT_DEFAULT);
+    wxLanguage language = dynamic_cast<ZRColaApp*>(wxTheApp)->m_lang_ui;
+         if (wxLANGUAGE_DEFAULT   == language ||
+             wxLANGUAGE_ENGLISH   <= language && language <= wxLANGUAGE_ENGLISH_ZIMBABWE) m_locale = MAKELCID(MAKELANGID(LANG_ENGLISH  , SUBLANG_DEFAULT), SORT_DEFAULT);
     else if (wxLANGUAGE_RUSSIAN   <= language && language <= wxLANGUAGE_RUSSIAN_UKRAINE ) m_locale = MAKELCID(MAKELANGID(LANG_RUSSIAN  , SUBLANG_DEFAULT), SORT_DEFAULT);
     else if (wxLANGUAGE_SLOVENIAN == language                                           ) m_locale = MAKELCID(MAKELANGID(LANG_SLOVENIAN, SUBLANG_DEFAULT), SORT_DEFAULT);
     else                                                                                  m_locale = MAKELCID(MAKELANGID(LANG_ENGLISH  , SUBLANG_DEFAULT), SORT_DEFAULT);
