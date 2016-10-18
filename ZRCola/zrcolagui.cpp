@@ -896,7 +896,7 @@ wxZRColaAboutBase::wxZRColaAboutBase( wxWindow* parent, wxWindowID id, const wxS
 	
 	bSizerText->Add( 0, 0, 0, wxALL|wxEXPAND, 5 );
 	
-	m_staticTextDeclaration = new wxStaticText( this, wxID_ANY, _("Texts made using ZRCola have to include in the colophon, foreword, footnote or some other appropriate part of the publication the note below:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticTextDeclaration = new wxStaticText( this, wxID_ANY, _("Texts made using ZRCola have to include in a footnote or some other appropriate part of the publication the note below:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextDeclaration->Wrap( 400 );
 	bSizerText->Add( m_staticTextDeclaration, 0, wxALL|wxEXPAND, 5 );
 	
