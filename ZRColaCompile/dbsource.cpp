@@ -878,6 +878,7 @@ bool ZRCola::DBSource::GetCharacterGroup(const com_obj<ADORecordset>& rs, chrgrp
 
     {
         cg.chars.clear();
+        cg.show.clear();
         com_obj<ADOFields> flds;
         wxVERIFY(SUCCEEDED(rs_chars->get_Fields(&flds)));
         com_obj<ADOField> f_char, f_show;
