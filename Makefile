@@ -450,9 +450,9 @@ Localization :: \
 !ENDIF
 
 
-LANG=de_DE
-LANG_OUT=De
-!INCLUDE "MSILocal.mak"
+#LANG=de_DE
+#LANG_OUT=De
+#!INCLUDE "MSILocal.mak"
 
 LANG=en_US
 LANG_OUT=En
