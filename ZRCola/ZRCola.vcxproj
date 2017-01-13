@@ -128,6 +128,8 @@
   <ItemGroup>
     <None Include="locale\ZRCola.pot" />
     <None Include="res\char_select.ico" />
+    <None Include="res\copy_composed_and_return.ico" />
+    <None Include="res\copy_decomposed_and_return.ico" />
     <None Include="res\edit_copy.ico" />
     <None Include="res\edit_cut.ico" />
     <None Include="res\edit_paste.ico" />

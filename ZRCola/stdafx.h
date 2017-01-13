@@ -37,6 +37,7 @@
 #include <wxex/url.h>
 #include <wxex/persist/auimanager.h>
 
+#include <wx/clipbrd.h>
 #include <wx/ffile.h>
 #include <wx/msgdlg.h>
 #include <wx/persist.h>

@@ -137,6 +137,12 @@
     <None Include="res\navigate_forward.ico">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\copy_composed_and_return.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\copy_decomposed_and_return.ico">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZRCola.rc">

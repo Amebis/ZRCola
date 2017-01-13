@@ -73,7 +73,9 @@ protected:
     void OnInsertCharacter(wxCommandEvent& event);
     void OnSendUpdate(wxUpdateUIEvent& event);
     void OnSendComposed(wxCommandEvent& event);
+    void OnCopyComposedAndReturn(wxCommandEvent& event);
     void OnSendDecomposed(wxCommandEvent& event);
+    void OnCopyDecomposedAndReturn(wxCommandEvent& event);
     void OnSendAbort(wxCommandEvent& event);
     void OnSettings(wxCommandEvent& event);
     virtual void OnIdle(wxIdleEvent& event);
@@ -111,6 +113,7 @@ protected:
 
 private:
     void DoSend(const wxString& str);
+    void DoCopyAndReturn(const wxString& str);
 
 protected:
 #ifdef __WXMSW__

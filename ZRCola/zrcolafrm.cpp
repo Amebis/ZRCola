@@ -35,7 +35,9 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
     EVT_MENU           (wxID_CHARACTER_SELECTOR                    , wxZRColaFrame::OnInsertCharacter            )
 
     EVT_UPDATE_UI_RANGE(wxID_SEND_COMPOSED        , wxID_SEND_ABORT, wxZRColaFrame::OnSendUpdate                 )
+    EVT_MENU           (wxID_COPY_COMPOSED_AND_RETURN              , wxZRColaFrame::OnCopyComposedAndReturn      )
     EVT_MENU           (wxID_SEND_COMPOSED                         , wxZRColaFrame::OnSendComposed               )
+    EVT_MENU           (wxID_COPY_DECOMPOSED_AND_RETURN            , wxZRColaFrame::OnCopyDecomposedAndReturn    )
     EVT_MENU           (wxID_SEND_DECOMPOSED                       , wxZRColaFrame::OnSendDecomposed             )
     EVT_MENU           (wxID_SEND_ABORT                            , wxZRColaFrame::OnSendAbort                  )
 
@@ -233,10 +235,28 @@ void wxZRColaFrame::OnSendComposed(wxCommandEvent& event)
 }
 
 
+void wxZRColaFrame::OnCopyComposedAndReturn(wxCommandEvent& event)
+{
+    if (m_hWndSource)
+        DoCopyAndReturn(m_panel->m_composed->GetValue());
+
+    event.Skip();
+}
+
+
 void wxZRColaFrame::OnSendDecomposed(wxCommandEvent& event)
 {
     if (m_hWndSource)
         DoSend(m_panel->m_decomposed->GetValue());
+
+    event.Skip();
+}
+
+
+void wxZRColaFrame::OnCopyDecomposedAndReturn(wxCommandEvent& event)
+{
+    if (m_hWndSource)
+        DoCopyAndReturn(m_panel->m_decomposed->GetValue());
 
     event.Skip();
 }
@@ -481,6 +501,24 @@ void wxZRColaFrame::DoSend(const wxString& str)
     ::SetForegroundWindow(m_hWndSource);
     ::Sleep(200);
     ::SendInput(input.size(), input.data(), sizeof(INPUT));
+    m_hWndSource = NULL;
+
+    // Select all input in composer and decomposed to prepare for the overwrite next time.
+    m_panel->m_decomposed->SelectAll();
+    m_panel->m_composed->SelectAll();
+}
+
+
+void wxZRColaFrame::DoCopyAndReturn(const wxString& str)
+{
+    if (wxTheClipboard->Open()) {
+        wxTheClipboard->SetData(new wxTextDataObject(str));
+        wxTheClipboard->Close();
+    }
+
+    // Return focus to the source window.
+    ::SetActiveWindow(m_hWndSource);
+    ::SetForegroundWindow(m_hWndSource);
     m_hWndSource = NULL;
 
     // Select all input in composer and decomposed to prepare for the overwrite next time.

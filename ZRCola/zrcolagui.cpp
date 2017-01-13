@@ -94,6 +94,15 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	#endif
 	m_menuEdit->Append( m_menuItemSendComposed );
 	
+	wxMenuItem* m_menuItemCopyComposedAndReturn;
+	m_menuItemCopyComposedAndReturn = new wxMenuItem( m_menuEdit, wxID_COPY_COMPOSED_AND_RETURN, wxString( _("Copy Composed and &Return") ) + wxT('\t') + wxT("Ctrl+F5"), _("Copy composed text to clipboard and return focus to source window"), wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	m_menuItemCopyComposedAndReturn->SetBitmaps( wxIcon( wxT("copy_composed_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
+	m_menuItemCopyComposedAndReturn->SetBitmap( wxIcon( wxT("copy_composed_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	#endif
+	m_menuEdit->Append( m_menuItemCopyComposedAndReturn );
+	
 	wxMenuItem* m_menuItemSendDecomposed;
 	m_menuItemSendDecomposed = new wxMenuItem( m_menuEdit, wxID_SEND_DECOMPOSED, wxString( _("Send &Decomposed") ) + wxT('\t') + wxT("F6"), _("Send decomposed text to source window"), wxITEM_NORMAL );
 	#ifdef __WXMSW__
@@ -102,6 +111,15 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_menuItemSendDecomposed->SetBitmap( wxIcon( wxT("send_decomposed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
 	#endif
 	m_menuEdit->Append( m_menuItemSendDecomposed );
+	
+	wxMenuItem* m_menuItemCopyDecomposedAndReturn;
+	m_menuItemCopyDecomposedAndReturn = new wxMenuItem( m_menuEdit, wxID_COPY_DECOMPOSED_AND_RETURN, wxString( _("Copy Decomposed and Re&turn") ) + wxT('\t') + wxT("Ctrl+F6"), _("Copy decomposed text to clipboard and return focus to source window"), wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	m_menuItemCopyDecomposedAndReturn->SetBitmaps( wxIcon( wxT("copy_decomposed_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
+	m_menuItemCopyDecomposedAndReturn->SetBitmap( wxIcon( wxT("copy_decomposed_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	#endif
+	m_menuEdit->Append( m_menuItemCopyDecomposedAndReturn );
 	
 	wxMenuItem* m_menuItemSendAbort;
 	m_menuItemSendAbort = new wxMenuItem( m_menuEdit, wxID_SEND_ABORT, wxString( _("Abort (De)composition") ) + wxT('\t') + wxT("Esc"), _("Abort composition and return focus to source window"), wxITEM_NORMAL );
