@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2017-01-13 13:54+0100\n"
-"PO-Revision-Date: 2017-01-13 13:54+0100\n"
+"POT-Creation-Date: 2017-03-10 13:33+0100\n"
+"PO-Revision-Date: 2017-03-10 13:34+0100\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: ru_RU\n"
@@ -55,9 +55,7 @@ msgstr "▾ Опции поиска"
 
 #: zrcolafrm.cpp:143
 msgid "ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality will not be available."
-msgstr ""
-"Сочетание клавиш Win+F5 \n"
-"регистрировать. Некоторые функциональности не будут доступны."
+msgstr "Сочетание клавиш Win+F5 регистрировать. Некоторые функциональности не будут доступны."
 
 #: zrcolafrm.cpp:143 zrcolafrm.cpp:145
 msgid "Warning"
@@ -113,7 +111,7 @@ msgstr "Послать составленный текст в исходное �
 
 #: zrcolagui.cpp:98
 msgid "Copy Composed and &Return"
-msgstr "Копировать составленное и возвратиться"
+msgstr "Копировать составленное и &возвратиться"
 
 #: zrcolagui.cpp:98
 msgid "Copy composed text to clipboard and return focus to source window"
@@ -129,7 +127,7 @@ msgstr "Послать разобранный текст в исходное о�
 
 #: zrcolagui.cpp:116
 msgid "Copy Decomposed and Re&turn"
-msgstr "Копировать разобранное и возвратиться"
+msgstr "Копировать разобранное и возв&ратиться"
 
 #: zrcolagui.cpp:116
 msgid "Copy decomposed text to clipboard and return focus to source window"
