@@ -621,7 +621,7 @@ bool ZRCola::DBSource::GetTranslation(const com_obj<ADORecordset>& rs, ZRCola::D
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"znak"), &f)));
-        wxCHECK(GetUnicodeCharacter(f, t.chr), false);
+        wxCHECK(GetUnicodeString(f, t.chr), false);
     }
 
     {

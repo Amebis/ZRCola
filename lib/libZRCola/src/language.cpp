@@ -94,3 +94,12 @@ bool ZRCola::langchar_db::IsLocalCharacter(_In_ wchar_t chr, _In_ ZRCola::langid
 
     return false;
 }
+
+
+bool ZRCola::langchar_db::IsLocalCharacter(_In_ const wchar_t *chr, _In_ const wchar_t *chr_end, _In_ ZRCola::langid_t lang) const
+{
+    // TODO: Implement properly!
+    UNREFERENCED_PARAMETER(chr_end);
+    assert(chr < chr_end);
+    return IsLocalCharacter(*chr, lang);
+}

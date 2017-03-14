@@ -79,7 +79,7 @@ namespace ZRCola {
         ///
         class translation {
         public:
-            wchar_t chr;                ///< Composed character
+            std::wstring chr;           ///< Composed character
             charseq decomp;             ///< Decomposed sequence
         };
 

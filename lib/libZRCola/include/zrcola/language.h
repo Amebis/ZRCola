@@ -197,6 +197,18 @@ namespace ZRCola {
         /// - \c true when character is used in language
         /// - \c false otherwise
         bool IsLocalCharacter(_In_ wchar_t chr, _In_ langid_t lang) const;
+
+        ///
+        /// Tests presence of character in the given language
+        ///
+        /// \param[in]  chr      Pointer to UTF-16 character start
+        /// \param[in]  chr_end  Pointer to UTF-16 character end
+        /// \param[in]  lang     Language
+        ///
+        /// \returns
+        /// - \c true when character is used in language
+        /// - \c false otherwise
+        bool IsLocalCharacter(_In_ const wchar_t *chr, _In_ const wchar_t *chr_end, _In_ langid_t lang) const;
     };
 
 

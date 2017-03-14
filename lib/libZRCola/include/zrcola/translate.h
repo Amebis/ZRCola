@@ -46,18 +46,22 @@ namespace ZRCola {
         /// Translation data
         ///
         struct translation {
-            wchar_t chr;                ///< Composed character
-            unsigned __int16 rank;      ///< Decomposition rank
-            unsigned __int16 str_len;   ///< \c str length (in characters)
-            wchar_t str[];              ///< Decomposed string
+            unsigned __int16 rank;              ///< Decomposition rank
+            static unsigned __int16 com_start;  ///< Composed character start in \c data
+            union {
+                unsigned __int16 com_end;       ///< Composed character end in \c data
+                unsigned __int16 dec_start;     ///< Decomposed character start in \c data
+            };
+            unsigned __int16 dec_end;           ///< Decomposed string end in \c data
+            wchar_t data[];                     ///< Decomposed string and composed character
 
             ///
             /// Binary compares two strings
             ///
-            /// \param[in] str_a    First string
-            /// \param[in] count_a  Number of characters in string \p str_a
-            /// \param[in] str_b    Second string
-            /// \param[in] count_b  Number of characters in string \p str_b
+            /// \param[in] str_a      First string
+            /// \param[in] str_a_end  First string end
+            /// \param[in] str_b      Second string
+            /// \param[in] str_b_end  Second string end
             ///
             /// \returns
             /// - <0 when str_a <  str_b
@@ -66,16 +70,16 @@ namespace ZRCola {
             ///
             /// \note
             /// The function does not treat \\0 characters as terminators for performance reasons.
-            /// Therefore \p count_a and \p count_b must represent exact string lengths.
+            /// Therefore \p str_a_end and \p str_b_end must represent exact string ends.
             ///
-            static inline int CompareString(const wchar_t *str_a, unsigned __int16 count_a, const wchar_t *str_b, unsigned __int16 count_b)
+            static inline int CompareString(const wchar_t *str_a, const wchar_t *str_a_end, const wchar_t *str_b, const wchar_t *str_b_end)
             {
-                for (unsigned __int16 i = 0; ; i++) {
-                         if (i >= count_a && i >= count_b) return  0;
-                    else if (i >= count_a && i <  count_b) return -1;
-                    else if (i <  count_a && i >= count_b) return +1;
-                    else if (str_a[i] < str_b[i]) return -1;
-                    else if (str_a[i] > str_b[i]) return +1;
+                for (; ; str_a++, str_b++) {
+                         if (str_a >= str_a_end && str_b >= str_b_end) return  0;
+                    else if (str_a >= str_a_end && str_b <  str_b_end) return -1;
+                    else if (str_a <  str_a_end && str_b >= str_b_end) return +1;
+                    else if (*str_a < *str_b) return -1;
+                    else if (*str_a > *str_b) return +1;
                 }
             }
         };
@@ -107,7 +111,7 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const translation &a, _In_ const translation &b) const
             {
-                int r = translation::CompareString(a.str, a.str_len, b.str, b.str_len);
+                int r = translation::CompareString(a.data + a.dec_start, a.data + a.dec_end, b.data + b.dec_start, b.data + b.dec_end);
                 if (r != 0) return r;
 
                 return 0;
@@ -126,11 +130,11 @@ namespace ZRCola {
             ///
             virtual int compare_sort(_In_ const translation &a, _In_ const translation &b) const
             {
-                int r = translation::CompareString(a.str, a.str_len, b.str, b.str_len);
+                int r = translation::CompareString(a.data + a.dec_start, a.data + a.dec_end, b.data + b.dec_start, b.data + b.dec_end);
                 if (r != 0) return r;
 
-                     if (a.chr < b.chr) return -1;
-                else if (a.chr > b.chr) return +1;
+                r = translation::CompareString(a.data + a.com_start, a.data + a.com_end, b.data + b.com_start, b.data + b.com_end);
+                if (r != 0) return r;
 
                 return 0;
             }
@@ -163,8 +167,8 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const translation &a, _In_ const translation &b) const
             {
-                     if (a.chr < b.chr) return -1;
-                else if (a.chr > b.chr) return +1;
+                int r = translation::CompareString(a.data + a.com_start, a.data + a.com_end, b.data + b.com_start, b.data + b.com_end);
+                if (r != 0) return r;
 
                 return 0;
             }
@@ -182,13 +186,13 @@ namespace ZRCola {
             ///
             virtual int compare_sort(_In_ const translation &a, _In_ const translation &b) const
             {
-                     if (a.chr < b.chr) return -1;
-                else if (a.chr > b.chr) return +1;
+                int r = translation::CompareString(a.data + a.com_start, a.data + a.com_end, b.data + b.com_start, b.data + b.com_end);
+                if (r != 0) return r;
 
                      if (a.rank < b.rank) return -1;
                 else if (a.rank > b.rank) return +1;
 
-                int r = translation::CompareString(a.str, a.str_len, b.str, b.str_len);
+                r = translation::CompareString(a.data + a.dec_start, a.data + a.dec_end, b.data + b.dec_start, b.data + b.dec_end);
                 if (r != 0) return r;
 
                 return 0;

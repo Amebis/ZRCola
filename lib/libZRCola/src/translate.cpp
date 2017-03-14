@@ -19,6 +19,8 @@
 
 #include "stdafx.h"
 
+unsigned __int16 ZRCola::translation_db::translation::com_start = 0;
+
 
 void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map) const
 {
@@ -27,8 +29,7 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
     // Trim inputMax to actual length.
     inputMax = inputMax != (size_t)-1 ? wcsnlen(input, inputMax) : wcslen(input);
 
-    // Clear the output string and preallocate at least inputMax chars.
-    // Since composing is usually reducing the number of chars, memory reallocation is not expected later.
+    // Clear the output.
     output.clear();
     output.reserve(inputMax);
     if (map)
@@ -49,7 +50,8 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
                 // All compositions that get short on characters are lexically ordered before.
                 // Thus the j-th character is considered 0.
                 const translation &trans = idxComp[m];
-                wchar_t s = j < trans.str_len ? trans.str[j] : 0;
+                size_t jj = trans.dec_start + j;
+                wchar_t s = jj < trans.dec_end ? trans.data[jj] : 0;
 
                 // Do the bisection test.
                      if (c < s) r = m;
@@ -61,7 +63,8 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
                     for (size_t rr = m; l < rr;) {
                         size_t m = (l + rr) / 2;
                         const translation &trans = idxComp[m];
-                        wchar_t s = j < trans.str_len ? trans.str[j] : 0;
+                        size_t jj = trans.dec_start + j;
+                        wchar_t s = jj < trans.dec_end ? trans.data[jj] : 0;
                         if (c <= s) rr = m; else l = m + 1;
                     }
 
@@ -69,12 +72,13 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
                     for (size_t ll = m + 1; ll < r;) {
                         size_t m = (ll + r) / 2;
                         const translation &trans = idxComp[m];
-                        wchar_t s = j < trans.str_len ? trans.str[j] : 0;
+                        size_t jj = trans.dec_start + j;
+                        wchar_t s = jj < trans.dec_end ? trans.data[jj] : 0;
                         if (s <= c) ll = m + 1; else r = m;
                     }
 
                     const translation &trans = idxComp[l];
-                    if (j + 1 == trans.str_len) {
+                    if (trans.dec_start + j + 1 == trans.dec_end) {
                         // The first composition of the run was a match (thus far). Save it.
                         l_match = l;
                     }
@@ -87,9 +91,9 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
         if (l_match < compositionsCount) {
             // The saved composition was an exact match.
             const translation &trans = idxComp[l_match];
-            output += trans.chr;
-            i += trans.str_len;
-            if (trans.str_len > 1 && map) {
+            output.append(trans.data + trans.com_start, trans.data + trans.com_end);
+            i += trans.dec_end - trans.dec_start;
+            if (trans.dec_end - trans.dec_start != trans.com_end - trans.com_start && map) {
                 // Mapping changed.
                 map->push_back(ZRCola::mapping(i, output.length()));
             }
@@ -109,59 +113,85 @@ void ZRCola::translation_db::Decompose(_In_z_count_(inputMax) const wchar_t* inp
     // Trim inputMax to actual length.
     inputMax = inputMax != (size_t)-1 ? wcsnlen(input, inputMax) : wcslen(input);
 
-    // Clear the output string and preallocate at least 2*inputMax chars.
-    // Since decomposition expands the string, let's keep our fingers crossed to avoid reallocation later.
+    // Clear the output.
     output.clear();
-    output.reserve(inputMax * 2);
+    output.reserve(inputMax);
     if (map)
         map->clear();
 
     auto decompositionsCount = idxDecomp.size();
 
     for (size_t i = 0; i < inputMax;) {
-        // Find whether the character can be decomposed.
-        wchar_t c = input[i];
-
-        for (size_t l = 0, r = decompositionsCount;; ) {
-            if (l < r) {
+        // Find the longest matching decomposition at i-th character.
+        size_t l_match = (size_t)-1;
+        for (size_t l = 0, r = decompositionsCount, ii = i, j = 0; ii < inputMax && l < r; ii++, j++) {
+            wchar_t c = input[ii];
+            while (l < r) {
+                // Test the decomposition in the middle of the search area.
                 size_t m = (l + r) / 2;
+
+                // Get the j-th character of the decomposition.
+                // All decompositions that get short on characters are lexically ordered before.
+                // Thus the j-th character is considered 0.
                 const translation &trans = idxDecomp[m];
-                wchar_t decompSrc = trans.chr;
-                     if (c < decompSrc) r = m;
-                else if (decompSrc < c) l = m + 1;
+                size_t jj = trans.com_start + j;
+                wchar_t s = jj < trans.com_end ? trans.data[jj] : 0;
+
+                // Do the bisection test.
+                     if (c < s) r = m;
+                else if (s < c) l = m + 1;
                 else {
                     // Character found.
 
-                    // Narrow the search area on the left to start at the first decomposition in the run (first by rank).
+                    // Narrow the search area on the left to start at the first decomposition in the run.
                     for (size_t rr = m; l < rr;) {
                         size_t m = (l + rr) / 2;
                         const translation &trans = idxDecomp[m];
-                        wchar_t decompSrc = trans.chr;
-                        if (c <= decompSrc) rr = m; else l = m + 1;
+                        size_t jj = trans.com_start + j;
+                        wchar_t s = jj < trans.com_end ? trans.data[jj] : 0;
+                        if (c <= s) rr = m; else l = m + 1;
+                    }
+
+                    // Narrow the search area on the right to end at the first decomposition not in the run.
+                    for (size_t ll = m + 1; ll < r;) {
+                        size_t m = (ll + r) / 2;
+                        const translation &trans = idxDecomp[m];
+                        size_t jj = trans.com_start + j;
+                        wchar_t s = jj < trans.com_end ? trans.data[jj] : 0;
+                        if (s <= c) ll = m + 1; else r = m;
                     }
 
                     const translation &trans = idxDecomp[l];
-                    if (trans.str_len && trans.str[0] != L'#' && (!lc_db || !lc_db->IsLocalCharacter(c, lang))) {
-                        // Append decomposed sequence.
-                        output.append(trans.str, trans.str_len);
-                        i++;
-                        if (map) {
-                            // Mapping changed.
-                            map->push_back(ZRCola::mapping(i, output.length()));
-                        }
-                    } else {
-                        // Character is inhibited to decompose.
-                        output += c;
-                        i++;
+                    if (trans.com_start + j + 1 == trans.com_end) {
+                        // The first decomposition of the run was a match (thus far). Save it.
+                        l_match = l;
                     }
+
                     break;
                 }
-            } else {
-                // Character not found.
-                output += c;
-                i++;
-                break;
             }
+        }
+
+        if (l_match < decompositionsCount) {
+            // The saved decomposition was an exact match.
+            const translation &trans = idxDecomp[l_match];
+            if (trans.dec_start < trans.dec_end && trans.data[trans.dec_start] != L'#' && (!lc_db || !lc_db->IsLocalCharacter(trans.data + trans.com_start, trans.data + trans.com_end, lang))) {
+                // Append decomposed sequence.
+                output.append(trans.data + trans.dec_start, trans.data + trans.dec_end);
+                i += trans.com_end - trans.com_start;
+                if (trans.dec_end - trans.dec_start != trans.com_end - trans.com_start && map) {
+                    // Mapping changed.
+                    map->push_back(ZRCola::mapping(i, output.length()));
+                }
+            } else {
+                // Character is inhibited to decompose.
+                output.append(trans.data + trans.com_start, trans.data + trans.com_end);
+                i += trans.com_end - trans.com_start;
+            }
+        } else {
+            // The match was not found.
+            output += input[i];
+            i++;
         }
     }
 }

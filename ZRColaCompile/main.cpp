@@ -24,10 +24,10 @@ using namespace stdex;
 using namespace winstd;
 
 
-typedef map<wchar_t, set<ZRCola::DBSource::charseq, ZRCola::DBSource::charseq::less_rank_str> > translation_db;
+typedef map<wstring, set<ZRCola::DBSource::charseq, ZRCola::DBSource::charseq::less_rank_str> > translation_db;
 
 
-static set<wstring> decompose(_In_ const translation_db &db, _In_z_ const wchar_t *str, _Inout_ set<wchar_t> &path)
+static set<wstring> decompose(_In_ const translation_db &db, _In_z_ const wchar_t *str, _Inout_ set<translation_db::key_type> &path)
 {
     set<wstring> res;
 
@@ -37,10 +37,11 @@ static set<wstring> decompose(_In_ const translation_db &db, _In_z_ const wchar_
         if (rem.empty())
             return res;
 
-        auto const t = db.find(*str);
+        translation_db::key_type _str(1, *str);
+        auto const t = db.find(_str);
         if (t != db.end()) {
             // Current characted decomposed. Iterate all possible decompositions and combine them with the remainder.
-            auto p = path.insert(*str);
+            auto p = path.insert(_str);
             if (!p.second) {
                 // Path already contains this character: Cycle detected!
                 return res;
@@ -55,14 +56,14 @@ static set<wstring> decompose(_In_ const translation_db &db, _In_z_ const wchar_
                 } else {
                     // Cycle detected. Do not continue decomposition.
                     for (auto r = rem.cbegin(), r_end = rem.cend(); r != r_end; ++r)
-                        res.insert(wstring(1, *str) + *r);
+                        res.insert(_str + *r);
                 }
             }
             path.erase(p.first);
         } else {
             // Current character is non-decomposable. Combine it with the remainder(s).
             for (auto r = rem.cbegin(), r_end = rem.cend(); r != r_end; ++r)
-                res.insert(wstring(1, *str) + *r);
+                res.insert(_str + *r);
         }
     } else {
         // Empty string results in empty decomposition.
@@ -180,7 +181,7 @@ int _tmain(int argc, _TCHAR *argv[])
                 translation_db db_temp2;
                 for (auto t1 = db_temp1.cbegin(), t1_end = db_temp1.cend(); t1 != t1_end; ++t1) {
                     for (auto d1 = t1->second.cbegin(), d1_end = t1->second.cend(); d1 != d1_end; ++d1) {
-                        set<wchar_t> path;
+                        set<translation_db::key_type> path;
                         path.insert(t1->first);
                         auto str = decompose(db_temp1, d1->str.c_str(), path);
                         assert(!str.empty());
@@ -204,20 +205,24 @@ int _tmain(int argc, _TCHAR *argv[])
                 // Preallocate memory.
                 db.idxComp  .reserve(count);
                 db.idxDecomp.reserve(count);
-                db.data     .reserve(count*4);
+                db.data     .reserve(count*5);
 
                 // Parse translations and build index and data.
                 for (auto t = db_temp2.cbegin(), t_end = db_temp2.cend(); t != t_end; ++t) {
                     // Add translation to index and data.
                     for (auto d = t->second.cbegin(), d_end = t->second.cend(); d != d_end; ++d) {
                         unsigned __int32 idx = db.data.size();
-                        db.data.push_back(t->first);
                         wxASSERT_MSG((int)0xffff8000 <= d->rank && d->rank <= (int)0x00007fff, wxT("transformation rank out of bounds"));
                         db.data.push_back((unsigned __int16)d->rank);
-                        wstring::size_type n = d->str.length();
-                        wxASSERT_MSG(n <= 0xffff, wxT("transformation string too long"));
-                        db.data.push_back((unsigned __int16)n);
-                        for (wstring::size_type i = 0; i < n; i++)
+                        wstring::size_type n_com = t->first.length();
+                        wxASSERT_MSG(n_com <= 0xffff, wxT("composition string too long"));
+                        db.data.push_back((unsigned __int16)n_com);
+                        wstring::size_type n_dec = d->str.length();
+                        wxASSERT_MSG(n_com + n_dec <= 0xffff, wxT("decomposition string too long"));
+                        db.data.push_back((unsigned __int16)(n_com + n_dec));
+                        for (wstring::size_type i = 0; i < n_com; i++)
+                            db.data.push_back(t->first[i]);
+                        for (wstring::size_type i = 0; i < n_dec; i++)
                             db.data.push_back(d->str[i]);
                         db.idxComp  .push_back(idx);
                         db.idxDecomp.push_back(idx);
