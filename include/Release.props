@@ -26,30 +26,10 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <Optimization>Full</Optimization>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup>
-    <ClCompile>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup>
-    <ClCompile>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup>
-    <ClCompile>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup>
-    <ClCompile>
       <OmitFramePointers>true</OmitFramePointers>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup>
-    <ClCompile>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -67,7 +47,7 @@
 		Reverted to signtool.exe until we can drop Windows XP and Vista support.
 	-->
 	<!--<SignFile CertificateThumbprint="$(ManifestCertificateThumbprint)" TimestampUrl="$(ManifestTimestampUrl)" SigningTarget="$(OutDir)$(TargetName)$(TargetExt)" />-->
-	<Exec Command="signtool.exe sign /du &quot;http://www.amebis.si&quot; /sha1 &quot;%ManifestCertificateThumbprint%&quot; /fd sha1 /tr &quot;%ManifestTimestampRFC3161Url%&quot; /q &quot;$(TargetPath)&quot;" />
+	<Exec Command="signtool.exe sign /du &quot;http://www.amebis.si&quot; /sha1 &quot;%ManifestCertificateThumbprint%&quot; /fd sha1 /t &quot;%ManifestTimestampUrl%&quot; /q &quot;$(TargetPath)&quot;" />
     <Touch Files="$(IntDir)$(TargetName).sign" AlwaysCreate="true" />
   </Target>
 </Project>
