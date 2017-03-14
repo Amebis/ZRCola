@@ -383,9 +383,13 @@ int _tmain(int argc, _TCHAR *argv[])
                     if (src.GetLanguageCharacter(rs, lc)) {
                         // Add language characters to index and data.
                         unsigned __int32 idx = db.data.size();
-                        db.data.push_back(lc.chr);
                         for (wstring::size_type i = 0; i < sizeof(ZRCola::langid_t)/sizeof(unsigned __int16); i++)
                             db.data.push_back(((const unsigned __int16*)lc.lang.data)[i]);
+                        wstring::size_type n = lc.chr.length();
+                        wxASSERT_MSG(n <= 0xffff, wxT("character string too long"));
+                        db.data.push_back((unsigned __int16)n);
+                        for (wstring::size_type i = 0; i < n; i++)
+                            db.data.push_back(lc.chr[i]);
                         db.idxChr.push_back(idx);
 #ifdef ZRCOLA_LANGCHAR_LANG_IDX
                         db.idxLng.push_back(idx);

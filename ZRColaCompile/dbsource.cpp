@@ -797,7 +797,7 @@ bool ZRCola::DBSource::GetLanguageCharacter(const com_obj<ADORecordset>& rs, ZRC
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"znak"), &f)));
-        wxCHECK(GetUnicodeCharacter(f, lc.chr), false);
+        wxCHECK(GetUnicodeString(f, lc.chr), false);
     }
 
     {

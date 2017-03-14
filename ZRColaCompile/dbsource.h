@@ -134,7 +134,7 @@ namespace ZRCola {
         ///
         class langchar {
         public:
-            wchar_t chr;                ///> Character
+            std::wstring chr;           ///> Character
             ZRCola::langid_t lang;      ///< Language ID
         };
 

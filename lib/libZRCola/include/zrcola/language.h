@@ -45,8 +45,9 @@ namespace ZRCola {
         /// Character data
         ///
         struct langchar {
-            wchar_t chr;                ///> Character
             langid_t lang;              ///< Language ID
+            unsigned __int16 chr_len;   ///< \c chr length (in UTF-16 characters)
+            wchar_t chr[];              ///< Character
         };
 #pragma pack(pop)
 
@@ -76,27 +77,8 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const langchar &a, _In_ const langchar &b) const
             {
-                     if (a.chr < b.chr) return -1;
-                else if (a.chr > b.chr) return  1;
-
-                return 0;
-            }
-
-            ///
-            /// Compares two characters by ID (for sorting)
-            ///
-            /// \param[in] a  Pointer to first element
-            /// \param[in] b  Pointer to second element
-            ///
-            /// \returns
-            /// - <0 when a <  b
-            /// - =0 when a == b
-            /// - >0 when a >  b
-            ///
-            virtual int compare_sort(_In_ const langchar &a, _In_ const langchar &b) const
-            {
-                     if (a.chr < b.chr) return -1;
-                else if (a.chr > b.chr) return  1;
+                int r = ZRCola::CompareString(a.chr, a.chr + a.chr_len, b.chr, b.chr + b.chr_len);
+                if (r != 0) return r;
 
                      if (a.lang < b.lang) return -1;
                 else if (a.lang > b.lang) return  1;
@@ -133,30 +115,11 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const langchar &a, _In_ const langchar &b) const
             {
-                int r = memcmp(a.lang, b.lang, sizeof(langid_t));
+                     if (a.lang < b.lang) return -1;
+                else if (a.lang > b.lang) return  1;
+
+                int r = ZRCola::CompareString(a.chr, a.chr + a.chr_len, b.chr, b.chr + b.chr_len);
                 if (r != 0) return r;
-
-                return 0;
-            }
-
-            ///
-            /// Compares two languages by ID (for sorting)
-            ///
-            /// \param[in] a  Pointer to first element
-            /// \param[in] b  Pointer to second element
-            ///
-            /// \returns
-            /// - <0 when a <  b
-            /// - =0 when a == b
-            /// - >0 when a >  b
-            ///
-            virtual int compare_sort(_In_ const langchar &a, _In_ const langchar &b) const
-            {
-                int r = memcmp(a.lang, b.lang, sizeof(langid_t));
-                if (r != 0) return r;
-
-                     if (a.chr < b.chr) return -1;
-                else if (a.chr > b.chr) return  1;
 
                 return 0;
             }
@@ -190,19 +153,8 @@ namespace ZRCola {
         ///
         /// Tests presence of character in the given language
         ///
-        /// \param[in]  chr   Character (UTF-16)
-        /// \param[in]  lang  Language
-        ///
-        /// \returns
-        /// - \c true when character is used in language
-        /// - \c false otherwise
-        bool IsLocalCharacter(_In_ wchar_t chr, _In_ langid_t lang) const;
-
-        ///
-        /// Tests presence of character in the given language
-        ///
-        /// \param[in]  chr      Pointer to UTF-16 character start
-        /// \param[in]  chr_end  Pointer to UTF-16 character end
+        /// \param[in]  chr      Pointer to character
+        /// \param[in]  chr_end  Pointer to character end
         /// \param[in]  lang     Language
         ///
         /// \returns
@@ -227,7 +179,7 @@ namespace ZRCola {
         ///
         struct language {
             langid_t id;                ///< Language ID
-            unsigned __int16 name_len;  ///< \c name length (in characters)
+            unsigned __int16 name_len;  ///< \c name length (in UTF-16 characters)
             wchar_t name[];             ///< Language name
         };
 #pragma pack(pop)

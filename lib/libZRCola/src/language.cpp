@@ -71,35 +71,14 @@ void ZRCola::LangConvert(_In_ LANGID lang_win, _Inout_ ZRCola::langid_t &lang)
 #endif
 
 
-bool ZRCola::langchar_db::IsLocalCharacter(_In_ wchar_t chr, _In_ ZRCola::langid_t lang) const
-{
-    for (size_t l = 0, r = idxChr.size(); l < r; ) {
-        // Test the character in the middle of the search area.
-        size_t m = (l + r) / 2;
-        const langchar &lc = idxChr[m];
-
-        // Do the bisection test on character.
-             if (chr    < lc.chr) r = m;
-        else if (lc.chr < chr   ) l = m + 1;
-        else {
-            // Do the bisection test on language.
-                 if (lang < lc.lang) r = m;
-            else if (lang > lc.lang) l = m + 1;
-            else {
-                // Match found.
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
-
 bool ZRCola::langchar_db::IsLocalCharacter(_In_ const wchar_t *chr, _In_ const wchar_t *chr_end, _In_ ZRCola::langid_t lang) const
 {
-    // TODO: Implement properly!
-    UNREFERENCED_PARAMETER(chr_end);
-    assert(chr < chr_end);
-    return IsLocalCharacter(*chr, lang);
+    size_t n = chr_end - chr;
+    assert(n <= 0xffff);
+    std::unique_ptr<ZRCola::langchar_db::langchar> lc((ZRCola::langchar_db::langchar*)new char[sizeof(ZRCola::langchar_db::langchar) + sizeof(wchar_t)*n]);
+    lc->lang = lang;
+    lc->chr_len = (unsigned __int16)n;
+    memcpy(lc->chr, chr, sizeof(wchar_t)*n);
+    ZRCola::langchar_db::indexChar::size_type start;
+    return idxChr.find(*lc, start);
 }
