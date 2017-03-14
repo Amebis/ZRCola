@@ -54,34 +54,6 @@ namespace ZRCola {
             };
             unsigned __int16 dec_end;           ///< Decomposed string end in \c data
             wchar_t data[];                     ///< Decomposed string and composed character
-
-            ///
-            /// Binary compares two strings
-            ///
-            /// \param[in] str_a      First string
-            /// \param[in] str_a_end  First string end
-            /// \param[in] str_b      Second string
-            /// \param[in] str_b_end  Second string end
-            ///
-            /// \returns
-            /// - <0 when str_a <  str_b
-            /// - =0 when str_a == str_b
-            /// - >0 when str_a >  str_b
-            ///
-            /// \note
-            /// The function does not treat \\0 characters as terminators for performance reasons.
-            /// Therefore \p str_a_end and \p str_b_end must represent exact string ends.
-            ///
-            static inline int CompareString(const wchar_t *str_a, const wchar_t *str_a_end, const wchar_t *str_b, const wchar_t *str_b_end)
-            {
-                for (; ; str_a++, str_b++) {
-                         if (str_a >= str_a_end && str_b >= str_b_end) return  0;
-                    else if (str_a >= str_a_end && str_b <  str_b_end) return -1;
-                    else if (str_a <  str_a_end && str_b >= str_b_end) return +1;
-                    else if (*str_a < *str_b) return -1;
-                    else if (*str_a > *str_b) return +1;
-                }
-            }
         };
 #pragma pack(pop)
 
@@ -111,7 +83,7 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const translation &a, _In_ const translation &b) const
             {
-                int r = translation::CompareString(a.data + a.dec_start, a.data + a.dec_end, b.data + b.dec_start, b.data + b.dec_end);
+                int r = ZRCola::CompareString(a.data + a.dec_start, a.data + a.dec_end, b.data + b.dec_start, b.data + b.dec_end);
                 if (r != 0) return r;
 
                 return 0;
@@ -130,10 +102,10 @@ namespace ZRCola {
             ///
             virtual int compare_sort(_In_ const translation &a, _In_ const translation &b) const
             {
-                int r = translation::CompareString(a.data + a.dec_start, a.data + a.dec_end, b.data + b.dec_start, b.data + b.dec_end);
+                int r = ZRCola::CompareString(a.data + a.dec_start, a.data + a.dec_end, b.data + b.dec_start, b.data + b.dec_end);
                 if (r != 0) return r;
 
-                r = translation::CompareString(a.data + a.com_start, a.data + a.com_end, b.data + b.com_start, b.data + b.com_end);
+                r = ZRCola::CompareString(a.data + a.com_start, a.data + a.com_end, b.data + b.com_start, b.data + b.com_end);
                 if (r != 0) return r;
 
                 return 0;
@@ -167,7 +139,7 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const translation &a, _In_ const translation &b) const
             {
-                int r = translation::CompareString(a.data + a.com_start, a.data + a.com_end, b.data + b.com_start, b.data + b.com_end);
+                int r = ZRCola::CompareString(a.data + a.com_start, a.data + a.com_end, b.data + b.com_start, b.data + b.com_end);
                 if (r != 0) return r;
 
                 return 0;
@@ -186,13 +158,13 @@ namespace ZRCola {
             ///
             virtual int compare_sort(_In_ const translation &a, _In_ const translation &b) const
             {
-                int r = translation::CompareString(a.data + a.com_start, a.data + a.com_end, b.data + b.com_start, b.data + b.com_end);
+                int r = ZRCola::CompareString(a.data + a.com_start, a.data + a.com_end, b.data + b.com_start, b.data + b.com_end);
                 if (r != 0) return r;
 
                      if (a.rank < b.rank) return -1;
                 else if (a.rank > b.rank) return +1;
 
-                r = translation::CompareString(a.data + a.dec_start, a.data + a.dec_end, b.data + b.dec_start, b.data + b.dec_end);
+                r = ZRCola::CompareString(a.data + a.dec_start, a.data + a.dec_end, b.data + b.dec_start, b.data + b.dec_end);
                 if (r != 0) return r;
 
                 return 0;

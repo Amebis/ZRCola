@@ -234,7 +234,7 @@ namespace ZRCola {
             ///
             static inline int CompareName(LCID locale, const wchar_t *str_a, unsigned __int16 count_a, const wchar_t *str_b, unsigned __int16 count_b)
             {
-                switch (CompareString(locale, SORT_STRINGSORT | NORM_IGNORECASE, str_a, count_a, str_b, count_b)) {
+                switch (::CompareString(locale, SORT_STRINGSORT | NORM_IGNORECASE, str_a, count_a, str_b, count_b)) {
                     case CSTR_LESS_THAN   : return -1;
                     case CSTR_EQUAL       : return  0;
                     case CSTR_GREATER_THAN: return  1;

@@ -552,6 +552,34 @@ namespace ZRCola {
                 i->invert();
         }
     };
+
+    ///
+    /// Binary compares two strings
+    ///
+    /// \param[in] str_a      First string
+    /// \param[in] str_a_end  First string end
+    /// \param[in] str_b      Second string
+    /// \param[in] str_b_end  Second string end
+    ///
+    /// \returns
+    /// - <0 when str_a <  str_b
+    /// - =0 when str_a == str_b
+    /// - >0 when str_a >  str_b
+    ///
+    /// \note
+    /// The function does not treat \\0 characters as terminators for performance reasons.
+    /// Therefore \p str_a_end and \p str_b_end must represent exact string ends.
+    ///
+    inline int CompareString(const wchar_t *str_a, const wchar_t *str_a_end, const wchar_t *str_b, const wchar_t *str_b_end)
+    {
+        for (; ; str_a++, str_b++) {
+                    if (str_a >= str_a_end && str_b >= str_b_end) return  0;
+            else if (str_a >= str_a_end && str_b <  str_b_end) return -1;
+            else if (str_a <  str_a_end && str_b >= str_b_end) return +1;
+            else if (*str_a < *str_b) return -1;
+            else if (*str_a > *str_b) return +1;
+        }
+    }
 };
 
 
