@@ -200,9 +200,9 @@ All :: "$(LANG).$(PLAT).$(CFG).InstallUISequence-1.idt"
 Action	Condition	Sequence
 s$(MSIBUILD_LENGTH_ID)	S255	I2
 InstallUISequence	Action
-dlgTutorial1	NOT Installed	1400
-dlgTutorial2	NOT Installed	1401
-dlgTutorial3	NOT Installed	1402
+dlgTutorial1	NOT Installed AND &featZRCola>=3	1400
+dlgTutorial2	NOT Installed AND &featZRCola>=3	1401
+dlgTutorial3	NOT Installed AND &featZRCola>=3	1402
 <<NOKEEP
 
 
