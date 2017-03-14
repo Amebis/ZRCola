@@ -25,7 +25,7 @@ void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input
     assert(input || inputMax == 0);
 
     // Trim inputMax to actual length.
-    inputMax = wcsnlen(input, inputMax);
+    inputMax = inputMax != (size_t)-1 ? wcsnlen(input, inputMax) : wcslen(input);
 
     // Clear the output string and preallocate at least inputMax chars.
     // Since composing is usually reducing the number of chars, memory reallocation is not expected later.
