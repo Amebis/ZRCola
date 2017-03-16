@@ -46,14 +46,37 @@ namespace ZRCola {
         /// Translation data
         ///
         struct translation {
-            unsigned __int16 rank;                      ///< Decomposition rank
-            static const unsigned __int16 com_start;    ///< Composed character start in \c data
-            union {
-                unsigned __int16 com_end;               ///< Composed character end in \c data
-                unsigned __int16 dec_start;             ///< Decomposed character start in \c data
-            };
-            unsigned __int16 dec_end;                   ///< Decomposed string end in \c data
-            wchar_t data[];                             ///< Decomposed string and composed character
+        public:
+            unsigned __int16 rank;     ///< Decomposition rank
+
+        protected:
+            unsigned __int16 com_to;   ///< Composed character end in \c data
+            unsigned __int16 dec_to;   ///< Decomposed string end in \c data
+            wchar_t data[];            ///< Decomposed string and composed character
+
+        public:
+            inline const wchar_t*         com    () const { return data; };
+            inline       wchar_t*         com    ()       { return data; };
+            inline const wchar_t*         com_end() const { return data + com_to; };
+            inline       wchar_t*         com_end()       { return data + com_to; };
+            inline       unsigned __int16 com_len() const { return com_to; };
+
+            inline wchar_t com_at(_In_ size_t i) const
+            {
+                return i < com_to ? data[i] : 0;
+            }
+
+            inline const wchar_t*         dec    () const { return data + com_to; };
+            inline       wchar_t*         dec    ()       { return data + com_to; };
+            inline const wchar_t*         dec_end() const { return data + dec_to; };
+            inline       wchar_t*         dec_end()       { return data + dec_to; };
+            inline       unsigned __int16 dec_len() const { return dec_to - com_to; };
+
+            inline wchar_t dec_at(_In_ size_t i) const
+            {
+                size_t ii = i + com_to; // absolute index
+                return ii < dec_to ? data[ii] : 0;
+            }
         };
 #pragma pack(pop)
 
@@ -83,7 +106,7 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const translation &a, _In_ const translation &b) const
             {
-                int r = ZRCola::CompareString(a.data + a.dec_start, a.data + a.dec_end, b.data + b.dec_start, b.data + b.dec_end);
+                int r = ZRCola::CompareString(a.dec(), a.dec_end(), b.dec(), b.dec_end());
                 if (r != 0) return r;
 
                 return 0;
@@ -102,10 +125,10 @@ namespace ZRCola {
             ///
             virtual int compare_sort(_In_ const translation &a, _In_ const translation &b) const
             {
-                int r = ZRCola::CompareString(a.data + a.dec_start, a.data + a.dec_end, b.data + b.dec_start, b.data + b.dec_end);
+                int r = ZRCola::CompareString(a.dec(), a.dec_end(), b.dec(), b.dec_end());
                 if (r != 0) return r;
 
-                r = ZRCola::CompareString(a.data + a.com_start, a.data + a.com_end, b.data + b.com_start, b.data + b.com_end);
+                r = ZRCola::CompareString(a.com(), a.com_end(), b.com(), b.com_end());
                 if (r != 0) return r;
 
                 return 0;
@@ -139,7 +162,7 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const translation &a, _In_ const translation &b) const
             {
-                int r = ZRCola::CompareString(a.data + a.com_start, a.data + a.com_end, b.data + b.com_start, b.data + b.com_end);
+                int r = ZRCola::CompareString(a.com(), a.com_end(), b.com(), b.com_end());
                 if (r != 0) return r;
 
                 return 0;
@@ -158,13 +181,13 @@ namespace ZRCola {
             ///
             virtual int compare_sort(_In_ const translation &a, _In_ const translation &b) const
             {
-                int r = ZRCola::CompareString(a.data + a.com_start, a.data + a.com_end, b.data + b.com_start, b.data + b.com_end);
+                int r = ZRCola::CompareString(a.com(), a.com_end(), b.com(), b.com_end());
                 if (r != 0) return r;
 
                      if (a.rank < b.rank) return -1;
                 else if (a.rank > b.rank) return +1;
 
-                r = ZRCola::CompareString(a.data + a.dec_start, a.data + a.dec_end, b.data + b.dec_start, b.data + b.dec_end);
+                r = ZRCola::CompareString(a.dec(), a.dec_end(), b.dec(), b.dec_end());
                 if (r != 0) return r;
 
                 return 0;
