@@ -46,14 +46,14 @@ namespace ZRCola {
         /// Translation data
         ///
         struct translation {
-            unsigned __int16 rank;              ///< Decomposition rank
-            static unsigned __int16 com_start;  ///< Composed character start in \c data
+            unsigned __int16 rank;                      ///< Decomposition rank
+            static const unsigned __int16 com_start;    ///< Composed character start in \c data
             union {
-                unsigned __int16 com_end;       ///< Composed character end in \c data
-                unsigned __int16 dec_start;     ///< Decomposed character start in \c data
+                unsigned __int16 com_end;               ///< Composed character end in \c data
+                unsigned __int16 dec_start;             ///< Decomposed character start in \c data
             };
-            unsigned __int16 dec_end;           ///< Decomposed string end in \c data
-            wchar_t data[];                     ///< Decomposed string and composed character
+            unsigned __int16 dec_end;                   ///< Decomposed string end in \c data
+            wchar_t data[];                             ///< Decomposed string and composed character
         };
 #pragma pack(pop)
 

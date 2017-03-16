@@ -19,7 +19,7 @@
 
 #include "stdafx.h"
 
-unsigned __int16 ZRCola::translation_db::translation::com_start = 0;
+const unsigned __int16 ZRCola::translation_db::translation::com_start = 0;
 
 
 void ZRCola::translation_db::Compose(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map) const
