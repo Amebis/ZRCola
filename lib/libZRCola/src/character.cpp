@@ -23,7 +23,7 @@
 const ZRCola::chrcatid_t ZRCola::chrcatid_t::blank = {};
 
 
-bool ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<wchar_t, charrank_t> &hits, _Inout_ std::map<wchar_t, charrank_t> &hits_sub, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
+bool ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<std::wstring, charrank_t> &hits, _Inout_ std::map<std::wstring, charrank_t> &hits_sub, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
 {
     assert(str);
 
@@ -76,14 +76,15 @@ bool ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set
 
             if (idxDsc.find(term.c_str(), term.size(), &data, &len)) {
                 // The term was found.
-                for (size_t i = 0; i < len; i++) {
+                for (size_t i = 0, j = 0; i < len; i += j + 1) {
                     if (fn_abort && fn_abort(cookie)) return false;
-                    wchar_t c = data[i];
-                    if (cats.find(GetCharCat(c)) != cats.end()) {
+                    j = wcsnlen(data + i, len - i);
+                    if (cats.find(GetCharCat(data + i, j)) != cats.end()) {
+                        std::wstring c(data + i, j);
                         auto idx = hits.find(c);
                         if (idx == hits.end()) {
                             // New character.
-                            hits.insert(std::make_pair(data[i], 1.0/len));
+                            hits.insert(std::make_pair(std::move(c), 1.0/len));
                         } else {
                             // Increase rating of existing character.
                             idx->second += 1.0/len;
@@ -94,14 +95,15 @@ bool ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set
 
             if (idxDscSub.find(term.c_str(), term.size(), &data, &len)) {
                 // The term was found in the sub-term index.
-                for (size_t i = 0; i < len; i++) {
+                for (size_t i = 0, j = 0; i < len; i += j + 1) {
                     if (fn_abort && fn_abort(cookie)) return false;
-                    wchar_t c = data[i];
-                    if (cats.find(GetCharCat(c)) != cats.end()) {
+                    j = wcsnlen(data + i, len - i);
+                    if (cats.find(GetCharCat(data + i, j)) != cats.end()) {
+                        std::wstring c(data + i, j);
                         auto idx = hits_sub.find(c);
                         if (idx == hits_sub.end()) {
                             // New character.
-                            hits_sub.insert(std::make_pair(data[i], 1.0/len));
+                            hits_sub.insert(std::make_pair(c, 1.0/len));
                         } else {
                             // Increase rating of existing character.
                             idx->second += 1.0/len;

@@ -45,9 +45,40 @@ namespace ZRCola {
         /// Character data
         ///
         struct langchar {
+        public:
             langid_t lang;              ///< Language ID
-            unsigned __int16 chr_len;   ///< \c chr length (in UTF-16 characters)
-            wchar_t chr[];              ///< Character
+
+        protected:
+            unsigned __int16 chr_to;    ///< Character end in \c data
+            wchar_t data[];             ///< Character
+
+        private:
+            inline langchar(_In_ const langchar &other);
+            inline langchar& operator=(_In_ const langchar &other);
+
+        public:
+            ///
+            /// Constructs the language character
+            ///
+            /// \param[in] lang     Character language
+            /// \param[in] chr      Character
+            /// \param[in] chr_len  Number of UTF-16 characters in \p chr
+            ///
+            inline langchar(
+                _In_opt_                        langid_t  lang    = langid_t::blank,
+                _In_opt_z_count_(chr_len) const wchar_t  *chr     = NULL,
+                _In_opt_                        size_t    chr_len = 0)
+            {
+                this->lang = lang;
+                this->chr_to = static_cast<unsigned __int16>(chr_len);
+                if (chr_len) memcpy(this->data, chr, sizeof(wchar_t)*chr_len);
+            }
+
+            inline const wchar_t*         chr    () const { return data;          };
+            inline       wchar_t*         chr    ()       { return data;          };
+            inline const wchar_t*         chr_end() const { return data + chr_to; };
+            inline       wchar_t*         chr_end()       { return data + chr_to; };
+            inline       unsigned __int16 chr_len() const { return chr_to;        };
         };
 #pragma pack(pop)
 
@@ -77,7 +108,7 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const langchar &a, _In_ const langchar &b) const
             {
-                int r = ZRCola::CompareString(a.chr, a.chr + a.chr_len, b.chr, b.chr + b.chr_len);
+                int r = ZRCola::CompareString(a.chr(), a.chr_len(), b.chr(), b.chr_len());
                 if (r != 0) return r;
 
                      if (a.lang < b.lang) return -1;
@@ -118,7 +149,7 @@ namespace ZRCola {
                      if (a.lang < b.lang) return -1;
                 else if (a.lang > b.lang) return  1;
 
-                int r = ZRCola::CompareString(a.chr, a.chr + a.chr_len, b.chr, b.chr + b.chr_len);
+                int r = ZRCola::CompareString(a.chr, a.chr_len(), b.chr(), b.chr_len());
                 if (r != 0) return r;
 
                 return 0;
@@ -178,9 +209,40 @@ namespace ZRCola {
         /// Language data
         ///
         struct language {
+        public:
             langid_t id;                ///< Language ID
-            unsigned __int16 name_len;  ///< \c name length (in UTF-16 characters)
-            wchar_t name[];             ///< Language name
+
+        protected:
+            unsigned __int16 name_to;   ///< Language name end in \c data
+            wchar_t data[];             ///< Language name
+
+        private:
+            inline language(_In_ const language &other);
+            inline language& operator=(_In_ const language &other);
+
+        public:
+            ///
+            /// Constructs the language
+            ///
+            /// \param[in] id        Language ID
+            /// \param[in] name      Language name
+            /// \param[in] name_len  Number of UTF-16 characters in \p name
+            ///
+            inline language(
+                _In_opt_                         langid_t  id       = langid_t::blank,
+                _In_opt_z_count_(name_len) const wchar_t  *name     = NULL,
+                _In_opt_                         size_t    name_len = 0)
+            {
+                this->id = id;
+                this->name_to = static_cast<unsigned __int16>(name_len);
+                if (name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
+            }
+
+            inline const wchar_t*         name    () const { return data;           };
+            inline       wchar_t*         name    ()       { return data;           };
+            inline const wchar_t*         name_end() const { return data + name_to; };
+            inline       wchar_t*         name_end()       { return data + name_to; };
+            inline       unsigned __int16 name_len() const { return name_to;        };
         };
 #pragma pack(pop)
 

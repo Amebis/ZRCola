@@ -48,39 +48,75 @@ namespace ZRCola {
         /// Key sequence data
         ///
         struct keyseq {
+        public:
             enum modifiers_t {
                 SHIFT   = 1<<0,                 ///< SHIFT key was pressed
                 CTRL    = 1<<1,                 ///< CTRL key was pressed
                 ALT     = 1<<2,                 ///< ALT key was pressed
             };
 
-            wchar_t chr;                        ///< Character
-            unsigned __int16 seq_len;           ///< \c seq length
             struct key_t {
                 wchar_t key;                    ///< Key
                 unsigned __int16 modifiers;     ///< Modifiers (bitwise combination of SHIFT, CTRL and ALT)
-            } seq[];                            ///< Key sequence
+            };
 
+        protected:
+            unsigned __int16 chr_to;            ///< Character end in \c data
+            unsigned __int16 seq_to;            ///< Key sequence end in \c data
+            wchar_t data[];                     ///< Character and key sequence
+
+        public:
+            ///
+            /// Constructs the key sequence
+            ///
+            /// \param[in] seq        Key sequence
+            /// \param[in] seq_count  Number of UTF-16 characters in \p seq
+            /// \param[in] chr        Character
+            /// \param[in] chr_len    Number of UTF-16 characters in \p chr
+            ///
+            inline keyseq(
+                _In_opt_count_(seq_count) const key_t   *seq       = NULL,
+                _In_opt_                        size_t   seq_count = 0,
+                _In_opt_z_count_(chr_len) const wchar_t *chr       = NULL,
+                _In_opt_                        size_t   chr_len   = 0)
+            {
+                this->chr_to = static_cast<unsigned __int16>(chr_len);
+                if (chr_len) memcpy(this->data, chr, sizeof(wchar_t)*chr_len);
+                this->seq_to = static_cast<unsigned __int16>(this->chr_to + seq_count * sizeof(key_t) / sizeof(*data));
+                if (seq_count) memcpy(this->data + this->chr_to, seq, sizeof(key_t)*seq_count);
+            }
+
+            inline const wchar_t*         chr    () const { return data;          };
+            inline       wchar_t*         chr    ()       { return data;          };
+            inline const wchar_t*         chr_end() const { return data + chr_to; };
+            inline       wchar_t*         chr_end()       { return data + chr_to; };
+            inline       unsigned __int16 chr_len() const { return chr_to;        };
+
+            inline const key_t*           seq    () const { return reinterpret_cast<const key_t*>(data + chr_to);     };
+            inline       key_t*           seq    ()       { return reinterpret_cast<      key_t*>(data + chr_to);     };
+            inline const key_t*           seq_end() const { return reinterpret_cast<const key_t*>(data + seq_to);     };
+            inline       key_t*           seq_end()       { return reinterpret_cast<      key_t*>(data + seq_to);     };
+            inline       unsigned __int16 seq_len() const { return (seq_to - chr_to) * sizeof(*data) / sizeof(key_t); };
 
             ///
             /// Compares two key sequences
             ///
-            /// \param[in] seq_a    First key sequence
-            /// \param[in] count_a  Number of keys in sequence \p seq_a
-            /// \param[in] seq_b    Second key sequence
-            /// \param[in] count_b  Number of keys in sequence \p seq_b
+            /// \param[in] seq_a  First key sequence
+            /// \param[in] len_a  Number of keys in sequence \p seq_a
+            /// \param[in] seq_b  Second key sequence
+            /// \param[in] len_b  Number of keys in sequence \p seq_b
             ///
             /// \returns
             /// - <0 when seq_a <  seq_b
             /// - =0 when seq_a == seq_b
             /// - >0 when seq_a >  seq_b
             ///
-            static inline int CompareSequence(const key_t *seq_a, unsigned __int16 count_a, const key_t *seq_b, unsigned __int16 count_b)
+            static inline int CompareSequence(_In_ const key_t *seq_a, _In_ size_t len_a, _In_ const key_t *seq_b, _In_ size_t len_b)
             {
-                for (unsigned __int16 i = 0; ; i++) {
-                         if (i >= count_a && i >= count_b) return  0;
-                    else if (i >= count_a && i <  count_b) return -1;
-                    else if (i <  count_a && i >= count_b) return +1;
+                for (size_t i = 0; ; i++) {
+                         if (i >= len_a && i >= len_b) return  0;
+                    else if (i >= len_a && i <  len_b) return -1;
+                    else if (i <  len_a && i >= len_b) return +1;
                     else if (seq_a[i].key       < seq_b[i].key      ) return -1;
                     else if (seq_a[i].key       > seq_b[i].key      ) return +1;
                     else if (seq_a[i].modifiers < seq_b[i].modifiers) return -1;
@@ -116,8 +152,8 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const keyseq &a, _In_ const keyseq &b) const
             {
-                     if (a.chr < b.chr) return -1;
-                else if (a.chr > b.chr) return +1;
+                int r = ZRCola::CompareString(a.chr(), a.chr_len(), b.chr(), b.chr_len());
+                if (r != 0) return r;
 
                 return 0;
             }
@@ -135,10 +171,10 @@ namespace ZRCola {
             ///
             virtual int compare_sort(_In_ const keyseq &a, _In_ const keyseq &b) const
             {
-                     if (a.chr < b.chr) return -1;
-                else if (a.chr > b.chr) return +1;
+                int r = ZRCola::CompareString(a.chr(), a.chr_len(), b.chr(), b.chr_len());
+                if (r != 0) return r;
 
-                int r = keyseq::CompareSequence(a.seq, a.seq_len, b.seq, b.seq_len);
+                r = keyseq::CompareSequence(a.seq(), a.seq_len(), b.seq(), b.seq_len());
                 if (r != 0) return r;
 
                 return 0;
@@ -172,7 +208,7 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const keyseq &a, _In_ const keyseq &b) const
             {
-                int r = keyseq::CompareSequence(a.seq, a.seq_len, b.seq, b.seq_len);
+                int r = keyseq::CompareSequence(a.seq(), a.seq_len(), b.seq(), b.seq_len());
                 if (r != 0) return r;
 
                 return 0;
@@ -191,11 +227,11 @@ namespace ZRCola {
             ///
             virtual int compare_sort(_In_ const keyseq &a, _In_ const keyseq &b) const
             {
-                int r = keyseq::CompareSequence(a.seq, a.seq_len, b.seq, b.seq_len);
+                int r = keyseq::CompareSequence(a.seq(), a.seq_len(), b.seq(), b.seq_len());
                 if (r != 0) return r;
 
-                     if (a.chr < b.chr) return -1;
-                else if (a.chr > b.chr) return +1;
+                r = ZRCola::CompareString(a.chr(), a.chr_len(), b.chr(), b.chr_len());
+                if (r != 0) return r;
 
                 return 0;
             }

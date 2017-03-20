@@ -28,35 +28,19 @@ using namespace winstd;
 // ZRCola::DBSource::character_bank
 //////////////////////////////////////////////////////////////////////////
 
-ZRCola::DBSource::character_bank::character_bank() : vector<unique_ptr<ZRCola::DBSource::character> >()
-{
-    resize(0x10000);
-}
-
-
 void ZRCola::DBSource::character_bank::build_related()
 {
-    // Initialize ignore list.
-    m_ignore.insert(L"letter");
-    m_ignore.insert(L"modifier");
-    m_ignore.insert(L"symbol");
-    m_ignore.insert(L"accent");
-    m_ignore.insert(L"with");
-    m_ignore.insert(L"and");
-    m_ignore.insert(L"capital");
-    m_ignore.insert(L"small");
-    m_ignore.insert(L"combining");
-
     SYSTEM_INFO si;
     GetSystemInfo(&si);
 
     // Launch workers.
     build_related_worker **workers = new build_related_worker*[si.dwNumberOfProcessors];
-    size_type from = 0, to;
-    for (DWORD i = 0; i < si.dwNumberOfProcessors; i++) {
-        to = MulDiv(i + 1, 0x10000, si.dwNumberOfProcessors);
-        workers[i] = new build_related_worker(this, from, to);
-        from = to;
+    size_type from = 0, total = size();
+    iterator chr_from = begin(), chr_to;
+    for (DWORD i = 0; i < si.dwNumberOfProcessors; i++, chr_from = chr_to) {
+        size_type to = MulDiv(i + 1, total, si.dwNumberOfProcessors);
+        for (chr_to = chr_from; from < to; from++, ++chr_to);
+        workers[i] = new build_related_worker(this, chr_from, chr_to);
     }
 
     // Wait for workers.
@@ -71,7 +55,7 @@ void ZRCola::DBSource::character_bank::build_related()
 }
 
 
-ZRCola::DBSource::character_bank::build_related_worker::build_related_worker(_In_ const character_bank *cb, _In_ size_type from, _In_ size_type to) :
+ZRCola::DBSource::character_bank::build_related_worker::build_related_worker(_In_ const character_bank *cb, _In_ iterator from, _In_ iterator to) :
     win_handle((HANDLE)_beginthreadex(NULL, 0, process, this, CREATE_SUSPENDED, NULL)),
     m_heap(HeapCreate(0, 0, 0)),
     m_cb(cb),
@@ -86,40 +70,39 @@ ZRCola::DBSource::character_bank::build_related_worker::build_related_worker(_In
 unsigned int ZRCola::DBSource::character_bank::build_related_worker::process()
 {
     heap_allocator<wchar_t> al(m_heap);
-    basic_string<wchar_t, char_traits<wchar_t>, heap_allocator<wchar_t> > rel(al);
+    vector<wchar_t, heap_allocator<wchar_t> > rel(al);
     set<wstring, less<wstring>, heap_allocator<wstring> > matching(less<wstring>(), al);
 
-    for (size_type i = m_from; i < m_to; i++) {
-        auto &chr = *(m_cb->at(i).get());
-        if (&chr == NULL) continue;
-
+    for (auto c = m_from; c != m_to; c++) {
         rel.clear();
 
-        // Remove all unexisting, inactive, or self related characters.
-        for (auto j = chr.rel.length(); j--;) {
-            wchar_t c = chr.rel[j];
-            if (m_cb->at(c) && (wchar_t)j != c)
-                rel += c;
+        // Skip all unexisting, or self related characters.
+        auto m_cb_end = m_cb->cend();
+        for (std::vector<wchar_t>::const_pointer c_rel = c->second.rel.data(), c_rel_end = c_rel + c->second.rel.size(), c_rel_next = c_rel_end; c_rel < c_rel_end; c_rel = c_rel_next) {
+            c_rel_next = c_rel + wcsnlen(c_rel, c_rel_end - c_rel) + 1;
+            if (m_cb->find(c_rel) != m_cb_end && c->first.compare(c_rel) != 0)
+                rel.insert(rel.end(), c_rel, c_rel_next);
         }
 
-        // Add all characters that share enought keywords.
-        for (size_type j = 0, j_end = m_cb->size(); j < j_end; j++) {
-            if (i == j || rel.find((wchar_t)j) != wstring::npos)
+        // Add all characters that share enough keywords.
+        for (auto c2 = m_cb->cbegin(), c2_end = m_cb->cend(); c2 != c2_end; ++c2) {
+            if (c == c2)
                 continue;
-            const auto &chr2 = *(m_cb->at(j).get());
-            if (&chr2 == NULL)
+            bool already_present = false;
+            for (std::vector<wchar_t>::const_pointer c_rel = rel.data(), c_rel_end = c_rel + rel.size(), c_rel_next = c_rel_end; c_rel < c_rel_end; c_rel = c_rel_next) {
+                c_rel_next = c_rel + wcsnlen(c_rel, c_rel_end - c_rel) + 1;
+                if (c2->first.compare(c_rel) == 0) {
+                    already_present = true;
+                    break;
+                }
+            }
+            if (already_present)
                 continue;
 
             set<wstring>::size_type comparisons = 0;
             matching.clear();
-            for (auto term = chr.terms.cbegin(), term_end = chr.terms.cend(); term != term_end; ++term) {
-                // Test for ignored word(s).
-                if (m_cb->m_ignore.find(*term) != m_cb->m_ignore.cend())
-                    continue;
-                for (auto term2 = chr2.terms.cbegin(), term2_end = chr2.terms.cend(); term2 != term2_end; ++term2) {
-                    // Test for ignored word(s).
-                    if (m_cb->m_ignore.find(*term2) != m_cb->m_ignore.cend())
-                        continue;
+            for (auto term = c->second.terms_rel.cbegin(), term_end = c->second.terms_rel.cend(); term != term_end; ++term) {
+                for (auto term2 = c2->second.terms_rel.cbegin(), term2_end = c2->second.terms_rel.cend(); term2 != term2_end; ++term2) {
                     comparisons++;
                     if (*term == *term2)
                         matching.insert(*term);
@@ -130,11 +113,11 @@ unsigned int ZRCola::DBSource::character_bank::build_related_worker::process()
                 // If 1/2 terms match, assume related.
                 auto hits = matching.size();
                 if (hits*hits*2 >= comparisons)
-                    rel += chr2.chr;
+                    rel.insert(rel.end(), c2->first.data(), c2->first.data() + c2->first.length() + 1);
             }
         }
 
-        chr.rel.assign(rel.c_str(), rel.length());
+        c->second.rel.assign(rel.cbegin(), rel.cend());
     }
 
     return 0;
@@ -197,7 +180,7 @@ void ZRCola::DBSource::character_desc_idx::parse_keywords(const wchar_t *str, se
 }
 
 
-void ZRCola::DBSource::character_desc_idx::add_keywords(const set<wstring> &terms, wchar_t chr, size_t sub)
+void ZRCola::DBSource::character_desc_idx::add_keywords(const set<wstring> &terms, const wstring &chr, size_t sub)
 {
     for (auto term = terms.cbegin(), term_end = terms.cend(); term != term_end; ++term) {
         if (sub) {
@@ -250,6 +233,16 @@ void ZRCola::DBSource::character_desc_idx::save(ZRCola::textindex<wchar_t, wchar
 
 ZRCola::DBSource::DBSource()
 {
+    // Initialize ignore list.
+    m_terms_ignore.insert(L"letter");
+    m_terms_ignore.insert(L"modifier");
+    m_terms_ignore.insert(L"symbol");
+    m_terms_ignore.insert(L"accent");
+    m_terms_ignore.insert(L"with");
+    m_terms_ignore.insert(L"and");
+    m_terms_ignore.insert(L"capital");
+    m_terms_ignore.insert(L"small");
+    m_terms_ignore.insert(L"combining");
 }
 
 
@@ -434,29 +427,31 @@ bool ZRCola::DBSource::GetUnicodeString(const com_obj<ADOField>& f, wstring& str
 
     variant v;
     wxVERIFY(SUCCEEDED(f->get_Value(&v)));
-    wxCHECK(SUCCEEDED(v.change_type(VT_BSTR)), false);
-
-    // Parse the field. Must be "xxxx+xxxx+xxxx..." sequence.
     str.clear();
-    for (UINT i = 0, n = ::SysStringLen(V_BSTR(&v)); i < n && V_BSTR(&v)[i];) {
-        // Parse Unicode code.
-        UINT j = 0;
-        wchar_t c = 0;
-        for (; i < n && V_BSTR(&v)[i]; i++, j++) {
-                 if (L'0' <= V_BSTR(&v)[i] && V_BSTR(&v)[i] <= L'9') c = c*0x10 + (V_BSTR(&v)[i] - L'0');
-            else if (L'A' <= V_BSTR(&v)[i] && V_BSTR(&v)[i] <= L'F') c = c*0x10 + (V_BSTR(&v)[i] - L'A' + 10);
-            else if (L'a' <= V_BSTR(&v)[i] && V_BSTR(&v)[i] <= L'f') c = c*0x10 + (V_BSTR(&v)[i] - L'a' + 10);
-            else break;
-        }
-        if (j <= 0 || 4 < j) {
-            bstr fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
-            _ftprintf(stderr, wxT("%s: error ZCC0020: Syntax error in \"%.*ls\" field (\"%.*ls\"). Unicode code must be one to four hexadecimal characters long.\n"), m_filename.c_str(), fieldname.length(), (BSTR)fieldname, n, V_BSTR(&v));
-            return false;
-        }
-        str += c;
+    if (V_VT(&v) != VT_NULL) {
+        wxCHECK(SUCCEEDED(v.change_type(VT_BSTR)), false);
 
-        // Skip delimiter(s) and whitespace.
-        for (; i < n && V_BSTR(&v)[i] && (V_BSTR(&v)[i] == L'+' || _iswspace_l(V_BSTR(&v)[i], m_locale)); i++);
+        // Parse the field. Must be "xxxx+xxxx+xxxx..." sequence.
+        for (UINT i = 0, n = ::SysStringLen(V_BSTR(&v)); i < n && V_BSTR(&v)[i];) {
+            // Parse Unicode code.
+            UINT j = 0;
+            wchar_t c = 0;
+            for (; i < n && V_BSTR(&v)[i]; i++, j++) {
+                     if (L'0' <= V_BSTR(&v)[i] && V_BSTR(&v)[i] <= L'9') c = c*0x10 + (V_BSTR(&v)[i] - L'0');
+                else if (L'A' <= V_BSTR(&v)[i] && V_BSTR(&v)[i] <= L'F') c = c*0x10 + (V_BSTR(&v)[i] - L'A' + 10);
+                else if (L'a' <= V_BSTR(&v)[i] && V_BSTR(&v)[i] <= L'f') c = c*0x10 + (V_BSTR(&v)[i] - L'a' + 10);
+                else break;
+            }
+            if (j <= 0 || 4 < j) {
+                bstr fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
+                _ftprintf(stderr, wxT("%s: error ZCC0020: Syntax error in \"%.*ls\" field (\"%.*ls\"). Unicode code must be one to four hexadecimal characters long.\n"), m_filename.c_str(), fieldname.length(), (BSTR)fieldname, n, V_BSTR(&v));
+                return false;
+            }
+            str += c;
+
+            // Skip delimiter(s) and whitespace.
+            for (; i < n && V_BSTR(&v)[i] && (V_BSTR(&v)[i] == L'+' || _iswspace_l(V_BSTR(&v)[i], m_locale)); i++);
+        }
     }
 
     return true;
@@ -615,19 +610,19 @@ bool ZRCola::DBSource::GetTranslation(const com_obj<ADORecordset>& rs, ZRCola::D
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"komb"), &f)));
-        wxCHECK(GetUnicodeString(f, t.decomp.str), false);
+        wxCHECK(GetUnicodeString(f, t.dec.str), false);
     }
 
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"znak"), &f)));
-        wxCHECK(GetUnicodeString(f, t.chr), false);
+        wxCHECK(GetUnicodeString(f, t.com), false);
     }
 
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"rang_znak"), &f)));
-        wxCHECK(GetValue(f, t.decomp.rank), false);
+        wxCHECK(GetValue(f, t.dec.rank), false);
     }
 
     return true;
@@ -665,7 +660,7 @@ bool ZRCola::DBSource::GetKeySequence(const com_obj<ADORecordset>& rs, ZRCola::D
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Znak"), &f)));
-        wxCHECK(GetUnicodeCharacter(f, ks.chr), false);
+        wxCHECK(GetUnicodeString(f, ks.chr), false);
     }
 
     int modifiers;
@@ -884,11 +879,11 @@ bool ZRCola::DBSource::GetCharacterGroup(const com_obj<ADORecordset>& rs, chrgrp
         com_obj<ADOField> f_char, f_show;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Znak"  ), &f_char)));
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"pogost"), &f_show)));
-        for (VARIANT_BOOL eof = VARIANT_TRUE; SUCCEEDED(rs_chars->get_EOF(&eof)) && !eof; rs_chars->MoveNext()) {
-            wchar_t c;
-            wxCHECK(GetUnicodeCharacter(f_char, c), false);
-            size_t n = cg.chars.length();
-            cg.chars += c;
+        size_t n = 0;
+        for (VARIANT_BOOL eof = VARIANT_TRUE; SUCCEEDED(rs_chars->get_EOF(&eof)) && !eof; rs_chars->MoveNext(), n++) {
+            wstring c;
+            wxCHECK(GetUnicodeString(f_char, c), false);
+            cg.chars.insert(cg.chars.end(), c.data(), c.data() + c.length() + 1);
             bool show;
             wxCHECK(GetValue(f_show, show), false);
             if ((n % 16) == 0)
@@ -932,42 +927,49 @@ bool ZRCola::DBSource::GetCharacter(const com_obj<ADORecordset>& rs, character& 
 
     com_obj<ADOFields> flds;
     wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
-    wchar_t c;
-    chr.rel.clear();
+    wstring c;
+    chr.second.terms.clear();
+    chr.second.terms_rel.clear();
+    chr.second.rel.clear();
 
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"znak"), &f)));
-        wxCHECK(GetUnicodeCharacter(f, chr.chr), false);
+        wxCHECK(GetUnicodeString(f, chr.first), false);
     }
 
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"znak_v"), &f)));
-        wxCHECK(GetUnicodeCharacter(f, c), false);
-        if (c && c != chr.chr)
-            chr.rel += c;
+        wxCHECK(GetUnicodeString(f, c), false);
+        if (!c.empty() && c != chr.first)
+            chr.second.rel.insert(chr.second.rel.end(), c.data(), c.data() + c.length() + 1);
     }
 
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"znak_m"), &f)));
-        wxCHECK(GetUnicodeCharacter(f, c), false);
-        if (c && c != chr.chr)
-            chr.rel += c;
+        wxCHECK(GetUnicodeString(f, c), false);
+        if (!c.empty() && c != chr.first)
+            chr.second.rel.insert(chr.second.rel.end(), c.data(), c.data() + c.length() + 1);
     }
 
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"opis_en"), &f)));
-        wxCHECK(GetValue(f, chr.desc), false);
+        wxCHECK(GetValue(f, chr.second.desc), false);
+        ZRCola::DBSource::character_desc_idx::parse_keywords(chr.second.desc.c_str(), chr.second.terms);
+        for (auto term = chr.second.terms.cbegin(), term_end = chr.second.terms.cend(); term != term_end; ++term) {
+            if (m_terms_ignore.find(*term) != m_terms_ignore.cend())
+                continue;
+            chr.second.terms_rel.insert(*term);
+        }
     }
-    ZRCola::DBSource::character_desc_idx::parse_keywords(chr.desc.c_str(), chr.terms);
 
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"kat"), &f)));
-        wxCHECK(GetChrCat(f, chr.cat), false);
+        wxCHECK(GetChrCat(f, chr.second.cat), false);
     }
 
     return true;
@@ -1058,7 +1060,7 @@ bool ZRCola::DBSource::GetCharacterTag(const winstd::com_obj<ADORecordset>& rs, 
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"znak"), &f)));
-        wxCHECK(GetUnicodeCharacter(f, ct.chr), false);
+        wxCHECK(GetUnicodeString(f, ct.chr), false);
     }
 
     {

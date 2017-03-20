@@ -213,7 +213,7 @@ void wxZRColaFrame::OnForwardEvent(wxCommandEvent& event)
 
 void wxZRColaFrame::OnInsertCharacter(wxCommandEvent& event)
 {
-    if (m_chrSelect->ShowModal() == wxID_OK && m_chrSelect->m_char) {
+    if (m_chrSelect->ShowModal() == wxID_OK && !m_chrSelect->m_char.empty()) {
         m_panel->m_decomposed->WriteText(m_chrSelect->m_char);
         m_panel->m_decomposed->SetFocus();
     }

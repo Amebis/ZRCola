@@ -96,13 +96,9 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
                     (e.AltDown()     ? ZRCola::keyseq_db::keyseq::ALT   : 0);
                 m_seq.push_back(key);
 
-                auto n = m_seq.size();
-                ZRCola::keyseq_db::keyseq *ks = (ZRCola::keyseq_db::keyseq*)new char[sizeof(ZRCola::keyseq_db::keyseq) + sizeof(ZRCola::keyseq_db::keyseq::key_t)*n];
-                ks->chr = 0;
-                ks->seq_len = n;
-                memcpy(ks->seq, m_seq.data(), sizeof(ZRCola::keyseq_db::keyseq::key_t)*n);
+                std::unique_ptr<ZRCola::keyseq_db::keyseq> ks((ZRCola::keyseq_db::keyseq*)new char[sizeof(ZRCola::keyseq_db::keyseq) + sizeof(ZRCola::keyseq_db::keyseq::key_t)*m_seq.size()]);
+                ks->ZRCola::keyseq_db::keyseq::keyseq(m_seq.data(), m_seq.size());
                 found = app->m_ks_db.idxKey.find(*ks, start);
-                delete ks;
             }
 
             if (found) {
@@ -116,14 +112,14 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
                 wxObject *obj = event.GetEventObject();
                 if (obj && obj->IsKindOf(wxCLASSINFO(wxTextCtrl))) {
                     // Push text to source control.
-                    ((wxTextCtrl*)obj)->WriteText(ks.chr);
+                    ((wxTextCtrl*)obj)->WriteText(wxString(ks.chr(), ks.chr_len()));
 
                     // Event is fully processed now.
                     event.StopPropagation();
                     return true;
                 }
             } else if (start < app->m_ks_db.idxKey.size() &&
-                ZRCola::keyseq_db::keyseq::CompareSequence(m_seq.data(), m_seq.size(), app->m_ks_db.idxKey[start].seq, std::min<unsigned __int16>(app->m_ks_db.idxKey[start].seq_len, m_seq.size())) == 0)
+                ZRCola::keyseq_db::keyseq::CompareSequence(m_seq.data(), m_seq.size(), app->m_ks_db.idxKey[start].seq(), std::min<size_t>(app->m_ks_db.idxKey[start].seq_len(), m_seq.size())) == 0)
             {
                 // The sequence is a partial match. Continue watching.
                 if (pFrame && pFrame->GetStatusBar())

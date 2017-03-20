@@ -46,33 +46,64 @@ namespace ZRCola {
         /// Character group data
         ///
         struct chrgrp {
-            unsigned __int16 id;                ///< Character group id
+        public:
+            unsigned __int16 id;                ///< Character group ID
             unsigned __int16 rank;              ///< Character group rank
-            unsigned __int16 name_len;          ///< Character group name length in \c data
-            unsigned __int16 char_len;          ///< Character list length in \c data
-            wchar_t data[];                     ///< Character group name and character list
 
-            inline const wchar_t* get_chars() const
+        protected:
+            unsigned __int16 name_to;           ///< Character group name end in \c data
+            unsigned __int16 chrlst_to;         ///< Character list end in \c data
+            wchar_t data[];                     ///< Character group name, character list, bit vector if particular character is displayed initially
+
+        public:
+            ///
+            /// Constructs the character group
+            ///
+            /// \param[in] id          Character group ID
+            /// \param[in] rank        Character group rank
+            /// \param[in] name        Character group name
+            /// \param[in] name_len    Number of UTF-16 characters in \p name
+            /// \param[in] chrlst      Character list (zero delimited)
+            /// \param[in] chrlst_len  Number of UTF-16 characters in \p chrlst (including zero delimiters)
+            /// \param[in] chrshow     Binary vector which particular character is displayed initially
+            ///
+            inline chrgrp(
+                _In_opt_                                     unsigned __int16  id         = 0,
+                _In_opt_                                     unsigned __int16  rank       = 0,
+                _In_opt_z_count_(name_len)             const wchar_t          *name       = NULL,
+                _In_opt_                                     size_t            name_len   = 0,
+                _In_opt_z_count_(chrlst_len)           const wchar_t          *chrlst     = NULL,
+                _In_opt_                                     size_t            chrlst_len = 0,
+                _In_opt_count_x_((chrlst_len + 15)/16) const unsigned __int16 *chrshow    = NULL)
             {
-                return data + name_len;
+                this->id   = id;
+                this->rank = rank;
+                this->name_to = static_cast<unsigned __int16>(name_len);
+                if (name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
+                this->chrlst_to = static_cast<unsigned __int16>(this->name_to + chrlst_len);
+                if (chrlst_len) {
+                    memcpy(this->data + this->name_to, chrlst, sizeof(wchar_t)*chrlst_len);
+                    memcpy(this->data + this->chrlst_to, chrshow, (chrlst_len + sizeof(*data)*8 - 1)/8);
+                }
             }
 
-            inline wchar_t get_char(size_t index) const
-            {
-                assert(index < char_len);
-                return data[name_len + index];
-            }
+            inline const wchar_t*         name    () const { return data;           };
+            inline       wchar_t*         name    ()       { return data;           };
+            inline const wchar_t*         name_end() const { return data + name_to; };
+            inline       wchar_t*         name_end()       { return data + name_to; };
+            inline       unsigned __int16 name_len() const { return name_to;        };
 
-            inline const unsigned __int16* get_char_shown() const
-            {
-                return (const unsigned __int16*)(data + name_len + char_len);
-            }
+            inline const wchar_t*         chrlst    () const { return data + name_to;      };
+            inline       wchar_t*         chrlst    ()       { return data + name_to;      };
+            inline const wchar_t*         chrlst_end() const { return data + chrlst_to;    };
+            inline       wchar_t*         chrlst_end()       { return data + chrlst_to;    };
+            inline       unsigned __int16 chrlst_len() const { return chrlst_to - name_to; };
 
-            inline bool is_char_shown(size_t index) const
-            {
-                assert(index < char_len);
-                return (data[name_len + char_len + index / 16] & (1 << (index % 16))) ? true : false;
-            }
+            inline const unsigned __int16* chrshow    () const { return reinterpret_cast<const unsigned __int16*>(data + chrlst_to                ); };
+            inline       unsigned __int16* chrshow    ()       { return reinterpret_cast<      unsigned __int16*>(data + chrlst_to                ); };
+            inline const unsigned __int16* chrshow_end() const { return reinterpret_cast<const unsigned __int16*>(data + chrlst_to + chrshow_len()); };
+            inline       unsigned __int16* chrshow_end()       { return reinterpret_cast<      unsigned __int16*>(data + chrlst_to + chrshow_len()); };
+            inline       unsigned __int16  chrshow_len() const { return (chrlst_len() + sizeof(*data)*8 - 1)/(sizeof(*data)*8);                      };
         };
 #pragma pack(pop)
 
@@ -124,10 +155,13 @@ namespace ZRCola {
                      if (a.rank < b.rank) return -1;
                 else if (a.rank > b.rank) return +1;
 
-                int r = _wcsncoll(a.data, b.data, std::min<unsigned __int16>(a.name_len, b.name_len));
+                unsigned __int16
+                    a_name_len = a.name_len(),
+                    b_name_len = b.name_len();
+                int r = _wcsncoll(a.name(), b.name(), std::min<unsigned __int16>(a_name_len, b_name_len));
                 if (r != 0) return r;
-                     if (a.name_len < b.name_len) return -1;
-                else if (a.name_len > b.name_len) return +1;
+                     if (a_name_len < b_name_len) return -1;
+                else if (a_name_len > b_name_len) return +1;
 
                 return 0;
             }

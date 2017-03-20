@@ -57,7 +57,7 @@ wxZRColaCharacterCatalogPanel::wxZRColaCharacterCatalogPanel(wxWindow* parent) :
         for (size_t i = 0, n = m_cg_db.idxRnk.size(); i < n; i++) {
             const ZRCola::chrgrp_db::chrgrp &cg = m_cg_db.idxRnk[i];
             wxString
-                label(cg.data, cg.name_len),
+                label(cg.name(), cg.name_len()),
                 label_tran2(wxGetTranslation(label, wxT("ZRCola-zrcdb")));
             m_choice->Insert(label_tran2, i);
         }
@@ -155,17 +155,19 @@ void wxZRColaCharacterCatalogPanel::Update()
 
     if (m_show_all->GetValue()) {
         m_grid->SetCharacters(
-            wxString(cg.get_chars(), cg.char_len),
-            wxArrayShort((const short*)cg.get_char_shown(), (const short*)cg.get_char_shown() + (cg.char_len + 15)/16));
+            wxString(cg.chrlst(), cg.chrlst_end()),
+            wxArrayShort(reinterpret_cast<const short*>(cg.chrshow()), reinterpret_cast<const short*>(cg.chrshow_end())));
     } else {
         // Select frequently used characters only.
-        const wchar_t *src = cg.get_chars();
-        const unsigned __int16 *shown = cg.get_char_shown();
-        wxString chars;
-        for (unsigned __int16 i = 0, j = 0; i < cg.char_len; j++) {
-            for (unsigned __int16 k = 0, mask = shown[j]; k < 16 && i < cg.char_len; k++, mask >>= 1, i++) {
+        const wchar_t *src = cg.chrlst();
+        const unsigned __int16 *shown = cg.chrshow();
+        wxArrayString chars;
+        for (size_t i = 0, i_end = cg.chrlst_len(), j = 0; i < i_end; j++) {
+            for (unsigned __int16 k = 0, mask = shown[j]; k < 16 && i < i_end; k++, mask >>= 1) {
+                size_t len = wcsnlen(src + i, i_end - i);
                 if (mask & 1)
-                    chars += src[i];
+                    chars.Add(wxString(src + i, len));
+                i += len + 1;
             }
         }
         m_grid->SetCharacters(chars);

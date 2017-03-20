@@ -41,6 +41,8 @@ namespace ZRCola {
     ///
     typedef double charrank_t;
 
+#pragma pack(push)
+#pragma pack(2)
     ///
     /// Character category ID type
     /// Two letter abbreviation, non-terminated
@@ -66,6 +68,7 @@ namespace ZRCola {
         ///
         static const chrcatid_t blank;
     };
+#pragma pack(pop)
 
 
     ///
@@ -180,11 +183,66 @@ namespace ZRCola {
         /// Character data
         ///
         struct character {
-            wchar_t chr;                ///> Character
+        public:
             chrcatid_t cat;             ///> Category ID
-            unsigned __int16 desc_len;  ///< Character description length in \c data
-            unsigned __int16 rel_len;   ///< Related character count in \c data
-            wchar_t data[];             ///< Character description and list of related characters
+
+        protected:
+            unsigned __int16 chr_to;    ///< Character end in \c data
+            unsigned __int16 desc_to;   ///< Character description end in \c data
+            unsigned __int16 rel_to;    ///< Related characters end in \c data
+            wchar_t data[];             ///< Character, character description
+
+        private:
+            inline character(_In_ const character &other);
+            inline character& operator=(_In_ const character &other);
+
+        public:
+            ///
+            /// Constructs the character
+            ///
+            /// \param[in] chr       Character
+            /// \param[in] chr_len   Number of UTF-16 characters in \p chr
+            /// \param[in] cat       Category
+            /// \param[in] desc      Description
+            /// \param[in] desc_len  Number of UTF-16 characters in \p desc
+            /// \param[in] rel       Related characters list (zero delimited)
+            /// \param[in] rel_len   Number of UTF-16 characters in \p rel (including zero delimiters)
+            ///
+            inline character(
+                _In_opt_z_count_(chr_len)  const wchar_t    *chr      = NULL,
+                _In_opt_                         size_t      chr_len  = 0,
+                _In_opt_                         chrcatid_t  cat      = chrcatid_t::blank,
+                _In_opt_z_count_(desc_len) const wchar_t    *desc     = NULL,
+                _In_opt_                         size_t      desc_len = 0,
+                _In_opt_z_count_(rel_len)  const wchar_t    *rel      = NULL,
+                _In_opt_                         size_t      rel_len  = 0)
+            {
+                this->cat = cat;
+                this->chr_to = static_cast<unsigned __int16>(chr_len);
+                if (chr_len) memcpy(this->data, chr, sizeof(wchar_t)*chr_len);
+                this->desc_to = static_cast<unsigned __int16>(this->chr_to + desc_len);
+                if (desc_len) memcpy(this->data + this->chr_to, desc, sizeof(wchar_t)*desc_len);
+                this->rel_to = static_cast<unsigned __int16>(this->desc_to + rel_len);
+                if (rel_len) memcpy(this->data + this->desc_to, rel, sizeof(wchar_t)*rel_len);
+            }
+
+            inline const wchar_t*         chr    () const { return data;          };
+            inline       wchar_t*         chr    ()       { return data;          };
+            inline const wchar_t*         chr_end() const { return data + chr_to; };
+            inline       wchar_t*         chr_end()       { return data + chr_to; };
+            inline       unsigned __int16 chr_len() const { return chr_to;        };
+
+            inline const wchar_t*         desc    () const { return data + chr_to;    };
+            inline       wchar_t*         desc    ()       { return data + chr_to;    };
+            inline const wchar_t*         desc_end() const { return data + desc_to;   };
+            inline       wchar_t*         desc_end()       { return data + desc_to;   };
+            inline       unsigned __int16 desc_len() const { return desc_to - chr_to; };
+
+            inline const wchar_t*         rel    () const { return data + desc_to;   };
+            inline       wchar_t*         rel    ()       { return data + desc_to;   };
+            inline const wchar_t*         rel_end() const { return data + rel_to;    };
+            inline       wchar_t*         rel_end()       { return data + rel_to;    };
+            inline       unsigned __int16 rel_len() const { return rel_to - desc_to; };
         };
 #pragma pack(pop)
 
@@ -214,8 +272,8 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const character &a, _In_ const character &b) const
             {
-                     if (a.chr < b.chr) return -1;
-                else if (a.chr > b.chr) return  1;
+                int r = ZRCola::CompareString(a.chr(), a.chr_len(), b.chr(), b.chr_len());
+                if (r != 0) return r;
 
                 return 0;
             }
@@ -252,23 +310,25 @@ namespace ZRCola {
         /// \param[in   ] fn_abort  Pointer to function to periodically test for search cancellation
         /// \param[in   ] cookie    Cookie for \p fn_abort call
         ///
-        bool Search(_In_z_ const wchar_t *str, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<wchar_t, charrank_t> &hits, _Inout_ std::map<wchar_t, charrank_t> &hits_sub, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
+        bool Search(_In_z_ const wchar_t *str, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<std::wstring, charrank_t> &hits, _Inout_ std::map<std::wstring, charrank_t> &hits_sub, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
 
         ///
         /// Get character category
         ///
-        /// \param[in] c  Character
+        /// \param[in] chr  Character
+        /// \param[in] len  Number of UTF-16 characters in \p chr
         ///
         /// \returns
         /// - Character category if character found
         /// - `ZRCola::chrcatid_t::blank` otherwise
         ///
-        inline chrcatid_t GetCharCat(wchar_t c) const
+        inline chrcatid_t GetCharCat(_In_z_count_(len) const wchar_t *chr, _In_ const size_t len) const
         {
-            char _chr[sizeof(character)];
-            ((character *)_chr)->chr = c;
+            assert(len <= 0xffff);
+            std::unique_ptr<character> c((character*)new char[sizeof(character) + sizeof(wchar_t)*len]);
+            c->character::character(chr, len);
             indexChar::size_type start;
-            return idxChr.find(*((character *)_chr), start) ? idxChr[start].cat : chrcatid_t::blank;
+            return idxChr.find(*c, start) ? idxChr[start].cat : chrcatid_t::blank;
         }
     };
 
@@ -287,10 +347,44 @@ namespace ZRCola {
         /// Character category data
         ///
         struct chrcat {
-            chrcatid_t id;              ///< Character category ID
-            unsigned __int16 rank;      ///< Character category rank
-            unsigned __int16 name_len;  ///< \c name length (in characters)
-            wchar_t name[];             ///< Character category name
+        public:
+            chrcatid_t id;                              ///< Character category ID
+            unsigned __int16 rank;                      ///< Character category rank
+
+        protected:
+            unsigned __int16 name_to;                   ///< Character category name end in \c data
+            wchar_t data[];                             ///< Character category name
+
+        private:
+            inline chrcat(_In_ const chrcat &other);
+            inline chrcat& operator=(_In_ const chrcat &other);
+
+        public:
+            ///
+            /// Constructs the character category
+            ///
+            /// \param[in] id        Character category ID
+            /// \param[in] rank      Character category rank
+            /// \param[in] name      Character category name
+            /// \param[in] name_len  Number of UTF-16 characters in \p name
+            ///
+            inline chrcat(
+                _In_opt_                         chrcatid_t        id       = chrcatid_t::blank,
+                _In_opt_                         unsigned __int16  rank     = 0,
+                _In_opt_z_count_(name_len) const wchar_t          *name     = NULL,
+                _In_opt_                         size_t            name_len = 0)
+            {
+                this->id   = id;
+                this->rank = rank;
+                this->name_to = static_cast<unsigned __int16>(name_len);
+                if (name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
+            }
+
+            inline const wchar_t*         name    () const { return data;           };
+            inline       wchar_t*         name    ()       { return data;           };
+            inline const wchar_t*         name_end() const { return data + name_to; };
+            inline       wchar_t*         name_end()       { return data + name_to; };
+            inline       unsigned __int16 name_len() const { return name_to;        };
         };
 #pragma pack(pop)
 
@@ -374,10 +468,13 @@ namespace ZRCola {
                      if (a.rank < b.rank) return -1;
                 else if (a.rank > b.rank) return +1;
 
-                int r = _wcsncoll(a.name, b.name, std::min<unsigned __int16>(a.name_len, b.name_len));
+                unsigned __int16
+                    a_name_len = a.name_len(),
+                    b_name_len = b.name_len();
+                int r = _wcsncoll(a.name(), b.name(), std::min<unsigned __int16>(a_name_len, b_name_len));
                 if (r != 0) return r;
-                     if (a.name_len < b.name_len) return -1;
-                else if (a.name_len > b.name_len) return +1;
+                     if (a_name_len < b_name_len) return -1;
+                else if (a_name_len > b_name_len) return +1;
 
                 return 0;
             }

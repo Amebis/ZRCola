@@ -34,7 +34,7 @@ wxZRColaSettings::wxZRColaSettings(wxWindow* parent) :
     for (size_t i = 0, n = app->m_lang_db.idxLng.size(); i < n; i++) {
         const auto &lang = app->m_lang_db.idxLng[i];
         wxString
-            label(lang.name, lang.name_len),
+            label(lang.name(), lang.name_len()),
             label_tran(wxGetTranslation(label, wxT("ZRCola-zrcdb")));
         m_languages->Insert(label_tran, i);
     }

@@ -28,13 +28,104 @@ class wxPersistentZRColaCharSelect;
 
 #include "zrcolagui.h"
 #include <zrcola/character.h>
-#include <wxex/valhex.h>
+#include <wx/validate.h>
 #include <wxex/persist/dialog.h>
 #include <wx/event.h>
 #include <wx/thread.h>
 #include <list>
 #include <map>
+#include <string>
 #include <vector>
+
+
+///
+/// Validator for Unicode character
+///
+class WXEXTEND_API wxZRColaUTF16CharValidator : public wxValidator
+{
+public:
+    ///
+    /// Construct the validator with a value to store data
+    ///
+    wxZRColaUTF16CharValidator(wchar_t *val = NULL);
+
+    ///
+    /// Copies this validator
+    ///
+    virtual wxObject* Clone() const;
+
+    ///
+    /// Validates the value
+    ///
+    virtual bool Validate(wxWindow *parent);
+
+    ///
+    /// Transfers the value to the window
+    ///
+    virtual bool TransferToWindow();
+
+    ///
+    /// Transfers the value from the window
+    ///
+    virtual bool TransferFromWindow();
+
+    ///
+    /// Parses FQDN value
+    ///
+    static bool Parse(const wxString &val_in, size_t i_start, size_t i_end, wxTextCtrl *ctrl, wxWindow *parent, wchar_t *val_out = NULL);
+
+protected:
+    wchar_t *m_val; ///< Pointer to variable to receive control's parsed value
+
+private:
+    wxDECLARE_DYNAMIC_CLASS(wxZRColaUTF16CharValidator);
+    wxDECLARE_NO_ASSIGN_CLASS(wxZRColaUTF16CharValidator);
+};
+
+
+///
+/// Validator for Unicode dump
+///
+class wxZRColaUnicodeDumpValidator : public wxValidator
+{
+public:
+    ///
+    /// Construct the validator with a value to store data
+    ///
+    wxZRColaUnicodeDumpValidator(wxString *val = NULL);
+
+    ///
+    /// Copies this validator
+    ///
+    virtual wxObject* Clone() const;
+
+    ///
+    /// Validates the value
+    ///
+    virtual bool Validate(wxWindow *parent);
+
+    ///
+    /// Transfers the value to the window
+    ///
+    virtual bool TransferToWindow();
+
+    ///
+    /// Transfers the value from the window
+    ///
+    virtual bool TransferFromWindow();
+
+    ///
+    /// Parses Unicode dump value
+    ///
+    static bool Parse(const wxString &val_in, size_t i_start, size_t i_end, wxTextCtrl *ctrl, wxWindow *parent, wxString *val_out = NULL);
+
+protected:
+    wxString *m_val; ///< Pointer to variable to receive control's parsed value
+
+private:
+    wxDECLARE_DYNAMIC_CLASS(wxZRColaUnicodeDumpValidator);
+    wxDECLARE_NO_ASSIGN_CLASS(wxZRColaUnicodeDumpValidator);
+};
 
 
 wxDECLARE_EVENT(wxEVT_SEARCH_COMPLETE, wxThreadEvent);
@@ -76,10 +167,10 @@ protected:
 
     void ResetResults();
     void NavigateBy(int offset);
-    void NavigateTo(wchar_t c);
+    void NavigateTo(const wxString &c);
 
 public:
-    wchar_t m_char;                                 ///< Currently selected character (0 when none)
+    wxString m_char;                                ///< Currently selected character (empty when none)
 
 protected:
     LCID m_locale;                                  ///< Locale for tag lookup
@@ -104,7 +195,7 @@ protected:
     public:
         std::wstring m_search;                      ///< Search phrase
         std::set<ZRCola::chrcatid_t> m_cats;        ///< Search categories
-        std::vector<std::pair<ZRCola::charrank_t, wchar_t> > m_hits; ///< Search results
+        std::vector<std::pair<ZRCola::charrank_t, std::wstring> > m_hits; ///< Search results
 
     protected:
         wxZRColaCharSelect *m_parent;               ///< Thread owner
@@ -116,7 +207,7 @@ protected:
     ///
     struct NavigationState
     {
-        wchar_t m_char;
+        std::wstring m_char;
         struct {
             wxGridCellCoords m_selected;
         } m_related;

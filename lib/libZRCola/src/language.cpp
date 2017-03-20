@@ -75,10 +75,8 @@ bool ZRCola::langchar_db::IsLocalCharacter(_In_ const wchar_t *chr, _In_ const w
 {
     size_t n = chr_end - chr;
     assert(n <= 0xffff);
-    std::unique_ptr<ZRCola::langchar_db::langchar> lc((ZRCola::langchar_db::langchar*)new char[sizeof(ZRCola::langchar_db::langchar) + sizeof(wchar_t)*n]);
-    lc->lang = lang;
-    lc->chr_len = (unsigned __int16)n;
-    memcpy(lc->chr, chr, sizeof(wchar_t)*n);
-    ZRCola::langchar_db::indexChar::size_type start;
+    std::unique_ptr<langchar> lc((langchar*)new char[sizeof(langchar) + sizeof(wchar_t)*n]);
+    lc->langchar::langchar(lang, chr, n);
+    indexChar::size_type start;
     return idxChr.find(*lc, start);
 }

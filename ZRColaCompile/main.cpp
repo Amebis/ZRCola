@@ -165,13 +165,13 @@ int _tmain(int argc, _TCHAR *argv[])
                     ZRCola::DBSource::translation trans;
                     if (src.GetTranslation(rs, trans)) {
                         // Add translation to temporary database.
-                        auto const t = db_temp1.find(trans.chr);
+                        auto const t = db_temp1.find(trans.com);
                         if (t != db_temp1.end())
-                            t->second.insert(std::move(trans.decomp));
+                            t->second.insert(std::move(trans.dec));
                         else {
                             translation_db::mapped_type d;
-                            d.insert(std::move(trans.decomp));
-                            db_temp1.insert(std::move(pair<translation_db::key_type, translation_db::mapped_type>(trans.chr, std::move(d))));
+                            d.insert(std::move(trans.dec));
+                            db_temp1.insert(std::move(pair<translation_db::key_type, translation_db::mapped_type>(trans.com, std::move(d))));
                         }
                     } else
                         has_errors = true;
@@ -214,16 +214,14 @@ int _tmain(int argc, _TCHAR *argv[])
                         unsigned __int32 idx = db.data.size();
                         wxASSERT_MSG((int)0xffff8000 <= d->rank && d->rank <= (int)0x00007fff, wxT("transformation rank out of bounds"));
                         db.data.push_back((unsigned __int16)d->rank);
-                        wstring::size_type n_com = t->first.length();
-                        wxASSERT_MSG(n_com <= 0xffff, wxT("composition string too long"));
-                        db.data.push_back((unsigned __int16)n_com);
-                        wstring::size_type n_dec = d->str.length();
-                        wxASSERT_MSG(n_com + n_dec <= 0xffff, wxT("decomposition string too long"));
-                        db.data.push_back((unsigned __int16)(n_com + n_dec));
-                        for (wstring::size_type i = 0; i < n_com; i++)
-                            db.data.push_back(t->first[i]);
-                        for (wstring::size_type i = 0; i < n_dec; i++)
-                            db.data.push_back(d->str[i]);
+                        wstring::size_type n = t->first.length();
+                        wxASSERT_MSG(n <= 0xffff, wxT("composition overflow"));
+                        db.data.push_back((unsigned __int16)n);
+                        n += d->str.length();
+                        wxASSERT_MSG(n <= 0xffff, wxT("decomposition overflow"));
+                        db.data.push_back((unsigned __int16)n);
+                        db.data.insert(db.data.end(), t->first.cbegin(), t->first.cend());
+                        db.data.insert(db.data.end(), d->str  .cbegin(), d->str  .cend());
                         db.idxComp  .push_back(idx);
                         db.idxDecomp.push_back(idx);
                     }
@@ -265,17 +263,19 @@ int _tmain(int argc, _TCHAR *argv[])
                     if (src.GetKeySequence(rs, ks)) {
                         // Add key sequence to index and data.
                         unsigned __int32 idx = db.data.size();
-                        db.data.push_back(ks.chr);
-                        vector<ZRCola::DBSource::keyseq::keycode>::size_type n = ks.seq.size();
-                        wxASSERT_MSG(n <= 0xffff, wxT("key sequence too long"));
+                        wstring::size_type n = ks.chr.length();
+                        wxASSERT_MSG(n <= 0xffff, wxT("character overflow"));
                         db.data.push_back((unsigned __int16)n);
-                        for (vector<ZRCola::DBSource::keyseq::keycode>::size_type i = 0; i < n; i++) {
-                            const ZRCola::DBSource::keyseq::keycode &kc = ks.seq[i];
-                            db.data.push_back(kc.key);
+                        n += ks.seq.size() * sizeof(ZRCola::keyseq_db::keyseq::key_t) / sizeof(wchar_t);
+                        wxASSERT_MSG(n <= 0xffff, wxT("key sequence overflow"));
+                        db.data.push_back((unsigned __int16)n);
+                        db.data.insert(db.data.end(), ks.chr.cbegin(), ks.chr.cend());
+                        for (auto kc = ks.seq.cbegin(), kc_end = ks.seq.cend(); kc != kc_end; ++kc) {
+                            db.data.push_back(kc->key);
                             db.data.push_back(
-                                (kc.shift ? ZRCola::keyseq_db::keyseq::SHIFT : 0) |
-                                (kc.ctrl  ? ZRCola::keyseq_db::keyseq::CTRL  : 0) |
-                                (kc.alt   ? ZRCola::keyseq_db::keyseq::ALT   : 0));
+                                (kc->shift ? ZRCola::keyseq_db::keyseq::SHIFT : 0) |
+                                (kc->ctrl  ? ZRCola::keyseq_db::keyseq::CTRL  : 0) |
+                                (kc->alt   ? ZRCola::keyseq_db::keyseq::ALT   : 0));
                         }
                         db.idxChr.push_back(idx);
                         db.idxKey.push_back(idx);
@@ -293,10 +293,14 @@ int _tmain(int argc, _TCHAR *argv[])
                         &ks1 = db.idxKey[i - 1],
                         &ks2 = db.idxKey[i    ];
 
-                    if (ZRCola::keyseq_db::keyseq::CompareSequence(ks1.seq, ks1.seq_len, ks2.seq, ks2.seq_len) == 0) {
+                    if (ZRCola::keyseq_db::keyseq::CompareSequence(ks1.seq(), ks1.seq_len(), ks2.seq(), ks2.seq_len()) == 0) {
                         wxString seq_str;
-                        ZRCola::keyseq_db::GetSequenceAsText(ks1.seq, ks1.seq_len, seq_str);
-                        _ftprintf(stderr, wxT("%s: warning ZCC0007: Duplicate key sequence (%ls => %04X or %04X). The keyboard behaviour will be unpredictable.\n"), (LPCTSTR)filenameIn.c_str(), seq_str.c_str(), ks1.chr, ks2.chr);
+                        ZRCola::keyseq_db::GetSequenceAsText(ks1.seq(), ks1.seq_len(), seq_str);
+                        _ftprintf(stderr, wxT("%s: warning ZCC0007: Duplicate key sequence (%ls => %s or %s). The keyboard behaviour will be unpredictable.\n"),
+                            (LPCTSTR)filenameIn.c_str(),
+                            seq_str.c_str(),
+                            ZRCola::GetUnicodeDump(ks1.chr(), ks1.chr_len()).c_str(),
+                            ZRCola::GetUnicodeDump(ks2.chr(), ks2.chr_len()).c_str());
                     }
                 }
 
@@ -334,13 +338,11 @@ int _tmain(int argc, _TCHAR *argv[])
 
                         // Add language to index and data.
                         unsigned __int32 idx = db.data.size();
-                        for (wstring::size_type i = 0; i < sizeof(ZRCola::langid_t)/sizeof(unsigned __int16); i++)
-                            db.data.push_back(((const unsigned __int16*)lang.id.data)[i]);
+                        db.data.insert(db.data.end(), reinterpret_cast<const unsigned __int16*>(&lang.id), reinterpret_cast<const unsigned __int16*>(&lang.id + 1));
                         wstring::size_type n = lang.name.length();
-                        wxASSERT_MSG(n <= 0xffff, wxT("language name too long"));
+                        wxASSERT_MSG(n <= 0xffff, wxT("language name overflow"));
                         db.data.push_back((unsigned __int16)n);
-                        for (wstring::size_type i = 0; i < n; i++)
-                            db.data.push_back(lang.name[i]);
+                        db.data.insert(db.data.end(), lang.name.cbegin(), lang.name.cend());
                         db.idxLng.push_back(idx);
                     } else
                         has_errors = true;
@@ -383,13 +385,11 @@ int _tmain(int argc, _TCHAR *argv[])
                     if (src.GetLanguageCharacter(rs, lc)) {
                         // Add language characters to index and data.
                         unsigned __int32 idx = db.data.size();
-                        for (wstring::size_type i = 0; i < sizeof(ZRCola::langid_t)/sizeof(unsigned __int16); i++)
-                            db.data.push_back(((const unsigned __int16*)lc.lang.data)[i]);
+                        db.data.insert(db.data.end(), reinterpret_cast<const unsigned __int16*>(&lc.lang), reinterpret_cast<const unsigned __int16*>(&lc.lang + 1));
                         wstring::size_type n = lc.chr.length();
-                        wxASSERT_MSG(n <= 0xffff, wxT("character string too long"));
+                        wxASSERT_MSG(n <= 0xffff, wxT("character overflow"));
                         db.data.push_back((unsigned __int16)n);
-                        for (wstring::size_type i = 0; i < n; i++)
-                            db.data.push_back(lc.chr[i]);
+                        db.data.insert(db.data.end(), lc.chr.cbegin(), lc.chr.cend());
                         db.idxChr.push_back(idx);
 #ifdef ZRCOLA_LANGCHAR_LANG_IDX
                         db.idxLng.push_back(idx);
@@ -447,18 +447,15 @@ int _tmain(int argc, _TCHAR *argv[])
                         db.data.push_back((unsigned __int16)cg.id);
                         wxASSERT_MSG((int)0xffff8000 <= cg.rank && cg.rank <= (int)0x00007fff, wxT("character group rank out of bounds"));
                         db.data.push_back((unsigned __int16)cg.rank);
-                        wstring::size_type n_name = cg.name.length();
-                        wxASSERT_MSG(n_name <= 0xffff, wxT("character group name too long"));
-                        db.data.push_back((unsigned __int16)n_name);
-                        wstring::size_type n_char = cg.chars.length();
-                        wxASSERT_MSG(n_char <= 0xffff, wxT("too many character group characters"));
-                        db.data.push_back((unsigned __int16)n_char);
-                        for (wstring::size_type i = 0; i < n_name; i++)
-                            db.data.push_back(cg.name[i]);
-                        for (wstring::size_type i = 0; i < n_char; i++)
-                            db.data.push_back(cg.chars[i]);
-                        for (std::vector<unsigned __int16>::size_type i = 0, n = cg.show.size(); i < n; i++)
-                            db.data.push_back(cg.show[i]);
+                        wstring::size_type n = cg.name.length();
+                        wxASSERT_MSG(n <= 0xffff, wxT("character group name overflow"));
+                        db.data.push_back((unsigned __int16)n);
+                        n += cg.chars.size();
+                        wxASSERT_MSG(n <= 0xffff, wxT("character group characters overflow"));
+                        db.data.push_back((unsigned __int16)n);
+                        db.data.insert(db.data.end(), cg.name .cbegin(), cg.name .cend());
+                        db.data.insert(db.data.end(), cg.chars.cbegin(), cg.chars.cend());
+                        db.data.insert(db.data.end(), cg.show .cbegin(), cg.show .cend());
                         db.idxRnk.push_back(idx);
                     } else
                         has_errors = true;
@@ -490,15 +487,14 @@ int _tmain(int argc, _TCHAR *argv[])
                 ZRCola::DBSource::character_desc_idx idxChrDsc, idxChrDscSub;
 
                 ZRCola::DBSource::character_bank chrs;
+                ZRCola::DBSource::character chr;
 
                 // Phase 1: Parse characters and build indexes.
                 for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
                     // Read character from the database.
-                    unique_ptr<ZRCola::DBSource::character> c(new ZRCola::DBSource::character);
-                    if (src.GetCharacter(rs, *c)) {
-                        const auto &chr = *c.get();
-                        chrs[chr.chr].swap(c);
-                    } else
+                    if (src.GetCharacter(rs, chr))
+                        chrs[chr.first] = std::move(chr.second);
+                    else
                         has_errors = true;
                 }
 
@@ -512,33 +508,30 @@ int _tmain(int argc, _TCHAR *argv[])
                 db.data  .reserve(count*4);
 
                 // Phase 3: Parse characters and build index and data.
-                for (size_t i = 0, i_end = chrs.size(); i < i_end; i++) {
-                    const auto &chr = *(chrs[i].get());
-                    if (&chr == NULL) continue;
-
+                for (auto chr = chrs.cbegin(), chr_end = chrs.cend(); chr != chr_end; ++chr) {
                     // Add character to index and data.
                     unsigned __int32 idx = db.data.size();
-                    db.data.push_back((unsigned __int16)chr.chr);
-                    for (wstring::size_type i = 0; i < sizeof(ZRCola::chrcatid_t)/sizeof(unsigned __int16); i++)
-                        db.data.push_back(((const unsigned __int16*)chr.cat.data)[i]);
-                    wstring::size_type n_desc = chr.desc.length();
-                    wxASSERT_MSG(n_desc <= 0xffff, wxT("character description too long"));
-                    db.data.push_back((unsigned __int16)n_desc);
-                    wstring::size_type n_rel = chr.rel.length();
-                    wxASSERT_MSG(n_rel <= 0xffff, wxT("too many related characters"));
-                    db.data.push_back((unsigned __int16)n_rel);
-                    for (wstring::size_type i = 0; i < n_desc; i++)
-                        db.data.push_back(chr.desc[i]);
-                    for (wstring::size_type i = 0; i < n_rel; i++)
-                        db.data.push_back(chr.rel[i]);
+                    db.data.insert(db.data.end(), reinterpret_cast<const unsigned __int16*>(&chr->second.cat), reinterpret_cast<const unsigned __int16*>(&chr->second.cat + 1));
+                    wstring::size_type n = chr->first.length();
+                    wxASSERT_MSG(n <= 0xffff, wxT("character overflow"));
+                    db.data.push_back((unsigned __int16)n);
+                    n += chr->second.desc.length();
+                    wxASSERT_MSG(n <= 0xffff, wxT("character description overflow"));
+                    db.data.push_back((unsigned __int16)n);
+                    n += chr->second.rel.size();
+                    wxASSERT_MSG(n <= 0xffff, wxT("related characters overflow"));
+                    db.data.push_back((unsigned __int16)n);
+                    db.data.insert(db.data.end(), chr->first      .cbegin(), chr->first      .cend());
+                    db.data.insert(db.data.end(), chr->second.desc.cbegin(), chr->second.desc.cend());
+                    db.data.insert(db.data.end(), chr->second.rel .cbegin(), chr->second.rel .cend());
                     db.idxChr.push_back(idx);
 
                     // Add description (and keywords) to index.
-                    idxChrDsc   .add_keywords(chr.terms, chr.chr, 0);
-                    idxChrDscSub.add_keywords(chr.terms, chr.chr, 3);
+                    idxChrDsc   .add_keywords(chr->second.terms, chr->first, 0);
+                    idxChrDscSub.add_keywords(chr->second.terms, chr->first, 3);
 
                     // Mark category used.
-                    categories_used.insert(chr.cat);
+                    categories_used.insert(chr->second.cat);
                 }
 
                 // Sort indices.
@@ -588,15 +581,13 @@ int _tmain(int argc, _TCHAR *argv[])
 
                         // Add character category to index and data.
                         unsigned __int32 idx = db.data.size();
-                        for (wstring::size_type i = 0; i < sizeof(ZRCola::chrcatid_t)/sizeof(unsigned __int16); i++)
-                            db.data.push_back(((const unsigned __int16*)cc.id.data)[i]);
+                        db.data.insert(db.data.end(), reinterpret_cast<const unsigned __int16*>(&cc.id), reinterpret_cast<const unsigned __int16*>(&cc.id + 1));
                         wxASSERT_MSG((int)0xffff8000 <= cc.rank && cc.rank <= (int)0x00007fff, wxT("character category rank out of bounds"));
                         db.data.push_back((unsigned __int16)cc.rank);
-                        wstring::size_type n_name = cc.name.length();
-                        wxASSERT_MSG(n_name <= 0xffff, wxT("character category name too long"));
-                        db.data.push_back((unsigned __int16)n_name);
-                        for (wstring::size_type i = 0; i < n_name; i++)
-                            db.data.push_back(cc.name[i]);
+                        wstring::size_type n = cc.name.length();
+                        wxASSERT_MSG(n <= 0xffff, wxT("character category name overflow"));
+                        db.data.push_back((unsigned __int16)n);
+                        db.data.insert(db.data.end(), cc.name.cbegin(), cc.name.cend());
                         db.idxChrCat.push_back(idx);
                         db.idxRnk   .push_back(idx);
                     } else
@@ -639,9 +630,12 @@ int _tmain(int argc, _TCHAR *argv[])
                     if (src.GetCharacterTag(rs, ct)) {
                         // Add characters tags to index and data.
                         unsigned __int32 idx = db.data.size();
-                        db.data.push_back(ct.chr);
                         wxASSERT_MSG((int)0xffff8000 <= ct.tag && ct.tag <= (int)0x00007fff, wxT("tag out of bounds"));
                         db.data.push_back((unsigned __int16)ct.tag);
+                        wstring::size_type n = ct.chr.length();
+                        wxASSERT_MSG(n <= 0xffff, wxT("character overflow"));
+                        db.data.push_back((unsigned __int16)n);
+                        db.data.insert(db.data.end(), ct.chr.cbegin(), ct.chr.cend());
                         db.idxChr.push_back(idx);
                         db.idxTag.push_back(idx);
                     } else
@@ -691,10 +685,9 @@ int _tmain(int argc, _TCHAR *argv[])
                                 db.data.push_back(LOWORD(ln->first));
                                 db.data.push_back(HIWORD(ln->first));
                                 wstring::size_type n = nm->length();
-                                wxASSERT_MSG(n <= 0xffff, wxT("tag name too long"));
+                                wxASSERT_MSG(n <= 0xffff, wxT("tag name overflow"));
                                 db.data.push_back((unsigned __int16)n);
-                                for (wstring::size_type i = 0; i < n; i++)
-                                    db.data.push_back(nm->at(i));
+                                db.data.insert(db.data.end(), nm->cbegin(), nm->cend());
                                 db.idxName.push_back(idx);
                                 db.idxTag .push_back(idx);
                             }

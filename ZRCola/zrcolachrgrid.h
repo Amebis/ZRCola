@@ -54,14 +54,21 @@ public:
     ///
     /// Sets new array of characters to display
     ///
-    /// \param[in] chars  The string containing characters to display
+    /// \param[in] chars  The string containing characters to display (zero delimited)
     ///
     void SetCharacters(const wxString &chars);
 
     ///
     /// Sets new array of characters to display
     ///
-    /// \param[in] chars      The string containing characters to display
+    /// \param[in] chars  The array of characters to display
+    ///
+    void SetCharacters(const wxArrayString &chars);
+
+    ///
+    /// Sets new array of characters to display
+    ///
+    /// \param[in] chars      The string containing characters to display (zero delimited)
     /// \param[in] relevance  Bit-array of \p chars relevance (1=more relevant, 0=less relevant)
     ///
     void SetCharacters(const wxString &chars, const wxArrayShort &relevance);
@@ -71,7 +78,7 @@ public:
     ///
     /// \returns  The string containing displayed characters
     ///
-    inline wxString GetCharacters() const
+    inline const wxArrayString& GetCharacters() const
     {
         return m_chars;
     }
@@ -83,10 +90,14 @@ public:
     ///
     /// \returns Grid coordinates of selected character or (-1, -1) if character not found.
     ///
-    inline wxGridCellCoords GetCharacterCoords(wchar_t c) const
+    inline wxGridCellCoords GetCharacterCoords(const wxString &c) const
     {
-        int i = m_chars.Find(c);
-        return i != wxNOT_FOUND ? wxGridCellCoords(i / m_numCols, i % m_numCols) : wxGridCellCoords(-1, -1);
+        for (size_t i = 0, n = m_chars.GetCount(); ; i++) {
+            if (i >= n)
+                return wxGridCellCoords(-1, -1);
+            else if (m_chars[i] == c)
+                return wxGridCellCoords(i / m_numCols, i % m_numCols);
+        }
     }
 
 protected:
@@ -102,7 +113,7 @@ private:
     void Init();                // common part of all ctors
 
 protected:
-    wxString m_chars;           ///< Array of Unicode characters to display in the grid
+    wxArrayString m_chars;      ///< Array of Unicode characters to display in the grid
     wxArrayShort m_relevance;   ///< Bit-array of `m_chars` relevance
 
 private:

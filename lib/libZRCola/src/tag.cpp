@@ -20,23 +20,24 @@
 #include "stdafx.h"
 
 
-bool ZRCola::chrtag_db::Search(_In_ const std::map<tagid_t, unsigned __int16> &tags, _In_ const character_db &ch_db, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<wchar_t, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
+bool ZRCola::chrtag_db::Search(_In_ const std::map<tagid_t, unsigned __int16> &tags, _In_ const character_db &ch_db, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<std::wstring, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
 {
     for (auto tag = tags.cbegin(), tag_end = tags.cend(); tag != tag_end; ++tag) {
         if (fn_abort && fn_abort(cookie)) return false;
 
         // Search for tagged characters.
-        chrtag el = { 0, tag->first };
         size_t start, end;
-        if (idxTag.find(el, start, end)) {
+        if (idxTag.find(chrtag(NULL, 0, tag->first), start, end)) {
             for (size_t i = start; i < end; i++) {
                 if (fn_abort && fn_abort(cookie)) return false;
                 const chrtag &ct = idxTag[i];
-                if (cats.find(ch_db.GetCharCat(ct.chr)) != cats.end()) {
-                    auto idx = hits.find(ct.chr);
+                unsigned __int16 len = ct.chr_len();
+                if (cats.find(ch_db.GetCharCat(ct.chr(), len)) != cats.end()) {
+                    std::wstring chr(ct.chr(), len);
+                    auto idx = hits.find(chr);
                     if (idx == hits.end()) {
                         // New character.
-                        hits.insert(std::make_pair(ct.chr, tag->second));
+                        hits.insert(std::make_pair(std::move(chr), tag->second));
                     } else {
                         // Increase count for existing character.
                         idx->second += tag->second;
@@ -95,8 +96,7 @@ bool ZRCola::tagname_db::Search(_In_z_ const wchar_t *str, _In_ LCID locale, _In
 
             // Find the name.
             std::unique_ptr<tagname> tn(reinterpret_cast<tagname*>(new char[sizeof(tagname) + sizeof(wchar_t)*name.length()]));
-            tn->locale = locale;
-            memcpy(tn->name, name.data(), sizeof(wchar_t)*(tn->name_len = (unsigned __int16)name.length()));
+            tn->tagname::tagname(0, locale, name.data(), name.length());
             size_t start, end;
             if (idxName.find(*tn, start, end)) {
                 // The name was found.

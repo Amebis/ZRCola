@@ -79,8 +79,8 @@ namespace ZRCola {
         ///
         class translation {
         public:
-            std::wstring chr;           ///< Composed character
-            charseq decomp;             ///< Decomposed sequence
+            charseq dec;                ///< Decomposed sequence
+            std::wstring com;           ///< Composed character
         };
 
 
@@ -114,7 +114,7 @@ namespace ZRCola {
             };
 
         public:
-            wchar_t chr;                ///< Character
+            std::wstring chr;           ///< Character
             std::vector<keycode> seq;   ///< Key sequence
         };
 
@@ -147,69 +147,58 @@ namespace ZRCola {
             int id;                             ///< Character group ID
             int rank;                           ///< Character group rank
             std::wstring name;                  ///< Character group name
-            std::wstring chars;                 ///< Character group characters
+            std::vector<wchar_t> chars;         ///< Character group characters
             std::vector<unsigned __int16> show; ///< Bit vector if particular character is displayed initially
+        };
+
+
+        ///
+        /// Character data
+        ///
+        class character_data {
+        public:
+            inline character_data()
+            {
+                cat.data[0] = 0;
+                cat.data[1] = 0;
+            }
+
+            inline character_data(_In_ const character_data &othr) :
+                cat      (othr.cat),
+                desc     (othr.desc),
+                terms    (othr.terms),
+                terms_rel(othr.terms_rel),
+                rel      (othr.rel)
+            {
+            }
+
+            ZRCola::chrcatid_t cat;             ///< Category ID
+            std::wstring desc;                  ///< Character description
+            std::set<std::wstring> terms;       ///< Search terms
+            std::set<std::wstring> terms_rel;   ///< Relevant terms for relating characters
+            std::vector<wchar_t> rel;           ///< Related characters
         };
 
 
         ///
         /// Character
         ///
-        class character {
-        public:
-            inline character()
-            {
-                chr = 0;
-                cat.data[0] = 0;
-                cat.data[1] = 0;
-            }
-
-            inline character(_In_ const character &othr) :
-                chr  (othr.chr),
-                cat  (othr.cat),
-                desc (othr.desc),
-                terms(othr.terms),
-                rel  (othr.rel)
-            {
-            }
-
-            inline bool operator==(_In_ const character &othr) const
-            {
-                return
-                    chr   == othr.chr   &&
-                    cat   == othr.cat   &&
-                    desc  == othr.desc  &&
-                    terms == othr.terms &&
-                    rel   == othr.rel;
-            }
-
-            inline bool operator!=(_In_ const character &othr) const
-            {
-                return !operator==(othr);
-            }
-
-            wchar_t chr;                    ///< Character
-            ZRCola::chrcatid_t cat;         ///< Category ID
-            std::wstring desc;              ///< Character description
-            std::set<std::wstring> terms;   ///< Search terms
-            std::wstring rel;               ///< Related characters
-        };
+        typedef std::pair<std::wstring, character_data> character;
 
 
         ///
         /// Character bank
         ///
-        class character_bank : public std::vector<std::unique_ptr<character> >
+        class character_bank : public std::map<std::wstring, character_data>
         {
         public:
-            character_bank();
             void build_related();
 
         protected:
             class build_related_worker : public winstd::win_handle
             {
             public:
-                build_related_worker(_In_ const character_bank *cb, _In_ size_type from, _In_ size_type to);
+                build_related_worker(_In_ const character_bank *cb, _In_ iterator from, _In_ iterator to);
 
                 inline void join()
                 {
@@ -230,12 +219,9 @@ namespace ZRCola {
 
             protected:
                 const character_bank *m_cb;
-                size_type m_from, m_to;
+                iterator m_from, m_to;
                 winstd::heap m_heap;
             };
-
-        protected:
-            std::set<std::wstring> m_ignore;
         };
 
 
@@ -266,8 +252,8 @@ namespace ZRCola {
         {
         public:
             static void parse_keywords(const wchar_t *str, std::set<std::wstring> &terms);
-            void add_keywords(const std::set<std::wstring> &terms, wchar_t chr, size_t sub = 0);
-            inline void add_keywords(const wchar_t *str, wchar_t chr, size_t sub = 0)
+            void add_keywords(const std::set<std::wstring> &terms, const std::wstring &chr, size_t sub = 0);
+            inline void add_keywords(const wchar_t *str, const std::wstring &chr, size_t sub = 0)
             {
                 std::set<std::wstring> terms;
                 parse_keywords(str, terms);
@@ -277,21 +263,21 @@ namespace ZRCola {
             void save(ZRCola::textindex<wchar_t, wchar_t, unsigned __int32> &idx) const;
 
         protected:
-            inline void add_keyword(const std::wstring &term, wchar_t chr)
+            inline void add_keyword(const std::wstring &term, const std::wstring &chr)
             {
                 iterator idx = find(term);
                 if (idx == end()) {
                     // New keyword.
-                    insert(std::make_pair(term, std::vector<wchar_t>(1, chr)));
+                    insert(std::make_pair(term, mapped_type(chr.data(), chr.data() + chr.length() + 1)));
                 } else {
                     // Append to existing keyword.
-                    std::vector<wchar_t> &val = idx->second;
-                    for (auto i = val.cbegin(), i_end = val.cend(); ; ++i) {
-                        if (i == i_end) {
+                    auto &val = idx->second;
+                    for (mapped_type::size_type i = 0, n = val.size(); ; i += wcsnlen(val.data() + i, n - i) + 1) {
+                        if (i >= n) {
                             // End-of-values reached. Append character.
-                            val.push_back(chr);
+                            val.insert(val.end(), chr.data(), chr.data() + chr.length() + 1);
                             break;
-                        } else if (*i == chr) {
+                        } else if (chr.compare(val.data() + i) == 0) {
                             // Character already among the values.
                             break;
                         }
@@ -317,7 +303,7 @@ namespace ZRCola {
         ///
         class chrtag {
         public:
-            wchar_t chr;                ///> Character
+            std::wstring chr;           ///> Character
             int tag;                    ///< Tag ID
         };
 
@@ -697,10 +683,12 @@ namespace ZRCola {
 
     protected:
         std::basic_string<TCHAR> m_filename;    ///< Database filename
-        winstd::com_obj<ADOConnection> m_db;       ///< Database
+        winstd::com_obj<ADOConnection> m_db;    ///< Database
         _locale_t m_locale;                     ///< Database locale
 
         winstd::com_obj<ADOCommand> m_comCharacterGroup;   ///< ADO Command for GetCharacterGroup subquery
         winstd::com_obj<ADOParameter> m_pCharacterGroup1;  ///< \c m_comCharacterGroup parameter
+
+        std::set<std::wstring> m_terms_ignore;  ///< Terms to ignore when comparing characters
     };
 };

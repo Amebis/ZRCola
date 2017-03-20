@@ -69,6 +69,24 @@ void wxZRColaCharGrid::Init()
 
 void wxZRColaCharGrid::SetCharacters(const wxString &chars)
 {
+    m_chars.Clear();
+    const wxCStrData chr = chars.GetData();
+    for (size_t i = 0, i_end = chars.Length(), i_next; i < i_end; i = i_next + 1) {
+        i_next = i + _tcsnlen(chr + i, i_end - i);
+        m_chars.Add(wxString(chr + i, chr + i_next));
+    };
+    m_relevance.Clear();
+    m_regenerate = true;
+
+    // Invoke OnSize(), which will populate the grid.
+    wxSizeEvent e(GetSize(), m_windowId);
+    e.SetEventObject(this);
+    HandleWindowEvent(e);
+}
+
+
+void wxZRColaCharGrid::SetCharacters(const wxArrayString &chars)
+{
     m_chars = chars;
     m_relevance.Clear();
     m_regenerate = true;
@@ -82,7 +100,12 @@ void wxZRColaCharGrid::SetCharacters(const wxString &chars)
 
 void wxZRColaCharGrid::SetCharacters(const wxString &chars, const wxArrayShort &relevance)
 {
-    m_chars      = chars;
+    m_chars.Clear();
+    const wxCStrData chr = chars.GetData();
+    for (size_t i = 0, i_end = chars.Length(), i_next; i < i_end; i = i_next + 1) {
+        i_next = i + _tcsnlen(chr + i, i_end - i);
+        m_chars.Add(wxString(chr + i, chr + i_next));
+    };
     m_relevance  = relevance;
     m_regenerate = true;
 
@@ -95,22 +118,23 @@ void wxZRColaCharGrid::SetCharacters(const wxString &chars, const wxArrayShort &
 
 wxString wxZRColaCharGrid::GetToolTipText(int idx)
 {
-    wxASSERT_MSG(idx < (int)m_chars.Length(), wxT("index out of bounds"));
+    wxASSERT_MSG(idx < (int)m_chars.GetCount(), wxT("index out of bounds"));
 
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
+    const auto &chr = m_chars[idx];
 
     // See if this character has a key sequence registered.
-    char ks[sizeof(ZRCola::keyseq_db::keyseq)] = {};
-    ((ZRCola::keyseq_db::keyseq*)ks)->chr = m_chars[idx];
+    std::unique_ptr<ZRCola::keyseq_db::keyseq> ks((ZRCola::keyseq_db::keyseq*)new char[sizeof(ZRCola::keyseq_db::keyseq) + sizeof(wchar_t)*chr.length()]);
+    ks->ZRCola::keyseq_db::keyseq::keyseq(NULL, 0, chr.data(), chr.length());
     ZRCola::keyseq_db::indexKey::size_type start;
-    if (app->m_ks_db.idxChr.find(*(ZRCola::keyseq_db::keyseq*)ks, start)) {
+    if (app->m_ks_db.idxChr.find(*ks, start)) {
         ZRCola::keyseq_db::keyseq &seq = app->m_ks_db.idxChr[start];
         wxString ks_str;
-        if (ZRCola::keyseq_db::GetSequenceAsText(seq.seq, seq.seq_len, ks_str))
-            return wxString::Format(wxT("U+%04X (%s)"), (int)m_chars[idx], ks_str.c_str());
+        if (ZRCola::keyseq_db::GetSequenceAsText(seq.seq(), seq.seq_len(), ks_str))
+            return wxString::Format(wxT("U+%s (%s)"), ZRCola::GetUnicodeDump(chr.data(), chr.length(), _T("+")).c_str(), ks_str.c_str());
     }
 
-    return wxString::Format(wxT("U+%04X"), (int)m_chars[idx]);
+    return wxString::Format(wxT("U+%s"), ZRCola::GetUnicodeDump(chr.data(), chr.length(), _T("+")).c_str());
 }
 
 
@@ -126,17 +150,17 @@ void wxZRColaCharGrid::OnSize(wxSizeEvent& event)
     // Calculate initial estimate of columns and rows.
     wxSize size(event.GetSize());
     size_t
-        char_len = m_chars.Length();
+        char_count = m_chars.GetCount();
     int
-        width    = size.GetWidth() - m_rowLabelWidth - m_extraWidth,
-        cols     = std::max<int>(width / wxZRColaCharacterGridColumnWidth, 1),
-        rows     = std::max<int>((char_len + cols - 1) / cols, 1);
+        width      = size.GetWidth() - m_rowLabelWidth - m_extraWidth,
+        cols       = std::max<int>(width / wxZRColaCharacterGridColumnWidth, 1),
+        rows       = std::max<int>((char_count + cols - 1) / cols, 1);
 
     if (m_colLabelHeight + rows*wxZRColaCharacterGridRowHeight + m_extraHeight > size.GetHeight()) {
         // Vertical scrollbar will be shown. Adjust the width and recalculate layout to avoid horizontal scrollbar.
         width = std::max<int>(width - wxSystemSettings::GetMetric(wxSYS_VSCROLL_X, this), 0);
         cols  = std::max<int>(width / wxZRColaCharacterGridColumnWidth, 1);
-        rows  = std::max<int>((char_len + cols - 1) / cols, 1);
+        rows  = std::max<int>((char_count + cols - 1) / cols, 1);
     }
 
     BeginBatch();
@@ -146,14 +170,14 @@ void wxZRColaCharGrid::OnSize(wxSizeEvent& event)
         wxGridStringTable *table = new wxGridStringTable(rows, cols);
         for (int r = 0, i = 0; r < rows; r++)
             for (int c = 0; c < cols; c++, i++)
-                table->SetValue(r, c, i < (int)char_len ? wxString(1, m_chars[i]) : wxEmptyString);
+                table->SetValue(r, c, i < (int)char_count ? m_chars[i] : wxEmptyString);
         SetTable(table, true);
         if (!m_relevance.IsEmpty()) {
             const wxColour colour_def;
             const wxColour colour_irr = wxSystemSettings::GetColour(wxSYS_COLOUR_BTNHIGHLIGHT);
             for (int r = 0, i = 0; r < rows; r++)
                 for (int c = 0; c < cols; c++, i++)
-                    SetCellBackgroundColour(r, c, i >= (int)char_len || ((unsigned short)(m_relevance[i/16]) & (1<<(i%16))) ? colour_def : colour_irr);
+                    SetCellBackgroundColour(r, c, i >= (int)char_count || ((unsigned short)(m_relevance[i/16]) & (1<<(i%16))) ? colour_def : colour_irr);
         } else {
             for (int r = 0, i = 0; r < rows; r++)
                 for (int c = 0; c < cols; c++, i++)
@@ -217,7 +241,7 @@ void wxZRColaCharGrid::OnMotion(wxMouseEvent& event)
         return;
 
     size_t toolTipIdx = row*m_numCols + col;
-    if (toolTipIdx >= m_chars.Length()) {
+    if (toolTipIdx >= m_chars.GetCount()) {
         // Index out of range.
         m_toolTipIdx = (size_t)-1;
         m_timerToolTip.Stop();
@@ -241,7 +265,7 @@ void wxZRColaCharGrid::OnTooltipTimer(wxTimerEvent& event)
 {
     event.Skip();
 
-    if (m_toolTipIdx >= m_chars.Length())
+    if (m_toolTipIdx >= m_chars.GetCount())
         return;
 
     GetGridWindow()->SetToolTip(GetToolTipText(m_toolTipIdx));

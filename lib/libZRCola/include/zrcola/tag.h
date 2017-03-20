@@ -47,8 +47,40 @@ namespace ZRCola {
         /// Character tag data
         ///
         struct chrtag {
-            wchar_t chr;    ///> Character
+        public:
             tagid_t tag;    ///< Tag ID
+
+        protected:
+            unsigned __int16 chr_to;    ///< Character end in \c data
+            wchar_t data[];             ///< Character
+
+        private:
+            inline chrtag(_In_ const chrtag &other);
+            inline chrtag& operator=(_In_ const chrtag &other);
+
+        public:
+            ///
+            /// Constructs the character tag
+            ///
+            /// \param[in] chr      Character
+            /// \param[in] chr_len  Number of UTF-16 characters in \p chr
+            /// \param[in] tag      Tag
+            ///
+            inline chrtag(
+                _In_opt_z_count_(chr_len) const wchar_t *chr      = NULL,
+                _In_opt_                        size_t   chr_len  = 0,
+                _In_opt_                        tagid_t  tag      = 0)
+            {
+                this->tag    = tag;
+                this->chr_to = static_cast<unsigned __int16>(chr_len);
+                if (chr_len) memcpy(this->data, chr, sizeof(wchar_t)*chr_len);
+            }
+
+            inline const wchar_t*         chr    () const { return data;          };
+            inline       wchar_t*         chr    ()       { return data;          };
+            inline const wchar_t*         chr_end() const { return data + chr_to; };
+            inline       wchar_t*         chr_end()       { return data + chr_to; };
+            inline       unsigned __int16 chr_len() const { return chr_to;        };
         };
 #pragma pack(pop)
 
@@ -78,8 +110,8 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const chrtag &a, _In_ const chrtag &b) const
             {
-                     if (a.chr < b.chr) return -1;
-                else if (a.chr > b.chr) return  1;
+                int r = ZRCola::CompareString(a.chr(), a.chr_len(), b.chr(), b.chr_len());
+                if (r != 0) return r;
 
                 return 0;
             }
@@ -97,8 +129,8 @@ namespace ZRCola {
             ///
             virtual int compare_sort(_In_ const chrtag &a, _In_ const chrtag &b) const
             {
-                     if (a.chr < b.chr) return -1;
-                else if (a.chr > b.chr) return  1;
+                int r = ZRCola::CompareString(a.chr(), a.chr_len(), b.chr(), b.chr_len());
+                if (r != 0) return r;
 
                      if (a.tag < b.tag) return -1;
                 else if (a.tag > b.tag) return  1;
@@ -156,8 +188,8 @@ namespace ZRCola {
                      if (a.tag < b.tag) return -1;
                 else if (a.tag > b.tag) return  1;
 
-                     if (a.chr < b.chr) return -1;
-                else if (a.chr > b.chr) return  1;
+                int r = ZRCola::CompareString(a.chr(), a.chr_len(), b.chr(), b.chr_len());
+                if (r != 0) return r;
 
                 return 0;
             }
@@ -191,7 +223,7 @@ namespace ZRCola {
         /// \param[in   ] fn_abort  Pointer to function to periodically test for search cancellation
         /// \param[in   ] cookie    Cookie for \p fn_abort call
         ///
-        bool Search(_In_ const std::map<tagid_t, unsigned __int16> &tags, _In_ const character_db &ch_db, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<wchar_t, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
+        bool Search(_In_ const std::map<tagid_t, unsigned __int16> &tags, _In_ const character_db &ch_db, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<std::wstring, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
     };
 
 
@@ -209,19 +241,53 @@ namespace ZRCola {
         /// Tag name data
         ///
         struct tagname {
+        public:
             tagid_t tag;                ///< Tag ID
             LCID locale;                ///< Locale ID
-            unsigned __int16 name_len;  ///< \c name length (in characters)
-            wchar_t name[];             ///< Tag localized name
+
+        protected:
+            unsigned __int16 name_to;   ///< Tag name end in \c data
+            wchar_t data[];             ///< Tag name
+
+        private:
+            inline tagname(_In_ const tagname &other);
+            inline tagname& operator=(_In_ const tagname &other);
+
+        public:
+            ///
+            /// Constructs the localized tag name
+            ///
+            /// \param[in] tag       Tag
+            /// \param[in] locale    Locale
+            /// \param[in] name      Tag name
+            /// \param[in] name_len  Number of UTF-16 characters in \p name
+            ///
+            inline tagname(
+                _In_opt_                         tagid_t  tag      = 0,
+                _In_opt_                         LCID     locale   = MAKELCID(MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL), SORT_DEFAULT),
+                _In_opt_z_count_(name_len) const wchar_t *name     = NULL,
+                _In_opt_                         size_t   name_len = 0)
+            {
+                this->tag    = tag;
+                this->locale = locale;
+                this->name_to = static_cast<unsigned __int16>(name_len);
+                if (name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
+            }
+
+            inline const wchar_t*         name    () const { return data; };
+            inline       wchar_t*         name    ()       { return data; };
+            inline const wchar_t*         name_end() const { return data + name_to; };
+            inline       wchar_t*         name_end()       { return data + name_to; };
+            inline       unsigned __int16 name_len() const { return name_to; };
 
             ///
             /// Compares two names
             ///
             /// \param[in] locale   Locale ID to use for compare
             /// \param[in] str_a    First name
-            /// \param[in] count_a  Number of characters in string \p str_a
+            /// \param[in] count_a  Number of UTF-16 characters in \p str_a
             /// \param[in] str_b    Second name
-            /// \param[in] count_b  Number of characters in string \p str_b
+            /// \param[in] count_b  Number of UTF-16 characters in \p str_b
             ///
             /// \returns
             /// - <0 when str_a <  str_b
@@ -259,7 +325,7 @@ namespace ZRCola {
             indexName(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, tagname>(h) {}
 
             ///
-            /// Compares two tag names by name (for searching)
+            /// Compares two tag names by locale and name (for searching)
             ///
             /// \param[in] a  Pointer to first element
             /// \param[in] b  Pointer to second element
@@ -274,14 +340,14 @@ namespace ZRCola {
                      if (a.locale < b.locale) return -1;
                 else if (a.locale > b.locale) return  1;
 
-                int r = tagname::CompareName(a.locale, a.name, a.name_len, b.name, b.name_len);
+                int r = tagname::CompareName(a.locale, a.name(), a.name_len(), b.name(), b.name_len());
                 if (r != 0) return r;
 
                 return 0;
             }
 
             ///
-            /// Compares two tag names by name (for sorting)
+            /// Compares two tag names by locale and name (for sorting)
             ///
             /// \param[in] a  Pointer to first element
             /// \param[in] b  Pointer to second element
@@ -296,7 +362,7 @@ namespace ZRCola {
                      if (a.locale < b.locale) return -1;
                 else if (a.locale > b.locale) return  1;
 
-                int r = tagname::CompareName(a.locale, a.name, a.name_len, b.name, b.name_len);
+                int r = tagname::CompareName(a.locale, a.name(), a.name_len(), b.name(), b.name_len());
                 if (r != 0) return r;
 
                      if (a.tag < b.tag) return -1;

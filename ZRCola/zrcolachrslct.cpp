@@ -20,6 +20,174 @@
 #include "stdafx.h"
 
 
+//////////////////////////////////////////////////////////////////////
+// wxZRColaUTF16CharValidator
+//////////////////////////////////////////////////////////////////////
+
+wxIMPLEMENT_DYNAMIC_CLASS(wxZRColaUTF16CharValidator, wxValidator);
+
+
+wxZRColaUTF16CharValidator::wxZRColaUTF16CharValidator(wchar_t *val) :
+    m_val(val),
+    wxValidator()
+{
+}
+
+
+wxObject* wxZRColaUTF16CharValidator::Clone() const
+{
+    return new wxZRColaUTF16CharValidator(*this);
+}
+
+
+bool wxZRColaUTF16CharValidator::Validate(wxWindow *parent)
+{
+    wxASSERT(GetWindow()->IsKindOf(CLASSINFO(wxTextCtrl)));
+    wxTextCtrl *ctrl = (wxTextCtrl*)GetWindow();
+    if (!ctrl->IsEnabled()) return true;
+
+    wxString val(ctrl->GetValue());
+    return Parse(val, 0, val.Length(), ctrl, parent);
+}
+
+
+bool wxZRColaUTF16CharValidator::TransferToWindow()
+{
+    wxASSERT(GetWindow()->IsKindOf(CLASSINFO(wxTextCtrl)));
+
+    if (m_val)
+        ((wxTextCtrl*)GetWindow())->SetValue(wxString::Format(wxT("%04X"), *m_val));
+
+    return true;
+}
+
+
+bool wxZRColaUTF16CharValidator::TransferFromWindow()
+{
+    wxASSERT(GetWindow()->IsKindOf(CLASSINFO(wxTextCtrl)));
+    wxTextCtrl *ctrl = (wxTextCtrl*)GetWindow();
+
+    wxString val(ctrl->GetValue());
+    return Parse(val, 0, val.Length(), ctrl, NULL, m_val);
+}
+
+
+bool wxZRColaUTF16CharValidator::Parse(const wxString &val_in, size_t i_start, size_t i_end, wxTextCtrl *ctrl, wxWindow *parent, wchar_t *val_out)
+{
+    const wxStringCharType *buf = val_in;
+
+    wchar_t chr = 0;
+    for (size_t i = i_start;;) {
+        if (i >= i_end) {
+            // End of Unicode found.
+            if (val_out) *val_out = chr;
+            return true;
+        } else if (i >= i_start + 4) {
+            // Maximum characters exceeded.
+            ctrl->SetFocus();
+            ctrl->SetSelection(i, i_end);
+            wxMessageBox(_("Too many digits in Unicode."), _("Validation conflict"), wxOK | wxICON_EXCLAMATION, parent);
+            return false;
+        } else if (_T('0') <= buf[i] && buf[i] <= _T('9')) {
+            // Digit found.
+            chr = (chr << 4) | (buf[i] - _T('0'));
+            i++;
+        } else if (_T('A') <= buf[i] && buf[i] <= _T('F')) {
+            // Capital letter found.
+            chr = (chr << 4) | (buf[i] - _T('A') + 10);
+            i++;
+        } else if (_T('a') <= buf[i] && buf[i] <= _T('f')) {
+            // Lower letter found.
+            chr = (chr << 4) | (buf[i] - _T('a') + 10);
+            i++;
+        } else {
+            // Invalid character found.
+            ctrl->SetFocus();
+            ctrl->SetSelection(i, i + 1);
+            wxMessageBox(wxString::Format(_("Invalid character in Unicode found: %c"), buf[i]), _("Validation conflict"), wxOK | wxICON_EXCLAMATION, parent);
+            return false;
+        }
+    }
+}
+
+
+//////////////////////////////////////////////////////////////////////
+// wxZRColaUnicodeDumpValidator
+//////////////////////////////////////////////////////////////////////
+
+wxIMPLEMENT_DYNAMIC_CLASS(wxZRColaUnicodeDumpValidator, wxValidator);
+
+
+wxZRColaUnicodeDumpValidator::wxZRColaUnicodeDumpValidator(wxString *val) :
+    m_val(val),
+    wxValidator()
+{
+}
+
+
+wxObject* wxZRColaUnicodeDumpValidator::Clone() const
+{
+    return new wxZRColaUnicodeDumpValidator(*this);
+}
+
+
+bool wxZRColaUnicodeDumpValidator::Validate(wxWindow *parent)
+{
+    wxASSERT(GetWindow()->IsKindOf(CLASSINFO(wxTextCtrl)));
+    wxTextCtrl *ctrl = (wxTextCtrl*)GetWindow();
+    if (!ctrl->IsEnabled()) return true;
+
+    wxString val(ctrl->GetValue());
+    return Parse(val, 0, val.Length(), ctrl, parent);
+}
+
+
+bool wxZRColaUnicodeDumpValidator::TransferToWindow()
+{
+    wxASSERT(GetWindow()->IsKindOf(CLASSINFO(wxTextCtrl)));
+
+    if (m_val)
+        ((wxTextCtrl*)GetWindow())->SetValue(ZRCola::GetUnicodeDumpW(m_val->c_str(), m_val->length(), L"+"));
+
+    return true;
+}
+
+
+bool wxZRColaUnicodeDumpValidator::TransferFromWindow()
+{
+    wxASSERT(GetWindow()->IsKindOf(CLASSINFO(wxTextCtrl)));
+    wxTextCtrl *ctrl = (wxTextCtrl*)GetWindow();
+
+    wxString val(ctrl->GetValue());
+    return Parse(val, 0, val.Length(), ctrl, NULL, m_val);
+}
+
+
+bool wxZRColaUnicodeDumpValidator::Parse(const wxString &val_in, size_t i_start, size_t i_end, wxTextCtrl *ctrl, wxWindow *parent, wxString *val_out)
+{
+    const wxStringCharType *buf = val_in;
+
+    wxString str;
+    for (size_t i = i_start;;) {
+        const wxStringCharType *buf_next;
+        wchar_t chr;
+        if ((buf_next = wmemchr(buf + i, L'+', i_end - i)) != NULL) {
+            // Unicode dump separator found.
+            if (!wxZRColaUTF16CharValidator::Parse(val_in, i, buf_next - buf, ctrl, parent, &chr))
+                return false;
+            str += chr;
+            i = buf_next - buf + 1;
+        } else if (wxZRColaUTF16CharValidator::Parse(val_in, i, i_end, ctrl, parent, &chr)) {
+            // The rest of the FQDN parsed succesfully.
+            if (chr) str += chr;
+            if (val_out) *val_out = str;
+            return true;
+        } else
+            return false;
+    }
+}
+
+
 //////////////////////////////////////////////////////////////////////////
 // wxZRColaCharSelect
 //////////////////////////////////////////////////////////////////////////
@@ -30,7 +198,6 @@ wxDEFINE_EVENT(wxEVT_SEARCH_COMPLETE, wxThreadEvent);
 wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) :
     m_searchChanged(false),
     m_unicodeChanged(false),
-    m_char(0),
     m_searchThread(NULL),
     wxZRColaCharSelectBase(parent)
 {
@@ -46,13 +213,13 @@ wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) :
 
     m_search_more->SetLabel(_(L"▸ Search Options"));
 
-    m_unicode->SetValidator(wxHexValidator<wchar_t>(&m_char, wxNUM_VAL_DEFAULT, 4));
+    m_unicode->SetValidator(wxZRColaUnicodeDumpValidator(&m_char));
 
     // Fill categories.
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
         const auto &cc = app->m_cc_db.idxRnk[i];
-        int idx = m_categories->Insert(wxGetTranslation(wxString(cc.name, cc.name_len), wxT("ZRCola-zrcdb")), i);
+        int idx = m_categories->Insert(wxGetTranslation(wxString(cc.name(), cc.name_len()), wxT("ZRCola-zrcdb")), i);
         m_categories->Check(idx);
         m_ccOrder.insert(std::make_pair(cc.id, idx));
     }
@@ -84,24 +251,24 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
         if (m_unicode->GetValidator()->TransferFromWindow()) {
             auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
 
-            m_gridPreview->SetCellValue(wxString(1, m_char), 0, 0);
+            m_gridPreview->SetCellValue(m_char, 0, 0);
 
-            char chr[sizeof(ZRCola::character_db::character)] = {};
-            ((ZRCola::character_db::character*)chr)->chr = m_char;
+            std::unique_ptr<ZRCola::character_db::character> chr((ZRCola::character_db::character*)new char[sizeof(ZRCola::character_db::character) + sizeof(wchar_t)*m_char.length()]);
+            chr->ZRCola::character_db::character::character(m_char.data(), m_char.length());
             size_t start;
-            if (app->m_chr_db.idxChr.find(*(ZRCola::character_db::character*)chr, start)) {
+            if (app->m_chr_db.idxChr.find(*chr, start)) {
                 const auto &chr = app->m_chr_db.idxChr[start];
                 // Update character description.
-                m_description->SetValue(wxString(chr.data, chr.desc_len));
+                m_description->SetValue(wxString(chr.desc(), chr.desc_len()));
                 {
                     // See if this character has a key sequence registered.
-                    char ks[sizeof(ZRCola::keyseq_db::keyseq)] = {};
-                    ((ZRCola::keyseq_db::keyseq*)ks)->chr = m_char;
+                    std::unique_ptr<ZRCola::keyseq_db::keyseq> ks((ZRCola::keyseq_db::keyseq*)new char[sizeof(ZRCola::keyseq_db::keyseq) + sizeof(wchar_t)*m_char.length()]);
+                    ks->ZRCola::keyseq_db::keyseq::keyseq(NULL, 0, m_char.data(), m_char.length());
                     ZRCola::keyseq_db::indexKey::size_type start;
-                    if (app->m_ks_db.idxChr.find(*(ZRCola::keyseq_db::keyseq*)ks, start)) {
+                    if (app->m_ks_db.idxChr.find(*ks, start)) {
                         ZRCola::keyseq_db::keyseq &seq = app->m_ks_db.idxChr[start];
                         wxString ks_str;
-                        if (ZRCola::keyseq_db::GetSequenceAsText(seq.seq, seq.seq_len, ks_str))
+                        if (ZRCola::keyseq_db::GetSequenceAsText(seq.seq(), seq.seq_len(), ks_str))
                             m_shortcut->SetValue(ks_str);
                         else
                             m_shortcut->SetValue(wxEmptyString);
@@ -115,12 +282,12 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
                     // Update character category.
                     if (app->m_cc_db.idxChrCat.find(*((ZRCola::chrcat_db::chrcat*)cc), start)) {
                         const auto &cat = app->m_cc_db.idxChrCat[start];
-                        m_category->SetValue(wxGetTranslation(wxString(cat.name, cat.name_len), wxT("ZRCola-zrcdb")));
+                        m_category->SetValue(wxGetTranslation(wxString(cat.name(), cat.name_len()), wxT("ZRCola-zrcdb")));
                     } else
                         m_category->SetValue(wxEmptyString);
                 }
                 // Update related characters.
-                m_gridRelated->SetCharacters(wxString(chr.data + chr.desc_len, chr.rel_len));
+                m_gridRelated->SetCharacters(wxString(chr.rel(), chr.rel_end()));
             } else {
                 m_description->SetValue(wxEmptyString);
                 m_shortcut->SetValue(wxEmptyString);
@@ -130,9 +297,10 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
 
             // Find character tags.
             std::list<std::wstring> tag_names;
-            ZRCola::chrtag_db::chrtag ct = { m_char };
+            std::unique_ptr<ZRCola::chrtag_db::chrtag> ct((ZRCola::chrtag_db::chrtag*)new char[sizeof(ZRCola::chrtag_db::chrtag) + sizeof(wchar_t)*m_char.length()]);
+            ct->ZRCola::chrtag_db::chrtag::chrtag(m_char.data(), m_char.length());
             size_t end;
-            if (app->m_ct_db.idxChr.find(ct, start, end)) {
+            if (app->m_ct_db.idxChr.find(*ct, start, end)) {
                 for (size_t i = start; i < end; i++) {
                     const ZRCola::chrtag_db::chrtag &ct = app->m_ct_db.idxChr[i];
 
@@ -149,9 +317,9 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
                             for (auto name = tag_names.cbegin(), name_end = tag_names.cend();; ++name) {
                                 if (name == name_end) {
                                     // Add name to the list.
-                                    tag_names.push_back(std::wstring(tn.name, tn.name + tn.name_len));
+                                    tag_names.push_back(std::wstring(tn.name(), tn.name_end()));
                                     break;
-                                } else if (ZRCola::tagname_db::tagname::CompareName(m_locale, name->data(), (unsigned __int16)name->length(), tn.name, tn.name_len) == 0)
+                                } else if (ZRCola::tagname_db::tagname::CompareName(m_locale, name->data(), (unsigned __int16)name->length(), tn.name(), tn.name_len()) == 0)
                                     // Name is already on the list.
                                     break;
                             }
@@ -284,10 +452,10 @@ void wxZRColaCharSelect::OnSearchComplete(wxThreadEvent& event)
 
     if (m_searchThread) {
         // Display results.
-        wxString chars;
+        wxArrayString chars;
         chars.reserve(m_searchThread->m_hits.size());
         for (auto i = m_searchThread->m_hits.cbegin(), i_end = m_searchThread->m_hits.cend(); i != i_end; ++i)
-            chars += i->second;
+            chars.Add(i->second);
         m_gridResults->SetCharacters(chars);
 
         m_searchThread->Delete();
@@ -304,7 +472,7 @@ void wxZRColaCharSelect::OnResultSelectCell(wxGridEvent& event)
 
     wxString val(m_gridResults->GetCellValue(event.GetRow(), event.GetCol()));
     if (!val.IsEmpty())
-        NavigateTo(val[0]);
+        NavigateTo(val);
 }
 
 
@@ -314,7 +482,7 @@ void wxZRColaCharSelect::OnResultCellDClick(wxGridEvent& event)
 
     wxString val(m_gridResults->GetCellValue(event.GetRow(), event.GetCol()));
     if (!val.IsEmpty()) {
-        NavigateTo(val[0]);
+        NavigateTo(val);
         wxCommandEvent e(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
         m_sdbSizerButtonsOK->GetEventHandler()->ProcessEvent(e);
     }
@@ -328,7 +496,7 @@ void wxZRColaCharSelect::OnResultsKeyDown(wxKeyEvent& event)
     case WXK_NUMPAD_ENTER:
         wxString val(m_gridResults->GetCellValue(m_gridResults->GetCursorRow(), m_gridResults->GetCursorColumn()));
         if (!val.IsEmpty()) {
-            NavigateTo(val[0]);
+            NavigateTo(val);
             wxCommandEvent e(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
             m_sdbSizerButtonsOK->GetEventHandler()->ProcessEvent(e);
 
@@ -347,7 +515,7 @@ void wxZRColaCharSelect::OnRecentSelectCell(wxGridEvent& event)
 
     wxString val(m_gridRecent->GetCellValue(event.GetRow(), event.GetCol()));
     if (!val.IsEmpty())
-        NavigateTo(val[0]);
+        NavigateTo(val);
 }
 
 
@@ -357,7 +525,7 @@ void wxZRColaCharSelect::OnRecentCellDClick(wxGridEvent& event)
 
     wxString val(m_gridRecent->GetCellValue(event.GetRow(), event.GetCol()));
     if (!val.IsEmpty()) {
-        NavigateTo(val[0]);
+        NavigateTo(val);
         wxCommandEvent e(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
         m_sdbSizerButtonsOK->GetEventHandler()->ProcessEvent(e);
     }
@@ -371,7 +539,7 @@ void wxZRColaCharSelect::OnRecentKeyDown(wxKeyEvent& event)
     case WXK_NUMPAD_ENTER:
         wxString val(m_gridRecent->GetCellValue(m_gridRecent->GetCursorRow(), m_gridRecent->GetCursorColumn()));
         if (!val.IsEmpty()) {
-            NavigateTo(val[0]);
+            NavigateTo(val);
             wxCommandEvent e(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
             m_sdbSizerButtonsOK->GetEventHandler()->ProcessEvent(e);
 
@@ -431,7 +599,7 @@ void wxZRColaCharSelect::OnRelatedSelectCell(wxGridEvent& event)
 
     wxString val(m_gridRelated->GetCellValue(event.GetRow(), event.GetCol()));
     if (!val.IsEmpty())
-        NavigateTo(val[0]);
+        NavigateTo(val);
 }
 
 
@@ -439,15 +607,15 @@ void wxZRColaCharSelect::OnOKButtonClick(wxCommandEvent& event)
 {
     event.Skip();
 
-    wxString
-        recent(m_gridRecent->GetCharacters()),
-        val(1, m_char);
-    for (size_t i = 0, n = recent.Length(); i < n; i++) {
-        const wxStringCharType c = recent[i];
+    const wxArrayString &recent = m_gridRecent->GetCharacters();
+    wxArrayString val;
+    val.reserve(recent.GetCount() + 1);
+    val.Add(m_char);
+    for (size_t i = 0, n = recent.GetCount(); i < n; i++) {
+        const wxString &c = recent[i];
         if (c != m_char)
-            val += c;
+            val.Add(c);
     }
-
     m_gridRecent->SetCharacters(val);
 }
 
@@ -457,13 +625,13 @@ void wxZRColaCharSelect::ResetResults()
     // Fill the results.
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     size_t i, n = app->m_chr_db.idxChr.size();
-    wxString val;
+    wxArrayString val;
     val.reserve(n);
     for (i = 0; i < n; i++) {
         const auto &chr = app->m_chr_db.idxChr[i];
         auto idx = m_ccOrder.find(chr.cat);
         if (idx == m_ccOrder.end() || m_categories->IsChecked(idx->second))
-            val += chr.chr;
+            val.Add(wxString(chr.chr(), chr.chr_len()));
     }
     m_gridResults->SetCharacters(val);
 }
@@ -507,7 +675,7 @@ void wxZRColaCharSelect::NavigateBy(int offset)
 }
 
 
-void wxZRColaCharSelect::NavigateTo(wchar_t c)
+void wxZRColaCharSelect::NavigateTo(const wxString &c)
 {
     if (m_char != c) {
         // Update history state
@@ -548,7 +716,7 @@ wxZRColaCharSelect::SearchThread::SearchThread(wxZRColaCharSelect *parent) :
 wxThread::ExitCode wxZRColaCharSelect::SearchThread::Entry()
 {
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
-    std::map<wchar_t, ZRCola::charrank_t> hits;
+    std::map<std::wstring, ZRCola::charrank_t> hits;
 
     if (TestDestroy()) return (wxThread::ExitCode)1;
 
@@ -561,7 +729,7 @@ wxThread::ExitCode wxZRColaCharSelect::SearchThread::Entry()
 
     {
         // Search by description and merge results.
-        std::map<wchar_t, ZRCola::charrank_t> hits_sub;
+        std::map<std::wstring, ZRCola::charrank_t> hits_sub;
         if (!app->m_chr_db.Search(m_search.c_str(), m_cats, hits, hits_sub, TestDestroyS, this)) return (wxThread::ExitCode)1;
         for (auto i = hits_sub.cbegin(), i_end = hits_sub.cend(); i != i_end; ++i) {
             if (TestDestroy()) return (wxThread::ExitCode)1;
@@ -589,7 +757,7 @@ wxThread::ExitCode wxZRColaCharSelect::SearchThread::Entry()
         if (i->second > rank_threshold)
             m_hits.push_back(std::make_pair(i->second, i->first));
     }
-    std::qsort(m_hits.data(), m_hits.size(), sizeof(std::pair<ZRCola::charrank_t, wchar_t>), CompareHits);
+    std::qsort(m_hits.data(), m_hits.size(), sizeof(std::pair<ZRCola::charrank_t, std::wstring>), CompareHits);
 
     // Signal the event handler that this thread is going to be destroyed.
     // NOTE: here we assume that using the m_parent pointer is safe,
@@ -637,7 +805,17 @@ void wxPersistentZRColaCharSelect::Save() const
     auto wnd = static_cast<const wxZRColaCharSelect*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
 
-    SaveValue(wxT("recentChars"), wnd->m_gridRecent->GetCharacters());
+    wxString val;
+    auto &recent = wnd->m_gridRecent->GetCharacters();
+    for (size_t i = 0, n = recent.GetCount(); i < n; i++) {
+        if (i) val += wxT('|');
+        auto &chr = recent[i];
+        for (size_t j = 0, m = chr.Length(); j < m; j++) {
+            if (j) val += wxT('+');
+            val += wxString::Format(wxT("%04X"), chr[j]);
+        }
+    }
+    SaveValue(wxT("recentChars2"), val);
 
     for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
         const auto &cc = app->m_cc_db.idxRnk[i];
@@ -656,8 +834,38 @@ bool wxPersistentZRColaCharSelect::Restore()
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
 
     wxString recent;
-    if (RestoreValue(wxT("recentChars"), &recent))
-        wnd->m_gridRecent->SetCharacters(recent);
+    if (RestoreValue(wxT("recentChars2"), &recent)) {
+        // Native format found.
+        wxArrayString val;
+        wxString chr;
+        wchar_t c = 0;
+        for (size_t i = 0, n = recent.Length();; i++) {
+            if (i >= n) {
+                if (c)              { chr += c;     c = 0;       }
+                if (!chr.IsEmpty()) { val.Add(chr); chr.Clear(); }
+                break;
+            } else {
+                wxStringCharType r = recent[i];
+                     if (wxT('0') <= r && r <= wxT('9')) c = (c << 4) | (r - wxT('0')     );
+                else if (wxT('A') <= r && r <= wxT('F')) c = (c << 4) | (r - wxT('A') + 10);
+                else if (wxT('a') <= r && r <= wxT('f')) c = (c << 4) | (r - wxT('a') + 10);
+                else if (r == wxT('+')) {
+                    if (c)              { chr += c;     c = 0;       }
+                } else if (r == wxT('|')) {
+                    if (c)              { chr += c;     c = 0;       }
+                    if (!chr.IsEmpty()) { val.Add(chr); chr.Clear(); }
+                } else
+                    break;
+            }
+        }
+        wnd->m_gridRecent->SetCharacters(val);
+    } else if (RestoreValue(wxT("recentChars"), &recent)) {
+        // Legacy value found.
+        wxArrayString val;
+        for (size_t i = 0, n = recent.Length(); i < n; i++)
+            val.Add(wxString(1, recent[i]));
+        wnd->m_gridRecent->SetCharacters(val);
+    }
 
     for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
         const auto &cc = app->m_cc_db.idxRnk[i];
