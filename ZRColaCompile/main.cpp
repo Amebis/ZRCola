@@ -24,7 +24,29 @@ using namespace stdex;
 using namespace winstd;
 
 
-typedef map<wstring, set<ZRCola::DBSource::charseq, ZRCola::DBSource::charseq::less_rank_str> > translation_db;
+///
+/// (composed character rank, (decomposed character rank, decomposed character)) data holder
+///
+typedef pair<int, ZRCola::DBSource::charseq> com_translation;
+
+
+///
+/// Functor to compare two translations
+///
+struct translation_set_less {
+    inline bool operator()(_In_ const com_translation& a, _In_ const com_translation& b) const
+    {
+             if (a.first       < b.first      ) return true;
+        else if (a.first       > b.first      ) return false;
+        else if (a.second.rank < b.second.rank) return true;
+        else if (a.second.rank > b.second.rank) return false;
+        else if (a.second.str  < b.second.str ) return true;
+        else                                    return false;
+    }
+};
+
+
+typedef map<wstring, set<com_translation, translation_set_less> > translation_db;
 
 
 static set<wstring> decompose(_In_ const translation_db &db, _In_z_ const wchar_t *str, _Inout_ set<translation_db::key_type> &path)
@@ -47,7 +69,7 @@ static set<wstring> decompose(_In_ const translation_db &db, _In_z_ const wchar_
                 return res;
             }
             for (auto d = t->second.cbegin(), d_end = t->second.cend(); d != d_end; ++d) {
-                auto dec = decompose(db, d->str.c_str(), path);
+                auto dec = decompose(db, d->second.str.c_str(), path);
                 if (!dec.empty()) {
                     for (auto dd = dec.cbegin(), dd_end = dec.cend(); dd != dd_end; ++dd) {
                         for (auto r = rem.cbegin(), r_end = rem.cend(); r != r_end; ++r)
@@ -165,13 +187,13 @@ int _tmain(int argc, _TCHAR *argv[])
                     ZRCola::DBSource::translation trans;
                     if (src.GetTranslation(rs, trans)) {
                         // Add translation to temporary database.
-                        auto const t = db_temp1.find(trans.com);
+                        auto const t = db_temp1.find(trans.com.str);
                         if (t != db_temp1.end())
-                            t->second.insert(std::move(trans.dec));
+                            t->second.insert(com_translation(trans.com.rank, std::move(trans.dec)));
                         else {
                             translation_db::mapped_type d;
-                            d.insert(std::move(trans.dec));
-                            db_temp1.insert(std::move(pair<translation_db::key_type, translation_db::mapped_type>(trans.com, std::move(d))));
+                            d.insert(com_translation(trans.com.rank, std::move(trans.dec)));
+                            db_temp1.insert(std::move(pair<translation_db::key_type, translation_db::mapped_type>(trans.com.str, std::move(d))));
                         }
                     } else
                         has_errors = true;
@@ -183,18 +205,18 @@ int _tmain(int argc, _TCHAR *argv[])
                     for (auto d1 = t1->second.cbegin(), d1_end = t1->second.cend(); d1 != d1_end; ++d1) {
                         set<translation_db::key_type> path;
                         path.insert(t1->first);
-                        auto str = decompose(db_temp1, d1->str.c_str(), path);
+                        auto str = decompose(db_temp1, d1->second.str.c_str(), path);
                         assert(!str.empty());
 
                         // Add translation to temporary database.
                         auto const t2 = db_temp2.find(t1->first);
                         if (t2 != db_temp2.end()) {
                             for (auto s = str.cbegin(), s_end = str.cend(); s != s_end; ++s)
-                                t2->second.insert(std::move(ZRCola::DBSource::charseq(d1->rank, s->c_str())));
+                                t2->second.insert(com_translation(d1->first, std::move(ZRCola::DBSource::charseq(d1->second.rank, s->c_str()))));
                         } else {
                             translation_db::mapped_type d2;
                             for (auto s = str.cbegin(), s_end = str.cend(); s != s_end; ++s)
-                                d2.insert(std::move(ZRCola::DBSource::charseq(d1->rank, s->c_str())));
+                                d2.insert(com_translation(d1->first, std::move(ZRCola::DBSource::charseq(d1->second.rank, s->c_str()))));
                             db_temp2.insert(std::move(pair<translation_db::key_type, translation_db::mapped_type>(t1->first, std::move(d2))));
                         }
                     }
@@ -212,16 +234,18 @@ int _tmain(int argc, _TCHAR *argv[])
                     // Add translation to index and data.
                     for (auto d = t->second.cbegin(), d_end = t->second.cend(); d != d_end; ++d) {
                         unsigned __int32 idx = db.data.size();
-                        wxASSERT_MSG((int)0xffff8000 <= d->rank && d->rank <= (int)0x00007fff, wxT("transformation rank out of bounds"));
-                        db.data.push_back((unsigned __int16)d->rank);
+                        wxASSERT_MSG((int)0xffff8000 <= d->first && d->first <= (int)0x00007fff, wxT("composed character rank out of bounds"));
+                        db.data.push_back((unsigned __int16)d->first);
+                        wxASSERT_MSG((int)0xffff8000 <= d->second.rank && d->second.rank <= (int)0x00007fff, wxT("decomposed character rank out of bounds"));
+                        db.data.push_back((unsigned __int16)d->second.rank);
                         wstring::size_type n = t->first.length();
                         wxASSERT_MSG(n <= 0xffff, wxT("composition overflow"));
                         db.data.push_back((unsigned __int16)n);
-                        n += d->str.length();
+                        n += d->second.str.length();
                         wxASSERT_MSG(n <= 0xffff, wxT("decomposition overflow"));
                         db.data.push_back((unsigned __int16)n);
-                        db.data.insert(db.data.end(), t->first.cbegin(), t->first.cend());
-                        db.data.insert(db.data.end(), d->str  .cbegin(), d->str  .cend());
+                        db.data.insert(db.data.end(), t->first     .cbegin(), t->first     .cend());
+                        db.data.insert(db.data.end(), d->second.str.cbegin(), d->second.str.cend());
                         db.idxComp  .push_back(idx);
                         db.idxDecomp.push_back(idx);
                     }

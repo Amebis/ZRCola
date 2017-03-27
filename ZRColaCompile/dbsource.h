@@ -58,19 +58,6 @@ namespace ZRCola {
                 str (_str)
             {
             }
-
-            ///
-            /// Functor to compare two sequences by `rank`, and `str` members respectively
-            ///
-            struct less_rank_str {
-                inline bool operator()(_In_ const charseq& a, _In_ const charseq& b) const
-                {
-                         if (a.rank < b.rank) return true;
-                    else if (a.rank > b.rank) return false;
-                    else if (a.str  < b.str ) return true;
-                    else                      return false;
-                }
-            };
         };
 
 
@@ -79,8 +66,8 @@ namespace ZRCola {
         ///
         class translation {
         public:
-            charseq dec;                ///< Decomposed sequence
-            std::wstring com;           ///< Composed character
+            charseq dec;    ///< Decomposed sequence
+            charseq com;    ///< Composed character
         };
 
 

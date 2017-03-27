@@ -47,7 +47,8 @@ namespace ZRCola {
         ///
         struct translation {
         public:
-            unsigned __int16 rank;     ///< Decomposition rank
+            unsigned __int16 com_rank; ///< Composed character rank
+            unsigned __int16 dec_rank; ///< Decomposed character rank
 
         protected:
             unsigned __int16 com_to;   ///< Composed character end in \c data
@@ -62,20 +63,23 @@ namespace ZRCola {
             ///
             /// Constructs the translation
             ///
-            /// \param[in] rank     Translation rank
+            /// \param[in] com_rank Composed character rank
             /// \param[in] com      Composed character
             /// \param[in] com_len  Number of UTF-16 characters in \p com
+            /// \param[in] dec_rank Decomposed character rank
             /// \param[in] dec      Decomposed character
             /// \param[in] dec_len  Number of UTF-16 characters in \p dec
             ///
             inline translation(
-                _In_opt_                        unsigned __int16  rank    = 0,
-                _In_opt_z_count_(com_len) const wchar_t          *com     = NULL,
-                _In_opt_                        size_t            com_len = 0,
-                _In_opt_z_count_(dec_len) const wchar_t          *dec     = NULL,
-                _In_opt_                        size_t            dec_len = 0)
+                _In_opt_                        unsigned __int16  com_rank = 0,
+                _In_opt_z_count_(com_len) const wchar_t          *com      = NULL,
+                _In_opt_                        size_t            com_len  = 0,
+                _In_opt_                        unsigned __int16  dec_rank = 0,
+                _In_opt_z_count_(dec_len) const wchar_t          *dec      = NULL,
+                _In_opt_                        size_t            dec_len  = 0)
             {
-                this->rank = rank;
+                this->com_rank = com_rank;
+                this->dec_rank = dec_rank;
                 this->com_to = static_cast<unsigned __int16>(com_len);
                 if (com_len) memcpy(this->data, com, sizeof(wchar_t)*com_len);
                 this->dec_to = static_cast<unsigned __int16>(this->com_to + dec_len);
@@ -155,6 +159,9 @@ namespace ZRCola {
                 int r = ZRCola::CompareString(a.dec(), a.dec_len(), b.dec(), b.dec_len());
                 if (r != 0) return r;
 
+                     if (a.dec_rank < b.dec_rank) return -1;
+                else if (a.dec_rank > b.dec_rank) return +1;
+
                 r = ZRCola::CompareString(a.com(), a.com_len(), b.com(), b.com_len());
                 if (r != 0) return r;
 
@@ -211,8 +218,8 @@ namespace ZRCola {
                 int r = ZRCola::CompareString(a.com(), a.com_len(), b.com(), b.com_len());
                 if (r != 0) return r;
 
-                     if (a.rank < b.rank) return -1;
-                else if (a.rank > b.rank) return +1;
+                     if (a.com_rank < b.com_rank) return -1;
+                else if (a.com_rank > b.com_rank) return +1;
 
                 r = ZRCola::CompareString(a.dec(), a.dec_len(), b.dec(), b.dec_len());
                 if (r != 0) return r;
