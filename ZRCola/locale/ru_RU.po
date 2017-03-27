@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2017-03-10 13:33+0100\n"
-"PO-Revision-Date: 2017-03-10 13:34+0100\n"
+"POT-Creation-Date: 2017-03-27 14:05+0200\n"
+"PO-Revision-Date: 2017-03-27 14:05+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: ru_RU\n"
@@ -40,16 +40,29 @@ msgstr "Контекст"
 msgid "Request a New Character"
 msgstr "Запрос нового знака"
 
-#: zrcolachrslct.cpp:47 zrcolachrslct.cpp:227 zrcolachrslct.cpp:678
+#: zrcolachrslct.cpp:89
+msgid "Too many digits in Unicode."
+msgstr ""
+
+#: zrcolachrslct.cpp:89 zrcolachrslct.cpp:107
+msgid "Validation conflict"
+msgstr ""
+
+#: zrcolachrslct.cpp:107
+#, c-format
+msgid "Invalid character in Unicode found: %c"
+msgstr ""
+
+#: zrcolachrslct.cpp:214 zrcolachrslct.cpp:395 zrcolachrslct.cpp:886
 msgid "▸ Search Options"
 msgstr "▸ Опции поиска"
 
 # Recitation separator
-#: zrcolachrslct.cpp:165
+#: zrcolachrslct.cpp:333
 msgid ", "
 msgstr ", "
 
-#: zrcolachrslct.cpp:230 zrcolachrslct.cpp:675
+#: zrcolachrslct.cpp:398 zrcolachrslct.cpp:883
 msgid "▾ Search Options"
 msgstr "▾ Опции поиска"
 
