@@ -34,19 +34,19 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
 
     EVT_MENU           (wxID_CHARACTER_SELECTOR                    , wxZRColaFrame::OnInsertCharacter            )
 
-    EVT_UPDATE_UI_RANGE(wxID_SEND_COMPOSED        , wxID_SEND_ABORT, wxZRColaFrame::OnSendUpdate                 )
-    EVT_MENU           (wxID_COPY_COMPOSED_AND_RETURN              , wxZRColaFrame::OnCopyComposedAndReturn      )
-    EVT_MENU           (wxID_SEND_COMPOSED                         , wxZRColaFrame::OnSendComposed               )
-    EVT_MENU           (wxID_COPY_DECOMPOSED_AND_RETURN            , wxZRColaFrame::OnCopyDecomposedAndReturn    )
-    EVT_MENU           (wxID_SEND_DECOMPOSED                       , wxZRColaFrame::OnSendDecomposed             )
+    EVT_UPDATE_UI_RANGE(wxID_SEND_DESTINATION     , wxID_SEND_ABORT, wxZRColaFrame::OnSendUpdate                 )
+    EVT_MENU           (wxID_COPY_DESTINATION_AND_RETURN           , wxZRColaFrame::OnCopyDestinationAndReturn   )
+    EVT_MENU           (wxID_SEND_DESTINATION                      , wxZRColaFrame::OnSendDestination            )
+    EVT_MENU           (wxID_COPY_SOURCE_AND_RETURN                , wxZRColaFrame::OnCopySourceAndReturn        )
+    EVT_MENU           (wxID_SEND_SOURCE                           , wxZRColaFrame::OnSendSource                 )
     EVT_MENU           (wxID_SEND_ABORT                            , wxZRColaFrame::OnSendAbort                  )
 
     EVT_MENU           (wxID_SETTINGS                              , wxZRColaFrame::OnSettings                   )
 
     EVT_UPDATE_UI      (wxID_TOOLBAR_EDIT                          , wxZRColaFrame::OnToolbarEditUpdate          )
     EVT_MENU           (wxID_TOOLBAR_EDIT                          , wxZRColaFrame::OnToolbarEdit                )
-    EVT_UPDATE_UI      (wxID_TOOLBAR_COMPOSE                       , wxZRColaFrame::OnToolbarComposeUpdate       )
-    EVT_MENU           (wxID_TOOLBAR_COMPOSE                       , wxZRColaFrame::OnToolbarCompose             )
+    EVT_UPDATE_UI      (wxID_TOOLBAR_TRANSLATE                     , wxZRColaFrame::OnToolbarTranslateUpdate     )
+    EVT_MENU           (wxID_TOOLBAR_TRANSLATE                     , wxZRColaFrame::OnToolbarTranslate           )
     EVT_UPDATE_UI      (wxID_PANEL_CHRGRPS                         , wxZRColaFrame::OnPanelCharacterCatalogUpdate)
     EVT_MENU           (wxID_PANEL_CHRGRPS                         , wxZRColaFrame::OnPanelCharacterCatalog      )
     EVT_MENU           (wxID_FOCUS_CHARACTER_CATALOG               , wxZRColaFrame::OnPanelCharacterCatalogFocus )
@@ -69,10 +69,10 @@ wxZRColaFrame::wxZRColaFrame() :
 {
     {
         // wxFrameBuilder 3.5 does not support wxAUI_TB_HORIZONTAL flag. Add it manually.
-        wxAuiPaneInfo &paneInfo = m_mgr.GetPane(m_toolbarCompose);
+        wxAuiPaneInfo &paneInfo = m_mgr.GetPane(m_toolbarTranslate);
         paneInfo.LeftDockable(false);
         paneInfo.RightDockable(false);
-        m_toolbarCompose->SetWindowStyleFlag(m_toolbarCompose->GetWindowStyleFlag() | wxAUI_TB_HORIZONTAL);
+        m_toolbarTranslate->SetWindowStyleFlag(m_toolbarTranslate->GetWindowStyleFlag() | wxAUI_TB_HORIZONTAL);
     }
 
     // Load main window icons.
@@ -106,7 +106,7 @@ wxZRColaFrame::wxZRColaFrame() :
     wxPersistentRegisterAndRestore<wxZRColaCharRequest>(m_chrReq);
 
     // Set focus.
-    m_panel->m_decomposed->SetFocus();
+    m_panel->m_source->SetFocus();
 
 #if defined(__WXMSW__)
     // Register notification sink for language detection.
@@ -139,9 +139,9 @@ wxZRColaFrame::wxZRColaFrame() :
     wxPersistentAuiManager(&m_mgr).Restore();
 
     // Register global hotkey(s).
-    if (!RegisterHotKey(wxZRColaHKID_INVOKE_COMPOSE, wxMOD_WIN, VK_F5))
+    if (!RegisterHotKey(wxZRColaHKID_INVOKE_TRANSLATE, wxMOD_WIN, VK_F5))
         wxMessageBox(_("ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
-    if (!RegisterHotKey(wxZRColaHKID_INVOKE_DECOMPOSE, wxMOD_WIN, VK_F6))
+    if (!RegisterHotKey(wxZRColaHKID_INVOKE_TRANSLATE_INV, wxMOD_WIN, VK_F6))
         wxMessageBox(_("ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
 }
 
@@ -149,8 +149,8 @@ wxZRColaFrame::wxZRColaFrame() :
 wxZRColaFrame::~wxZRColaFrame()
 {
     // Unregister global hotkey(s).
-    UnregisterHotKey(wxZRColaHKID_INVOKE_DECOMPOSE);
-    UnregisterHotKey(wxZRColaHKID_INVOKE_COMPOSE);
+    UnregisterHotKey(wxZRColaHKID_INVOKE_TRANSLATE_INV);
+    UnregisterHotKey(wxZRColaHKID_INVOKE_TRANSLATE    );
 
 #if defined(__WXMSW__)
     if (m_tfSource) {
@@ -214,8 +214,8 @@ void wxZRColaFrame::OnForwardEvent(wxCommandEvent& event)
 void wxZRColaFrame::OnInsertCharacter(wxCommandEvent& event)
 {
     if (m_chrSelect->ShowModal() == wxID_OK && !m_chrSelect->m_char.empty()) {
-        m_panel->m_decomposed->WriteText(m_chrSelect->m_char);
-        m_panel->m_decomposed->SetFocus();
+        m_panel->m_source->WriteText(m_chrSelect->m_char);
+        m_panel->m_source->SetFocus();
     }
 }
 
@@ -226,37 +226,37 @@ void wxZRColaFrame::OnSendUpdate(wxUpdateUIEvent& event)
 }
 
 
-void wxZRColaFrame::OnSendComposed(wxCommandEvent& event)
+void wxZRColaFrame::OnSendDestination(wxCommandEvent& event)
 {
     if (m_hWndSource)
-        DoSend(m_panel->m_composed->GetValue());
+        DoSend(m_panel->m_destination->GetValue());
 
     event.Skip();
 }
 
 
-void wxZRColaFrame::OnCopyComposedAndReturn(wxCommandEvent& event)
+void wxZRColaFrame::OnCopyDestinationAndReturn(wxCommandEvent& event)
 {
     if (m_hWndSource)
-        DoCopyAndReturn(m_panel->m_composed->GetValue());
+        DoCopyAndReturn(m_panel->m_destination->GetValue());
 
     event.Skip();
 }
 
 
-void wxZRColaFrame::OnSendDecomposed(wxCommandEvent& event)
+void wxZRColaFrame::OnSendSource(wxCommandEvent& event)
 {
     if (m_hWndSource)
-        DoSend(m_panel->m_decomposed->GetValue());
+        DoSend(m_panel->m_source->GetValue());
 
     event.Skip();
 }
 
 
-void wxZRColaFrame::OnCopyDecomposedAndReturn(wxCommandEvent& event)
+void wxZRColaFrame::OnCopySourceAndReturn(wxCommandEvent& event)
 {
     if (m_hWndSource)
-        DoCopyAndReturn(m_panel->m_decomposed->GetValue());
+        DoCopyAndReturn(m_panel->m_source->GetValue());
 
     event.Skip();
 }
@@ -272,8 +272,8 @@ void wxZRColaFrame::OnSendAbort(wxCommandEvent& event)
     }
 
     // Select all input in composer to prepare for the overwrite next time.
-    m_panel->m_decomposed->SelectAll();
-    m_panel->m_composed->SelectAll();
+    m_panel->m_source     ->SelectAll();
+    m_panel->m_destination->SelectAll();
 
     event.Skip();
 }
@@ -326,15 +326,15 @@ void wxZRColaFrame::OnToolbarEdit(wxCommandEvent& event)
 }
 
 
-void wxZRColaFrame::OnToolbarComposeUpdate(wxUpdateUIEvent& event)
+void wxZRColaFrame::OnToolbarTranslateUpdate(wxUpdateUIEvent& event)
 {
-    event.Check(m_mgr.GetPane(m_toolbarCompose).IsShown());
+    event.Check(m_mgr.GetPane(m_toolbarTranslate).IsShown());
 }
 
 
-void wxZRColaFrame::OnToolbarCompose(wxCommandEvent& event)
+void wxZRColaFrame::OnToolbarTranslate(wxCommandEvent& event)
 {
-    wxAuiPaneInfo &paneInfo = m_mgr.GetPane(m_toolbarCompose);
+    wxAuiPaneInfo &paneInfo = m_mgr.GetPane(m_toolbarTranslate);
     paneInfo.Show(!paneInfo.IsShown());
     m_mgr.Update();
 }
@@ -503,9 +503,9 @@ void wxZRColaFrame::DoSend(const wxString& str)
     ::SendInput(input.size(), input.data(), sizeof(INPUT));
     m_hWndSource = NULL;
 
-    // Select all input in composer and decomposed to prepare for the overwrite next time.
-    m_panel->m_decomposed->SelectAll();
-    m_panel->m_composed->SelectAll();
+    // Select all input in source and destination to prepare for the overwrite next time.
+    m_panel->m_source     ->SelectAll();
+    m_panel->m_destination->SelectAll();
 }
 
 
@@ -521,9 +521,9 @@ void wxZRColaFrame::DoCopyAndReturn(const wxString& str)
     ::SetForegroundWindow(m_hWndSource);
     m_hWndSource = NULL;
 
-    // Select all input in composer and decomposed to prepare for the overwrite next time.
-    m_panel->m_decomposed->SelectAll();
-    m_panel->m_composed->SelectAll();
+    // Select all input in composer and source to prepare for the overwrite next time.
+    m_panel->m_source     ->SelectAll();
+    m_panel->m_destination->SelectAll();
 }
 
 
@@ -536,8 +536,8 @@ WXLRESULT wxZRColaFrame::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM
         WXHWND hWndSource = ::GetForegroundWindow();
 
         switch (wParam) {
-        case wxZRColaHKID_INVOKE_COMPOSE  : m_panel->m_decomposed->SetFocus(); break;
-        case wxZRColaHKID_INVOKE_DECOMPOSE: m_panel->m_composed  ->SetFocus(); break;
+        case wxZRColaHKID_INVOKE_TRANSLATE    : m_panel->m_source     ->SetFocus(); break;
+        case wxZRColaHKID_INVOKE_TRANSLATE_INV: m_panel->m_destination->SetFocus(); break;
         default:
             wxFAIL_MSG(wxT("not our registered shortcut"));
             return wxZRColaFrameBase::MSWWindowProc(message, wParam, lParam);

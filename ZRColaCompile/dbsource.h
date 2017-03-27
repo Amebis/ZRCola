@@ -66,8 +66,8 @@ namespace ZRCola {
         ///
         class translation {
         public:
-            charseq dec;    ///< Decomposed sequence
-            charseq com;    ///< Composed character
+            charseq src;    ///< Source sequence
+            charseq dst;    ///< Destination sequence
         };
 
 

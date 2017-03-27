@@ -63,14 +63,14 @@ class wxZRColaFrameBase : public wxFrame
 		enum
 		{
 			wxID_CHARACTER_SELECTOR = 1000,
-			wxID_SEND_COMPOSED,
-			wxID_COPY_COMPOSED_AND_RETURN,
-			wxID_SEND_DECOMPOSED,
-			wxID_COPY_DECOMPOSED_AND_RETURN,
+			wxID_SEND_DESTINATION,
+			wxID_COPY_DESTINATION_AND_RETURN,
+			wxID_SEND_SOURCE,
+			wxID_COPY_SOURCE_AND_RETURN,
 			wxID_SEND_ABORT,
 			wxID_SETTINGS,
 			wxID_TOOLBAR_EDIT,
-			wxID_TOOLBAR_COMPOSE,
+			wxID_TOOLBAR_TRANSLATE,
 			wxID_PANEL_CHRGRPS,
 			wxID_HELP_INSTRUCTIONS,
 			wxID_HELP_SHORTCUTS,
@@ -87,10 +87,10 @@ class wxZRColaFrameBase : public wxFrame
 		wxAuiToolBarItem* m_toolEditCut; 
 		wxAuiToolBarItem* m_toolEditCopy; 
 		wxAuiToolBarItem* m_toolEditPaste; 
-		wxAuiToolBar* m_toolbarCompose;
+		wxAuiToolBar* m_toolbarTranslate;
 		wxAuiToolBarItem* m_toolCharSelect; 
-		wxAuiToolBarItem* m_toolSendComposed; 
-		wxAuiToolBarItem* m_toolSendDecomposed; 
+		wxAuiToolBarItem* m_toolSendDestination; 
+		wxAuiToolBarItem* m_toolSendSource; 
 		wxZRColaCharacterCatalogPanel* m_panelChrCat;
 		wxStatusBar* m_statusBar;
 		
@@ -123,43 +123,43 @@ class wxZRColaComposerPanelBase : public wxPanel
 			wxID_TIMER_SAVE = 1000
 		};
 		
-		wxSplitterWindow* m_splitterDecomposed;
-		wxPanel* m_panelDecomposedEdit;
-		wxPanel* m_panelDecomposedHex;
-		wxTextCtrl* m_decomposedHex;
-		wxSplitterWindow* m_splitterComposed;
-		wxPanel* m_panelComposedEdit;
-		wxPanel* m_panelComposedHex;
-		wxTextCtrl* m_composedHex;
+		wxSplitterWindow* m_splitterSource;
+		wxPanel* m_panelSourceEdit;
+		wxPanel* m_panelSourceHex;
+		wxTextCtrl* m_sourceHex;
+		wxSplitterWindow* m_splitterDestination;
+		wxPanel* m_panelDestinationEdit;
+		wxPanel* m_panelDestinationHex;
+		wxTextCtrl* m_destinationHex;
 		wxTimer m_timerSave;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void OnDecomposedPaint( wxPaintEvent& event ) { event.Skip(); }
-		virtual void OnDecomposedText( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnDecomposedHexPaint( wxPaintEvent& event ) { event.Skip(); }
-		virtual void OnComposedPaint( wxPaintEvent& event ) { event.Skip(); }
-		virtual void OnComposedText( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnComposedHexPaint( wxPaintEvent& event ) { event.Skip(); }
+		virtual void OnSourcePaint( wxPaintEvent& event ) { event.Skip(); }
+		virtual void OnSourceText( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnSourceHexPaint( wxPaintEvent& event ) { event.Skip(); }
+		virtual void OnDestinationPaint( wxPaintEvent& event ) { event.Skip(); }
+		virtual void OnDestinationText( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnDestinationHexPaint( wxPaintEvent& event ) { event.Skip(); }
 		virtual void OnSaveTimer( wxTimerEvent& event ) { event.Skip(); }
 		
 	
 	public:
-		wxTextCtrl* m_decomposed;
-		wxTextCtrl* m_composed;
+		wxTextCtrl* m_source;
+		wxTextCtrl* m_destination;
 		
 		wxZRColaComposerPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxT("ZRColaComposerPanel") ); 
 		~wxZRColaComposerPanelBase();
 		
-		void m_splitterDecomposedOnIdle( wxIdleEvent& )
+		void m_splitterSourceOnIdle( wxIdleEvent& )
 		{
-			m_splitterDecomposed->SetSashPosition( -5 );
-			m_splitterDecomposed->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterDecomposedOnIdle ), NULL, this );
+			m_splitterSource->SetSashPosition( -5 );
+			m_splitterSource->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterSourceOnIdle ), NULL, this );
 		}
 		
-		void m_splitterComposedOnIdle( wxIdleEvent& )
+		void m_splitterDestinationOnIdle( wxIdleEvent& )
 		{
-			m_splitterComposed->SetSashPosition( -5 );
-			m_splitterComposed->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterComposedOnIdle ), NULL, this );
+			m_splitterDestination->SetSashPosition( -5 );
+			m_splitterDestination->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterDestinationOnIdle ), NULL, this );
 		}
 	
 };

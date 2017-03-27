@@ -127,9 +127,9 @@ void wxZRColaSettings::OnApplyButtonClick(wxCommandEvent& event)
         if (m_lang != lang.id) {
             m_lang = lang.id;
 
-            // Notify composed text something changed and should re-decompose.
+            // Notify destination text something changed and should re-inverse translate.
             wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
-            app->m_mainWnd->m_panel->m_composed->ProcessWindowEvent(event2);
+            app->m_mainWnd->m_panel->m_destination->ProcessWindowEvent(event2);
         }
     }
 }

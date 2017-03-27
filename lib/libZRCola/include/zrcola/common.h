@@ -528,7 +528,7 @@ namespace ZRCola {
 
 
     ///
-    /// A vector for composed-decomposed index transformation mapping
+    /// A vector for destination-source index transformation mapping
     ///
     class ZRCOLA_API mapping_vector : public std::vector<mapping> {
     public:

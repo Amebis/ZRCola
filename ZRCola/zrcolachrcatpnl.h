@@ -38,7 +38,7 @@ class wxZRColaCharacterCatalogPanel : public wxZRColaCharacterCatalogPanelBase
 public:
     enum
     {
-        wxID_FOCUS_DECOMPOSED = 6000,
+        wxID_FOCUS_SOURCE = 6000,
     };
 
     wxZRColaCharacterCatalogPanel(wxWindow* parent);
@@ -51,7 +51,7 @@ protected:
     virtual void OnGridClick(wxGridEvent& event);
     virtual void OnGridKeyDown(wxKeyEvent& event);
     virtual void OnShowAll(wxCommandEvent& event);
-    void OnFocusDecomposed(wxCommandEvent& event);
+    void OnFocusSource(wxCommandEvent& event);
     DECLARE_EVENT_TABLE()
 
     void Update();

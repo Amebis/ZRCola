@@ -85,41 +85,41 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	
 	m_menuEdit->AppendSeparator();
 	
-	wxMenuItem* m_menuItemSendComposed;
-	m_menuItemSendComposed = new wxMenuItem( m_menuEdit, wxID_SEND_COMPOSED, wxString( _("&Send Composed") ) + wxT('\t') + wxT("F5"), _("Send composed text to source window"), wxITEM_NORMAL );
+	wxMenuItem* m_menuItemSendDestination;
+	m_menuItemSendDestination = new wxMenuItem( m_menuEdit, wxID_SEND_DESTINATION, wxString( _("&Send Composed") ) + wxT('\t') + wxT("F5"), _("Send composed text to source window"), wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	m_menuItemSendComposed->SetBitmaps( wxIcon( wxT("send_composed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemSendDestination->SetBitmaps( wxIcon( wxT("send_destination.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
 	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
-	m_menuItemSendComposed->SetBitmap( wxIcon( wxT("send_composed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemSendDestination->SetBitmap( wxIcon( wxT("send_destination.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
 	#endif
-	m_menuEdit->Append( m_menuItemSendComposed );
+	m_menuEdit->Append( m_menuItemSendDestination );
 	
-	wxMenuItem* m_menuItemCopyComposedAndReturn;
-	m_menuItemCopyComposedAndReturn = new wxMenuItem( m_menuEdit, wxID_COPY_COMPOSED_AND_RETURN, wxString( _("Copy Composed and &Return") ) + wxT('\t') + wxT("Ctrl+F5"), _("Copy composed text to clipboard and return focus to source window"), wxITEM_NORMAL );
+	wxMenuItem* m_menuItemCopyDestinationAndReturn;
+	m_menuItemCopyDestinationAndReturn = new wxMenuItem( m_menuEdit, wxID_COPY_DESTINATION_AND_RETURN, wxString( _("Copy Composed and &Return") ) + wxT('\t') + wxT("Ctrl+F5"), _("Copy composed text to clipboard and return focus to source window"), wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	m_menuItemCopyComposedAndReturn->SetBitmaps( wxIcon( wxT("copy_composed_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemCopyDestinationAndReturn->SetBitmaps( wxIcon( wxT("copy_destination_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
 	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
-	m_menuItemCopyComposedAndReturn->SetBitmap( wxIcon( wxT("copy_composed_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemCopyDestinationAndReturn->SetBitmap( wxIcon( wxT("copy_destination_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
 	#endif
-	m_menuEdit->Append( m_menuItemCopyComposedAndReturn );
+	m_menuEdit->Append( m_menuItemCopyDestinationAndReturn );
 	
-	wxMenuItem* m_menuItemSendDecomposed;
-	m_menuItemSendDecomposed = new wxMenuItem( m_menuEdit, wxID_SEND_DECOMPOSED, wxString( _("Send &Decomposed") ) + wxT('\t') + wxT("F6"), _("Send decomposed text to source window"), wxITEM_NORMAL );
+	wxMenuItem* m_menuItemSendSource;
+	m_menuItemSendSource = new wxMenuItem( m_menuEdit, wxID_SEND_SOURCE, wxString( _("Send &Decomposed") ) + wxT('\t') + wxT("F6"), _("Send decomposed text to source window"), wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	m_menuItemSendDecomposed->SetBitmaps( wxIcon( wxT("send_decomposed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemSendSource->SetBitmaps( wxIcon( wxT("send_source.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
 	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
-	m_menuItemSendDecomposed->SetBitmap( wxIcon( wxT("send_decomposed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemSendSource->SetBitmap( wxIcon( wxT("send_source.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
 	#endif
-	m_menuEdit->Append( m_menuItemSendDecomposed );
+	m_menuEdit->Append( m_menuItemSendSource );
 	
-	wxMenuItem* m_menuItemCopyDecomposedAndReturn;
-	m_menuItemCopyDecomposedAndReturn = new wxMenuItem( m_menuEdit, wxID_COPY_DECOMPOSED_AND_RETURN, wxString( _("Copy Decomposed and Re&turn") ) + wxT('\t') + wxT("Ctrl+F6"), _("Copy decomposed text to clipboard and return focus to source window"), wxITEM_NORMAL );
+	wxMenuItem* m_menuItemCopySourceAndReturn;
+	m_menuItemCopySourceAndReturn = new wxMenuItem( m_menuEdit, wxID_COPY_SOURCE_AND_RETURN, wxString( _("Copy Decomposed and Re&turn") ) + wxT('\t') + wxT("Ctrl+F6"), _("Copy decomposed text to clipboard and return focus to source window"), wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	m_menuItemCopyDecomposedAndReturn->SetBitmaps( wxIcon( wxT("copy_decomposed_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemCopySourceAndReturn->SetBitmaps( wxIcon( wxT("copy_source_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
 	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
-	m_menuItemCopyDecomposedAndReturn->SetBitmap( wxIcon( wxT("copy_decomposed_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemCopySourceAndReturn->SetBitmap( wxIcon( wxT("copy_source_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
 	#endif
-	m_menuEdit->Append( m_menuItemCopyDecomposedAndReturn );
+	m_menuEdit->Append( m_menuItemCopySourceAndReturn );
 	
 	wxMenuItem* m_menuItemSendAbort;
 	m_menuItemSendAbort = new wxMenuItem( m_menuEdit, wxID_SEND_ABORT, wxString( _("Abort (De)composition") ) + wxT('\t') + wxT("Esc"), _("Abort composition and return focus to source window"), wxITEM_NORMAL );
@@ -144,7 +144,7 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_menuView->Append( m_menuItemToolbarEdit );
 	
 	wxMenuItem* m_menuItemToolbarCompose;
-	m_menuItemToolbarCompose = new wxMenuItem( m_menuView, wxID_TOOLBAR_COMPOSE, wxString( _("&Compose Toolbar") ) , _("Toggle compose toolbar"), wxITEM_CHECK );
+	m_menuItemToolbarCompose = new wxMenuItem( m_menuView, wxID_TOOLBAR_TRANSLATE, wxString( _("&Compose Toolbar") ) , _("Toggle compose toolbar"), wxITEM_CHECK );
 	m_menuView->Append( m_menuItemToolbarCompose );
 	
 	m_menuView->AppendSeparator();
@@ -194,15 +194,15 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_toolbarEdit->Realize();
 	m_mgr.AddPane( m_toolbarEdit, wxAuiPaneInfo().Name( wxT("toolbarEdit") ).Top().Caption( _("Edit") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );
 	
-	m_toolbarCompose = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT ); 
-	m_toolCharSelect = m_toolbarCompose->AddTool( wxID_CHARACTER_SELECTOR, _("Find Character"), wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Find Character"), _("Display character search to select character to insert into text"), NULL ); 
+	m_toolbarTranslate = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT ); 
+	m_toolCharSelect = m_toolbarTranslate->AddTool( wxID_CHARACTER_SELECTOR, _("Find Character"), wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Find Character"), _("Display character search to select character to insert into text"), NULL ); 
 	
-	m_toolSendComposed = m_toolbarCompose->AddTool( wxID_SEND_COMPOSED, _("Send Composed"), wxIcon( wxT("send_composed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Composed"), _("Send composed text to source window"), NULL ); 
+	m_toolSendDestination = m_toolbarTranslate->AddTool( wxID_SEND_DESTINATION, _("Send Composed"), wxIcon( wxT("send_destination.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Composed"), _("Send composed text to source window"), NULL ); 
 	
-	m_toolSendDecomposed = m_toolbarCompose->AddTool( wxID_SEND_DECOMPOSED, _("Send Decomposed"), wxIcon( wxT("send_decomposed.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Decomposed"), _("Send decomposed text to source window"), NULL ); 
+	m_toolSendSource = m_toolbarTranslate->AddTool( wxID_SEND_SOURCE, _("Send Decomposed"), wxIcon( wxT("send_source.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Decomposed"), _("Send decomposed text to source window"), NULL ); 
 	
-	m_toolbarCompose->Realize();
-	m_mgr.AddPane( m_toolbarCompose, wxAuiPaneInfo().Name( wxT("toolbarCompose") ).Top().Caption( _("Compose") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );
+	m_toolbarTranslate->Realize();
+	m_mgr.AddPane( m_toolbarTranslate, wxAuiPaneInfo().Name( wxT("toolbarCompose") ).Top().Caption( _("Compose") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );
 	
 	m_panelChrCat = new wxZRColaCharacterCatalogPanel( this );
 	
@@ -239,99 +239,99 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	wxBoxSizer* bSizerMain;
 	bSizerMain = new wxBoxSizer( wxVERTICAL );
 	
-	m_splitterDecomposed = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D|wxSP_LIVE_UPDATE );
-	m_splitterDecomposed->SetSashGravity( 1 );
-	m_splitterDecomposed->Connect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterDecomposedOnIdle ), NULL, this );
-	m_splitterDecomposed->SetMinimumPaneSize( 5 );
+	m_splitterSource = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D|wxSP_LIVE_UPDATE );
+	m_splitterSource->SetSashGravity( 1 );
+	m_splitterSource->Connect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterSourceOnIdle ), NULL, this );
+	m_splitterSource->SetMinimumPaneSize( 5 );
 	
-	m_panelDecomposedEdit = new wxPanel( m_splitterDecomposed, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	wxBoxSizer* bSizerDecomposedEdit;
-	bSizerDecomposedEdit = new wxBoxSizer( wxVERTICAL );
+	m_panelSourceEdit = new wxPanel( m_splitterSource, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizerSourceEdit;
+	bSizerSourceEdit = new wxBoxSizer( wxVERTICAL );
 	
-	wxStaticBoxSizer* bSizerDecomposedEdit2;
-	bSizerDecomposedEdit2 = new wxStaticBoxSizer( new wxStaticBox( m_panelDecomposedEdit, wxID_ANY, _("Decomposed Text") ), wxVERTICAL );
+	wxStaticBoxSizer* bSizerSourceEdit2;
+	bSizerSourceEdit2 = new wxStaticBoxSizer( new wxStaticBox( m_panelSourceEdit, wxID_ANY, _("Decomposed Text") ), wxVERTICAL );
 	
-	m_decomposed = new wxTextCtrl( bSizerDecomposedEdit2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
-	m_decomposed->SetFont( wxFont( 20, 70, 90, 90, false, wxT("ZRCola") ) );
-	m_decomposed->SetMinSize( wxSize( 100,25 ) );
+	m_source = new wxTextCtrl( bSizerSourceEdit2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
+	m_source->SetFont( wxFont( 20, 70, 90, 90, false, wxT("ZRCola") ) );
+	m_source->SetMinSize( wxSize( 100,25 ) );
 	
-	bSizerDecomposedEdit2->Add( m_decomposed, 1, wxEXPAND, 5 );
-	
-	
-	bSizerDecomposedEdit->Add( bSizerDecomposedEdit2, 1, wxEXPAND, 5 );
+	bSizerSourceEdit2->Add( m_source, 1, wxEXPAND, 5 );
 	
 	
-	m_panelDecomposedEdit->SetSizer( bSizerDecomposedEdit );
-	m_panelDecomposedEdit->Layout();
-	bSizerDecomposedEdit->Fit( m_panelDecomposedEdit );
-	m_panelDecomposedHex = new wxPanel( m_splitterDecomposed, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	wxBoxSizer* bSizerDecomposedHex;
-	bSizerDecomposedHex = new wxBoxSizer( wxVERTICAL );
-	
-	wxStaticBoxSizer* bSizerDecomposedHex2;
-	bSizerDecomposedHex2 = new wxStaticBoxSizer( new wxStaticBox( m_panelDecomposedHex, wxID_ANY, _("Decomposed Unicode Dump") ), wxVERTICAL );
-	
-	m_decomposedHex = new wxTextCtrl( bSizerDecomposedHex2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
-	m_decomposedHex->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 76, 90, 90, false, wxEmptyString ) );
-	
-	bSizerDecomposedHex2->Add( m_decomposedHex, 1, wxEXPAND, 5 );
+	bSizerSourceEdit->Add( bSizerSourceEdit2, 1, wxEXPAND, 5 );
 	
 	
-	bSizerDecomposedHex->Add( bSizerDecomposedHex2, 1, wxEXPAND, 5 );
+	m_panelSourceEdit->SetSizer( bSizerSourceEdit );
+	m_panelSourceEdit->Layout();
+	bSizerSourceEdit->Fit( m_panelSourceEdit );
+	m_panelSourceHex = new wxPanel( m_splitterSource, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizerSourceHex;
+	bSizerSourceHex = new wxBoxSizer( wxVERTICAL );
+	
+	wxStaticBoxSizer* bSizerSourceHex2;
+	bSizerSourceHex2 = new wxStaticBoxSizer( new wxStaticBox( m_panelSourceHex, wxID_ANY, _("Decomposed Unicode Dump") ), wxVERTICAL );
+	
+	m_sourceHex = new wxTextCtrl( bSizerSourceHex2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
+	m_sourceHex->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 76, 90, 90, false, wxEmptyString ) );
+	
+	bSizerSourceHex2->Add( m_sourceHex, 1, wxEXPAND, 5 );
 	
 	
-	m_panelDecomposedHex->SetSizer( bSizerDecomposedHex );
-	m_panelDecomposedHex->Layout();
-	bSizerDecomposedHex->Fit( m_panelDecomposedHex );
-	m_splitterDecomposed->SplitVertically( m_panelDecomposedEdit, m_panelDecomposedHex, -5 );
-	bSizerMain->Add( m_splitterDecomposed, 50, wxALL|wxEXPAND, 5 );
-	
-	m_splitterComposed = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D|wxSP_LIVE_UPDATE );
-	m_splitterComposed->SetSashGravity( 1 );
-	m_splitterComposed->Connect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterComposedOnIdle ), NULL, this );
-	m_splitterComposed->SetMinimumPaneSize( 5 );
-	
-	m_panelComposedEdit = new wxPanel( m_splitterComposed, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	wxBoxSizer* bSizerComposedEdit;
-	bSizerComposedEdit = new wxBoxSizer( wxVERTICAL );
-	
-	wxStaticBoxSizer* bSizerComposedEdit2;
-	bSizerComposedEdit2 = new wxStaticBoxSizer( new wxStaticBox( m_panelComposedEdit, wxID_ANY, _("Composed Text") ), wxVERTICAL );
-	
-	m_composed = new wxTextCtrl( bSizerComposedEdit2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
-	m_composed->SetFont( wxFont( 20, 70, 90, 90, false, wxT("ZRCola") ) );
-	m_composed->SetMinSize( wxSize( 100,25 ) );
-	
-	bSizerComposedEdit2->Add( m_composed, 1, wxEXPAND, 5 );
+	bSizerSourceHex->Add( bSizerSourceHex2, 1, wxEXPAND, 5 );
 	
 	
-	bSizerComposedEdit->Add( bSizerComposedEdit2, 1, wxEXPAND, 5 );
+	m_panelSourceHex->SetSizer( bSizerSourceHex );
+	m_panelSourceHex->Layout();
+	bSizerSourceHex->Fit( m_panelSourceHex );
+	m_splitterSource->SplitVertically( m_panelSourceEdit, m_panelSourceHex, -5 );
+	bSizerMain->Add( m_splitterSource, 50, wxALL|wxEXPAND, 5 );
+	
+	m_splitterDestination = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D|wxSP_LIVE_UPDATE );
+	m_splitterDestination->SetSashGravity( 1 );
+	m_splitterDestination->Connect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterDestinationOnIdle ), NULL, this );
+	m_splitterDestination->SetMinimumPaneSize( 5 );
+	
+	m_panelDestinationEdit = new wxPanel( m_splitterDestination, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizerDestinationEdit;
+	bSizerDestinationEdit = new wxBoxSizer( wxVERTICAL );
+	
+	wxStaticBoxSizer* bSizerDestinationEdit2;
+	bSizerDestinationEdit2 = new wxStaticBoxSizer( new wxStaticBox( m_panelDestinationEdit, wxID_ANY, _("Composed Text") ), wxVERTICAL );
+	
+	m_destination = new wxTextCtrl( bSizerDestinationEdit2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
+	m_destination->SetFont( wxFont( 20, 70, 90, 90, false, wxT("ZRCola") ) );
+	m_destination->SetMinSize( wxSize( 100,25 ) );
+	
+	bSizerDestinationEdit2->Add( m_destination, 1, wxEXPAND, 5 );
 	
 	
-	m_panelComposedEdit->SetSizer( bSizerComposedEdit );
-	m_panelComposedEdit->Layout();
-	bSizerComposedEdit->Fit( m_panelComposedEdit );
-	m_panelComposedHex = new wxPanel( m_splitterComposed, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	wxBoxSizer* bSizerComposedHex;
-	bSizerComposedHex = new wxBoxSizer( wxVERTICAL );
-	
-	wxStaticBoxSizer* bSizerComposedHex2;
-	bSizerComposedHex2 = new wxStaticBoxSizer( new wxStaticBox( m_panelComposedHex, wxID_ANY, _("Composed Unicode Dump") ), wxVERTICAL );
-	
-	m_composedHex = new wxTextCtrl( bSizerComposedHex2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
-	m_composedHex->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 76, 90, 90, false, wxEmptyString ) );
-	
-	bSizerComposedHex2->Add( m_composedHex, 1, wxEXPAND, 5 );
+	bSizerDestinationEdit->Add( bSizerDestinationEdit2, 1, wxEXPAND, 5 );
 	
 	
-	bSizerComposedHex->Add( bSizerComposedHex2, 1, wxEXPAND, 5 );
+	m_panelDestinationEdit->SetSizer( bSizerDestinationEdit );
+	m_panelDestinationEdit->Layout();
+	bSizerDestinationEdit->Fit( m_panelDestinationEdit );
+	m_panelDestinationHex = new wxPanel( m_splitterDestination, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizerDestinationHex;
+	bSizerDestinationHex = new wxBoxSizer( wxVERTICAL );
+	
+	wxStaticBoxSizer* bSizerDestinationHex2;
+	bSizerDestinationHex2 = new wxStaticBoxSizer( new wxStaticBox( m_panelDestinationHex, wxID_ANY, _("Composed Unicode Dump") ), wxVERTICAL );
+	
+	m_destinationHex = new wxTextCtrl( bSizerDestinationHex2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
+	m_destinationHex->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 76, 90, 90, false, wxEmptyString ) );
+	
+	bSizerDestinationHex2->Add( m_destinationHex, 1, wxEXPAND, 5 );
 	
 	
-	m_panelComposedHex->SetSizer( bSizerComposedHex );
-	m_panelComposedHex->Layout();
-	bSizerComposedHex->Fit( m_panelComposedHex );
-	m_splitterComposed->SplitVertically( m_panelComposedEdit, m_panelComposedHex, -5 );
-	bSizerMain->Add( m_splitterComposed, 50, wxALL|wxEXPAND, 5 );
+	bSizerDestinationHex->Add( bSizerDestinationHex2, 1, wxEXPAND, 5 );
+	
+	
+	m_panelDestinationHex->SetSizer( bSizerDestinationHex );
+	m_panelDestinationHex->Layout();
+	bSizerDestinationHex->Fit( m_panelDestinationHex );
+	m_splitterDestination->SplitVertically( m_panelDestinationEdit, m_panelDestinationHex, -5 );
+	bSizerMain->Add( m_splitterDestination, 50, wxALL|wxEXPAND, 5 );
 	
 	
 	this->SetSizer( bSizerMain );
@@ -340,24 +340,24 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	m_timerSave.SetOwner( this, wxID_TIMER_SAVE );
 	
 	// Connect Events
-	m_decomposed->Connect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnDecomposedPaint ), NULL, this );
-	m_decomposed->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnDecomposedText ), NULL, this );
-	m_decomposedHex->Connect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnDecomposedHexPaint ), NULL, this );
-	m_composed->Connect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnComposedPaint ), NULL, this );
-	m_composed->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnComposedText ), NULL, this );
-	m_composedHex->Connect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnComposedHexPaint ), NULL, this );
+	m_source->Connect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnSourcePaint ), NULL, this );
+	m_source->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnSourceText ), NULL, this );
+	m_sourceHex->Connect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnSourceHexPaint ), NULL, this );
+	m_destination->Connect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnDestinationPaint ), NULL, this );
+	m_destination->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnDestinationText ), NULL, this );
+	m_destinationHex->Connect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnDestinationHexPaint ), NULL, this );
 	this->Connect( wxID_TIMER_SAVE, wxEVT_TIMER, wxTimerEventHandler( wxZRColaComposerPanelBase::OnSaveTimer ) );
 }
 
 wxZRColaComposerPanelBase::~wxZRColaComposerPanelBase()
 {
 	// Disconnect Events
-	m_decomposed->Disconnect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnDecomposedPaint ), NULL, this );
-	m_decomposed->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnDecomposedText ), NULL, this );
-	m_decomposedHex->Disconnect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnDecomposedHexPaint ), NULL, this );
-	m_composed->Disconnect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnComposedPaint ), NULL, this );
-	m_composed->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnComposedText ), NULL, this );
-	m_composedHex->Disconnect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnComposedHexPaint ), NULL, this );
+	m_source->Disconnect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnSourcePaint ), NULL, this );
+	m_source->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnSourceText ), NULL, this );
+	m_sourceHex->Disconnect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnSourceHexPaint ), NULL, this );
+	m_destination->Disconnect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnDestinationPaint ), NULL, this );
+	m_destination->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( wxZRColaComposerPanelBase::OnDestinationText ), NULL, this );
+	m_destinationHex->Disconnect( wxEVT_PAINT, wxPaintEventHandler( wxZRColaComposerPanelBase::OnDestinationHexPaint ), NULL, this );
 	this->Disconnect( wxID_TIMER_SAVE, wxEVT_TIMER, wxTimerEventHandler( wxZRColaComposerPanelBase::OnSaveTimer ) );
 	
 }

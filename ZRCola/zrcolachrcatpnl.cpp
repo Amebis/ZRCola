@@ -25,7 +25,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 BEGIN_EVENT_TABLE(wxZRColaCharacterCatalogPanel, wxZRColaCharacterCatalogPanelBase)
-    EVT_MENU(wxZRColaCharacterCatalogPanel::wxID_FOCUS_DECOMPOSED, wxZRColaCharacterCatalogPanel::OnFocusDecomposed)
+    EVT_MENU(wxZRColaCharacterCatalogPanel::wxID_FOCUS_SOURCE, wxZRColaCharacterCatalogPanel::OnFocusSource)
 END_EVENT_TABLE()
 
 
@@ -70,7 +70,7 @@ wxZRColaCharacterCatalogPanel::wxZRColaCharacterCatalogPanel(wxWindow* parent) :
     // Register frame specific hotkey(s).
     {
         wxAcceleratorEntry entries[1];
-        entries[0].Set(wxACCEL_NORMAL, WXK_ESCAPE, wxID_FOCUS_DECOMPOSED);
+        entries[0].Set(wxACCEL_NORMAL, WXK_ESCAPE, wxID_FOCUS_SOURCE);
         SetAcceleratorTable(wxAcceleratorTable(_countof(entries), entries));
     }
 }
@@ -98,8 +98,8 @@ void wxZRColaCharacterCatalogPanel::OnGridClick(wxGridEvent& event)
 {
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     if (app->m_mainWnd) {
-        app->m_mainWnd->m_panel->m_decomposed->WriteText(m_grid->GetCellValue(event.GetRow(), event.GetCol()));
-        app->m_mainWnd->m_panel->m_decomposed->SetFocus();
+        app->m_mainWnd->m_panel->m_source->WriteText(m_grid->GetCellValue(event.GetRow(), event.GetCol()));
+        app->m_mainWnd->m_panel->m_source->SetFocus();
     }
 
     event.Skip();
@@ -113,8 +113,8 @@ void wxZRColaCharacterCatalogPanel::OnGridKeyDown(wxKeyEvent& event)
     case WXK_NUMPAD_ENTER:
         auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
         if (app->m_mainWnd) {
-            app->m_mainWnd->m_panel->m_decomposed->WriteText(m_grid->GetCellValue(m_grid->GetCursorRow(), m_grid->GetCursorColumn()));
-            app->m_mainWnd->m_panel->m_decomposed->SetFocus();
+            app->m_mainWnd->m_panel->m_source->WriteText(m_grid->GetCellValue(m_grid->GetCursorRow(), m_grid->GetCursorColumn()));
+            app->m_mainWnd->m_panel->m_source->SetFocus();
 
             event.StopPropagation();
             return;
@@ -135,11 +135,11 @@ void wxZRColaCharacterCatalogPanel::OnShowAll(wxCommandEvent& event)
 }
 
 
-void wxZRColaCharacterCatalogPanel::OnFocusDecomposed(wxCommandEvent& event)
+void wxZRColaCharacterCatalogPanel::OnFocusSource(wxCommandEvent& event)
 {
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     if (app->m_mainWnd) {
-        app->m_mainWnd->m_panel->m_decomposed->SetFocus();
+        app->m_mainWnd->m_panel->m_source->SetFocus();
 
         event.StopPropagation();
         return;

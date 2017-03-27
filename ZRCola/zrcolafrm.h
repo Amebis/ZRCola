@@ -40,8 +40,8 @@ class wxZRColaFrame;
 ///
 /// Global hotkey message identifiers
 ///
-#define wxZRColaHKID_INVOKE_COMPOSE     0
-#define wxZRColaHKID_INVOKE_DECOMPOSE   1
+#define wxZRColaHKID_INVOKE_TRANSLATE       0
+#define wxZRColaHKID_INVOKE_TRANSLATE_INV   1
 
 
 ///
@@ -72,10 +72,10 @@ protected:
     void OnForwardEvent(wxCommandEvent& event);
     void OnInsertCharacter(wxCommandEvent& event);
     void OnSendUpdate(wxUpdateUIEvent& event);
-    void OnSendComposed(wxCommandEvent& event);
-    void OnCopyComposedAndReturn(wxCommandEvent& event);
-    void OnSendDecomposed(wxCommandEvent& event);
-    void OnCopyDecomposedAndReturn(wxCommandEvent& event);
+    void OnSendDestination(wxCommandEvent& event);
+    void OnCopyDestinationAndReturn(wxCommandEvent& event);
+    void OnSendSource(wxCommandEvent& event);
+    void OnCopySourceAndReturn(wxCommandEvent& event);
     void OnSendAbort(wxCommandEvent& event);
     void OnSettings(wxCommandEvent& event);
     virtual void OnIdle(wxIdleEvent& event);
@@ -83,8 +83,8 @@ protected:
     virtual void OnIconize(wxIconizeEvent& event);
     void OnToolbarEditUpdate(wxUpdateUIEvent& event);
     void OnToolbarEdit(wxCommandEvent& event);
-    void OnToolbarComposeUpdate(wxUpdateUIEvent& event);
-    void OnToolbarCompose(wxCommandEvent& event);
+    void OnToolbarTranslateUpdate(wxUpdateUIEvent& event);
+    void OnToolbarTranslate(wxCommandEvent& event);
     void OnPanelCharacterCatalogUpdate(wxUpdateUIEvent& event);
     void OnPanelCharacterCatalog(wxCommandEvent& event);
     void OnPanelCharacterCatalogFocus(wxCommandEvent& event);

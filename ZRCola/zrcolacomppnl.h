@@ -46,12 +46,12 @@ public:
     friend class wxPersistentZRColaComposerPanel;   // Allow saving/restoring window state.
 
 protected:
-    virtual void OnDecomposedPaint(wxPaintEvent& event);
-    virtual void OnDecomposedHexPaint(wxPaintEvent& event);
-    virtual void OnDecomposedText(wxCommandEvent& event);
-    virtual void OnComposedPaint(wxPaintEvent& event);
-    virtual void OnComposedHexPaint(wxPaintEvent& event);
-    virtual void OnComposedText(wxCommandEvent& event);
+    virtual void OnSourcePaint(wxPaintEvent& event);
+    virtual void OnSourceHexPaint(wxPaintEvent& event);
+    virtual void OnSourceText(wxCommandEvent& event);
+    virtual void OnDestinationPaint(wxPaintEvent& event);
+    virtual void OnDestinationHexPaint(wxPaintEvent& event);
+    virtual void OnDestinationText(wxCommandEvent& event);
     virtual void OnSaveTimer(wxTimerEvent& event);
 
     static wxString GetStateFileName();
@@ -59,18 +59,18 @@ protected:
     static void SetHexValue(wxTextCtrl *wnd, std::pair<long, long> &range, ZRCola::mapping_vector &mapping, const wchar_t *src, size_t len, long from, long to);
 
 protected:
-    bool m_decomposedChanged;                       ///< Boolean flag to mark decomposed text "dirty" to trigger composition
-    bool m_composedChanged;                         ///< Boolean flag to mark composed text "dirty" to trigger decomposition
-    ZRCola::mapping_vector m_mapping1;              ///< Character index mapping vector between decomposed and normalized text
-    ZRCola::mapping_vector m_mapping2;              ///< Character index mapping vector between normalized and composed text
+    bool m_sourceChanged;                           ///< Boolean flag to mark source text "dirty" to trigger translation
+    bool m_destinationChanged;                      ///< Boolean flag to mark destination text "dirty" to trigger inverse translation
+    ZRCola::mapping_vector m_mapping1;              ///< Character index mapping vector between source and normalized text
+    ZRCola::mapping_vector m_mapping2;              ///< Character index mapping vector between normalized and destination text
     std::pair<long, long>
-        m_selDecomposed,                            ///< Character index of selected text in decomposed text control
-        m_selDecomposedHex,                         ///< Character index of selected text in decomposed HEX dump text control
-        m_selComposed,                              ///< Character index of selected text in composed text control
-        m_selComposedHex;                           ///< Character index of selected text in composed HEX dump text control
-    wxZRColaKeyHandler m_keyhandler;                ///< Key handler for decomposed window
-    ZRCola::mapping_vector m_mappingDecomposedHex;  ///< Character index mapping vector between decomposed text and its HEX dump
-    ZRCola::mapping_vector m_mappingComposedHex;    ///< Character index mapping vector between composed text and its HEX dump
+        m_selSource,                                ///< Character index of selected text in source text control
+        m_selSourceHex,                             ///< Character index of selected text in source HEX dump text control
+        m_selDestination,                           ///< Character index of selected text in destination text control
+        m_selDestinationHex;                        ///< Character index of selected text in destination HEX dump text control
+    wxZRColaKeyHandler m_keyhandler;                ///< Key handler for source window
+    ZRCola::mapping_vector m_mappingSourceHex;      ///< Character index mapping vector between source text and its HEX dump
+    ZRCola::mapping_vector m_mappingDestinationHex; ///< Character index mapping vector between destination text and its HEX dump
 };
 
 

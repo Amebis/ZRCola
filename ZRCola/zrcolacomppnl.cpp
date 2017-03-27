@@ -25,42 +25,42 @@
 //////////////////////////////////////////////////////////////////////////
 
 wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
-    m_decomposedChanged(false),
-    m_composedChanged(false),
-    m_selDecomposed(0, 0),
-    m_selComposed(0, 0),
+    m_sourceChanged(false),
+    m_destinationChanged(false),
+    m_selSource(0, 0),
+    m_selDestination(0, 0),
     wxZRColaComposerPanelBase(parent)
 {
-    m_decomposed->PushEventHandler(&m_keyhandler);
+    m_source->PushEventHandler(&m_keyhandler);
 
     // Restore the previously saved state (if exists).
     wxString fileName(GetStateFileName());
     if (wxFileExists(fileName)) {
         wxFFile file(fileName, wxT("rb"));
         if (file.IsOpened()) {
-            // Load decomposed text.
+            // Load source text.
             unsigned __int64 n;
             file.Read(&n, sizeof(n));
             if (!file.Error()) {
-                wxString decomposed;
-                file.Read(wxStringBuffer(decomposed, n), sizeof(wchar_t)*n);
+                wxString source;
+                file.Read(wxStringBuffer(source, n), sizeof(wchar_t)*n);
                 if (!file.Error()) {
-                    // Load composed text.
+                    // Load destination text.
                     file.Read(&n, sizeof(n));
                     if (!file.Error()) {
-                        wxString composed;
-                        file.Read(wxStringBuffer(composed, n), sizeof(wchar_t)*n);
+                        wxString destination;
+                        file.Read(wxStringBuffer(destination, n), sizeof(wchar_t)*n);
                         if (!file.Error()) {
                             // Restore state.
-                            m_decomposed->SetValue(decomposed);
-                            m_decomposed->GetSelection(&m_selDecomposed.first, &m_selDecomposed.second);
-                            SetHexValue(m_decomposedHex, m_selDecomposedHex, m_mappingDecomposedHex, decomposed.GetData(), decomposed.Length(), m_selDecomposed.first, m_selDecomposed.second);
-                            m_decomposedChanged = false;
+                            m_source->SetValue(source);
+                            m_source->GetSelection(&m_selSource.first, &m_selSource.second);
+                            SetHexValue(m_sourceHex, m_selSourceHex, m_mappingSourceHex, source.GetData(), source.Length(), m_selSource.first, m_selSource.second);
+                            m_sourceChanged = false;
 
-                            m_composed->SetValue(composed);
-                            m_composed->GetSelection(&m_selComposed.first, &m_selComposed.second);
-                            SetHexValue(m_composedHex, m_selComposedHex, m_mappingComposedHex, composed.GetData(), composed.Length(), m_selComposed.first, m_selComposed.second);
-                            m_composedChanged = false;
+                            m_destination->SetValue(destination);
+                            m_destination->GetSelection(&m_selDestination.first, &m_selDestination.second);
+                            SetHexValue(m_destinationHex, m_selDestinationHex, m_mappingDestinationHex, destination.GetData(), destination.Length(), m_selDestination.first, m_selDestination.second);
+                            m_destinationChanged = false;
                         }
                     }
                 }
@@ -72,7 +72,7 @@ wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
 
 wxZRColaComposerPanel::~wxZRColaComposerPanel()
 {
-    m_decomposed->PopEventHandler();
+    m_source->PopEventHandler();
 
     // This is a controlled exit. Purge saved state.
     wxString fileName(GetStateFileName());
@@ -83,195 +83,195 @@ wxZRColaComposerPanel::~wxZRColaComposerPanel()
 
 void wxZRColaComposerPanel::SynchronizePanels()
 {
-    if (m_decomposedChanged) {
+    if (m_sourceChanged) {
         m_timerSave.Stop();
 
         auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
         wxString src;
-        size_t len = GetValue(m_decomposed, src);
+        size_t len = GetValue(m_source, src);
 
         std::wstring norm;
-        app->m_t_db.Decompose(src.data(), len, norm, &m_mapping1);
+        app->m_t_db.TranslateInv(src.data(), len, norm, &m_mapping1);
 
         std::wstring dst;
-        app->m_t_db.Compose(norm.data(), norm.size(), dst, &m_mapping2);
+        app->m_t_db.Translate(norm.data(), norm.size(), dst, &m_mapping2);
 
-        m_decomposed->GetSelection(&m_selDecomposed.first, &m_selDecomposed.second);
+        m_source->GetSelection(&m_selSource.first, &m_selSource.second);
 
-        // Update decomposed HEX dump.
-        SetHexValue(m_decomposedHex, m_selDecomposedHex, m_mappingDecomposedHex, src.data(), len, m_selDecomposed.first, m_selDecomposed.second);
+        // Update source HEX dump.
+        SetHexValue(m_sourceHex, m_selSourceHex, m_mappingSourceHex, src.data(), len, m_selSource.first, m_selSource.second);
 
-        // Update composed text, and its HEX dump.
-        m_composed->SetValue(dst);
-        m_composed->SetSelection(
-            m_selComposed.first  = m_mapping2.to_dst(m_mapping1.to_dst(m_selDecomposed.first )),
-            m_selComposed.second = m_mapping2.to_dst(m_mapping1.to_dst(m_selDecomposed.second)));
-        SetHexValue(m_composedHex, m_selComposedHex, m_mappingComposedHex, dst.data(), dst.length(), m_selComposed.first, m_selComposed.second);
+        // Update destination text, and its HEX dump.
+        m_destination->SetValue(dst);
+        m_destination->SetSelection(
+            m_selDestination.first  = m_mapping2.to_dst(m_mapping1.to_dst(m_selSource.first )),
+            m_selDestination.second = m_mapping2.to_dst(m_mapping1.to_dst(m_selSource.second)));
+        SetHexValue(m_destinationHex, m_selDestinationHex, m_mappingDestinationHex, dst.data(), dst.length(), m_selDestination.first, m_selDestination.second);
 
         // Schedule state save after 3s.
         m_timerSave.Start(3000, true);
-    } else if (m_composedChanged) {
+    } else if (m_destinationChanged) {
         m_timerSave.Stop();
 
         wxString src;
-        size_t len = GetValue(m_composed, src);
+        size_t len = GetValue(m_destination, src);
 
         auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
         std::wstring dst;
         wxZRColaFrame *mainWnd = dynamic_cast<wxZRColaFrame*>(wxGetActiveWindow());
         if (mainWnd)
-            app->m_t_db.Decompose(src.data(), len, &app->m_lc_db, mainWnd->m_settings->m_lang, dst, &m_mapping2);
+            app->m_t_db.TranslateInv(src.data(), len, &app->m_lc_db, mainWnd->m_settings->m_lang, dst, &m_mapping2);
         else
-            app->m_t_db.Decompose(src.data(), len, dst, &m_mapping2);
+            app->m_t_db.TranslateInv(src.data(), len, dst, &m_mapping2);
 
         m_mapping1.clear();
         m_mapping2.invert();
 
-        m_composed->GetSelection(&m_selComposed.first, &m_selComposed.second);
+        m_destination->GetSelection(&m_selDestination.first, &m_selDestination.second);
 
-        // Update composed HEX dump.
-        SetHexValue(m_composedHex, m_selComposedHex, m_mappingComposedHex, src.data(), len, m_selComposed.first, m_selComposed.second);
+        // Update destination HEX dump.
+        SetHexValue(m_destinationHex, m_selDestinationHex, m_mappingDestinationHex, src.data(), len, m_selDestination.first, m_selDestination.second);
 
-        // Update decomposed text, and its HEX dump.
-        m_decomposed->SetValue(dst);
-        m_decomposed->SetSelection(
-            m_selDecomposed.first  = m_mapping1.to_src(m_mapping2.to_src(m_selComposed.first )),
-            m_selDecomposed.second = m_mapping1.to_src(m_mapping2.to_src(m_selComposed.second)));
-        SetHexValue(m_decomposedHex, m_selDecomposedHex, m_mappingDecomposedHex, dst.data(), dst.length(), m_selDecomposed.first, m_selDecomposed.second);
+        // Update source text, and its HEX dump.
+        m_source->SetValue(dst);
+        m_source->SetSelection(
+            m_selSource.first  = m_mapping1.to_src(m_mapping2.to_src(m_selDestination.first )),
+            m_selSource.second = m_mapping1.to_src(m_mapping2.to_src(m_selDestination.second)));
+        SetHexValue(m_sourceHex, m_selSourceHex, m_mappingSourceHex, dst.data(), dst.length(), m_selSource.first, m_selSource.second);
 
         // Schedule state save after 3s.
         m_timerSave.Start(3000, true);
     }
 
-    m_decomposedChanged = false;
-    m_composedChanged   = false;
+    m_sourceChanged      = false;
+    m_destinationChanged = false;
 }
 
 
 
-void wxZRColaComposerPanel::OnDecomposedPaint(wxPaintEvent& event)
+void wxZRColaComposerPanel::OnSourcePaint(wxPaintEvent& event)
 {
     event.Skip();
 
     long from, to;
-    m_decomposed->GetSelection(&from, &to);
+    m_source->GetSelection(&from, &to);
 
-    if (m_selDecomposed.first != from || m_selDecomposed.second != to) {
+    if (m_selSource.first != from || m_selSource.second != to) {
         // Save new selection first, to avoid loop.
-        m_selDecomposed.first  = from;
-        m_selDecomposed.second = to;
+        m_selSource.first  = from;
+        m_selSource.second = to;
 
-        m_decomposedHex->SetSelection(
-            m_selDecomposedHex.first  = m_mappingDecomposedHex.to_dst(from),
-            m_selDecomposedHex.second = m_mappingDecomposedHex.to_dst(to  ));
+        m_sourceHex->SetSelection(
+            m_selSourceHex.first  = m_mappingSourceHex.to_dst(from),
+            m_selSourceHex.second = m_mappingSourceHex.to_dst(to  ));
 
-        m_composed->SetSelection(
-            m_selComposed.first  = m_mapping2.to_dst(m_mapping1.to_dst(from)),
-            m_selComposed.second = m_mapping2.to_dst(m_mapping1.to_dst(to  )));
+        m_destination->SetSelection(
+            m_selDestination.first  = m_mapping2.to_dst(m_mapping1.to_dst(from)),
+            m_selDestination.second = m_mapping2.to_dst(m_mapping1.to_dst(to  )));
 
-        m_composedHex->SetSelection(
-            m_selComposedHex.first  = m_mappingComposedHex.to_dst(m_selComposed.first ),
-            m_selComposedHex.second = m_mappingComposedHex.to_dst(m_selComposed.second));
+        m_destinationHex->SetSelection(
+            m_selDestinationHex.first  = m_mappingDestinationHex.to_dst(m_selDestination.first ),
+            m_selDestinationHex.second = m_mappingDestinationHex.to_dst(m_selDestination.second));
     }
 }
 
 
-void wxZRColaComposerPanel::OnDecomposedHexPaint(wxPaintEvent& event)
+void wxZRColaComposerPanel::OnSourceHexPaint(wxPaintEvent& event)
 {
     event.Skip();
 
     long from, to;
-    m_decomposedHex->GetSelection(&from, &to);
+    m_sourceHex->GetSelection(&from, &to);
 
-    if (m_selDecomposedHex.first != from || m_selDecomposedHex.second != to) {
+    if (m_selSourceHex.first != from || m_selSourceHex.second != to) {
         // Save new selection first, to avoid loop.
-        m_selDecomposedHex.first  = from;
-        m_selDecomposedHex.second = to;
+        m_selSourceHex.first  = from;
+        m_selSourceHex.second = to;
 
-        m_decomposed->SetSelection(
-            m_selDecomposed.first  = m_mappingDecomposedHex.to_src(from),
-            m_selDecomposed.second = m_mappingDecomposedHex.to_src(to  ));
+        m_source->SetSelection(
+            m_selSource.first  = m_mappingSourceHex.to_src(from),
+            m_selSource.second = m_mappingSourceHex.to_src(to  ));
 
-        m_composed->SetSelection(
-            m_selComposed.first  = m_mapping2.to_dst(m_mapping1.to_dst(m_selDecomposed.first )),
-            m_selComposed.second = m_mapping2.to_dst(m_mapping1.to_dst(m_selDecomposed.second)));
+        m_destination->SetSelection(
+            m_selDestination.first  = m_mapping2.to_dst(m_mapping1.to_dst(m_selSource.first )),
+            m_selDestination.second = m_mapping2.to_dst(m_mapping1.to_dst(m_selSource.second)));
 
-        m_composedHex->SetSelection(
-            m_selComposedHex.first  = m_mappingComposedHex.to_dst(m_selComposed.first ),
-            m_selComposedHex.second = m_mappingComposedHex.to_dst(m_selComposed.second));
+        m_destinationHex->SetSelection(
+            m_selDestinationHex.first  = m_mappingDestinationHex.to_dst(m_selDestination.first ),
+            m_selDestinationHex.second = m_mappingDestinationHex.to_dst(m_selDestination.second));
     }
 }
 
 
-void wxZRColaComposerPanel::OnDecomposedText(wxCommandEvent& event)
+void wxZRColaComposerPanel::OnSourceText(wxCommandEvent& event)
 {
     event.Skip();
 
-    // Set the flag the decomposed text changed to trigger idle-time composition.
-    m_decomposedChanged = true;
+    // Set the flag the source text changed to trigger idle-time translation.
+    m_sourceChanged = true;
 }
 
 
-void wxZRColaComposerPanel::OnComposedPaint(wxPaintEvent& event)
+void wxZRColaComposerPanel::OnDestinationPaint(wxPaintEvent& event)
 {
     event.Skip();
 
     long from, to;
-    m_composed->GetSelection(&from, &to);
+    m_destination->GetSelection(&from, &to);
 
-    if (m_selComposed.first != from || m_selComposed.second != to) {
+    if (m_selDestination.first != from || m_selDestination.second != to) {
         // Save new selection first, to avoid loop.
-        m_selComposed.first  = from;
-        m_selComposed.second = to;
+        m_selDestination.first  = from;
+        m_selDestination.second = to;
 
-        m_composedHex->SetSelection(
-            m_selComposedHex.first  = m_mappingComposedHex.to_dst(from),
-            m_selComposedHex.second = m_mappingComposedHex.to_dst(to  ));
+        m_destinationHex->SetSelection(
+            m_selDestinationHex.first  = m_mappingDestinationHex.to_dst(from),
+            m_selDestinationHex.second = m_mappingDestinationHex.to_dst(to  ));
 
-        m_decomposed->SetSelection(
-            m_selDecomposed.first  = m_mapping1.to_src(m_mapping2.to_src(from)),
-            m_selDecomposed.second = m_mapping1.to_src(m_mapping2.to_src(to  )));
+        m_source->SetSelection(
+            m_selSource.first  = m_mapping1.to_src(m_mapping2.to_src(from)),
+            m_selSource.second = m_mapping1.to_src(m_mapping2.to_src(to  )));
 
-        m_decomposedHex->SetSelection(
-            m_selDecomposedHex.first  = m_mappingDecomposedHex.to_dst(m_selDecomposed.first ),
-            m_selDecomposedHex.second = m_mappingDecomposedHex.to_dst(m_selDecomposed.second));
+        m_sourceHex->SetSelection(
+            m_selSourceHex.first  = m_mappingSourceHex.to_dst(m_selSource.first ),
+            m_selSourceHex.second = m_mappingSourceHex.to_dst(m_selSource.second));
     }
 }
 
 
-void wxZRColaComposerPanel::OnComposedHexPaint(wxPaintEvent& event)
+void wxZRColaComposerPanel::OnDestinationHexPaint(wxPaintEvent& event)
 {
     event.Skip();
 
     long from, to;
-    m_composedHex->GetSelection(&from, &to);
+    m_destinationHex->GetSelection(&from, &to);
 
-    if (m_selComposedHex.first != from || m_selComposedHex.second != to) {
+    if (m_selDestinationHex.first != from || m_selDestinationHex.second != to) {
         // Save new selection first, to avoid loop.
-        m_selComposedHex.first  = from;
-        m_selComposedHex.second = to;
+        m_selDestinationHex.first  = from;
+        m_selDestinationHex.second = to;
 
-        m_composed->SetSelection(
-            m_selComposed.first  = m_mappingComposedHex.to_src(from),
-            m_selComposed.second = m_mappingComposedHex.to_src(to  ));
+        m_destination->SetSelection(
+            m_selDestination.first  = m_mappingDestinationHex.to_src(from),
+            m_selDestination.second = m_mappingDestinationHex.to_src(to  ));
 
-        m_decomposed->SetSelection(
-            m_selDecomposed.first  = m_mapping1.to_src(m_mapping2.to_src(m_selComposed.first )),
-            m_selDecomposed.second = m_mapping1.to_src(m_mapping2.to_src(m_selComposed.second)));
+        m_source->SetSelection(
+            m_selSource.first  = m_mapping1.to_src(m_mapping2.to_src(m_selDestination.first )),
+            m_selSource.second = m_mapping1.to_src(m_mapping2.to_src(m_selDestination.second)));
 
-        m_decomposedHex->SetSelection(
-            m_selDecomposedHex.first  = m_mappingDecomposedHex.to_dst(m_selDecomposed.first ),
-            m_selDecomposedHex.second = m_mappingDecomposedHex.to_dst(m_selDecomposed.second));
+        m_sourceHex->SetSelection(
+            m_selSourceHex.first  = m_mappingSourceHex.to_dst(m_selSource.first ),
+            m_selSourceHex.second = m_mappingSourceHex.to_dst(m_selSource.second));
     }
 }
 
 
-void wxZRColaComposerPanel::OnComposedText(wxCommandEvent& event)
+void wxZRColaComposerPanel::OnDestinationText(wxCommandEvent& event)
 {
     event.Skip();
 
-    // Set the flag the composed text changed to trigger idle-time decomposition.
-    m_composedChanged = true;
+    // Set the flag the destination text changed to trigger idle-time inverse translation.
+    m_destinationChanged = true;
 }
 
 
@@ -283,13 +283,13 @@ void wxZRColaComposerPanel::OnSaveTimer(wxTimerEvent& event)
         wxString text;
         size_t len;
 
-        // Save decomposed text.
-        len = GetValue(m_decomposed, text);
+        // Save source text.
+        len = GetValue(m_source, text);
         file.Write(&len, sizeof(len));
         file.Write((const wchar_t*)text, sizeof(wchar_t)*len);
 
-        // Save composed text.
-        len = GetValue(m_composed, text);
+        // Save destination text.
+        len = GetValue(m_destination, text);
         file.Write(&len, sizeof(len));
         file.Write((const wchar_t*)text, sizeof(wchar_t)*len);
     }
@@ -385,8 +385,8 @@ void wxPersistentZRColaComposerPanel::Save() const
 {
     auto const wnd = static_cast<const wxZRColaComposerPanel*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
 
-    SaveValue(wxT("splitDecomposed"), wnd->m_splitterDecomposed->GetSashPosition());
-    SaveValue(wxT("splitComposed"  ), wnd->m_splitterComposed  ->GetSashPosition());
+    SaveValue(wxT("splitDecomposed"), wnd->m_splitterSource->GetSashPosition());
+    SaveValue(wxT("splitComposed"  ), wnd->m_splitterDestination  ->GetSashPosition());
 }
 
 
@@ -398,14 +398,14 @@ bool wxPersistentZRColaComposerPanel::Restore()
 
     if (RestoreValue(wxT("splitDecomposed"), &sashVal)) {
         // wxFormBuilder sets initial splitter stash in idle event handler after GUI settles. Overriding our loaded value. Disconnect it's idle event handler.
-        wnd->m_splitterDecomposed->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterDecomposedOnIdle ), NULL, wnd );
-        wnd->m_splitterDecomposed->SetSashPosition(sashVal);
+        wnd->m_splitterSource->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterSourceOnIdle ), NULL, wnd );
+        wnd->m_splitterSource->SetSashPosition(sashVal);
     }
 
     if (RestoreValue(wxT("splitComposed"), &sashVal)) {
         // wxFormBuilder sets initial splitter stash in idle event handler after GUI settles. Overriding our loaded value. Disconnect it's idle event handler.
-        wnd->m_splitterComposed->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterComposedOnIdle ), NULL, wnd );
-        wnd->m_splitterComposed->SetSashPosition(sashVal);
+        wnd->m_splitterDestination->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterDestinationOnIdle ), NULL, wnd );
+        wnd->m_splitterDestination->SetSashPosition(sashVal);
     }
 
     return true;

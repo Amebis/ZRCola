@@ -610,25 +610,25 @@ bool ZRCola::DBSource::GetTranslation(const com_obj<ADORecordset>& rs, ZRCola::D
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"komb"), &f)));
-        wxCHECK(GetUnicodeString(f, t.dec.str), false);
+        wxCHECK(GetUnicodeString(f, t.src.str), false);
     }
 
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"rang_komb"), &f)));
-        wxCHECK(GetValue(f, t.dec.rank), false);
+        wxCHECK(GetValue(f, t.src.rank), false);
     }
 
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"rang_znak"), &f)));
-        wxCHECK(GetValue(f, t.com.rank), false);
+        wxCHECK(GetValue(f, t.dst.rank), false);
     }
 
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"znak"), &f)));
-        wxCHECK(GetUnicodeString(f, t.com.str), false);
+        wxCHECK(GetUnicodeString(f, t.dst.str), false);
     }
 
     return true;

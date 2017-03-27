@@ -47,13 +47,13 @@ namespace ZRCola {
         ///
         struct translation {
         public:
-            unsigned __int16 com_rank; ///< Composed character rank
-            unsigned __int16 dec_rank; ///< Decomposed character rank
+            unsigned __int16 dst_rank; ///< Destination character rank
+            unsigned __int16 src_rank; ///< Source character rank
 
         protected:
-            unsigned __int16 com_to;   ///< Composed character end in \c data
-            unsigned __int16 dec_to;   ///< Decomposed string end in \c data
-            wchar_t data[];            ///< Decomposed string and composed character
+            unsigned __int16 dst_to;   ///< Destination character end in \c data
+            unsigned __int16 src_to;   ///< Source string end in \c data
+            wchar_t data[];            ///< Destination string and source character
 
         private:
             inline translation(_In_ const translation &other);
@@ -63,58 +63,58 @@ namespace ZRCola {
             ///
             /// Constructs the translation
             ///
-            /// \param[in] com_rank Composed character rank
-            /// \param[in] com      Composed character
-            /// \param[in] com_len  Number of UTF-16 characters in \p com
-            /// \param[in] dec_rank Decomposed character rank
-            /// \param[in] dec      Decomposed character
-            /// \param[in] dec_len  Number of UTF-16 characters in \p dec
+            /// \param[in] dst_rank Destination character rank
+            /// \param[in] dst      Destination character
+            /// \param[in] dst_len  Number of UTF-16 characters in \p dst
+            /// \param[in] src_rank Source character rank
+            /// \param[in] src      Source character
+            /// \param[in] src_len  Number of UTF-16 characters in \p src
             ///
             inline translation(
-                _In_opt_                        unsigned __int16  com_rank = 0,
-                _In_opt_z_count_(com_len) const wchar_t          *com      = NULL,
-                _In_opt_                        size_t            com_len  = 0,
-                _In_opt_                        unsigned __int16  dec_rank = 0,
-                _In_opt_z_count_(dec_len) const wchar_t          *dec      = NULL,
-                _In_opt_                        size_t            dec_len  = 0)
+                _In_opt_                        unsigned __int16  dst_rank = 0,
+                _In_opt_z_count_(dst_len) const wchar_t          *dst      = NULL,
+                _In_opt_                        size_t            dst_len  = 0,
+                _In_opt_                        unsigned __int16  src_rank = 0,
+                _In_opt_z_count_(src_len) const wchar_t          *src      = NULL,
+                _In_opt_                        size_t            src_len  = 0)
             {
-                this->com_rank = com_rank;
-                this->dec_rank = dec_rank;
-                this->com_to = static_cast<unsigned __int16>(com_len);
-                if (com_len) memcpy(this->data, com, sizeof(wchar_t)*com_len);
-                this->dec_to = static_cast<unsigned __int16>(this->com_to + dec_len);
-                if (dec_len) memcpy(this->data + this->com_to, dec, sizeof(wchar_t)*dec_len);
+                this->dst_rank = dst_rank;
+                this->src_rank = src_rank;
+                this->dst_to = static_cast<unsigned __int16>(dst_len);
+                if (dst_len) memcpy(this->data, dst, sizeof(wchar_t)*dst_len);
+                this->src_to = static_cast<unsigned __int16>(this->dst_to + src_len);
+                if (src_len) memcpy(this->data + this->dst_to, src, sizeof(wchar_t)*src_len);
             }
 
-            inline const wchar_t*         com    () const { return data;          };
-            inline       wchar_t*         com    ()       { return data;          };
-            inline const wchar_t*         com_end() const { return data + com_to; };
-            inline       wchar_t*         com_end()       { return data + com_to; };
-            inline       unsigned __int16 com_len() const { return com_to;        };
+            inline const wchar_t*         dst    () const { return data;          };
+            inline       wchar_t*         dst    ()       { return data;          };
+            inline const wchar_t*         dst_end() const { return data + dst_to; };
+            inline       wchar_t*         dst_end()       { return data + dst_to; };
+            inline       unsigned __int16 dst_len() const { return dst_to;        };
 
-            inline wchar_t com_at(_In_ size_t i) const
+            inline wchar_t dst_at(_In_ size_t i) const
             {
-                return i < com_to ? data[i] : 0;
+                return i < dst_to ? data[i] : 0;
             }
 
-            inline const wchar_t*         dec    () const { return data + com_to;   };
-            inline       wchar_t*         dec    ()       { return data + com_to;   };
-            inline const wchar_t*         dec_end() const { return data + dec_to;   };
-            inline       wchar_t*         dec_end()       { return data + dec_to;   };
-            inline       unsigned __int16 dec_len() const { return dec_to - com_to; };
+            inline const wchar_t*         src    () const { return data + dst_to;   };
+            inline       wchar_t*         src    ()       { return data + dst_to;   };
+            inline const wchar_t*         src_end() const { return data + src_to;   };
+            inline       wchar_t*         src_end()       { return data + src_to;   };
+            inline       unsigned __int16 src_len() const { return src_to - dst_to; };
 
-            inline wchar_t dec_at(_In_ size_t i) const
+            inline wchar_t src_at(_In_ size_t i) const
             {
-                size_t ii = i + com_to; // absolute index
-                return ii < dec_to ? data[ii] : 0;
+                size_t ii = i + dst_to; // absolute index
+                return ii < src_to ? data[ii] : 0;
             }
         };
 #pragma pack(pop)
 
         ///
-        /// Composition index
+        /// Translation index
         ///
-        class indexComp : public index<unsigned __int16, unsigned __int32, translation>
+        class indexTrans : public index<unsigned __int16, unsigned __int32, translation>
         {
         public:
             ///
@@ -122,7 +122,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexComp(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, translation>(h) {}
+            indexTrans(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, translation>(h) {}
 
             ///
             /// Compares two transformations by string (for searching)
@@ -137,7 +137,7 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const translation &a, _In_ const translation &b) const
             {
-                int r = ZRCola::CompareString(a.dec(), a.dec_len(), b.dec(), b.dec_len());
+                int r = ZRCola::CompareString(a.src(), a.src_len(), b.src(), b.src_len());
                 if (r != 0) return r;
 
                 return 0;
@@ -156,24 +156,24 @@ namespace ZRCola {
             ///
             virtual int compare_sort(_In_ const translation &a, _In_ const translation &b) const
             {
-                int r = ZRCola::CompareString(a.dec(), a.dec_len(), b.dec(), b.dec_len());
+                int r = ZRCola::CompareString(a.src(), a.src_len(), b.src(), b.src_len());
                 if (r != 0) return r;
 
-                     if (a.dec_rank < b.dec_rank) return -1;
-                else if (a.dec_rank > b.dec_rank) return +1;
+                     if (a.src_rank < b.src_rank) return -1;
+                else if (a.src_rank > b.src_rank) return +1;
 
-                r = ZRCola::CompareString(a.com(), a.com_len(), b.com(), b.com_len());
+                r = ZRCola::CompareString(a.dst(), a.dst_len(), b.dst(), b.dst_len());
                 if (r != 0) return r;
 
                 return 0;
             }
-        } idxComp;      ///< Composition index
+        } idxTrans;      ///< Translation index
 
 
         ///
-        /// Decomposition index
+        /// Inverse translation index
         ///
-        class indexDecomp : public index<unsigned __int16, unsigned __int32, translation>
+        class indexTransInv : public index<unsigned __int16, unsigned __int32, translation>
         {
         public:
             ///
@@ -181,7 +181,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexDecomp(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, translation>(h) {}
+            indexTransInv(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, translation>(h) {}
 
             ///
             /// Compares two transformations by character (for searching)
@@ -196,7 +196,7 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const translation &a, _In_ const translation &b) const
             {
-                int r = ZRCola::CompareString(a.com(), a.com_len(), b.com(), b.com_len());
+                int r = ZRCola::CompareString(a.dst(), a.dst_len(), b.dst(), b.dst_len());
                 if (r != 0) return r;
 
                 return 0;
@@ -215,18 +215,18 @@ namespace ZRCola {
             ///
             virtual int compare_sort(_In_ const translation &a, _In_ const translation &b) const
             {
-                int r = ZRCola::CompareString(a.com(), a.com_len(), b.com(), b.com_len());
+                int r = ZRCola::CompareString(a.dst(), a.dst_len(), b.dst(), b.dst_len());
                 if (r != 0) return r;
 
-                     if (a.com_rank < b.com_rank) return -1;
-                else if (a.com_rank > b.com_rank) return +1;
+                     if (a.dst_rank < b.dst_rank) return -1;
+                else if (a.dst_rank > b.dst_rank) return +1;
 
-                r = ZRCola::CompareString(a.dec(), a.dec_len(), b.dec(), b.dec_len());
+                r = ZRCola::CompareString(a.src(), a.src_len(), b.src(), b.src_len());
                 if (r != 0) return r;
 
                 return 0;
             }
-        } idxDecomp;    ///< Decomposition index
+        } idxTransInv;    ///< Inverse translation index
 
 
         std::vector<unsigned __int16> data;         ///< Transformation data
@@ -235,43 +235,43 @@ namespace ZRCola {
         ///
         /// Constructs the database
         ///
-        inline translation_db() : idxComp(data), idxDecomp(data) {}
+        inline translation_db() : idxTrans(data), idxTransInv(data) {}
 
         ///
         /// Clears the database
         ///
         inline void clear()
         {
-            idxComp  .clear();
-            idxDecomp.clear();
-            data     .clear();
+            idxTrans   .clear();
+            idxTransInv.clear();
+            data       .clear();
         }
 
         ///
-        /// Composes string
+        /// Translates string
         ///
         /// \param[in]  input     Input string (UTF-16)
         /// \param[in]  inputMax  Length of the input string in characters. Can be (size_t)-1 if \p input is zero terminated.
         /// \param[out] output    Output string (UTF-16)
         /// \param[out] map       The vector of source to destination index mappings (optional)
         ///
-        void Compose(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const;
+        void Translate(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const;
 
         ///
-        /// Decomposes string
+        /// Inverse translates string
         ///
         /// \param[in]  input     Input string (UTF-16)
         /// \param[in]  inputMax  Length of the input string in characters. Can be (size_t)-1 if \p input is zero terminated.
         /// \param[out] output    Output string (UTF-16)
         /// \param[out] map       The vector of source to destination index mappings (optional)
         ///
-        inline void Decompose(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const
+        inline void TranslateInv(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const
         {
-            Decompose(input, inputMax, NULL, langid_t::blank, output, map);
+            TranslateInv(input, inputMax, NULL, langid_t::blank, output, map);
         }
 
         ///
-        /// Decomposes string according ommiting language specific characters
+        /// Inverse translates string according ommiting language specific characters
         ///
         /// \param[in]  input     Input string (UTF-16)
         /// \param[in]  inputMax  Length of the input string in characters. Can be (size_t)-1 if \p input is zero terminated.
@@ -280,7 +280,7 @@ namespace ZRCola {
         /// \param[out] output    Output string (UTF-16)
         /// \param[out] map       The vector of source to destination index mappings (optional)
         ///
-        void Decompose(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _In_opt_ const langchar_db *lc_db, _In_opt_ langid_t lang, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const;
+        void TranslateInv(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _In_opt_ const langchar_db *lc_db, _In_opt_ langid_t lang, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const;
     };
 
 
@@ -301,13 +301,13 @@ const ZRCola::recordid_t stdex::idrec::record<ZRCola::translation_db, ZRCola::re
 ///
 inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::translation_db &db)
 {
-    // Write composition index.
+    // Write translation index.
     if (stream.fail()) return stream;
-    stream << db.idxComp;
+    stream << db.idxTrans;
 
-    // Write decomposition index.
+    // Write inverse translation index.
     if (stream.fail()) return stream;
-    stream << db.idxDecomp;
+    stream << db.idxTransInv;
 
     // Write data count.
     auto data_count = db.data.size();
@@ -340,12 +340,12 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
 ///
 inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::translation_db &db)
 {
-    // Read composition index.
-    stream >> db.idxComp;
+    // Read translation index.
+    stream >> db.idxTrans;
     if (!stream.good()) return stream;
 
-    // Read decomposition index.
-    stream >> db.idxDecomp;
+    // Read inverse translation index.
+    stream >> db.idxTransInv;
     if (!stream.good()) return stream;
 
     // Read data count.

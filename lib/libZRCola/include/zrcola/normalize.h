@@ -24,7 +24,7 @@
 
 namespace ZRCola {
     ///
-    /// Normalizes a decomposed string
+    /// Normalizes a source string
     ///
     /// \param[in]  input     Input string (UTF-16)
     /// \param[in]  inputMax  Length of the input string in characters. Can be (size_t)-1 if \p input is zero terminated.

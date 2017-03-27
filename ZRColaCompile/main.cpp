@@ -25,7 +25,7 @@ using namespace winstd;
 
 
 ///
-/// (composed character rank, (decomposed character rank, decomposed character)) data holder
+/// (destination character rank, (source character rank, source character)) data holder
 ///
 typedef pair<int, ZRCola::DBSource::charseq> com_translation;
 
@@ -49,46 +49,46 @@ struct translation_set_less {
 typedef map<wstring, set<com_translation, translation_set_less> > translation_db;
 
 
-static set<wstring> decompose(_In_ const translation_db &db, _In_z_ const wchar_t *str, _Inout_ set<translation_db::key_type> &path)
+static set<wstring> translate_inv(_In_ const translation_db &db, _In_z_ const wchar_t *str, _Inout_ set<translation_db::key_type> &path)
 {
     set<wstring> res;
 
     if (*str) {
-        // Decompose remainder first.
-        auto rem = decompose(db, str + 1, path);
+        // Inverse translate remainder first.
+        auto rem = translate_inv(db, str + 1, path);
         if (rem.empty())
             return res;
 
         translation_db::key_type _str(1, *str);
         auto const t = db.find(_str);
         if (t != db.end()) {
-            // Current characted decomposed. Iterate all possible decompositions and combine them with the remainder.
+            // Current characted inverse translated. Iterate all possible inverse translations and combine them with the remainder.
             auto p = path.insert(_str);
             if (!p.second) {
                 // Path already contains this character: Cycle detected!
                 return res;
             }
             for (auto d = t->second.cbegin(), d_end = t->second.cend(); d != d_end; ++d) {
-                auto dec = decompose(db, d->second.str.c_str(), path);
-                if (!dec.empty()) {
-                    for (auto dd = dec.cbegin(), dd_end = dec.cend(); dd != dd_end; ++dd) {
+                auto src = translate_inv(db, d->second.str.c_str(), path);
+                if (!src.empty()) {
+                    for (auto dd = src.cbegin(), dd_end = src.cend(); dd != dd_end; ++dd) {
                         for (auto r = rem.cbegin(), r_end = rem.cend(); r != r_end; ++r)
                             res.insert(*dd + *r);
                     }
                 } else {
-                    // Cycle detected. Do not continue decomposition.
+                    // Cycle detected. Do not continue inverse translation.
                     for (auto r = rem.cbegin(), r_end = rem.cend(); r != r_end; ++r)
                         res.insert(_str + *r);
                 }
             }
             path.erase(p.first);
         } else {
-            // Current character is non-decomposable. Combine it with the remainder(s).
+            // Current character is non-inverse translatable. Combine it with the remainder(s).
             for (auto r = rem.cbegin(), r_end = rem.cend(); r != r_end; ++r)
                 res.insert(_str + *r);
         }
     } else {
-        // Empty string results in empty decomposition.
+        // Empty string results in empty inverse translation.
         res.insert(L"");
     }
 
@@ -187,25 +187,25 @@ int _tmain(int argc, _TCHAR *argv[])
                     ZRCola::DBSource::translation trans;
                     if (src.GetTranslation(rs, trans)) {
                         // Add translation to temporary database.
-                        auto const t = db_temp1.find(trans.com.str);
+                        auto const t = db_temp1.find(trans.dst.str);
                         if (t != db_temp1.end())
-                            t->second.insert(com_translation(trans.com.rank, std::move(trans.dec)));
+                            t->second.insert(com_translation(trans.dst.rank, std::move(trans.src)));
                         else {
                             translation_db::mapped_type d;
-                            d.insert(com_translation(trans.com.rank, std::move(trans.dec)));
-                            db_temp1.insert(std::move(pair<translation_db::key_type, translation_db::mapped_type>(trans.com.str, std::move(d))));
+                            d.insert(com_translation(trans.dst.rank, std::move(trans.src)));
+                            db_temp1.insert(std::move(pair<translation_db::key_type, translation_db::mapped_type>(trans.dst.str, std::move(d))));
                         }
                     } else
                         has_errors = true;
                 }
 
-                // Decompose decompositions down to non-decomposable characters.
+                // Inverse translate source sequences down to non-inverse translatable characters.
                 translation_db db_temp2;
                 for (auto t1 = db_temp1.cbegin(), t1_end = db_temp1.cend(); t1 != t1_end; ++t1) {
                     for (auto d1 = t1->second.cbegin(), d1_end = t1->second.cend(); d1 != d1_end; ++d1) {
                         set<translation_db::key_type> path;
                         path.insert(t1->first);
-                        auto str = decompose(db_temp1, d1->second.str.c_str(), path);
+                        auto str = translate_inv(db_temp1, d1->second.str.c_str(), path);
                         assert(!str.empty());
 
                         // Add translation to temporary database.
@@ -225,35 +225,35 @@ int _tmain(int argc, _TCHAR *argv[])
                 ZRCola::translation_db db;
 
                 // Preallocate memory.
-                db.idxComp  .reserve(count);
-                db.idxDecomp.reserve(count);
-                db.data     .reserve(count*5);
+                db.idxTrans   .reserve(count);
+                db.idxTransInv.reserve(count);
+                db.data       .reserve(count*5);
 
                 // Parse translations and build index and data.
                 for (auto t = db_temp2.cbegin(), t_end = db_temp2.cend(); t != t_end; ++t) {
                     // Add translation to index and data.
                     for (auto d = t->second.cbegin(), d_end = t->second.cend(); d != d_end; ++d) {
                         unsigned __int32 idx = db.data.size();
-                        wxASSERT_MSG((int)0xffff8000 <= d->first && d->first <= (int)0x00007fff, wxT("composed character rank out of bounds"));
+                        wxASSERT_MSG((int)0xffff8000 <= d->first && d->first <= (int)0x00007fff, wxT("destination character rank out of bounds"));
                         db.data.push_back((unsigned __int16)d->first);
-                        wxASSERT_MSG((int)0xffff8000 <= d->second.rank && d->second.rank <= (int)0x00007fff, wxT("decomposed character rank out of bounds"));
+                        wxASSERT_MSG((int)0xffff8000 <= d->second.rank && d->second.rank <= (int)0x00007fff, wxT("source character rank out of bounds"));
                         db.data.push_back((unsigned __int16)d->second.rank);
                         wstring::size_type n = t->first.length();
-                        wxASSERT_MSG(n <= 0xffff, wxT("composition overflow"));
+                        wxASSERT_MSG(n <= 0xffff, wxT("destination overflow"));
                         db.data.push_back((unsigned __int16)n);
                         n += d->second.str.length();
-                        wxASSERT_MSG(n <= 0xffff, wxT("decomposition overflow"));
+                        wxASSERT_MSG(n <= 0xffff, wxT("source overflow"));
                         db.data.push_back((unsigned __int16)n);
                         db.data.insert(db.data.end(), t->first     .cbegin(), t->first     .cend());
                         db.data.insert(db.data.end(), d->second.str.cbegin(), d->second.str.cend());
-                        db.idxComp  .push_back(idx);
-                        db.idxDecomp.push_back(idx);
+                        db.idxTrans   .push_back(idx);
+                        db.idxTransInv.push_back(idx);
                     }
                 }
 
                 // Sort indices.
-                db.idxComp  .sort();
-                db.idxDecomp.sort();
+                db.idxTrans   .sort();
+                db.idxTransInv.sort();
 
                 // Write translations to file.
                 dst << ZRCola::translation_rec(db);

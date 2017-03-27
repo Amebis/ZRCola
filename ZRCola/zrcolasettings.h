@@ -48,8 +48,8 @@ protected:
     virtual void OnOKButtonClick(wxCommandEvent& event);
 
 public:
-    bool m_lang_auto;           ///< Is language for decomposing resolved using currently selected keyboard
-    ZRCola::langid_t m_lang;    ///< Language for decomposing
+    bool m_lang_auto;           ///< Is language for inverse translation resolved using currently selected keyboard
+    ZRCola::langid_t m_lang;    ///< Language for inverse translation
 };
 
 

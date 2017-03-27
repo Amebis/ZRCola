@@ -245,14 +245,14 @@
                         <property name="permission">none</property>
                     </object>
                     <object class="wxMenuItem" expanded="0">
-                        <property name="bitmap">Load From Icon Resource; send_composed.ico; [16; 16]</property>
+                        <property name="bitmap">Load From Icon Resource; send_destination.ico; [16; 16]</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help">Send composed text to source window</property>
-                        <property name="id">wxID_SEND_COMPOSED</property>
+                        <property name="id">wxID_SEND_DESTINATION</property>
                         <property name="kind">wxITEM_NORMAL</property>
                         <property name="label">&amp;Send Composed</property>
-                        <property name="name">m_menuItemSendComposed</property>
+                        <property name="name">m_menuItemSendDestination</property>
                         <property name="permission">none</property>
                         <property name="shortcut">F5</property>
                         <property name="unchecked_bitmap"></property>
@@ -260,14 +260,14 @@
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="wxMenuItem" expanded="0">
-                        <property name="bitmap">Load From Icon Resource; copy_composed_and_return.ico; [16; 16]</property>
+                        <property name="bitmap">Load From Icon Resource; copy_destination_and_return.ico; [16; 16]</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help">Copy composed text to clipboard and return focus to source window</property>
-                        <property name="id">wxID_COPY_COMPOSED_AND_RETURN</property>
+                        <property name="id">wxID_COPY_DESTINATION_AND_RETURN</property>
                         <property name="kind">wxITEM_NORMAL</property>
                         <property name="label">Copy Composed and &amp;Return</property>
-                        <property name="name">m_menuItemCopyComposedAndReturn</property>
+                        <property name="name">m_menuItemCopyDestinationAndReturn</property>
                         <property name="permission">none</property>
                         <property name="shortcut">Ctrl+F5</property>
                         <property name="unchecked_bitmap"></property>
@@ -275,14 +275,14 @@
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="wxMenuItem" expanded="0">
-                        <property name="bitmap">Load From Icon Resource; send_decomposed.ico; [16; 16]</property>
+                        <property name="bitmap">Load From Icon Resource; send_source.ico; [16; 16]</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help">Send decomposed text to source window</property>
-                        <property name="id">wxID_SEND_DECOMPOSED</property>
+                        <property name="id">wxID_SEND_SOURCE</property>
                         <property name="kind">wxITEM_NORMAL</property>
                         <property name="label">Send &amp;Decomposed</property>
-                        <property name="name">m_menuItemSendDecomposed</property>
+                        <property name="name">m_menuItemSendSource</property>
                         <property name="permission">none</property>
                         <property name="shortcut">F6</property>
                         <property name="unchecked_bitmap"></property>
@@ -290,14 +290,14 @@
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="wxMenuItem" expanded="0">
-                        <property name="bitmap">Load From Icon Resource; copy_decomposed_and_return.ico; [16; 16]</property>
+                        <property name="bitmap">Load From Icon Resource; copy_source_and_return.ico; [16; 16]</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help">Copy decomposed text to clipboard and return focus to source window</property>
-                        <property name="id">wxID_COPY_DECOMPOSED_AND_RETURN</property>
+                        <property name="id">wxID_COPY_SOURCE_AND_RETURN</property>
                         <property name="kind">wxITEM_NORMAL</property>
                         <property name="label">Copy Decomposed and Re&amp;turn</property>
-                        <property name="name">m_menuItemCopyDecomposedAndReturn</property>
+                        <property name="name">m_menuItemCopySourceAndReturn</property>
                         <property name="permission">none</property>
                         <property name="shortcut">Ctrl+F6</property>
                         <property name="unchecked_bitmap"></property>
@@ -363,7 +363,7 @@
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help">Toggle compose toolbar</property>
-                        <property name="id">wxID_TOOLBAR_COMPOSE</property>
+                        <property name="id">wxID_TOOLBAR_TRANSLATE</property>
                         <property name="kind">wxITEM_CHECK</property>
                         <property name="label">&amp;Compose Toolbar</property>
                         <property name="name">m_menuItemToolbarCompose</property>
@@ -666,7 +666,7 @@
                 <property name="minimize_button">0</property>
                 <property name="minimum_size"></property>
                 <property name="moveable">1</property>
-                <property name="name">m_toolbarCompose</property>
+                <property name="name">m_toolbarTranslate</property>
                 <property name="packing">1</property>
                 <property name="pane_border">1</property>
                 <property name="pane_position">-1,-1</property>
@@ -732,12 +732,12 @@
                     <event name="OnUpdateUI"></event>
                 </object>
                 <object class="tool" expanded="0">
-                    <property name="bitmap">Load From Icon Resource; send_composed.ico; [24; 24]</property>
+                    <property name="bitmap">Load From Icon Resource; send_destination.ico; [24; 24]</property>
                     <property name="context_menu">0</property>
-                    <property name="id">wxID_SEND_COMPOSED</property>
+                    <property name="id">wxID_SEND_DESTINATION</property>
                     <property name="kind">wxITEM_NORMAL</property>
                     <property name="label">Send Composed</property>
-                    <property name="name">m_toolSendComposed</property>
+                    <property name="name">m_toolSendDestination</property>
                     <property name="permission">protected</property>
                     <property name="statusbar">Send composed text to source window</property>
                     <property name="tooltip">Send Composed</property>
@@ -753,12 +753,12 @@
                     <event name="OnUpdateUI"></event>
                 </object>
                 <object class="tool" expanded="0">
-                    <property name="bitmap">Load From Icon Resource; send_decomposed.ico; [24; 24]</property>
+                    <property name="bitmap">Load From Icon Resource; send_source.ico; [24; 24]</property>
                     <property name="context_menu">0</property>
-                    <property name="id">wxID_SEND_DECOMPOSED</property>
+                    <property name="id">wxID_SEND_SOURCE</property>
                     <property name="kind">wxITEM_NORMAL</property>
                     <property name="label">Send Decomposed</property>
-                    <property name="name">m_toolSendDecomposed</property>
+                    <property name="name">m_toolSendSource</property>
                     <property name="permission">protected</property>
                     <property name="statusbar">Send decomposed text to source window</property>
                     <property name="tooltip">Send Decomposed</property>
@@ -1078,7 +1078,7 @@
                         <property name="minimize_button">0</property>
                         <property name="minimum_size"></property>
                         <property name="moveable">1</property>
-                        <property name="name">m_splitterDecomposed</property>
+                        <property name="name">m_splitterSource</property>
                         <property name="pane_border">1</property>
                         <property name="pane_position"></property>
                         <property name="pane_size"></property>
@@ -1162,7 +1162,7 @@
                                 <property name="minimize_button">0</property>
                                 <property name="minimum_size"></property>
                                 <property name="moveable">1</property>
-                                <property name="name">m_panelDecomposedEdit</property>
+                                <property name="name">m_panelSourceEdit</property>
                                 <property name="pane_border">1</property>
                                 <property name="pane_position"></property>
                                 <property name="pane_size"></property>
@@ -1203,7 +1203,7 @@
                                 <event name="OnUpdateUI"></event>
                                 <object class="wxBoxSizer" expanded="0">
                                     <property name="minimum_size"></property>
-                                    <property name="name">bSizerDecomposedEdit</property>
+                                    <property name="name">bSizerSourceEdit</property>
                                     <property name="orient">wxVERTICAL</property>
                                     <property name="permission">none</property>
                                     <object class="sizeritem" expanded="0">
@@ -1214,7 +1214,7 @@
                                             <property name="id">wxID_ANY</property>
                                             <property name="label">Decomposed Text</property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">bSizerDecomposedEdit2</property>
+                                            <property name="name">bSizerSourceEdit2</property>
                                             <property name="orient">wxVERTICAL</property>
                                             <property name="permission">none</property>
                                             <event name="OnUpdateUI"></event>
@@ -1258,7 +1258,7 @@
                                                     <property name="minimize_button">0</property>
                                                     <property name="minimum_size">100,25</property>
                                                     <property name="moveable">1</property>
-                                                    <property name="name">m_decomposed</property>
+                                                    <property name="name">m_source</property>
                                                     <property name="pane_border">1</property>
                                                     <property name="pane_position"></property>
                                                     <property name="pane_size"></property>
@@ -1296,13 +1296,13 @@
                                                     <event name="OnMotion"></event>
                                                     <event name="OnMouseEvents"></event>
                                                     <event name="OnMouseWheel"></event>
-                                                    <event name="OnPaint">OnDecomposedPaint</event>
+                                                    <event name="OnPaint">OnSourcePaint</event>
                                                     <event name="OnRightDClick"></event>
                                                     <event name="OnRightDown"></event>
                                                     <event name="OnRightUp"></event>
                                                     <event name="OnSetFocus"></event>
                                                     <event name="OnSize"></event>
-                                                    <event name="OnText">OnDecomposedText</event>
+                                                    <event name="OnText">OnSourceText</event>
                                                     <event name="OnTextEnter"></event>
                                                     <event name="OnTextMaxLen"></event>
                                                     <event name="OnTextURL"></event>
@@ -1350,7 +1350,7 @@
                                 <property name="minimize_button">0</property>
                                 <property name="minimum_size"></property>
                                 <property name="moveable">1</property>
-                                <property name="name">m_panelDecomposedHex</property>
+                                <property name="name">m_panelSourceHex</property>
                                 <property name="pane_border">1</property>
                                 <property name="pane_position"></property>
                                 <property name="pane_size"></property>
@@ -1391,7 +1391,7 @@
                                 <event name="OnUpdateUI"></event>
                                 <object class="wxBoxSizer" expanded="0">
                                     <property name="minimum_size"></property>
-                                    <property name="name">bSizerDecomposedHex</property>
+                                    <property name="name">bSizerSourceHex</property>
                                     <property name="orient">wxVERTICAL</property>
                                     <property name="permission">none</property>
                                     <object class="sizeritem" expanded="0">
@@ -1402,7 +1402,7 @@
                                             <property name="id">wxID_ANY</property>
                                             <property name="label">Decomposed Unicode Dump</property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">bSizerDecomposedHex2</property>
+                                            <property name="name">bSizerSourceHex2</property>
                                             <property name="orient">wxVERTICAL</property>
                                             <property name="permission">none</property>
                                             <event name="OnUpdateUI"></event>
@@ -1446,7 +1446,7 @@
                                                     <property name="minimize_button">0</property>
                                                     <property name="minimum_size"></property>
                                                     <property name="moveable">1</property>
-                                                    <property name="name">m_decomposedHex</property>
+                                                    <property name="name">m_sourceHex</property>
                                                     <property name="pane_border">1</property>
                                                     <property name="pane_position"></property>
                                                     <property name="pane_size"></property>
@@ -1484,7 +1484,7 @@
                                                     <event name="OnMotion"></event>
                                                     <event name="OnMouseEvents"></event>
                                                     <event name="OnMouseWheel"></event>
-                                                    <event name="OnPaint">OnDecomposedHexPaint</event>
+                                                    <event name="OnPaint">OnSourceHexPaint</event>
                                                     <event name="OnRightDClick"></event>
                                                     <event name="OnRightDown"></event>
                                                     <event name="OnRightUp"></event>
@@ -1544,7 +1544,7 @@
                         <property name="minimize_button">0</property>
                         <property name="minimum_size"></property>
                         <property name="moveable">1</property>
-                        <property name="name">m_splitterComposed</property>
+                        <property name="name">m_splitterDestination</property>
                         <property name="pane_border">1</property>
                         <property name="pane_position"></property>
                         <property name="pane_size"></property>
@@ -1628,7 +1628,7 @@
                                 <property name="minimize_button">0</property>
                                 <property name="minimum_size"></property>
                                 <property name="moveable">1</property>
-                                <property name="name">m_panelComposedEdit</property>
+                                <property name="name">m_panelDestinationEdit</property>
                                 <property name="pane_border">1</property>
                                 <property name="pane_position"></property>
                                 <property name="pane_size"></property>
@@ -1669,7 +1669,7 @@
                                 <event name="OnUpdateUI"></event>
                                 <object class="wxBoxSizer" expanded="0">
                                     <property name="minimum_size"></property>
-                                    <property name="name">bSizerComposedEdit</property>
+                                    <property name="name">bSizerDestinationEdit</property>
                                     <property name="orient">wxVERTICAL</property>
                                     <property name="permission">none</property>
                                     <object class="sizeritem" expanded="0">
@@ -1680,7 +1680,7 @@
                                             <property name="id">wxID_ANY</property>
                                             <property name="label">Composed Text</property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">bSizerComposedEdit2</property>
+                                            <property name="name">bSizerDestinationEdit2</property>
                                             <property name="orient">wxVERTICAL</property>
                                             <property name="permission">none</property>
                                             <event name="OnUpdateUI"></event>
@@ -1724,7 +1724,7 @@
                                                     <property name="minimize_button">0</property>
                                                     <property name="minimum_size">100,25</property>
                                                     <property name="moveable">1</property>
-                                                    <property name="name">m_composed</property>
+                                                    <property name="name">m_destination</property>
                                                     <property name="pane_border">1</property>
                                                     <property name="pane_position"></property>
                                                     <property name="pane_size"></property>
@@ -1762,13 +1762,13 @@
                                                     <event name="OnMotion"></event>
                                                     <event name="OnMouseEvents"></event>
                                                     <event name="OnMouseWheel"></event>
-                                                    <event name="OnPaint">OnComposedPaint</event>
+                                                    <event name="OnPaint">OnDestinationPaint</event>
                                                     <event name="OnRightDClick"></event>
                                                     <event name="OnRightDown"></event>
                                                     <event name="OnRightUp"></event>
                                                     <event name="OnSetFocus"></event>
                                                     <event name="OnSize"></event>
-                                                    <event name="OnText">OnComposedText</event>
+                                                    <event name="OnText">OnDestinationText</event>
                                                     <event name="OnTextEnter"></event>
                                                     <event name="OnTextMaxLen"></event>
                                                     <event name="OnTextURL"></event>
@@ -1816,7 +1816,7 @@
                                 <property name="minimize_button">0</property>
                                 <property name="minimum_size"></property>
                                 <property name="moveable">1</property>
-                                <property name="name">m_panelComposedHex</property>
+                                <property name="name">m_panelDestinationHex</property>
                                 <property name="pane_border">1</property>
                                 <property name="pane_position"></property>
                                 <property name="pane_size"></property>
@@ -1857,7 +1857,7 @@
                                 <event name="OnUpdateUI"></event>
                                 <object class="wxBoxSizer" expanded="0">
                                     <property name="minimum_size"></property>
-                                    <property name="name">bSizerComposedHex</property>
+                                    <property name="name">bSizerDestinationHex</property>
                                     <property name="orient">wxVERTICAL</property>
                                     <property name="permission">none</property>
                                     <object class="sizeritem" expanded="0">
@@ -1868,7 +1868,7 @@
                                             <property name="id">wxID_ANY</property>
                                             <property name="label">Composed Unicode Dump</property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">bSizerComposedHex2</property>
+                                            <property name="name">bSizerDestinationHex2</property>
                                             <property name="orient">wxVERTICAL</property>
                                             <property name="permission">none</property>
                                             <event name="OnUpdateUI"></event>
@@ -1912,7 +1912,7 @@
                                                     <property name="minimize_button">0</property>
                                                     <property name="minimum_size"></property>
                                                     <property name="moveable">1</property>
-                                                    <property name="name">m_composedHex</property>
+                                                    <property name="name">m_destinationHex</property>
                                                     <property name="pane_border">1</property>
                                                     <property name="pane_position"></property>
                                                     <property name="pane_size"></property>
@@ -1950,7 +1950,7 @@
                                                     <event name="OnMotion"></event>
                                                     <event name="OnMouseEvents"></event>
                                                     <event name="OnMouseWheel"></event>
-                                                    <event name="OnPaint">OnComposedHexPaint</event>
+                                                    <event name="OnPaint">OnDestinationHexPaint</event>
                                                     <event name="OnRightDClick"></event>
                                                     <event name="OnRightDown"></event>
                                                     <event name="OnRightUp"></event>
