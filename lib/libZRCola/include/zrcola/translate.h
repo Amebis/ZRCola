@@ -288,7 +288,7 @@ namespace ZRCola {
 };
 
 
-const ZRCola::recordid_t stdex::idrec::record<ZRCola::translation_db, ZRCola::recordid_t, ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>::id = *(ZRCola::recordid_t*)"TRN";
+const ZRCola::recordid_t ZRCola::translation_rec::id = *(ZRCola::recordid_t*)"TRN";
 
 
 ///

@@ -288,7 +288,7 @@ namespace ZRCola {
 };
 
 
-const ZRCola::recordid_t stdex::idrec::record<ZRCola::keyseq_db, ZRCola::recordid_t, ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>::id = *(ZRCola::recordid_t*)"KEY";
+const ZRCola::recordid_t ZRCola::keyseq_rec::id = *(ZRCola::recordid_t*)"KEY";
 
 
 ///

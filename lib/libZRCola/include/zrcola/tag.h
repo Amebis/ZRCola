@@ -444,8 +444,8 @@ namespace ZRCola {
 };
 
 
-const ZRCola::recordid_t stdex::idrec::record<ZRCola::chrtag_db, ZRCola::recordid_t, ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>::id = *(ZRCola::recordid_t*)"C-T";
-const ZRCola::recordid_t stdex::idrec::record<ZRCola::tagname_db, ZRCola::recordid_t, ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>::id = *(ZRCola::recordid_t*)"TGN";
+const ZRCola::recordid_t ZRCola::chrtag_rec ::id = *(ZRCola::recordid_t*)"C-T";
+const ZRCola::recordid_t ZRCola::tagname_rec::id = *(ZRCola::recordid_t*)"TGN";
 
 
 ///
