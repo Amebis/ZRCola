@@ -91,10 +91,10 @@ void wxZRColaComposerPanel::SynchronizePanels()
         size_t len = GetValue(m_source, src);
 
         std::wstring norm;
-        app->m_t_db.TranslateInv(src.data(), len, norm, &m_mapping1);
+        app->m_t_db.TranslateInv(0, src.data(), len, norm, &m_mapping1);
 
         std::wstring dst;
-        app->m_t_db.Translate(norm.data(), norm.size(), dst, &m_mapping2);
+        app->m_t_db.Translate(0, norm.data(), norm.size(), dst, &m_mapping2);
 
         m_source->GetSelection(&m_selSource.first, &m_selSource.second);
 
@@ -120,9 +120,9 @@ void wxZRColaComposerPanel::SynchronizePanels()
         std::wstring dst;
         wxZRColaFrame *mainWnd = dynamic_cast<wxZRColaFrame*>(wxGetActiveWindow());
         if (mainWnd)
-            app->m_t_db.TranslateInv(src.data(), len, &app->m_lc_db, mainWnd->m_settings->m_lang, dst, &m_mapping2);
+            app->m_t_db.TranslateInv(0, src.data(), len, &app->m_lc_db, mainWnd->m_settings->m_lang, dst, &m_mapping2);
         else
-            app->m_t_db.TranslateInv(src.data(), len, dst, &m_mapping2);
+            app->m_t_db.TranslateInv(0, src.data(), len, dst, &m_mapping2);
 
         m_mapping1.clear();
         m_mapping2.invert();

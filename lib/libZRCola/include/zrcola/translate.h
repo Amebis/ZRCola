@@ -47,13 +47,14 @@ namespace ZRCola {
         ///
         struct translation {
         public:
-            unsigned __int16 dst_rank; ///< Destination character rank
-            unsigned __int16 src_rank; ///< Source character rank
+            unsigned __int16 set;       ///< Translation set ID
+            unsigned __int16 dst_rank;  ///< Destination character rank
+            unsigned __int16 src_rank;  ///< Source character rank
 
         protected:
-            unsigned __int16 dst_to;   ///< Destination character end in \c data
-            unsigned __int16 src_to;   ///< Source string end in \c data
-            wchar_t data[];            ///< Destination string and source character
+            unsigned __int16 dst_to;    ///< Destination character end in \c data
+            unsigned __int16 src_to;    ///< Source string end in \c data
+            wchar_t data[];             ///< Destination string and source character
 
         private:
             inline translation(_In_ const translation &other);
@@ -63,6 +64,7 @@ namespace ZRCola {
             ///
             /// Constructs the translation
             ///
+            /// \param[in] set      Translation set ID
             /// \param[in] dst_rank Destination character rank
             /// \param[in] dst      Destination character
             /// \param[in] dst_len  Number of UTF-16 characters in \p dst
@@ -71,6 +73,7 @@ namespace ZRCola {
             /// \param[in] src_len  Number of UTF-16 characters in \p src
             ///
             inline translation(
+                _In_opt_                        unsigned __int16  set      = 0,
                 _In_opt_                        unsigned __int16  dst_rank = 0,
                 _In_opt_z_count_(dst_len) const wchar_t          *dst      = NULL,
                 _In_opt_                        size_t            dst_len  = 0,
@@ -78,6 +81,7 @@ namespace ZRCola {
                 _In_opt_z_count_(src_len) const wchar_t          *src      = NULL,
                 _In_opt_                        size_t            src_len  = 0)
             {
+                this->set      = set;
                 this->dst_rank = dst_rank;
                 this->src_rank = src_rank;
                 this->dst_to = static_cast<unsigned __int16>(dst_len);
@@ -137,6 +141,9 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const translation &a, _In_ const translation &b) const
             {
+                     if (a.set < b.set) return -1;
+                else if (a.set > b.set) return +1;
+
                 int r = ZRCola::CompareString(a.src(), a.src_len(), b.src(), b.src_len());
                 if (r != 0) return r;
 
@@ -156,6 +163,9 @@ namespace ZRCola {
             ///
             virtual int compare_sort(_In_ const translation &a, _In_ const translation &b) const
             {
+                     if (a.set < b.set) return -1;
+                else if (a.set > b.set) return +1;
+
                 int r = ZRCola::CompareString(a.src(), a.src_len(), b.src(), b.src_len());
                 if (r != 0) return r;
 
@@ -196,6 +206,9 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const translation &a, _In_ const translation &b) const
             {
+                     if (a.set < b.set) return -1;
+                else if (a.set > b.set) return +1;
+
                 int r = ZRCola::CompareString(a.dst(), a.dst_len(), b.dst(), b.dst_len());
                 if (r != 0) return r;
 
@@ -215,6 +228,9 @@ namespace ZRCola {
             ///
             virtual int compare_sort(_In_ const translation &a, _In_ const translation &b) const
             {
+                     if (a.set < b.set) return -1;
+                else if (a.set > b.set) return +1;
+
                 int r = ZRCola::CompareString(a.dst(), a.dst_len(), b.dst(), b.dst_len());
                 if (r != 0) return r;
 
@@ -250,29 +266,32 @@ namespace ZRCola {
         ///
         /// Translates string
         ///
+        /// \param[in]  set       Translation set ID
         /// \param[in]  input     Input string (UTF-16)
         /// \param[in]  inputMax  Length of the input string in characters. Can be (size_t)-1 if \p input is zero terminated.
         /// \param[out] output    Output string (UTF-16)
         /// \param[out] map       The vector of source to destination index mappings (optional)
         ///
-        void Translate(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const;
+        void Translate(_In_ unsigned __int16 set, _In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const;
 
         ///
         /// Inverse translates string
         ///
+        /// \param[in]  set       Translation set ID
         /// \param[in]  input     Input string (UTF-16)
         /// \param[in]  inputMax  Length of the input string in characters. Can be (size_t)-1 if \p input is zero terminated.
         /// \param[out] output    Output string (UTF-16)
         /// \param[out] map       The vector of source to destination index mappings (optional)
         ///
-        inline void TranslateInv(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const
+        inline void TranslateInv(_In_ unsigned __int16 set, _In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const
         {
-            TranslateInv(input, inputMax, NULL, langid_t::blank, output, map);
+            TranslateInv(set, input, inputMax, NULL, langid_t::blank, output, map);
         }
 
         ///
         /// Inverse translates string according ommiting language specific characters
         ///
+        /// \param[in]  set       Translation set ID
         /// \param[in]  input     Input string (UTF-16)
         /// \param[in]  inputMax  Length of the input string in characters. Can be (size_t)-1 if \p input is zero terminated.
         /// \param[in]  lc_db     Language character database
@@ -280,7 +299,7 @@ namespace ZRCola {
         /// \param[out] output    Output string (UTF-16)
         /// \param[out] map       The vector of source to destination index mappings (optional)
         ///
-        void TranslateInv(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _In_opt_ const langchar_db *lc_db, _In_opt_ langid_t lang, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const;
+        void TranslateInv(_In_ unsigned __int16 set, _In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _In_opt_ const langchar_db *lc_db, _In_opt_ langid_t lang, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const;
     };
 
 

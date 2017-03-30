@@ -234,6 +234,7 @@ int _tmain(int argc, _TCHAR *argv[])
                     // Add translation to index and data.
                     for (auto d = t->second.cbegin(), d_end = t->second.cend(); d != d_end; ++d) {
                         unsigned __int32 idx = db.data.size();
+                        db.data.push_back((unsigned __int16)0);
                         wxASSERT_MSG((int)0xffff8000 <= d->first && d->first <= (int)0x00007fff, wxT("destination character rank out of bounds"));
                         db.data.push_back((unsigned __int16)d->first);
                         wxASSERT_MSG((int)0xffff8000 <= d->second.rank && d->second.rank <= (int)0x00007fff, wxT("source character rank out of bounds"));

@@ -20,7 +20,7 @@
 #include "stdafx.h"
 
 
-void ZRCola::translation_db::Translate(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map) const
+void ZRCola::translation_db::Translate(_In_ unsigned __int16 set, _In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map) const
 {
     assert(input || inputMax == 0);
 
@@ -33,12 +33,15 @@ void ZRCola::translation_db::Translate(_In_z_count_(inputMax) const wchar_t* inp
     if (map)
         map->clear();
 
-    auto count = idxTrans.size();
+    // Limit search to the given set first.
+    indexTrans::size_type l_set, r_set;
+    idxTrans.find(translation(set    ), l_set);
+    idxTrans.find(translation(set + 1), r_set);
 
     for (size_t i = 0; i < inputMax;) {
         // Find the longest matching translation at i-th character.
         size_t l_match = (size_t)-1;
-        for (size_t l = 0, r = count, ii = i, j = 0; ii < inputMax && l < r; ii++, j++) {
+        for (size_t l = l_set, r = r_set, ii = i, j = 0; ii < inputMax && l < r; ii++, j++) {
             wchar_t c = input[ii];
             while (l < r) {
                 // Test the translation in the middle of the search area.
@@ -83,7 +86,7 @@ void ZRCola::translation_db::Translate(_In_z_count_(inputMax) const wchar_t* inp
             }
         }
 
-        if (l_match < count) {
+        if (l_match < r_set) {
             // The saved translation was an exact match.
             const translation &trans = idxTrans[l_match];
             output.append(trans.dst(), trans.dst_end());
@@ -101,7 +104,7 @@ void ZRCola::translation_db::Translate(_In_z_count_(inputMax) const wchar_t* inp
 }
 
 
-void ZRCola::translation_db::TranslateInv(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _In_ const langchar_db *lc_db, _In_ langid_t lang, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map) const
+void ZRCola::translation_db::TranslateInv(_In_ unsigned __int16 set, _In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _In_ const langchar_db *lc_db, _In_ langid_t lang, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map) const
 {
     assert(input || inputMax == 0);
 
@@ -114,12 +117,15 @@ void ZRCola::translation_db::TranslateInv(_In_z_count_(inputMax) const wchar_t* 
     if (map)
         map->clear();
 
-    auto count = idxTransInv.size();
+    // Limit search to the given set first.
+    indexTransInv::size_type l_set, r_set;
+    idxTransInv.find(translation(set    ), l_set);
+    idxTransInv.find(translation(set + 1), r_set);
 
     for (size_t i = 0; i < inputMax;) {
         // Find the longest matching inverse translation at i-th character.
         size_t l_match = (size_t)-1;
-        for (size_t l = 0, r = count, ii = i, j = 0; ii < inputMax && l < r; ii++, j++) {
+        for (size_t l = 0, r = r_set, ii = i, j = 0; ii < inputMax && l < r; ii++, j++) {
             wchar_t c = input[ii];
             while (l < r) {
                 // Test the inverse translation in the middle of the search area.
@@ -164,7 +170,7 @@ void ZRCola::translation_db::TranslateInv(_In_z_count_(inputMax) const wchar_t* 
             }
         }
 
-        if (l_match < count) {
+        if (l_match < r_set) {
             // The saved inverse translation was an exact match.
             const translation &trans = idxTransInv[l_match];
             if (trans.src_len() && trans.src()[0] != L'#' && (!lc_db || !lc_db->IsLocalCharacter(trans.dst(), trans.dst_end(), lang))) {
