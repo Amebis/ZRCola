@@ -230,25 +230,16 @@ int _tmain(int argc, _TCHAR *argv[])
                 db_trans.data  .reserve(count*5);
 
                 // Parse translations and build index and data.
+                ZRCola::DBSource::translation trans;
+                trans.set = 0;
                 for (auto t = db_temp2.cbegin(), t_end = db_temp2.cend(); t != t_end; ++t) {
                     // Add translation to index and data.
+                    trans.dst.str = std::move(t->first);
                     for (auto d = t->second.cbegin(), d_end = t->second.cend(); d != d_end; ++d) {
-                        unsigned __int32 idx = db_trans.data.size();
-                        db_trans.data.push_back((unsigned __int16)0);
-                        wxASSERT_MSG((int)0xffff8000 <= d->first && d->first <= (int)0x00007fff, wxT("destination character rank out of bounds"));
-                        db_trans.data.push_back((unsigned __int16)d->first);
-                        wxASSERT_MSG((int)0xffff8000 <= d->second.rank && d->second.rank <= (int)0x00007fff, wxT("source character rank out of bounds"));
-                        db_trans.data.push_back((unsigned __int16)d->second.rank);
-                        wstring::size_type n = t->first.length();
-                        wxASSERT_MSG(n <= 0xffff, wxT("destination overflow"));
-                        db_trans.data.push_back((unsigned __int16)n);
-                        n += d->second.str.length();
-                        wxASSERT_MSG(n <= 0xffff, wxT("source overflow"));
-                        db_trans.data.push_back((unsigned __int16)n);
-                        db_trans.data.insert(db_trans.data.end(), t->first     .cbegin(), t->first     .cend());
-                        db_trans.data.insert(db_trans.data.end(), d->second.str.cbegin(), d->second.str.cend());
-                        db_trans.idxSrc.push_back(idx);
-                        db_trans.idxDst.push_back(idx);
+                        trans.dst.rank = d->first;
+                        trans.src.rank = d->second.rank;
+                        trans.src.str  = std::move(d->second.str);
+                        db_trans << trans;
                     }
                 }
             } else {
@@ -275,21 +266,10 @@ int _tmain(int argc, _TCHAR *argv[])
                 db.data      .reserve(count*4);
 
                 // Add (de)composing translation set to index and data.
-                ts.id = 0;
+                ts.set = 0;
                 ts.src = L"ZRCola Decomposed";
                 ts.dst = L"ZRCola Composed";
-                unsigned __int32 idx = db.data.size();
-                wxASSERT_MSG((int)0xffff8000 <= ts.id && ts.id <= (int)0x00007fff, wxT("translation set index out of bounds"));
-                db.data.push_back((unsigned __int16)ts.id);
-                wstring::size_type n = ts.src.length();
-                wxASSERT_MSG(n <= 0xffff, wxT("translation set source name overflow"));
-                db.data.push_back((unsigned __int16)n);
-                n += ts.dst.length();
-                wxASSERT_MSG(n <= 0xffff, wxT("translation set destination name overflow"));
-                db.data.push_back((unsigned __int16)n);
-                db.data.insert(db.data.end(), ts.src.cbegin(), ts.src.cend());
-                db.data.insert(db.data.end(), ts.dst.cbegin(), ts.dst.cend());
-                db.idxTranSet.push_back(idx);
+                db << ts;
 
                 // Parse translation sets and build index and data.
                 for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
@@ -301,47 +281,21 @@ int _tmain(int argc, _TCHAR *argv[])
                         }
 
                         // Add translation set to index and data.
-                        unsigned __int32 idx = db.data.size();
-                        wxASSERT_MSG((int)0xffff8000 <= ts.id && ts.id <= (int)0x00007fff, wxT("translation set index out of bounds"));
-                        db.data.push_back((unsigned __int16)ts.id);
-                        wstring::size_type n = ts.src.length();
-                        wxASSERT_MSG(n <= 0xffff, wxT("translation set source name overflow"));
-                        db.data.push_back((unsigned __int16)n);
-                        n += ts.dst.length();
-                        wxASSERT_MSG(n <= 0xffff, wxT("translation set destination name overflow"));
-                        db.data.push_back((unsigned __int16)n);
-                        db.data.insert(db.data.end(), ts.src.cbegin(), ts.src.cend());
-                        db.data.insert(db.data.end(), ts.dst.cbegin(), ts.dst.cend());
-                        db.idxTranSet.push_back(idx);
+                        db << ts;
 
                         // Get translations.
                         com_obj<ADORecordset> rs_tran;
-                        if (src.SelectTranslations(ts.id, rs_tran)) {
+                        if (src.SelectTranslations(ts.set, rs_tran)) {
                             size_t count = src.GetRecordsetCount(rs_tran);
                             if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
                                 // Parse translations and build temporary database.
+                                ZRCola::DBSource::translation trans;
+                                trans.set = ts.set;
                                 for (; !ZRCola::DBSource::IsEOF(rs_tran); rs_tran->MoveNext()) {
                                     // Read translation from the database.
-                                    ZRCola::DBSource::translation trans;
                                     if (src.GetTranslation(rs_tran, trans)) {
                                         // Add translation to index and data.
-                                        unsigned __int32 idx = db_trans.data.size();
-                                        wxASSERT_MSG((int)0xffff8000 <= ts.id && ts.id <= (int)0x00007fff, wxT("translation set index out of bounds"));
-                                        db_trans.data.push_back((unsigned __int16)ts.id);
-                                        wxASSERT_MSG((int)0xffff8000 <= trans.dst.rank && trans.dst.rank <= (int)0x00007fff, wxT("destination character rank out of bounds"));
-                                        db_trans.data.push_back((unsigned __int16)trans.dst.rank);
-                                        wxASSERT_MSG((int)0xffff8000 <= trans.src.rank && trans.src.rank <= (int)0x00007fff, wxT("source character rank out of bounds"));
-                                        db_trans.data.push_back((unsigned __int16)trans.src.rank);
-                                        wstring::size_type n = trans.dst.str.length();
-                                        wxASSERT_MSG(n <= 0xffff, wxT("destination overflow"));
-                                        db_trans.data.push_back((unsigned __int16)n);
-                                        n += trans.src.str.length();
-                                        wxASSERT_MSG(n <= 0xffff, wxT("source overflow"));
-                                        db_trans.data.push_back((unsigned __int16)n);
-                                        db_trans.data.insert(db_trans.data.end(), trans.dst.str.cbegin(), trans.dst.str.cend());
-                                        db_trans.data.insert(db_trans.data.end(), trans.src.str.cbegin(), trans.src.str.cend());
-                                        db_trans.idxSrc.push_back(idx);
-                                        db_trans.idxDst.push_back(idx);
+                                        db_trans << trans;
                                     } else
                                         has_errors = true;
                                 }
@@ -398,23 +352,7 @@ int _tmain(int argc, _TCHAR *argv[])
                     // Read key sequence from the database.
                     if (src.GetKeySequence(rs, ks)) {
                         // Add key sequence to index and data.
-                        unsigned __int32 idx = db.data.size();
-                        wstring::size_type n = ks.chr.length();
-                        wxASSERT_MSG(n <= 0xffff, wxT("character overflow"));
-                        db.data.push_back((unsigned __int16)n);
-                        n += ks.seq.size() * sizeof(ZRCola::keyseq_db::keyseq::key_t) / sizeof(wchar_t);
-                        wxASSERT_MSG(n <= 0xffff, wxT("key sequence overflow"));
-                        db.data.push_back((unsigned __int16)n);
-                        db.data.insert(db.data.end(), ks.chr.cbegin(), ks.chr.cend());
-                        for (auto kc = ks.seq.cbegin(), kc_end = ks.seq.cend(); kc != kc_end; ++kc) {
-                            db.data.push_back(kc->key);
-                            db.data.push_back(
-                                (kc->shift ? ZRCola::keyseq_db::keyseq::SHIFT : 0) |
-                                (kc->ctrl  ? ZRCola::keyseq_db::keyseq::CTRL  : 0) |
-                                (kc->alt   ? ZRCola::keyseq_db::keyseq::ALT   : 0));
-                        }
-                        db.idxChr.push_back(idx);
-                        db.idxKey.push_back(idx);
+                        db << ks;
                     } else
                         has_errors = true;
                 }
@@ -473,13 +411,7 @@ int _tmain(int argc, _TCHAR *argv[])
                             pot.insert(lang.name);
 
                         // Add language to index and data.
-                        unsigned __int32 idx = db.data.size();
-                        db.data.insert(db.data.end(), reinterpret_cast<const unsigned __int16*>(&lang.id), reinterpret_cast<const unsigned __int16*>(&lang.id + 1));
-                        wstring::size_type n = lang.name.length();
-                        wxASSERT_MSG(n <= 0xffff, wxT("language name overflow"));
-                        db.data.push_back((unsigned __int16)n);
-                        db.data.insert(db.data.end(), lang.name.cbegin(), lang.name.cend());
-                        db.idxLang.push_back(idx);
+                        db << lang;
                     } else
                         has_errors = true;
                 }
@@ -520,16 +452,7 @@ int _tmain(int argc, _TCHAR *argv[])
                     // Read language characters from the database.
                     if (src.GetLanguageCharacter(rs, lc)) {
                         // Add language characters to index and data.
-                        unsigned __int32 idx = db.data.size();
-                        db.data.insert(db.data.end(), reinterpret_cast<const unsigned __int16*>(&lc.lang), reinterpret_cast<const unsigned __int16*>(&lc.lang + 1));
-                        wstring::size_type n = lc.chr.length();
-                        wxASSERT_MSG(n <= 0xffff, wxT("character overflow"));
-                        db.data.push_back((unsigned __int16)n);
-                        db.data.insert(db.data.end(), lc.chr.cbegin(), lc.chr.cend());
-                        db.idxChr .push_back(idx);
-#ifdef ZRCOLA_LANGCHAR_LANG_IDX
-                        db.idxLang.push_back(idx);
-#endif
+                        db << lc;
                     } else
                         has_errors = true;
                 }
@@ -578,21 +501,7 @@ int _tmain(int argc, _TCHAR *argv[])
                         }
 
                         // Add character group to index and data.
-                        unsigned __int32 idx = db.data.size();
-                        wxASSERT_MSG((int)0xffff8000 <= cg.id && cg.id <= (int)0x00007fff, wxT("character group ID out of bounds"));
-                        db.data.push_back((unsigned __int16)cg.id);
-                        wxASSERT_MSG((int)0xffff8000 <= cg.rank && cg.rank <= (int)0x00007fff, wxT("character group rank out of bounds"));
-                        db.data.push_back((unsigned __int16)cg.rank);
-                        wstring::size_type n = cg.name.length();
-                        wxASSERT_MSG(n <= 0xffff, wxT("character group name overflow"));
-                        db.data.push_back((unsigned __int16)n);
-                        n += cg.chars.size();
-                        wxASSERT_MSG(n <= 0xffff, wxT("character group characters overflow"));
-                        db.data.push_back((unsigned __int16)n);
-                        db.data.insert(db.data.end(), cg.name .cbegin(), cg.name .cend());
-                        db.data.insert(db.data.end(), cg.chars.cbegin(), cg.chars.cend());
-                        db.data.insert(db.data.end(), cg.show .cbegin(), cg.show .cend());
-                        db.idxRank.push_back(idx);
+                        db << cg;
                     } else
                         has_errors = true;
                 }
@@ -646,21 +555,7 @@ int _tmain(int argc, _TCHAR *argv[])
                 // Phase 3: Parse characters and build index and data.
                 for (auto chr = chrs.cbegin(), chr_end = chrs.cend(); chr != chr_end; ++chr) {
                     // Add character to index and data.
-                    unsigned __int32 idx = db.data.size();
-                    db.data.insert(db.data.end(), reinterpret_cast<const unsigned __int16*>(&chr->second.cat), reinterpret_cast<const unsigned __int16*>(&chr->second.cat + 1));
-                    wstring::size_type n = chr->first.length();
-                    wxASSERT_MSG(n <= 0xffff, wxT("character overflow"));
-                    db.data.push_back((unsigned __int16)n);
-                    n += chr->second.desc.length();
-                    wxASSERT_MSG(n <= 0xffff, wxT("character description overflow"));
-                    db.data.push_back((unsigned __int16)n);
-                    n += chr->second.rel.size();
-                    wxASSERT_MSG(n <= 0xffff, wxT("related characters overflow"));
-                    db.data.push_back((unsigned __int16)n);
-                    db.data.insert(db.data.end(), chr->first      .cbegin(), chr->first      .cend());
-                    db.data.insert(db.data.end(), chr->second.desc.cbegin(), chr->second.desc.cend());
-                    db.data.insert(db.data.end(), chr->second.rel .cbegin(), chr->second.rel .cend());
-                    db.idxChr.push_back(idx);
+                    db << *chr;
 
                     // Add description (and keywords) to index.
                     idxChrDsc   .add_keywords(chr->second.terms, chr->first, 0);
@@ -710,22 +605,13 @@ int _tmain(int argc, _TCHAR *argv[])
                         if (build_pot)
                             pot.insert(cc.name);
 
-                        if (categories_used.find(cc.id) == categories_used.end()) {
+                        if (categories_used.find(cc.cat) == categories_used.end()) {
                             // Skip empty character categories.
                             continue;
                         }
 
                         // Add character category to index and data.
-                        unsigned __int32 idx = db.data.size();
-                        db.data.insert(db.data.end(), reinterpret_cast<const unsigned __int16*>(&cc.id), reinterpret_cast<const unsigned __int16*>(&cc.id + 1));
-                        wxASSERT_MSG((int)0xffff8000 <= cc.rank && cc.rank <= (int)0x00007fff, wxT("character category rank out of bounds"));
-                        db.data.push_back((unsigned __int16)cc.rank);
-                        wstring::size_type n = cc.name.length();
-                        wxASSERT_MSG(n <= 0xffff, wxT("character category name overflow"));
-                        db.data.push_back((unsigned __int16)n);
-                        db.data.insert(db.data.end(), cc.name.cbegin(), cc.name.cend());
-                        db.idxChrCat.push_back(idx);
-                        db.idxRank  .push_back(idx);
+                        db << cc;
                     } else
                         has_errors = true;
                 }
@@ -765,15 +651,7 @@ int _tmain(int argc, _TCHAR *argv[])
                     // Read characters tags from the database.
                     if (src.GetCharacterTag(rs, ct)) {
                         // Add characters tags to index and data.
-                        unsigned __int32 idx = db.data.size();
-                        wxASSERT_MSG((int)0xffff8000 <= ct.tag && ct.tag <= (int)0x00007fff, wxT("tag out of bounds"));
-                        db.data.push_back((unsigned __int16)ct.tag);
-                        wstring::size_type n = ct.chr.length();
-                        wxASSERT_MSG(n <= 0xffff, wxT("character overflow"));
-                        db.data.push_back((unsigned __int16)n);
-                        db.data.insert(db.data.end(), ct.chr.cbegin(), ct.chr.cend());
-                        db.idxChr.push_back(idx);
-                        db.idxTag.push_back(idx);
+                        db << ct;
                     } else
                         has_errors = true;
                 }
@@ -813,21 +691,7 @@ int _tmain(int argc, _TCHAR *argv[])
                     // Read tag name from the database.
                     if (src.GetTagName(rs, tn)) {
                         // Add tag name to index and data.
-                        for (auto ln = tn.names.cbegin(), ln_end = tn.names.cend(); ln != ln_end; ++ln) {
-                            for (auto nm = ln->second.cbegin(), nm_end = ln->second.cend(); nm != nm_end; ++nm) {
-                                unsigned __int32 idx = db.data.size();
-                                wxASSERT_MSG((int)0xffff8000 <= tn.tag && tn.tag <= (int)0x00007fff, wxT("tag out of bounds"));
-                                db.data.push_back((unsigned __int16)tn.tag);
-                                db.data.push_back(LOWORD(ln->first));
-                                db.data.push_back(HIWORD(ln->first));
-                                wstring::size_type n = nm->length();
-                                wxASSERT_MSG(n <= 0xffff, wxT("tag name overflow"));
-                                db.data.push_back((unsigned __int16)n);
-                                db.data.insert(db.data.end(), nm->cbegin(), nm->cend());
-                                db.idxName.push_back(idx);
-                                db.idxTag .push_back(idx);
-                            }
-                        }
+                        db << tn;
                     } else
                         has_errors = true;
                 }

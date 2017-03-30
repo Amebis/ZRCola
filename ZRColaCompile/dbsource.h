@@ -21,10 +21,17 @@
 
 #include <zrcola/character.h>
 #include <zrcola/common.h>
+#include <zrcola/language.h>
+#include <zrcola/tag.h>
 #include <zrcola/translate.h>
+
+#include <zrcolaui/chargroup.h>
+#include <zrcolaui/keyboard.h>
 
 #include <WinStd/COM.h>
 #include <WinStd/Win.h>
+
+#include <wx/debug.h>
 
 #include <adoint.h>
 #include <list>
@@ -67,6 +74,7 @@ namespace ZRCola {
         ///
         class translation {
         public:
+            int set;        ///< Translation set ID
             charseq src;    ///< Source sequence
             charseq dst;    ///< Destination sequence
         };
@@ -77,7 +85,7 @@ namespace ZRCola {
         ///
         class transet {
         public:
-            int id;             ///< ID
+            int set;            ///< ID
             std::wstring src;   ///< Source name
             std::wstring dst;   ///< Destination name
         };
@@ -123,8 +131,8 @@ namespace ZRCola {
         ///
         class language {
         public:
-            ZRCola::langid_t id;        ///< Language ID
-            std::wstring name;          ///< Language name
+            ZRCola::langid_t lang;      ///< Language ID
+            std::wstring name;          ///< Name
         };
 
 
@@ -143,11 +151,11 @@ namespace ZRCola {
         ///
         class chrgrp {
         public:
-            int id;                             ///< Character group ID
-            int rank;                           ///< Character group rank
-            std::wstring name;                  ///< Character group name
-            std::vector<wchar_t> chars;         ///< Character group characters
-            std::vector<unsigned __int16> show; ///< Bit vector if particular character is displayed initially
+            int grp;                            ///< Character group ID
+            int rank;                           ///< Rank
+            std::wstring name;                  ///< Name
+            std::vector<wchar_t> chars;         ///< Characters (zero-delimited)
+            std::vector<unsigned __int16> show; ///< Bit vector if particular character from \c chars is displayed initially
         };
 
 
@@ -175,7 +183,7 @@ namespace ZRCola {
             std::wstring desc;                  ///< Character description
             std::set<std::wstring> terms;       ///< Search terms
             std::set<std::wstring> terms_rel;   ///< Relevant terms for relating characters
-            std::vector<wchar_t> rel;           ///< Related characters
+            std::vector<wchar_t> rel;           ///< Related characters (zero-delimited)
         };
 
 
@@ -291,9 +299,9 @@ namespace ZRCola {
         ///
         class chrcat {
         public:
-            ZRCola::chrcatid_t id;      ///> Category ID
-            int rank;                   ///< Character category rank
-            std::wstring name;          ///< Character category name
+            ZRCola::chrcatid_t cat;     ///> Category ID
+            int rank;                   ///< Rank
+            std::wstring name;          ///< Name
         };
 
 
@@ -729,3 +737,200 @@ namespace ZRCola {
         std::set<std::wstring> m_terms_ignore;  ///< Terms to ignore when comparing characters
     };
 };
+
+
+inline ZRCola::translation_db& operator<<(_Inout_ ZRCola::translation_db &db, _In_ const ZRCola::DBSource::translation &rec)
+{
+    unsigned __int32 idx = db.data.size();
+    wxASSERT_MSG((int)0xffff8000 <= rec.set && rec.set <= (int)0x00007fff, wxT("translation set index out of bounds"));
+    db.data.push_back((unsigned __int16)rec.set);
+    wxASSERT_MSG((int)0xffff8000 <= rec.dst.rank && rec.dst.rank <= (int)0x00007fff, wxT("destination character rank out of bounds"));
+    db.data.push_back((unsigned __int16)rec.dst.rank);
+    wxASSERT_MSG((int)0xffff8000 <= rec.src.rank && rec.src.rank <= (int)0x00007fff, wxT("source character rank out of bounds"));
+    db.data.push_back((unsigned __int16)rec.src.rank);
+    std::wstring::size_type n = rec.dst.str.length();
+    wxASSERT_MSG(n <= 0xffff, wxT("destination overflow"));
+    db.data.push_back((unsigned __int16)n);
+    n += rec.src.str.length();
+    wxASSERT_MSG(n <= 0xffff, wxT("source overflow"));
+    db.data.push_back((unsigned __int16)n);
+    db.data.insert(db.data.end(), rec.dst.str.cbegin(), rec.dst.str.cend());
+    db.data.insert(db.data.end(), rec.src.str.cbegin(), rec.src.str.cend());
+    db.idxSrc.push_back(idx);
+    db.idxDst.push_back(idx);
+
+    return db;
+}
+
+
+inline ZRCola::transet_db& operator<<(_Inout_ ZRCola::transet_db &db, _In_ const ZRCola::DBSource::transet &rec)
+{
+    unsigned __int32 idx = db.data.size();
+    wxASSERT_MSG((int)0xffff8000 <= rec.set && rec.set <= (int)0x00007fff, wxT("translation set index out of bounds"));
+    db.data.push_back((unsigned __int16)rec.set);
+    std::wstring::size_type n = rec.src.length();
+    wxASSERT_MSG(n <= 0xffff, wxT("translation set source name overflow"));
+    db.data.push_back((unsigned __int16)n);
+    n += rec.dst.length();
+    wxASSERT_MSG(n <= 0xffff, wxT("translation set destination name overflow"));
+    db.data.push_back((unsigned __int16)n);
+    db.data.insert(db.data.end(), rec.src.cbegin(), rec.src.cend());
+    db.data.insert(db.data.end(), rec.dst.cbegin(), rec.dst.cend());
+    db.idxTranSet.push_back(idx);
+
+    return db;
+}
+
+
+inline ZRCola::keyseq_db& operator<<(_Inout_ ZRCola::keyseq_db &db, _In_ const ZRCola::DBSource::keyseq &rec)
+{
+    unsigned __int32 idx = db.data.size();
+    std::wstring::size_type n = rec.chr.length();
+    wxASSERT_MSG(n <= 0xffff, wxT("character overflow"));
+    db.data.push_back((unsigned __int16)n);
+    n += rec.seq.size() * sizeof(ZRCola::keyseq_db::keyseq::key_t) / sizeof(wchar_t);
+    wxASSERT_MSG(n <= 0xffff, wxT("key sequence overflow"));
+    db.data.push_back((unsigned __int16)n);
+    db.data.insert(db.data.end(), rec.chr.cbegin(), rec.chr.cend());
+    for (auto kc = rec.seq.cbegin(), kc_end = rec.seq.cend(); kc != kc_end; ++kc) {
+        db.data.push_back(kc->key);
+        db.data.push_back(
+            (kc->shift ? ZRCola::keyseq_db::keyseq::SHIFT : 0) |
+            (kc->ctrl  ? ZRCola::keyseq_db::keyseq::CTRL  : 0) |
+            (kc->alt   ? ZRCola::keyseq_db::keyseq::ALT   : 0));
+    }
+    db.idxChr.push_back(idx);
+    db.idxKey.push_back(idx);
+
+    return db;
+}
+
+
+inline ZRCola::language_db& operator<<(_Inout_ ZRCola::language_db &db, _In_ const ZRCola::DBSource::language &rec)
+{
+    unsigned __int32 idx = db.data.size();
+    db.data.insert(db.data.end(), reinterpret_cast<const unsigned __int16*>(&rec.lang), reinterpret_cast<const unsigned __int16*>(&rec.lang + 1));
+    std::wstring::size_type n = rec.name.length();
+    wxASSERT_MSG(n <= 0xffff, wxT("language name overflow"));
+    db.data.push_back((unsigned __int16)n);
+    db.data.insert(db.data.end(), rec.name.cbegin(), rec.name.cend());
+    db.idxLang.push_back(idx);
+
+    return db;
+}
+
+
+inline ZRCola::langchar_db& operator<<(_Inout_ ZRCola::langchar_db &db, _In_ const ZRCola::DBSource::langchar &rec)
+{
+    unsigned __int32 idx = db.data.size();
+    db.data.insert(db.data.end(), reinterpret_cast<const unsigned __int16*>(&rec.lang), reinterpret_cast<const unsigned __int16*>(&rec.lang + 1));
+    std::wstring::size_type n = rec.chr.length();
+    wxASSERT_MSG(n <= 0xffff, wxT("character overflow"));
+    db.data.push_back((unsigned __int16)n);
+    db.data.insert(db.data.end(), rec.chr.cbegin(), rec.chr.cend());
+    db.idxChr .push_back(idx);
+#ifdef ZRCOLA_LANGCHAR_LANG_IDX
+    db.idxLang.push_back(idx);
+#endif
+
+    return db;
+}
+
+
+inline ZRCola::chrgrp_db& operator<<(_Inout_ ZRCola::chrgrp_db &db, _In_ const ZRCola::DBSource::chrgrp &rec)
+{
+    unsigned __int32 idx = db.data.size();
+    wxASSERT_MSG((int)0xffff8000 <= rec.grp && rec.grp <= (int)0x00007fff, wxT("character group ID out of bounds"));
+    db.data.push_back((unsigned __int16)rec.grp);
+    wxASSERT_MSG((int)0xffff8000 <= rec.rank && rec.rank <= (int)0x00007fff, wxT("character group rank out of bounds"));
+    db.data.push_back((unsigned __int16)rec.rank);
+    std::wstring::size_type n = rec.name.length();
+    wxASSERT_MSG(n <= 0xffff, wxT("character group name overflow"));
+    db.data.push_back((unsigned __int16)n);
+    n += rec.chars.size();
+    wxASSERT_MSG(n <= 0xffff, wxT("character group characters overflow"));
+    db.data.push_back((unsigned __int16)n);
+    db.data.insert(db.data.end(), rec.name .cbegin(), rec.name .cend());
+    db.data.insert(db.data.end(), rec.chars.cbegin(), rec.chars.cend());
+    db.data.insert(db.data.end(), rec.show .cbegin(), rec.show .cend());
+    db.idxRank.push_back(idx);
+
+    return db;
+}
+
+
+inline ZRCola::character_db& operator<<(_Inout_ ZRCola::character_db &db, _In_ const ZRCola::DBSource::character &rec)
+{
+    unsigned __int32 idx = db.data.size();
+    db.data.insert(db.data.end(), reinterpret_cast<const unsigned __int16*>(&rec.second.cat), reinterpret_cast<const unsigned __int16*>(&rec.second.cat + 1));
+    std::wstring::size_type n = rec.first.length();
+    wxASSERT_MSG(n <= 0xffff, wxT("character overflow"));
+    db.data.push_back((unsigned __int16)n);
+    n += rec.second.desc.length();
+    wxASSERT_MSG(n <= 0xffff, wxT("character description overflow"));
+    db.data.push_back((unsigned __int16)n);
+    n += rec.second.rel.size();
+    wxASSERT_MSG(n <= 0xffff, wxT("related characters overflow"));
+    db.data.push_back((unsigned __int16)n);
+    db.data.insert(db.data.end(), rec.first      .cbegin(), rec.first      .cend());
+    db.data.insert(db.data.end(), rec.second.desc.cbegin(), rec.second.desc.cend());
+    db.data.insert(db.data.end(), rec.second.rel .cbegin(), rec.second.rel .cend());
+    db.idxChr.push_back(idx);
+
+    return db;
+}
+
+
+inline ZRCola::chrcat_db& operator<<(_Inout_ ZRCola::chrcat_db &db, _In_ const ZRCola::DBSource::chrcat &rec)
+{
+    unsigned __int32 idx = db.data.size();
+    db.data.insert(db.data.end(), reinterpret_cast<const unsigned __int16*>(&rec.cat), reinterpret_cast<const unsigned __int16*>(&rec.cat + 1));
+    wxASSERT_MSG((int)0xffff8000 <= rec.rank && rec.rank <= (int)0x00007fff, wxT("character category rank out of bounds"));
+    db.data.push_back((unsigned __int16)rec.rank);
+    std::wstring::size_type n = rec.name.length();
+    wxASSERT_MSG(n <= 0xffff, wxT("character category name overflow"));
+    db.data.push_back((unsigned __int16)n);
+    db.data.insert(db.data.end(), rec.name.cbegin(), rec.name.cend());
+    db.idxChrCat.push_back(idx);
+    db.idxRank  .push_back(idx);
+
+    return db;
+}
+
+
+inline ZRCola::chrtag_db& operator<<(_Inout_ ZRCola::chrtag_db &db, _In_ const ZRCola::DBSource::chrtag &rec)
+{
+    unsigned __int32 idx = db.data.size();
+    wxASSERT_MSG((int)0xffff8000 <= rec.tag && rec.tag <= (int)0x00007fff, wxT("tag out of bounds"));
+    db.data.push_back((unsigned __int16)rec.tag);
+    std::wstring::size_type n = rec.chr.length();
+    wxASSERT_MSG(n <= 0xffff, wxT("character overflow"));
+    db.data.push_back((unsigned __int16)n);
+    db.data.insert(db.data.end(), rec.chr.cbegin(), rec.chr.cend());
+    db.idxChr.push_back(idx);
+    db.idxTag.push_back(idx);
+
+    return db;
+}
+
+
+inline ZRCola::tagname_db& operator<<(_Inout_ ZRCola::tagname_db &db, _In_ const ZRCola::DBSource::tagname &rec)
+{
+    for (auto ln = rec.names.cbegin(), ln_end = rec.names.cend(); ln != ln_end; ++ln) {
+        for (auto nm = ln->second.cbegin(), nm_end = ln->second.cend(); nm != nm_end; ++nm) {
+            unsigned __int32 idx = db.data.size();
+            wxASSERT_MSG((int)0xffff8000 <= rec.tag && rec.tag <= (int)0x00007fff, wxT("tag out of bounds"));
+            db.data.push_back((unsigned __int16)rec.tag);
+            db.data.push_back(LOWORD(ln->first));
+            db.data.push_back(HIWORD(ln->first));
+            std::wstring::size_type n = nm->length();
+            wxASSERT_MSG(n <= 0xffff, wxT("tag name overflow"));
+            db.data.push_back((unsigned __int16)n);
+            db.data.insert(db.data.end(), nm->cbegin(), nm->cend());
+            db.idxName.push_back(idx);
+            db.idxTag .push_back(idx);
+        }
+    }
+
+    return db;
+}

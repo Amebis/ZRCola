@@ -709,7 +709,7 @@ bool ZRCola::DBSource::GetTranslationSet(const com_obj<ADORecordset>& rs, ZRCola
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"entCode"), &f)));
-        wxCHECK(GetValue(f, ts.id), false);
+        wxCHECK(GetValue(f, ts.set), false);
     }
 
     {
@@ -847,7 +847,7 @@ bool ZRCola::DBSource::GetLanguage(const com_obj<ADORecordset>& rs, ZRCola::DBSo
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"entCode"), &f)));
-        wxCHECK(GetLanguage(f, lang.id), false);
+        wxCHECK(GetLanguage(f, lang.lang), false);
     }
 
     {
@@ -931,18 +931,18 @@ bool ZRCola::DBSource::GetCharacterGroup(const com_obj<ADORecordset>& rs, chrgrp
 
     com_obj<ADOFields> flds;
     wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
-    wstring id;
+    wstring grp;
 
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"id"), &f)));
-        wxCHECK(GetValue(f, cg.id), false);
+        wxCHECK(GetValue(f, cg.grp), false);
     }
 
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Skupina"), &f)));
-        wxCHECK(GetValue(f, id), false);
+        wxCHECK(GetValue(f, grp), false);
     }
 
     {
@@ -958,7 +958,7 @@ bool ZRCola::DBSource::GetCharacterGroup(const com_obj<ADORecordset>& rs, chrgrp
     }
 
     // Read character list from database.
-    wxVERIFY(SUCCEEDED(m_pCharacterGroup1->put_Value(variant(id.c_str()))));
+    wxVERIFY(SUCCEEDED(m_pCharacterGroup1->put_Value(variant(grp.c_str()))));
     com_obj<ADORecordset> rs_chars;
     wxVERIFY(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs_chars)));
     wxVERIFY(SUCCEEDED(rs_chars->put_CursorLocation(adUseClient)));
@@ -1103,12 +1103,11 @@ bool ZRCola::DBSource::GetCharacterCategory(const com_obj<ADORecordset>& rs, chr
 
     com_obj<ADOFields> flds;
     wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
-    wstring id;
 
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"kat"), &f)));
-        wxCHECK(GetChrCat(f, cc.id), false);
+        wxCHECK(GetChrCat(f, cc.cat), false);
     }
 
     {
@@ -1154,7 +1153,6 @@ bool ZRCola::DBSource::GetCharacterTag(const winstd::com_obj<ADORecordset>& rs, 
 
     com_obj<ADOFields> flds;
     wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
-    wstring id;
 
     {
         com_obj<ADOField> f;
@@ -1199,7 +1197,6 @@ bool ZRCola::DBSource::GetTagName(const winstd::com_obj<ADORecordset>& rs, tagna
 
     com_obj<ADOFields> flds;
     wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
-    wstring id;
     tn.names.clear();
 
     {

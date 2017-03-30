@@ -22,12 +22,6 @@
 #include "../include/version.h"
 #include "dbsource.h"
 
-#include <zrcola/language.h>
-#include <zrcola/translate.h>
-#include <zrcola/tag.h>
-#include <zrcolaui/chargroup.h>
-#include <zrcolaui/keyboard.h>
-
 #include <wx/app.h>
 #include <wx/cmdline.h>
 #include <wx/config.h>
