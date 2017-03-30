@@ -21,6 +21,7 @@
 
 #include <zrcola/character.h>
 #include <zrcola/common.h>
+#include <zrcola/translate.h>
 
 #include <WinStd/COM.h>
 #include <WinStd/Win.h>
@@ -68,6 +69,17 @@ namespace ZRCola {
         public:
             charseq src;    ///< Source sequence
             charseq dst;    ///< Destination sequence
+        };
+
+
+        ///
+        /// Translation set
+        ///
+        class transet {
+        public:
+            int id;             ///< ID
+            std::wstring src;   ///< Source name
+            std::wstring dst;   ///< Destination name
         };
 
 
@@ -473,6 +485,18 @@ namespace ZRCola {
         bool SelectTranslations(winstd::com_obj<ADORecordset>& rs) const;
 
         ///
+        /// Returns character translations by set
+        ///
+        /// \param[in ] set  Translation set ID
+        /// \param[out] rs   Recordset with results
+        ///
+        /// \returns
+        /// - true when query succeeds
+        /// - false otherwise
+        ///
+        bool SelectTranslations(int set, winstd::com_obj<ADORecordset>& rs) const;
+
+        ///
         /// Returns translation data
         ///
         /// \param[in]  rs  Recordset with results
@@ -483,6 +507,29 @@ namespace ZRCola {
         /// - false otherwise
         ///
         bool GetTranslation(const winstd::com_obj<ADORecordset>& rs, translation& t) const;
+
+        ///
+        /// Returns translation sets
+        ///
+        /// \param[out] rs  Recordset with results
+        ///
+        /// \returns
+        /// - true when query succeeds
+        /// - false otherwise
+        ///
+        bool SelectTranlationSets(winstd::com_obj<ADORecordset>& rs) const;
+
+        ///
+        /// Returns translation set data
+        ///
+        /// \param[in]  rs    Recordset with results
+        /// \param[out] lang  Language
+        ///
+        /// \returns
+        /// - true when succeeded
+        /// - false otherwise
+        ///
+        bool GetTranslationSet(const winstd::com_obj<ADORecordset>& rs, transet& ts) const;
 
         ///
         /// Returns key sequences
@@ -673,8 +720,11 @@ namespace ZRCola {
         winstd::com_obj<ADOConnection> m_db;    ///< Database
         _locale_t m_locale;                     ///< Database locale
 
-        winstd::com_obj<ADOCommand> m_comCharacterGroup;   ///< ADO Command for GetCharacterGroup subquery
-        winstd::com_obj<ADOParameter> m_pCharacterGroup1;  ///< \c m_comCharacterGroup parameter
+        winstd::com_obj<ADOCommand> m_comCharacterGroup;    ///< ADO Command for GetCharacterGroup subquery
+        winstd::com_obj<ADOParameter> m_pCharacterGroup1;   ///< \c m_comCharacterGroup parameter
+
+        winstd::com_obj<ADOCommand> m_comTranslation;       ///< ADO Command for SelectTranslations subquery
+        winstd::com_obj<ADOParameter> m_pTranslation1;      ///< \c m_comTranslations parameter
 
         std::set<std::wstring> m_terms_ignore;  ///< Terms to ignore when comparing characters
     };

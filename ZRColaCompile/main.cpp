@@ -174,6 +174,8 @@ int _tmain(int argc, _TCHAR *argv[])
     // Open file ID.
     streamoff dst_start = idrec::open<ZRCola::recordid_t, ZRCola::recordsize_t>(dst, ZRCOLA_DB_ID);
 
+    ZRCola::translation_db db_trans;
+
     {
         // Get translations.
         com_obj<ADORecordset> rs;
@@ -222,42 +224,33 @@ int _tmain(int argc, _TCHAR *argv[])
                     }
                 }
 
-                ZRCola::translation_db db;
-
                 // Preallocate memory.
-                db.idxSrc.reserve(count);
-                db.idxDst.reserve(count);
-                db.data  .reserve(count*5);
+                db_trans.idxSrc.reserve(count);
+                db_trans.idxDst.reserve(count);
+                db_trans.data  .reserve(count*5);
 
                 // Parse translations and build index and data.
                 for (auto t = db_temp2.cbegin(), t_end = db_temp2.cend(); t != t_end; ++t) {
                     // Add translation to index and data.
                     for (auto d = t->second.cbegin(), d_end = t->second.cend(); d != d_end; ++d) {
-                        unsigned __int32 idx = db.data.size();
-                        db.data.push_back((unsigned __int16)0);
+                        unsigned __int32 idx = db_trans.data.size();
+                        db_trans.data.push_back((unsigned __int16)0);
                         wxASSERT_MSG((int)0xffff8000 <= d->first && d->first <= (int)0x00007fff, wxT("destination character rank out of bounds"));
-                        db.data.push_back((unsigned __int16)d->first);
+                        db_trans.data.push_back((unsigned __int16)d->first);
                         wxASSERT_MSG((int)0xffff8000 <= d->second.rank && d->second.rank <= (int)0x00007fff, wxT("source character rank out of bounds"));
-                        db.data.push_back((unsigned __int16)d->second.rank);
+                        db_trans.data.push_back((unsigned __int16)d->second.rank);
                         wstring::size_type n = t->first.length();
                         wxASSERT_MSG(n <= 0xffff, wxT("destination overflow"));
-                        db.data.push_back((unsigned __int16)n);
+                        db_trans.data.push_back((unsigned __int16)n);
                         n += d->second.str.length();
                         wxASSERT_MSG(n <= 0xffff, wxT("source overflow"));
-                        db.data.push_back((unsigned __int16)n);
-                        db.data.insert(db.data.end(), t->first     .cbegin(), t->first     .cend());
-                        db.data.insert(db.data.end(), d->second.str.cbegin(), d->second.str.cend());
-                        db.idxSrc.push_back(idx);
-                        db.idxDst.push_back(idx);
+                        db_trans.data.push_back((unsigned __int16)n);
+                        db_trans.data.insert(db_trans.data.end(), t->first     .cbegin(), t->first     .cend());
+                        db_trans.data.insert(db_trans.data.end(), d->second.str.cbegin(), d->second.str.cend());
+                        db_trans.idxSrc.push_back(idx);
+                        db_trans.idxDst.push_back(idx);
                     }
                 }
-
-                // Sort indices.
-                db.idxSrc.sort();
-                db.idxDst.sort();
-
-                // Write translations to file.
-                dst << ZRCola::translation_rec(db);
             } else {
                 _ftprintf(stderr, wxT("%s: error ZCC0004: Error getting translation count from database or too many translations.\n"), (LPCTSTR)filenameIn.c_str());
                 has_errors = true;
@@ -267,6 +260,124 @@ int _tmain(int argc, _TCHAR *argv[])
             has_errors = true;
         }
     }
+
+    {
+        // Get translation sets.
+        com_obj<ADORecordset> rs;
+        if (src.SelectTranlationSets(rs)) {
+            size_t count = src.GetRecordsetCount(rs);
+            if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
+                ZRCola::DBSource::transet ts;
+                ZRCola::transet_db db;
+
+                // Preallocate memory.
+                db.idxTranSet.reserve(count);
+                db.data      .reserve(count*4);
+
+                // Add (de)composing translation set to index and data.
+                ts.id = 0;
+                ts.src = L"ZRCola Decomposed";
+                ts.dst = L"ZRCola Composed";
+                unsigned __int32 idx = db.data.size();
+                wxASSERT_MSG((int)0xffff8000 <= ts.id && ts.id <= (int)0x00007fff, wxT("translation set index out of bounds"));
+                db.data.push_back((unsigned __int16)ts.id);
+                wstring::size_type n = ts.src.length();
+                wxASSERT_MSG(n <= 0xffff, wxT("translation set source name overflow"));
+                db.data.push_back((unsigned __int16)n);
+                n += ts.dst.length();
+                wxASSERT_MSG(n <= 0xffff, wxT("translation set destination name overflow"));
+                db.data.push_back((unsigned __int16)n);
+                db.data.insert(db.data.end(), ts.src.cbegin(), ts.src.cend());
+                db.data.insert(db.data.end(), ts.dst.cbegin(), ts.dst.cend());
+                db.idxTranSet.push_back(idx);
+
+                // Parse translation sets and build index and data.
+                for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
+                    // Read translation set from the database.
+                    if (src.GetTranslationSet(rs, ts)) {
+                        if (build_pot) {
+                            pot.insert(ts.src);
+                            pot.insert(ts.dst);
+                        }
+
+                        // Add translation set to index and data.
+                        unsigned __int32 idx = db.data.size();
+                        wxASSERT_MSG((int)0xffff8000 <= ts.id && ts.id <= (int)0x00007fff, wxT("translation set index out of bounds"));
+                        db.data.push_back((unsigned __int16)ts.id);
+                        wstring::size_type n = ts.src.length();
+                        wxASSERT_MSG(n <= 0xffff, wxT("translation set source name overflow"));
+                        db.data.push_back((unsigned __int16)n);
+                        n += ts.dst.length();
+                        wxASSERT_MSG(n <= 0xffff, wxT("translation set destination name overflow"));
+                        db.data.push_back((unsigned __int16)n);
+                        db.data.insert(db.data.end(), ts.src.cbegin(), ts.src.cend());
+                        db.data.insert(db.data.end(), ts.dst.cbegin(), ts.dst.cend());
+                        db.idxTranSet.push_back(idx);
+
+                        // Get translations.
+                        com_obj<ADORecordset> rs_tran;
+                        if (src.SelectTranslations(ts.id, rs_tran)) {
+                            size_t count = src.GetRecordsetCount(rs_tran);
+                            if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
+                                // Parse translations and build temporary database.
+                                for (; !ZRCola::DBSource::IsEOF(rs_tran); rs_tran->MoveNext()) {
+                                    // Read translation from the database.
+                                    ZRCola::DBSource::translation trans;
+                                    if (src.GetTranslation(rs_tran, trans)) {
+                                        // Add translation to index and data.
+                                        unsigned __int32 idx = db_trans.data.size();
+                                        wxASSERT_MSG((int)0xffff8000 <= ts.id && ts.id <= (int)0x00007fff, wxT("translation set index out of bounds"));
+                                        db_trans.data.push_back((unsigned __int16)ts.id);
+                                        wxASSERT_MSG((int)0xffff8000 <= trans.dst.rank && trans.dst.rank <= (int)0x00007fff, wxT("destination character rank out of bounds"));
+                                        db_trans.data.push_back((unsigned __int16)trans.dst.rank);
+                                        wxASSERT_MSG((int)0xffff8000 <= trans.src.rank && trans.src.rank <= (int)0x00007fff, wxT("source character rank out of bounds"));
+                                        db_trans.data.push_back((unsigned __int16)trans.src.rank);
+                                        wstring::size_type n = trans.dst.str.length();
+                                        wxASSERT_MSG(n <= 0xffff, wxT("destination overflow"));
+                                        db_trans.data.push_back((unsigned __int16)n);
+                                        n += trans.src.str.length();
+                                        wxASSERT_MSG(n <= 0xffff, wxT("source overflow"));
+                                        db_trans.data.push_back((unsigned __int16)n);
+                                        db_trans.data.insert(db_trans.data.end(), trans.dst.str.cbegin(), trans.dst.str.cend());
+                                        db_trans.data.insert(db_trans.data.end(), trans.src.str.cbegin(), trans.src.str.cend());
+                                        db_trans.idxSrc.push_back(idx);
+                                        db_trans.idxDst.push_back(idx);
+                                    } else
+                                        has_errors = true;
+                                }
+                            } else {
+                                _ftprintf(stderr, wxT("%s: error ZCC0004: Error getting translation count from database or too many translations.\n"), (LPCTSTR)filenameIn.c_str());
+                                has_errors = true;
+                            }
+                        } else {
+                            _ftprintf(stderr, wxT("%s: error ZCC0003: Error getting translations from database. Please make sure the file is ZRCola.zrc compatible.\n"), (LPCTSTR)filenameIn.c_str());
+                            has_errors = true;
+                        }
+                    } else
+                        has_errors = true;
+                }
+
+                // Sort indices.
+                db.idxTranSet.sort();
+
+                // Write translation sets to file.
+                dst << ZRCola::transet_rec(db);
+            } else {
+                _ftprintf(stderr, wxT("%s: error ZCC0009: Error getting translation set count from database or too many translation sets.\n"), (LPCTSTR)filenameIn.c_str());
+                has_errors = true;
+            }
+        } else {
+            _ftprintf(stderr, wxT("%s: error ZCC0008: Error getting translation sets from database. Please make sure the file is ZRCola.zrc compatible.\n"), (LPCTSTR)filenameIn.c_str());
+            has_errors = true;
+        }
+    }
+
+    // Sort indices.
+    db_trans.idxSrc.sort();
+    db_trans.idxDst.sort();
+
+    // Write translations to file.
+    dst << ZRCola::translation_rec(db_trans);
 
     {
         // Get key sequences.

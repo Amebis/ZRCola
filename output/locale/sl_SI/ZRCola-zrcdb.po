@@ -9,13 +9,18 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
-"%100==4 ? 2 : 3);\n"
+"X-Generator: Poedit 1.8.11\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 msgid "Albanian"
 msgstr "albanščina"
+
+msgid "Apostrophes 1"
+msgstr "apostrofi 1"
+
+msgid "Apostrophes 2"
+msgstr "apostrofi 2"
 
 msgid "Arabic"
 msgstr "Arabski znaki"
@@ -31,6 +36,9 @@ msgstr "bosanščina – cirilica"
 
 msgid "Bosnian – Latinic"
 msgstr "bosanščina – latinica"
+
+msgid "CAPITAL Case"
+msgstr "VELIKE črke"
 
 msgid "Combine"
 msgstr "Srednji nadomestni znaki"
@@ -55,6 +63,27 @@ msgstr "Valute"
 
 msgid "Cyrillic"
 msgstr "Cirilski znaki"
+
+msgid "Cyrillic (Belarusian)"
+msgstr "cirilica (beloruščina)"
+
+msgid "Cyrillic (Bulgarian)"
+msgstr "cirilica (bolgarščina)"
+
+msgid "Cyrillic (Macedonian)"
+msgstr "cirilica (makedonščina)"
+
+msgid "Cyrillic (Russian)"
+msgstr "cirilica (ruščina)"
+
+msgid "Cyrillic (Serbian)"
+msgstr "cirilica (srbščina)"
+
+msgid "Cyrillic (Ukrainian)"
+msgstr "cirilica (ukrajinščina)"
+
+msgid "Cyrillic BdC"
+msgstr "cirilica BdC"
 
 msgid "Czech"
 msgstr "češčina"
@@ -94,6 +123,12 @@ msgstr "Glagolski znaki"
 
 msgid "Greek"
 msgstr "Grški znaki"
+
+msgid "Greek (Modern)"
+msgstr "grščina (sodobna)"
+
+msgid "Greek (Old)"
+msgstr "grščina (stara)"
 
 msgid "Hebrew"
 msgstr "Hebrejski znaki"
@@ -205,6 +240,12 @@ msgstr "kašubščina"
 
 msgid "Latin"
 msgstr "latinščina"
+
+msgid "Latin ALE"
+msgstr "latinščina ALE"
+
+msgid "Latin BdC"
+msgstr "latinščina BdC"
 
 msgid "Latvian"
 msgstr "letonščina"
@@ -470,6 +511,12 @@ msgstr "srbščina – cirilica"
 msgid "Serbian – Latinic"
 msgstr "srbščina – latinica"
 
+msgid "Sigma Final"
+msgstr "Sigma končni"
+
+msgid "Sigma Nav"
+msgstr "Sigma nav"
+
 msgid "Slovak"
 msgstr "slovaščina"
 
@@ -557,6 +604,9 @@ msgstr "Simbol, drugo"
 msgid "Technical Characters"
 msgstr "Tehnični znaki"
 
+msgid "Title Case"
+msgstr "Velike začetnice"
+
 msgid "Transliterated"
 msgstr "Prečrkovano"
 
@@ -571,6 +621,15 @@ msgstr "ukrajinščina"
 
 msgid "Units"
 msgstr "Enote"
+
+msgid "l+j l|j"
+msgstr "l+j l|j"
+
+msgid "no + |"
+msgstr "brez + |"
+
+msgid "small Case"
+msgstr "male črke"
 
 #~ msgid "Letter b"
 #~ msgstr "Črka b"

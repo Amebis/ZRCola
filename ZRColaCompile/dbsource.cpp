@@ -249,6 +249,8 @@ ZRCola::DBSource::DBSource()
 ZRCola::DBSource::~DBSource()
 {
     // Manually release all COM objects related to the database before we close the database.
+    m_pTranslation1.free();
+    m_comTranslation.free();
     m_pCharacterGroup1.free();
     m_comCharacterGroup.free();
 
@@ -279,13 +281,16 @@ bool ZRCola::DBSource::Open(LPCTSTR filename)
             m_filename = filename;
             m_locale = _create_locale(LC_ALL, "Slovenian_Slovenia.1250");
 
-            wxASSERT_MSG(!m_comCharacterGroup, wxT("ADO command already created"));
-
             // Create ADO command(s).
+            wxASSERT_MSG(!m_comCharacterGroup, wxT("ADO command already created"));
             wxVERIFY(SUCCEEDED(::CoCreateInstance(CLSID_CADOCommand, NULL, CLSCTX_ALL, IID_IADOCommand, (LPVOID*)&m_comCharacterGroup)));
             wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_ActiveConnection(variant(m_db))));
             wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_CommandType(adCmdText)));
-            wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_CommandText(bstr(L"SELECT [VRS_SkupineZnakov].[Znak], [VRS_SkupineZnakov].[pogost] FROM [VRS_SkupineZnakov] LEFT JOIN [VRS_CharList] ON [VRS_SkupineZnakov].[Znak]=[VRS_CharList].[znak] WHERE [VRS_CharList].[aktiven]=1 AND [VRS_SkupineZnakov].[Skupina]=? ORDER BY [VRS_SkupineZnakov].[Rang] ASC, [VRS_SkupineZnakov].[Znak] ASC"))));
+            wxVERIFY(SUCCEEDED(m_comCharacterGroup->put_CommandText(bstr(L"SELECT [VRS_SkupineZnakov].[Znak], [VRS_SkupineZnakov].[pogost] "
+                L"FROM [VRS_SkupineZnakov] "
+                L"LEFT JOIN [VRS_CharList] ON [VRS_SkupineZnakov].[Znak]=[VRS_CharList].[znak] "
+                L"WHERE [VRS_CharList].[aktiven]=1 AND [VRS_SkupineZnakov].[Skupina]=? "
+                L"ORDER BY [VRS_SkupineZnakov].[Rang] ASC, [VRS_SkupineZnakov].[Znak] ASC"))));
             {
                 // Create and add command parameters.
                 com_obj<ADOParameters> params;
@@ -293,6 +298,23 @@ bool ZRCola::DBSource::Open(LPCTSTR filename)
                 wxASSERT_MSG(!m_pCharacterGroup1, wxT("ADO command parameter already created"));
                 wxVERIFY(SUCCEEDED(m_comCharacterGroup->CreateParameter(bstr(L"@Skupina"), adVarWChar, adParamInput, 50, variant(DISP_E_PARAMNOTFOUND, VT_ERROR), &m_pCharacterGroup1)));
                 wxVERIFY(SUCCEEDED(params->Append(m_pCharacterGroup1)));
+            }
+
+            wxASSERT_MSG(!m_comTranslation, wxT("ADO command already created"));
+            wxVERIFY(SUCCEEDED(::CoCreateInstance(CLSID_CADOCommand, NULL, CLSCTX_ALL, IID_IADOCommand, (LPVOID*)&m_comTranslation)));
+            wxVERIFY(SUCCEEDED(m_comTranslation->put_ActiveConnection(variant(m_db))));
+            wxVERIFY(SUCCEEDED(m_comTranslation->put_CommandType(adCmdText)));
+            wxVERIFY(SUCCEEDED(m_comTranslation->put_CommandText(bstr(L"SELECT [Komb1] AS [komb], [rang_komb1] AS [rang_komb], [Komb2] AS [znak], [rang_komb2] AS [rang_znak] "
+                L"FROM [VRS_ScriptRepl] "
+                L"WHERE [Script]=? "
+                L"ORDER BY [Komb2], [rang_komb2], [rang_komb1], [Komb1]"))));
+            {
+                // Create and add command parameters.
+                com_obj<ADOParameters> params;
+                wxVERIFY(SUCCEEDED(m_comTranslation->get_Parameters(&params)));
+                wxASSERT_MSG(!m_pTranslation1, wxT("ADO command parameter already created"));
+                wxVERIFY(SUCCEEDED(m_comTranslation->CreateParameter(bstr(L"@Script"), adInteger, adParamInput, 0, variant(DISP_E_PARAMNOTFOUND, VT_ERROR), &m_pTranslation1)));
+                wxVERIFY(SUCCEEDED(params->Append(m_pTranslation1)));
             }
 
             return true;
@@ -591,7 +613,28 @@ bool ZRCola::DBSource::SelectTranslations(com_obj<ADORecordset> &rs) const
         L"WHERE [rang_komb]=1 "
         L"ORDER BY [znak], [rang_znak], [rang_komb], [komb]"), variant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
     {
-        _ftprintf(stderr, wxT("%s: error ZCC0040: Error loading compositions from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
+        _ftprintf(stderr, wxT("%s: error ZCC0040: Error loading translations from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
+        LogErrors();
+        return false;
+    }
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::SelectTranslations(int set, winstd::com_obj<ADORecordset>& rs) const
+{
+    // Create a new recordset.
+    rs.free();
+    wxVERIFY(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)));
+    wxVERIFY(SUCCEEDED(rs->put_CursorLocation(adUseClient)));
+    wxVERIFY(SUCCEEDED(rs->put_CursorType(adOpenForwardOnly)));
+    wxVERIFY(SUCCEEDED(rs->put_LockType(adLockReadOnly)));
+
+    // Open it.
+    wxVERIFY(SUCCEEDED(m_pTranslation1->put_Value(variant(set))));
+    if (FAILED(rs->Open(variant(m_comTranslation), variant(DISP_E_PARAMNOTFOUND, VT_ERROR)))) {
+        _ftprintf(stderr, wxT("%s: error ZCC0100: Error loading translations from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
         LogErrors();
         return false;
     }
@@ -629,6 +672,56 @@ bool ZRCola::DBSource::GetTranslation(const com_obj<ADORecordset>& rs, ZRCola::D
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"znak"), &f)));
         wxCHECK(GetUnicodeString(f, t.dst.str), false);
+    }
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::SelectTranlationSets(com_obj<ADORecordset> &rs) const
+{
+    // Create a new recordset.
+    rs.free();
+    wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
+
+    // Open it.
+    if (FAILED(rs->Open(variant(
+        L"SELECT DISTINCT [entCode], [Src_En], [Dst_En] "
+        L"FROM [VRS_Script] "
+        L"ORDER BY [entCode], [Src_En], [Dst_En]"), variant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
+    {
+        _ftprintf(stderr, wxT("%s: error ZCC0060: Error loading translation sets from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
+        LogErrors();
+        return false;
+    }
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::GetTranslationSet(const com_obj<ADORecordset>& rs, ZRCola::DBSource::transet& ts) const
+{
+    wxASSERT_MSG(rs, wxT("recordset is empty"));
+
+    com_obj<ADOFields> flds;
+    wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
+
+    {
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"entCode"), &f)));
+        wxCHECK(GetValue(f, ts.id), false);
+    }
+
+    {
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Src_En"), &f)));
+        wxCHECK(GetValue(f, ts.src), false);
+    }
+
+    {
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Dst_En"), &f)));
+        wxCHECK(GetValue(f, ts.dst), false);
     }
 
     return true;

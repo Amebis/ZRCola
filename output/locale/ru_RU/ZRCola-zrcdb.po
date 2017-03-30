@@ -9,13 +9,18 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.9\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 1.8.11\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 msgid "Albanian"
 msgstr "албанский"
+
+msgid "Apostrophes 1"
+msgstr ""
+
+msgid "Apostrophes 2"
+msgstr ""
 
 msgid "Arabic"
 msgstr "Арабские знаки"
@@ -31,6 +36,9 @@ msgstr "боснийский – кириллица"
 
 msgid "Bosnian – Latinic"
 msgstr "боснийский – латиница"
+
+msgid "CAPITAL Case"
+msgstr ""
 
 msgid "Combine"
 msgstr "Средние замещающие знаки"
@@ -54,6 +62,33 @@ msgid "Currencies"
 msgstr "Валюты"
 
 msgid "Cyrillic"
+msgstr "Кириллические знаки"
+
+#, fuzzy
+msgid "Cyrillic (Belarusian)"
+msgstr "белорусский"
+
+msgid "Cyrillic (Bulgarian)"
+msgstr ""
+
+#, fuzzy
+msgid "Cyrillic (Macedonian)"
+msgstr "македонский"
+
+#, fuzzy
+msgid "Cyrillic (Russian)"
+msgstr "Кириллические знаки"
+
+#, fuzzy
+msgid "Cyrillic (Serbian)"
+msgstr "Кириллические знаки"
+
+#, fuzzy
+msgid "Cyrillic (Ukrainian)"
+msgstr "украинский"
+
+#, fuzzy
+msgid "Cyrillic BdC"
 msgstr "Кириллические знаки"
 
 msgid "Czech"
@@ -93,6 +128,13 @@ msgid "Glagolitic"
 msgstr "Глаголические знаки"
 
 msgid "Greek"
+msgstr "Греческие знаки"
+
+msgid "Greek (Modern)"
+msgstr ""
+
+#, fuzzy
+msgid "Greek (Old)"
 msgstr "Греческие знаки"
 
 msgid "Hebrew"
@@ -204,6 +246,14 @@ msgid "Kashubian"
 msgstr "кашубский"
 
 msgid "Latin"
+msgstr "латинский"
+
+#, fuzzy
+msgid "Latin ALE"
+msgstr "латинский"
+
+#, fuzzy
+msgid "Latin BdC"
 msgstr "латинский"
 
 msgid "Latvian"
@@ -470,6 +520,12 @@ msgstr "сербский – кириллица"
 msgid "Serbian – Latinic"
 msgstr "сербский – латиница"
 
+msgid "Sigma Final"
+msgstr ""
+
+msgid "Sigma Nav"
+msgstr ""
+
 msgid "Slovak"
 msgstr "словацкий"
 
@@ -558,6 +614,9 @@ msgstr "Симбол, остальное"
 msgid "Technical Characters"
 msgstr "Технические символы"
 
+msgid "Title Case"
+msgstr ""
+
 msgid "Transliterated"
 msgstr "Транслитерированные знаки"
 
@@ -572,3 +631,20 @@ msgstr "украинский"
 
 msgid "Units"
 msgstr "Единицы"
+
+msgid "l+j l|j"
+msgstr ""
+
+msgid "no + |"
+msgstr ""
+
+msgid "small Case"
+msgstr ""
+
+#, fuzzy
+#~ msgid "Modified Greek"
+#~ msgstr "Изменяющие знаки"
+
+#, fuzzy
+#~ msgid "Old Greek"
+#~ msgstr "Греческие знаки"

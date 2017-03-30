@@ -326,8 +326,9 @@ namespace ZRCola {
             transetid_t set;            ///< Translation set ID
 
         protected:
-            unsigned __int16 name_to;   ///< Translation set name end in \c data
-            wchar_t data[];             ///< Translation set name
+            unsigned __int16 src_to;    ///< Source name end in \c data
+            unsigned __int16 dst_to;    ///< Sestination name end in \c data
+            wchar_t data[];             ///< Source and destination names
 
         private:
             inline transet(_In_ const transet &other);
@@ -337,25 +338,37 @@ namespace ZRCola {
             ///
             /// Constructs the translation set
             ///
-            /// \param[in] set       Translation set ID
-            /// \param[in] name      Translation set name
-            /// \param[in] name_len  Number of UTF-16 characters in \p name
+            /// \param[in] set      Translation set ID
+            /// \param[in] src      Translation set source
+            /// \param[in] src_len  Number of UTF-16 characters in \p src
+            /// \param[in] dst      Translation set destination
+            /// \param[in] dst_len  Number of UTF-16 characters in \p dst
             ///
             inline transet(
-                _In_opt_                         transetid_t  set      = 0,
-                _In_opt_z_count_(name_len) const wchar_t     *name     = NULL,
-                _In_opt_                         size_t       name_len = 0)
+                _In_opt_                        transetid_t  set     = 0,
+                _In_opt_z_count_(src_len) const wchar_t     *src     = NULL,
+                _In_opt_                        size_t       src_len = 0,
+                _In_opt_z_count_(dst_len) const wchar_t     *dst     = NULL,
+                _In_opt_                        size_t       dst_len = 0)
             {
                 this->set = set;
-                this->name_to = static_cast<unsigned __int16>(name_len);
-                if (name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
+                this->src_to = static_cast<unsigned __int16>(src_len);
+                if (src_len) memcpy(this->data, src, sizeof(wchar_t)*src_len);
+                this->dst_to = static_cast<unsigned __int16>(this->src_to + dst_len);
+                if (dst_len) memcpy(this->data + this->src_to, dst, sizeof(wchar_t)*dst_len);
             }
 
-            inline const wchar_t*         name    () const { return data;           };
-            inline       wchar_t*         name    ()       { return data;           };
-            inline const wchar_t*         name_end() const { return data + name_to; };
-            inline       wchar_t*         name_end()       { return data + name_to; };
-            inline       unsigned __int16 name_len() const { return name_to;        };
+            inline const wchar_t*         src    () const { return data;          };
+            inline       wchar_t*         src    ()       { return data;          };
+            inline const wchar_t*         src_end() const { return data + src_to; };
+            inline       wchar_t*         src_end()       { return data + src_to; };
+            inline       unsigned __int16 src_len() const { return src_to;        };
+
+            inline const wchar_t*         dst    () const { return data + src_to;   };
+            inline       wchar_t*         dst    ()       { return data + src_to;   };
+            inline const wchar_t*         dst_end() const { return data + dst_to;   };
+            inline       wchar_t*         dst_end()       { return data + dst_to;   };
+            inline       unsigned __int16 dst_len() const { return dst_to - src_to; };
         };
 #pragma pack(pop)
 
