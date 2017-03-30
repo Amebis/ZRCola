@@ -36,6 +36,11 @@
 
 namespace ZRCola {
     ///
+    /// Translation set ID
+    ///
+    typedef unsigned __int16 transetid_t;
+
+    ///
     /// Translation database
     ///
     class ZRCOLA_API translation_db {
@@ -47,7 +52,7 @@ namespace ZRCola {
         ///
         struct translation {
         public:
-            unsigned __int16 set;       ///< Translation set ID
+            transetid_t set;            ///< Translation set ID
             unsigned __int16 dst_rank;  ///< Destination character rank
             unsigned __int16 src_rank;  ///< Source character rank
 
@@ -73,7 +78,7 @@ namespace ZRCola {
             /// \param[in] src_len  Number of UTF-16 characters in \p src
             ///
             inline translation(
-                _In_opt_                        unsigned __int16  set      = 0,
+                _In_opt_                        transetid_t       set      = 0,
                 _In_opt_                        unsigned __int16  dst_rank = 0,
                 _In_opt_z_count_(dst_len) const wchar_t          *dst      = NULL,
                 _In_opt_                        size_t            dst_len  = 0,
@@ -272,7 +277,7 @@ namespace ZRCola {
         /// \param[out] output    Output string (UTF-16)
         /// \param[out] map       The vector of source to destination index mappings (optional)
         ///
-        void Translate(_In_ unsigned __int16 set, _In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const;
+        void Translate(_In_ transetid_t set, _In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const;
 
         ///
         /// Inverse translates string
@@ -283,7 +288,7 @@ namespace ZRCola {
         /// \param[out] output    Output string (UTF-16)
         /// \param[out] map       The vector of source to destination index mappings (optional)
         ///
-        inline void TranslateInv(_In_ unsigned __int16 set, _In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const
+        inline void TranslateInv(_In_ transetid_t set, _In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const
         {
             TranslateInv(set, input, inputMax, NULL, langid_t::blank, output, map);
         }
@@ -299,7 +304,7 @@ namespace ZRCola {
         /// \param[out] output    Output string (UTF-16)
         /// \param[out] map       The vector of source to destination index mappings (optional)
         ///
-        void TranslateInv(_In_ unsigned __int16 set, _In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _In_opt_ const langchar_db *lc_db, _In_opt_ langid_t lang, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const;
+        void TranslateInv(_In_ transetid_t set, _In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _In_opt_ const langchar_db *lc_db, _In_opt_ langid_t lang, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const;
     };
 
 
