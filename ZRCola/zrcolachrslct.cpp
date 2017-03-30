@@ -217,11 +217,11 @@ wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) :
 
     // Fill categories.
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
-    for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
-        const auto &cc = app->m_cc_db.idxRnk[i];
+    for (size_t i = 0, n = app->m_cc_db.idxRank.size(); i < n; i++) {
+        const auto &cc = app->m_cc_db.idxRank[i];
         int idx = m_categories->Insert(wxGetTranslation(wxString(cc.name(), cc.name_len()), wxT("ZRCola-zrcdb")), i);
         m_categories->Check(idx);
-        m_ccOrder.insert(std::make_pair(cc.id, idx));
+        m_ccOrder.insert(std::make_pair(cc.cat, idx));
     }
 
     ResetResults();
@@ -277,7 +277,7 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
                 }
                 {
                     char cc[sizeof(ZRCola::chrcat_db::chrcat)] = {};
-                    ((ZRCola::chrcat_db::chrcat*)cc)->id = chr.cat;
+                    ((ZRCola::chrcat_db::chrcat*)cc)->cat= chr.cat;
                     size_t start;
                     // Update character category.
                     if (app->m_cc_db.idxChrCat.find(*((ZRCola::chrcat_db::chrcat*)cc), start)) {
@@ -359,10 +359,10 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
             m_searchThread->m_search.assign(val.c_str(), val.Length());
 
             // Select categories.
-            for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
-                const auto &cc = app->m_cc_db.idxRnk[i];
+            for (size_t i = 0, n = app->m_cc_db.idxRank.size(); i < n; i++) {
+                const auto &cc = app->m_cc_db.idxRank[i];
                 if (m_categories->IsChecked(i))
-                    m_searchThread->m_cats.insert(cc.id);
+                    m_searchThread->m_cats.insert(cc.cat);
             }
 
             if (m_searchThread->Run() != wxTHREAD_NO_ERROR) {
@@ -407,7 +407,7 @@ void wxZRColaCharSelect::OnCategoriesAll(wxHyperlinkEvent& event)
     event.StopPropagation();
 
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
-    for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++)
+    for (size_t i = 0, n = app->m_cc_db.idxRank.size(); i < n; i++)
         m_categories->Check(i, true);
 
     m_searchChanged = true;
@@ -419,7 +419,7 @@ void wxZRColaCharSelect::OnCategoriesNone(wxHyperlinkEvent& event)
     event.StopPropagation();
 
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
-    for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++)
+    for (size_t i = 0, n = app->m_cc_db.idxRank.size(); i < n; i++)
         m_categories->Check(i, false);
 
     m_searchChanged = true;
@@ -431,7 +431,7 @@ void wxZRColaCharSelect::OnCategoriesInvert(wxHyperlinkEvent& event)
     event.StopPropagation();
 
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
-    for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++)
+    for (size_t i = 0, n = app->m_cc_db.idxRank.size(); i < n; i++)
         m_categories->Check(i, !m_categories->IsChecked(i));
 
     m_searchChanged = true;
@@ -817,10 +817,10 @@ void wxPersistentZRColaCharSelect::Save() const
     }
     SaveValue(wxT("recentChars2"), val);
 
-    for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
-        const auto &cc = app->m_cc_db.idxRnk[i];
+    for (size_t i = 0, n = app->m_cc_db.idxRank.size(); i < n; i++) {
+        const auto &cc = app->m_cc_db.idxRank[i];
         wxString name(wxT("category"));
-        name.Append(cc.id.data, _countof(cc.id.data));
+        name.Append(cc.cat.data, _countof(cc.cat.data));
         SaveValue(name, wnd->m_categories->IsChecked(i));
     }
 
@@ -867,10 +867,10 @@ bool wxPersistentZRColaCharSelect::Restore()
         wnd->m_gridRecent->SetCharacters(val);
     }
 
-    for (size_t i = 0, n = app->m_cc_db.idxRnk.size(); i < n; i++) {
-        const auto &cc = app->m_cc_db.idxRnk[i];
+    for (size_t i = 0, n = app->m_cc_db.idxRank.size(); i < n; i++) {
+        const auto &cc = app->m_cc_db.idxRank[i];
         wxString name(wxT("category"));
-        name.Append(cc.id.data, _countof(cc.id.data));
+        name.Append(cc.cat.data, _countof(cc.cat.data));
         bool val;
         if (RestoreValue(name, &val))
             wnd->m_categories->Check(i, val);

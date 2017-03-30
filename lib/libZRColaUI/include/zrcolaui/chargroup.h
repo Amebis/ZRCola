@@ -36,6 +36,12 @@
 
 namespace ZRCola {
     ///
+    /// Character group ID
+    ///
+    typedef unsigned __int16 chrgrpid_t;
+
+
+    ///
     /// Character group database
     ///
     class ZRCOLAUI_API chrgrp_db {
@@ -47,7 +53,7 @@ namespace ZRCola {
         ///
         struct chrgrp {
         public:
-            unsigned __int16 id;                ///< Character group ID
+            chrgrpid_t grp;                     ///< Character group ID
             unsigned __int16 rank;              ///< Character group rank
 
         protected:
@@ -59,7 +65,7 @@ namespace ZRCola {
             ///
             /// Constructs the character group
             ///
-            /// \param[in] id          Character group ID
+            /// \param[in] grp         Character group ID
             /// \param[in] rank        Character group rank
             /// \param[in] name        Character group name
             /// \param[in] name_len    Number of UTF-16 characters in \p name
@@ -68,7 +74,7 @@ namespace ZRCola {
             /// \param[in] chrshow     Binary vector which particular character is displayed initially
             ///
             inline chrgrp(
-                _In_opt_                                     unsigned __int16  id         = 0,
+                _In_opt_                                     chrgrpid_t        grp        = 0,
                 _In_opt_                                     unsigned __int16  rank       = 0,
                 _In_opt_z_count_(name_len)             const wchar_t          *name       = NULL,
                 _In_opt_                                     size_t            name_len   = 0,
@@ -76,7 +82,7 @@ namespace ZRCola {
                 _In_opt_                                     size_t            chrlst_len = 0,
                 _In_opt_count_x_((chrlst_len + 15)/16) const unsigned __int16 *chrshow    = NULL)
             {
-                this->id   = id;
+                this->grp  = grp;
                 this->rank = rank;
                 this->name_to = static_cast<unsigned __int16>(name_len);
                 if (name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
@@ -165,7 +171,7 @@ namespace ZRCola {
 
                 return 0;
             }
-        } idxRnk;   ///< Rank index
+        } idxRank;  ///< Rank index
 
         std::vector<unsigned __int16> data;     ///< Character groups data
 
@@ -173,7 +179,7 @@ namespace ZRCola {
         ///
         /// Constructs the database
         ///
-        inline chrgrp_db() : idxRnk(data) {}
+        inline chrgrp_db() : idxRank(data) {}
     };
 
 
@@ -196,7 +202,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::c
 {
     // Write rank index.
     if (stream.fail()) return stream;
-    stream << db.idxRnk;
+    stream << db.idxRank;
 
     // Write data count.
     auto data_count = db.data.size();
@@ -230,7 +236,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::c
 inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::chrgrp_db &db)
 {
     // Read rank index.
-    stream >> db.idxRnk;
+    stream >> db.idxRank;
     if (!stream.good()) return stream;
 
     // Read data count.

@@ -225,9 +225,9 @@ int _tmain(int argc, _TCHAR *argv[])
                 ZRCola::translation_db db;
 
                 // Preallocate memory.
-                db.idxTrans   .reserve(count);
-                db.idxTransInv.reserve(count);
-                db.data       .reserve(count*5);
+                db.idxSrc.reserve(count);
+                db.idxDst.reserve(count);
+                db.data  .reserve(count*5);
 
                 // Parse translations and build index and data.
                 for (auto t = db_temp2.cbegin(), t_end = db_temp2.cend(); t != t_end; ++t) {
@@ -247,14 +247,14 @@ int _tmain(int argc, _TCHAR *argv[])
                         db.data.push_back((unsigned __int16)n);
                         db.data.insert(db.data.end(), t->first     .cbegin(), t->first     .cend());
                         db.data.insert(db.data.end(), d->second.str.cbegin(), d->second.str.cend());
-                        db.idxTrans   .push_back(idx);
-                        db.idxTransInv.push_back(idx);
+                        db.idxSrc.push_back(idx);
+                        db.idxDst.push_back(idx);
                     }
                 }
 
                 // Sort indices.
-                db.idxTrans   .sort();
-                db.idxTransInv.sort();
+                db.idxSrc.sort();
+                db.idxDst.sort();
 
                 // Write translations to file.
                 dst << ZRCola::translation_rec(db);
@@ -351,8 +351,8 @@ int _tmain(int argc, _TCHAR *argv[])
                 ZRCola::language_db db;
 
                 // Preallocate memory.
-                db.idxLng.reserve(count);
-                db.data  .reserve(count*4);
+                db.idxLang.reserve(count);
+                db.data   .reserve(count*4);
 
                 // Parse languages and build index and data.
                 for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
@@ -368,13 +368,13 @@ int _tmain(int argc, _TCHAR *argv[])
                         wxASSERT_MSG(n <= 0xffff, wxT("language name overflow"));
                         db.data.push_back((unsigned __int16)n);
                         db.data.insert(db.data.end(), lang.name.cbegin(), lang.name.cend());
-                        db.idxLng.push_back(idx);
+                        db.idxLang.push_back(idx);
                     } else
                         has_errors = true;
                 }
 
                 // Sort indices.
-                db.idxLng.sort();
+                db.idxLang.sort();
 
                 // Write languages to file.
                 dst << ZRCola::language_rec(db);
@@ -398,11 +398,11 @@ int _tmain(int argc, _TCHAR *argv[])
                 ZRCola::langchar_db db;
 
                 // Preallocate memory.
-                db.idxChr.reserve(count);
+                db.idxChr .reserve(count);
 #ifdef ZRCOLA_LANGCHAR_LANG_IDX
-                db.idxLng.reserve(count);
+                db.idxLang.reserve(count);
 #endif
-                db.data  .reserve(count*4);
+                db.data   .reserve(count*4);
 
                 // Parse language characters and build index and data.
                 for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
@@ -415,9 +415,9 @@ int _tmain(int argc, _TCHAR *argv[])
                         wxASSERT_MSG(n <= 0xffff, wxT("character overflow"));
                         db.data.push_back((unsigned __int16)n);
                         db.data.insert(db.data.end(), lc.chr.cbegin(), lc.chr.cend());
-                        db.idxChr.push_back(idx);
+                        db.idxChr .push_back(idx);
 #ifdef ZRCOLA_LANGCHAR_LANG_IDX
-                        db.idxLng.push_back(idx);
+                        db.idxLang.push_back(idx);
 #endif
                     } else
                         has_errors = true;
@@ -426,7 +426,7 @@ int _tmain(int argc, _TCHAR *argv[])
                 // Sort indices.
                 db.idxChr .sort();
 #ifdef ZRCOLA_LANGCHAR_LANG_IDX
-                db.idxLng.sort();
+                db.idxLang.sort();
 #endif
 
                 // Write language characters to file.
@@ -451,8 +451,8 @@ int _tmain(int argc, _TCHAR *argv[])
                 ZRCola::chrgrp_db db;
 
                 // Preallocate memory.
-                db.idxRnk.reserve(count);
-                db.data  .reserve(count*4);
+                db.idxRank.reserve(count);
+                db.data   .reserve(count*4);
 
                 // Parse character groups and build index and data.
                 for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
@@ -481,13 +481,13 @@ int _tmain(int argc, _TCHAR *argv[])
                         db.data.insert(db.data.end(), cg.name .cbegin(), cg.name .cend());
                         db.data.insert(db.data.end(), cg.chars.cbegin(), cg.chars.cend());
                         db.data.insert(db.data.end(), cg.show .cbegin(), cg.show .cend());
-                        db.idxRnk.push_back(idx);
+                        db.idxRank.push_back(idx);
                     } else
                         has_errors = true;
                 }
 
                 // Sort indices.
-                db.idxRnk.sort();
+                db.idxRank.sort();
 
                 // Write character groups to file.
                 dst << ZRCola::chrgrp_rec(db);
@@ -589,7 +589,7 @@ int _tmain(int argc, _TCHAR *argv[])
 
                 // Preallocate memory.
                 db.idxChrCat.reserve(count);
-                db.idxRnk   .reserve(count);
+                db.idxRank  .reserve(count);
                 db.data     .reserve(count*4);
 
                 // Parse character categories and build index and data.
@@ -614,14 +614,14 @@ int _tmain(int argc, _TCHAR *argv[])
                         db.data.push_back((unsigned __int16)n);
                         db.data.insert(db.data.end(), cc.name.cbegin(), cc.name.cend());
                         db.idxChrCat.push_back(idx);
-                        db.idxRnk   .push_back(idx);
+                        db.idxRank  .push_back(idx);
                     } else
                         has_errors = true;
                 }
 
                 // Sort indices.
                 db.idxChrCat.sort();
-                db.idxRnk   .sort();
+                db.idxRank  .sort();
 
                 // Write character categories to file.
                 dst << ZRCola::chrcat_rec(db);
@@ -668,7 +668,7 @@ int _tmain(int argc, _TCHAR *argv[])
                 }
 
                 // Sort indices.
-                db.idxChr .sort();
+                db.idxChr.sort();
                 db.idxTag.sort();
 
                 // Write characters tags to file.

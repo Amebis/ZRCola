@@ -31,8 +31,8 @@ wxZRColaSettings::wxZRColaSettings(wxWindow* parent) :
 {
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     m_languages->Clear();
-    for (size_t i = 0, n = app->m_lang_db.idxLng.size(); i < n; i++) {
-        const auto &lang = app->m_lang_db.idxLng[i];
+    for (size_t i = 0, n = app->m_lang_db.idxLang.size(); i < n; i++) {
+        const auto &lang = app->m_lang_db.idxLang[i];
         wxString
             label(lang.name(), lang.name_len()),
             label_tran(wxGetTranslation(label, wxT("ZRCola-zrcdb")));
@@ -59,9 +59,9 @@ void wxZRColaSettings::OnInitDialog(wxInitDialogEvent& event)
 
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     char l[sizeof(ZRCola::language_db::language)] = {};
-    ((ZRCola::language_db::language*)l)->id = m_lang;
+    ((ZRCola::language_db::language*)l)->lang = m_lang;
     ZRCola::language_db::indexLang::size_type start;
-    m_languages->Select(app->m_lang_db.idxLng.find(*(ZRCola::language_db::language*)l, start) ? start : -1);
+    m_languages->Select(app->m_lang_db.idxLang.find(*(ZRCola::language_db::language*)l, start) ? start : -1);
 }
 
 
@@ -122,10 +122,10 @@ void wxZRColaSettings::OnApplyButtonClick(wxCommandEvent& event)
         m_lang_auto = false;
 
         auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
-        const auto &lang = app->m_lang_db.idxLng[m_languages->GetSelection()];
+        const auto &lang = app->m_lang_db.idxLang[m_languages->GetSelection()];
 
-        if (m_lang != lang.id) {
-            m_lang = lang.id;
+        if (m_lang != lang.lang) {
+            m_lang = lang.lang;
 
             // Notify destination text something changed and should re-inverse translate.
             wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
@@ -179,9 +179,9 @@ bool wxPersistentZRColaSettings::Restore()
     } else if (RestoreValue(wxT("lang"), &lang) && lang.Length() == 3) {
         // The language was read from configuration.
         wnd->m_lang = lang.c_str();
-    } else if (!app->m_lang_db.idxLng.empty()) {
-        const auto &lang = app->m_lang_db.idxLng[0];
-        wnd->m_lang = lang.id;
+    } else if (!app->m_lang_db.idxLang.empty()) {
+        const auto &lang = app->m_lang_db.idxLang[0];
+        wnd->m_lang = lang.lang;
     } else
         wnd->m_lang = ZRCola::langid_t::blank;
 

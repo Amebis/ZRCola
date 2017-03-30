@@ -184,7 +184,7 @@ namespace ZRCola {
         ///
         struct character {
         public:
-            chrcatid_t cat;             ///> Category ID
+            chrcatid_t cat;             ///> Character category ID
 
         protected:
             unsigned __int16 chr_to;    ///< Character end in \c data
@@ -249,7 +249,7 @@ namespace ZRCola {
         ///
         /// Character index
         ///
-        class indexChar : public index<unsigned __int16, unsigned __int32, character>
+        class indexChr : public index<unsigned __int16, unsigned __int32, character>
         {
         public:
             ///
@@ -257,7 +257,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexChar(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, character>(h) {}
+            indexChr(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, character>(h) {}
 
             ///
             /// Compares two characters by ID (for searching)
@@ -327,7 +327,7 @@ namespace ZRCola {
             assert(len <= 0xffff);
             std::unique_ptr<character> c((character*)new char[sizeof(character) + sizeof(wchar_t)*len]);
             c->character::character(chr, len);
-            indexChar::size_type start;
+            indexChr::size_type start;
             return idxChr.find(*c, start) ? idxChr[start].cat : chrcatid_t::blank;
         }
     };
@@ -348,7 +348,7 @@ namespace ZRCola {
         ///
         struct chrcat {
         public:
-            chrcatid_t id;                              ///< Character category ID
+            chrcatid_t cat;                             ///< Character category ID
             unsigned __int16 rank;                      ///< Character category rank
 
         protected:
@@ -363,18 +363,18 @@ namespace ZRCola {
             ///
             /// Constructs the character category
             ///
-            /// \param[in] id        Character category ID
+            /// \param[in] cat       Character category ID
             /// \param[in] rank      Character category rank
             /// \param[in] name      Character category name
             /// \param[in] name_len  Number of UTF-16 characters in \p name
             ///
             inline chrcat(
-                _In_opt_                         chrcatid_t        id       = chrcatid_t::blank,
+                _In_opt_                         chrcatid_t        cat      = chrcatid_t::blank,
                 _In_opt_                         unsigned __int16  rank     = 0,
                 _In_opt_z_count_(name_len) const wchar_t          *name     = NULL,
                 _In_opt_                         size_t            name_len = 0)
             {
-                this->id   = id;
+                this->cat  = cat;
                 this->rank = rank;
                 this->name_to = static_cast<unsigned __int16>(name_len);
                 if (name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
@@ -414,11 +414,12 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const chrcat &a, _In_ const chrcat &b) const
             {
-                     if (a.id < b.id) return -1;
-                else if (a.id > b.id) return  1;
-                else                  return  0;
+                     if (a.cat < b.cat) return -1;
+                else if (a.cat > b.cat) return  1;
+
+                return  0;
             }
-        } idxChrCat;      ///< Character category index
+        } idxChrCat;    ///< Character category index
 
         ///
         /// Rank index
@@ -478,7 +479,7 @@ namespace ZRCola {
 
                 return 0;
             }
-        } idxRnk;      ///< Rank index
+        } idxRank;  ///< Rank index
 
         std::vector<unsigned __int16> data;     ///< Character category data
 
@@ -486,7 +487,7 @@ namespace ZRCola {
         ///
         /// Constructs the database
         ///
-        inline chrcat_db() : idxChrCat(data), idxRnk(data) {}
+        inline chrcat_db() : idxChrCat(data), idxRank(data) {}
 
         ///
         /// Clears the database
@@ -494,7 +495,7 @@ namespace ZRCola {
         inline void clear()
         {
             idxChrCat.clear();
-            idxRnk   .clear();
+            idxRank  .clear();
             data     .clear();
         }
     };
@@ -605,7 +606,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::c
 
     // Write rank index.
     if (stream.fail()) return stream;
-    stream << db.idxRnk;
+    stream << db.idxRank;
 
     // Write data count.
     auto data_count = db.data.size();
@@ -643,7 +644,7 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::chrcat
     if (!stream.good()) return stream;
 
     // Read rank index.
-    stream >> db.idxRnk;
+    stream >> db.idxRank;
     if (!stream.good()) return stream;
 
     // Read data count.

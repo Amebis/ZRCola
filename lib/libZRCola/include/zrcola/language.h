@@ -85,7 +85,7 @@ namespace ZRCola {
         ///
         /// Character index
         ///
-        class indexChar : public index<unsigned __int16, unsigned __int32, langchar>
+        class indexChr : public index<unsigned __int16, unsigned __int32, langchar>
         {
         public:
             ///
@@ -93,7 +93,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexChar(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, langchar>(h) {}
+            indexChr(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, langchar>(h) {}
 
             ///
             /// Compares two characters by ID (for searching)
@@ -121,9 +121,9 @@ namespace ZRCola {
 
 #ifdef ZRCOLA_LANGCHAR_LANG_IDX
         ///
-        /// Character Language Index
+        /// Language Index
         ///
-        class indexCharLang : public index<unsigned __int16, unsigned __int32, langchar>
+        class indexLang : public index<unsigned __int16, unsigned __int32, langchar>
         {
         public:
             ///
@@ -131,7 +131,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexCharLang(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, langchar>(h) {}
+            indexLang(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, langchar>(h) {}
 
             ///
             /// Compares two languages by ID (for searching)
@@ -154,7 +154,7 @@ namespace ZRCola {
 
                 return 0;
             }
-        } idxLng;      ///< Character language index
+        } idxLang;  ///< Language index
 #endif
 
         std::vector<unsigned __int16> data;     ///< Character data
@@ -165,7 +165,7 @@ namespace ZRCola {
         ///
         inline langchar_db() : idxChr(data)
 #ifdef ZRCOLA_LANGCHAR_LANG_IDX
-            , idxLng(data)
+            , idxLang(data)
 #endif
         {}
 
@@ -174,11 +174,11 @@ namespace ZRCola {
         ///
         inline void clear()
         {
-            idxChr.clear();
+            idxChr .clear();
 #ifdef ZRCOLA_LANGCHAR_LANG_IDX
-            idxLng.clear();
+            idxLang.clear();
 #endif
-            data  .clear();
+            data   .clear();
         }
 
         ///
@@ -210,7 +210,7 @@ namespace ZRCola {
         ///
         struct language {
         public:
-            langid_t id;                ///< Language ID
+            langid_t lang;              ///< Language ID
 
         protected:
             unsigned __int16 name_to;   ///< Language name end in \c data
@@ -224,16 +224,16 @@ namespace ZRCola {
             ///
             /// Constructs the language
             ///
-            /// \param[in] id        Language ID
+            /// \param[in] lang      Language ID
             /// \param[in] name      Language name
             /// \param[in] name_len  Number of UTF-16 characters in \p name
             ///
             inline language(
-                _In_opt_                         langid_t  id       = langid_t::blank,
+                _In_opt_                         langid_t  lang     = langid_t::blank,
                 _In_opt_z_count_(name_len) const wchar_t  *name     = NULL,
                 _In_opt_                         size_t    name_len = 0)
             {
-                this->id = id;
+                this->lang = lang;
                 this->name_to = static_cast<unsigned __int16>(name_len);
                 if (name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
             }
@@ -272,12 +272,12 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const language &a, _In_ const language &b) const
             {
-                     if (a.id < b.id) return -1;
-                else if (a.id > b.id) return  1;
+                     if (a.lang < b.lang) return -1;
+                else if (a.lang > b.lang) return  1;
 
                 return 0;
             }
-        } idxLng;      ///< Language index
+        } idxLang;  ///< Language index
 
         std::vector<unsigned __int16> data;     ///< Language data
 
@@ -285,15 +285,15 @@ namespace ZRCola {
         ///
         /// Constructs the database
         ///
-        inline language_db() : idxLng(data) {}
+        inline language_db() : idxLang(data) {}
 
         ///
         /// Clears the database
         ///
         inline void clear()
         {
-            idxLng.clear();
-            data  .clear();
+            idxLang.clear();
+            data   .clear();
         }
     };
 
@@ -323,7 +323,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::l
 #ifdef ZRCOLA_LANGCHAR_LANG_IDX
     // Write language index.
     if (stream.fail()) return stream;
-    stream << db.idxLng;
+    stream << db.idxLang;
 #endif
 
     // Write data count.
@@ -363,7 +363,7 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::langch
 
 #ifdef ZRCOLA_LANGCHAR_LANG_IDX
     // Read language index.
-    stream >> db.idxLng;
+    stream >> db.idxLang;
     if (!stream.good()) return stream;
 #endif
 
@@ -395,7 +395,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::l
 {
     // Write language index.
     if (stream.fail()) return stream;
-    stream << db.idxLng;
+    stream << db.idxLang;
 
     // Write data count.
     auto data_count = db.data.size();
@@ -429,7 +429,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::l
 inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::language_db &db)
 {
     // Read language index.
-    stream >> db.idxLng;
+    stream >> db.idxLang;
     if (!stream.good()) return stream;
 
     // Read data count.

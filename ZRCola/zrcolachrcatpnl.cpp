@@ -42,8 +42,8 @@ wxZRColaCharacterCatalogPanel::wxZRColaCharacterCatalogPanel(wxWindow* parent) :
                     dat >> rec;
                     if (!dat.good()) {
                         wxFAIL_MSG(wxT("Error reading character group data from ZRCola.zrcdb."));
-                        m_cg_db.idxRnk.clear();
-                        m_cg_db.data  .clear();
+                        m_cg_db.idxRank.clear();
+                        m_cg_db.data   .clear();
                     }
                 } else
                     wxFAIL_MSG(wxT("ZRCola.zrcdb has no character group data."));
@@ -52,16 +52,16 @@ wxZRColaCharacterCatalogPanel::wxZRColaCharacterCatalogPanel(wxWindow* parent) :
             wxFAIL_MSG(wxT("ZRCola.zrcdb is not a valid ZRCola database."));
     }
 
-    if (!m_cg_db.idxRnk.empty()) {
+    if (!m_cg_db.idxRank.empty()) {
         // Populate character group list.
-        for (size_t i = 0, n = m_cg_db.idxRnk.size(); i < n; i++) {
-            const ZRCola::chrgrp_db::chrgrp &cg = m_cg_db.idxRnk[i];
+        for (size_t i = 0, n = m_cg_db.idxRank.size(); i < n; i++) {
+            const ZRCola::chrgrp_db::chrgrp &cg = m_cg_db.idxRank[i];
             wxString
                 label(cg.name(), cg.name_len()),
                 label_tran2(wxGetTranslation(label, wxT("ZRCola-zrcdb")));
             m_choice->Insert(label_tran2, i);
         }
-        m_cg_id = m_cg_db.idxRnk[0].id;
+        m_cg_id = m_cg_db.idxRank[0].grp;
         m_choice->Select(0);
 
         Update();
@@ -83,10 +83,10 @@ wxZRColaCharacterCatalogPanel::~wxZRColaCharacterCatalogPanel()
 
 void wxZRColaCharacterCatalogPanel::OnChoice(wxCommandEvent& event)
 {
-    const ZRCola::chrgrp_db::chrgrp &cg = m_cg_db.idxRnk[event.GetSelection()];
+    const ZRCola::chrgrp_db::chrgrp &cg = m_cg_db.idxRank[event.GetSelection()];
 
-    if (m_cg_id != cg.id) {
-        m_cg_id = cg.id;
+    if (m_cg_id != cg.grp) {
+        m_cg_id = cg.grp;
         Update();
     }
 
@@ -151,7 +151,7 @@ void wxZRColaCharacterCatalogPanel::OnFocusSource(wxCommandEvent& event)
 
 void wxZRColaCharacterCatalogPanel::Update()
 {
-    const ZRCola::chrgrp_db::chrgrp &cg = m_cg_db.idxRnk[m_choice->GetSelection()];
+    const ZRCola::chrgrp_db::chrgrp &cg = m_cg_db.idxRank[m_choice->GetSelection()];
 
     if (m_show_all->GetValue()) {
         m_grid->SetCharacters(
@@ -210,11 +210,11 @@ bool wxPersistentZRColaCharacterCatalogPanel::Restore()
     // Restore selected character group.
     int cg_id;
     if (RestoreValue(wxT("charGroup"), &cg_id)) {
-        for (size_t i = 0, n = wnd->m_cg_db.idxRnk.size(); i < n; i++) {
-            const ZRCola::chrgrp_db::chrgrp &cg = wnd->m_cg_db.idxRnk[i];
-            if (cg.id == cg_id) {
-                if (wnd->m_cg_id != cg.id) {
-                    wnd->m_cg_id = cg.id;
+        for (size_t i = 0, n = wnd->m_cg_db.idxRank.size(); i < n; i++) {
+            const ZRCola::chrgrp_db::chrgrp &cg = wnd->m_cg_db.idxRank[i];
+            if (cg.grp == cg_id) {
+                if (wnd->m_cg_id != cg.grp) {
+                    wnd->m_cg_id = cg.grp;
                     wnd->m_choice->Select(i);
                     update = true;
                 }

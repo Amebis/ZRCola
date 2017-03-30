@@ -34,9 +34,9 @@ void ZRCola::translation_db::Translate(_In_ transetid_t set, _In_z_count_(inputM
         map->clear();
 
     // Limit search to the given set first.
-    indexTrans::size_type l_set, r_set;
-    idxTrans.find(translation(set    ), l_set);
-    idxTrans.find(translation(set + 1), r_set);
+    indexSrc::size_type l_set, r_set;
+    idxSrc.find(translation(set    ), l_set);
+    idxSrc.find(translation(set + 1), r_set);
 
     for (size_t i = 0; i < inputMax;) {
         // Find the longest matching translation at i-th character.
@@ -50,7 +50,7 @@ void ZRCola::translation_db::Translate(_In_ transetid_t set, _In_z_count_(inputM
                 // Get the j-th character of the translation.
                 // All translations that get short on characters are lexically ordered before.
                 // Thus the j-th character is considered 0.
-                const translation &trans = idxTrans[m];
+                const translation &trans = idxSrc[m];
                 wchar_t s = trans.src_at(j);
 
                 // Do the bisection test.
@@ -62,7 +62,7 @@ void ZRCola::translation_db::Translate(_In_ transetid_t set, _In_z_count_(inputM
                     // Narrow the search area on the left to start at the first translation in the run.
                     for (size_t rr = m; l < rr;) {
                         size_t m = (l + rr) / 2;
-                        const translation &trans = idxTrans[m];
+                        const translation &trans = idxSrc[m];
                         wchar_t s = trans.src_at(j);
                         if (c <= s) rr = m; else l = m + 1;
                     }
@@ -70,12 +70,12 @@ void ZRCola::translation_db::Translate(_In_ transetid_t set, _In_z_count_(inputM
                     // Narrow the search area on the right to end at the first translation not in the run.
                     for (size_t ll = m + 1; ll < r;) {
                         size_t m = (ll + r) / 2;
-                        const translation &trans = idxTrans[m];
+                        const translation &trans = idxSrc[m];
                         wchar_t s = trans.src_at(j);
                         if (s <= c) ll = m + 1; else r = m;
                     }
 
-                    const translation &trans = idxTrans[l];
+                    const translation &trans = idxSrc[l];
                     if (j + 1 == trans.src_len()) {
                         // The first translation of the run was a match (thus far). Save it.
                         l_match = l;
@@ -88,7 +88,7 @@ void ZRCola::translation_db::Translate(_In_ transetid_t set, _In_z_count_(inputM
 
         if (l_match < r_set) {
             // The saved translation was an exact match.
-            const translation &trans = idxTrans[l_match];
+            const translation &trans = idxSrc[l_match];
             output.append(trans.dst(), trans.dst_end());
             i += trans.src_len();
             if (trans.src_len() != trans.dst_len() && map) {
@@ -118,9 +118,9 @@ void ZRCola::translation_db::TranslateInv(_In_ transetid_t set, _In_z_count_(inp
         map->clear();
 
     // Limit search to the given set first.
-    indexTransInv::size_type l_set, r_set;
-    idxTransInv.find(translation(set    ), l_set);
-    idxTransInv.find(translation(set + 1), r_set);
+    indexDst::size_type l_set, r_set;
+    idxDst.find(translation(set    ), l_set);
+    idxDst.find(translation(set + 1), r_set);
 
     for (size_t i = 0; i < inputMax;) {
         // Find the longest matching inverse translation at i-th character.
@@ -134,7 +134,7 @@ void ZRCola::translation_db::TranslateInv(_In_ transetid_t set, _In_z_count_(inp
                 // Get the j-th character of the inverse translation.
                 // All inverse translations that get short on characters are lexically ordered before.
                 // Thus the j-th character is considered 0.
-                const translation &trans = idxTransInv[m];
+                const translation &trans = idxDst[m];
                 wchar_t s = trans.dst_at(j);
 
                 // Do the bisection test.
@@ -146,7 +146,7 @@ void ZRCola::translation_db::TranslateInv(_In_ transetid_t set, _In_z_count_(inp
                     // Narrow the search area on the left to start at the first inverse translation in the run.
                     for (size_t rr = m; l < rr;) {
                         size_t m = (l + rr) / 2;
-                        const translation &trans = idxTransInv[m];
+                        const translation &trans = idxDst[m];
                         wchar_t s = trans.dst_at(j);
                         if (c <= s) rr = m; else l = m + 1;
                     }
@@ -154,12 +154,12 @@ void ZRCola::translation_db::TranslateInv(_In_ transetid_t set, _In_z_count_(inp
                     // Narrow the search area on the right to end at the first inverse translation not in the run.
                     for (size_t ll = m + 1; ll < r;) {
                         size_t m = (ll + r) / 2;
-                        const translation &trans = idxTransInv[m];
+                        const translation &trans = idxDst[m];
                         wchar_t s = trans.dst_at(j);
                         if (s <= c) ll = m + 1; else r = m;
                     }
 
-                    const translation &trans = idxTransInv[l];
+                    const translation &trans = idxDst[l];
                     if (j + 1 == trans.dst_len()) {
                         // The first inverse translation of the run was a match (thus far). Save it.
                         l_match = l;
@@ -172,7 +172,7 @@ void ZRCola::translation_db::TranslateInv(_In_ transetid_t set, _In_z_count_(inp
 
         if (l_match < r_set) {
             // The saved inverse translation was an exact match.
-            const translation &trans = idxTransInv[l_match];
+            const translation &trans = idxDst[l_match];
             if (trans.src_len() && trans.src()[0] != L'#' && (!lc_db || !lc_db->IsLocalCharacter(trans.dst(), trans.dst_end(), lang))) {
                 // Append source sequence.
                 output.append(trans.src(), trans.src_end());

@@ -87,7 +87,7 @@ namespace ZRCola {
         ///
         /// Character Index
         ///
-        class indexChar : public index<unsigned __int16, unsigned __int32, chrtag>
+        class indexChr : public index<unsigned __int16, unsigned __int32, chrtag>
         {
         public:
             ///
@@ -95,7 +95,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexChar(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, chrtag>(h) {}
+            indexChr(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, chrtag>(h) {}
 
             ///
             /// Compares two character tags by character (for searching)
