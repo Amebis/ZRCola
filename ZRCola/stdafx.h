@@ -42,9 +42,10 @@
 #include <wx/msgdlg.h>
 #include <wx/persist.h>
 #include <wx/persist/toplevel.h>
+#include <wx/socket.h>
+#include <wx/tokenzr.h>
 #include <wx/utils.h>
 #include <wx/valtext.h>
-#include <wx/socket.h>
 
 #include <WinStd/MSI.h>
 

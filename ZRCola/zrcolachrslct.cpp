@@ -840,26 +840,11 @@ bool wxPersistentZRColaCharSelect::Restore()
     if (RestoreValue(wxT("recentChars2"), &str)) {
         // Native format found.
         wxArrayString val;
-        wxString chr;
-        wchar_t c = 0;
-        for (size_t i = 0, n = str.Length();; i++) {
-            if (i >= n) {
-                if (c)              { chr += c;     c = 0;       }
-                if (!chr.IsEmpty()) { val.Add(chr); chr.Clear(); }
-                break;
-            } else {
-                wxStringCharType r = str[i];
-                     if (wxT('0') <= r && r <= wxT('9')) c = (c << 4) | (r - wxT('0')     );
-                else if (wxT('A') <= r && r <= wxT('F')) c = (c << 4) | (r - wxT('A') + 10);
-                else if (wxT('a') <= r && r <= wxT('f')) c = (c << 4) | (r - wxT('a') + 10);
-                else if (r == wxT('+')) {
-                    if (c)              { chr += c;     c = 0;       }
-                } else if (r == wxT('|')) {
-                    if (c)              { chr += c;     c = 0;       }
-                    if (!chr.IsEmpty()) { val.Add(chr); chr.Clear(); }
-                } else
-                    break;
-            }
+        for (wxStringTokenizer tok(str, wxT("|")); tok.HasMoreTokens(); ) {
+            wxString chr;
+            for (wxStringTokenizer tok_chr(tok.GetNextToken(), wxT("+")); tok_chr.HasMoreTokens(); )
+                chr += (wchar_t)_tcstoul(tok_chr.GetNextToken().c_str(), NULL, 16);
+            val.Add(chr);
         }
         wnd->m_gridRecent->SetCharacters(val);
     } else if (RestoreValue(wxT("recentChars"), &str)) {
