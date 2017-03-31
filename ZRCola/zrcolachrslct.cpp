@@ -805,17 +805,20 @@ void wxPersistentZRColaCharSelect::Save() const
     auto wnd = static_cast<const wxZRColaCharSelect*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
 
-    wxString val;
+    wxString str, str2;
     auto &recent = wnd->m_gridRecent->GetCharacters();
     for (size_t i = 0, n = recent.GetCount(); i < n; i++) {
-        if (i) val += wxT('|');
+        if (i) str2 += wxT('|');
         auto &chr = recent[i];
         for (size_t j = 0, m = chr.Length(); j < m; j++) {
-            if (j) val += wxT('+');
-            val += wxString::Format(wxT("%04X"), chr[j]);
+            if (j) str2 += wxT('+');
+            str2 += wxString::Format(wxT("%04X"), chr[j]);
         }
+        if (chr.Length() == 1)
+            str += chr[0];
     }
-    SaveValue(wxT("recentChars2"), val);
+    SaveValue(wxT("recentChars" ), str ); // Save in legacy format for backward compatibility.
+    SaveValue(wxT("recentChars2"), str2); // Save in native format
 
     for (size_t i = 0, n = app->m_cc_db.idxRank.size(); i < n; i++) {
         const auto &cc = app->m_cc_db.idxRank[i];
@@ -833,19 +836,19 @@ bool wxPersistentZRColaCharSelect::Restore()
     auto wnd = dynamic_cast<wxZRColaCharSelect*>(GetWindow());
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
 
-    wxString recent;
-    if (RestoreValue(wxT("recentChars2"), &recent)) {
+    wxString str;
+    if (RestoreValue(wxT("recentChars2"), &str)) {
         // Native format found.
         wxArrayString val;
         wxString chr;
         wchar_t c = 0;
-        for (size_t i = 0, n = recent.Length();; i++) {
+        for (size_t i = 0, n = str.Length();; i++) {
             if (i >= n) {
                 if (c)              { chr += c;     c = 0;       }
                 if (!chr.IsEmpty()) { val.Add(chr); chr.Clear(); }
                 break;
             } else {
-                wxStringCharType r = recent[i];
+                wxStringCharType r = str[i];
                      if (wxT('0') <= r && r <= wxT('9')) c = (c << 4) | (r - wxT('0')     );
                 else if (wxT('A') <= r && r <= wxT('F')) c = (c << 4) | (r - wxT('A') + 10);
                 else if (wxT('a') <= r && r <= wxT('f')) c = (c << 4) | (r - wxT('a') + 10);
@@ -859,11 +862,11 @@ bool wxPersistentZRColaCharSelect::Restore()
             }
         }
         wnd->m_gridRecent->SetCharacters(val);
-    } else if (RestoreValue(wxT("recentChars"), &recent)) {
+    } else if (RestoreValue(wxT("recentChars"), &str)) {
         // Legacy value found.
         wxArrayString val;
-        for (size_t i = 0, n = recent.Length(); i < n; i++)
-            val.Add(wxString(1, recent[i]));
+        for (size_t i = 0, n = str.Length(); i < n; i++)
+            val.Add(wxString(1, str[i]));
         wnd->m_gridRecent->SetCharacters(val);
     }
 
