@@ -616,6 +616,12 @@ msgstr ""
 msgid "Units"
 msgstr ""
 
+msgid "ZRCola Composed"
+msgstr ""
+
+msgid "ZRCola Decomposed"
+msgstr ""
+
 msgid "l+j l|j"
 msgstr ""
 

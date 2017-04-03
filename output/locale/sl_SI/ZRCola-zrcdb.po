@@ -622,6 +622,12 @@ msgstr "ukrajinščina"
 msgid "Units"
 msgstr "Enote"
 
+msgid "ZRCola Composed"
+msgstr "ZRCola sestavljeno"
+
+msgid "ZRCola Decomposed"
+msgstr "ZRCola razstavljeno"
+
 msgid "l+j l|j"
 msgstr "l+j l|j"
 

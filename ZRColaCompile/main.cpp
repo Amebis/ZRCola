@@ -270,6 +270,10 @@ int _tmain(int argc, _TCHAR *argv[])
                 ts.src = L"ZRCola Decomposed";
                 ts.dst = L"ZRCola Composed";
                 db << ts;
+                if (build_pot) {
+                    pot.insert(ts.src);
+                    pot.insert(ts.dst);
+                }
 
                 // Parse translation sets and build index and data.
                 for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
