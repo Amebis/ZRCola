@@ -40,8 +40,8 @@ class wxZRColaFrame;
 ///
 /// Global hotkey message identifiers
 ///
-#define wxZRColaHKID_INVOKE_TRANSLATE       0
-#define wxZRColaHKID_INVOKE_TRANSLATE_INV   1
+#define wxZRColaHKID_INVOKE_TRANSFORM       0
+#define wxZRColaHKID_INVOKE_TRANSFORM_INV   1
 
 
 ///
@@ -83,8 +83,8 @@ protected:
     virtual void OnIconize(wxIconizeEvent& event);
     void OnToolbarEditUpdate(wxUpdateUIEvent& event);
     void OnToolbarEdit(wxCommandEvent& event);
-    void OnToolbarTranslateUpdate(wxUpdateUIEvent& event);
-    void OnToolbarTranslate(wxCommandEvent& event);
+    void OnToolbarTransformUpdate(wxUpdateUIEvent& event);
+    void OnToolbarTransform(wxCommandEvent& event);
     void OnPanelCharacterCatalogUpdate(wxUpdateUIEvent& event);
     void OnPanelCharacterCatalog(wxCommandEvent& event);
     void OnPanelCharacterCatalogFocus(wxCommandEvent& event);

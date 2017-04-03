@@ -87,14 +87,30 @@ void wxZRColaComposerPanel::SynchronizePanels()
         m_timerSave.Stop();
 
         auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
+        wxZRColaFrame *mainWnd = dynamic_cast<wxZRColaFrame*>(wxGetActiveWindow());
+        wxASSERT_MSG(mainWnd, "main window missing");
+
         wxString src;
         size_t len = GetValue(m_source, src);
+        std::wstring dst(src.data(), len), dst2;
+        ZRCola::mapping_vector map;
 
-        std::wstring norm;
-        app->m_t_db.TranslateInv(0, src.data(), len, norm, &m_mapping1);
+        m_mapping.clear();
+        for (auto s = mainWnd->m_settings->m_transeq.cbegin(), s_end = mainWnd->m_settings->m_transeq.cend(); s != s_end; ++s) {
+            if (*s == 0) {
+                // ZRCola Decomposed => ZRCola Composed should decompose first.
+                app->m_t_db.TranslateInv(*s, dst.data(), dst.size(), dst2, &map);
+                m_mapping.push_back(std::move(map));
 
-        std::wstring dst;
-        app->m_t_db.Translate(0, norm.data(), norm.size(), dst, &m_mapping2);
+                app->m_t_db.Translate(*s, dst2.data(), dst2.size(), dst, &map);
+                m_mapping.push_back(std::move(map));
+            } else {
+                // Other transforms
+                app->m_t_db.Translate(*s, dst.data(), dst.size(), dst2, &map);
+                m_mapping.push_back(std::move(map));
+                dst = std::move(dst2);
+            }
+        }
 
         m_source->GetSelection(&m_selSource.first, &m_selSource.second);
 
@@ -104,8 +120,8 @@ void wxZRColaComposerPanel::SynchronizePanels()
         // Update destination text, and its HEX dump.
         m_destination->SetValue(dst);
         m_destination->SetSelection(
-            m_selDestination.first  = m_mapping2.to_dst(m_mapping1.to_dst(m_selSource.first )),
-            m_selDestination.second = m_mapping2.to_dst(m_mapping1.to_dst(m_selSource.second)));
+            m_selDestination.first  = MapToDestination(m_selSource.first ),
+            m_selDestination.second = MapToDestination(m_selSource.second));
         SetHexValue(m_destinationHex, m_selDestinationHex, m_mappingDestinationHex, dst.data(), dst.length(), m_selDestination.first, m_selDestination.second);
 
         // Schedule state save after 3s.
@@ -113,19 +129,29 @@ void wxZRColaComposerPanel::SynchronizePanels()
     } else if (m_destinationChanged) {
         m_timerSave.Stop();
 
+        auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
+        wxZRColaFrame *mainWnd = dynamic_cast<wxZRColaFrame*>(wxGetActiveWindow());
+        wxASSERT_MSG(mainWnd, "main window missing");
+
         wxString src;
         size_t len = GetValue(m_destination, src);
+        std::wstring dst(src.data(), len), dst2;
+        ZRCola::mapping_vector map;
 
-        auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
-        std::wstring dst;
-        wxZRColaFrame *mainWnd = dynamic_cast<wxZRColaFrame*>(wxGetActiveWindow());
-        if (mainWnd)
-            app->m_t_db.TranslateInv(0, src.data(), len, &app->m_lc_db, mainWnd->m_settings->m_lang, dst, &m_mapping2);
-        else
-            app->m_t_db.TranslateInv(0, src.data(), len, dst, &m_mapping2);
+        m_mapping.clear();
+        for (auto s = mainWnd->m_settings->m_transeq.crbegin(), s_end = mainWnd->m_settings->m_transeq.crend(); s != s_end; ++s) {
+            if (*s) {
+                // ZRCola Decomposed => ZRCola Composed
+                app->m_t_db.TranslateInv(*s, dst.data(), dst.size(), &app->m_lc_db, mainWnd->m_settings->m_lang, dst2, &map);
+            } else {
+                // Other transforms
+                app->m_t_db.TranslateInv(*s, dst.data(), dst.size(), dst2, &map);
+            }
+            dst = std::move(dst2);
 
-        m_mapping1.clear();
-        m_mapping2.invert();
+            map.invert();
+            m_mapping.push_back(std::move(map));
+        }
 
         m_destination->GetSelection(&m_selDestination.first, &m_selDestination.second);
 
@@ -135,8 +161,8 @@ void wxZRColaComposerPanel::SynchronizePanels()
         // Update source text, and its HEX dump.
         m_source->SetValue(dst);
         m_source->SetSelection(
-            m_selSource.first  = m_mapping1.to_src(m_mapping2.to_src(m_selDestination.first )),
-            m_selSource.second = m_mapping1.to_src(m_mapping2.to_src(m_selDestination.second)));
+            m_selSource.first  = MapToSource(m_selDestination.first ),
+            m_selSource.second = MapToSource(m_selDestination.second));
         SetHexValue(m_sourceHex, m_selSourceHex, m_mappingSourceHex, dst.data(), dst.length(), m_selSource.first, m_selSource.second);
 
         // Schedule state save after 3s.
@@ -166,8 +192,8 @@ void wxZRColaComposerPanel::OnSourcePaint(wxPaintEvent& event)
             m_selSourceHex.second = m_mappingSourceHex.to_dst(to  ));
 
         m_destination->SetSelection(
-            m_selDestination.first  = m_mapping2.to_dst(m_mapping1.to_dst(from)),
-            m_selDestination.second = m_mapping2.to_dst(m_mapping1.to_dst(to  )));
+            m_selDestination.first  = MapToDestination(from),
+            m_selDestination.second = MapToDestination(to  ));
 
         m_destinationHex->SetSelection(
             m_selDestinationHex.first  = m_mappingDestinationHex.to_dst(m_selDestination.first ),
@@ -193,8 +219,8 @@ void wxZRColaComposerPanel::OnSourceHexPaint(wxPaintEvent& event)
             m_selSource.second = m_mappingSourceHex.to_src(to  ));
 
         m_destination->SetSelection(
-            m_selDestination.first  = m_mapping2.to_dst(m_mapping1.to_dst(m_selSource.first )),
-            m_selDestination.second = m_mapping2.to_dst(m_mapping1.to_dst(m_selSource.second)));
+            m_selDestination.first  = MapToDestination(m_selSource.first ),
+            m_selDestination.second = MapToDestination(m_selSource.second));
 
         m_destinationHex->SetSelection(
             m_selDestinationHex.first  = m_mappingDestinationHex.to_dst(m_selDestination.first ),
@@ -207,7 +233,7 @@ void wxZRColaComposerPanel::OnSourceText(wxCommandEvent& event)
 {
     event.Skip();
 
-    // Set the flag the source text changed to trigger idle-time translation.
+    // Set the flag the source text changed to trigger idle-time transformation.
     m_sourceChanged = true;
 }
 
@@ -229,8 +255,8 @@ void wxZRColaComposerPanel::OnDestinationPaint(wxPaintEvent& event)
             m_selDestinationHex.second = m_mappingDestinationHex.to_dst(to  ));
 
         m_source->SetSelection(
-            m_selSource.first  = m_mapping1.to_src(m_mapping2.to_src(from)),
-            m_selSource.second = m_mapping1.to_src(m_mapping2.to_src(to  )));
+            m_selSource.first  = MapToSource(from),
+            m_selSource.second = MapToSource(to  ));
 
         m_sourceHex->SetSelection(
             m_selSourceHex.first  = m_mappingSourceHex.to_dst(m_selSource.first ),
@@ -256,8 +282,8 @@ void wxZRColaComposerPanel::OnDestinationHexPaint(wxPaintEvent& event)
             m_selDestination.second = m_mappingDestinationHex.to_src(to  ));
 
         m_source->SetSelection(
-            m_selSource.first  = m_mapping1.to_src(m_mapping2.to_src(m_selDestination.first )),
-            m_selSource.second = m_mapping1.to_src(m_mapping2.to_src(m_selDestination.second)));
+            m_selSource.first  = MapToSource(m_selDestination.first ),
+            m_selSource.second = MapToSource(m_selDestination.second));
 
         m_sourceHex->SetSelection(
             m_selSourceHex.first  = m_mappingSourceHex.to_dst(m_selSource.first ),
@@ -270,7 +296,7 @@ void wxZRColaComposerPanel::OnDestinationText(wxCommandEvent& event)
 {
     event.Skip();
 
-    // Set the flag the destination text changed to trigger idle-time inverse translation.
+    // Set the flag the destination text changed to trigger idle-time inverse transformation.
     m_destinationChanged = true;
 }
 

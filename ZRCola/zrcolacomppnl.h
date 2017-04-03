@@ -30,6 +30,7 @@ class wxZRColaComposerPanel;
 #include <wx/persist/window.h>
 #include <wx/timer.h>
 #include <utility>
+#include <vector>
 
 
 ///
@@ -53,16 +54,17 @@ protected:
     virtual void OnDestinationHexPaint(wxPaintEvent& event);
     virtual void OnDestinationText(wxCommandEvent& event);
     virtual void OnSaveTimer(wxTimerEvent& event);
+    inline size_t MapToDestination(_In_ size_t src) const;
+    inline size_t MapToSource(_In_ size_t dst) const;
 
     static wxString GetStateFileName();
     static size_t GetValue(wxTextCtrl *wnd, wxString &text);
     static void SetHexValue(wxTextCtrl *wnd, std::pair<long, long> &range, ZRCola::mapping_vector &mapping, const wchar_t *src, size_t len, long from, long to);
 
 protected:
-    bool m_sourceChanged;                           ///< Boolean flag to mark source text "dirty" to trigger translation
-    bool m_destinationChanged;                      ///< Boolean flag to mark destination text "dirty" to trigger inverse translation
-    ZRCola::mapping_vector m_mapping1;              ///< Character index mapping vector between source and normalized text
-    ZRCola::mapping_vector m_mapping2;              ///< Character index mapping vector between normalized and destination text
+    bool m_sourceChanged;                           ///< Boolean flag to mark source text "dirty" to trigger transformation
+    bool m_destinationChanged;                      ///< Boolean flag to mark destination text "dirty" to trigger inverse transformation
+    std::vector<ZRCola::mapping_vector> m_mapping;  ///< Character index mapping vector between source and normalized text
     std::pair<long, long>
         m_selSource,                                ///< Character index of selected text in source text control
         m_selSourceHex,                             ///< Character index of selected text in source HEX dump text control
@@ -86,6 +88,24 @@ public:
     virtual void Save() const;
     virtual bool Restore();
 };
+
+
+inline size_t wxZRColaComposerPanel::MapToDestination(_In_ size_t src) const
+{
+    for (auto m = m_mapping.cbegin(), m_end = m_mapping.cend(); m != m_end; ++m)
+        src = m->to_dst(src);
+
+    return src;
+}
+
+
+inline size_t wxZRColaComposerPanel::MapToSource(_In_ size_t dst) const
+{
+    for (auto m = m_mapping.crbegin(), m_end = m_mapping.crend(); m != m_end; ++m)
+        dst = m->to_src(dst);
+
+    return dst;
+}
 
 
 inline wxPersistentObject *wxCreatePersistentObject(wxZRColaComposerPanel *wnd)

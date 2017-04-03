@@ -27,7 +27,9 @@ class wxPersistentZRColaSettings;
 #pragma once
 
 #include "zrcolagui.h"
+#include <zrcola/translate.h>
 #include <wxex/persist/dialog.h>
+#include <vector>
 
 
 ///
@@ -42,14 +44,19 @@ public:
 
 protected:
     virtual void OnInitDialog(wxInitDialogEvent& event);
-    virtual void OnLangAuto(wxCommandEvent& event);
-    virtual void OnLangManual(wxCommandEvent& event);
+    virtual void OnLanguageUpdate(wxUpdateUIEvent& event);
+    virtual void OnTransformationUpdate(wxUpdateUIEvent& event);
+    virtual void OnTransActivate(wxCommandEvent& event);
+    virtual void OnTransDeactivate(wxCommandEvent& event);
+    virtual void OnTransActiveUp(wxCommandEvent& event);
+    virtual void OnTransActiveDown(wxCommandEvent& event);
     virtual void OnApplyButtonClick(wxCommandEvent& event);
     virtual void OnOKButtonClick(wxCommandEvent& event);
 
 public:
-    bool m_lang_auto;           ///< Is language for inverse translation resolved using currently selected keyboard
-    ZRCola::langid_t m_lang;    ///< Language for inverse translation
+    bool m_lang_auto;                           ///< Is language for inverse translation resolved using currently selected keyboard
+    ZRCola::langid_t m_lang;                    ///< Language for inverse translation
+    std::vector<ZRCola::transetid_t> m_transeq; ///< Transformation set sequence
 };
 
 

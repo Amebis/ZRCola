@@ -70,7 +70,7 @@ class wxZRColaFrameBase : public wxFrame
 			wxID_SEND_ABORT,
 			wxID_SETTINGS,
 			wxID_TOOLBAR_EDIT,
-			wxID_TOOLBAR_TRANSLATE,
+			wxID_TOOLBAR_TRANSFORM,
 			wxID_PANEL_CHRGRPS,
 			wxID_HELP_INSTRUCTIONS,
 			wxID_HELP_SHORTCUTS,
@@ -87,7 +87,7 @@ class wxZRColaFrameBase : public wxFrame
 		wxAuiToolBarItem* m_toolEditCut; 
 		wxAuiToolBarItem* m_toolEditCopy; 
 		wxAuiToolBarItem* m_toolEditPaste; 
-		wxAuiToolBar* m_toolbarTranslate;
+		wxAuiToolBar* m_toolbarTransform;
 		wxAuiToolBarItem* m_toolCharSelect; 
 		wxAuiToolBarItem* m_toolSendDestination; 
 		wxAuiToolBarItem* m_toolSendSource; 
@@ -264,6 +264,16 @@ class wxZRColaSettingsBase : public wxDialog
 		wxRadioButton* m_langAuto;
 		wxRadioButton* m_langManual;
 		wxListBox* m_languages;
+		wxPanel* m_panelTransformation;
+		wxStaticText* m_transLabel;
+		wxStaticText* m_transAvailableLabel;
+		wxListBox* m_transAvailable;
+		wxButton* m_transActivate;
+		wxButton* m_transDeactivate;
+		wxStaticText* m_transActiveLabel;
+		wxListBox* m_transActive;
+		wxButton* m_transActiveUp;
+		wxButton* m_transActiveDown;
 		wxPanel* m_panelAutoStart;
 		wxStaticText* m_autoStartLabel;
 		wxCheckBox* m_autoStart;
@@ -274,8 +284,12 @@ class wxZRColaSettingsBase : public wxDialog
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnInitDialog( wxInitDialogEvent& event ) { event.Skip(); }
-		virtual void OnLangAuto( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnLangManual( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnLanguageUpdate( wxUpdateUIEvent& event ) { event.Skip(); }
+		virtual void OnTransformationUpdate( wxUpdateUIEvent& event ) { event.Skip(); }
+		virtual void OnTransActivate( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnTransDeactivate( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnTransActiveUp( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnTransActiveDown( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnApplyButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		

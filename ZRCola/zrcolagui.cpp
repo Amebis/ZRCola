@@ -144,7 +144,7 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_menuView->Append( m_menuItemToolbarEdit );
 	
 	wxMenuItem* m_menuItemToolbarCompose;
-	m_menuItemToolbarCompose = new wxMenuItem( m_menuView, wxID_TOOLBAR_TRANSLATE, wxString( _("&Compose Toolbar") ) , _("Toggle compose toolbar"), wxITEM_CHECK );
+	m_menuItemToolbarCompose = new wxMenuItem( m_menuView, wxID_TOOLBAR_TRANSFORM, wxString( _("&Compose Toolbar") ) , _("Toggle compose toolbar"), wxITEM_CHECK );
 	m_menuView->Append( m_menuItemToolbarCompose );
 	
 	m_menuView->AppendSeparator();
@@ -194,15 +194,15 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_toolbarEdit->Realize();
 	m_mgr.AddPane( m_toolbarEdit, wxAuiPaneInfo().Name( wxT("toolbarEdit") ).Top().Caption( _("Edit") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );
 	
-	m_toolbarTranslate = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT ); 
-	m_toolCharSelect = m_toolbarTranslate->AddTool( wxID_CHARACTER_SELECTOR, _("Find Character"), wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Find Character"), _("Display character search to select character to insert into text"), NULL ); 
+	m_toolbarTransform = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT ); 
+	m_toolCharSelect = m_toolbarTransform->AddTool( wxID_CHARACTER_SELECTOR, _("Find Character"), wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Find Character"), _("Display character search to select character to insert into text"), NULL ); 
 	
-	m_toolSendDestination = m_toolbarTranslate->AddTool( wxID_SEND_DESTINATION, _("Send Composed"), wxIcon( wxT("send_destination.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Composed"), _("Send composed text to source window"), NULL ); 
+	m_toolSendDestination = m_toolbarTransform->AddTool( wxID_SEND_DESTINATION, _("Send Composed"), wxIcon( wxT("send_destination.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Composed"), _("Send composed text to source window"), NULL ); 
 	
-	m_toolSendSource = m_toolbarTranslate->AddTool( wxID_SEND_SOURCE, _("Send Decomposed"), wxIcon( wxT("send_source.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Decomposed"), _("Send decomposed text to source window"), NULL ); 
+	m_toolSendSource = m_toolbarTransform->AddTool( wxID_SEND_SOURCE, _("Send Decomposed"), wxIcon( wxT("send_source.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Decomposed"), _("Send decomposed text to source window"), NULL ); 
 	
-	m_toolbarTranslate->Realize();
-	m_mgr.AddPane( m_toolbarTranslate, wxAuiPaneInfo().Name( wxT("toolbarCompose") ).Top().Caption( _("Compose") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );
+	m_toolbarTransform->Realize();
+	m_mgr.AddPane( m_toolbarTransform, wxAuiPaneInfo().Name( wxT("toolbarCompose") ).Top().Caption( _("Compose") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );
 	
 	m_panelChrCat = new wxZRColaCharacterCatalogPanel( this );
 	
@@ -781,12 +781,12 @@ wxZRColaSettingsBase::wxZRColaSettingsBase( wxWindow* parent, wxWindowID id, con
 	bSizerContent = new wxBoxSizer( wxVERTICAL );
 	
 	m_listbook = new wxListbook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLB_DEFAULT );
-	m_panelLanguage = new wxPanel( m_listbook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panelLanguage = new wxPanel( m_listbook, wxID_ANY, wxDefaultPosition, wxSize( 500,-1 ), wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizerLanguage;
 	bSizerLanguage = new wxBoxSizer( wxVERTICAL );
 	
 	m_langLabel = new wxStaticText( m_panelLanguage, wxID_ANY, _("Some character native to specific language you are working with should not decompose to primitives.\nFor optimal decomposition you should set the language correctly."), wxDefaultPosition, wxDefaultSize, 0 );
-	m_langLabel->Wrap( -1 );
+	m_langLabel->Wrap( 490 );
 	bSizerLanguage->Add( m_langLabel, 0, wxALL|wxEXPAND, 5 );
 	
 	m_langAuto = new wxRadioButton( m_panelLanguage, wxID_ANY, _("Select language &automatically according to selected keyboard"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
@@ -803,14 +803,86 @@ wxZRColaSettingsBase::wxZRColaSettingsBase( wxWindow* parent, wxWindowID id, con
 	
 	m_panelLanguage->SetSizer( bSizerLanguage );
 	m_panelLanguage->Layout();
-	bSizerLanguage->Fit( m_panelLanguage );
 	m_listbook->AddPage( m_panelLanguage, _("Text Language"), true );
-	m_panelAutoStart = new wxPanel( m_listbook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panelTransformation = new wxPanel( m_listbook, wxID_ANY, wxDefaultPosition, wxSize( 500,-1 ), wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizerTransformation;
+	bSizerTransformation = new wxBoxSizer( wxVERTICAL );
+	
+	m_transLabel = new wxStaticText( m_panelTransformation, wxID_ANY, _("ZRCola offers multiple text transformations that can be arranged in a sequence.\nPlease select desired transformations and the order they are applied."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_transLabel->Wrap( 490 );
+	bSizerTransformation->Add( m_transLabel, 0, wxALL|wxEXPAND, 5 );
+	
+	wxFlexGridSizer* fgSizerTransformation;
+	fgSizerTransformation = new wxFlexGridSizer( 2, 3, 0, 0 );
+	fgSizerTransformation->AddGrowableCol( 0 );
+	fgSizerTransformation->AddGrowableCol( 2 );
+	fgSizerTransformation->AddGrowableRow( 0 );
+	fgSizerTransformation->SetFlexibleDirection( wxBOTH );
+	fgSizerTransformation->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	wxBoxSizer* bSizerTransAvailable;
+	bSizerTransAvailable = new wxBoxSizer( wxVERTICAL );
+	
+	m_transAvailableLabel = new wxStaticText( m_panelTransformation, wxID_ANY, _("A&vailable:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_transAvailableLabel->Wrap( -1 );
+	bSizerTransAvailable->Add( m_transAvailableLabel, 0, wxEXPAND|wxTOP|wxRIGHT|wxLEFT, 5 );
+	
+	m_transAvailable = new wxListBox( m_panelTransformation, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, wxLB_SINGLE|wxLB_SORT ); 
+	bSizerTransAvailable->Add( m_transAvailable, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	fgSizerTransformation->Add( bSizerTransAvailable, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizerTransActivate;
+	bSizerTransActivate = new wxBoxSizer( wxVERTICAL );
+	
+	m_transActivate = new wxButton( m_panelTransformation, wxID_ANY, _(">"), wxDefaultPosition, wxSize( 32,32 ), 0 );
+	bSizerTransActivate->Add( m_transActivate, 0, wxALL, 5 );
+	
+	m_transDeactivate = new wxButton( m_panelTransformation, wxID_ANY, _("<"), wxDefaultPosition, wxSize( 32,32 ), 0 );
+	bSizerTransActivate->Add( m_transDeactivate, 0, wxALL, 5 );
+	
+	
+	fgSizerTransformation->Add( bSizerTransActivate, 0, wxALIGN_CENTER_VERTICAL, 5 );
+	
+	wxBoxSizer* bSizerTransActive;
+	bSizerTransActive = new wxBoxSizer( wxVERTICAL );
+	
+	m_transActiveLabel = new wxStaticText( m_panelTransformation, wxID_ANY, _("&Active:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_transActiveLabel->Wrap( -1 );
+	bSizerTransActive->Add( m_transActiveLabel, 0, wxEXPAND|wxTOP|wxRIGHT|wxLEFT, 5 );
+	
+	m_transActive = new wxListBox( m_panelTransformation, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, wxLB_SINGLE ); 
+	bSizerTransActive->Add( m_transActive, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	fgSizerTransformation->Add( bSizerTransActive, 1, wxEXPAND, 5 );
+	
+	
+	bSizerTransformation->Add( fgSizerTransformation, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizerTransActiveReorder;
+	bSizerTransActiveReorder = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_transActiveUp = new wxButton( m_panelTransformation, wxID_ANY, _("Up"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	bSizerTransActiveReorder->Add( m_transActiveUp, 0, wxALL, 5 );
+	
+	m_transActiveDown = new wxButton( m_panelTransformation, wxID_ANY, _("Down"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	bSizerTransActiveReorder->Add( m_transActiveDown, 0, wxALL, 5 );
+	
+	
+	bSizerTransformation->Add( bSizerTransActiveReorder, 0, wxALIGN_RIGHT, 5 );
+	
+	
+	m_panelTransformation->SetSizer( bSizerTransformation );
+	m_panelTransformation->Layout();
+	m_listbook->AddPage( m_panelTransformation, _("Transformation"), false );
+	m_panelAutoStart = new wxPanel( m_listbook, wxID_ANY, wxDefaultPosition, wxSize( 500,-1 ), wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizerAutoStart;
 	bSizerAutoStart = new wxBoxSizer( wxVERTICAL );
 	
 	m_autoStartLabel = new wxStaticText( m_panelAutoStart, wxID_ANY, _("ZRCola can be launched every time you log in to your computer.\nIt will be available on the system tray and via registered shortcuts Win+F5 and Win+F6."), wxDefaultPosition, wxDefaultSize, 0 );
-	m_autoStartLabel->Wrap( -1 );
+	m_autoStartLabel->Wrap( 490 );
 	bSizerAutoStart->Add( m_autoStartLabel, 0, wxALL|wxEXPAND, 5 );
 	
 	m_autoStart = new wxCheckBox( m_panelAutoStart, wxID_ANY, _("Start ZRCola &automatically on logon"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -819,7 +891,6 @@ wxZRColaSettingsBase::wxZRColaSettingsBase( wxWindow* parent, wxWindowID id, con
 	
 	m_panelAutoStart->SetSizer( bSizerAutoStart );
 	m_panelAutoStart->Layout();
-	bSizerAutoStart->Fit( m_panelAutoStart );
 	m_listbook->AddPage( m_panelAutoStart, _("Startup"), false );
 	#ifdef __WXGTK__ // Small icon style not supported in GTK
 	wxListView* m_listbookListView = m_listbook->GetListView();
@@ -831,7 +902,7 @@ wxZRColaSettingsBase::wxZRColaSettingsBase( wxWindow* parent, wxWindowID id, con
 	m_listbookListView->SetWindowStyleFlag( m_listbookFlags );
 	#endif
 	
-	bSizerContent->Add( m_listbook, 1, wxEXPAND | wxALL, 5 );
+	bSizerContent->Add( m_listbook, 1, wxALL|wxEXPAND, 5 );
 	
 	
 	bSizerContent->Add( 0, 0, 0, wxALL|wxEXPAND, 5 );
@@ -856,8 +927,12 @@ wxZRColaSettingsBase::wxZRColaSettingsBase( wxWindow* parent, wxWindowID id, con
 	
 	// Connect Events
 	this->Connect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( wxZRColaSettingsBase::OnInitDialog ) );
-	m_langAuto->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( wxZRColaSettingsBase::OnLangAuto ), NULL, this );
-	m_langManual->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( wxZRColaSettingsBase::OnLangManual ), NULL, this );
+	m_panelLanguage->Connect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( wxZRColaSettingsBase::OnLanguageUpdate ), NULL, this );
+	m_panelTransformation->Connect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( wxZRColaSettingsBase::OnTransformationUpdate ), NULL, this );
+	m_transActivate->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaSettingsBase::OnTransActivate ), NULL, this );
+	m_transDeactivate->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaSettingsBase::OnTransDeactivate ), NULL, this );
+	m_transActiveUp->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaSettingsBase::OnTransActiveUp ), NULL, this );
+	m_transActiveDown->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaSettingsBase::OnTransActiveDown ), NULL, this );
 	m_sdbSizerButtonsApply->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaSettingsBase::OnApplyButtonClick ), NULL, this );
 	m_sdbSizerButtonsOK->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaSettingsBase::OnOKButtonClick ), NULL, this );
 }
@@ -866,8 +941,12 @@ wxZRColaSettingsBase::~wxZRColaSettingsBase()
 {
 	// Disconnect Events
 	this->Disconnect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( wxZRColaSettingsBase::OnInitDialog ) );
-	m_langAuto->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( wxZRColaSettingsBase::OnLangAuto ), NULL, this );
-	m_langManual->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( wxZRColaSettingsBase::OnLangManual ), NULL, this );
+	m_panelLanguage->Disconnect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( wxZRColaSettingsBase::OnLanguageUpdate ), NULL, this );
+	m_panelTransformation->Disconnect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( wxZRColaSettingsBase::OnTransformationUpdate ), NULL, this );
+	m_transActivate->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaSettingsBase::OnTransActivate ), NULL, this );
+	m_transDeactivate->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaSettingsBase::OnTransDeactivate ), NULL, this );
+	m_transActiveUp->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaSettingsBase::OnTransActiveUp ), NULL, this );
+	m_transActiveDown->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaSettingsBase::OnTransActiveDown ), NULL, this );
 	m_sdbSizerButtonsApply->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaSettingsBase::OnApplyButtonClick ), NULL, this );
 	m_sdbSizerButtonsOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaSettingsBase::OnOKButtonClick ), NULL, this );
 	
