@@ -276,11 +276,9 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
                         m_shortcut->SetValue(wxEmptyString);
                 }
                 {
-                    char cc[sizeof(ZRCola::chrcat_db::chrcat)] = {};
-                    ((ZRCola::chrcat_db::chrcat*)cc)->cat= chr.cat;
                     size_t start;
                     // Update character category.
-                    if (app->m_cc_db.idxChrCat.find(*((ZRCola::chrcat_db::chrcat*)cc), start)) {
+                    if (app->m_cc_db.idxChrCat.find(ZRCola::chrcat_db::chrcat(chr.cat), start)) {
                         const auto &cat = app->m_cc_db.idxChrCat[start];
                         m_category->SetValue(wxGetTranslation(wxString(cat.name(), cat.name_len()), wxT("ZRCola-zrcdb")));
                     } else
@@ -305,11 +303,8 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
                     const ZRCola::chrtag_db::chrtag &ct = app->m_ct_db.idxChr[i];
 
                     // Find tag names.
-                    char tn[sizeof(ZRCola::tagname_db::tagname)] = {};
-                    ((ZRCola::tagname_db::tagname*)tn)->locale = m_locale;
-                    ((ZRCola::tagname_db::tagname*)tn)->tag    = ct.tag;
                     size_t start, end;
-                    if (app->m_tn_db.idxTag.find(*((ZRCola::tagname_db::tagname*)tn), start, end)) {
+                    if (app->m_tn_db.idxTag.find(ZRCola::tagname_db::tagname(ct.tag, m_locale), start, end)) {
                         for (size_t i = start; i < end; i++) {
                             const ZRCola::tagname_db::tagname &tn = app->m_tn_db.idxTag[i];
 
