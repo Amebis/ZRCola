@@ -1,3 +1,6 @@
+[submodule "lib/atlex"]
+	path = lib/atlex
+	url = https://github.com/Amebis/atlex.git
 [submodule "lib/MSICALib"]
 	path = lib/MSICALib
 	url = https://github.com/Amebis/MSICALib.git
