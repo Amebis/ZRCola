@@ -188,6 +188,11 @@ int _tmain(int argc, _TCHAR *argv[])
                     // Read translation from the database.
                     ZRCola::DBSource::translation trans;
                     if (src.GetTranslation(rs, trans)) {
+                        try {
+                            unique_ptr<ZRCola::DecompParser::Expression> res(ZRCola::DecompParser(trans.src.str).Parse());
+                        } catch (...) {
+                        }
+
                         // Add translation to temporary database.
                         auto const t = db_temp1.find(trans.dst.str);
                         if (t != db_temp1.end())

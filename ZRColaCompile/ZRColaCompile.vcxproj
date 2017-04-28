@@ -45,6 +45,7 @@
   <ItemGroup>
     <ClCompile Include="dbsource.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="parse.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -52,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dbsource.h" />
+    <ClInclude Include="parse.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

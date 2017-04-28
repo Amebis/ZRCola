@@ -21,6 +21,7 @@
 
 #include "../include/version.h"
 #include "dbsource.h"
+#include "parse.h"
 
 #include <wx/app.h>
 #include <wx/cmdline.h>

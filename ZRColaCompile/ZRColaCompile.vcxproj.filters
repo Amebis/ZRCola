@@ -28,12 +28,18 @@
     <ClCompile Include="dbsource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="parse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dbsource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="parse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
