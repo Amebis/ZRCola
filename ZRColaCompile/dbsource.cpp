@@ -965,7 +965,7 @@ bool ZRCola::DBSource::GetCharacterGroup(const com_obj<ADORecordset>& rs, chrgrp
     wxVERIFY(SUCCEEDED(rs_chars->put_CursorType(adOpenForwardOnly)));
     wxVERIFY(SUCCEEDED(rs_chars->put_LockType(adLockReadOnly)));
     if (FAILED(rs_chars->Open(variant(m_comCharacterGroup), variant(DISP_E_PARAMNOTFOUND, VT_ERROR)))) {
-        _ftprintf(stderr, wxT("%s: error ZCC0100: Error loading character group characters from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
+        _ftprintf(stderr, wxT("%s: error ZCC0140: Error loading character group characters from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
         LogErrors();
         return false;
     }
