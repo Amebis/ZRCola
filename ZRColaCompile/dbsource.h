@@ -66,6 +66,51 @@ namespace ZRCola {
                 str (_str)
             {
             }
+
+            inline charseq(_In_ int _rank, _In_ const std::wstring &_str) :
+                rank(_rank),
+                str (_str)
+            {
+            }
+
+            inline charseq(_In_ int _rank, _Inout_ std::wstring &&_str) :
+                rank(_rank),
+                str (std::move(_str))
+            {
+            }
+
+            inline bool operator==(_In_ const charseq &other) const
+            {
+                return rank == other.rank && str == other.str;
+            }
+
+            inline bool operator!=(_In_ const charseq &other) const
+            {
+                return !operator==(other);
+            }
+
+            inline bool operator<(_In_ const charseq &other) const
+            {
+                     if (rank < other.rank) return true;
+                else if (rank > other.rank) return false;
+                else if (str  < other.str ) return true;
+                else                        return false;
+            }
+
+            inline bool operator<=(_In_ const charseq &other) const
+            {
+                return !operator>(other);
+            }
+
+            inline bool operator>(_In_ const charseq &other) const
+            {
+                return other.operator<(*this);
+            }
+
+            inline bool operator>=(_In_ const charseq &other) const
+            {
+                return !operator<(other);
+            }
         };
 
 
