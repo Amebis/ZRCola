@@ -69,10 +69,12 @@ public:
 
     inline bool operator<(_In_ const com_translation& other) const
     {
-             if (rank < other.rank) return true;
-        else if (rank > other.rank) return false;
-        else if (src  < other.src ) return true;
-        else                        return false;
+             if (src.str  < other.src.str ) return true;
+        else if (src.str  > other.src.str ) return false;
+        else if (src.rank < other.src.rank) return true;
+        else if (src.rank > other.src.rank) return false;
+        else if (rank     < other.rank    ) return true;
+        else                                return false;
     }
 
     inline bool operator<=(_In_ const com_translation &other) const
