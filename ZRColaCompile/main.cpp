@@ -133,9 +133,14 @@ public:
 
 
 typedef map<wstring, map<wstring, com_translation> > translation_db;
+typedef map<string, ZRCola::DBSource::normperm> normperm_db;
 
 
-static set<ZRCola::DBSource::charseq> translate_inv(_In_ const translation_db &db_trans, _In_z_ const wchar_t *str, _Inout_ set<translation_db::key_type> &path)
+static        set<ZRCola::DBSource::charseq>               translate_inv(_In_ const translation_db &db_trans, _In_ const normperm_db &db_np, _In_z_ const wchar_t *str,                          _Inout_ set<translation_db::key_type> &path);
+static inline set<ZRCola::DBSource::charseq> permutate_and_translate_inv(_In_ const translation_db &db_trans, _In_ const normperm_db &db_np, _In_z_ const wchar_t *str, _In_z_ const char *norm, _Inout_ set<translation_db::key_type> &path);
+
+
+static set<ZRCola::DBSource::charseq> translate_inv(_In_ const translation_db &db_trans, _In_ const normperm_db &db_np, _In_z_ const wchar_t *str, _Inout_ set<translation_db::key_type> &path)
 {
     set<ZRCola::DBSource::charseq> res;
 
@@ -146,7 +151,7 @@ static set<ZRCola::DBSource::charseq> translate_inv(_In_ const translation_db &d
     }
 
     // Prepare inverse translate of the remainder string (without the first character).
-    auto res_rem = translate_inv(db_trans, str + 1, path);
+    auto res_rem = translate_inv(db_trans, db_np, str + 1, path);
     if (res_rem.empty())
         return res;
 
@@ -165,7 +170,9 @@ static set<ZRCola::DBSource::charseq> translate_inv(_In_ const translation_db &d
 
         // Iterate all possible character inverse translations and combine them with the remainder string inverse translations.
         for (auto d = hit_trans->second.cbegin(), d_end = hit_trans->second.cend(); d != d_end; ++d) {
-            auto res_chr = translate_inv(db_trans, d->first.c_str(), path);
+            auto res_chr = d->second.norm.empty() ?
+                                  translate_inv(db_trans, db_np, d->first.c_str(),                         path) :
+                    permutate_and_translate_inv(db_trans, db_np, d->first.c_str(), d->second.norm.c_str(), path);
             if (!res_chr.empty()) {
                 for (auto r_chr = res_chr.cbegin(), r_chr_end = res_chr.cend(); r_chr != r_chr_end; ++r_chr) {
                     for (auto r_rem = res_rem.cbegin(), r_rem_end = res_rem.cend(); r_rem != r_rem_end; ++r_rem)
@@ -184,6 +191,31 @@ static set<ZRCola::DBSource::charseq> translate_inv(_In_ const translation_db &d
         // First character is non-inverse translatable. Combine it with the remainder(s).
         for (auto r_rem = res_rem.cbegin(), r_end = res_rem.cend(); r_rem != r_end; ++r_rem)
             res.insert(ZRCola::DBSource::charseq(r_rem->rank, chr + r_rem->str));
+    }
+
+    return res;
+}
+
+
+static inline set<ZRCola::DBSource::charseq> permutate_and_translate_inv(_In_ const translation_db &db_trans, _In_ const normperm_db &db_np, _In_z_ const wchar_t *str, _In_z_ const char *norm, _Inout_ set<translation_db::key_type> &path)
+{
+    // Primary permutation inverse translate.
+    auto res = translate_inv(db_trans, db_np, str, path);
+
+    // Secondary permutation(s).
+    auto const hit_np = db_np.find(norm);
+    if (hit_np != db_np.end()) {
+        for (auto perm = hit_np->second.cbegin(), perm_end = hit_np->second.cend(); perm != perm_end; ++perm) {
+            // Prepare permutated string.
+            translation_db::mapped_type::key_type str_perm;
+            for (auto idx = perm->cbegin(), idx_end = perm->cend(); idx != idx_end; ++idx)
+                str_perm += str[*idx];
+
+            // Secondary permutation inverse translate.
+            auto res_perm = translate_inv(db_trans, db_np, str_perm.c_str(), path);
+            for (auto r = res_perm.begin(), r_end = res_perm.end(); r != r_end; ++r)
+                res.insert(ZRCola::DBSource::charseq(r->rank + 1, std::move(r->str)));
+        }
     }
 
     return res;
@@ -269,6 +301,35 @@ int _tmain(int argc, _TCHAR *argv[])
     streamoff dst_start = idrec::open<ZRCola::recordid_t, ZRCola::recordsize_t>(dst, ZRCOLA_DB_ID);
 
     ZRCola::translation_db db_trans;
+    normperm_db db_np;
+
+    {
+        // Get normalization permutation sets.
+        com_obj<ADORecordset> rs;
+        if (src.SelectNormPermSets(rs)) {
+            size_t count = src.GetRecordsetCount(rs);
+            if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
+                string norm;
+                ZRCola::DBSource::normperm np;
+
+                // Parse normalization permutation sets.
+                for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
+                    // Read normalization permutation set from the database.
+                    if (src.GetNormPerm(rs, norm, np)) {
+                        if (!np.empty())
+                            db_np.insert(pair<string, ZRCola::DBSource::normperm>(norm, std::move(np)));
+                    } else
+                        has_errors = true;
+                }
+            } else {
+                _ftprintf(stderr, wxT("%s: error ZCC0009: Error getting translation set count from database or too many translation sets.\n"), (LPCTSTR)filenameIn.c_str());
+                has_errors = true;
+            }
+        } else {
+            _ftprintf(stderr, wxT("%s: error ZCC0008: Error getting translation sets from database. Please make sure the file is ZRCola.zrc compatible.\n"), (LPCTSTR)filenameIn.c_str());
+            has_errors = true;
+        }
+    }
 
     {
         // Get translations.
@@ -283,14 +344,14 @@ int _tmain(int argc, _TCHAR *argv[])
                     ZRCola::DBSource::translation trans;
                     if (src.GetTranslation(rs, trans)) {
                         // Add translation to temporary database.
-                        pair<translation_db::mapped_type::key_type, translation_db::mapped_type::mapped_type> ctp(std::move(trans.src.str), translation_db::mapped_type::mapped_type(trans.src.rank, trans.dst.rank));
+                        pair<translation_db::mapped_type::key_type, translation_db::mapped_type::mapped_type> ctp(std::move(trans.src.str), translation_db::mapped_type::mapped_type(trans.src.rank, trans.dst.rank, std::move(trans.norm)));
                         auto hit = db_temp1.find(trans.dst.str);
                         if (hit != db_temp1.end())
                             hit->second.insert(std::move(ctp));
                         else {
                             translation_db::mapped_type t;
                             t.insert(std::move(ctp));
-                            db_temp1.insert(pair<translation_db::key_type, translation_db::mapped_type>(trans.dst.str, std::move(t)));
+                            db_temp1.insert(pair<translation_db::key_type, translation_db::mapped_type>(std::move(trans.dst.str), std::move(t)));
                         }
                     } else
                         has_errors = true;
@@ -304,7 +365,9 @@ int _tmain(int argc, _TCHAR *argv[])
                     for (auto d1 = t1->second.cbegin(), d1_end = t1->second.cend(); d1 != d1_end; ++d1) {
                         set<translation_db::key_type> path;
                         path.insert(t1->first);
-                        auto res = translate_inv(db_temp1, d1->first.c_str(), path);
+                        auto res = d1->second.norm.empty() ?
+                                          translate_inv(db_temp1, db_np, d1->first.c_str(),                          path) :
+                            permutate_and_translate_inv(db_temp1, db_np, d1->first.c_str(), d1->second.norm.c_str(), path);
                         assert(!res.empty());
 
                         // Add translation to temporary database.
@@ -315,7 +378,7 @@ int _tmain(int argc, _TCHAR *argv[])
                                 hit->second.rank_src = std::min<int>(hit->second.rank_src, ct.rank_src);
                                 hit->second.rank_dst = std::max<int>(hit->second.rank_dst, ct.rank_dst);
                             } else
-                                t2->second.insert(pair<translation_db::mapped_type::key_type, translation_db::mapped_type::mapped_type>(r->str, ct));
+                                t2->second.insert(pair<translation_db::mapped_type::key_type, translation_db::mapped_type::mapped_type>(std::move(r->str), std::move(ct)));
                         }
                     }
                 }
