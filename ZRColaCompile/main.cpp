@@ -30,20 +30,36 @@ using namespace winstd;
 class com_translation
 {
 public:
-    int rank;                       ///< Destination character rank
-    ZRCola::DBSource::charseq src;  ///< Source character
+    int rank_src;                   ///< Source sequence rank
+    int rank_dst;                   ///< Destination character rank
 
-    inline com_translation() {};
-    inline com_translation(int _rank, const ZRCola::DBSource::charseq &_src) : rank(_rank), src(_src) {};
-    inline com_translation(int _rank, ZRCola::DBSource::charseq &&_src) : rank(_rank), src(std::move(_src)) {};
-    inline com_translation(const com_translation &other) : rank(other.rank), src(other.src) {}
-    inline com_translation(com_translation &&other) : rank(other.rank), src(std::move(other.src)) {}
+    inline com_translation()
+    {
+    }
+
+    inline com_translation(int _rank_src, int _rank_dst) :
+        rank_src(_rank_src),
+        rank_dst(_rank_dst)
+    {
+    }
+
+    inline com_translation(const com_translation &other) :
+        rank_src(other.rank_src),
+        rank_dst(other.rank_dst)
+    {
+    }
+
+    inline com_translation(com_translation &&other) :
+        rank_src(          other.rank_src ),
+        rank_dst(          other.rank_dst )
+    {
+    }
 
     inline com_translation& operator=(const com_translation &other)
     {
         if (this != std::addressof(other)) {
-            rank = other.rank;
-            src  = other.src;
+            rank_src = other.rank_src;
+            rank_dst = other.rank_dst;
         }
         return *this;
     }
@@ -51,15 +67,17 @@ public:
     inline com_translation& operator=(com_translation &&other)
     {
         if (this != std::addressof(other)) {
-            rank =           other.rank ;
-            src  = std::move(other.src );
+            rank_src =           other.rank_src ;
+            rank_dst =           other.rank_dst ;
         }
         return *this;
     }
 
     inline bool operator==(_In_ const com_translation& other) const
     {
-        return rank == other.rank && src == other.src;
+        return
+            rank_src == other.rank_src &&
+            rank_dst == other.rank_dst;
     }
 
     inline bool operator!=(_In_ const com_translation &other) const
@@ -69,11 +87,9 @@ public:
 
     inline bool operator<(_In_ const com_translation& other) const
     {
-             if (src.str  < other.src.str ) return true;
-        else if (src.str  > other.src.str ) return false;
-        else if (src.rank < other.src.rank) return true;
-        else if (src.rank > other.src.rank) return false;
-        else if (rank     < other.rank    ) return true;
+             if (rank_src < other.rank_src) return true;
+        else if (rank_src > other.rank_src) return false;
+        else if (rank_dst < other.rank_dst) return true;
         else                                return false;
     }
 
@@ -94,7 +110,7 @@ public:
 };
 
 
-typedef map<wstring, set<com_translation> > translation_db;
+typedef map<wstring, map<wstring, com_translation> > translation_db;
 
 
 static set<wstring> translate_inv(_In_ const translation_db &db, _In_z_ const wchar_t *str, _Inout_ set<translation_db::key_type> &path)
@@ -117,7 +133,7 @@ static set<wstring> translate_inv(_In_ const translation_db &db, _In_z_ const wc
                 return res;
             }
             for (auto d = t->second.cbegin(), d_end = t->second.cend(); d != d_end; ++d) {
-                auto src = translate_inv(db, d->src.str.c_str(), path);
+                auto src = translate_inv(db, d->first.c_str(), path);
                 if (!src.empty()) {
                     for (auto dd = src.cbegin(), dd_end = src.cend(); dd != dd_end; ++dd) {
                         for (auto r = rem.cbegin(), r_end = rem.cend(); r != r_end; ++r)
@@ -237,13 +253,14 @@ int _tmain(int argc, _TCHAR *argv[])
                     ZRCola::DBSource::translation trans;
                     if (src.GetTranslation(rs, trans)) {
                         // Add translation to temporary database.
-                        auto const t = db_temp1.find(trans.dst.str);
-                        if (t != db_temp1.end())
-                            t->second.insert(com_translation(trans.dst.rank, std::move(trans.src)));
+                        pair<translation_db::mapped_type::key_type, translation_db::mapped_type::mapped_type> ctp(std::move(trans.src.str), translation_db::mapped_type::mapped_type(trans.src.rank, trans.dst.rank));
+                        auto hit = db_temp1.find(trans.dst.str);
+                        if (hit != db_temp1.end())
+                            hit->second.insert(std::move(ctp));
                         else {
-                            translation_db::mapped_type d;
-                            d.insert(com_translation(trans.dst.rank, std::move(trans.src)));
-                            db_temp1.insert(std::move(pair<translation_db::key_type, translation_db::mapped_type>(trans.dst.str, std::move(d))));
+                            translation_db::mapped_type t;
+                            t.insert(std::move(ctp));
+                            db_temp1.insert(pair<translation_db::key_type, translation_db::mapped_type>(trans.dst.str, std::move(t)));
                         }
                     } else
                         has_errors = true;
@@ -252,22 +269,22 @@ int _tmain(int argc, _TCHAR *argv[])
                 // Inverse translate source sequences down to non-inverse translatable characters.
                 translation_db db_temp2;
                 for (auto t1 = db_temp1.cbegin(), t1_end = db_temp1.cend(); t1 != t1_end; ++t1) {
+                    auto t2 = db_temp2.insert(pair<translation_db::key_type, translation_db::mapped_type>(t1->first, translation_db::mapped_type())).first;
+
                     for (auto d1 = t1->second.cbegin(), d1_end = t1->second.cend(); d1 != d1_end; ++d1) {
                         set<translation_db::key_type> path;
                         path.insert(t1->first);
-                        auto str = translate_inv(db_temp1, d1->src.str.c_str(), path);
-                        assert(!str.empty());
+                        auto res = translate_inv(db_temp1, d1->first.c_str(), path);
+                        assert(!res.empty());
 
                         // Add translation to temporary database.
-                        auto const t2 = db_temp2.find(t1->first);
-                        if (t2 != db_temp2.end()) {
-                            for (auto s = str.cbegin(), s_end = str.cend(); s != s_end; ++s)
-                                t2->second.insert(com_translation(d1->rank, std::move(ZRCola::DBSource::charseq(d1->src.rank, s->c_str()))));
-                        } else {
-                            translation_db::mapped_type d2;
-                            for (auto s = str.cbegin(), s_end = str.cend(); s != s_end; ++s)
-                                d2.insert(com_translation(d1->rank, std::move(ZRCola::DBSource::charseq(d1->src.rank, s->c_str()))));
-                            db_temp2.insert(std::move(pair<translation_db::key_type, translation_db::mapped_type>(t1->first, std::move(d2))));
+                        for (auto r = res.begin(), r_end = res.end(); r != r_end; ++r) {
+                            auto hit = t2->second.find(*r);
+                            if (hit != t2->second.end()) {
+                                hit->second.rank_src = std::min<int>(hit->second.rank_src, d1->second.rank_src);
+                                hit->second.rank_dst = std::max<int>(hit->second.rank_dst, d1->second.rank_dst);
+                            } else
+                                t2->second.insert(pair<translation_db::mapped_type::key_type, translation_db::mapped_type::mapped_type>(*r, translation_db::mapped_type::mapped_type(d1->second.rank_src, d1->second.rank_dst)));
                         }
                     }
                 }
@@ -284,9 +301,9 @@ int _tmain(int argc, _TCHAR *argv[])
                     // Add translation to index and data.
                     trans.dst.str = std::move(t->first);
                     for (auto d = t->second.cbegin(), d_end = t->second.cend(); d != d_end; ++d) {
-                        trans.dst.rank = d->rank;
-                        trans.src.rank = d->src.rank;
-                        trans.src.str  = std::move(d->src.str);
+                        trans.dst.rank = d->second.rank_dst;
+                        trans.src.rank = d->second.rank_src;
+                        trans.src.str  = std::move(d->first);
                         db_trans << trans;
                     }
                 }
