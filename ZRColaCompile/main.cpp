@@ -135,47 +135,55 @@ public:
 typedef map<wstring, map<wstring, com_translation> > translation_db;
 
 
-static set<wstring> translate_inv(_In_ const translation_db &db, _In_z_ const wchar_t *str, _Inout_ set<translation_db::key_type> &path)
+static set<ZRCola::DBSource::charseq> translate_inv(_In_ const translation_db &db_trans, _In_z_ const wchar_t *str, _Inout_ set<translation_db::key_type> &path)
 {
-    set<wstring> res;
+    set<ZRCola::DBSource::charseq> res;
 
-    if (*str) {
-        // Inverse translate remainder first.
-        auto rem = translate_inv(db, str + 1, path);
-        if (rem.empty())
-            return res;
-
-        translation_db::key_type _str(1, *str);
-        auto const t = db.find(_str);
-        if (t != db.end()) {
-            // Current characted inverse translated. Iterate all possible inverse translations and combine them with the remainder.
-            auto p = path.insert(_str);
-            if (!p.second) {
-                // Path already contains this character: Cycle detected!
-                return res;
-            }
-            for (auto d = t->second.cbegin(), d_end = t->second.cend(); d != d_end; ++d) {
-                auto src = translate_inv(db, d->first.c_str(), path);
-                if (!src.empty()) {
-                    for (auto dd = src.cbegin(), dd_end = src.cend(); dd != dd_end; ++dd) {
-                        for (auto r = rem.cbegin(), r_end = rem.cend(); r != r_end; ++r)
-                            res.insert(*dd + *r);
-                    }
-                } else {
-                    // Cycle detected. Do not continue inverse translation.
-                    for (auto r = rem.cbegin(), r_end = rem.cend(); r != r_end; ++r)
-                        res.insert(_str + *r);
-                }
-            }
-            path.erase(p.first);
-        } else {
-            // Current character is non-inverse translatable. Combine it with the remainder(s).
-            for (auto r = rem.cbegin(), r_end = rem.cend(); r != r_end; ++r)
-                res.insert(_str + *r);
-        }
-    } else {
+    if (!*str) {
         // Empty string results in empty inverse translation.
-        res.insert(L"");
+        res.insert(ZRCola::DBSource::charseq(0, L""));
+        return res;
+    }
+
+    // Prepare inverse translate of the remainder string (without the first character).
+    auto res_rem = translate_inv(db_trans, str + 1, path);
+    if (res_rem.empty())
+        return res;
+
+    // See if first character is inverse translatable.
+    translation_db::key_type chr(1, *str);
+    auto const hit_trans = db_trans.find(chr);
+    if (hit_trans != db_trans.end()) {
+        // Current character is inverse translatable.
+
+        // Add the current character to the path before recursing.
+        auto hit_path = path.insert(chr);
+        if (!hit_path.second) {
+            // Path already contains this character: Cycle detected!
+            return res;
+        }
+
+        // Iterate all possible character inverse translations and combine them with the remainder string inverse translations.
+        for (auto d = hit_trans->second.cbegin(), d_end = hit_trans->second.cend(); d != d_end; ++d) {
+            auto res_chr = translate_inv(db_trans, d->first.c_str(), path);
+            if (!res_chr.empty()) {
+                for (auto r_chr = res_chr.cbegin(), r_chr_end = res_chr.cend(); r_chr != r_chr_end; ++r_chr) {
+                    for (auto r_rem = res_rem.cbegin(), r_rem_end = res_rem.cend(); r_rem != r_rem_end; ++r_rem)
+                        res.insert(ZRCola::DBSource::charseq(d->second.rank_src + r_chr->rank + r_rem->rank, r_chr->str + r_rem->str));
+                }
+            } else {
+                // Cycle detected. Do not continue inverse translation.
+                for (auto r_rem = res_rem.cbegin(), r_end = res_rem.cend(); r_rem != r_end; ++r_rem)
+                    res.insert(ZRCola::DBSource::charseq(r_rem->rank, chr + r_rem->str));
+            }
+        }
+
+        // Remove the current character from the path.
+        path.erase(hit_path.first);
+    } else {
+        // First character is non-inverse translatable. Combine it with the remainder(s).
+        for (auto r_rem = res_rem.cbegin(), r_end = res_rem.cend(); r_rem != r_end; ++r_rem)
+            res.insert(ZRCola::DBSource::charseq(r_rem->rank, chr + r_rem->str));
     }
 
     return res;
@@ -301,12 +309,13 @@ int _tmain(int argc, _TCHAR *argv[])
 
                         // Add translation to temporary database.
                         for (auto r = res.begin(), r_end = res.end(); r != r_end; ++r) {
-                            auto hit = t2->second.find(*r);
+                            translation_db::mapped_type::mapped_type ct(d1->second.rank_src + r->rank, d1->second.rank_dst);
+                            auto hit = t2->second.find(r->str);
                             if (hit != t2->second.end()) {
-                                hit->second.rank_src = std::min<int>(hit->second.rank_src, d1->second.rank_src);
-                                hit->second.rank_dst = std::max<int>(hit->second.rank_dst, d1->second.rank_dst);
+                                hit->second.rank_src = std::min<int>(hit->second.rank_src, ct.rank_src);
+                                hit->second.rank_dst = std::max<int>(hit->second.rank_dst, ct.rank_dst);
                             } else
-                                t2->second.insert(pair<translation_db::mapped_type::key_type, translation_db::mapped_type::mapped_type>(*r, translation_db::mapped_type::mapped_type(d1->second.rank_src, d1->second.rank_dst)));
+                                t2->second.insert(pair<translation_db::mapped_type::key_type, translation_db::mapped_type::mapped_type>(r->str, ct));
                         }
                     }
                 }
