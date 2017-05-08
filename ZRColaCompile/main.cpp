@@ -32,6 +32,7 @@ class com_translation
 public:
     int rank_src;                   ///< Source sequence rank
     int rank_dst;                   ///< Destination character rank
+    string norm;                    ///< Normalization footprint
 
     inline com_translation()
     {
@@ -43,15 +44,31 @@ public:
     {
     }
 
+    inline com_translation(int _rank_src, int _rank_dst, const char *_norm) :
+        rank_src(_rank_src),
+        rank_dst(_rank_dst),
+        norm    (_norm    )
+    {
+    }
+
+    inline com_translation(int _rank_src, int _rank_dst, string &&_norm) :
+        rank_src(          _rank_src ),
+        rank_dst(          _rank_dst ),
+        norm    (std::move(_norm    ))
+    {
+    }
+
     inline com_translation(const com_translation &other) :
         rank_src(other.rank_src),
-        rank_dst(other.rank_dst)
+        rank_dst(other.rank_dst),
+        norm    (other.norm    )
     {
     }
 
     inline com_translation(com_translation &&other) :
         rank_src(          other.rank_src ),
-        rank_dst(          other.rank_dst )
+        rank_dst(          other.rank_dst ),
+        norm    (std::move(other.norm    ))
     {
     }
 
@@ -60,6 +77,7 @@ public:
         if (this != std::addressof(other)) {
             rank_src = other.rank_src;
             rank_dst = other.rank_dst;
+            norm     = other.norm    ;
         }
         return *this;
     }
@@ -69,6 +87,7 @@ public:
         if (this != std::addressof(other)) {
             rank_src =           other.rank_src ;
             rank_dst =           other.rank_dst ;
+            norm     = std::move(other.norm    );
         }
         return *this;
     }
@@ -77,7 +96,8 @@ public:
     {
         return
             rank_src == other.rank_src &&
-            rank_dst == other.rank_dst;
+            rank_dst == other.rank_dst &&
+            norm     == other.norm;
     }
 
     inline bool operator!=(_In_ const com_translation &other) const
@@ -90,6 +110,8 @@ public:
              if (rank_src < other.rank_src) return true;
         else if (rank_src > other.rank_src) return false;
         else if (rank_dst < other.rank_dst) return true;
+        else if (rank_dst > other.rank_dst) return false;
+        else if (norm     < other.norm    ) return true;
         else                                return false;
     }
 
