@@ -304,7 +304,7 @@ bool ZRCola::DBSource::Open(LPCTSTR filename)
             wxVERIFY(SUCCEEDED(::CoCreateInstance(CLSID_CADOCommand, NULL, CLSCTX_ALL, IID_IADOCommand, (LPVOID*)&m_comTranslation)));
             wxVERIFY(SUCCEEDED(m_comTranslation->put_ActiveConnection(variant(m_db))));
             wxVERIFY(SUCCEEDED(m_comTranslation->put_CommandType(adCmdText)));
-            wxVERIFY(SUCCEEDED(m_comTranslation->put_CommandText(bstr(L"SELECT [Komb1] AS [komb], [rang_komb1] AS [rang_komb], [Komb2] AS [znak], [rang_komb2] AS [rang_znak] "
+            wxVERIFY(SUCCEEDED(m_comTranslation->put_CommandText(bstr(L"SELECT [Komb1] AS [komb], [rang_komb1] AS [rang_komb], '' AS [Kano], 0 AS [Kanoniziraj], [Komb2] AS [znak], [rang_komb2] AS [rang_znak] "
                 L"FROM [VRS_ScriptRepl] "
                 L"WHERE [Script]=? "
                 L"ORDER BY [Komb2], [rang_komb2], [rang_komb1], [Komb1]"))));
@@ -386,6 +386,23 @@ bool ZRCola::DBSource::GetValue(const com_obj<ADOField>& f, int& val) const
     wxCHECK(SUCCEEDED(v.change_type(VT_I4)), false);
 
     val = V_I4(&v);
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::GetValue(const com_obj<ADOField>& f, string& val) const
+{
+    wxASSERT_MSG(f, wxT("field is empty"));
+
+    variant v;
+    wxVERIFY(SUCCEEDED(f->get_Value(&v)));
+    if (V_VT(&v) != VT_NULL) {
+        wxCHECK(SUCCEEDED(v.change_type(VT_BSTR)), false);
+
+        WideCharToMultiByte(CP_ACP, 0, V_BSTR(&v), ::SysStringLen(V_BSTR(&v)), val, NULL, NULL);
+    } else
+        val.clear();
 
     return true;
 }
@@ -478,6 +495,42 @@ bool ZRCola::DBSource::GetUnicodeString(const com_obj<ADOField>& f, wstring& str
 
     return true;
 }
+
+
+bool ZRCola::DBSource::GetNormPerm(const winstd::com_obj<ADOField>& f, normperm& np) const
+{
+    wxASSERT_MSG(f, wxT("field is empty"));
+
+    variant v;
+    wxVERIFY(SUCCEEDED(f->get_Value(&v)));
+    np.clear();
+    if (V_VT(&v) != VT_NULL) {
+        wxCHECK(SUCCEEDED(v.change_type(VT_BSTR)), false);
+
+        // Parse the field. Must be "nnnn,nnnn,nnnn..." sequence.
+        for (UINT i = 0, n = ::SysStringLen(V_BSTR(&v)); i < n && V_BSTR(&v)[i];) {
+            // Parse Unicode code.
+            UINT j = 0;
+            std::vector<size_t> p;
+            for (; i < n && V_BSTR(&v)[i]; i++, j++) {
+                if (L'0' <= V_BSTR(&v)[i] && V_BSTR(&v)[i] <= L'9') p.push_back(V_BSTR(&v)[i] - L'0');
+                else break;
+            }
+            if (j <= 0) {
+                bstr fieldname; wxVERIFY(SUCCEEDED(f->get_Name(&fieldname)));
+                _ftprintf(stderr, wxT("%s: error ZCC0150: Syntax error in \"%.*ls\" field (\"%.*ls\"). Permutation sequence must be at least one decimal digit long.\n"), m_filename.c_str(), fieldname.length(), (BSTR)fieldname, n, V_BSTR(&v));
+                return false;
+            }
+            np.insert(std::move(p));
+
+            // Skip delimiter(s) and whitespace.
+            for (; i < n && V_BSTR(&v)[i] && (V_BSTR(&v)[i] == L',' || _iswspace_l(V_BSTR(&v)[i], m_locale)); i++);
+        }
+    }
+
+    return true;
+}
+
 
 
 bool ZRCola::DBSource::GetLanguage(const com_obj<ADOField>& f, ZRCola::langid_t& lang) const
@@ -600,6 +653,59 @@ bool ZRCola::DBSource::GetTagNames(const winstd::com_obj<ADOField>& f, LCID lcid
 }
 
 
+bool ZRCola::DBSource::SelectNormPermSets(winstd::com_obj<ADORecordset>& rs) const
+{
+    // Create a new recordset.
+    rs.free();
+    wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
+
+    // Open it.
+    if (FAILED(rs->Open(variant(
+        L"SELECT [oblika], [oblike] "
+        L"FROM [VRS_CharCanoOblike] "
+        L"ORDER BY [oblika], [oblike]"), variant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
+    {
+        _ftprintf(stderr, wxT("%s: error ZCC0160: Error loading normalization permutation sets from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
+        LogErrors();
+        return false;
+    }
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::GetNormPerm(const winstd::com_obj<ADORecordset>& rs, std::string& norm, normperm& np) const
+{
+    wxASSERT_MSG(rs, wxT("recordset is empty"));
+
+    com_obj<ADOFields> flds;
+    wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
+
+    {
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"oblika"), &f)));
+        wxCHECK(GetValue(f, norm), false);
+    }
+
+    {
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"oblike"), &f)));
+        wxCHECK(GetNormPerm(f, np), false);
+    }
+
+    // Verify all lengths match.
+    size_t n = norm.length();
+    for (auto p = np.cbegin(), p_end = np.cend(); p != p_end; ++p) {
+        if (p->size() != n) {
+            _ftprintf(stderr, wxT("%s: error ZCC0170: Inconsistent normalization sequence \"%.*s\" permutation length. Please make sure all permutation lengths match normalization sequence length (%u).\n"), m_filename.c_str(), n, norm.c_str(), n);
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
 bool ZRCola::DBSource::SelectTranslations(com_obj<ADORecordset> &rs) const
 {
     // Create a new recordset.
@@ -608,7 +714,7 @@ bool ZRCola::DBSource::SelectTranslations(com_obj<ADORecordset> &rs) const
 
     // Open it.
     if (FAILED(rs->Open(variant(
-        L"SELECT [komb], [rang_komb], [znak], [rang_znak] "
+        L"SELECT [komb], [rang_komb], [Kano], [Kanoniziraj], [znak], [rang_znak] "
         L"FROM [VRS_ReplChar] "
         L"WHERE [rang_komb]=1 "
         L"ORDER BY [znak], [rang_znak], [rang_komb], [komb]"), variant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
@@ -660,6 +766,19 @@ bool ZRCola::DBSource::GetTranslation(const com_obj<ADORecordset>& rs, ZRCola::D
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"rang_komb"), &f)));
         wxCHECK(GetValue(f, t.src.rank), false);
+    }
+
+    {
+        bool norm;
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Kanoniziraj"), &f)));
+        wxCHECK(GetValue(f, norm), false);
+        if (norm) {
+            com_obj<ADOField> f;
+            wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Kano"), &f)));
+            wxCHECK(GetValue(f, t.norm), false);
+        } else
+            t.norm.clear();
     }
 
     {

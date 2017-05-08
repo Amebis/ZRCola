@@ -119,9 +119,10 @@ namespace ZRCola {
         ///
         class translation {
         public:
-            int set;        ///< Translation set ID
-            charseq src;    ///< Source sequence
-            charseq dst;    ///< Destination sequence
+            int set;            ///< Translation set ID
+            charseq src;        ///< Source sequence
+            std::string norm;   ///< Normalization footprint
+            charseq dst;        ///< Destination sequence
         };
 
 
@@ -134,6 +135,12 @@ namespace ZRCola {
             std::wstring src;   ///< Source name
             std::wstring dst;   ///< Destination name
         };
+
+
+        ///
+        /// Normalization permutation set
+        ///
+        typedef std::set<std::vector<size_t> > normperm;
 
 
         ///
@@ -464,6 +471,18 @@ namespace ZRCola {
         /// - true when successful
         /// - false otherwise
         ///
+        bool GetValue(const winstd::com_obj<ADOField>& f, std::string& val) const;
+
+        ///
+        /// Gets string from ZRCola.zrc database
+        ///
+        /// \param[in]  f    Data field
+        /// \param[out] val  Output string value
+        ///
+        /// \returns
+        /// - true when successful
+        /// - false otherwise
+        ///
         bool GetValue(const winstd::com_obj<ADOField>& f, std::wstring& val) const;
 
         ///
@@ -489,6 +508,18 @@ namespace ZRCola {
         /// - false otherwise
         ///
         bool GetUnicodeString(const winstd::com_obj<ADOField>& f, std::wstring& str) const;
+
+        ///
+        /// Gets encoded normalization permutations from ZRCola.zrc database
+        ///
+        /// \param[in]  f    Data field
+        /// \param[out] str  Output normalization permutation set
+        ///
+        /// \returns
+        /// - true when successful
+        /// - false otherwise
+        ///
+        bool GetNormPerm(const winstd::com_obj<ADOField>& f, normperm& np) const;
 
         ///
         /// Gets language ID from ZRCola.zrc database
@@ -525,6 +556,29 @@ namespace ZRCola {
         /// - false otherwise
         ///
         bool GetTagNames(const winstd::com_obj<ADOField>& f, LCID lcid, std::list<std::wstring>& names) const;
+
+        ///
+        /// Returns normalization permutation sets
+        ///
+        /// \param[out] rs  Recordset with results
+        ///
+        /// \returns
+        /// - true when query succeeds
+        /// - false otherwise
+        ///
+        bool SelectNormPermSets(winstd::com_obj<ADORecordset>& rs) const;
+
+        ///
+        /// Returns normalization permutation set
+        ///
+        /// \param[in]  rs  Recordset with results
+        /// \param[out] np  Normalization permutation set
+        ///
+        /// \returns
+        /// - true when succeeded
+        /// - false otherwise
+        ///
+        bool GetNormPerm(const winstd::com_obj<ADORecordset>& rs, std::string& norm, normperm& np) const;
 
         ///
         /// Returns character translations
