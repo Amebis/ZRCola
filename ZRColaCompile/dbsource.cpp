@@ -305,7 +305,7 @@ bool ZRCola::DBSource::Open(LPCTSTR filename)
             wxVERIFY(SUCCEEDED(m_comTranslation->put_ActiveConnection(variant(m_db))));
             wxVERIFY(SUCCEEDED(m_comTranslation->put_CommandType(adCmdText)));
             wxVERIFY(SUCCEEDED(m_comTranslation->put_CommandText(bstr(L"SELECT [Komb1] AS [komb], [rang_komb1] AS [rang_komb], '' AS [Kano], 0 AS [Kanoniziraj], [Komb2] AS [znak], [rang_komb2] AS [rang_znak] "
-                L"FROM [VRS_ScriptRepl] "
+                L"FROM [VRS_ScriptRepl2] "
                 L"WHERE [Script]=? "
                 L"ORDER BY [Komb2], [rang_komb2], [rang_komb1], [Komb1]"))));
             {
@@ -806,7 +806,7 @@ bool ZRCola::DBSource::SelectTranlationSets(com_obj<ADORecordset> &rs) const
     // Open it.
     if (FAILED(rs->Open(variant(
         L"SELECT DISTINCT [entCode], [Src_En], [Dst_En] "
-        L"FROM [VRS_Script] "
+        L"FROM [VRS_Script2] "
         L"ORDER BY [entCode], [Src_En], [Dst_En]"), variant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
     {
         _ftprintf(stderr, wxT("%s: error ZCC0060: Error loading translation sets from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
