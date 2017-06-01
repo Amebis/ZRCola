@@ -108,6 +108,12 @@ bool ZRColaApp::OnInit()
                             wxFAIL_MSG(wxT("Error reading translation set data from ZRCola.zrcdb."));
                             m_ts_db.clear();
                         }
+                    } else if (id == ZRCola::transeq_rec::id) {
+                        dat >> ZRCola::transeq_rec(m_tsq_db);
+                        if (!dat.good()) {
+                            wxFAIL_MSG(wxT("Error reading translation sequence data from ZRCola.zrcdb."));
+                            m_tsq_db.clear();
+                        }
                     } else if (id == ZRCola::langchar_rec::id) {
                         dat >> ZRCola::langchar_rec(m_lc_db);
                         if (!dat.good()) {

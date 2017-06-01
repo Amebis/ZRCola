@@ -74,6 +74,7 @@ public:
 public:
     ZRCola::translation_db m_t_db;  ///< Translation database
     ZRCola::transet_db m_ts_db;     ///< Translation set database
+    ZRCola::transeq_db m_tsq_db;    ///< Translation sequence database
     ZRCola::langchar_db m_lc_db;    ///< Language character database
     ZRCola::language_db m_lang_db;  ///< Language database
     ZRCola::keyseq_db m_ks_db;      ///< Key sequence database
