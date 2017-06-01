@@ -91,6 +91,7 @@
     <ClCompile Include="zrcolagui.cpp" />
     <ClCompile Include="zrcolakeyhndlr.cpp" />
     <ClCompile Include="zrcolasettings.cpp" />
+    <ClCompile Include="zrcolatranseq.cpp" />
     <ClCompile Include="zrcolaupdater.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +107,7 @@
     <ClInclude Include="zrcolagui.h" />
     <ClInclude Include="zrcolakeyhndlr.h" />
     <ClInclude Include="zrcolasettings.h" />
+    <ClInclude Include="zrcolatranseq.h" />
     <ClInclude Include="zrcolaupdater.h" />
   </ItemGroup>
   <ItemGroup>
@@ -139,7 +141,9 @@
     <None Include="res\send_composed.ico" />
     <None Include="res\send_decomposed.ico" />
     <None Include="res\zrcola.ico" />
-    <None Include="ZRCola.fbp" />
+    <None Include="ZRCola.fbp">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZRCola.rc" />

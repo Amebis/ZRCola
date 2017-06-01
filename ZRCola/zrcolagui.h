@@ -25,6 +25,7 @@ class wxZRColaCharGrid;
 #include <wx/settings.h>
 #include <wx/aui/aui.h>
 #include <wx/aui/auibar.h>
+#include <wx/choice.h>
 class wxZRColaCharacterCatalogPanel;
 class wxZRColaComposerPanel;
 #include <wx/statusbr.h>
@@ -35,7 +36,6 @@ class wxZRColaComposerPanel;
 #include <wx/panel.h>
 #include <wx/splitter.h>
 #include <wx/timer.h>
-#include <wx/choice.h>
 #include <wx/grid.h>
 #include <wx/checkbox.h>
 #include <wx/srchctrl.h>
@@ -70,7 +70,7 @@ class wxZRColaFrameBase : public wxFrame
 			wxID_SEND_ABORT,
 			wxID_SETTINGS,
 			wxID_TOOLBAR_EDIT,
-			wxID_TOOLBAR_TRANSFORM,
+			wxID_TOOLBAR_TRANSLATE,
 			wxID_PANEL_CHRGRPS,
 			wxID_HELP_INSTRUCTIONS,
 			wxID_HELP_SHORTCUTS,
@@ -87,10 +87,11 @@ class wxZRColaFrameBase : public wxFrame
 		wxAuiToolBarItem* m_toolEditCut; 
 		wxAuiToolBarItem* m_toolEditCopy; 
 		wxAuiToolBarItem* m_toolEditPaste; 
-		wxAuiToolBar* m_toolbarTransform;
+		wxAuiToolBar* m_toolbarTranslate;
 		wxAuiToolBarItem* m_toolCharSelect; 
 		wxAuiToolBarItem* m_toolSendDestination; 
 		wxAuiToolBarItem* m_toolSendSource; 
+		wxChoice* m_toolTranslationSeq;
 		wxZRColaCharacterCatalogPanel* m_panelChrCat;
 		wxStatusBar* m_statusBar;
 		
@@ -98,6 +99,7 @@ class wxZRColaFrameBase : public wxFrame
 		virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
 		virtual void OnIconize( wxIconizeEvent& event ) { event.Skip(); }
 		virtual void OnIdle( wxIdleEvent& event ) { event.Skip(); }
+		virtual void OnTranslationSeqChoice( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
@@ -264,16 +266,6 @@ class wxZRColaSettingsBase : public wxDialog
 		wxRadioButton* m_langAuto;
 		wxRadioButton* m_langManual;
 		wxListBox* m_languages;
-		wxPanel* m_panelTransformation;
-		wxStaticText* m_transLabel;
-		wxStaticText* m_transAvailableLabel;
-		wxListBox* m_transAvailable;
-		wxButton* m_transActivate;
-		wxButton* m_transDeactivate;
-		wxStaticText* m_transActiveLabel;
-		wxListBox* m_transActive;
-		wxButton* m_transActiveUp;
-		wxButton* m_transActiveDown;
 		wxPanel* m_panelAutoStart;
 		wxStaticText* m_autoStartLabel;
 		wxCheckBox* m_autoStart;
@@ -285,11 +277,6 @@ class wxZRColaSettingsBase : public wxDialog
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnInitDialog( wxInitDialogEvent& event ) { event.Skip(); }
 		virtual void OnLanguageUpdate( wxUpdateUIEvent& event ) { event.Skip(); }
-		virtual void OnTransformationUpdate( wxUpdateUIEvent& event ) { event.Skip(); }
-		virtual void OnTransActivate( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnTransDeactivate( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnTransActiveUp( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnTransActiveDown( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnApplyButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		
@@ -378,6 +365,48 @@ class wxZRColaCharRequestBase : public wxDialog
 		
 		wxZRColaCharRequestBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Request a New Character"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaCharRequest") ); 
 		~wxZRColaCharRequestBase();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class wxZRColaTranslationSeqBase
+///////////////////////////////////////////////////////////////////////////////
+class wxZRColaTranslationSeqBase : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_transLbl;
+		wxStaticText* m_availableLbl;
+		wxListBox* m_available;
+		wxButton* m_add;
+		wxButton* m_remove;
+		wxStaticText* m_selectedLbl;
+		wxListBox* m_selected;
+		wxButton* m_selectedUp;
+		wxButton* m_selectedDown;
+		wxStdDialogButtonSizer* m_sdbSizerButtons;
+		wxButton* m_sdbSizerButtonsOK;
+		wxButton* m_sdbSizerButtonsCancel;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnInitDialog( wxInitDialogEvent& event ) { event.Skip(); }
+		virtual void OnUpdate( wxUpdateUIEvent& event ) { event.Skip(); }
+		virtual void OnAvailableChar( wxKeyEvent& event ) { event.Skip(); }
+		virtual void OnAvailableDClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnAdd( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnRemove( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnSelectedChar( wxKeyEvent& event ) { event.Skip(); }
+		virtual void OnSelectedDClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnSelectedUp( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnSelectedDown( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		wxZRColaTranslationSeqBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Custom Translation Sequence"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE ); 
+		~wxZRColaTranslationSeqBase();
 	
 };
 

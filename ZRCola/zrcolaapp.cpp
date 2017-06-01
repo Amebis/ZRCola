@@ -171,7 +171,6 @@ bool ZRColaApp::OnInit()
     wxSocketBase::Initialize();
 
     m_mainWnd = new wxZRColaFrame();
-    wxPersistentRegisterAndRestore<wxZRColaFrame>(m_mainWnd);
     m_mainWnd->Show();
 
     return true;

@@ -56,14 +56,15 @@ protected:
     virtual void OnSaveTimer(wxTimerEvent& event);
     inline size_t MapToDestination(_In_ size_t src) const;
     inline size_t MapToSource(_In_ size_t dst) const;
+    inline void GetTranslationSeq(_Out_ const ZRCola::transetid_t *&sets_begin, _Out_ const ZRCola::transetid_t *&sets_end) const;
 
     static wxString GetStateFileName();
     static size_t GetValue(wxTextCtrl *wnd, wxString &text);
     static void SetHexValue(wxTextCtrl *wnd, std::pair<long, long> &range, ZRCola::mapping_vector &mapping, const wchar_t *src, size_t len, long from, long to);
 
 protected:
-    bool m_sourceChanged;                           ///< Boolean flag to mark source text "dirty" to trigger transformation
-    bool m_destinationChanged;                      ///< Boolean flag to mark destination text "dirty" to trigger inverse transformation
+    bool m_sourceChanged;                           ///< Boolean flag to mark source text "dirty" to trigger translation
+    bool m_destinationChanged;                      ///< Boolean flag to mark destination text "dirty" to trigger inverse translation
     std::vector<ZRCola::mapping_vector> m_mapping;  ///< Character index mapping vector between source and normalized text
     std::pair<long, long>
         m_selSource,                                ///< Character index of selected text in source text control
@@ -105,6 +106,27 @@ inline size_t wxZRColaComposerPanel::MapToSource(_In_ size_t dst) const
         dst = m->to_src(dst);
 
     return dst;
+}
+
+
+inline void wxZRColaComposerPanel::GetTranslationSeq(_Out_ const ZRCola::transetid_t *&sets_begin, _Out_ const ZRCola::transetid_t *&sets_end) const
+{
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
+
+    if (app->m_mainWnd->m_transeq_id != ZRCOLA_TRANSEQID_CUSTOM) {
+        size_t start;
+        if (app->m_tsq_db.idxTranSeq.find(ZRCola::transeq_db::transeq(app->m_mainWnd->m_transeq_id), start)) {
+            const auto &ts = app->m_tsq_db.idxTranSeq[start];
+            sets_begin = ts.sets();
+            sets_end   = ts.sets_end();
+        } else {
+            sets_begin = NULL;
+            sets_end   = NULL;
+        }
+    } else {
+        sets_begin = app->m_mainWnd->m_transeq->m_transeq.data();
+        sets_end   = sets_begin + app->m_mainWnd->m_transeq->m_transeq.size();
+    }
 }
 
 

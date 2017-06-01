@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2017-04-03 12:04+0200\n"
-"PO-Revision-Date: 2017-04-03 12:05+0200\n"
+"POT-Creation-Date: 2017-06-01 18:04+0200\n"
+"PO-Revision-Date: 2017-06-01 18:04+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.0.2\n"
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "© 2004-%s ZRC SAZU"
 msgstr ""
 
-#: zrcolaapp.cpp:72 zrcolafrm.cpp:92 zrcolagui.cpp:980 zrcolagui.h:106
+#: zrcolaapp.cpp:72 zrcolafrm.cpp:106 zrcolagui.cpp:894 zrcolagui.h:108
 #: MSIBuild/en_US.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/en_US.Win32.Release.Shortcut-2.idtx:4
 #: MSIBuild/en_US.x64.Release.Feature-2.idtx:4
@@ -28,17 +28,17 @@ msgstr ""
 msgid "ZRCola"
 msgstr "ZRCola"
 
-#: zrcolachrreq.cpp:49 zrcolagui.cpp:1110
+#: zrcolachrreq.cpp:49 zrcolagui.cpp:1024
 #, fuzzy
 msgid "Character"
 msgstr "Eingabe eines Zeichenstils"
 
-#: zrcolachrreq.cpp:58 zrcolagui.cpp:1131
+#: zrcolachrreq.cpp:58 zrcolagui.cpp:1045
 #, fuzzy
 msgid "Context"
 msgstr "Konnte den Kontext auf dem überlagerten Fenster nicht initialisieren."
 
-#: zrcolachrreq.cpp:64 zrcolagui.h:379
+#: zrcolachrreq.cpp:64 zrcolagui.h:366
 msgid "Request a New Character"
 msgstr ""
 
@@ -69,24 +69,28 @@ msgstr ", "
 msgid "▾ Search Options"
 msgstr ""
 
-#: zrcolafrm.cpp:143
+#: zrcolafrm.cpp:90
+msgid "Custom Translation..."
+msgstr ""
+
+#: zrcolafrm.cpp:175
 msgid "ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality will not be available."
 msgstr ""
 
-#: zrcolafrm.cpp:143 zrcolafrm.cpp:145
+#: zrcolafrm.cpp:175 zrcolafrm.cpp:177
 #, fuzzy
 msgid "Warning"
 msgstr "Warnung: "
 
-#: zrcolafrm.cpp:145
+#: zrcolafrm.cpp:177
 msgid "ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality will not be available."
 msgstr ""
 
-#: zrcolafrm.cpp:362
+#: zrcolafrm.cpp:410
 msgid "http://zrcola.zrc-sazu.si/en/info/instructions/"
 msgstr "http://zrcola.zrc-sazu.si/de/info/instructions/"
 
-#: zrcolafrm.cpp:386
+#: zrcolafrm.cpp:434
 msgid "http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
 msgstr "http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
 
@@ -239,8 +243,9 @@ msgid "Check online for product update"
 msgstr ""
 
 #: zrcolagui.cpp:180
+#, fuzzy
 msgid "&About..."
-msgstr ""
+msgstr "Über..."
 
 #: zrcolagui.cpp:183
 #, fuzzy
@@ -297,237 +302,203 @@ msgstr "Pošlji sestavljeno (F5)"
 msgid "Send Decomposed"
 msgstr "Pošlji razstavljeno (F6)"
 
-#: zrcolagui.cpp:205
+#: zrcolagui.cpp:209
 msgid "Compose"
 msgstr ""
 
-#: zrcolagui.cpp:209
+#: zrcolagui.cpp:213
 msgid "Character Catalog"
 msgstr ""
 
-#: zrcolagui.cpp:213
+#: zrcolagui.cpp:217
 msgid "(De)Composer"
 msgstr ""
 
-#: zrcolagui.cpp:252
+#: zrcolagui.cpp:258
 msgid "Decomposed Text"
 msgstr ""
 
-#: zrcolagui.cpp:272
+#: zrcolagui.cpp:278
 msgid "Decomposed Unicode Dump"
 msgstr ""
 
-#: zrcolagui.cpp:299
+#: zrcolagui.cpp:305
 msgid "Composed Text"
 msgstr ""
 
-#: zrcolagui.cpp:319
+#: zrcolagui.cpp:325
 msgid "Composed Unicode Dump"
 msgstr ""
 
-#: zrcolagui.cpp:373
+#: zrcolagui.cpp:379
 msgid "Select category to display"
 msgstr ""
 
-#: zrcolagui.cpp:407
+#: zrcolagui.cpp:413
 #, fuzzy
 msgid "Show &All"
 msgstr "Alles zeigen"
 
-#: zrcolagui.cpp:408
+#: zrcolagui.cpp:414
 msgid "Toggle display of less frequent characters"
 msgstr ""
 
-#: zrcolagui.cpp:448
+#: zrcolagui.cpp:454
 #, fuzzy
 msgid "&Browse"
 msgstr "Durchsuchen"
 
-#: zrcolagui.cpp:455
+#: zrcolagui.cpp:461
 msgid "Full or partial terms from Unicode character description (in English) to search for"
 msgstr ""
 
-#: zrcolagui.cpp:459
+#: zrcolagui.cpp:465
 msgid "Search Options"
 msgstr ""
 
-#: zrcolagui.cpp:460
+#: zrcolagui.cpp:466
 msgid "Shows/hides additional search options"
 msgstr ""
 
-#: zrcolagui.cpp:472
+#: zrcolagui.cpp:478
 msgid "List of Unicode character categories to search in"
 msgstr ""
 
-#: zrcolagui.cpp:479
+#: zrcolagui.cpp:485
 #, fuzzy
 msgid "All"
 msgstr "Alle"
 
-#: zrcolagui.cpp:480
+#: zrcolagui.cpp:486
 msgid "Select all categories"
-msgstr ""
-
-#: zrcolagui.cpp:484
-#, fuzzy
-msgid "None"
-msgstr "Kein"
-
-#: zrcolagui.cpp:485
-#, fuzzy
-msgid "Clear category selection"
-msgstr "Auswahl kopieren"
-
-#: zrcolagui.cpp:489
-msgid "Invert"
 msgstr ""
 
 #: zrcolagui.cpp:490
 #, fuzzy
+msgid "None"
+msgstr "Kein"
+
+#: zrcolagui.cpp:491
+#, fuzzy
+msgid "Clear category selection"
+msgstr "Auswahl kopieren"
+
+#: zrcolagui.cpp:495
+msgid "Invert"
+msgstr ""
+
+#: zrcolagui.cpp:496
+#, fuzzy
 msgid "Invert category selection"
 msgstr "Auswahl einfügen"
 
-#: zrcolagui.cpp:529
+#: zrcolagui.cpp:535
 #, fuzzy
 msgid "Character search results"
 msgstr "Skupine &znakov"
 
-#: zrcolagui.cpp:539
+#: zrcolagui.cpp:545
 msgid "Re&cently Used"
 msgstr ""
 
-#: zrcolagui.cpp:567
+#: zrcolagui.cpp:573
 msgid "List of recently inserted characters"
 msgstr ""
 
-#: zrcolagui.cpp:581
+#: zrcolagui.cpp:587
 #, fuzzy
 msgid "Preview"
 msgstr " Vorschau"
 
-#: zrcolagui.cpp:586
+#: zrcolagui.cpp:592
 msgid "U+"
 msgstr "U+"
 
-#: zrcolagui.cpp:591
+#: zrcolagui.cpp:597
 msgid "Unicode hexadecimal code"
 msgstr ""
 
-#: zrcolagui.cpp:596
+#: zrcolagui.cpp:602
 msgid "Keyboard shortcut in Composer window"
 msgstr ""
 
-#: zrcolagui.cpp:631
+#: zrcolagui.cpp:637
 #, fuzzy
 msgid "Character preview"
 msgstr "Skupine &znakov"
 
-#: zrcolagui.cpp:636
+#: zrcolagui.cpp:642
 msgid "Unicode character description"
 msgstr ""
 
-#: zrcolagui.cpp:641
+#: zrcolagui.cpp:647
 #, fuzzy
 msgid "Character tags"
 msgstr "Eingabe eines Zeichenstils"
 
-#: zrcolagui.cpp:646
+#: zrcolagui.cpp:652
 msgid "Unicode character category"
-msgstr ""
-
-#: zrcolagui.cpp:653
-#, fuzzy
-msgid "« Back"
-msgstr "< &Zurück"
-
-#: zrcolagui.cpp:655
-msgid "To previously viewed character"
 msgstr ""
 
 #: zrcolagui.cpp:659
 #, fuzzy
+msgid "« Back"
+msgstr "< &Zurück"
+
+#: zrcolagui.cpp:661
+msgid "To previously viewed character"
+msgstr ""
+
+#: zrcolagui.cpp:665
+#, fuzzy
 msgid "Forward »"
 msgstr "&Vorwärts"
 
-#: zrcolagui.cpp:661
+#: zrcolagui.cpp:667
 msgid "To following viewed character"
 msgstr ""
 
-#: zrcolagui.cpp:672
+#: zrcolagui.cpp:678
 msgid "Re&lated"
 msgstr ""
 
-#: zrcolagui.cpp:699
+#: zrcolagui.cpp:705
 msgid "List of related characters"
 msgstr ""
 
-#: zrcolagui.cpp:790
+#: zrcolagui.cpp:794
 msgid ""
 "Some character native to specific language you are working with should not decompose to primitives.\n"
 "For optimal decomposition you should set the language correctly."
 msgstr ""
 
-#: zrcolagui.cpp:794
+#: zrcolagui.cpp:798
 msgid "Select language &automatically according to selected keyboard"
 msgstr ""
 
-#: zrcolagui.cpp:797
+#: zrcolagui.cpp:801
 msgid "&Manually select the language from the list below:"
 msgstr ""
 
-#: zrcolagui.cpp:809
+#: zrcolagui.cpp:812
 msgid "Text Language"
 msgstr ""
 
-#: zrcolagui.cpp:816
-msgid ""
-"ZRCola offers multiple text transformations that can be arranged in a sequence.\n"
-"Please select desired transformations and the order they are applied."
-msgstr ""
-
-#: zrcolagui.cpp:831
-msgid "A&vailable:"
-msgstr ""
-
-#: zrcolagui.cpp:844
-msgid ">"
-msgstr ">"
-
-#: zrcolagui.cpp:847
-msgid "<"
-msgstr "<"
-
-#: zrcolagui.cpp:856
-msgid "&Active:"
-msgstr ""
-
-#: zrcolagui.cpp:872
-msgid "Up"
-msgstr ""
-
-#: zrcolagui.cpp:875
-msgid "Down"
-msgstr ""
-
-#: zrcolagui.cpp:885
-msgid "Transformation"
-msgstr ""
-
-#: zrcolagui.cpp:892
+#: zrcolagui.cpp:817
 msgid ""
 "ZRCola can be launched every time you log in to your computer.\n"
 "It will be available on the system tray and via registered shortcuts Win+F5 and Win+F6."
 msgstr ""
 
-#: zrcolagui.cpp:896
+#: zrcolagui.cpp:821
 msgid "Start ZRCola &automatically on logon"
 msgstr ""
 
-#: zrcolagui.cpp:903
+#: zrcolagui.cpp:827
 msgid "Startup"
 msgstr ""
 
-#: zrcolagui.cpp:991
+#: zrcolagui.cpp:905
 msgid ""
 "Program and Website Editor: Janoš Ježovnik\n"
 "Development: Amebis, d. o. o., Kamnik\n"
@@ -536,104 +507,146 @@ msgid ""
 "Development and maintenance of the original program (2004–2015): Peter Weiss"
 msgstr ""
 
-#: zrcolagui.cpp:999
+#: zrcolagui.cpp:913
+#, fuzzy
 msgid "zrcola.zrc-sazu.si"
-msgstr ""
+msgstr "http://zrcola.zrc-sazu.si/de/info/instructions/"
 
-#: zrcolagui.cpp:1005
+#: zrcolagui.cpp:919
 msgid "Texts made using ZRCola have to include in a footnote or some other appropriate part of the publication the note below:"
 msgstr ""
 
-#: zrcolagui.cpp:1009
+#: zrcolagui.cpp:923
 msgid "This text was written using the ZRCola input system (http://zrcola.zrc-sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana (http://www.zrc-sazu.si) by Peter Weiss."
 msgstr ""
 
-#: zrcolagui.cpp:1050
+#: zrcolagui.cpp:964
 #, fuzzy
 msgid "Log"
 msgstr "&Log"
 
-#: zrcolagui.cpp:1066
+#: zrcolagui.cpp:980
 #, fuzzy
 msgid "Quit and &Update..."
 msgstr "Kann Benutzer-Konfigurationsdatei nicht aktualisieren."
 
-#: zrcolagui.cpp:1068
+#: zrcolagui.cpp:982
 msgid "Exit this program and launch product update"
 msgstr ""
 
-#: zrcolagui.cpp:1072
+#: zrcolagui.cpp:986
 #, fuzzy
 msgid "&Close"
 msgstr "&Schließen"
 
-#: zrcolagui.cpp:1073
+#: zrcolagui.cpp:987
 #, fuzzy
 msgid "Close this window"
 msgstr "Fenster schließen"
 
-#: zrcolagui.cpp:1112
+#: zrcolagui.cpp:1026
 msgid "Enter the &character you would like to request:"
 msgstr ""
 
-#: zrcolagui.cpp:1119
+#: zrcolagui.cpp:1033
 msgid "Decomposed character to request"
 msgstr ""
 
-#: zrcolagui.cpp:1123
+#: zrcolagui.cpp:1037
 msgid ""
 "Please, use the decomposed form.\n"
 "You can use ZRCola keyboard shortcuts to enter the character or Copy&&Paste it from the Decomposed window."
 msgstr ""
 
-#: zrcolagui.cpp:1133
+#: zrcolagui.cpp:1047
 msgid "The &context, examples or description why and where the character is required:"
 msgstr ""
 
-#: zrcolagui.cpp:1139
+#: zrcolagui.cpp:1053
 msgid "Additional notes for character request"
 msgstr ""
 
-#: zrcolagui.cpp:1146
+#: zrcolagui.cpp:1060
 msgid ""
 "After clicking OK button, your e-mail application should open allowing you to submit the new character request to ZRCola Editor.\n"
 "Your e-mail application might not display all the characters correctly, but the Editor will be able to read them correctly anyway."
+msgstr ""
+
+#: zrcolagui.cpp:1102
+msgid "Translation"
+msgstr ""
+
+#: zrcolagui.cpp:1104
+msgid ""
+"ZRCola offers multiple text translations that can be arranged in a sequence.\n"
+"Please select desired translations and the order they are applied."
+msgstr ""
+
+#: zrcolagui.cpp:1114
+msgid "A&vailable:"
+msgstr ""
+
+#: zrcolagui.cpp:1129
+msgid ">"
+msgstr ">"
+
+#: zrcolagui.cpp:1132
+msgid "<"
+msgstr "<"
+
+#: zrcolagui.cpp:1141
+#, fuzzy
+msgid "&Selected:"
+msgstr "Izreže izbrano besedilo in ga shrani na odložišče"
+
+#: zrcolagui.cpp:1159
+#, fuzzy
+msgid "Up"
+msgstr "Up"
+
+#: zrcolagui.cpp:1162
+#, fuzzy
+msgid "Down"
+msgstr "Down"
+
+#: zrcolagui.h:250
+#, fuzzy
+msgid "Character Search"
+msgstr "Skupine &znakov"
+
+#: zrcolagui.h:286
+msgid "Settings"
+msgstr ""
+
+#: zrcolagui.h:312
+msgid "About ZRCola"
+msgstr ""
+
+#: zrcolagui.h:337 zrcolaupdater.cpp:94
+msgid "Product Update"
+msgstr ""
+
+#: zrcolagui.h:408
+msgid "Custom Translation Sequence"
 msgstr ""
 
 #: zrcolakeyhndlr.cpp:44
 msgid "INS key is pressed. Type the Unicode code of desired character now (up to four hexadecimal digits: 0-9, A-F), then release INS."
 msgstr ""
 
-#: zrcolasettings.cpp:90
-#, c-format
-msgid "Unknown transformation (%u)"
+#: zrcolasettings.cpp:87
+msgid "Start ZRCola automatically on logon"
 msgstr ""
 
-#: zrcolasettings.cpp:181
-msgid "Start ZRCola automatically on logon"
+#: zrcolatranseq.cpp:63
+#, c-format
+msgid "Unknown translation (%u)"
 msgstr ""
 
 #: zrcolaupdater.cpp:94
 msgid ""
 "This program will now close and the upgrade will be launched.\n"
 "Are you sure?"
-msgstr ""
-
-#: zrcolaupdater.cpp:94 zrcolagui.h:350
-msgid "Product Update"
-msgstr ""
-
-#: zrcolagui.h:248
-#, fuzzy
-msgid "Character Search"
-msgstr "Skupine &znakov"
-
-#: zrcolagui.h:299
-msgid "Settings"
-msgstr ""
-
-#: zrcolagui.h:325
-msgid "About ZRCola"
 msgstr ""
 
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:4
@@ -673,7 +686,7 @@ msgstr ""
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:19
 #, fuzzy
 msgid "&Continue"
-msgstr "Konnte den Kontext auf dem überlagerten Fenster nicht initialisieren."
+msgstr "Auf Volume \"[2]\" steht nicht genügend Speicherplatz für die Installation bei aktivierter Wiederherstellungsoption zur Verfügung. [3] KB sind erforderlich, aber nur [4] KB sind verfügbar. Klicken Sie auf \"Ignorieren\", um die Installation ohne Speicherung von Wiederherstellungsinformationen fortzusetzen, klicken Sie auf \"Wiederholen\", um den verfügbaren Speicher erneut zu überprüfen oder auf \"Abbrechen\", um die Installation abzubrechen."
 
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:11
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:11

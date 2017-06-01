@@ -87,16 +87,17 @@ void wxZRColaComposerPanel::SynchronizePanels()
         m_timerSave.Stop();
 
         auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
-        wxZRColaFrame *mainWnd = dynamic_cast<wxZRColaFrame*>(wxGetActiveWindow());
-        wxASSERT_MSG(mainWnd, "main window missing");
 
         wxString src;
         size_t len = GetValue(m_source, src);
         std::wstring dst(src.data(), len), dst2;
         ZRCola::mapping_vector map;
 
+        const ZRCola::transetid_t *sets_begin, *sets_end;
+        GetTranslationSeq(sets_begin, sets_end);
+
         m_mapping.clear();
-        for (auto s = mainWnd->m_settings->m_transeq.cbegin(), s_end = mainWnd->m_settings->m_transeq.cend(); s != s_end; ++s) {
+        for (auto s = sets_begin; s != sets_end; ++s) {
             if (*s == 0) {
                 // ZRCola Decomposed => ZRCola Composed should decompose first.
                 app->m_t_db.TranslateInv(*s, dst.data(), dst.size(), dst2, &map);
@@ -105,7 +106,7 @@ void wxZRColaComposerPanel::SynchronizePanels()
                 app->m_t_db.Translate(*s, dst2.data(), dst2.size(), dst, &map);
                 m_mapping.push_back(std::move(map));
             } else {
-                // Other transforms
+                // Other translates
                 app->m_t_db.Translate(*s, dst.data(), dst.size(), dst2, &map);
                 m_mapping.push_back(std::move(map));
                 dst = std::move(dst2);
@@ -130,21 +131,22 @@ void wxZRColaComposerPanel::SynchronizePanels()
         m_timerSave.Stop();
 
         auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
-        wxZRColaFrame *mainWnd = dynamic_cast<wxZRColaFrame*>(wxGetActiveWindow());
-        wxASSERT_MSG(mainWnd, "main window missing");
 
         wxString src;
         size_t len = GetValue(m_destination, src);
         std::wstring dst(src.data(), len), dst2;
         ZRCola::mapping_vector map;
 
+        const ZRCola::transetid_t *sets_begin, *sets_end;
+        GetTranslationSeq(sets_begin, sets_end);
+
         m_mapping.clear();
-        for (auto s = mainWnd->m_settings->m_transeq.crbegin(), s_end = mainWnd->m_settings->m_transeq.crend(); s != s_end; ++s) {
+        for (auto s = sets_end; s != sets_begin; s--) {
             if (*s) {
                 // ZRCola Decomposed => ZRCola Composed
-                app->m_t_db.TranslateInv(*s, dst.data(), dst.size(), &app->m_lc_db, mainWnd->m_settings->m_lang, dst2, &map);
+                app->m_t_db.TranslateInv(*s, dst.data(), dst.size(), &app->m_lc_db, app->m_mainWnd->m_settings->m_lang, dst2, &map);
             } else {
-                // Other transforms
+                // Other translates
                 app->m_t_db.TranslateInv(*s, dst.data(), dst.size(), dst2, &map);
             }
             dst = std::move(dst2);
@@ -233,7 +235,7 @@ void wxZRColaComposerPanel::OnSourceText(wxCommandEvent& event)
 {
     event.Skip();
 
-    // Set the flag the source text changed to trigger idle-time transformation.
+    // Set the flag the source text changed to trigger idle-time translation.
     m_sourceChanged = true;
 }
 
@@ -296,7 +298,7 @@ void wxZRColaComposerPanel::OnDestinationText(wxCommandEvent& event)
 {
     event.Skip();
 
-    // Set the flag the destination text changed to trigger idle-time inverse transformation.
+    // Set the flag the destination text changed to trigger idle-time inverse translation.
     m_destinationChanged = true;
 }
 

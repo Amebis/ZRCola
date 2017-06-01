@@ -45,8 +45,8 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
 
     EVT_UPDATE_UI      (wxID_TOOLBAR_EDIT                          , wxZRColaFrame::OnToolbarEditUpdate          )
     EVT_MENU           (wxID_TOOLBAR_EDIT                          , wxZRColaFrame::OnToolbarEdit                )
-    EVT_UPDATE_UI      (wxID_TOOLBAR_TRANSFORM                     , wxZRColaFrame::OnToolbarTransformUpdate     )
-    EVT_MENU           (wxID_TOOLBAR_TRANSFORM                     , wxZRColaFrame::OnToolbarTransform           )
+    EVT_UPDATE_UI      (wxID_TOOLBAR_TRANSLATE                     , wxZRColaFrame::OnToolbarTranslateUpdate     )
+    EVT_MENU           (wxID_TOOLBAR_TRANSLATE                     , wxZRColaFrame::OnToolbarTranslate           )
     EVT_UPDATE_UI      (wxID_PANEL_CHRGRPS                         , wxZRColaFrame::OnPanelCharacterCatalogUpdate)
     EVT_MENU           (wxID_PANEL_CHRGRPS                         , wxZRColaFrame::OnPanelCharacterCatalog      )
     EVT_MENU           (wxID_FOCUS_CHARACTER_CATALOG               , wxZRColaFrame::OnPanelCharacterCatalogFocus )
@@ -65,15 +65,29 @@ wxZRColaFrame::wxZRColaFrame() :
     m_chrSelect(NULL),
     m_settings(NULL),
     m_chrReq(NULL),
+    m_transeq_id(0), // By default use predefined translation sequence 0 (ZRCola Decomposed >> Composed)
+    m_transeq(NULL),
     wxZRColaFrameBase(NULL)
 {
     {
         // wxFrameBuilder 3.5 does not support wxAUI_TB_HORIZONTAL flag. Add it manually.
-        wxAuiPaneInfo &paneInfo = m_mgr.GetPane(m_toolbarTransform);
+        wxAuiPaneInfo &paneInfo = m_mgr.GetPane(m_toolbarTranslate);
         paneInfo.LeftDockable(false);
         paneInfo.RightDockable(false);
-        m_toolbarTransform->SetWindowStyleFlag(m_toolbarTransform->GetWindowStyleFlag() | wxAUI_TB_HORIZONTAL);
+        m_toolbarTranslate->SetWindowStyleFlag(m_toolbarTranslate->GetWindowStyleFlag() | wxAUI_TB_HORIZONTAL);
     }
+
+    // Populate list of translation sequences.
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
+    m_toolTranslationSeq->Clear();
+    for (size_t i = 0, n = app->m_tsq_db.idxRank.size(); i < n; i++) {
+        const ZRCola::transeq_db::transeq &ts = app->m_tsq_db.idxRank[i];
+        wxString
+            name(ts.name(), ts.name_len()),
+            name_tran(wxGetTranslation(name, wxT("ZRCola-zrcdb")));
+        m_toolTranslationSeq->Append(name_tran, reinterpret_cast<void*>(ts.seq));
+    }
+    m_toolTranslationSeq->Append(_("Custom Translation..."), reinterpret_cast<void*>(ZRCOLA_TRANSEQID_CUSTOM));
 
     // Load main window icons.
 #ifdef __WINDOWS__
@@ -98,6 +112,9 @@ wxZRColaFrame::wxZRColaFrame() :
 
     m_settings = new wxZRColaSettings(this);
     wxPersistentRegisterAndRestore<wxZRColaSettings>(m_settings);
+
+    m_transeq = new wxZRColaTranslationSeq(this);
+    wxPersistentRegisterAndRestore<wxZRColaTranslationSeq>(m_transeq);
 
     m_chrSelect = new wxZRColaCharSelect(this);
     wxPersistentRegisterAndRestore<wxZRColaCharSelect>(m_chrSelect);
@@ -137,11 +154,26 @@ wxZRColaFrame::wxZRColaFrame() :
 
     // Restore persistent state of wxAuiManager manually, since m_mgr is not on the heap.
     wxPersistentAuiManager(&m_mgr).Restore();
+    wxPersistentRegisterAndRestore<wxZRColaFrame>(this);
+
+    // Populate list of translation sequences.
+    for (unsigned int i = 0, n = m_toolTranslationSeq->GetCount(); ; i++) {
+        if (i < n) {
+            if (reinterpret_cast<ZRCola::transeqid_t>(m_toolTranslationSeq->GetClientData(i)) == m_transeq_id) {
+                m_toolTranslationSeq->SetSelection(i);
+                break;
+            }
+        } else {
+            m_transeq_id = reinterpret_cast<ZRCola::transeqid_t>(m_toolTranslationSeq->GetClientData(0));
+            m_toolTranslationSeq->SetSelection(0);
+            break;
+        }
+    }
 
     // Register global hotkey(s).
-    if (!RegisterHotKey(wxZRColaHKID_INVOKE_TRANSFORM, wxMOD_WIN, VK_F5))
+    if (!RegisterHotKey(wxZRColaHKID_INVOKE_TRANSLATE, wxMOD_WIN, VK_F5))
         wxMessageBox(_("ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
-    if (!RegisterHotKey(wxZRColaHKID_INVOKE_TRANSFORM_INV, wxMOD_WIN, VK_F6))
+    if (!RegisterHotKey(wxZRColaHKID_INVOKE_TRANSLATE_INV, wxMOD_WIN, VK_F6))
         wxMessageBox(_("ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality will not be available."), _("Warning"), wxOK | wxICON_WARNING);
 }
 
@@ -149,8 +181,8 @@ wxZRColaFrame::wxZRColaFrame() :
 wxZRColaFrame::~wxZRColaFrame()
 {
     // Unregister global hotkey(s).
-    UnregisterHotKey(wxZRColaHKID_INVOKE_TRANSFORM_INV);
-    UnregisterHotKey(wxZRColaHKID_INVOKE_TRANSFORM    );
+    UnregisterHotKey(wxZRColaHKID_INVOKE_TRANSLATE_INV);
+    UnregisterHotKey(wxZRColaHKID_INVOKE_TRANSLATE    );
 
 #if defined(__WXMSW__)
     if (m_tfSource) {
@@ -317,17 +349,33 @@ void wxZRColaFrame::OnToolbarEdit(wxCommandEvent& event)
 }
 
 
-void wxZRColaFrame::OnToolbarTransformUpdate(wxUpdateUIEvent& event)
+void wxZRColaFrame::OnToolbarTranslateUpdate(wxUpdateUIEvent& event)
 {
-    event.Check(m_mgr.GetPane(m_toolbarTransform).IsShown());
+    event.Check(m_mgr.GetPane(m_toolbarTranslate).IsShown());
 }
 
 
-void wxZRColaFrame::OnToolbarTransform(wxCommandEvent& event)
+void wxZRColaFrame::OnToolbarTranslate(wxCommandEvent& event)
 {
-    wxAuiPaneInfo &paneInfo = m_mgr.GetPane(m_toolbarTransform);
+    wxAuiPaneInfo &paneInfo = m_mgr.GetPane(m_toolbarTranslate);
     paneInfo.Show(!paneInfo.IsShown());
     m_mgr.Update();
+}
+
+
+void wxZRColaFrame::OnTranslationSeqChoice(wxCommandEvent& event)
+{
+    ZRCola::transeqid_t transeq_id = reinterpret_cast<ZRCola::transeqid_t>(event.GetClientData());
+    if (m_transeq_id != transeq_id) {
+        m_transeq_id = transeq_id;
+
+        // Notify source text something changed and should re-translate.
+        wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
+        m_panel->m_source->ProcessWindowEvent(event2);
+    }
+
+    if (m_transeq_id == ZRCOLA_TRANSEQID_CUSTOM)
+        m_transeq->ShowModal();
 }
 
 
@@ -527,8 +575,8 @@ WXLRESULT wxZRColaFrame::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM
         WXHWND hWndSource = ::GetForegroundWindow();
 
         switch (wParam) {
-        case wxZRColaHKID_INVOKE_TRANSFORM    : m_panel->m_source     ->SetFocus(); break;
-        case wxZRColaHKID_INVOKE_TRANSFORM_INV: m_panel->m_destination->SetFocus(); break;
+        case wxZRColaHKID_INVOKE_TRANSLATE    : m_panel->m_source     ->SetFocus(); break;
+        case wxZRColaHKID_INVOKE_TRANSLATE_INV: m_panel->m_destination->SetFocus(); break;
         default:
             wxFAIL_MSG(wxT("not our registered shortcut"));
             return wxZRColaFrameBase::MSWWindowProc(message, wParam, lParam);
@@ -582,6 +630,8 @@ void wxPersistentZRColaFrame::Save() const
 
     auto wnd = static_cast<const wxZRColaFrame*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
 
+    SaveValue(wxT("transeqId"), static_cast<int>(wnd->m_transeq_id));
+
     wxPersistentZRColaComposerPanel(wnd->m_panel).Save();
     wxPersistentZRColaCharacterCatalogPanel(wnd->m_panelChrCat).Save();
 }
@@ -593,6 +643,10 @@ bool wxPersistentZRColaFrame::Restore()
 
     wxPersistentZRColaCharacterCatalogPanel(wnd->m_panelChrCat).Restore();
     wxPersistentZRColaComposerPanel(wnd->m_panel).Restore();
+
+    int num;
+    if (RestoreValue(wxT("transeqId"), &num))
+        wnd->m_transeq_id = num;
 
     return wxPersistentTLW::Restore();
 }

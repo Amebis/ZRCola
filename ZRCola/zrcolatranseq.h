@@ -20,13 +20,14 @@
 ///
 /// Forward declarations
 ///
-class wxZRColaSettings;
-class wxPersistentZRColaSettings;
+class wxZRColaTranslationSeq;
+class wxPersistentZRColaTranslationSeq;
 
 
 #pragma once
 
 #include "zrcolagui.h"
+#include <zrcola/translate.h>
 #include <wxex/persist/dialog.h>
 #include <vector>
 
@@ -34,39 +35,46 @@ class wxPersistentZRColaSettings;
 ///
 /// Configuration dialog
 ///
-class wxZRColaSettings : public wxZRColaSettingsBase
+class wxZRColaTranslationSeq : public wxZRColaTranslationSeqBase
 {
 public:
-    wxZRColaSettings(wxWindow* parent);
+    wxZRColaTranslationSeq(wxWindow* parent);
 
-    friend class wxPersistentZRColaSettings;    // Allow saving/restoring window state.
+    friend class wxPersistentZRColaTranslationSeq;    // Allow saving/restoring window state.
 
 protected:
     virtual void OnInitDialog(wxInitDialogEvent& event);
-    virtual void OnLanguageUpdate(wxUpdateUIEvent& event);
+    virtual void OnUpdate(wxUpdateUIEvent& event);
+    virtual void OnAvailableChar(wxKeyEvent& event);
+    virtual void OnAvailableDClick(wxCommandEvent& event);
+    virtual void OnAdd(wxCommandEvent& event);
+    virtual void OnRemove(wxCommandEvent& event);
+    virtual void OnSelectedChar(wxKeyEvent& event);
+    virtual void OnSelectedDClick(wxCommandEvent& event);
+    virtual void OnSelectedUp(wxCommandEvent& event);
+    virtual void OnSelectedDown(wxCommandEvent& event);
     virtual void OnApplyButtonClick(wxCommandEvent& event);
     virtual void OnOKButtonClick(wxCommandEvent& event);
 
 public:
-    bool m_lang_auto;           ///< Is language for inverse translation resolved using currently selected keyboard
-    ZRCola::langid_t m_lang;    ///< Language for inverse translation
+    std::vector<ZRCola::transetid_t> m_transeq; ///< Custom translation set sequence
 };
 
 
 ///
-/// Supports saving/restoring wxZRColaSettings state
+/// Supports saving/restoring wxZRColaTranslationSeq state
 ///
-class wxPersistentZRColaSettings : public wxPersistentDialog
+class wxPersistentZRColaTranslationSeq : public wxPersistentDialog
 {
 public:
-    wxPersistentZRColaSettings(wxZRColaSettings *wnd);
+    wxPersistentZRColaTranslationSeq(wxZRColaTranslationSeq *wnd);
 
     virtual void Save() const;
     virtual bool Restore();
 };
 
 
-inline wxPersistentObject *wxCreatePersistentObject(wxZRColaSettings *wnd)
+inline wxPersistentObject *wxCreatePersistentObject(wxZRColaTranslationSeq *wnd)
 {
-    return new wxPersistentZRColaSettings(wnd);
+    return new wxPersistentZRColaTranslationSeq(wnd);
 }

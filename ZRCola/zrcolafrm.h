@@ -29,7 +29,9 @@ class wxZRColaFrame;
 #include "zrcolachrslct.h"
 #include "zrcolachrreq.h"
 #include "zrcolasettings.h"
+#include "zrcolatranseq.h"
 #include <zrcola/language.h>
+#include <zrcola/translate.h>
 #include <wx/taskbar.h>
 #include <wx/persist/toplevel.h>
 #if defined(__WXMSW__)
@@ -40,8 +42,8 @@ class wxZRColaFrame;
 ///
 /// Global hotkey message identifiers
 ///
-#define wxZRColaHKID_INVOKE_TRANSFORM       0
-#define wxZRColaHKID_INVOKE_TRANSFORM_INV   1
+#define wxZRColaHKID_INVOKE_TRANSLATE       0
+#define wxZRColaHKID_INVOKE_TRANSLATE_INV   1
 
 
 ///
@@ -83,8 +85,9 @@ protected:
     virtual void OnIconize(wxIconizeEvent& event);
     void OnToolbarEditUpdate(wxUpdateUIEvent& event);
     void OnToolbarEdit(wxCommandEvent& event);
-    void OnToolbarTransformUpdate(wxUpdateUIEvent& event);
-    void OnToolbarTransform(wxCommandEvent& event);
+    void OnToolbarTranslateUpdate(wxUpdateUIEvent& event);
+    void OnToolbarTranslate(wxCommandEvent& event);
+    virtual void OnTranslationSeqChoice(wxCommandEvent& event);
     void OnPanelCharacterCatalogUpdate(wxUpdateUIEvent& event);
     void OnPanelCharacterCatalog(wxCommandEvent& event);
     void OnPanelCharacterCatalogFocus(wxCommandEvent& event);
@@ -126,6 +129,8 @@ protected:
     wxZRColaCharSelect *m_chrSelect;    ///< Character selection dialog
     wxZRColaCharRequest *m_chrReq;      ///< Request a New Character dialog
     wxZRColaSettings *m_settings;       ///< Configuration dialog
+    ZRCola::transeqid_t m_transeq_id;   ///< Translation sequence ID
+    wxZRColaTranslationSeq *m_transeq;  ///< Custom translation sequence dialog
 };
 
 

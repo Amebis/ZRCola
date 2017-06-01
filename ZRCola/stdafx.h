@@ -29,6 +29,7 @@
 #include "zrcolafrm.h"
 #include "zrcolakeyhndlr.h"
 #include "zrcolasettings.h"
+#include "zrcolatranseq.h"
 #include "zrcolaupdater.h"
 
 #include <Updater/chkthread.h>
