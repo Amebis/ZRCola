@@ -249,6 +249,8 @@ ZRCola::DBSource::DBSource()
 ZRCola::DBSource::~DBSource()
 {
     // Manually release all COM objects related to the database before we close the database.
+    m_pTranslationSets1.free();
+    m_comTranslationSets.free();
     m_pTranslation1.free();
     m_comTranslation.free();
     m_pCharacterGroup1.free();
@@ -315,6 +317,23 @@ bool ZRCola::DBSource::Open(LPCTSTR filename)
                 wxASSERT_MSG(!m_pTranslation1, wxT("ADO command parameter already created"));
                 wxVERIFY(SUCCEEDED(m_comTranslation->CreateParameter(bstr(L"@Script"), adInteger, adParamInput, 0, variant(DISP_E_PARAMNOTFOUND, VT_ERROR), &m_pTranslation1)));
                 wxVERIFY(SUCCEEDED(params->Append(m_pTranslation1)));
+            }
+
+            wxASSERT_MSG(!m_comTranslationSets, wxT("ADO command already created"));
+            wxVERIFY(SUCCEEDED(::CoCreateInstance(CLSID_CADOCommand, NULL, CLSCTX_ALL, IID_IADOCommand, (LPVOID*)&m_comTranslationSets)));
+            wxVERIFY(SUCCEEDED(m_comTranslationSets->put_ActiveConnection(variant(m_db))));
+            wxVERIFY(SUCCEEDED(m_comTranslationSets->put_CommandType(adCmdText)));
+            wxVERIFY(SUCCEEDED(m_comTranslationSets->put_CommandText(bstr(L"SELECT [Script] "
+                L"FROM [VRS_Script2SeqScr] "
+                L"WHERE [ID]=? "
+                L"ORDER BY [Rank] ASC"))));
+            {
+                // Create and add command parameters.
+                com_obj<ADOParameters> params;
+                wxVERIFY(SUCCEEDED(m_comTranslationSets->get_Parameters(&params)));
+                wxASSERT_MSG(!m_pTranslationSets1, wxT("ADO command parameter already created"));
+                wxVERIFY(SUCCEEDED(m_comTranslationSets->CreateParameter(bstr(L"@ID"), adInteger, adParamInput, 0, variant(DISP_E_PARAMNOTFOUND, VT_ERROR), &m_pTranslationSets1)));
+                wxVERIFY(SUCCEEDED(params->Append(m_pTranslationSets1)));
             }
 
             return true;
@@ -841,6 +860,83 @@ bool ZRCola::DBSource::GetTranslationSet(const com_obj<ADORecordset>& rs, ZRCola
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Dst_En"), &f)));
         wxCHECK(GetValue(f, ts.dst), false);
+    }
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::SelectTranlationSeqs(com_obj<ADORecordset> &rs) const
+{
+    // Create a new recordset.
+    rs.free();
+    wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
+
+    // Open it.
+    if (FAILED(rs->Open(variant(
+        L"SELECT DISTINCT [ID], [Descr], [Rank] "
+        L"FROM [VRS_Script2Seq] "
+        L"ORDER BY [Rank], [Descr]"), variant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
+    {
+        _ftprintf(stderr, wxT("%s: error ZCC0060: Error loading translation sequences from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
+        LogErrors();
+        return false;
+    }
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::GetTranslationSeq(const com_obj<ADORecordset>& rs, ZRCola::DBSource::transeq& ts) const
+{
+    wxASSERT_MSG(rs, wxT("recordset is empty"));
+
+    com_obj<ADOFields> flds;
+    wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
+
+    {
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"ID"), &f)));
+        wxCHECK(GetValue(f, ts.seq), false);
+    }
+
+    {
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Rank"), &f)));
+        wxCHECK(GetValue(f, ts.rank), false);
+    }
+
+    {
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Descr"), &f)));
+        wxCHECK(GetValue(f, ts.name), false);
+    }
+
+    // Read translation sequence sets from database.
+    wxVERIFY(SUCCEEDED(m_pTranslationSets1->put_Value(variant(ts.seq))));
+    com_obj<ADORecordset> rs_chars;
+    wxVERIFY(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs_chars)));
+    wxVERIFY(SUCCEEDED(rs_chars->put_CursorLocation(adUseClient)));
+    wxVERIFY(SUCCEEDED(rs_chars->put_CursorType(adOpenForwardOnly)));
+    wxVERIFY(SUCCEEDED(rs_chars->put_LockType(adLockReadOnly)));
+    if (FAILED(rs_chars->Open(variant(m_comTranslationSets), variant(DISP_E_PARAMNOTFOUND, VT_ERROR)))) {
+        _ftprintf(stderr, wxT("%s: error ZCC0140: Error loading character group characters from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
+        LogErrors();
+        return false;
+    }
+
+    {
+        ts.sets.clear();
+        com_obj<ADOFields> flds;
+        wxVERIFY(SUCCEEDED(rs_chars->get_Fields(&flds)));
+        com_obj<ADOField> f_set;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Script"), &f_set)));
+        size_t n = 0;
+        for (VARIANT_BOOL eof = VARIANT_TRUE; SUCCEEDED(rs_chars->get_EOF(&eof)) && !eof; rs_chars->MoveNext(), n++) {
+            int set;
+            wxCHECK(GetValue(f_set, set), false);
+            ts.sets.push_back(set);
+        }
     }
 
     return true;

@@ -34,6 +34,9 @@ msgstr ""
 msgid "CAPITAL Case"
 msgstr ""
 
+msgid "CAPITAL Case » small Case"
+msgstr ""
+
 msgid "Combine"
 msgstr ""
 
@@ -119,6 +122,9 @@ msgid "Greek"
 msgstr ""
 
 msgid "Greek (Modern)"
+msgstr ""
+
+msgid "Greek (Modern) » Greek (Old)"
 msgstr ""
 
 msgid "Greek (Old)"
@@ -239,6 +245,30 @@ msgid "Latin ALE"
 msgstr ""
 
 msgid "Latin BdC"
+msgstr ""
+
+msgid "Latin » Cyrillic (Belarusian)"
+msgstr ""
+
+msgid "Latin » Cyrillic (Bulgarian)"
+msgstr ""
+
+msgid "Latin » Cyrillic (Macedonian)"
+msgstr ""
+
+msgid "Latin » Cyrillic (Russian)"
+msgstr ""
+
+msgid "Latin » Cyrillic (Serbian)"
+msgstr ""
+
+msgid "Latin » Cyrillic (Ukrainian)"
+msgstr ""
+
+msgid "Latin » Greek (modern)"
+msgstr ""
+
+msgid "Latin » Greek (old)"
 msgstr ""
 
 msgid "Latvian"
@@ -614,6 +644,9 @@ msgid "Ukrainian"
 msgstr ""
 
 msgid "Units"
+msgstr ""
+
+msgid "ZRCola (De)composition"
 msgstr ""
 
 msgid "ZRCola Composed"

@@ -138,6 +138,18 @@ namespace ZRCola {
 
 
         ///
+        /// Translation sequence
+        ///
+        class transeq {
+        public:
+            int seq;                ///< ID
+            int rank;               ///< Rank
+            std::wstring name;      ///< Name
+            std::vector<int> sets;  ///< Sets
+        };
+
+
+        ///
         /// Normalization permutation set
         ///
         typedef std::set<std::vector<size_t> > normperm;
@@ -639,6 +651,29 @@ namespace ZRCola {
         bool GetTranslationSet(const winstd::com_obj<ADORecordset>& rs, transet& ts) const;
 
         ///
+        /// Returns translation sequences
+        ///
+        /// \param[out] rs  Recordset with results
+        ///
+        /// \returns
+        /// - true when query succeeds
+        /// - false otherwise
+        ///
+        bool SelectTranlationSeqs(winstd::com_obj<ADORecordset>& rs) const;
+
+        ///
+        /// Returns translation sequence data
+        ///
+        /// \param[in]  rs    Recordset with results
+        /// \param[out] lang  Language
+        ///
+        /// \returns
+        /// - true when succeeded
+        /// - false otherwise
+        ///
+        bool GetTranslationSeq(const winstd::com_obj<ADORecordset>& rs, transeq& ts) const;
+
+        ///
         /// Returns key sequences
         ///
         /// \param[out] rs  Recordset with results
@@ -833,6 +868,9 @@ namespace ZRCola {
         winstd::com_obj<ADOCommand> m_comTranslation;       ///< ADO Command for SelectTranslations subquery
         winstd::com_obj<ADOParameter> m_pTranslation1;      ///< \c m_comTranslations parameter
 
+        winstd::com_obj<ADOCommand> m_comTranslationSets;   ///< ADO Command for GetTranslationSeq subquery
+        winstd::com_obj<ADOParameter> m_pTranslationSets1;  ///< \c m_comTranslationSets parameter
+
         std::set<std::wstring> m_terms_ignore;  ///< Terms to ignore when comparing characters
     };
 };
@@ -841,7 +879,7 @@ namespace ZRCola {
 inline ZRCola::translation_db& operator<<(_Inout_ ZRCola::translation_db &db, _In_ const ZRCola::DBSource::translation &rec)
 {
     unsigned __int32 idx = db.data.size();
-    wxASSERT_MSG((int)0xffff8000 <= rec.set && rec.set <= (int)0x00007fff, wxT("translation set index out of bounds"));
+    wxASSERT_MSG((int)0xffff8000 <= rec.set && rec.set <= (int)0x00007fff, wxT("translation set id out of bounds"));
     db.data.push_back((unsigned __int16)rec.set);
     wxASSERT_MSG((int)0xffff8000 <= rec.dst.rank && rec.dst.rank <= (int)0x00007fff, wxT("destination character rank out of bounds"));
     db.data.push_back((unsigned __int16)rec.dst.rank);
@@ -865,7 +903,7 @@ inline ZRCola::translation_db& operator<<(_Inout_ ZRCola::translation_db &db, _I
 inline ZRCola::transet_db& operator<<(_Inout_ ZRCola::transet_db &db, _In_ const ZRCola::DBSource::transet &rec)
 {
     unsigned __int32 idx = db.data.size();
-    wxASSERT_MSG((int)0xffff8000 <= rec.set && rec.set <= (int)0x00007fff, wxT("translation set index out of bounds"));
+    wxASSERT_MSG((int)0xffff8000 <= rec.set && rec.set <= (int)0x00007fff, wxT("translation set id out of bounds"));
     db.data.push_back((unsigned __int16)rec.set);
     std::wstring::size_type n = rec.src.length();
     wxASSERT_MSG(n <= 0xffff, wxT("translation set source name overflow"));
@@ -876,6 +914,28 @@ inline ZRCola::transet_db& operator<<(_Inout_ ZRCola::transet_db &db, _In_ const
     db.data.insert(db.data.end(), rec.src.cbegin(), rec.src.cend());
     db.data.insert(db.data.end(), rec.dst.cbegin(), rec.dst.cend());
     db.idxTranSet.push_back(idx);
+
+    return db;
+}
+
+
+inline ZRCola::transeq_db& operator<<(_Inout_ ZRCola::transeq_db &db, _In_ const ZRCola::DBSource::transeq &rec)
+{
+    unsigned __int32 idx = db.data.size();
+    wxASSERT_MSG((int)0xffff8000 <= rec.seq && rec.seq <= (int)0x00007fff, wxT("translation sequence id out of bounds"));
+    db.data.push_back((unsigned __int16)rec.seq);
+    wxASSERT_MSG((int)0xffff8000 <= rec.rank && rec.rank <= (int)0x00007fff, wxT("translation rank id out of bounds"));
+    db.data.push_back((unsigned __int16)rec.rank);
+    std::wstring::size_type n = rec.name.length();
+    wxASSERT_MSG(n <= 0xffff, wxT("translation sequence name overflow"));
+    db.data.push_back((unsigned __int16)n);
+    n += rec.sets.size();
+    wxASSERT_MSG(n <= 0xffff, wxT("translation sequence sets overflow"));
+    db.data.push_back((unsigned __int16)n);
+    db.data.insert(db.data.end(), rec.name.cbegin(), rec.name.cend());
+    db.data.insert(db.data.end(), rec.sets.cbegin(), rec.sets.cend());
+    db.idxTranSeq.push_back(idx);
+    db.idxRank   .push_back(idx);
 
     return db;
 }

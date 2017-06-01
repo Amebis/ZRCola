@@ -421,8 +421,8 @@ int _tmain(int argc, _TCHAR *argv[])
                 ZRCola::transet_db db;
 
                 // Preallocate memory.
-                db.idxTranSet.reserve(count);
-                db.data      .reserve(count*4);
+                db.idxTranSet.reserve((count+1));
+                db.data      .reserve((count+1)*4);
 
                 // Add (de)composing translation set to index and data.
                 ts.set = 0;
@@ -495,6 +495,58 @@ int _tmain(int argc, _TCHAR *argv[])
 
     // Write translations to file.
     dst << ZRCola::translation_rec(db_trans);
+
+    {
+        // Get translation sequences.
+        com_obj<ADORecordset> rs;
+        if (src.SelectTranlationSeqs(rs)) {
+            size_t count = src.GetRecordsetCount(rs);
+            if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
+                ZRCola::DBSource::transeq ts;
+                ZRCola::transeq_db db;
+
+                // Preallocate memory.
+                db.idxTranSeq.reserve((count+1));
+                db.idxRank   .reserve((count+1));
+                db.data      .reserve((count+1)*4);
+
+                // Add basic ZRCola translation sequence to index and data.
+                ts.seq  = 0;
+                ts.rank = 0;
+                ts.name = L"ZRCola (De)composition";
+                ts.sets.push_back(0);
+                db << ts;
+                if (build_pot)
+                    pot.insert(ts.name);
+
+                // Parse translation sequences and build index and data.
+                for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
+                    // Read translation sequence from the database.
+                    if (src.GetTranslationSeq(rs, ts)) {
+                        if (build_pot)
+                            pot.insert(ts.name);
+
+                        // Add translation sequence to index and data.
+                        db << ts;
+                    } else
+                        has_errors = true;
+                }
+
+                // Sort indices.
+                db.idxTranSeq.sort();
+                db.idxRank   .sort();
+
+                // Write translation sequences to file.
+                dst << ZRCola::transeq_rec(db);
+            } else {
+                _ftprintf(stderr, wxT("%s: error ZCC0025: Error getting translation sequence count from database or too many translation sequences.\n"), (LPCTSTR)filenameIn.c_str());
+                has_errors = true;
+            }
+        } else {
+            _ftprintf(stderr, wxT("%s: error ZCC0024: Error getting translation sequences from database. Please make sure the file is ZRCola.zrc compatible.\n"), (LPCTSTR)filenameIn.c_str());
+            has_errors = true;
+        }
+    }
 
     {
         // Get key sequences.

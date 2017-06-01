@@ -33,12 +33,22 @@
 #pragma warning(disable: 4251)
 #pragma warning(disable: 4512)
 
+///
+/// Custom translation sequence ID
+///
+#define ZRCOLA_TRANSEQID_CUSTOM ((ZRCola::transeqid_t)-1)
+
 
 namespace ZRCola {
     ///
     /// Translation set ID
     ///
     typedef unsigned __int16 transetid_t;
+
+    ///
+    /// Translation sequence ID
+    ///
+    typedef unsigned __int16 transeqid_t;
 
     ///
     /// Translation database
@@ -425,11 +435,193 @@ namespace ZRCola {
 
 
     typedef ZRCOLA_API stdex::idrec::record<transet_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> transet_rec;
+
+
+    ///
+    /// Translation sequence database
+    ///
+    class ZRCOLA_API transeq_db {
+    public:
+#pragma pack(push)
+#pragma pack(2)
+        ///
+        /// Translation sequence data
+        ///
+        struct transeq {
+        public:
+            transeqid_t seq;            ///< Translation sequence ID
+            unsigned __int16 rank;      ///< Translation sequence rank
+
+        protected:
+            unsigned __int16 name_to;   ///< Translation sequence name end in \c data
+            unsigned __int16 sets_to;   ///< Translation sequence sets end in \c data
+            wchar_t data[];             ///< Translation sequence name and sets
+
+        private:
+            inline transeq(_In_ const transeq &other);
+            inline transeq& operator=(_In_ const transeq &other);
+
+        public:
+            ///
+            /// Constructs the translation sequence
+            ///
+            /// \param[in] seq       Translation sequence ID
+            /// \param[in] rank      Translation sequence rank
+            /// \param[in] name      Translation sequence source
+            /// \param[in] name_len  Number of UTF-16 characters in \p src
+            /// \param[in] sets       Translation sequence destination
+            /// \param[in] sets_len   Number of UTF-16 characters in \p sets
+            ///
+            inline transeq(
+                _In_opt_                         transeqid_t       seq      = 0,
+                _In_opt_                         unsigned __int16  rank     = 0,
+                _In_opt_z_count_(name_len) const wchar_t          *name     = NULL,
+                _In_opt_                         size_t            name_len = 0,
+                _In_opt_count_  (sets_len) const transetid_t      *sets      = NULL,
+                _In_opt_                         size_t            sets_len  = 0)
+            {
+                this->seq  = seq;
+                this->rank = rank;
+                this->name_to = static_cast<unsigned __int16>(name_len);
+                if (name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
+                this->sets_to = static_cast<unsigned __int16>(this->name_to + sets_len);
+                if (sets_len) memcpy(this->data + this->name_to, sets, sizeof(transetid_t)*sets_len);
+            }
+
+            inline const wchar_t*         name    () const { return data;           };
+            inline       wchar_t*         name    ()       { return data;           };
+            inline const wchar_t*         name_end() const { return data + name_to; };
+            inline       wchar_t*         name_end()       { return data + name_to; };
+            inline       unsigned __int16 name_len() const { return name_to;        };
+
+            inline const transeqid_t*     sets    () const { return reinterpret_cast<const transeqid_t*>(data + name_to); };
+            inline       transeqid_t*     sets    ()       { return reinterpret_cast<      transeqid_t*>(data + name_to); };
+            inline const transeqid_t*     sets_end() const { return reinterpret_cast<const transeqid_t*>(data + sets_to); };
+            inline       transeqid_t*     sets_end()       { return reinterpret_cast<      transeqid_t*>(data + sets_to); };
+            inline       unsigned __int16 sets_len() const { return sets_to - name_to; };
+        };
+#pragma pack(pop)
+
+        ///
+        /// Translation sequence index
+        ///
+        class indexTranSeq : public index<unsigned __int16, unsigned __int32, transeq>
+        {
+        public:
+            ///
+            /// Constructs the index
+            ///
+            /// \param[in] h  Reference to vector holding the data
+            ///
+            indexTranSeq(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, transeq>(h) {}
+
+            ///
+            /// Compares two translation sequences by ID (for searching)
+            ///
+            /// \param[in] a  Pointer to first element
+            /// \param[in] b  Pointer to second element
+            ///
+            /// \returns
+            /// - <0 when a <  b
+            /// - =0 when a == b
+            /// - >0 when a >  b
+            ///
+            virtual int compare(_In_ const transeq &a, _In_ const transeq &b) const
+            {
+                     if (a.seq < b.seq) return -1;
+                else if (a.seq > b.seq) return  1;
+
+                return 0;
+            }
+        } idxTranSeq;   ///< Translation sequence index
+
+        ///
+        /// Rank index
+        ///
+        class indexRank : public index<unsigned __int16, unsigned __int32, transeq>
+        {
+        public:
+            ///
+            /// Constructs the index
+            ///
+            /// \param[in] h  Reference to vector holding the data
+            ///
+            indexRank(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, transeq>(h) {}
+
+            ///
+            /// Compares two translation sets by rank (for searching)
+            ///
+            /// \param[in] a  Pointer to first element
+            /// \param[in] b  Pointer to second element
+            ///
+            /// \returns
+            /// - <0 when a <  b
+            /// - =0 when a == b
+            /// - >0 when a >  b
+            ///
+            virtual int compare(_In_ const transeq &a, _In_ const transeq &b) const
+            {
+                     if (a.rank < b.rank) return -1;
+                else if (a.rank > b.rank) return +1;
+
+                return 0;
+            }
+
+            ///
+            /// Compares two translation sets by rank (for sorting)
+            ///
+            /// \param[in] a  Pointer to first element
+            /// \param[in] b  Pointer to second element
+            ///
+            /// \returns
+            /// - <0 when a <  b
+            /// - =0 when a == b
+            /// - >0 when a >  b
+            ///
+            virtual int compare_sort(_In_ const transeq &a, _In_ const transeq &b) const
+            {
+                     if (a.rank < b.rank) return -1;
+                else if (a.rank > b.rank) return +1;
+
+                unsigned __int16
+                    a_name_len = a.name_len(),
+                    b_name_len = b.name_len();
+                int r = _wcsncoll(a.name(), b.name(), std::min<unsigned __int16>(a_name_len, b_name_len));
+                if (r != 0) return r;
+                     if (a_name_len < b_name_len) return -1;
+                else if (a_name_len > b_name_len) return +1;
+
+                return 0;
+            }
+        } idxRank;  ///< Rank index
+
+        std::vector<unsigned __int16> data;     ///< Translation sequence data
+
+    public:
+        ///
+        /// Constructs the database
+        ///
+        inline transeq_db() : idxTranSeq(data), idxRank(data) {}
+
+        ///
+        /// Clears the database
+        ///
+        inline void clear()
+        {
+            idxTranSeq.clear();
+            idxRank   .clear();
+            data      .clear();
+        }
+    };
+
+
+    typedef ZRCOLA_API stdex::idrec::record<transeq_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> transeq_rec;
 };
 
 
 const ZRCola::recordid_t ZRCola::translation_rec::id = *(ZRCola::recordid_t*)"TRN";
 const ZRCola::recordid_t ZRCola::transet_rec    ::id = *(ZRCola::recordid_t*)"TSE";
+const ZRCola::recordid_t ZRCola::transeq_rec    ::id = *(ZRCola::recordid_t*)"TSQ";
 
 
 ///
@@ -552,6 +744,79 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::transe
 {
     // Read translation set index.
     stream >> db.idxTranSet;
+    if (!stream.good()) return stream;
+
+    // Read data count.
+    unsigned __int32 count;
+    stream.read((char*)&count, sizeof(count));
+    if (!stream.good()) return stream;
+
+    if (count) {
+        // Read data.
+        db.data.resize(count);
+        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*count);
+    } else
+        db.data.clear();
+
+    return stream;
+}
+
+
+///
+/// Writes translation sequence database to a stream
+///
+/// \param[in] stream  Output stream
+/// \param[in] db      Translation sequence database
+///
+/// \returns The stream \p stream
+///
+inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::transeq_db &db)
+{
+    // Write translation sequence index.
+    if (stream.fail()) return stream;
+    stream << db.idxTranSeq;
+
+    // Write rank index.
+    if (stream.fail()) return stream;
+    stream << db.idxRank;
+
+    // Write data count.
+    auto data_count = db.data.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+    // 4G check
+    if (data_count > 0xffffffff) {
+        stream.setstate(std::ios_base::failbit);
+        return stream;
+    }
+#endif
+    if (stream.fail()) return stream;
+    unsigned __int32 count = (unsigned __int32)data_count;
+    stream.write((const char*)&count, sizeof(count));
+
+    // Write data.
+    if (stream.fail()) return stream;
+    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
+
+    return stream;
+}
+
+
+///
+/// Reads translation sequence database from a stream
+///
+/// \param[in ] stream  Input stream
+/// \param[out] db      Translation sequence database
+///
+/// \returns The stream \p stream
+///
+inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::transeq_db &db)
+{
+    // Read translation sequence index.
+    stream >> db.idxTranSeq;
+    if (!stream.good()) return stream;
+
+    // Read rank index.
+    stream >> db.idxRank;
     if (!stream.good()) return stream;
 
     // Read data count.
