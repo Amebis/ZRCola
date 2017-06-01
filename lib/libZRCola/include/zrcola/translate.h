@@ -494,10 +494,10 @@ namespace ZRCola {
             inline       wchar_t*         name_end()       { return data + name_to; };
             inline       unsigned __int16 name_len() const { return name_to;        };
 
-            inline const transeqid_t*     sets    () const { return reinterpret_cast<const transeqid_t*>(data + name_to); };
-            inline       transeqid_t*     sets    ()       { return reinterpret_cast<      transeqid_t*>(data + name_to); };
-            inline const transeqid_t*     sets_end() const { return reinterpret_cast<const transeqid_t*>(data + sets_to); };
-            inline       transeqid_t*     sets_end()       { return reinterpret_cast<      transeqid_t*>(data + sets_to); };
+            inline const transetid_t*     sets    () const { return reinterpret_cast<const transetid_t*>(data + name_to); };
+            inline       transetid_t*     sets    ()       { return reinterpret_cast<      transetid_t*>(data + name_to); };
+            inline const transetid_t*     sets_end() const { return reinterpret_cast<const transetid_t*>(data + sets_to); };
+            inline       transetid_t*     sets_end()       { return reinterpret_cast<      transetid_t*>(data + sets_to); };
             inline       unsigned __int16 sets_len() const { return sets_to - name_to; };
         };
 #pragma pack(pop)
