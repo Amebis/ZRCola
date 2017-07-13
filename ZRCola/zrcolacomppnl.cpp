@@ -141,8 +141,8 @@ void wxZRColaComposerPanel::SynchronizePanels()
         GetTranslationSeq(sets_begin, sets_end);
 
         m_mapping.clear();
-        for (auto s = sets_end; s != sets_begin; s--) {
-            if (*s) {
+        for (auto s = sets_end; (s--) != sets_begin;) {
+            if (*s == 0) {
                 // ZRCola Decomposed => ZRCola Composed
                 app->m_t_db.TranslateInv(*s, dst.data(), dst.size(), &app->m_lc_db, app->m_mainWnd->m_settings->m_lang, dst2, &map);
             } else {

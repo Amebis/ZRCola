@@ -125,7 +125,7 @@ void ZRCola::translation_db::TranslateInv(_In_ transetid_t set, _In_z_count_(inp
     for (size_t i = 0; i < inputMax;) {
         // Find the longest matching inverse translation at i-th character.
         size_t l_match = (size_t)-1;
-        for (size_t l = 0, r = r_set, ii = i, j = 0; ii < inputMax && l < r; ii++, j++) {
+        for (size_t l = l_set, r = r_set, ii = i, j = 0; ii < inputMax && l < r; ii++, j++) {
             wchar_t c = input[ii];
             while (l < r) {
                 // Test the inverse translation in the middle of the search area.
