@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.2\n"
+"X-Generator: Poedit 2.0\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
@@ -17,10 +17,10 @@ msgid "Albanian"
 msgstr "албанский"
 
 msgid "Apostrophes 1"
-msgstr ""
+msgstr "апострофы 1"
 
 msgid "Apostrophes 2"
-msgstr ""
+msgstr "апострофы 2"
 
 msgid "Arabic"
 msgstr "Арабские знаки"
@@ -38,10 +38,10 @@ msgid "Bosnian – Latinic"
 msgstr "боснийский – латиница"
 
 msgid "CAPITAL Case"
-msgstr ""
+msgstr "ПРОПИСНИЕ буквы"
 
 msgid "CAPITAL Case » small Case"
-msgstr ""
+msgstr "ПРОПИСНИЕ буквы » строчние буквы"
 
 msgid "Combine"
 msgstr "Средние замещающие знаки"
@@ -67,32 +67,26 @@ msgstr "Валюты"
 msgid "Cyrillic"
 msgstr "Кириллические знаки"
 
-#, fuzzy
 msgid "Cyrillic (Belarusian)"
-msgstr "белорусский"
+msgstr "кириллица (белорусский)"
 
 msgid "Cyrillic (Bulgarian)"
-msgstr ""
+msgstr "кириллица (болгарский)"
 
-#, fuzzy
 msgid "Cyrillic (Macedonian)"
-msgstr "македонский"
+msgstr "кириллица (македонский)"
 
-#, fuzzy
 msgid "Cyrillic (Russian)"
-msgstr "Кириллические знаки"
+msgstr "кириллица (русский)"
 
-#, fuzzy
 msgid "Cyrillic (Serbian)"
-msgstr "Кириллические знаки"
+msgstr "кириллица (сербский)"
 
-#, fuzzy
 msgid "Cyrillic (Ukrainian)"
-msgstr "украинский"
+msgstr "кириллица (украинский)"
 
-#, fuzzy
 msgid "Cyrillic BdC"
-msgstr "Кириллические знаки"
+msgstr "кириллица (BdC)"
 
 msgid "Czech"
 msgstr "чешский"
@@ -134,14 +128,13 @@ msgid "Greek"
 msgstr "Греческие знаки"
 
 msgid "Greek (Modern)"
-msgstr ""
+msgstr "греческий алфавит (новогреческий)"
 
 msgid "Greek (Modern) » Greek (Old)"
-msgstr ""
+msgstr "греческий алфавит (новогреческий) » греческий алфавит (древнегреческий)"
 
-#, fuzzy
 msgid "Greek (Old)"
-msgstr "Греческие знаки"
+msgstr "греческий алфавит (древнегреческий)"
 
 msgid "Hebrew"
 msgstr "Еврейские знаки"
@@ -254,44 +247,35 @@ msgstr "кашубский"
 msgid "Latin"
 msgstr "латинский"
 
-#, fuzzy
 msgid "Latin ALE"
-msgstr "латинский"
+msgstr "латиница (ALE)"
 
-#, fuzzy
 msgid "Latin BdC"
-msgstr "латинский"
+msgstr "латиница (BdC)"
 
-#, fuzzy
 msgid "Latin » Cyrillic (Belarusian)"
-msgstr "белорусский"
+msgstr "латиница » кириллица (белорусский)"
 
-#, fuzzy
 msgid "Latin » Cyrillic (Bulgarian)"
-msgstr "белорусский"
+msgstr "латиница » кириллица (болгарский)"
 
-#, fuzzy
 msgid "Latin » Cyrillic (Macedonian)"
-msgstr "македонский"
+msgstr "латиница » кириллица (македонский)"
 
-#, fuzzy
 msgid "Latin » Cyrillic (Russian)"
-msgstr "Кириллические знаки"
+msgstr "латиница » кириллица (русский)"
 
-#, fuzzy
 msgid "Latin » Cyrillic (Serbian)"
-msgstr "Кириллические знаки"
+msgstr "латиница » кириллица (сербский)"
 
-#, fuzzy
 msgid "Latin » Cyrillic (Ukrainian)"
-msgstr "украинский"
+msgstr "латиница » кириллица (украинский)"
 
 msgid "Latin » Greek (modern)"
-msgstr ""
+msgstr "латиница » греческий алфавит (новогреческий)"
 
-#, fuzzy
 msgid "Latin » Greek (old)"
-msgstr "Греческие знаки"
+msgstr "латиница » греческий алфавит (древнегреческий)"
 
 msgid "Latvian"
 msgstr "латышский"
@@ -558,10 +542,10 @@ msgid "Serbian – Latinic"
 msgstr "сербский – латиница"
 
 msgid "Sigma Final"
-msgstr ""
+msgstr "сигма (финальная)"
 
 msgid "Sigma Nav"
-msgstr ""
+msgstr "сигма (обычная)"
 
 msgid "Slovak"
 msgstr "словацкий"
@@ -652,7 +636,7 @@ msgid "Technical Characters"
 msgstr "Технические символы"
 
 msgid "Title Case"
-msgstr ""
+msgstr "Начальние буквы"
 
 msgid "Transliterated"
 msgstr "Транслитерированные знаки"
@@ -670,22 +654,22 @@ msgid "Units"
 msgstr "Единицы"
 
 msgid "ZRCola (De)composition"
-msgstr ""
+msgstr "ZRCola составление/разборка"
 
 msgid "ZRCola Composed"
-msgstr ""
+msgstr "ZRCola составленное"
 
 msgid "ZRCola Decomposed"
-msgstr ""
+msgstr "ZRCola разобранное"
 
 msgid "l+j l|j"
-msgstr ""
+msgstr "l+j l|j"
 
 msgid "no + |"
-msgstr ""
+msgstr "без + |"
 
 msgid "small Case"
-msgstr ""
+msgstr "строчние буквы"
 
 #, fuzzy
 #~ msgid "Modified Greek"

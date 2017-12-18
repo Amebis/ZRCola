@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.2\n"
+"X-Generator: Poedit 2.0\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
@@ -86,7 +86,7 @@ msgid "Cyrillic (Ukrainian)"
 msgstr "cirilica (ukrajinščina)"
 
 msgid "Cyrillic BdC"
-msgstr "cirilica BdC"
+msgstr "cirilica (BdC)"
 
 msgid "Czech"
 msgstr "češčina"
@@ -128,13 +128,13 @@ msgid "Greek"
 msgstr "Grški znaki"
 
 msgid "Greek (Modern)"
-msgstr "grščina (sodobna)"
+msgstr "grški alfabet (nova grščina)"
 
 msgid "Greek (Modern) » Greek (Old)"
-msgstr "grščina (sodobna) » grščina (stara)"
+msgstr "grški alfabet (nova grščina) » grški alfabet (stara grščina)"
 
 msgid "Greek (Old)"
-msgstr "grščina (stara)"
+msgstr "grški alfabet (stara grščina)"
 
 msgid "Hebrew"
 msgstr "Hebrejski znaki"
@@ -248,10 +248,10 @@ msgid "Latin"
 msgstr "latinščina"
 
 msgid "Latin ALE"
-msgstr "latinščina ALE"
+msgstr "latinščina (ALE)"
 
 msgid "Latin BdC"
-msgstr "latinščina BdC"
+msgstr "latinščina (BdC)"
 
 msgid "Latin » Cyrillic (Belarusian)"
 msgstr "latinica » cirilica (beloruščina)"
@@ -272,10 +272,10 @@ msgid "Latin » Cyrillic (Ukrainian)"
 msgstr "latinica » cirilica (ukrajinščina)"
 
 msgid "Latin » Greek (modern)"
-msgstr "latinica » grščina (sodobna)"
+msgstr "latinica » grški alfabet (nova grščina)"
 
 msgid "Latin » Greek (old)"
-msgstr "latinica » grščina (stara)"
+msgstr "latinica » grški alfabet (stara grščina)"
 
 msgid "Latvian"
 msgstr "letonščina"
@@ -542,10 +542,10 @@ msgid "Serbian – Latinic"
 msgstr "srbščina – latinica"
 
 msgid "Sigma Final"
-msgstr "Sigma končni"
+msgstr "sigma (končna)"
 
 msgid "Sigma Nav"
-msgstr "Sigma nav"
+msgstr "sigma (navadna)"
 
 msgid "Slovak"
 msgstr "slovaščina"
