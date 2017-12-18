@@ -202,7 +202,7 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_toolSendSource = m_toolbarTranslate->AddTool( wxID_SEND_SOURCE, _("Send Decomposed"), wxIcon( wxT("send_source.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Decomposed"), _("Send decomposed text to source window"), NULL ); 
 	
 	wxArrayString m_toolTranslationSeqChoices;
-	m_toolTranslationSeq = new wxChoice( m_toolbarTranslate, wxID_ANY, wxDefaultPosition, wxSize( 170,-1 ), m_toolTranslationSeqChoices, 0 );
+	m_toolTranslationSeq = new wxChoice( m_toolbarTranslate, wxID_ANY, wxDefaultPosition, wxSize( 250,-1 ), m_toolTranslationSeqChoices, 0 );
 	m_toolTranslationSeq->SetSelection( 0 );
 	m_toolbarTranslate->AddControl( m_toolTranslationSeq );
 	m_toolbarTranslate->Realize();
