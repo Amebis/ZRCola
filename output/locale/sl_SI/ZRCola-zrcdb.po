@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0\n"
+"X-Generator: Poedit 2.0.4\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
@@ -70,23 +70,62 @@ msgstr "Cirilski znaki"
 msgid "Cyrillic (Belarusian)"
 msgstr "cirilica (beloruščina)"
 
+msgid "Cyrillic (Belarusian) » Latin (English)"
+msgstr "cirilica (beloruščina) » latinica (angleščina)"
+
+msgid "Cyrillic (Belarusian) » Latin (Slovenian)"
+msgstr "cirilica (beloruščina) » latinica (slovenščina)"
+
 msgid "Cyrillic (Bulgarian)"
 msgstr "cirilica (bolgarščina)"
+
+msgid "Cyrillic (Bulgarian) » Latin (English)"
+msgstr "cirilica (bolgarščina) » latinica (angleščina)"
+
+msgid "Cyrillic (Bulgarian) » Latin (Slovenian)"
+msgstr "cirilica (bolgarščina) » latinica (slovenščina)"
+
+msgid "Cyrillic (GOST2000)"
+msgstr "cirilica (GOST2000)"
 
 msgid "Cyrillic (Macedonian)"
 msgstr "cirilica (makedonščina)"
 
+msgid "Cyrillic (Macedonian) » Latin (English)"
+msgstr "cirilica (makedonščina) » latinica (angleščina)"
+
+msgid "Cyrillic (Macedonian) » Latin (Slovenian)"
+msgstr "cirilica (makedonščina) » latinica (slovenščina)"
+
 msgid "Cyrillic (Russian)"
 msgstr "cirilica (ruščina)"
+
+msgid "Cyrillic (Russian) » Latin (English)"
+msgstr "cirilica (ruščina) » latinica (angleščina)"
+
+msgid "Cyrillic (Russian) » Latin (Slovenian)"
+msgstr "cirilica (ruščina) » latinica (slovenščina)"
 
 msgid "Cyrillic (Serbian)"
 msgstr "cirilica (srbščina)"
 
+msgid "Cyrillic (Serbian) » Latin"
+msgstr "cirilica (srbščina) » latinica"
+
 msgid "Cyrillic (Ukrainian)"
 msgstr "cirilica (ukrajinščina)"
 
+msgid "Cyrillic (Ukrainian) » Latin (English)"
+msgstr "cirilica (ukrajinščina) » latinica (angleščina)"
+
+msgid "Cyrillic (Ukrainian) » Latin (Slovenian)"
+msgstr "cirilica (ukrajinščina) » latinica (slovenščina)"
+
 msgid "Cyrillic BdC"
 msgstr "cirilica (BdC)"
+
+msgid "Cyrillic » Latin (GOST2000)"
+msgstr "cirilica » latinica (GOST2000)"
 
 msgid "Czech"
 msgstr "češčina"
@@ -141,6 +180,9 @@ msgstr "Hebrejski znaki"
 
 msgid "Hungarian"
 msgstr "madžarščina"
+
+msgid "IPA"
+msgstr "IPA"
 
 msgid "Irish Gaelic"
 msgstr "irščina"
@@ -247,6 +289,15 @@ msgstr "kašubščina"
 msgid "Latin"
 msgstr "latinščina"
 
+msgid "Latin (English)"
+msgstr "latinica (angleščina)"
+
+msgid "Latin (GOST2000)"
+msgstr "latinica (GOST2000)"
+
+msgid "Latin (Slovenian)"
+msgstr "latinica (slovenščina)"
+
 msgid "Latin ALE"
 msgstr "latinščina (ALE)"
 
@@ -258,6 +309,9 @@ msgstr "latinica » cirilica (beloruščina)"
 
 msgid "Latin » Cyrillic (Bulgarian)"
 msgstr "latinica » cirilica (bolgarščina)"
+
+msgid "Latin » Cyrillic (GOST2000)"
+msgstr "latinica » cirilica (GOST2000)"
 
 msgid "Latin » Cyrillic (Macedonian)"
 msgstr "latinica » cirilica (makedonščina)"
@@ -519,6 +573,12 @@ msgstr "Ločilo, drugo"
 
 msgid "Quotes"
 msgstr "Narekovaji"
+
+msgid "Rigler transcription"
+msgstr "Riglerjeva transkripcija"
+
+msgid "Rigler transcription » IPA"
+msgstr "Riglerjeva transkripcija » IPA"
 
 msgid "Romanian"
 msgstr "romunščina"
