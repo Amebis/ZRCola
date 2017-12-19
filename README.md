@@ -39,6 +39,9 @@ Use Microsoft NMAKE to build the project. The resulting files can be found in ou
 
 The `/ls` flag can be appended to the commands above to reduce NMAKE's verbosity. You can combine multiple targets (i.e. nmake Unregister Clean). Please, see NMAKE reference for further reading.
 
+## Translating ZRCola
+Instructions how to translate ZRCola to your language can be found [here](LOCALIZATION.md).
+
 ## Contact Information
 Please contact the following addressee for further information and help:
 - ZRC SAZU, ZRCola@zrc-sazu.si 
