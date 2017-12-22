@@ -16,6 +16,7 @@ https://www.amebis.si/prenos/ZRCola/
 - _sed.exe_ and _grep.exe_
 - Command line utilities from Microsoft Windows SDK Bin folder: distributed with Visual Studio, add Bin folder to path manually.
 - Additional command line utilities from project's bin folder: add bin folder to path. The source code is provided on request.
+- wxWidgets 3.0 - set `WXWIN` environment variable to the folder where wxWidgets include and lib files are located. Official binary builds are required.
 
 ### Digital Signing of Build Outputs
 In order to have the build process digitally sign output files, one should provide the following:
@@ -37,6 +38,9 @@ Use Microsoft NMAKE to build the project. The resulting files can be found in ou
 - `nmake Unregister`	Remove Start Menu shortcuts, and fonts. For development purposes only!
 
 The `/ls` flag can be appended to the commands above to reduce NMAKE's verbosity. You can combine multiple targets (i.e. nmake Unregister Clean). Please, see NMAKE reference for further reading.
+
+## Translating ZRCola
+Instructions how to translate ZRCola to your language can be found [here](LOCALIZATION.md).
 
 ## Contact Information
 Please contact the following addressee for further information and help:
