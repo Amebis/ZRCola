@@ -24,10 +24,13 @@ PUBLISH_DIR=\\amebis.doma\Splet\WWW\Apache\www.amebis.si-prenos\ZRCola
 PLAT=x64
 REG_FLAGS=/f /reg:64
 REG_FLAGS32=/f /reg:32
+PROGRAM_FILES_32=C:\Program Files (x86)
 !ELSE
 PLAT=Win32
 REG_FLAGS=/f
+PROGRAM_FILES_32=C:\Program Files
 !ENDIF
+DEVENV10=$(PROGRAM_FILES_32)\Microsoft Visual Studio 10.0\Common7\IDE\devenv.com
 
 
 All ::
@@ -36,20 +39,20 @@ Clean ::
 	cd "MSI\MSIBuild\Version"
 	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean
 	cd "$(MAKEDIR)"
-	devenv.com "ZRCola.sln"          /clean "Release|Win32"
-	devenv.com "ZRCola.sln"          /clean "Debug|Win32"
-	devenv.com "ZRCola.sln"          /clean "Release|x64"
-	devenv.com "ZRCola.sln"          /clean "Debug|x64"
-	devenv.com "ZRColaUtils.sln"     /clean "Release|Win32"
-	devenv.com "ZRColaUtils.sln"     /clean "Debug|Win32"
-	devenv.com "MSI\MSICA\MSICA.sln" /clean "Release|Win32"
-	devenv.com "MSI\MSICA\MSICA.sln" /clean "Debug|Win32"
-	devenv.com "MSI\MSICA\MSICA.sln" /clean "Release|x64"
-	devenv.com "MSI\MSICA\MSICA.sln" /clean "Debug|x64"
-	devenv.com "Updater\Updater.sln" /clean "Release|Win32"
-	devenv.com "Updater\Updater.sln" /clean "Debug|Win32"
-	devenv.com "Updater\Updater.sln" /clean "Release|x64"
-	devenv.com "Updater\Updater.sln" /clean "Debug|x64"
+	"$(DEVENV10)" "ZRCola.sln"          /clean "Release|Win32"
+	"$(DEVENV10)" "ZRCola.sln"          /clean "Debug|Win32"
+	"$(DEVENV10)" "ZRCola.sln"          /clean "Release|x64"
+	"$(DEVENV10)" "ZRCola.sln"          /clean "Debug|x64"
+	"$(DEVENV10)" "ZRColaUtils.sln"     /clean "Release|Win32"
+	"$(DEVENV10)" "ZRColaUtils.sln"     /clean "Debug|Win32"
+	"$(DEVENV10)" "MSI\MSICA\MSICA.sln" /clean "Release|Win32"
+	"$(DEVENV10)" "MSI\MSICA\MSICA.sln" /clean "Debug|Win32"
+	"$(DEVENV10)" "MSI\MSICA\MSICA.sln" /clean "Release|x64"
+	"$(DEVENV10)" "MSI\MSICA\MSICA.sln" /clean "Debug|x64"
+	"$(DEVENV10)" "Updater\Updater.sln" /clean "Release|Win32"
+	"$(DEVENV10)" "Updater\Updater.sln" /clean "Debug|Win32"
+	"$(DEVENV10)" "Updater\Updater.sln" /clean "Release|x64"
+	"$(DEVENV10)" "Updater\Updater.sln" /clean "Debug|x64"
 	-if exist "$(OUTPUT_DIR)\locale\de_DE\wxstd.mo"        del /f /q "$(OUTPUT_DIR)\locale\de_DE\wxstd.mo"
 	-if exist "$(OUTPUT_DIR)\locale\ru_RU\wxstd.mo"        del /f /q "$(OUTPUT_DIR)\locale\ru_RU\wxstd.mo"
 	-if exist "$(OUTPUT_DIR)\locale\sl_SI\wxstd.mo"        del /f /q "$(OUTPUT_DIR)\locale\sl_SI\wxstd.mo"
@@ -338,28 +341,28 @@ Localization :: \
 "$(OUTPUT_DIR)\Win32.Release\stdex10u_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Release\wxExtend10u_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Release\ZRCola.exe" ::
-	devenv.com "ZRCola.sln" /build "Release|Win32"
+	"$(DEVENV10)" "ZRCola.sln" /build "Release|Win32"
 
 "$(OUTPUT_DIR)\Win32.Debug\libZRCola10ud_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Debug\libZRColaUI10ud_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Debug\stdex10ud_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Debug\wxExtend10ud_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Debug\ZRCola.exe" ::
-	devenv.com "ZRCola.sln" /build "Debug|Win32"
+	"$(DEVENV10)" "ZRCola.sln" /build "Debug|Win32"
 
 "$(OUTPUT_DIR)\x64.Release\libZRCola10u_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Release\libZRColaUI10u_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Release\stdex10u_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Release\wxExtend10u_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Release\ZRCola.exe" ::
-	devenv.com "ZRCola.sln" /build "Release|x64"
+	"$(DEVENV10)" "ZRCola.sln" /build "Release|x64"
 
 "$(OUTPUT_DIR)\x64.Debug\libZRCola10ud_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Debug\libZRColaUI10ud_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Debug\stdex10ud_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Debug\wxExtend10ud_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Debug\ZRCola.exe" ::
-	devenv.com "ZRCola.sln" /build "Debug|x64"
+	"$(DEVENV10)" "ZRCola.sln" /build "Debug|x64"
 
 "$(OUTPUT_DIR)\ZRCola32.ddf" : \
 #	"$(OUTPUT_DIR)\ZRCola.de_DE.32.2.msi" \
