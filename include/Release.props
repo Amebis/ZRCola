@@ -41,13 +41,13 @@
   <ItemGroup />
   <Target Name="Sign" Condition="'$(ManifestCertificateThumbprint)' != '' and ('$(ConfigurationType)' == 'Application' or '$(ConfigurationType)' == 'DynamicLibrary')" AfterTargets="_Manifest" BeforeTargets="RegisterOutput" Inputs="$(OutDir)$(TargetName)$(TargetExt)" Outputs="$(IntDir)$(TargetName).sign">
     <Message Text="Signing output file..." />
-	<!--
-		To make Windows XP and Vista compliant signatures, the binaries have to be signed using SHA1.
-		<SignFile> switches to SHA256 if the signing certificate is SHA256.
-		Reverted to signtool.exe until we can drop Windows XP and Vista support.
-	-->
-	<!--<SignFile CertificateThumbprint="$(ManifestCertificateThumbprint)" TimestampUrl="$(ManifestTimestampUrl)" SigningTarget="$(OutDir)$(TargetName)$(TargetExt)" />-->
-	<Exec Command="signtool.exe sign /du &quot;http://www.amebis.si&quot; /sha1 &quot;%ManifestCertificateThumbprint%&quot; /fd sha1 /t &quot;%ManifestTimestampUrl%&quot; /q &quot;$(TargetPath)&quot;" />
+    <!--
+        To make Windows XP and Vista compliant signatures, the binaries have to be signed using SHA1.
+        <SignFile> switches to SHA256 if the signing certificate is SHA256.
+        Reverted to signtool.exe until we can drop Windows XP and Vista support.
+    -->
+    <!--<SignFile CertificateThumbprint="$(ManifestCertificateThumbprint)" TimestampUrl="$(ManifestTimestampUrl)" SigningTarget="$(OutDir)$(TargetName)$(TargetExt)" />-->
+    <Exec Command="signtool.exe sign /du &quot;https://www.amebis.si&quot; /sha1 &quot;%ManifestCertificateThumbprint%&quot; /fd sha1 /t &quot;%ManifestTimestampUrl%&quot; /q &quot;$(TargetPath)&quot;" />
     <Touch Files="$(IntDir)$(TargetName).sign" AlwaysCreate="true" />
   </Target>
 </Project>
