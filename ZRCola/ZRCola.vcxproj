@@ -118,7 +118,7 @@
     <ProjectReference Include="..\lib\WinStd\build\WinStd-10.0.vcxproj">
       <Project>{47399d91-7eb9-41de-b521-514ba5db0c43}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\lib\wxExtend\build\wxExtendDll.vcxproj">
+    <ProjectReference Include="..\lib\wxExtend\build\wxExtendDll-10.0.vcxproj">
       <Project>{a3a36689-ac35-4026-93da-a3ba0c0e767c}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Updater\Updater\build\Updater.vcxproj">
