@@ -59,6 +59,54 @@ Clean ::
 	-if exist "$(OUTPUT_DIR)\locale\de_DE\ZRCola-zrcdb.mo"            del /f /q "$(OUTPUT_DIR)\locale\de_DE\ZRCola-zrcdb.mo"
 	-if exist "$(OUTPUT_DIR)\locale\ru_RU\ZRCola-zrcdb.mo"            del /f /q "$(OUTPUT_DIR)\locale\ru_RU\ZRCola-zrcdb.mo"
 	-if exist "$(OUTPUT_DIR)\locale\sl_SI\ZRCola-zrcdb.mo"            del /f /q "$(OUTPUT_DIR)\locale\sl_SI\ZRCola-zrcdb.mo"
+	-if exist "$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_vc100.dll"        del /f /q "$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_vc100.dll"
+	-if exist "$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_vc100.pdb"        del /f /q "$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_vc100.pdb"
+	-if exist "$(OUTPUT_DIR)\Win32.Release\wxbase30u_vc100.dll"       del /f /q "$(OUTPUT_DIR)\Win32.Release\wxbase30u_vc100.dll"
+	-if exist "$(OUTPUT_DIR)\Win32.Release\wxbase30u_vc100.pdb"       del /f /q "$(OUTPUT_DIR)\Win32.Release\wxbase30u_vc100.pdb"
+	-if exist "$(OUTPUT_DIR)\x64.Debug\wxbase30ud_vc100_x64.dll"      del /f /q "$(OUTPUT_DIR)\x64.Debug\wxbase30ud_vc100_x64.dll"
+	-if exist "$(OUTPUT_DIR)\x64.Debug\wxbase30ud_vc100_x64.pdb"      del /f /q "$(OUTPUT_DIR)\x64.Debug\wxbase30ud_vc100_x64.pdb"
+	-if exist "$(OUTPUT_DIR)\x64.Release\wxbase30u_vc100_x64.dll"     del /f /q "$(OUTPUT_DIR)\x64.Release\wxbase30u_vc100_x64.dll"
+	-if exist "$(OUTPUT_DIR)\x64.Release\wxbase30u_vc100_x64.pdb"     del /f /q "$(OUTPUT_DIR)\x64.Release\wxbase30u_vc100_x64.pdb"
+	-if exist "$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_net_vc100.dll"    del /f /q "$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_net_vc100.dll"
+	-if exist "$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_net_vc100.pdb"    del /f /q "$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_net_vc100.pdb"
+	-if exist "$(OUTPUT_DIR)\Win32.Release\wxbase30u_net_vc100.dll"   del /f /q "$(OUTPUT_DIR)\Win32.Release\wxbase30u_net_vc100.dll"
+	-if exist "$(OUTPUT_DIR)\Win32.Release\wxbase30u_net_vc100.pdb"   del /f /q "$(OUTPUT_DIR)\Win32.Release\wxbase30u_net_vc100.pdb"
+	-if exist "$(OUTPUT_DIR)\x64.Debug\wxbase30ud_net_vc100_x64.dll"  del /f /q "$(OUTPUT_DIR)\x64.Debug\wxbase30ud_net_vc100_x64.dll"
+	-if exist "$(OUTPUT_DIR)\x64.Debug\wxbase30ud_net_vc100_x64.pdb"  del /f /q "$(OUTPUT_DIR)\x64.Debug\wxbase30ud_net_vc100_x64.pdb"
+	-if exist "$(OUTPUT_DIR)\x64.Release\wxbase30u_net_vc100_x64.dll" del /f /q "$(OUTPUT_DIR)\x64.Release\wxbase30u_net_vc100_x64.dll"
+	-if exist "$(OUTPUT_DIR)\x64.Release\wxbase30u_net_vc100_x64.pdb" del /f /q "$(OUTPUT_DIR)\x64.Release\wxbase30u_net_vc100_x64.pdb"
+	-if exist "$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_xml_vc100.dll"    del /f /q "$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_xml_vc100.dll"
+	-if exist "$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_xml_vc100.pdb"    del /f /q "$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_xml_vc100.pdb"
+	-if exist "$(OUTPUT_DIR)\Win32.Release\wxbase30u_xml_vc100.dll"   del /f /q "$(OUTPUT_DIR)\Win32.Release\wxbase30u_xml_vc100.dll"
+	-if exist "$(OUTPUT_DIR)\Win32.Release\wxbase30u_xml_vc100.pdb"   del /f /q "$(OUTPUT_DIR)\Win32.Release\wxbase30u_xml_vc100.pdb"
+	-if exist "$(OUTPUT_DIR)\x64.Debug\wxbase30ud_xml_vc100_x64.dll"  del /f /q "$(OUTPUT_DIR)\x64.Debug\wxbase30ud_xml_vc100_x64.dll"
+	-if exist "$(OUTPUT_DIR)\x64.Debug\wxbase30ud_xml_vc100_x64.pdb"  del /f /q "$(OUTPUT_DIR)\x64.Debug\wxbase30ud_xml_vc100_x64.pdb"
+	-if exist "$(OUTPUT_DIR)\x64.Release\wxbase30u_xml_vc100_x64.dll" del /f /q "$(OUTPUT_DIR)\x64.Release\wxbase30u_xml_vc100_x64.dll"
+	-if exist "$(OUTPUT_DIR)\x64.Release\wxbase30u_xml_vc100_x64.pdb" del /f /q "$(OUTPUT_DIR)\x64.Release\wxbase30u_xml_vc100_x64.pdb"
+	-if exist "$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_core_vc100.dll"    del /f /q "$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_core_vc100.dll"
+	-if exist "$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_core_vc100.pdb"    del /f /q "$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_core_vc100.pdb"
+	-if exist "$(OUTPUT_DIR)\Win32.Release\wxmsw30u_core_vc100.dll"   del /f /q "$(OUTPUT_DIR)\Win32.Release\wxmsw30u_core_vc100.dll"
+	-if exist "$(OUTPUT_DIR)\Win32.Release\wxmsw30u_core_vc100.pdb"   del /f /q "$(OUTPUT_DIR)\Win32.Release\wxmsw30u_core_vc100.pdb"
+	-if exist "$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_core_vc100_x64.dll"  del /f /q "$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_core_vc100_x64.dll"
+	-if exist "$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_core_vc100_x64.pdb"  del /f /q "$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_core_vc100_x64.pdb"
+	-if exist "$(OUTPUT_DIR)\x64.Release\wxmsw30u_core_vc100_x64.dll" del /f /q "$(OUTPUT_DIR)\x64.Release\wxmsw30u_core_vc100_x64.dll"
+	-if exist "$(OUTPUT_DIR)\x64.Release\wxmsw30u_core_vc100_x64.pdb" del /f /q "$(OUTPUT_DIR)\x64.Release\wxmsw30u_core_vc100_x64.pdb"
+	-if exist "$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_adv_vc100.dll"     del /f /q "$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_adv_vc100.dll"
+	-if exist "$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_adv_vc100.pdb"     del /f /q "$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_adv_vc100.pdb"
+	-if exist "$(OUTPUT_DIR)\Win32.Release\wxmsw30u_adv_vc100.dll"    del /f /q "$(OUTPUT_DIR)\Win32.Release\wxmsw30u_adv_vc100.dll"
+	-if exist "$(OUTPUT_DIR)\Win32.Release\wxmsw30u_adv_vc100.pdb"    del /f /q "$(OUTPUT_DIR)\Win32.Release\wxmsw30u_adv_vc100.pdb"
+	-if exist "$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_adv_vc100_x64.dll"   del /f /q "$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_adv_vc100_x64.dll"
+	-if exist "$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_adv_vc100_x64.pdb"   del /f /q "$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_adv_vc100_x64.pdb"
+	-if exist "$(OUTPUT_DIR)\x64.Release\wxmsw30u_adv_vc100_x64.dll"  del /f /q "$(OUTPUT_DIR)\x64.Release\wxmsw30u_adv_vc100_x64.dll"
+	-if exist "$(OUTPUT_DIR)\x64.Release\wxmsw30u_adv_vc100_x64.pdb"  del /f /q "$(OUTPUT_DIR)\x64.Release\wxmsw30u_adv_vc100_x64.pdb"
+	-if exist "$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_aui_vc100.dll"     del /f /q "$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_aui_vc100.dll"
+	-if exist "$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_aui_vc100.pdb"     del /f /q "$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_aui_vc100.pdb"
+	-if exist "$(OUTPUT_DIR)\Win32.Release\wxmsw30u_aui_vc100.dll"    del /f /q "$(OUTPUT_DIR)\Win32.Release\wxmsw30u_aui_vc100.dll"
+	-if exist "$(OUTPUT_DIR)\Win32.Release\wxmsw30u_aui_vc100.pdb"    del /f /q "$(OUTPUT_DIR)\Win32.Release\wxmsw30u_aui_vc100.pdb"
+	-if exist "$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_aui_vc100_x64.dll"   del /f /q "$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_aui_vc100_x64.dll"
+	-if exist "$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_aui_vc100_x64.pdb"   del /f /q "$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_aui_vc100_x64.pdb"
+	-if exist "$(OUTPUT_DIR)\x64.Release\wxmsw30u_aui_vc100_x64.dll"  del /f /q "$(OUTPUT_DIR)\x64.Release\wxmsw30u_aui_vc100_x64.dll"
+	-if exist "$(OUTPUT_DIR)\x64.Release\wxmsw30u_aui_vc100_x64.pdb"  del /f /q "$(OUTPUT_DIR)\x64.Release\wxmsw30u_aui_vc100_x64.pdb"
 	-if exist "$(OUTPUT_DIR)\ZRCola32.ddf"                        	  del /f /q "$(OUTPUT_DIR)\ZRCola32.ddf"
 	-if exist "$(OUTPUT_DIR)\ZRCola32D.ddf"                       	  del /f /q "$(OUTPUT_DIR)\ZRCola32D.ddf"
 	-if exist "$(OUTPUT_DIR)\ZRCola64.ddf"                        	  del /f /q "$(OUTPUT_DIR)\ZRCola64.ddf"
@@ -172,6 +220,7 @@ Publish :: \
 Register :: \
 	RegisterSettings \
 	InstallFonts \
+	InstallwxWidgets \
 	RegisterShortcuts
 
 Unregister :: \
@@ -209,6 +258,68 @@ InstallFonts :: \
 	reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"           /v "ZRCola Bold (TrueType)"        /t REG_SZ /d "ZRCola_Bd.otf" $(REG_FLAGS) > NUL
 	reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"           /v "ZRCola Bold Italic (TrueType)" /t REG_SZ /d "ZRCola_BI.otf" $(REG_FLAGS) > NUL
 	reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\FontSubstitutes" /v "00 ZRCola"                     /t REG_SZ /d "ZRCola"        $(REG_FLAGS) > NUL
+
+InstallwxWidgets :: \
+	InstallwxWidgets_Debug_Win32 \
+	InstallwxWidgets_Release_Win32 \
+	InstallwxWidgets_Debug_x64 \
+	InstallwxWidgets_Release_x64
+
+InstallwxWidgets_Debug_Win32 :: \
+	"$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_vc100.dll" \
+	"$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_vc100.pdb" \
+	"$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_net_vc100.dll" \
+	"$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_net_vc100.pdb" \
+	"$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_xml_vc100.dll" \
+	"$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_xml_vc100.pdb" \
+	"$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_core_vc100.dll" \
+	"$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_core_vc100.pdb" \
+	"$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_adv_vc100.dll" \
+	"$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_adv_vc100.pdb" \
+	"$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_aui_vc100.dll" \
+	"$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_aui_vc100.pdb"
+
+InstallwxWidgets_Release_Win32 :: \
+	"$(OUTPUT_DIR)\Win32.Release\wxbase30u_vc100.dll" \
+	"$(OUTPUT_DIR)\Win32.Release\wxbase30u_vc100.pdb" \
+	"$(OUTPUT_DIR)\Win32.Release\wxbase30u_net_vc100.dll" \
+	"$(OUTPUT_DIR)\Win32.Release\wxbase30u_net_vc100.pdb" \
+	"$(OUTPUT_DIR)\Win32.Release\wxbase30u_xml_vc100.dll" \
+	"$(OUTPUT_DIR)\Win32.Release\wxbase30u_xml_vc100.pdb" \
+	"$(OUTPUT_DIR)\Win32.Release\wxmsw30u_core_vc100.dll" \
+	"$(OUTPUT_DIR)\Win32.Release\wxmsw30u_core_vc100.pdb" \
+	"$(OUTPUT_DIR)\Win32.Release\wxmsw30u_adv_vc100.dll" \
+	"$(OUTPUT_DIR)\Win32.Release\wxmsw30u_adv_vc100.pdb" \
+	"$(OUTPUT_DIR)\Win32.Release\wxmsw30u_aui_vc100.dll" \
+	"$(OUTPUT_DIR)\Win32.Release\wxmsw30u_aui_vc100.pdb"
+
+InstallwxWidgets_Debug_x64 :: \
+	"$(OUTPUT_DIR)\x64.Debug\wxbase30ud_vc100_x64.dll" \
+	"$(OUTPUT_DIR)\x64.Debug\wxbase30ud_vc100_x64.pdb" \
+	"$(OUTPUT_DIR)\x64.Debug\wxbase30ud_net_vc100_x64.dll" \
+	"$(OUTPUT_DIR)\x64.Debug\wxbase30ud_net_vc100_x64.pdb" \
+	"$(OUTPUT_DIR)\x64.Debug\wxbase30ud_xml_vc100_x64.dll" \
+	"$(OUTPUT_DIR)\x64.Debug\wxbase30ud_xml_vc100_x64.pdb" \
+	"$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_core_vc100_x64.dll" \
+	"$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_core_vc100_x64.pdb" \
+	"$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_adv_vc100_x64.dll" \
+	"$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_adv_vc100_x64.pdb" \
+	"$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_aui_vc100_x64.dll" \
+	"$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_aui_vc100_x64.pdb"
+
+InstallwxWidgets_Release_x64 :: \
+	"$(OUTPUT_DIR)\x64.Release\wxbase30u_vc100_x64.dll" \
+	"$(OUTPUT_DIR)\x64.Release\wxbase30u_vc100_x64.pdb" \
+	"$(OUTPUT_DIR)\x64.Release\wxbase30u_net_vc100_x64.dll" \
+	"$(OUTPUT_DIR)\x64.Release\wxbase30u_net_vc100_x64.pdb" \
+	"$(OUTPUT_DIR)\x64.Release\wxbase30u_xml_vc100_x64.dll" \
+	"$(OUTPUT_DIR)\x64.Release\wxbase30u_xml_vc100_x64.pdb" \
+	"$(OUTPUT_DIR)\x64.Release\wxmsw30u_core_vc100_x64.dll" \
+	"$(OUTPUT_DIR)\x64.Release\wxmsw30u_core_vc100_x64.pdb" \
+	"$(OUTPUT_DIR)\x64.Release\wxmsw30u_adv_vc100_x64.dll" \
+	"$(OUTPUT_DIR)\x64.Release\wxmsw30u_adv_vc100_x64.pdb" \
+	"$(OUTPUT_DIR)\x64.Release\wxmsw30u_aui_vc100_x64.dll" \
+	"$(OUTPUT_DIR)\x64.Release\wxmsw30u_aui_vc100_x64.pdb"
 
 UninstallFonts::
 	-reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"           /v "ZRCola (TrueType)"             $(REG_FLAGS) > NUL
@@ -285,6 +396,150 @@ Localization :: \
 "$(WINDIR)\Fonts\ZRCola_BI.otf" : "$(OUTPUT_DIR)\ZRCola_BI.otf"
 	copy /y $** $@ > NUL
 
+"$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_vc100.dll" : "$(WXWIN)\lib\vc100_dll\wxbase30ud_vc100.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_vc100.pdb" : "$(WXWIN)\lib\vc100_dll\wxbase30ud_vc100.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Release\wxbase30u_vc100.dll" : "$(WXWIN)\lib\vc100_dll\wxbase30u_vc100.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Release\wxbase30u_vc100.pdb" : "$(WXWIN)\lib\vc100_dll\wxbase30u_vc100.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Debug\wxbase30ud_vc100_x64.dll" : "$(WXWIN)\lib\vc100_x64_dll\wxbase30ud_vc100_x64.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Debug\wxbase30ud_vc100_x64.pdb" : "$(WXWIN)\lib\vc100_x64_dll\wxbase30ud_vc100_x64.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Release\wxbase30u_vc100_x64.dll" : "$(WXWIN)\lib\vc100_x64_dll\wxbase30u_vc100_x64.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Release\wxbase30u_vc100_x64.pdb" : "$(WXWIN)\lib\vc100_x64_dll\wxbase30u_vc100_x64.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_net_vc100.dll" : "$(WXWIN)\lib\vc100_dll\wxbase30ud_net_vc100.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_net_vc100.pdb" : "$(WXWIN)\lib\vc100_dll\wxbase30ud_net_vc100.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Release\wxbase30u_net_vc100.dll" : "$(WXWIN)\lib\vc100_dll\wxbase30u_net_vc100.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Release\wxbase30u_net_vc100.pdb" : "$(WXWIN)\lib\vc100_dll\wxbase30u_net_vc100.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Debug\wxbase30ud_net_vc100_x64.dll" : "$(WXWIN)\lib\vc100_x64_dll\wxbase30ud_net_vc100_x64.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Debug\wxbase30ud_net_vc100_x64.pdb" : "$(WXWIN)\lib\vc100_x64_dll\wxbase30ud_net_vc100_x64.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Release\wxbase30u_net_vc100_x64.dll" : "$(WXWIN)\lib\vc100_x64_dll\wxbase30u_net_vc100_x64.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Release\wxbase30u_net_vc100_x64.pdb" : "$(WXWIN)\lib\vc100_x64_dll\wxbase30u_net_vc100_x64.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_xml_vc100.dll" : "$(WXWIN)\lib\vc100_dll\wxbase30ud_xml_vc100.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Debug\wxbase30ud_xml_vc100.pdb" : "$(WXWIN)\lib\vc100_dll\wxbase30ud_xml_vc100.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Release\wxbase30u_xml_vc100.dll" : "$(WXWIN)\lib\vc100_dll\wxbase30u_xml_vc100.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Release\wxbase30u_xml_vc100.pdb" : "$(WXWIN)\lib\vc100_dll\wxbase30u_xml_vc100.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Debug\wxbase30ud_xml_vc100_x64.dll" : "$(WXWIN)\lib\vc100_x64_dll\wxbase30ud_xml_vc100_x64.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Debug\wxbase30ud_xml_vc100_x64.pdb" : "$(WXWIN)\lib\vc100_x64_dll\wxbase30ud_xml_vc100_x64.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Release\wxbase30u_xml_vc100_x64.dll" : "$(WXWIN)\lib\vc100_x64_dll\wxbase30u_xml_vc100_x64.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Release\wxbase30u_xml_vc100_x64.pdb" : "$(WXWIN)\lib\vc100_x64_dll\wxbase30u_xml_vc100_x64.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_core_vc100.dll" : "$(WXWIN)\lib\vc100_dll\wxmsw30ud_core_vc100.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_core_vc100.pdb" : "$(WXWIN)\lib\vc100_dll\wxmsw30ud_core_vc100.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Release\wxmsw30u_core_vc100.dll" : "$(WXWIN)\lib\vc100_dll\wxmsw30u_core_vc100.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Release\wxmsw30u_core_vc100.pdb" : "$(WXWIN)\lib\vc100_dll\wxmsw30u_core_vc100.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_core_vc100_x64.dll" : "$(WXWIN)\lib\vc100_x64_dll\wxmsw30ud_core_vc100_x64.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_core_vc100_x64.pdb" : "$(WXWIN)\lib\vc100_x64_dll\wxmsw30ud_core_vc100_x64.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Release\wxmsw30u_core_vc100_x64.dll" : "$(WXWIN)\lib\vc100_x64_dll\wxmsw30u_core_vc100_x64.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Release\wxmsw30u_core_vc100_x64.pdb" : "$(WXWIN)\lib\vc100_x64_dll\wxmsw30u_core_vc100_x64.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_adv_vc100.dll" : "$(WXWIN)\lib\vc100_dll\wxmsw30ud_adv_vc100.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_adv_vc100.pdb" : "$(WXWIN)\lib\vc100_dll\wxmsw30ud_adv_vc100.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Release\wxmsw30u_adv_vc100.dll" : "$(WXWIN)\lib\vc100_dll\wxmsw30u_adv_vc100.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Release\wxmsw30u_adv_vc100.pdb" : "$(WXWIN)\lib\vc100_dll\wxmsw30u_adv_vc100.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_adv_vc100_x64.dll" : "$(WXWIN)\lib\vc100_x64_dll\wxmsw30ud_adv_vc100_x64.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_adv_vc100_x64.pdb" : "$(WXWIN)\lib\vc100_x64_dll\wxmsw30ud_adv_vc100_x64.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Release\wxmsw30u_adv_vc100_x64.dll" : "$(WXWIN)\lib\vc100_x64_dll\wxmsw30u_adv_vc100_x64.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Release\wxmsw30u_adv_vc100_x64.pdb" : "$(WXWIN)\lib\vc100_x64_dll\wxmsw30u_adv_vc100_x64.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_aui_vc100.dll" : "$(WXWIN)\lib\vc100_dll\wxmsw30ud_aui_vc100.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Debug\wxmsw30ud_aui_vc100.pdb" : "$(WXWIN)\lib\vc100_dll\wxmsw30ud_aui_vc100.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Release\wxmsw30u_aui_vc100.dll" : "$(WXWIN)\lib\vc100_dll\wxmsw30u_aui_vc100.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\Win32.Release\wxmsw30u_aui_vc100.pdb" : "$(WXWIN)\lib\vc100_dll\wxmsw30u_aui_vc100.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_aui_vc100_x64.dll" : "$(WXWIN)\lib\vc100_x64_dll\wxmsw30ud_aui_vc100_x64.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Debug\wxmsw30ud_aui_vc100_x64.pdb" : "$(WXWIN)\lib\vc100_x64_dll\wxmsw30ud_aui_vc100_x64.pdb"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Release\wxmsw30u_aui_vc100_x64.dll" : "$(WXWIN)\lib\vc100_x64_dll\wxmsw30u_aui_vc100_x64.dll"
+	copy /y $** $@ > NUL
+
+"$(OUTPUT_DIR)\x64.Release\wxmsw30u_aui_vc100_x64.pdb" : "$(WXWIN)\lib\vc100_x64_dll\wxmsw30u_aui_vc100_x64.pdb"
+	copy /y $** $@ > NUL
+
 
 ######################################################################
 # Shortcut creation
@@ -320,25 +575,25 @@ Localization :: \
 "$(OUTPUT_DIR)\Win32.Release\libZRColaUI10u_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Release\stdex10u_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Release\wxExtend10u_vc100.dll" \
-"$(OUTPUT_DIR)\Win32.Release\ZRCola.exe" :: Localization
+"$(OUTPUT_DIR)\Win32.Release\ZRCola.exe" :: Localization InstallwxWidgets
 
 "$(OUTPUT_DIR)\Win32.Debug\libZRCola10ud_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Debug\libZRColaUI10ud_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Debug\stdex10ud_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Debug\wxExtend10ud_vc100.dll" \
-"$(OUTPUT_DIR)\Win32.Debug\ZRCola.exe" :: Localization
+"$(OUTPUT_DIR)\Win32.Debug\ZRCola.exe" :: Localization InstallwxWidgets_Release_Win32
 
 "$(OUTPUT_DIR)\x64.Release\libZRCola10u_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Release\libZRColaUI10u_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Release\stdex10u_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Release\wxExtend10u_vc100.dll" \
-"$(OUTPUT_DIR)\x64.Release\ZRCola.exe" :: Localization
+"$(OUTPUT_DIR)\x64.Release\ZRCola.exe" :: Localization InstallwxWidgets_Release_x64
 
 "$(OUTPUT_DIR)\x64.Debug\libZRCola10ud_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Debug\libZRColaUI10ud_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Debug\stdex10ud_vc100.dll" \
 "$(OUTPUT_DIR)\x64.Debug\wxExtend10ud_vc100.dll" \
-"$(OUTPUT_DIR)\x64.Debug\ZRCola.exe" :: Localization
+"$(OUTPUT_DIR)\x64.Debug\ZRCola.exe" :: Localization InstallwxWidgets_Debug_x64
 
 "$(OUTPUT_DIR)\Win32.Release\libZRCola10u_vc100.dll" \
 "$(OUTPUT_DIR)\Win32.Release\libZRColaUI10u_vc100.dll" \
