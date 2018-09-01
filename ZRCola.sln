@@ -5,7 +5,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZRCola", "ZRCola\ZRCola.vcx
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{6D85AD6A-69D6-40EB-BF0C-7495479DDCE5}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wxExtend", "lib\wxExtend\build\wxExtendDll.vcxproj", "{A3A36689-AC35-4026-93DA-A3BA0C0E767C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wxExtend", "lib\wxExtend\build\wxExtendDll-10.0.vcxproj", "{A3A36689-AC35-4026-93DA-A3BA0C0E767C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CFEBC17E-C840-4507-BDE6-1EF5B52DDCC5}"
 	ProjectSection(SolutionItems) = preProject
