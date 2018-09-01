@@ -245,6 +245,12 @@ featZRCola	complibZRCola.dll.$(PLAT)
 featZRCola	complibZRColaUI.dll.$(PLAT)
 featZRCola	compwxExtend.dll.$(PLAT)
 featZRCola	compUpdater.dll.$(PLAT)
+featZRCola	compwxbase.dll.$(PLAT)
+featZRCola	compwxbase_net.dll.$(PLAT)
+featZRCola	compwxbase_xml.dll.$(PLAT)
+featZRCola	compwxmsw_core.dll.$(PLAT)
+featZRCola	compwxmsw_adv.dll.$(PLAT)
+featZRCola	compwxmsw_aui.dll.$(PLAT)
 featZRCola	compLocalizationRepositoryPath
 featZRCola	compLanguage
 featZRCola	compDatabasePath
