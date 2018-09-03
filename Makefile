@@ -266,6 +266,7 @@ InstallwxWidgets :: \
 	InstallwxWidgets_Release_x64
 
 InstallwxWidgets_Debug_Win32 :: \
+	"$(OUTPUT_DIR)\Win32.Debug" \
 	"$(OUTPUT_DIR)\Win32.Debug\wxbase311ud_vc100.dll" \
 	"$(OUTPUT_DIR)\Win32.Debug\wxbase311ud_vc100.pdb" \
 	"$(OUTPUT_DIR)\Win32.Debug\wxbase311ud_net_vc100.dll" \
@@ -280,6 +281,7 @@ InstallwxWidgets_Debug_Win32 :: \
 	"$(OUTPUT_DIR)\Win32.Debug\wxmsw311ud_aui_vc100.pdb"
 
 InstallwxWidgets_Release_Win32 :: \
+	"$(OUTPUT_DIR)\Win32.Release" \
 	"$(OUTPUT_DIR)\Win32.Release\wxbase311u_vc100.dll" \
 	"$(OUTPUT_DIR)\Win32.Release\wxbase311u_vc100.pdb" \
 	"$(OUTPUT_DIR)\Win32.Release\wxbase311u_net_vc100.dll" \
@@ -294,6 +296,7 @@ InstallwxWidgets_Release_Win32 :: \
 	"$(OUTPUT_DIR)\Win32.Release\wxmsw311u_aui_vc100.pdb"
 
 InstallwxWidgets_Debug_x64 :: \
+	"$(OUTPUT_DIR)\x64.Debug" \
 	"$(OUTPUT_DIR)\x64.Debug\wxbase311ud_vc100_x64.dll" \
 	"$(OUTPUT_DIR)\x64.Debug\wxbase311ud_vc100_x64.pdb" \
 	"$(OUTPUT_DIR)\x64.Debug\wxbase311ud_net_vc100_x64.dll" \
@@ -308,6 +311,7 @@ InstallwxWidgets_Debug_x64 :: \
 	"$(OUTPUT_DIR)\x64.Debug\wxmsw311ud_aui_vc100_x64.pdb"
 
 InstallwxWidgets_Release_x64 :: \
+	"$(OUTPUT_DIR)\x64.Release" \
 	"$(OUTPUT_DIR)\x64.Release\wxbase311u_vc100_x64.dll" \
 	"$(OUTPUT_DIR)\x64.Release\wxbase311u_vc100_x64.pdb" \
 	"$(OUTPUT_DIR)\x64.Release\wxbase311u_net_vc100_x64.dll" \
@@ -365,13 +369,21 @@ Localization :: \
 "$(OUTPUT_DIR)\locale\de_DE" \
 "$(OUTPUT_DIR)\locale\ru_RU" \
 "$(OUTPUT_DIR)\locale\sl_SI" \
+"$(OUTPUT_DIR)\Win32.Debug" \
+"$(OUTPUT_DIR)\Win32.Release" \
+"$(OUTPUT_DIR)\x64.Debug" \
+"$(OUTPUT_DIR)\x64.Release" \
 "$(PUBLISH_DIR)" \
 "$(PUBLISH_PACKAGE_DIR)" \
 "$(PROGRAMDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" :
 	if not exist $@ md $@
 
 "$(OUTPUT_DIR)\Keys" \
-"$(OUTPUT_DIR)\locale" : "$(OUTPUT_DIR)"
+"$(OUTPUT_DIR)\locale" \
+"$(OUTPUT_DIR)\Win32.Debug" \
+"$(OUTPUT_DIR)\Win32.Release" \
+"$(OUTPUT_DIR)\x64.Debug" \
+"$(OUTPUT_DIR)\x64.Release" : "$(OUTPUT_DIR)"
 
 "$(OUTPUT_DIR)\locale\de_DE" \
 "$(OUTPUT_DIR)\locale\ru_RU" \
