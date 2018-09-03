@@ -152,7 +152,8 @@ wxZRColaFrame::wxZRColaFrame() :
         SetAcceleratorTable(wxAcceleratorTable(_countof(entries), entries));
     }
 
-    // Restore persistent state of wxAuiManager manually, since m_mgr is not on the heap.
+    // Restore persistent state of wxAuiManager manually, since m_mgr is not a standalone heap object
+    // and cannot be registered for persistence.
     wxPersistentAuiManager(&m_mgr).Restore();
     wxPersistentRegisterAndRestore<wxZRColaFrame>(this);
 
@@ -184,6 +185,11 @@ wxZRColaFrame::~wxZRColaFrame()
     UnregisterHotKey(wxZRColaHKID_INVOKE_TRANSLATE_INV);
     UnregisterHotKey(wxZRColaHKID_INVOKE_TRANSLATE    );
 
+    // Save wxAuiManager's state before destructor is finished.
+    // m_mgr is not a standalone heap object and is bound to wxZRColaFrame, which is being destroyed.
+    wxPersistentAuiManager(&m_mgr).Save();
+    wxPersistenceManager::Get().SaveAndUnregister(this);
+
 #if defined(__WXMSW__)
     if (m_tfSource) {
         m_tfSource->UnadviseSink(m_dwCookie);
@@ -195,16 +201,6 @@ wxZRColaFrame::~wxZRColaFrame()
         m_taskBarIcon->Disconnect(wxEVT_TASKBAR_LEFT_DOWN, wxTaskBarIconEventHandler(wxZRColaFrame::OnTaskbarIconClick), NULL, this);
         delete m_taskBarIcon;
     }
-}
-
-
-void wxZRColaFrame::OnClose(wxCloseEvent& event)
-{
-    event.Skip();
-
-    // Save wxAuiManager's state before destructor.
-    // Since the destructor calls m_mgr.UnInit() the regular persistence mechanism is useless to save wxAuiManager's state.
-    wxPersistentAuiManager(&m_mgr).Save();
 }
 
 

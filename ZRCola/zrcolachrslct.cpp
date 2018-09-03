@@ -251,7 +251,7 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
         if (m_unicode->GetValidator()->TransferFromWindow()) {
             auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
 
-            m_gridPreview->SetCellValue(m_char, 0, 0);
+            m_gridPreview->SetCellValue(0, 0, m_char);
 
             std::unique_ptr<ZRCola::character_db::character> chr((ZRCola::character_db::character*)new char[sizeof(ZRCola::character_db::character) + sizeof(wchar_t)*m_char.length()]);
             chr->ZRCola::character_db::character::character(m_char.data(), m_char.length());
@@ -489,7 +489,7 @@ void wxZRColaCharSelect::OnResultsKeyDown(wxKeyEvent& event)
     switch (event.GetKeyCode()) {
     case WXK_RETURN:
     case WXK_NUMPAD_ENTER:
-        wxString val(m_gridResults->GetCellValue(m_gridResults->GetCursorRow(), m_gridResults->GetCursorColumn()));
+        wxString val(m_gridResults->GetCellValue(m_gridResults->GetGridCursorRow(), m_gridResults->GetGridCursorCol()));
         if (!val.IsEmpty()) {
             NavigateTo(val);
             wxCommandEvent e(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
@@ -532,7 +532,7 @@ void wxZRColaCharSelect::OnRecentKeyDown(wxKeyEvent& event)
     switch (event.GetKeyCode()) {
     case WXK_RETURN:
     case WXK_NUMPAD_ENTER:
-        wxString val(m_gridRecent->GetCellValue(m_gridRecent->GetCursorRow(), m_gridRecent->GetCursorColumn()));
+        wxString val(m_gridRecent->GetCellValue(m_gridRecent->GetGridCursorRow(), m_gridRecent->GetGridCursorCol()));
         if (!val.IsEmpty()) {
             NavigateTo(val);
             wxCommandEvent e(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);

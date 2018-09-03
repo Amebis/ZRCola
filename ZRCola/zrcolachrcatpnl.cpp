@@ -113,7 +113,7 @@ void wxZRColaCharacterCatalogPanel::OnGridKeyDown(wxKeyEvent& event)
     case WXK_NUMPAD_ENTER:
         auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
         if (app->m_mainWnd) {
-            app->m_mainWnd->m_panel->m_source->WriteText(m_grid->GetCellValue(m_grid->GetCursorRow(), m_grid->GetCursorColumn()));
+            app->m_mainWnd->m_panel->m_source->WriteText(m_grid->GetCellValue(m_grid->GetGridCursorRow(), m_grid->GetGridCursorCol()));
             app->m_mainWnd->m_panel->m_source->SetFocus();
 
             event.StopPropagation();
