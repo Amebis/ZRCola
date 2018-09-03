@@ -19,6 +19,11 @@
 
 !INCLUDE "..\..\..\include\MSIBuildCfg.mak"
 
+# Note: When changing WXWIDGETS_VER or WXWIDGETS_COMPILER, the DLL filenames will change.
+# Then, you MUST change the component GUIDs as well.
+WXWIDGETS_VER=311
+WXWIDGETS_COMPILER=_vc100
+
 !IF "$(PLAT)" == "x64"
 WXWIDGETS_PLAT=_x64
 !ELSE
@@ -44,20 +49,20 @@ Component	ComponentId	Directory_	Attributes	Condition	KeyPath
 s$(MSIBUILD_LENGTH_ID)	S38	s$(MSIBUILD_LENGTH_ID)	i2	S255	S$(MSIBUILD_LENGTH_ID)
 Component	Component
 !IF "$(PLAT)" == "Win32"
-compwxbase.dll.Win32	{86B11E59-4F0A-45F7-A4F6-B4813A5F8A39}	ZRCOLABINDIR	0		filewxbase.dll.Win32
-compwxbase_net.dll.Win32	{7E138C1C-20CF-4FB5-9504-7F3DD4DC5E54}	ZRCOLABINDIR	0		filewxbase_net.dll.Win32
-compwxbase_xml.dll.Win32	{B8175665-7408-4D9A-9341-D2933E7D5BC6}	ZRCOLABINDIR	0		filewxbase_xml.dll.Win32
-compwxmsw_core.dll.Win32	{EEE366E4-F151-4E43-9760-1E925906D292}	ZRCOLABINDIR	0		filewxwxmsw_core.dll.Win32
-compwxmsw_adv.dll.Win32	{C18CD779-BC33-4AD2-8E73-25B6AEDB7A40}	ZRCOLABINDIR	0		filewxmsw_adv.dll.Win32
-compwxmsw_aui.dll.Win32	{BB9D5874-A26B-4143-8329-59EDD6E09B1C}	ZRCOLABINDIR	0		filewxmsw_aui.dll.Win32
+compwxbase.dll.Win32	{4C7F5A16-5B74-47D5-A405-57C7BD96F090}	ZRCOLABINDIR	0		filewxbase.dll.Win32
+compwxbase_net.dll.Win32	{00534942-B21F-4401-BFE4-C7677F4BE3E5}	ZRCOLABINDIR	0		filewxbase_net.dll.Win32
+compwxbase_xml.dll.Win32	{71E30748-DD22-4D8B-B26F-60C5150D9AAE}	ZRCOLABINDIR	0		filewxbase_xml.dll.Win32
+compwxmsw_core.dll.Win32	{FB8D46B9-86DC-4590-8F0A-8294F6A45E6A}	ZRCOLABINDIR	0		filewxwxmsw_core.dll.Win32
+compwxmsw_adv.dll.Win32	{7B7DB31D-1760-493A-BBE9-35237A6EF9E0}	ZRCOLABINDIR	0		filewxmsw_adv.dll.Win32
+compwxmsw_aui.dll.Win32	{49CF9864-63B6-4F43-8EC7-7294B966B419}	ZRCOLABINDIR	0		filewxmsw_aui.dll.Win32
 !ENDIF
 !IF "$(PLAT)" == "x64"
-compwxbase.dll.x64	{AD46C6EF-EF2E-4DC7-8BBB-255F9881C9C6}	ZRCOLABINDIR	256		filewxbase.dll.x64
-compwxbase_net.dll.x64	{DE55D199-B90D-4F59-AB5A-08408D8276C2}	ZRCOLABINDIR	256		filewxbase_net.dll.x64
-compwxbase_xml.dll.x64	{13B4FB42-8446-4B64-BBE8-130E87DEAB9A}	ZRCOLABINDIR	256		filewxbase_xml.dll.x64
-compwxmsw_core.dll.x64	{9E2A25DD-0726-44C2-97CD-6AD74BAFE4DC}	ZRCOLABINDIR	256		filewxwxmsw_core.dll.x64
-compwxmsw_adv.dll.x64	{C0B70F8C-9885-4188-84E0-2C57A67F32FB}	ZRCOLABINDIR	256		filewxmsw_adv.dll.x64
-compwxmsw_aui.dll.x64	{ED92B13B-A964-43DC-BB8A-0E47C4AEE31C}	ZRCOLABINDIR	256		filewxmsw_aui.dll.x64
+compwxbase.dll.x64	{905D8859-BFD2-410A-81DB-93231088C066}	ZRCOLABINDIR	256		filewxbase.dll.x64
+compwxbase_net.dll.x64	{8A0A49C8-DAEB-4983-8E8D-9DE30AE1D0B6}	ZRCOLABINDIR	256		filewxbase_net.dll.x64
+compwxbase_xml.dll.x64	{24A5F181-EFE7-4542-8AAB-1D21DB74E954}	ZRCOLABINDIR	256		filewxbase_xml.dll.x64
+compwxmsw_core.dll.x64	{F5B3F6E6-4FFB-4A79-A794-202D6F93F716}	ZRCOLABINDIR	256		filewxwxmsw_core.dll.x64
+compwxmsw_adv.dll.x64	{D7722FB9-59BB-498F-93C3-78451471A023}	ZRCOLABINDIR	256		filewxmsw_adv.dll.x64
+compwxmsw_aui.dll.x64	{FB703979-0E3D-458E-82DD-DAC33329FA9D}	ZRCOLABINDIR	256		filewxmsw_aui.dll.x64
 !ENDIF
 <<NOKEEP
 
@@ -73,12 +78,12 @@ All :: "$(LANG).$(PLAT).$(CFG).File-1.idt"
 File	Component_	FileName	FileSize	Version	Language	Attributes	Sequence
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l255	i4	S$(MSIBUILD_LENGTH_ID)	S20	I2	i2
 File	File
-filewxbase.dll.$(PLAT)	compwxbase.dll.$(PLAT)	WXBASE~1.DLL|wxbase30$(WXWIDGETS_CFG)_vc100$(WXWIDGETS_PLAT).dll	0		0	512	1
-filewxbase_net.dll.$(PLAT)	compwxbase_net.dll.$(PLAT)	WXBASE~2.DLL|wxbase30$(WXWIDGETS_CFG)_net_vc100$(WXWIDGETS_PLAT).dll	0		0	512	1
-filewxbase_xml.dll.$(PLAT)	compwxbase_xml.dll.$(PLAT)	WXBASE~3.DLL|wxbase30$(WXWIDGETS_CFG)_xml_vc100$(WXWIDGETS_PLAT).dll	0		0	512	1
-filewxwxmsw_core.dll.$(PLAT)	compwxmsw_core.dll.$(PLAT)	WXMSW3~1.DLL|wxmsw30$(WXWIDGETS_CFG)_core_vc100$(WXWIDGETS_PLAT).dll	0		0	512	1
-filewxmsw_adv.dll.$(PLAT)	compwxmsw_adv.dll.$(PLAT)	WXMSW3~2.DLL|wxmsw30$(WXWIDGETS_CFG)_adv_vc100$(WXWIDGETS_PLAT).dll	0		0	512	1
-filewxmsw_aui.dll.$(PLAT)	compwxmsw_aui.dll.$(PLAT)	WXMSW3~3.DLL|wxmsw30$(WXWIDGETS_CFG)_aui_vc100$(WXWIDGETS_PLAT).dll	0		0	512	1
+filewxbase.dll.$(PLAT)	compwxbase.dll.$(PLAT)	WXBASE~1.DLL|wxbase$(WXWIDGETS_VER)$(WXWIDGETS_CFG)$(WXWIDGETS_COMPILER)$(WXWIDGETS_PLAT).dll	0		0	512	1
+filewxbase_net.dll.$(PLAT)	compwxbase_net.dll.$(PLAT)	WXBASE~2.DLL|wxbase$(WXWIDGETS_VER)$(WXWIDGETS_CFG)_net$(WXWIDGETS_COMPILER)$(WXWIDGETS_PLAT).dll	0		0	512	1
+filewxbase_xml.dll.$(PLAT)	compwxbase_xml.dll.$(PLAT)	WXBASE~3.DLL|wxbase$(WXWIDGETS_VER)$(WXWIDGETS_CFG)_xml$(WXWIDGETS_COMPILER)$(WXWIDGETS_PLAT).dll	0		0	512	1
+filewxwxmsw_core.dll.$(PLAT)	compwxmsw_core.dll.$(PLAT)	WXMSW3~1.DLL|wxmsw$(WXWIDGETS_VER)$(WXWIDGETS_CFG)_core$(WXWIDGETS_COMPILER)$(WXWIDGETS_PLAT).dll	0		0	512	1
+filewxmsw_adv.dll.$(PLAT)	compwxmsw_adv.dll.$(PLAT)	WXMSW3~2.DLL|wxmsw$(WXWIDGETS_VER)$(WXWIDGETS_CFG)_adv$(WXWIDGETS_COMPILER)$(WXWIDGETS_PLAT).dll	0		0	512	1
+filewxmsw_aui.dll.$(PLAT)	compwxmsw_aui.dll.$(PLAT)	WXMSW3~3.DLL|wxmsw$(WXWIDGETS_VER)$(WXWIDGETS_CFG)_aui$(WXWIDGETS_COMPILER)$(WXWIDGETS_PLAT).dll	0		0	512	1
 <<NOKEEP
 
 

@@ -16,7 +16,7 @@ https://www.amebis.si/prenos/ZRCola/
 - _sed.exe_ and _grep.exe_
 - Command line utilities from Microsoft Windows SDK Bin folder: distributed with Visual Studio, add Bin folder to path manually.
 - Additional command line utilities from project's bin folder: add bin folder to path. The source code is provided on request.
-- wxWidgets 3.0 - set `WXWIN` environment variable to the folder where wxWidgets include and lib files are located. Official binary builds are required.
+- wxWidgets 3.1.1 - set `WXWIN` environment variable to the folder where wxWidgets include and lib files are located. Official binary builds are required.
 
 ### Digital Signing of Build Outputs
 In order to have the build process digitally sign output files, one should provide the following:
