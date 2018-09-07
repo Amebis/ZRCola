@@ -106,7 +106,7 @@ bool ZRCola::tagname_db::Search(_In_z_ const wchar_t *str, _In_ LCID locale, _In
                     auto idx = hits.find(val.tag);
                     if (idx == hits.end()) {
                         // New tag.
-                        hits.insert(std::make_pair(val.tag, 1));
+                        hits.insert(std::make_pair(val.tag, (unsigned __int16)1));
                     } else {
                         // Increase count for existing tag.
                         idx->second++;

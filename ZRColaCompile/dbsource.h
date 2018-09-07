@@ -936,7 +936,11 @@ inline ZRCola::transeq_db& operator<<(_Inout_ ZRCola::transeq_db &db, _In_ const
     wxASSERT_MSG(n <= 0xffff, wxT("translation sequence sets overflow"));
     db.data.push_back((unsigned __int16)n);
     db.data.insert(db.data.end(), rec.name.cbegin(), rec.name.cend());
-    db.data.insert(db.data.end(), rec.sets.cbegin(), rec.sets.cend());
+    for (auto s = rec.sets.cbegin(), s_end = rec.sets.cend(); s != s_end; ++s) {
+        int val = *s;
+        wxASSERT_MSG(val <= 0xffff, wxT("translation sequence ID overflow"));
+        db.data.push_back((unsigned __int16)val);
+    }
     db.idxTranSeq.push_back(idx);
     db.idxRank   .push_back(idx);
 
