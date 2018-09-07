@@ -253,20 +253,20 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
 
             m_gridPreview->SetCellValue(0, 0, m_char);
 
-            std::unique_ptr<ZRCola::character_db::character> chr((ZRCola::character_db::character*)new char[sizeof(ZRCola::character_db::character) + sizeof(wchar_t)*m_char.length()]);
-            chr->ZRCola::character_db::character::character(m_char.data(), m_char.length());
-            size_t start;
-            if (app->m_chr_db.idxChr.find(*chr, start)) {
-                const auto &chr = app->m_chr_db.idxChr[start];
+            std::unique_ptr<ZRCola::character_db::character> ch((ZRCola::character_db::character*)new char[sizeof(ZRCola::character_db::character) + sizeof(wchar_t)*m_char.length()]);
+            ch->ZRCola::character_db::character::character(m_char.data(), m_char.length());
+            ZRCola::character_db::indexChr::size_type ch_start;
+            if (app->m_chr_db.idxChr.find(*ch, ch_start)) {
+                const auto &chr = app->m_chr_db.idxChr[ch_start];
                 // Update character description.
                 m_description->SetValue(wxString(chr.desc(), chr.desc_len()));
                 {
                     // See if this character has a key sequence registered.
                     std::unique_ptr<ZRCola::keyseq_db::keyseq> ks((ZRCola::keyseq_db::keyseq*)new char[sizeof(ZRCola::keyseq_db::keyseq) + sizeof(wchar_t)*m_char.length()]);
                     ks->ZRCola::keyseq_db::keyseq::keyseq(NULL, 0, m_char.data(), m_char.length());
-                    ZRCola::keyseq_db::indexKey::size_type start;
-                    if (app->m_ks_db.idxChr.find(*ks, start)) {
-                        ZRCola::keyseq_db::keyseq &seq = app->m_ks_db.idxChr[start];
+                    ZRCola::keyseq_db::indexKey::size_type ks_start;
+                    if (app->m_ks_db.idxChr.find(*ks, ks_start)) {
+                        const auto &seq = app->m_ks_db.idxChr[ks_start];
                         wxString ks_str;
                         if (ZRCola::keyseq_db::GetSequenceAsText(seq.seq(), seq.seq_len(), ks_str))
                             m_shortcut->SetValue(ks_str);
@@ -276,10 +276,10 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
                         m_shortcut->SetValue(wxEmptyString);
                 }
                 {
-                    size_t start;
                     // Update character category.
-                    if (app->m_cc_db.idxChrCat.find(ZRCola::chrcat_db::chrcat(chr.cat), start)) {
-                        const auto &cat = app->m_cc_db.idxChrCat[start];
+                    ZRCola::chrcat_db::indexChrCat::size_type cc_start;
+                    if (app->m_cc_db.idxChrCat.find(ZRCola::chrcat_db::chrcat(chr.cat), cc_start)) {
+                        const auto &cat = app->m_cc_db.idxChrCat[cc_start];
                         m_category->SetValue(wxGetTranslation(wxString(cat.name(), cat.name_len()), wxT("ZRCola-zrcdb")));
                     } else
                         m_category->SetValue(wxEmptyString);
@@ -297,16 +297,14 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
             std::list<std::wstring> tag_names;
             std::unique_ptr<ZRCola::chrtag_db::chrtag> ct((ZRCola::chrtag_db::chrtag*)new char[sizeof(ZRCola::chrtag_db::chrtag) + sizeof(wchar_t)*m_char.length()]);
             ct->ZRCola::chrtag_db::chrtag::chrtag(m_char.data(), m_char.length());
-            size_t end;
-            if (app->m_ct_db.idxChr.find(*ct, start, end)) {
-                for (size_t i = start; i < end; i++) {
-                    const ZRCola::chrtag_db::chrtag &ct = app->m_ct_db.idxChr[i];
-
+            ZRCola::chrtag_db::indexChr::size_type ct_start, ct_end;
+            if (app->m_ct_db.idxChr.find(*ct, ct_start, ct_end)) {
+                for (auto i = ct_start; i < ct_end; i++) {
                     // Find tag names.
-                    size_t start, end;
-                    if (app->m_tn_db.idxTag.find(ZRCola::tagname_db::tagname(ct.tag, m_locale), start, end)) {
-                        for (size_t i = start; i < end; i++) {
-                            const ZRCola::tagname_db::tagname &tn = app->m_tn_db.idxTag[i];
+                    ZRCola::tagname_db::indexTag::size_type tn_start, tn_end;
+                    if (app->m_tn_db.idxTag.find(ZRCola::tagname_db::tagname(app->m_ct_db.idxChr[i].tag, m_locale), tn_start, tn_end)) {
+                        for (auto j = tn_start; j < tn_end; j++) {
+                            const auto &tn = app->m_tn_db.idxTag[j];
 
                             // Add tag name to the list (prevent duplicates).
                             for (auto name = tag_names.cbegin(), name_end = tag_names.cend();; ++name) {

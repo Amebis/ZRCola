@@ -173,8 +173,7 @@ bool wxPersistentZRColaSettings::Restore()
         // The language was read from configuration.
         wnd->m_lang = lang.c_str();
     } else if (!app->m_lang_db.idxLang.empty()) {
-        const auto &lang = app->m_lang_db.idxLang[0];
-        wnd->m_lang = lang.lang;
+        wnd->m_lang = app->m_lang_db.idxLang[0].lang;
     } else
         wnd->m_lang = ZRCola::langid_t::blank;
 
