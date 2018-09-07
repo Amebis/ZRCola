@@ -36,8 +36,11 @@
 #include <WinStd/Common.h>
 
 #include <initguid.h> // GUID helper to prevent LNK2001 errors (unresolved external symbol IID_IADO...)
+#pragma warning(push)
+#pragma warning(disable: 4091)
 #include <adoint.h>
 #include <adoid.h>
+#pragma warning(pop)
 
 #include <process.h>
 #include <tchar.h>

@@ -33,7 +33,10 @@
 
 #include <wx/debug.h>
 
+#pragma warning(push)
+#pragma warning(disable: 4091)
 #include <adoint.h>
+#pragma warning(pop)
 #include <list>
 #include <map>
 #include <memory>
