@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright 2016-2017 Amebis
+    Copyright 2016-2018 Amebis
 
     This file is part of ZRCola.
 
@@ -30,16 +30,18 @@
     <OutDir>temp\$(MSBuildProjectName).$(Platform).$(Configuration).$(PlatformToolset)\</OutDir>
     <IncludePath>$(WXWIN)\include\msvc;$(WXWIN)\include;$(IncludePath)</IncludePath>
     <SourcePath>$(WXWIN)\src\aui;$(WXWIN)\src\cocoa;$(WXWIN)\src\common;$(WXWIN)\src\dfb;$(WXWIN)\src\expat;$(WXWIN)\src\generic;$(WXWIN)\src\gtk;$(WXWIN)\src\gtk1;$(WXWIN)\src\html;$(WXWIN)\src\jpeg;$(WXWIN)\src\motif;$(WXWIN)\src\msdos;$(WXWIN)\src\msw;$(WXWIN)\src\os2;$(WXWIN)\src\osx;$(WXWIN)\src\png;$(WXWIN)\src\propgrid;$(WXWIN)\src\regex;$(WXWIN)\src\ribbon;$(WXWIN)\src\richtext;$(WXWIN)\src\stc;$(WXWIN)\src\tiff;$(WXWIN)\src\univ;$(WXWIN)\src\unix;$(WXWIN)\src\x11;$(WXWIN)\src\xml;$(WXWIN)\src\xrc;$(WXWIN)\src\zlib;$(SourcePath)</SourcePath>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>NTDDI_VERSION=NTDDI_WINXP;_WIN32_WINNT=_WIN32_WINNT_WINXP;wxMSVC_VERSION_AUTO;WXUSINGDLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NTDDI_VERSION=NTDDI_WINXP;_WIN32_WINNT=_WIN32_WINNT_WINXP;wxMSVC_VERSION=$(PlatformToolsetVersion);_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <StringPooling>true</StringPooling>
       <DisableSpecificWarnings>4100;4505</DisableSpecificWarnings>
+      <SupportJustMyCode>false</SupportJustMyCode>
     </ClCompile>
     <Link>
       <OptimizeReferences>true</OptimizeReferences>

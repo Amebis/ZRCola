@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -21,55 +21,60 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CD9E4170-92DD-440E-980C-D15F62032249}</ProjectGuid>
     <RootNamespace>ZRCola</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\include\Win32.props" />
-    <Import Project="..\include\Debug.props" />
+    <Import Project="..\include\$(Platform).props" />
+    <Import Project="..\include\$(Configuration).props" />
     <Import Project="ZRCola.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\include\x64.props" />
-    <Import Project="..\include\Debug.props" />
+    <Import Project="..\include\$(Platform).props" />
+    <Import Project="..\include\$(Configuration).props" />
     <Import Project="ZRCola.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\include\Win32.props" />
-    <Import Project="..\include\Release.props" />
+    <Import Project="..\include\$(Platform).props" />
+    <Import Project="..\include\$(Configuration).props" />
     <Import Project="ZRCola.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\include\x64.props" />
-    <Import Project="..\include\Release.props" />
+    <Import Project="..\include\$(Platform).props" />
+    <Import Project="..\include\$(Configuration).props" />
     <Import Project="ZRCola.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -117,11 +122,11 @@
     <ProjectReference Include="..\lib\libZRCola\build\libZRCola.vcxproj">
       <Project>{3c61929e-7289-4101-8d0a-da22d6e1aea8}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\lib\WinStd\build\WinStd-10.0.vcxproj">
+    <ProjectReference Include="..\lib\WinStd\build\WinStd-15.0.vcxproj">
       <Project>{47399d91-7eb9-41de-b521-514ba5db0c43}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\lib\wxExtend\build\wxExtendDll-10.0.vcxproj">
-      <Project>{a3a36689-ac35-4026-93da-a3ba0c0e767c}</Project>
+    <ProjectReference Include="..\lib\wxExtend\build\wxExtendLib-15.0.vcxproj">
+      <Project>{D3E29951-D9F5-486D-A167-20AE8E90B1FA}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Updater\Updater\build\Updater.vcxproj">
       <Project>{990d8cf9-4457-4dc0-aa18-4968ef434741}</Project>

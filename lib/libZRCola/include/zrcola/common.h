@@ -32,11 +32,7 @@
 ///
 /// Public function calling convention
 ///
-#ifdef LIBZRCOLA
-#define ZRCOLA_API      __declspec(dllexport)
-#else
-#define ZRCOLA_API      __declspec(dllimport)
-#endif
+#define ZRCOLA_API
 #define ZRCOLA_NOVTABLE __declspec(novtable)
 #pragma warning(push)
 #pragma warning(disable: 4251)

@@ -23,9 +23,5 @@
 ///
 /// Public function calling convention
 ///
-#ifdef LIBZRCOLAUI
-#define ZRCOLAUI_API    __declspec(dllexport)
-#else
-#define ZRCOLAUI_API    __declspec(dllimport)
-#endif
+#define ZRCOLAUI_API
 #define ZRCOLA_NOVTABLE __declspec(novtable)
