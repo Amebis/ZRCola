@@ -716,7 +716,7 @@ bool ZRCola::DBSource::GetNormPerm(const winstd::com_obj<ADORecordset>& rs, std:
     size_t n = norm.length();
     for (auto p = np.cbegin(), p_end = np.cend(); p != p_end; ++p) {
         if (p->size() != n) {
-            _ftprintf(stderr, wxT("%s: error ZCC0170: Inconsistent normalization sequence \"%.*s\" permutation length. Please make sure all permutation lengths match normalization sequence length (%u).\n"), m_filename.c_str(), n, norm.c_str(), n);
+            _ftprintf(stderr, wxT("%s: error ZCC0170: Inconsistent normalization sequence \"%.*hs\" permutation length. Please make sure all permutation lengths match normalization sequence length (%u).\n"), m_filename.c_str(), n, norm.c_str(), n);
             return false;
         }
     }

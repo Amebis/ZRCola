@@ -584,9 +584,9 @@ int _tmain(int argc, _TCHAR *argv[])
                     if (ZRCola::keyseq_db::keyseq::CompareSequence(ks1.seq(), ks1.seq_len(), ks2.seq(), ks2.seq_len()) == 0) {
                         wxString seq_str;
                         ZRCola::keyseq_db::GetSequenceAsText(ks1.seq(), ks1.seq_len(), seq_str);
-                        _ftprintf(stderr, wxT("%s: warning ZCC0007: Duplicate key sequence (%ls => %s or %s). The keyboard behaviour will be unpredictable.\n"),
+                        _ftprintf(stderr, wxT("%s: warning ZCC0007: Duplicate key sequence (%s => %s or %s). The keyboard behaviour will be unpredictable.\n"),
                             (LPCTSTR)filenameIn.c_str(),
-                            seq_str.c_str(),
+                            (LPCTSTR)seq_str.c_str(),
                             ZRCola::GetUnicodeDump(ks1.chr(), ks1.chr_len()).c_str(),
                             ZRCola::GetUnicodeDump(ks2.chr(), ks2.chr_len()).c_str());
                     }
