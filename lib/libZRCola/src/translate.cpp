@@ -50,8 +50,7 @@ void ZRCola::translation_db::Translate(_In_ transetid_t set, _In_z_count_(inputM
                 // Get the j-th character of the translation.
                 // All translations that get short on characters are lexically ordered before.
                 // Thus the j-th character is considered 0.
-                const translation &trans = idxSrc[m];
-                wchar_t s = trans.src_at(j);
+                wchar_t s = idxSrc[m].src_at(j);
 
                 // Do the bisection test.
                      if (c < s) r = m;
@@ -60,23 +59,18 @@ void ZRCola::translation_db::Translate(_In_ transetid_t set, _In_z_count_(inputM
                     // Character found.
 
                     // Narrow the search area on the left to start at the first translation in the run.
-                    for (size_t rr = m; l < rr;) {
-                        size_t m = (l + rr) / 2;
-                        const translation &trans = idxSrc[m];
-                        wchar_t s = trans.src_at(j);
-                        if (c <= s) rr = m; else l = m + 1;
+                    for (size_t r2 = m; l < r2;) {
+                        size_t m2 = (l + r2) / 2;
+                        if (c <= idxSrc[m2].src_at(j)) r2 = m2; else l = m2 + 1;
                     }
 
                     // Narrow the search area on the right to end at the first translation not in the run.
-                    for (size_t ll = m + 1; ll < r;) {
-                        size_t m = (ll + r) / 2;
-                        const translation &trans = idxSrc[m];
-                        wchar_t s = trans.src_at(j);
-                        if (s <= c) ll = m + 1; else r = m;
+                    for (size_t l2 = m + 1; l2 < r;) {
+                        size_t m2 = (l2 + r) / 2;
+                        if (idxSrc[m2].src_at(j) <= c) l2 = m2 + 1; else r = m2;
                     }
 
-                    const translation &trans = idxSrc[l];
-                    if (j + 1 == trans.src_len()) {
+                    if (j + 1 == idxSrc[l].src_len()) {
                         // The first translation of the run was a match (thus far). Save it.
                         l_match = l;
                     }
@@ -134,8 +128,7 @@ void ZRCola::translation_db::TranslateInv(_In_ transetid_t set, _In_z_count_(inp
                 // Get the j-th character of the inverse translation.
                 // All inverse translations that get short on characters are lexically ordered before.
                 // Thus the j-th character is considered 0.
-                const translation &trans = idxDst[m];
-                wchar_t s = trans.dst_at(j);
+                wchar_t s = idxDst[m].dst_at(j);
 
                 // Do the bisection test.
                      if (c < s) r = m;
@@ -144,23 +137,18 @@ void ZRCola::translation_db::TranslateInv(_In_ transetid_t set, _In_z_count_(inp
                     // Character found.
 
                     // Narrow the search area on the left to start at the first inverse translation in the run.
-                    for (size_t rr = m; l < rr;) {
-                        size_t m = (l + rr) / 2;
-                        const translation &trans = idxDst[m];
-                        wchar_t s = trans.dst_at(j);
-                        if (c <= s) rr = m; else l = m + 1;
+                    for (size_t r2 = m; l < r2;) {
+                        size_t m2 = (l + r2) / 2;
+                        if (c <= idxDst[m2].dst_at(j)) r2 = m2; else l = m2 + 1;
                     }
 
                     // Narrow the search area on the right to end at the first inverse translation not in the run.
-                    for (size_t ll = m + 1; ll < r;) {
-                        size_t m = (ll + r) / 2;
-                        const translation &trans = idxDst[m];
-                        wchar_t s = trans.dst_at(j);
-                        if (s <= c) ll = m + 1; else r = m;
+                    for (size_t l2 = m + 1; l2 < r;) {
+                        size_t m2 = (l2 + r) / 2;
+                        if (idxDst[m2].dst_at(j) <= c) l2 = m2 + 1; else r = m2;
                     }
 
-                    const translation &trans = idxDst[l];
-                    if (j + 1 == trans.dst_len()) {
+                    if (j + 1 == idxDst[l].dst_len()) {
                         // The first inverse translation of the run was a match (thus far). Save it.
                         l_match = l;
                     }

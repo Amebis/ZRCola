@@ -638,7 +638,7 @@ bool ZRCola::DBSource::GetTagNames(const winstd::com_obj<ADOField>& f, LCID lcid
 
     // Parse the field. Must be "name, name, name..." sequence.
     names.clear();
-    for (UINT i = 0, n = ::SysStringLen(V_BSTR(&v)); i < n && V_BSTR(&v)[i];) {
+    for (UINT i = 0, i_end = ::SysStringLen(V_BSTR(&v)); i < i_end && V_BSTR(&v)[i];) {
         if (iswspace(V_BSTR(&v)[i])) {
             // Skip leading white space.
             i++; continue;
@@ -646,7 +646,7 @@ bool ZRCola::DBSource::GetTagNames(const winstd::com_obj<ADOField>& f, LCID lcid
 
         // Parse name.
         UINT j = i, j_end = i;
-        for (; i < n && V_BSTR(&v)[i]; i++) {
+        for (; i < i_end && V_BSTR(&v)[i]; i++) {
             if (V_BSTR(&v)[i] == L',' || V_BSTR(&v)[i] == L';') {
                 // Delimiter found.
                 i++; break;
@@ -793,9 +793,9 @@ bool ZRCola::DBSource::GetTranslation(const com_obj<ADORecordset>& rs, ZRCola::D
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Kanoniziraj"), &f)));
         wxCHECK(GetValue(f, norm), false);
         if (norm) {
-            com_obj<ADOField> f;
-            wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Kano"), &f)));
-            wxCHECK(GetValue(f, t.norm), false);
+            com_obj<ADOField> f2;
+            wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Kano"), &f2)));
+            wxCHECK(GetValue(f2, t.norm), false);
         } else
             t.norm.clear();
     }
@@ -927,10 +927,10 @@ bool ZRCola::DBSource::GetTranslationSeq(const com_obj<ADORecordset>& rs, ZRCola
 
     {
         ts.sets.clear();
-        com_obj<ADOFields> flds;
-        wxVERIFY(SUCCEEDED(rs_chars->get_Fields(&flds)));
+        com_obj<ADOFields> flds2;
+        wxVERIFY(SUCCEEDED(rs_chars->get_Fields(&flds2)));
         com_obj<ADOField> f_set;
-        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Script"), &f_set)));
+        wxVERIFY(SUCCEEDED(flds2->get_Item(variant(L"Script"), &f_set)));
         size_t n = 0;
         for (VARIANT_BOOL eof = VARIANT_TRUE; SUCCEEDED(rs_chars->get_EOF(&eof)) && !eof; rs_chars->MoveNext(), n++) {
             int set;
@@ -1188,11 +1188,11 @@ bool ZRCola::DBSource::GetCharacterGroup(const com_obj<ADORecordset>& rs, chrgrp
     {
         cg.chars.clear();
         cg.show.clear();
-        com_obj<ADOFields> flds;
-        wxVERIFY(SUCCEEDED(rs_chars->get_Fields(&flds)));
+        com_obj<ADOFields> flds2;
+        wxVERIFY(SUCCEEDED(rs_chars->get_Fields(&flds2)));
         com_obj<ADOField> f_char, f_show;
-        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Znak"  ), &f_char)));
-        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"pogost"), &f_show)));
+        wxVERIFY(SUCCEEDED(flds2->get_Item(variant(L"Znak"  ), &f_char)));
+        wxVERIFY(SUCCEEDED(flds2->get_Item(variant(L"pogost"), &f_show)));
         size_t n = 0;
         for (VARIANT_BOOL eof = VARIANT_TRUE; SUCCEEDED(rs_chars->get_EOF(&eof)) && !eof; rs_chars->MoveNext(), n++) {
             wstring c;

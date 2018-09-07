@@ -363,16 +363,14 @@ namespace ZRCola {
                 else {
                     // Narrow the search area on the left to start at the first element in the run.
                     for (size_type end2 = m; start < end2;) {
-                        size_type m = (start + end2) / 2;
-                        int r = compare(el, at(m));
-                        if (r <= 0) end2 = m; else start = m + 1;
+                        size_type m2 = (start + end2) / 2;
+                        if (compare(el, at(m2)) <= 0) end2 = m2; else start = m2 + 1;
                     }
 
                     // Narrow the search area on the right to end at the first element not in the run.
                     for (size_type start2 = m + 1; start2 < end;) {
-                        size_type m = (start2 + end) / 2;
-                        int r = compare(el, at(m));
-                        if (0 <= r) start2 = m + 1; else end = m;
+                        size_type m2 = (start2 + end) / 2;
+                        if (0 <= compare(el, at(m2))) start2 = m2 + 1; else end = m2;
                     }
 
                     return true;
@@ -404,9 +402,8 @@ namespace ZRCola {
                 else {
                     // Narrow the search area on the left to start at the first element in the run.
                     for (size_type end2 = m; start < end2;) {
-                        size_type m = (start + end2) / 2;
-                        int r = compare(el, at(m));
-                        if (r <= 0) end2 = m; else start = m + 1;
+                        m = (start + end2) / 2;
+                        if (compare(el, at(m)) <= 0) end2 = m; else start = m + 1;
                     }
 
                     return true;
@@ -478,9 +475,9 @@ namespace ZRCola {
                 else if (r > 0) start = m + 1;
                 else {
                     // Get values at position m.
-                    size_t start =               base_t::at(m    ).idx_val;
-                    *val_len     = (m < size() ? base_t::at(m + 1).idx_val : values.size()) - start;
-                    *val         = &values.at(start);
+                    start    =               base_t::at(m    ).idx_val;
+                    *val_len = (m < size() ? base_t::at(m + 1).idx_val : values.size()) - start;
+                    *val     = &values.at(start);
                     return true;
                 }
             }

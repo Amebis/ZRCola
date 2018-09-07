@@ -71,42 +71,42 @@ bool ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set
 
             if (fn_abort && fn_abort(cookie)) return false;
 
-            const wchar_t *data;
-            size_t len;
+            const wchar_t *val;
+            size_t val_len;
 
-            if (idxDsc.find(term.c_str(), term.size(), &data, &len)) {
+            if (idxDsc.find(term.c_str(), term.size(), &val, &val_len)) {
                 // The term was found.
-                for (size_t i = 0, j = 0; i < len; i += j + 1) {
+                for (size_t i = 0, j = 0; i < val_len; i += j + 1) {
                     if (fn_abort && fn_abort(cookie)) return false;
-                    j = wcsnlen(data + i, len - i);
-                    if (cats.find(GetCharCat(data + i, j)) != cats.end()) {
-                        std::wstring c(data + i, j);
+                    j = wcsnlen(val + i, val_len - i);
+                    if (cats.find(GetCharCat(val + i, j)) != cats.end()) {
+                        std::wstring c(val + i, j);
                         auto idx = hits.find(c);
                         if (idx == hits.end()) {
                             // New character.
-                            hits.insert(std::make_pair(std::move(c), 1.0/len));
+                            hits.insert(std::make_pair(std::move(c), 1.0/val_len));
                         } else {
                             // Increase rating of existing character.
-                            idx->second += 1.0/len;
+                            idx->second += 1.0/val_len;
                         }
                     }
                 }
             }
 
-            if (idxDscSub.find(term.c_str(), term.size(), &data, &len)) {
+            if (idxDscSub.find(term.c_str(), term.size(), &val, &val_len)) {
                 // The term was found in the sub-term index.
-                for (size_t i = 0, j = 0; i < len; i += j + 1) {
+                for (size_t i = 0, j = 0; i < val_len; i += j + 1) {
                     if (fn_abort && fn_abort(cookie)) return false;
-                    j = wcsnlen(data + i, len - i);
-                    if (cats.find(GetCharCat(data + i, j)) != cats.end()) {
-                        std::wstring c(data + i, j);
+                    j = wcsnlen(val + i, val_len - i);
+                    if (cats.find(GetCharCat(val + i, j)) != cats.end()) {
+                        std::wstring c(val + i, j);
                         auto idx = hits_sub.find(c);
                         if (idx == hits_sub.end()) {
                             // New character.
-                            hits_sub.insert(std::make_pair(c, 1.0/len));
+                            hits_sub.insert(std::make_pair(c, 1.0/val_len));
                         } else {
                             // Increase rating of existing character.
-                            idx->second += 1.0/len;
+                            idx->second += 1.0/val_len;
                         }
                     }
                 }

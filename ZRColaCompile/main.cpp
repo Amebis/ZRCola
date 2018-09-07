@@ -449,8 +449,7 @@ int _tmain(int argc, _TCHAR *argv[])
                         // Get translations.
                         com_obj<ADORecordset> rs_tran;
                         if (src.SelectTranslations(ts.set, rs_tran)) {
-                            size_t count = src.GetRecordsetCount(rs_tran);
-                            if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
+                            if (src.GetRecordsetCount(rs_tran) < 0xffffffff) { // 4G check (-1 is reserved for error condition)
                                 // Parse translations and build temporary database.
                                 ZRCola::DBSource::translation trans;
                                 trans.set = ts.set;
@@ -747,11 +746,11 @@ int _tmain(int argc, _TCHAR *argv[])
                 ZRCola::DBSource::character_desc_idx idxChrDsc, idxChrDscSub;
 
                 ZRCola::DBSource::character_bank chrs;
-                ZRCola::DBSource::character chr;
 
                 // Phase 1: Parse characters and build indexes.
                 for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
                     // Read character from the database.
+                    ZRCola::DBSource::character chr;
                     if (src.GetCharacter(rs, chr))
                         chrs[chr.first] = std::move(chr.second);
                     else
@@ -936,9 +935,9 @@ int _tmain(int argc, _TCHAR *argv[])
 
     if (!has_errors && build_pot) {
         const wxString& filenamePot = parser.GetParam(2);
-        fstream dst((LPCTSTR)filenamePot, ios_base::out | ios_base::trunc);
-        if (dst.good()) {
-            dst << "msgid \"\"" << endl
+        fstream dst_pot((LPCTSTR)filenamePot, ios_base::out | ios_base::trunc);
+        if (dst_pot.good()) {
+            dst_pot << "msgid \"\"" << endl
                 << "msgstr \"\"" << endl
                 << "\"Project-Id-Version: ZRCola.zrcdb\\n\"" << endl
                 << "\"Language: en\\n\"" << endl
@@ -948,9 +947,9 @@ int _tmain(int argc, _TCHAR *argv[])
                 << "\"X-Generator: ZRColaCompile\\n\"" << endl;
 
             wstring_convert<codecvt_utf8<wchar_t>> conv;
-            for (auto i = pot.cbegin(); i != pot.cend(); ++i) {
+            for (auto p = pot.cbegin(); p != pot.cend(); ++p) {
                 // Convert UTF-16 to UTF-8 and escape.
-                string t(conv.to_bytes(*i)), u;
+                string t(conv.to_bytes(*p)), u;
                 for (size_t i = 0, n = t.size(); i < n; i++) {
                     char c = t[i];
                     switch (c) {
@@ -961,17 +960,17 @@ int _tmain(int argc, _TCHAR *argv[])
                     default  : u += c;
                     }
                 }
-                dst << endl
+                dst_pot << endl
                     << "msgid \"" << u << "\"" << endl
                     << "msgstr \"\"" << endl;
             }
 
-            if (dst.fail()) {
+            if (dst_pot.fail()) {
                 _ftprintf(stderr, wxT("%s: error ZCC0013: Writing to POT catalog failed.\n"), (LPCTSTR)filenameOut.c_str());
                 has_errors = true;
             }
 
-            dst.close();
+            dst_pot.close();
         } else {
             _ftprintf(stderr, wxT("%s: error ZCC0012: Error opening POT catalog.\n"), filenameOut.fn_str());
             has_errors = true;

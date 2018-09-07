@@ -102,11 +102,11 @@ bool ZRCola::tagname_db::Search(_In_z_ const wchar_t *str, _In_ LCID locale, _In
                 // The name was found.
                 for (size_t i = start; i < end; i++) {
                     if (fn_abort && fn_abort(cookie)) return false;
-                    const tagname &name = idxName[i];
-                    auto idx = hits.find(name.tag);
+                    const tagname &val = idxName[i];
+                    auto idx = hits.find(val.tag);
                     if (idx == hits.end()) {
                         // New tag.
-                        hits.insert(std::make_pair(name.tag, 1));
+                        hits.insert(std::make_pair(val.tag, 1));
                     } else {
                         // Increase count for existing tag.
                         idx->second++;
