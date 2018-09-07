@@ -22,6 +22,7 @@
 #include "common.h"
 
 #include <stdex/idrec.h>
+#include <algorithm>
 #include <istream>
 #include <map>
 #include <ostream>

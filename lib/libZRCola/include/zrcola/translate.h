@@ -23,6 +23,7 @@
 #include "language.h"
 
 #include <stdex/idrec.h>
+#include <algorithm>
 #include <istream>
 #include <ostream>
 #include <vector>

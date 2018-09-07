@@ -24,6 +24,7 @@
 
 #include <stdex/idrec.h>
 #include <assert.h>
+#include <algorithm>
 #include <istream>
 #include <ostream>
 #include <vector>
