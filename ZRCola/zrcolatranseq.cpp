@@ -190,7 +190,7 @@ void wxZRColaTranslationSeq::OnApplyButtonClick(wxCommandEvent& event)
 
     m_transeq.clear();
     for (unsigned int i = 0, n = m_selected->GetCount(); i < n; i++)
-        m_transeq.push_back(reinterpret_cast<ZRCola::transetid_t>(m_selected->GetClientData(i)));
+        m_transeq.push_back(static_cast<ZRCola::transetid_t>((size_t)m_selected->GetClientData(i)));
 
     // Notify source text something changed and should re-translate.
     wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);

@@ -160,12 +160,12 @@ wxZRColaFrame::wxZRColaFrame() :
     // Populate list of translation sequences.
     for (unsigned int i = 0, n = m_toolTranslationSeq->GetCount(); ; i++) {
         if (i < n) {
-            if (reinterpret_cast<ZRCola::transeqid_t>(m_toolTranslationSeq->GetClientData(i)) == m_transeq_id) {
+            if (static_cast<ZRCola::transeqid_t>((size_t)m_toolTranslationSeq->GetClientData(i)) == m_transeq_id) {
                 m_toolTranslationSeq->SetSelection(i);
                 break;
             }
         } else {
-            m_transeq_id = reinterpret_cast<ZRCola::transeqid_t>(m_toolTranslationSeq->GetClientData(0));
+            m_transeq_id = static_cast<ZRCola::transeqid_t>((size_t)m_toolTranslationSeq->GetClientData(0));
             m_toolTranslationSeq->SetSelection(0);
             break;
         }
@@ -361,7 +361,7 @@ void wxZRColaFrame::OnToolbarTranslate(wxCommandEvent& event)
 
 void wxZRColaFrame::OnTranslationSeqChoice(wxCommandEvent& event)
 {
-    ZRCola::transeqid_t transeq_id = reinterpret_cast<ZRCola::transeqid_t>(event.GetClientData());
+    ZRCola::transeqid_t transeq_id = static_cast<ZRCola::transeqid_t>((size_t)event.GetClientData());
     if (m_transeq_id != transeq_id) {
         m_transeq_id = transeq_id;
 
@@ -416,7 +416,7 @@ void wxZRColaFrame::OnHelpShortcuts(wxCommandEvent& event)
     INSTALLSTATE pdf_is = ::MsiGetComponentPath(_T(PRODUCT_VERSION_GUID), _T("{68AC2C38-10E2-41A3-B92C-844C03FFDF6A}"), pdf_path);
     if ((pdf_is == INSTALLSTATE_LOCAL || pdf_is == INSTALLSTATE_SOURCE) &&
         wxFileExists(pdf_path) &&
-        (int)::ShellExecute(GetHWND(), NULL, pdf_path.c_str(), NULL, NULL, SW_SHOWNORMAL) > 32) return;
+        (intptr_t)::ShellExecute(GetHWND(), NULL, pdf_path.c_str(), NULL, NULL, SW_SHOWNORMAL) > 32) return;
 #endif
 
     // Search and try to launch local PDF copy.
@@ -424,7 +424,7 @@ void wxZRColaFrame::OnHelpShortcuts(wxCommandEvent& event)
     pdf_path  = app->GetDatabasePath();
     pdf_path += _T("ZRCola_keyboard.pdf");
     if (wxFileExists(pdf_path) &&
-        (int)::ShellExecute(GetHWND(), NULL, pdf_path.c_str(), NULL, NULL, SW_SHOWNORMAL) > 32) return;
+        (intptr_t)::ShellExecute(GetHWND(), NULL, pdf_path.c_str(), NULL, NULL, SW_SHOWNORMAL) > 32) return;
 
     // When everything else fail, try the online version.
     wxLaunchDefaultBrowser(_("http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"));
