@@ -12,11 +12,28 @@ https://www.amebis.si/prenos/ZRCola/
 
 ### Building Environment Requirements
 - Microsoft Windows Vista or later
-- Microsoft Visual Studio 2010 SP1
+- Microsoft Visual Studio 2017
 - _sed.exe_ and _grep.exe_
 - Command line utilities from Microsoft Windows SDK Bin folder: distributed with Visual Studio, add Bin folder to path manually.
 - Additional command line utilities from project's bin folder: add bin folder to path. The source code is provided on request.
-- wxWidgets 3.1.1 - set `WXWIN` environment variable to the folder where wxWidgets include and lib files are located. Official binary builds are required.
+
+### wxWidgets
+ZRCola is using wxWidgets static libraries. You have to compile static libraries yourself.
+
+#### Compiling wxWidgets x86 static libraries
+1. Start _x86 Native Tools Command Prompt for VS 2017_
+2. Change working folder to `build\msw`
+3. Run: `nmake /f makefile.vc /ls RUNTIME_LIBS=static SHARED=0 COMPILER_VERSION=141`
+4. Run: `nmake /f makefile.vc /ls RUNTIME_LIBS=static SHARED=0 COMPILER_VERSION=141 BUILD=release`
+
+#### Compiling wxWidgets x64 static libraries
+1. Start _x64 Native Tools Command Prompt for VS 2017_
+2. Change working folder to `build\msw`
+3. Run: `nmake /f makefile.vc /ls RUNTIME_LIBS=static SHARED=0 COMPILER_VERSION=141 TARGET_CPU=X64`
+4. Run: `nmake /f makefile.vc /ls RUNTIME_LIBS=static SHARED=0 COMPILER_VERSION=141 TARGET_CPU=X64 BUILD=release`
+
+#### Specifying wxWidgets path
+ZRCola compilation references wxWidgets libraries using `WXWIN` environment variable. Please set it to wxWidgets folder (i.e. `C:\SDK\wxWidgets`).
 
 ### Digital Signing of Build Outputs
 In order to have the build process digitally sign output files, one should provide the following:
@@ -29,7 +46,7 @@ In order to have the build process digitally sign output files, one should provi
 Please note that only Release builds are configured for timestamp signing. Debug configurations do not attempt to timestamp sign the resulting DLL and EXE files in order to speed up the building process and enable offline building.
 
 ### Building
-Use Microsoft NMAKE to build the project. The resulting files can be found in output subfolder.
+Use Microsoft NMAKE to build the project. The resulting files can be found in output subfolder. Open _x64 Native Tools Command Prompt for VS 2017_ for building.
 
 - `nmake Clean`	Delete all intermediate and output files.
 - `nmake Setup`	Build a release version of project and release MSI setup files.
