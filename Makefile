@@ -25,6 +25,11 @@ PLAT=x64
 REG_FLAGS=/f /reg:64
 REG_FLAGS32=/f /reg:32
 PROGRAM_FILES_32=C:\Program Files (x86)
+!ELSEIF "$(PROCESSOR_ARCHITECTURE)" == "ARM64"
+PLAT=ARM64
+REG_FLAGS=/f /reg:64
+REG_FLAGS32=/f /reg:32
+PROGRAM_FILES_32=C:\Program Files (x86)
 !ELSE
 PLAT=Win32
 REG_FLAGS=/f
@@ -115,7 +120,7 @@ RegisterSettings ::
 	reg.exe add "HKLM\Software\Amebis\ZRCola" /v "Language"                   /t REG_SZ /d "en_US"                           $(REG_FLAGS) > NUL
 	reg.exe add "HKLM\Software\Amebis\ZRCola" /v "LocalizationRepositoryPath" /t REG_SZ /d "$(MAKEDIR)\$(OUTPUT_DIR)\locale" $(REG_FLAGS) > NUL
 	reg.exe add "HKLM\Software\Amebis\ZRCola" /v "DatabasePath"               /t REG_SZ /d "$(MAKEDIR)\$(OUTPUT_DIR)\data"   $(REG_FLAGS) > NUL
-!IF "$(PROCESSOR_ARCHITECTURE)" == "AMD64"
+!IF "$(PROCESSOR_ARCHITECTURE)" == "AMD64" || "$(PROCESSOR_ARCHITECTURE)" == "ARM64"
 	reg.exe add "HKLM\Software\Amebis\ZRCola" /v "Language"                   /t REG_SZ /d "en_US"                           $(REG_FLAGS32) > NUL
 	reg.exe add "HKLM\Software\Amebis\ZRCola" /v "LocalizationRepositoryPath" /t REG_SZ /d "$(MAKEDIR)\$(OUTPUT_DIR)\locale" $(REG_FLAGS32) > NUL
 	reg.exe add "HKLM\Software\Amebis\ZRCola" /v "DatabasePath"               /t REG_SZ /d "$(MAKEDIR)\$(OUTPUT_DIR)\data"   $(REG_FLAGS32) > NUL
@@ -125,7 +130,7 @@ UnregisterSettings ::
 	-reg.exe delete "HKLM\Software\Amebis\ZRCola" /v "Language"                   $(REG_FLAGS) > NUL
 	-reg.exe delete "HKLM\Software\Amebis\ZRCola" /v "LocalizationRepositoryPath" $(REG_FLAGS) > NUL
 	-reg.exe delete "HKLM\Software\Amebis\ZRCola" /v "DatabasePath"               $(REG_FLAGS) > NUL
-!IF "$(PROCESSOR_ARCHITECTURE)" == "AMD64"
+!IF "$(PROCESSOR_ARCHITECTURE)" == "AMD64" || "$(PROCESSOR_ARCHITECTURE)" == "ARM64"
 	-reg.exe delete "HKLM\Software\Amebis\ZRCola" /v "Language"                   $(REG_FLAGS32) > NUL
 	-reg.exe delete "HKLM\Software\Amebis\ZRCola" /v "LocalizationRepositoryPath" $(REG_FLAGS32) > NUL
 	-reg.exe delete "HKLM\Software\Amebis\ZRCola" /v "DatabasePath"               $(REG_FLAGS32) > NUL
