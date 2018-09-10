@@ -405,7 +405,7 @@ class wxZRColaTranslationSeqBase : public wxDialog
 	
 	public:
 		
-		wxZRColaTranslationSeqBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Custom Translation Sequence"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE ); 
+		wxZRColaTranslationSeqBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Custom Translation Sequence"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaTranslationSeq") ); 
 		~wxZRColaTranslationSeqBase();
 	
 };

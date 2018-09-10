@@ -7887,7 +7887,7 @@
             <property name="title">Custom Translation Sequence</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
-            <property name="window_name"></property>
+            <property name="window_name">ZRColaTranslationSeq</property>
             <property name="window_style"></property>
             <event name="OnActivate"></event>
             <event name="OnActivateApp"></event>
