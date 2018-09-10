@@ -41,7 +41,7 @@ wxZRColaCharGrid::wxZRColaCharGrid(wxWindow *parent, wxWindowID id, const wxPoin
 {
     Init();
 
-    SetDefaultRowSize(wxZRColaCharacterGridRowHeight);
+    SetDefaultRowSize(FromDIP(wxZRColaCharacterGridRowHeight));
 
     // Create timer for saving the state.
     m_timerToolTip.SetOwner(this, wxID_TOOLTIP_TIMER);
@@ -152,14 +152,16 @@ void wxZRColaCharGrid::OnSize(wxSizeEvent& event)
     size_t
         char_count = m_chars.GetCount();
     int
+        col_width  = FromDIP(wxZRColaCharacterGridColumnWidth),
+        row_height = FromDIP(wxZRColaCharacterGridRowHeight),
         width      = size.GetWidth() - m_rowLabelWidth - m_extraWidth,
-        cols       = std::max<int>(width / wxZRColaCharacterGridColumnWidth, 1),
+        cols       = std::max<int>(width / col_width, 1),
         rows       = std::max<int>((char_count + cols - 1) / cols, 1);
 
-    if (m_colLabelHeight + rows*wxZRColaCharacterGridRowHeight + m_extraHeight > size.GetHeight()) {
+    if (m_colLabelHeight + rows*row_height + m_extraHeight > size.GetHeight()) {
         // Vertical scrollbar will be shown. Adjust the width and recalculate layout to avoid horizontal scrollbar.
         width = std::max<int>(width - wxSystemSettings::GetMetric(wxSYS_VSCROLL_X, this), 0);
-        cols  = std::max<int>(width / wxZRColaCharacterGridColumnWidth, 1);
+        cols  = std::max<int>(width / col_width, 1);
         rows  = std::max<int>((char_count + cols - 1) / cols, 1);
     }
 
@@ -187,7 +189,7 @@ void wxZRColaCharGrid::OnSize(wxSizeEvent& event)
     }
 
     for (int c = 0; c < cols; c++)
-        SetColSize(c, wxZRColaCharacterGridColumnWidth);
+        SetColSize(c, col_width);
 
     //// Set column widths to stretch to full width.
     //for (int c = 0, x_l = 0; c < cols; c++) {

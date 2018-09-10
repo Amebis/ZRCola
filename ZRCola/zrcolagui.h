@@ -105,7 +105,7 @@ class wxZRColaFrameBase : public wxFrame
 	public:
 		wxZRColaComposerPanel* m_panel;
 		
-		wxZRColaFrameBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("ZRCola"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 600,400 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL, const wxString& name = wxT("ZRCola") );
+		wxZRColaFrameBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("ZRCola"), const wxPoint& pos = wxDefaultPosition, long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL, const wxString& name = wxT("ZRCola") );
 		wxAuiManager m_mgr;
 		
 		~wxZRColaFrameBase();
@@ -149,18 +149,18 @@ class wxZRColaComposerPanelBase : public wxPanel
 		wxTextCtrl* m_source;
 		wxTextCtrl* m_destination;
 		
-		wxZRColaComposerPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxT("ZRColaComposerPanel") ); 
+		wxZRColaComposerPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("ZRColaComposerPanel") ); 
 		~wxZRColaComposerPanelBase();
 		
 		void m_splitterSourceOnIdle( wxIdleEvent& )
 		{
-			m_splitterSource->SetSashPosition( -5 );
+			m_splitterSource->SetSashPosition( FromDIP(-5) );
 			m_splitterSource->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterSourceOnIdle ), NULL, this );
 		}
 		
 		void m_splitterDestinationOnIdle( wxIdleEvent& )
 		{
-			m_splitterDestination->SetSashPosition( -5 );
+			m_splitterDestination->SetSashPosition( FromDIP(-5) );
 			m_splitterDestination->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterDestinationOnIdle ), NULL, this );
 		}
 	
@@ -187,7 +187,7 @@ class wxZRColaCharacterCatalogPanelBase : public wxPanel
 	
 	public:
 		
-		wxZRColaCharacterCatalogPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxT("ZRColaCharacterCatalog") ); 
+		wxZRColaCharacterCatalogPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("ZRColaCharacterCatalog") ); 
 		~wxZRColaCharacterCatalogPanelBase();
 	
 };
@@ -283,7 +283,7 @@ class wxZRColaSettingsBase : public wxDialog
 	
 	public:
 		
-		wxZRColaSettingsBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Settings"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaSettings") ); 
+		wxZRColaSettingsBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Settings"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaSettings") ); 
 		~wxZRColaSettingsBase();
 	
 };

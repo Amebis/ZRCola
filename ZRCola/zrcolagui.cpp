@@ -30,9 +30,9 @@ delete old;
 static wxFBContextSensitiveHelpSetter s_wxFBSetTheHelpProvider;
 ///////////////////////////////////////////////////////////////////////////
 
-wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) : wxFrame( parent, id, title, pos, size, style, name )
+wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, long style, const wxString& name ) : wxFrame( parent, id, title, pos, parent->FromDIP(wxSize(600, 400)), style, name )
 {
-	this->SetSizeHints( wxSize( 150,150 ), wxDefaultSize );
+	this->SetSizeHints( FromDIP(wxSize( 150,150 )), wxDefaultSize );
 	m_mgr.SetManagedWindow(this);
 	m_mgr.SetFlags(wxAUI_MGR_DEFAULT);
 	
@@ -48,27 +48,27 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	wxMenuItem* m_menuItemEditCut;
 	m_menuItemEditCut = new wxMenuItem( m_menuEdit, wxID_CUT, wxString( wxEmptyString ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	m_menuItemEditCut->SetBitmaps( wxIcon( wxT("edit_cut.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemEditCut->SetBitmaps( wxIcon( wxT("edit_cut.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(16), FromDIP(16) ) );
 	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
-	m_menuItemEditCut->SetBitmap( wxIcon( wxT("edit_cut.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemEditCut->SetBitmap( wxIcon( wxT("edit_cut.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(16), FromDIP(16) ) );
 	#endif
 	m_menuEdit->Append( m_menuItemEditCut );
 	
 	wxMenuItem* m_menuItemEditCopy;
 	m_menuItemEditCopy = new wxMenuItem( m_menuEdit, wxID_COPY, wxString( wxEmptyString ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	m_menuItemEditCopy->SetBitmaps( wxIcon( wxT("edit_copy.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemEditCopy->SetBitmaps( wxIcon( wxT("edit_copy.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(16), FromDIP(16) ) );
 	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
-	m_menuItemEditCopy->SetBitmap( wxIcon( wxT("edit_copy.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemEditCopy->SetBitmap( wxIcon( wxT("edit_copy.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(16), FromDIP(16) ) );
 	#endif
 	m_menuEdit->Append( m_menuItemEditCopy );
 	
 	wxMenuItem* m_menuItemEditPaste;
 	m_menuItemEditPaste = new wxMenuItem( m_menuEdit, wxID_PASTE, wxString( wxEmptyString ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	m_menuItemEditPaste->SetBitmaps( wxIcon( wxT("edit_paste.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemEditPaste->SetBitmaps( wxIcon( wxT("edit_paste.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(16), FromDIP(16) ) );
 	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
-	m_menuItemEditPaste->SetBitmap( wxIcon( wxT("edit_paste.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemEditPaste->SetBitmap( wxIcon( wxT("edit_paste.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(16), FromDIP(16) ) );
 	#endif
 	m_menuEdit->Append( m_menuItemEditPaste );
 	
@@ -83,9 +83,9 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	wxMenuItem* m_menuCharSelect;
 	m_menuCharSelect = new wxMenuItem( m_menuEdit, wxID_CHARACTER_SELECTOR, wxString( _("Find C&haracter...") ) + wxT('\t') + wxT("F8"), _("Display character search to select character to insert into text"), wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	m_menuCharSelect->SetBitmaps( wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuCharSelect->SetBitmaps( wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(16), FromDIP(16) ) );
 	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
-	m_menuCharSelect->SetBitmap( wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuCharSelect->SetBitmap( wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(16), FromDIP(16) ) );
 	#endif
 	m_menuEdit->Append( m_menuCharSelect );
 	
@@ -94,45 +94,45 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	wxMenuItem* m_menuItemSendDestination;
 	m_menuItemSendDestination = new wxMenuItem( m_menuEdit, wxID_SEND_DESTINATION, wxString( _("&Send Composed") ) + wxT('\t') + wxT("F5"), _("Send composed text to source window"), wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	m_menuItemSendDestination->SetBitmaps( wxIcon( wxT("send_destination.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemSendDestination->SetBitmaps( wxIcon( wxT("send_destination.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(16), FromDIP(16) ) );
 	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
-	m_menuItemSendDestination->SetBitmap( wxIcon( wxT("send_destination.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemSendDestination->SetBitmap( wxIcon( wxT("send_destination.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(16), FromDIP(16) ) );
 	#endif
 	m_menuEdit->Append( m_menuItemSendDestination );
 	
 	wxMenuItem* m_menuItemCopyDestinationAndReturn;
 	m_menuItemCopyDestinationAndReturn = new wxMenuItem( m_menuEdit, wxID_COPY_DESTINATION_AND_RETURN, wxString( _("Copy Composed and &Return") ) + wxT('\t') + wxT("Ctrl+F5"), _("Copy composed text to clipboard and return focus to source window"), wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	m_menuItemCopyDestinationAndReturn->SetBitmaps( wxIcon( wxT("copy_destination_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemCopyDestinationAndReturn->SetBitmaps( wxIcon( wxT("copy_destination_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(16), FromDIP(16) ) );
 	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
-	m_menuItemCopyDestinationAndReturn->SetBitmap( wxIcon( wxT("copy_destination_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemCopyDestinationAndReturn->SetBitmap( wxIcon( wxT("copy_destination_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(16), FromDIP(16) ) );
 	#endif
 	m_menuEdit->Append( m_menuItemCopyDestinationAndReturn );
 	
 	wxMenuItem* m_menuItemSendSource;
 	m_menuItemSendSource = new wxMenuItem( m_menuEdit, wxID_SEND_SOURCE, wxString( _("Send &Decomposed") ) + wxT('\t') + wxT("F6"), _("Send decomposed text to source window"), wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	m_menuItemSendSource->SetBitmaps( wxIcon( wxT("send_source.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemSendSource->SetBitmaps( wxIcon( wxT("send_source.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(16), FromDIP(16) ) );
 	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
-	m_menuItemSendSource->SetBitmap( wxIcon( wxT("send_source.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemSendSource->SetBitmap( wxIcon( wxT("send_source.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(16), FromDIP(16) ) );
 	#endif
 	m_menuEdit->Append( m_menuItemSendSource );
 	
 	wxMenuItem* m_menuItemCopySourceAndReturn;
 	m_menuItemCopySourceAndReturn = new wxMenuItem( m_menuEdit, wxID_COPY_SOURCE_AND_RETURN, wxString( _("Copy Decomposed and Re&turn") ) + wxT('\t') + wxT("Ctrl+F6"), _("Copy decomposed text to clipboard and return focus to source window"), wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	m_menuItemCopySourceAndReturn->SetBitmaps( wxIcon( wxT("copy_source_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemCopySourceAndReturn->SetBitmaps( wxIcon( wxT("copy_source_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(16), FromDIP(16) ) );
 	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
-	m_menuItemCopySourceAndReturn->SetBitmap( wxIcon( wxT("copy_source_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemCopySourceAndReturn->SetBitmap( wxIcon( wxT("copy_source_and_return.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(16), FromDIP(16) ) );
 	#endif
 	m_menuEdit->Append( m_menuItemCopySourceAndReturn );
 	
 	wxMenuItem* m_menuItemSendAbort;
 	m_menuItemSendAbort = new wxMenuItem( m_menuEdit, wxID_SEND_ABORT, wxString( _("Abort (De)composition") ) + wxT('\t') + wxT("Esc"), _("Abort composition and return focus to source window"), wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	m_menuItemSendAbort->SetBitmaps( wxIcon( wxT("send_abort.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemSendAbort->SetBitmaps( wxIcon( wxT("send_abort.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(16), FromDIP(16) ) );
 	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
-	m_menuItemSendAbort->SetBitmap( wxIcon( wxT("send_abort.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
+	m_menuItemSendAbort->SetBitmap( wxIcon( wxT("send_abort.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(16), FromDIP(16) ) );
 	#endif
 	m_menuEdit->Append( m_menuItemSendAbort );
 	
@@ -191,32 +191,32 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	this->SetMenuBar( m_menubar );
 	
 	m_toolbarEdit = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT ); 
-	m_toolEditCut = m_toolbarEdit->AddTool( wxID_CUT, _("Cut"), wxIcon( wxT("edit_cut.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Cut"), _("Cut selection"), NULL ); 
+	m_toolEditCut = m_toolbarEdit->AddTool( wxID_CUT, _("Cut"), wxIcon( wxT("edit_cut.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(24), FromDIP(24) ), wxNullBitmap, wxITEM_NORMAL, _("Cut"), _("Cut selection"), NULL ); 
 	
-	m_toolEditCopy = m_toolbarEdit->AddTool( wxID_COPY, _("Copy"), wxIcon( wxT("edit_copy.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Copy"), _("Copy selection"), NULL ); 
+	m_toolEditCopy = m_toolbarEdit->AddTool( wxID_COPY, _("Copy"), wxIcon( wxT("edit_copy.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(24), FromDIP(24) ), wxNullBitmap, wxITEM_NORMAL, _("Copy"), _("Copy selection"), NULL ); 
 	
-	m_toolEditPaste = m_toolbarEdit->AddTool( wxID_PASTE, _("Paste"), wxIcon( wxT("edit_paste.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Paste"), _("Paste selection"), NULL ); 
+	m_toolEditPaste = m_toolbarEdit->AddTool( wxID_PASTE, _("Paste"), wxIcon( wxT("edit_paste.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(24), FromDIP(24) ), wxNullBitmap, wxITEM_NORMAL, _("Paste"), _("Paste selection"), NULL ); 
 	
 	m_toolbarEdit->Realize();
-	m_mgr.AddPane( m_toolbarEdit, wxAuiPaneInfo().Name( wxT("toolbarEdit") ).Top().Caption( _("Edit") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );
+	m_mgr.AddPane( m_toolbarEdit, wxAuiPaneInfo().Name( wxT("toolbarEdit") ).Top().Caption( _("Edit") ).PinButton( true ).Dock().Resizable().FloatingSize( wxDefaultSize ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );
 	
 	m_toolbarTranslate = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT ); 
-	m_toolCharSelect = m_toolbarTranslate->AddTool( wxID_CHARACTER_SELECTOR, _("Find Character"), wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Find Character"), _("Display character search to select character to insert into text"), NULL ); 
+	m_toolCharSelect = m_toolbarTranslate->AddTool( wxID_CHARACTER_SELECTOR, _("Find Character"), wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(24), FromDIP(24) ), wxNullBitmap, wxITEM_NORMAL, _("Find Character"), _("Display character search to select character to insert into text"), NULL ); 
 	
-	m_toolSendDestination = m_toolbarTranslate->AddTool( wxID_SEND_DESTINATION, _("Send Composed"), wxIcon( wxT("send_destination.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Composed"), _("Send composed text to source window"), NULL ); 
+	m_toolSendDestination = m_toolbarTranslate->AddTool( wxID_SEND_DESTINATION, _("Send Composed"), wxIcon( wxT("send_destination.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(24), FromDIP(24) ), wxNullBitmap, wxITEM_NORMAL, _("Send Composed"), _("Send composed text to source window"), NULL ); 
 	
-	m_toolSendSource = m_toolbarTranslate->AddTool( wxID_SEND_SOURCE, _("Send Decomposed"), wxIcon( wxT("send_source.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Decomposed"), _("Send decomposed text to source window"), NULL ); 
+	m_toolSendSource = m_toolbarTranslate->AddTool( wxID_SEND_SOURCE, _("Send Decomposed"), wxIcon( wxT("send_source.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(24), FromDIP(24) ), wxNullBitmap, wxITEM_NORMAL, _("Send Decomposed"), _("Send decomposed text to source window"), NULL ); 
 	
 	wxArrayString m_toolTranslationSeqChoices;
-	m_toolTranslationSeq = new wxChoice( m_toolbarTranslate, wxID_ANY, wxDefaultPosition, wxSize( 250,-1 ), m_toolTranslationSeqChoices, 0 );
+	m_toolTranslationSeq = new wxChoice( m_toolbarTranslate, wxID_ANY, wxDefaultPosition, FromDIP(wxSize( 250,-1 )), m_toolTranslationSeqChoices, 0 );
 	m_toolTranslationSeq->SetSelection( 0 );
 	m_toolbarTranslate->AddControl( m_toolTranslationSeq );
 	m_toolbarTranslate->Realize();
-	m_mgr.AddPane( m_toolbarTranslate, wxAuiPaneInfo().Name( wxT("toolbarCompose") ).Top().Caption( _("Compose") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );
+	m_mgr.AddPane( m_toolbarTranslate, wxAuiPaneInfo().Name( wxT("toolbarCompose") ).Top().Caption( _("Compose") ).PinButton( true ).Dock().Resizable().FloatingSize( wxDefaultSize ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );
 	
 	m_panelChrCat = new wxZRColaCharacterCatalogPanel( this );
 	
-	m_mgr.AddPane( m_panelChrCat, wxAuiPaneInfo() .Name( wxT("panelChrGrp") ).Left() .Caption( _("Character Catalog") ).PinButton( true ).Dock().Resizable().FloatingSize( wxDefaultSize ).Row( 1 ).BestSize( wxSize( 150,200 ) ).MinSize( wxSize( 100,100 ) ).Layer( 1 ) );
+	m_mgr.AddPane( m_panelChrCat, wxAuiPaneInfo() .Name( wxT("panelChrGrp") ).Left() .Caption( _("Character Catalog") ).PinButton( true ).Dock().Resizable().FloatingSize( wxDefaultSize ).Row( 1 ).BestSize(FromDIP(wxSize( 150,200 )) ).MinSize( FromDIP(wxSize( 100,100 )) ).Layer( 1 ) );
 	
 	m_panel = new wxZRColaComposerPanel( this );
 	
@@ -254,7 +254,7 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	m_splitterSource = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D|wxSP_LIVE_UPDATE );
 	m_splitterSource->SetSashGravity( 1 );
 	m_splitterSource->Connect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterSourceOnIdle ), NULL, this );
-	m_splitterSource->SetMinimumPaneSize( 5 );
+	m_splitterSource->SetMinimumPaneSize( FromDIP(5) );
 	
 	m_panelSourceEdit = new wxPanel( m_splitterSource, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizerSourceEdit;
@@ -265,12 +265,12 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	
 	m_source = new wxTextCtrl( bSizerSourceEdit2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
 	m_source->SetFont( wxFont( 20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola") ) );
-	m_source->SetMinSize( wxSize( 100,25 ) );
+	m_source->SetMinSize( FromDIP(wxSize( 100,25 )) );
 	
-	bSizerSourceEdit2->Add( m_source, 1, wxEXPAND, 5 );
+	bSizerSourceEdit2->Add( m_source, 1, wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerSourceEdit->Add( bSizerSourceEdit2, 1, wxEXPAND, 5 );
+	bSizerSourceEdit->Add( bSizerSourceEdit2, 1, wxEXPAND, FromDIP(5) );
 	
 	
 	m_panelSourceEdit->SetSizer( bSizerSourceEdit );
@@ -286,22 +286,22 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	m_sourceHex = new wxTextCtrl( bSizerSourceHex2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
 	m_sourceHex->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxEmptyString ) );
 	
-	bSizerSourceHex2->Add( m_sourceHex, 1, wxEXPAND, 5 );
+	bSizerSourceHex2->Add( m_sourceHex, 1, wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerSourceHex->Add( bSizerSourceHex2, 1, wxEXPAND, 5 );
+	bSizerSourceHex->Add( bSizerSourceHex2, 1, wxEXPAND, FromDIP(5) );
 	
 	
 	m_panelSourceHex->SetSizer( bSizerSourceHex );
 	m_panelSourceHex->Layout();
 	bSizerSourceHex->Fit( m_panelSourceHex );
-	m_splitterSource->SplitVertically( m_panelSourceEdit, m_panelSourceHex, -5 );
-	bSizerMain->Add( m_splitterSource, 50, wxALL|wxEXPAND, 5 );
+	m_splitterSource->SplitVertically( m_panelSourceEdit, m_panelSourceHex, FromDIP(-5) );
+	bSizerMain->Add( m_splitterSource, 50, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_splitterDestination = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D|wxSP_LIVE_UPDATE );
 	m_splitterDestination->SetSashGravity( 1 );
 	m_splitterDestination->Connect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterDestinationOnIdle ), NULL, this );
-	m_splitterDestination->SetMinimumPaneSize( 5 );
+	m_splitterDestination->SetMinimumPaneSize( FromDIP(5) );
 	
 	m_panelDestinationEdit = new wxPanel( m_splitterDestination, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizerDestinationEdit;
@@ -312,12 +312,12 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	
 	m_destination = new wxTextCtrl( bSizerDestinationEdit2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
 	m_destination->SetFont( wxFont( 20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola") ) );
-	m_destination->SetMinSize( wxSize( 100,25 ) );
+	m_destination->SetMinSize( FromDIP(wxSize( 100,25 )) );
 	
-	bSizerDestinationEdit2->Add( m_destination, 1, wxEXPAND, 5 );
+	bSizerDestinationEdit2->Add( m_destination, 1, wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerDestinationEdit->Add( bSizerDestinationEdit2, 1, wxEXPAND, 5 );
+	bSizerDestinationEdit->Add( bSizerDestinationEdit2, 1, wxEXPAND, FromDIP(5) );
 	
 	
 	m_panelDestinationEdit->SetSizer( bSizerDestinationEdit );
@@ -333,17 +333,17 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	m_destinationHex = new wxTextCtrl( bSizerDestinationHex2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
 	m_destinationHex->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxEmptyString ) );
 	
-	bSizerDestinationHex2->Add( m_destinationHex, 1, wxEXPAND, 5 );
+	bSizerDestinationHex2->Add( m_destinationHex, 1, wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerDestinationHex->Add( bSizerDestinationHex2, 1, wxEXPAND, 5 );
+	bSizerDestinationHex->Add( bSizerDestinationHex2, 1, wxEXPAND, FromDIP(5) );
 	
 	
 	m_panelDestinationHex->SetSizer( bSizerDestinationHex );
 	m_panelDestinationHex->Layout();
 	bSizerDestinationHex->Fit( m_panelDestinationHex );
-	m_splitterDestination->SplitVertically( m_panelDestinationEdit, m_panelDestinationHex, -5 );
-	bSizerMain->Add( m_splitterDestination, 50, wxALL|wxEXPAND, 5 );
+	m_splitterDestination->SplitVertically( m_panelDestinationEdit, m_panelDestinationHex, FromDIP(-5) );
+	bSizerMain->Add( m_splitterDestination, 50, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
 	this->SetSizer( bSizerMain );
@@ -384,7 +384,7 @@ wxZRColaCharacterCatalogPanelBase::wxZRColaCharacterCatalogPanelBase( wxWindow* 
 	m_choice->SetSelection( 0 );
 	m_choice->SetToolTip( _("Select category to display") );
 	
-	bSizer->Add( m_choice, 0, wxALL|wxEXPAND, 5 );
+	bSizer->Add( m_choice, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_grid = new wxZRColaCharGrid( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
 	
@@ -412,14 +412,14 @@ wxZRColaCharacterCatalogPanelBase::wxZRColaCharacterCatalogPanelBase( wxWindow* 
 	m_grid->SetDefaultCellBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNFACE ) );
 	m_grid->SetDefaultCellFont( wxFont( 20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola") ) );
 	m_grid->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
-	m_grid->SetMinSize( wxSize( 35,35 ) );
+	m_grid->SetMinSize( FromDIP(wxSize( 35,35 )) );
 	
-	bSizer->Add( m_grid, 1, wxALL|wxEXPAND, 5 );
+	bSizer->Add( m_grid, 1, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_show_all = new wxCheckBox( this, wxID_ANY, _("Show &All"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_show_all->SetToolTip( _("Toggle display of less frequent characters") );
 	
-	bSizer->Add( m_show_all, 0, wxALL|wxEXPAND, 5 );
+	bSizer->Add( m_show_all, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
 	this->SetSizer( bSizer );
@@ -466,12 +466,12 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	m_search->ShowCancelButton( true );
 	m_search->SetToolTip( _("Full or partial terms from Unicode character description (in English) to search for") );
 	
-	sbSizerBrowse->Add( m_search, 0, wxALL|wxEXPAND, 5 );
+	sbSizerBrowse->Add( m_search, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_search_more = new wxHyperlinkCtrl( sbSizerBrowse->GetStaticBox(), wxID_ANY, _("Search Options"), wxEmptyString, wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
 	m_search_more->SetToolTip( _("Shows/hides additional search options") );
 	
-	sbSizerBrowse->Add( m_search_more, 0, wxALL|wxEXPAND, 5 );
+	sbSizerBrowse->Add( m_search_more, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_search_panel = new wxPanel( sbSizerBrowse->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	m_search_panel->Hide();
@@ -480,10 +480,10 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	sbSizerSearch = new wxBoxSizer( wxVERTICAL );
 	
 	wxArrayString m_categoriesChoices;
-	m_categories = new wxCheckListBox( m_search_panel, wxID_ANY, wxDefaultPosition, wxSize( -1,60 ), m_categoriesChoices, 0 );
+	m_categories = new wxCheckListBox( m_search_panel, wxID_ANY, wxDefaultPosition, FromDIP(wxSize( -1,60 )), m_categoriesChoices, 0 );
 	m_categories->SetToolTip( _("List of Unicode character categories to search in") );
 	
-	sbSizerSearch->Add( m_categories, 0, wxALL|wxEXPAND, 5 );
+	sbSizerSearch->Add( m_categories, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	wxBoxSizer* bSizerCategoriesCtrl;
 	bSizerCategoriesCtrl = new wxBoxSizer( wxHORIZONTAL );
@@ -491,28 +491,28 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	m_categoriesAll = new wxHyperlinkCtrl( m_search_panel, wxID_ANY, _("All"), wxEmptyString, wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
 	m_categoriesAll->SetToolTip( _("Select all categories") );
 	
-	bSizerCategoriesCtrl->Add( m_categoriesAll, 0, wxALL, 5 );
+	bSizerCategoriesCtrl->Add( m_categoriesAll, 0, wxALL, FromDIP(5) );
 	
 	m_categoriesNone = new wxHyperlinkCtrl( m_search_panel, wxID_ANY, _("None"), wxEmptyString, wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
 	m_categoriesNone->SetToolTip( _("Clear category selection") );
 	
-	bSizerCategoriesCtrl->Add( m_categoriesNone, 0, wxALL, 5 );
+	bSizerCategoriesCtrl->Add( m_categoriesNone, 0, wxALL, FromDIP(5) );
 	
 	m_categoriesInvert = new wxHyperlinkCtrl( m_search_panel, wxID_ANY, _("Invert"), wxEmptyString, wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
 	m_categoriesInvert->SetToolTip( _("Invert category selection") );
 	
-	bSizerCategoriesCtrl->Add( m_categoriesInvert, 0, wxALL, 5 );
+	bSizerCategoriesCtrl->Add( m_categoriesInvert, 0, wxALL, FromDIP(5) );
 	
 	
-	sbSizerSearch->Add( bSizerCategoriesCtrl, 0, wxALIGN_RIGHT, 5 );
+	sbSizerSearch->Add( bSizerCategoriesCtrl, 0, wxALIGN_RIGHT, FromDIP(5) );
 	
 	
 	m_search_panel->SetSizer( sbSizerSearch );
 	m_search_panel->Layout();
 	sbSizerSearch->Fit( m_search_panel );
-	sbSizerBrowse->Add( m_search_panel, 0, wxEXPAND, 5 );
+	sbSizerBrowse->Add( m_search_panel, 0, wxEXPAND, FromDIP(5) );
 	
-	m_gridResults = new wxZRColaCharGrid( sbSizerBrowse->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxBORDER_STATIC );
+	m_gridResults = new wxZRColaCharGrid( sbSizerBrowse->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_STATIC );
 	
 	// Grid
 	m_gridResults->CreateGrid( 0, 0 );
@@ -539,18 +539,18 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	m_gridResults->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	m_gridResults->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxEmptyString ) );
 	m_gridResults->SetToolTip( _("Character search results") );
-	m_gridResults->SetMinSize( wxSize( 560,35 ) );
-	m_gridResults->SetMaxSize( wxSize( 560,-1 ) );
+	m_gridResults->SetMinSize( FromDIP(wxSize( 560,35 )) );
+	m_gridResults->SetMaxSize( FromDIP(wxSize( 560,-1 )) );
 	
-	sbSizerBrowse->Add( m_gridResults, 1, wxALL|wxEXPAND, 5 );
+	sbSizerBrowse->Add( m_gridResults, 1, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerLeft->Add( sbSizerBrowse, 1, wxALL|wxEXPAND, 5 );
+	bSizerLeft->Add( sbSizerBrowse, 1, wxALL|wxEXPAND, FromDIP(5) );
 	
 	wxStaticBoxSizer* sbSizerRecent;
 	sbSizerRecent = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Re&cently Used") ), wxVERTICAL );
 	
-	m_gridRecent = new wxZRColaCharGrid( sbSizerRecent->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( -1,35 ), wxBORDER_STATIC );
+	m_gridRecent = new wxZRColaCharGrid( sbSizerRecent->GetStaticBox(), wxID_ANY, wxDefaultPosition, FromDIP(wxSize( -1,35 )), wxBORDER_STATIC );
 	
 	// Grid
 	m_gridRecent->CreateGrid( 0, 0 );
@@ -578,13 +578,13 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	m_gridRecent->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxEmptyString ) );
 	m_gridRecent->SetToolTip( _("List of recently inserted characters") );
 	
-	sbSizerRecent->Add( m_gridRecent, 0, wxALL|wxEXPAND, 5 );
+	sbSizerRecent->Add( m_gridRecent, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerLeft->Add( sbSizerRecent, 0, wxALL|wxEXPAND, 5 );
+	bSizerLeft->Add( sbSizerRecent, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerColumns->Add( bSizerLeft, 1, wxEXPAND, 5 );
+	bSizerColumns->Add( bSizerLeft, 1, wxEXPAND, FromDIP(5) );
 	
 	wxBoxSizer* bSizerRight;
 	bSizerRight = new wxBoxSizer( wxVERTICAL );
@@ -597,20 +597,20 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	
 	m_labelUnicode = new wxStaticText( sbSizerPreview->GetStaticBox(), wxID_ANY, _("U+"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_labelUnicode->Wrap( -1 );
-	bSizerUnicode->Add( m_labelUnicode, 0, wxALIGN_CENTER|wxBOTTOM|wxLEFT|wxTOP, 5 );
+	bSizerUnicode->Add( m_labelUnicode, 0, wxALIGN_CENTER|wxBOTTOM|wxLEFT|wxTOP, FromDIP(5) );
 	
-	m_unicode = new wxTextCtrl( sbSizerPreview->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 50,-1 ), 0 );
+	m_unicode = new wxTextCtrl( sbSizerPreview->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, FromDIP(wxSize( 50,-1 )), 0 );
 	m_unicode->SetToolTip( _("Unicode hexadecimal code") );
 	
-	bSizerUnicode->Add( m_unicode, 0, wxALIGN_CENTER|wxBOTTOM|wxRIGHT|wxTOP, 5 );
+	bSizerUnicode->Add( m_unicode, 0, wxALIGN_CENTER|wxBOTTOM|wxRIGHT|wxTOP, FromDIP(5) );
 	
 	m_shortcut = new wxTextCtrl( sbSizerPreview->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_READONLY );
 	m_shortcut->SetToolTip( _("Keyboard shortcut in Composer window") );
 	
-	bSizerUnicode->Add( m_shortcut, 1, wxALL|wxEXPAND, 5 );
+	bSizerUnicode->Add( m_shortcut, 1, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
-	sbSizerPreview->Add( bSizerUnicode, 0, wxEXPAND, 5 );
+	sbSizerPreview->Add( bSizerUnicode, 0, wxEXPAND, FromDIP(5) );
 	
 	m_gridPreview = new wxGrid( sbSizerPreview->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_STATIC );
 	
@@ -622,14 +622,14 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	m_gridPreview->SetMargins( 0, 0 );
 	
 	// Columns
-	m_gridPreview->SetColSize( 0, 200 );
+	m_gridPreview->SetColSize( 0, FromDIP(200) );
 	m_gridPreview->EnableDragColMove( false );
 	m_gridPreview->EnableDragColSize( false );
 	m_gridPreview->SetColLabelSize( 0 );
 	m_gridPreview->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	
 	// Rows
-	m_gridPreview->SetRowSize( 0, 200 );
+	m_gridPreview->SetRowSize( 0, FromDIP(200) );
 	m_gridPreview->EnableDragRowSize( false );
 	m_gridPreview->SetRowLabelSize( 0 );
 	m_gridPreview->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
@@ -642,22 +642,22 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	m_gridPreview->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
 	m_gridPreview->SetToolTip( _("Character preview") );
 	
-	sbSizerPreview->Add( m_gridPreview, 0, wxALL|wxEXPAND, 5 );
+	sbSizerPreview->Add( m_gridPreview, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_description = new wxTextCtrl( sbSizerPreview->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_MULTILINE|wxTE_READONLY );
 	m_description->SetToolTip( _("Unicode character description") );
 	
-	sbSizerPreview->Add( m_description, 1, wxALL|wxEXPAND, 5 );
+	sbSizerPreview->Add( m_description, 1, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_tags = new wxTextCtrl( sbSizerPreview->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_MULTILINE|wxTE_READONLY );
 	m_tags->SetToolTip( _("Character tags") );
 	
-	sbSizerPreview->Add( m_tags, 1, wxALL|wxEXPAND, 5 );
+	sbSizerPreview->Add( m_tags, 1, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_category = new wxTextCtrl( sbSizerPreview->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE|wxTE_READONLY );
 	m_category->SetToolTip( _("Unicode character category") );
 	
-	sbSizerPreview->Add( m_category, 0, wxALL|wxEXPAND, 5 );
+	sbSizerPreview->Add( m_category, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	wxBoxSizer* bSizerNavigateButtons;
 	bSizerNavigateButtons = new wxBoxSizer( wxHORIZONTAL );
@@ -666,24 +666,24 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	m_navigateBack->Enable( false );
 	m_navigateBack->SetToolTip( _("To previously viewed character") );
 	
-	bSizerNavigateButtons->Add( m_navigateBack, 0, wxALL, 5 );
+	bSizerNavigateButtons->Add( m_navigateBack, 0, wxALL, FromDIP(5) );
 	
 	m_navigateForward = new wxHyperlinkCtrl( sbSizerPreview->GetStaticBox(), wxID_ANY, _("Forward »"), wxEmptyString, wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
 	m_navigateForward->Enable( false );
 	m_navigateForward->SetToolTip( _("To following viewed character") );
 	
-	bSizerNavigateButtons->Add( m_navigateForward, 0, wxALL, 5 );
+	bSizerNavigateButtons->Add( m_navigateForward, 0, wxALL, FromDIP(5) );
 	
 	
-	sbSizerPreview->Add( bSizerNavigateButtons, 0, wxALIGN_RIGHT, 5 );
+	sbSizerPreview->Add( bSizerNavigateButtons, 0, wxALIGN_RIGHT, FromDIP(5) );
 	
 	
-	bSizerRight->Add( sbSizerPreview, 70, wxALL|wxEXPAND, 5 );
+	bSizerRight->Add( sbSizerPreview, 70, wxALL|wxEXPAND, FromDIP(5) );
 	
 	wxStaticBoxSizer* sbSizerRelated;
 	sbSizerRelated = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Re&lated") ), wxVERTICAL );
 	
-	m_gridRelated = new wxZRColaCharGrid( sbSizerRelated->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxBORDER_STATIC );
+	m_gridRelated = new wxZRColaCharGrid( sbSizerRelated->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_STATIC );
 	
 	// Grid
 	m_gridRelated->CreateGrid( 0, 0 );
@@ -710,19 +710,19 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	m_gridRelated->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
 	m_gridRelated->SetToolTip( _("List of related characters") );
 	
-	sbSizerRelated->Add( m_gridRelated, 1, wxALL|wxEXPAND, 5 );
+	sbSizerRelated->Add( m_gridRelated, 1, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerRight->Add( sbSizerRelated, 30, wxALL|wxEXPAND, 5 );
+	bSizerRight->Add( sbSizerRelated, 30, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerColumns->Add( bSizerRight, 0, wxEXPAND, 5 );
+	bSizerColumns->Add( bSizerRight, 0, wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerContent->Add( bSizerColumns, 1, wxALL|wxEXPAND, 5 );
+	bSizerContent->Add( bSizerColumns, 1, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerContent->Add( 5, 5, 0, wxALL|wxEXPAND, 5 );
+	bSizerContent->Add( FromDIP(5), FromDIP(5), 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_sdbSizerButtons = new wxStdDialogButtonSizer();
 	m_sdbSizerButtonsOK = new wxButton( this, wxID_OK );
@@ -731,7 +731,7 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	m_sdbSizerButtons->AddButton( m_sdbSizerButtonsCancel );
 	m_sdbSizerButtons->Realize();
 	
-	bSizerContent->Add( m_sdbSizerButtons, 0, wxALL|wxEXPAND, 5 );
+	bSizerContent->Add( m_sdbSizerButtons, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
 	this->SetSizer( bSizerContent );
@@ -787,45 +787,45 @@ wxZRColaCharSelectBase::~wxZRColaCharSelectBase()
 
 wxZRColaSettingsBase::wxZRColaSettingsBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) : wxDialog( parent, id, title, pos, size, style, name )
 {
-	this->SetSizeHints( wxDefaultSize, wxSize( -1,-1 ) );
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	
 	wxBoxSizer* bSizerContent;
 	bSizerContent = new wxBoxSizer( wxVERTICAL );
 	
 	m_listbook = new wxListbook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLB_DEFAULT );
-	m_panelLanguage = new wxPanel( m_listbook, wxID_ANY, wxDefaultPosition, wxSize( 500,-1 ), wxTAB_TRAVERSAL );
+	m_panelLanguage = new wxPanel( m_listbook, wxID_ANY, wxDefaultPosition, FromDIP(wxSize( 500,-1 )), wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizerLanguage;
 	bSizerLanguage = new wxBoxSizer( wxVERTICAL );
 	
 	m_langLabel = new wxStaticText( m_panelLanguage, wxID_ANY, _("Some character native to specific language you are working with should not decompose to primitives.\nFor optimal decomposition you should set the language correctly."), wxDefaultPosition, wxDefaultSize, 0 );
-	m_langLabel->Wrap( 490 );
-	bSizerLanguage->Add( m_langLabel, 0, wxALL|wxEXPAND, 5 );
+	m_langLabel->Wrap( FromDIP(490) );
+	bSizerLanguage->Add( m_langLabel, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_langAuto = new wxRadioButton( m_panelLanguage, wxID_ANY, _("Select language &automatically according to selected keyboard"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
-	bSizerLanguage->Add( m_langAuto, 0, wxALL|wxEXPAND, 5 );
+	bSizerLanguage->Add( m_langAuto, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_langManual = new wxRadioButton( m_panelLanguage, wxID_ANY, _("&Manually select the language from the list below:"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizerLanguage->Add( m_langManual, 0, wxALL|wxEXPAND, 5 );
+	bSizerLanguage->Add( m_langManual, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_languages = new wxListBox( m_panelLanguage, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
-	m_languages->SetMinSize( wxSize( -1,150 ) );
+	m_languages->SetMinSize( FromDIP(wxSize( -1,150 )) );
 	
-	bSizerLanguage->Add( m_languages, 1, wxALL|wxEXPAND, 5 );
+	bSizerLanguage->Add( m_languages, 1, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
 	m_panelLanguage->SetSizer( bSizerLanguage );
 	m_panelLanguage->Layout();
 	m_listbook->AddPage( m_panelLanguage, _("Text Language"), true );
-	m_panelAutoStart = new wxPanel( m_listbook, wxID_ANY, wxDefaultPosition, wxSize( 500,-1 ), wxTAB_TRAVERSAL );
+	m_panelAutoStart = new wxPanel( m_listbook, wxID_ANY, wxDefaultPosition, FromDIP(wxSize( 500,-1 )), wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizerAutoStart;
 	bSizerAutoStart = new wxBoxSizer( wxVERTICAL );
 	
 	m_autoStartLabel = new wxStaticText( m_panelAutoStart, wxID_ANY, _("ZRCola can be launched every time you log in to your computer.\nIt will be available on the system tray and via registered shortcuts Win+F5 and Win+F6."), wxDefaultPosition, wxDefaultSize, 0 );
-	m_autoStartLabel->Wrap( 490 );
-	bSizerAutoStart->Add( m_autoStartLabel, 0, wxALL|wxEXPAND, 5 );
+	m_autoStartLabel->Wrap( FromDIP(490) );
+	bSizerAutoStart->Add( m_autoStartLabel, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_autoStart = new wxCheckBox( m_panelAutoStart, wxID_ANY, _("Start ZRCola &automatically on logon"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizerAutoStart->Add( m_autoStart, 0, wxALL|wxEXPAND, 5 );
+	bSizerAutoStart->Add( m_autoStart, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
 	m_panelAutoStart->SetSizer( bSizerAutoStart );
@@ -841,10 +841,10 @@ wxZRColaSettingsBase::wxZRColaSettingsBase( wxWindow* parent, wxWindowID id, con
 	m_listbookListView->SetWindowStyleFlag( m_listbookFlags );
 	#endif
 	
-	bSizerContent->Add( m_listbook, 1, wxALL|wxEXPAND, 5 );
+	bSizerContent->Add( m_listbook, 1, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerContent->Add( 0, 0, 0, wxALL|wxEXPAND, 5 );
+	bSizerContent->Add( 0, 0, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_sdbSizerButtons = new wxStdDialogButtonSizer();
 	m_sdbSizerButtonsOK = new wxButton( this, wxID_OK );
@@ -855,7 +855,7 @@ wxZRColaSettingsBase::wxZRColaSettingsBase( wxWindow* parent, wxWindowID id, con
 	m_sdbSizerButtons->AddButton( m_sdbSizerButtonsCancel );
 	m_sdbSizerButtons->Realize();
 	
-	bSizerContent->Add( m_sdbSizerButtons, 0, wxALL|wxEXPAND, 5 );
+	bSizerContent->Add( m_sdbSizerButtons, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
 	this->SetSizer( bSizerContent );
@@ -883,7 +883,7 @@ wxZRColaSettingsBase::~wxZRColaSettingsBase()
 
 wxZRColaAboutBase::wxZRColaAboutBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) : wxDialog( parent, id, title, pos, size, style, name )
 {
-	this->SetSizeHints( wxDefaultSize, wxSize( -1,-1 ) );
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	
 	wxBoxSizer* bSizerContent;
 	bSizerContent = new wxBoxSizer( wxVERTICAL );
@@ -891,8 +891,8 @@ wxZRColaAboutBase::wxZRColaAboutBase( wxWindow* parent, wxWindowID id, const wxS
 	wxBoxSizer* bSizerColumns;
 	bSizerColumns = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_bitmapIcon = new wxStaticBitmap( this, wxID_ANY, wxIcon( wxT("00_zrcola.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 32, 32 ), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizerColumns->Add( m_bitmapIcon, 0, wxALL, 5 );
+	m_bitmapIcon = new wxStaticBitmap( this, wxID_ANY, wxIcon( wxT("00_zrcola.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(32), FromDIP(32) ), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizerColumns->Add( m_bitmapIcon, 0, wxALL, FromDIP(5) );
 	
 	wxBoxSizer* bSizerText;
 	bSizerText = new wxBoxSizer( wxVERTICAL );
@@ -900,52 +900,52 @@ wxZRColaAboutBase::wxZRColaAboutBase( wxWindow* parent, wxWindowID id, const wxS
 	m_staticTextZRCola = new wxStaticText( this, wxID_ANY, _("ZRCola"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextZRCola->Wrap( -1 );
 	m_staticTextZRCola->SetFont( wxFont( 20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola") ) );
-	m_staticTextZRCola->SetMaxSize( wxSize( 400,-1 ) );
+	m_staticTextZRCola->SetMaxSize( FromDIP(wxSize( 400,-1 )) );
 	
-	bSizerText->Add( m_staticTextZRCola, 0, wxALL|wxEXPAND, 5 );
+	bSizerText->Add( m_staticTextZRCola, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_staticTextVersion = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextVersion->Wrap( -1 );
-	bSizerText->Add( m_staticTextVersion, 0, wxALL|wxEXPAND, 5 );
+	bSizerText->Add( m_staticTextVersion, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_staticTextColophone = new wxStaticText( this, wxID_ANY, _("Program and Website Editor: Janoš Ježovnik\nDevelopment: Amebis, d. o. o., Kamnik\nTranslation into English: Janoš Ježovnik\nTranslation into Russian language: Domen Krvina, Silvo Torkar, Anastasia Plotnikova\nDevelopment and maintenance of the original program (2004–2015): Peter Weiss"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticTextColophone->Wrap( 400 );
-	bSizerText->Add( m_staticTextColophone, 0, wxALL|wxEXPAND, 5 );
+	m_staticTextColophone->Wrap( FromDIP(400) );
+	bSizerText->Add( m_staticTextColophone, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_staticTextCopyright = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextCopyright->Wrap( -1 );
-	bSizerText->Add( m_staticTextCopyright, 0, wxALL|wxEXPAND, 5 );
+	bSizerText->Add( m_staticTextCopyright, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_hyperlink = new wxHyperlinkCtrl( this, wxID_ANY, _("zrcola.zrc-sazu.si"), wxT("http://zrcola.zrc-sazu.si/"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
-	bSizerText->Add( m_hyperlink, 0, wxALL|wxEXPAND, 5 );
+	bSizerText->Add( m_hyperlink, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerText->Add( 0, 0, 0, wxALL|wxEXPAND, 5 );
+	bSizerText->Add( 0, 0, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_staticTextDeclaration = new wxStaticText( this, wxID_ANY, _("Texts made using ZRCola have to include in a footnote or some other appropriate part of the publication the note below:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticTextDeclaration->Wrap( 400 );
-	bSizerText->Add( m_staticTextDeclaration, 0, wxALL|wxEXPAND, 5 );
+	m_staticTextDeclaration->Wrap( FromDIP(400) );
+	bSizerText->Add( m_staticTextDeclaration, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
-	m_declaration = new wxTextCtrl( this, wxID_ANY, _("This text was written using the ZRCola input system (http://zrcola.zrc-sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana (http://www.zrc-sazu.si) by Peter Weiss."), wxDefaultPosition, wxSize( -1,80 ), wxTE_MULTILINE|wxTE_READONLY );
+	m_declaration = new wxTextCtrl( this, wxID_ANY, _("This text was written using the ZRCola input system (http://zrcola.zrc-sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana (http://www.zrc-sazu.si) by Peter Weiss."), wxDefaultPosition, FromDIP(wxSize( -1,80 )), wxTE_MULTILINE|wxTE_READONLY );
 	m_declaration->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_ITALIC, wxFONTWEIGHT_NORMAL, false, wxEmptyString ) );
 	
-	bSizerText->Add( m_declaration, 0, wxALL|wxEXPAND, 5 );
+	bSizerText->Add( m_declaration, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerColumns->Add( bSizerText, 1, wxEXPAND, 5 );
+	bSizerColumns->Add( bSizerText, 1, wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerContent->Add( bSizerColumns, 1, wxALL|wxEXPAND, 5 );
+	bSizerContent->Add( bSizerColumns, 1, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerContent->Add( 0, 0, 0, wxALL|wxEXPAND, 5 );
+	bSizerContent->Add( 0, 0, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_sdbSizerButtons = new wxStdDialogButtonSizer();
 	m_sdbSizerButtonsOK = new wxButton( this, wxID_OK );
 	m_sdbSizerButtons->AddButton( m_sdbSizerButtonsOK );
 	m_sdbSizerButtons->Realize();
 	
-	bSizerContent->Add( m_sdbSizerButtons, 0, wxALL|wxEXPAND, 5 );
+	bSizerContent->Add( m_sdbSizerButtons, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
 	this->SetSizer( bSizerContent );
@@ -970,15 +970,15 @@ wxZRColaUpdaterBase::wxZRColaUpdaterBase( wxWindow* parent, wxWindowID id, const
 	sbSizerLog = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Log") ), wxVERTICAL );
 	
 	m_log = new wxTextCtrl( sbSizerLog->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
-	m_log->SetMinSize( wxSize( 450,150 ) );
+	m_log->SetMinSize( FromDIP(wxSize( 450,150 )) );
 	
-	sbSizerLog->Add( m_log, 1, wxEXPAND, 5 );
-	
-	
-	bSizerContent->Add( sbSizerLog, 1, wxALL|wxEXPAND, 5 );
+	sbSizerLog->Add( m_log, 1, wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerContent->Add( 0, 0, 0, wxEXPAND, 5 );
+	bSizerContent->Add( sbSizerLog, 1, wxALL|wxEXPAND, FromDIP(5) );
+	
+	
+	bSizerContent->Add( 0, 0, 0, wxEXPAND, FromDIP(5) );
 	
 	wxBoxSizer* bSizerButtons;
 	bSizerButtons = new wxBoxSizer( wxHORIZONTAL );
@@ -987,15 +987,15 @@ wxZRColaUpdaterBase::wxZRColaUpdaterBase( wxWindow* parent, wxWindowID id, const
 	m_buttonUpdate->Enable( false );
 	m_buttonUpdate->SetToolTip( _("Exit this program and launch product update") );
 	
-	bSizerButtons->Add( m_buttonUpdate, 0, wxALL, 5 );
+	bSizerButtons->Add( m_buttonUpdate, 0, wxALL, FromDIP(5) );
 	
 	m_buttonClose = new wxButton( this, wxID_OK, _("&Close"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_buttonClose->SetToolTip( _("Close this window") );
 	
-	bSizerButtons->Add( m_buttonClose, 0, wxALL, 5 );
+	bSizerButtons->Add( m_buttonClose, 0, wxALL, FromDIP(5) );
 	
 	
-	bSizerContent->Add( bSizerButtons, 0, wxALIGN_RIGHT, 5 );
+	bSizerContent->Add( bSizerButtons, 0, wxALIGN_RIGHT, FromDIP(5) );
 	
 	
 	this->SetSizer( bSizerContent );
@@ -1030,8 +1030,8 @@ wxZRColaCharRequestBase::wxZRColaCharRequestBase( wxWindow* parent, wxWindowID i
 	sbSizerCharacter = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Character") ), wxVERTICAL );
 	
 	m_characterLbl = new wxStaticText( sbSizerCharacter->GetStaticBox(), wxID_ANY, _("Enter the &character you would like to request:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_characterLbl->Wrap( 400 );
-	sbSizerCharacter->Add( m_characterLbl, 0, wxALL|wxEXPAND, 5 );
+	m_characterLbl->Wrap( FromDIP(400) );
+	sbSizerCharacter->Add( m_characterLbl, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_character = new wxTextCtrl( sbSizerCharacter->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	#ifdef __WXGTK__
@@ -1045,37 +1045,37 @@ wxZRColaCharRequestBase::wxZRColaCharRequestBase( wxWindow* parent, wxWindowID i
 	m_character->SetFont( wxFont( 20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola") ) );
 	m_character->SetToolTip( _("Decomposed character to request") );
 	
-	sbSizerCharacter->Add( m_character, 0, wxALL|wxEXPAND, 5 );
+	sbSizerCharacter->Add( m_character, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_characterNote = new wxStaticText( sbSizerCharacter->GetStaticBox(), wxID_ANY, _("Please, use the decomposed form.\nYou can use ZRCola keyboard shortcuts to enter the character or Copy&&Paste it from the Decomposed window."), wxDefaultPosition, wxDefaultSize, 0 );
-	m_characterNote->Wrap( 400 );
-	sbSizerCharacter->Add( m_characterNote, 0, wxALL|wxEXPAND, 5 );
+	m_characterNote->Wrap( FromDIP(400) );
+	sbSizerCharacter->Add( m_characterNote, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerContent->Add( sbSizerCharacter, 40, wxALL|wxEXPAND, 5 );
+	bSizerContent->Add( sbSizerCharacter, 40, wxALL|wxEXPAND, FromDIP(5) );
 	
 	wxStaticBoxSizer* sbSizerContext;
 	sbSizerContext = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Context") ), wxVERTICAL );
 	
 	m_contextLbl = new wxStaticText( sbSizerContext->GetStaticBox(), wxID_ANY, _("The &context, examples or description why and where the character is required:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_contextLbl->Wrap( 400 );
-	sbSizerContext->Add( m_contextLbl, 0, wxALL|wxEXPAND, 5 );
+	m_contextLbl->Wrap( FromDIP(400) );
+	sbSizerContext->Add( m_contextLbl, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_context = new wxTextCtrl( sbSizerContext->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
 	m_context->SetFont( wxFont( 16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola") ) );
 	m_context->SetToolTip( _("Additional notes for character request") );
 	
-	sbSizerContext->Add( m_context, 1, wxALL|wxEXPAND, 5 );
+	sbSizerContext->Add( m_context, 1, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerContent->Add( sbSizerContext, 60, wxALL|wxEXPAND, 5 );
+	bSizerContent->Add( sbSizerContext, 60, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_note = new wxStaticText( this, wxID_ANY, _("After clicking OK button, your e-mail application should open allowing you to submit the new character request to ZRCola Editor.\nYour e-mail application might not display all the characters correctly, but the Editor will be able to read them correctly anyway."), wxDefaultPosition, wxDefaultSize, 0 );
-	m_note->Wrap( 400 );
-	bSizerContent->Add( m_note, 0, wxALL|wxEXPAND, 5 );
+	m_note->Wrap( FromDIP(400) );
+	bSizerContent->Add( m_note, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerContent->Add( 0, 0, 0, wxALL|wxEXPAND, 5 );
+	bSizerContent->Add( 0, 0, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	m_sdbSizerButtons = new wxStdDialogButtonSizer();
 	m_sdbSizerButtonsOK = new wxButton( this, wxID_OK );
@@ -1084,7 +1084,7 @@ wxZRColaCharRequestBase::wxZRColaCharRequestBase( wxWindow* parent, wxWindowID i
 	m_sdbSizerButtons->AddButton( m_sdbSizerButtonsCancel );
 	m_sdbSizerButtons->Realize();
 	
-	bSizerContent->Add( m_sdbSizerButtons, 0, wxALL|wxEXPAND, 5 );
+	bSizerContent->Add( m_sdbSizerButtons, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
 	this->SetSizer( bSizerContent );
@@ -1115,8 +1115,8 @@ wxZRColaTranslationSeqBase::wxZRColaTranslationSeqBase( wxWindow* parent, wxWind
 	sbSizerTranslationSet = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Translation") ), wxVERTICAL );
 	
 	m_transLbl = new wxStaticText( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, _("ZRCola offers multiple text translations that can be arranged in a sequence.\nPlease select desired translations and the order they are applied."), wxDefaultPosition, wxDefaultSize, 0 );
-	m_transLbl->Wrap( 452 );
-	sbSizerTranslationSet->Add( m_transLbl, 0, wxALL|wxEXPAND, 5 );
+	m_transLbl->Wrap( FromDIP(452) );
+	sbSizerTranslationSet->Add( m_transLbl, 0, wxALL|wxEXPAND, FromDIP(5) );
 	
 	wxBoxSizer* bSizerTranslation;
 	bSizerTranslation = new wxBoxSizer( wxHORIZONTAL );
@@ -1126,63 +1126,63 @@ wxZRColaTranslationSeqBase::wxZRColaTranslationSeqBase( wxWindow* parent, wxWind
 	
 	m_availableLbl = new wxStaticText( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, _("A&vailable:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_availableLbl->Wrap( -1 );
-	bSizerTransAvailable->Add( m_availableLbl, 0, wxEXPAND|wxTOP|wxRIGHT|wxLEFT, 5 );
+	bSizerTransAvailable->Add( m_availableLbl, 0, wxEXPAND|wxTOP|wxRIGHT|wxLEFT, FromDIP(5) );
 	
-	m_available = new wxListBox( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( 200,-1 ), 0, NULL, wxLB_SINGLE|wxLB_SORT ); 
-	m_available->SetMinSize( wxSize( 200,150 ) );
+	m_available = new wxListBox( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, wxDefaultPosition, FromDIP(wxSize( 200,-1 )), 0, NULL, wxLB_SINGLE|wxLB_SORT );
+	m_available->SetMinSize( FromDIP(wxSize( 200,150 )) );
 	
-	bSizerTransAvailable->Add( m_available, 1, wxALL|wxEXPAND, 5 );
+	bSizerTransAvailable->Add( m_available, 1, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
-	bSizerTranslation->Add( bSizerTransAvailable, 1, wxEXPAND, 5 );
+	bSizerTranslation->Add( bSizerTransAvailable, 1, wxEXPAND, FromDIP(5) );
 	
 	wxBoxSizer* bSizerTransSelect;
 	bSizerTransSelect = new wxBoxSizer( wxVERTICAL );
 	
-	m_add = new wxButton( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, _(">"), wxDefaultPosition, wxSize( 32,32 ), 0 );
-	bSizerTransSelect->Add( m_add, 0, wxALL, 5 );
+	m_add = new wxButton( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, _(">"), wxDefaultPosition, FromDIP(wxSize( 32,32 )), 0 );
+	bSizerTransSelect->Add( m_add, 0, wxALL, FromDIP(5) );
 	
-	m_remove = new wxButton( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, _("<"), wxDefaultPosition, wxSize( 32,32 ), 0 );
-	bSizerTransSelect->Add( m_remove, 0, wxALL, 5 );
+	m_remove = new wxButton( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, _("<"), wxDefaultPosition, FromDIP(wxSize( 32,32 )), 0 );
+	bSizerTransSelect->Add( m_remove, 0, wxALL, FromDIP(5) );
 	
 	
-	bSizerTranslation->Add( bSizerTransSelect, 0, wxALIGN_CENTER_VERTICAL, 5 );
+	bSizerTranslation->Add( bSizerTransSelect, 0, wxALIGN_CENTER_VERTICAL, FromDIP(5) );
 	
 	wxBoxSizer* bSizerTransSelected;
 	bSizerTransSelected = new wxBoxSizer( wxVERTICAL );
 	
 	m_selectedLbl = new wxStaticText( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, _("&Selected:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_selectedLbl->Wrap( -1 );
-	bSizerTransSelected->Add( m_selectedLbl, 0, wxEXPAND|wxTOP|wxRIGHT|wxLEFT, 5 );
+	bSizerTransSelected->Add( m_selectedLbl, 0, wxEXPAND|wxTOP|wxRIGHT|wxLEFT, FromDIP(5) );
 	
-	m_selected = new wxListBox( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( 200,-1 ), 0, NULL, wxLB_SINGLE ); 
-	m_selected->SetMinSize( wxSize( 200,150 ) );
+	m_selected = new wxListBox( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, wxDefaultPosition, FromDIP(wxSize( 200,-1 )), 0, NULL, wxLB_SINGLE );
+	m_selected->SetMinSize( FromDIP(wxSize( 200,150 )) );
 	
-	bSizerTransSelected->Add( m_selected, 1, wxALL|wxEXPAND, 5 );
-	
-	
-	bSizerTranslation->Add( bSizerTransSelected, 1, wxEXPAND, 5 );
+	bSizerTransSelected->Add( m_selected, 1, wxALL|wxEXPAND, FromDIP(5) );
 	
 	
-	sbSizerTranslationSet->Add( bSizerTranslation, 1, wxEXPAND, 5 );
+	bSizerTranslation->Add( bSizerTransSelected, 1, wxEXPAND, FromDIP(5) );
+	
+	
+	sbSizerTranslationSet->Add( bSizerTranslation, 1, wxEXPAND, FromDIP(5) );
 	
 	wxBoxSizer* bSizerTransActiveReorder;
 	bSizerTransActiveReorder = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_selectedUp = new wxButton( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, _("Up"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
-	bSizerTransActiveReorder->Add( m_selectedUp, 0, wxALL, 5 );
+	m_selectedUp = new wxButton( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, _("Up"), wxDefaultPosition, FromDIP(wxSize( 70,-1 )), 0 );
+	bSizerTransActiveReorder->Add( m_selectedUp, 0, wxALL, FromDIP(5) );
 	
-	m_selectedDown = new wxButton( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, _("Down"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
-	bSizerTransActiveReorder->Add( m_selectedDown, 0, wxALL, 5 );
-	
-	
-	sbSizerTranslationSet->Add( bSizerTransActiveReorder, 0, wxALIGN_RIGHT, 5 );
+	m_selectedDown = new wxButton( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, _("Down"), wxDefaultPosition, FromDIP(wxSize( 70,-1 )), 0 );
+	bSizerTransActiveReorder->Add( m_selectedDown, 0, wxALL, FromDIP(5) );
 	
 	
-	bSizerContent->Add( sbSizerTranslationSet, 1, wxEXPAND|wxALL, 5 );
+	sbSizerTranslationSet->Add( bSizerTransActiveReorder, 0, wxALIGN_RIGHT, FromDIP(5) );
 	
 	
-	bSizerContent->Add( 0, 0, 0, wxEXPAND|wxALL, 5 );
+	bSizerContent->Add( sbSizerTranslationSet, 1, wxEXPAND|wxALL, FromDIP(5) );
+	
+	
+	bSizerContent->Add( 0, 0, 0, wxEXPAND|wxALL, FromDIP(5) );
 	
 	m_sdbSizerButtons = new wxStdDialogButtonSizer();
 	m_sdbSizerButtonsOK = new wxButton( this, wxID_OK );
@@ -1191,7 +1191,7 @@ wxZRColaTranslationSeqBase::wxZRColaTranslationSeqBase( wxWindow* parent, wxWind
 	m_sdbSizerButtons->AddButton( m_sdbSizerButtonsCancel );
 	m_sdbSizerButtons->Realize();
 	
-	bSizerContent->Add( m_sdbSizerButtons, 0, wxEXPAND|wxALL, 5 );
+	bSizerContent->Add( m_sdbSizerButtons, 0, wxEXPAND|wxALL, FromDIP(5) );
 	
 	
 	this->SetSizer( bSizerContent );
