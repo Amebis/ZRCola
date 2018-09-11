@@ -28,7 +28,7 @@ class wxPersistentZRColaTranslationSeq;
 
 #include "zrcolagui.h"
 #include <zrcola/translate.h>
-#include <wxex/persist/dialog.h>
+#include <wxex/persist/toplevel.h>
 #include <vector>
 
 
@@ -64,7 +64,7 @@ public:
 ///
 /// Supports saving/restoring wxZRColaTranslationSeq state
 ///
-class wxPersistentZRColaTranslationSeq : public wxPersistentDialog
+class wxPersistentZRColaTranslationSeq : public wxPersistentTLWEx
 {
 public:
     wxPersistentZRColaTranslationSeq(wxZRColaTranslationSeq *wnd);

@@ -71,14 +71,14 @@ void wxZRColaCharRequest::OnOKButtonClick(wxCommandEvent& event)
 // wxPersistentZRColaCharRequest
 //////////////////////////////////////////////////////////////////////////
 
-wxPersistentZRColaCharRequest::wxPersistentZRColaCharRequest(wxZRColaCharRequest *wnd) : wxPersistentDialog(wnd)
+wxPersistentZRColaCharRequest::wxPersistentZRColaCharRequest(wxZRColaCharRequest *wnd) : wxPersistentTLWEx(wnd)
 {
 }
 
 
 void wxPersistentZRColaCharRequest::Save() const
 {
-    wxPersistentDialog::Save();
+    wxPersistentTLWEx::Save();
 
     auto wnd = static_cast<const wxZRColaCharRequest*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
 
@@ -97,5 +97,5 @@ bool wxPersistentZRColaCharRequest::Restore()
     if (RestoreValue(wxT("context"), &str))
         wnd->m_context->SetValue(str);
 
-    return wxPersistentDialog::Restore();
+    return wxPersistentTLWEx::Restore();
 }

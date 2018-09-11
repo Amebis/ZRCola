@@ -110,17 +110,19 @@ wxZRColaFrame::wxZRColaFrame() :
         delete m_taskBarIcon;
     }
 
+    wxPersistenceManager &persist_mgr = wxPersistenceManager::Get();
+
     m_settings = new wxZRColaSettings(this);
-    wxPersistentRegisterAndRestore<wxZRColaSettings>(m_settings);
+    persist_mgr.RegisterAndRestore(m_settings, new wxPersistentZRColaSettings(m_settings));
 
     m_transeq = new wxZRColaTranslationSeq(this);
-    wxPersistentRegisterAndRestore<wxZRColaTranslationSeq>(m_transeq);
+    persist_mgr.RegisterAndRestore(m_transeq, new wxPersistentZRColaTranslationSeq(m_transeq));
 
     m_chrSelect = new wxZRColaCharSelect(this);
-    wxPersistentRegisterAndRestore<wxZRColaCharSelect>(m_chrSelect);
+    persist_mgr.RegisterAndRestore(m_chrSelect, new wxPersistentZRColaCharSelect(m_chrSelect));
 
     m_chrReq = new wxZRColaCharRequest(this);
-    wxPersistentRegisterAndRestore<wxZRColaCharRequest>(m_chrReq);
+    persist_mgr.RegisterAndRestore(m_chrReq, new wxPersistentZRColaCharRequest(m_chrReq));
 
     // Set focus.
     m_panel->m_source->SetFocus();
@@ -155,7 +157,7 @@ wxZRColaFrame::wxZRColaFrame() :
     // Restore persistent state of wxAuiManager manually, since m_mgr is not a standalone heap object
     // and cannot be registered for persistence.
     wxPersistentAuiManager(&m_mgr).Restore();
-    wxPersistentRegisterAndRestore<wxZRColaFrame>(this);
+    persist_mgr.RegisterAndRestore(this, new wxPersistentZRColaFrame(this));
 
     // Populate list of translation sequences.
     for (unsigned int i = 0, n = m_toolTranslationSeq->GetCount(); ; i++) {
@@ -615,14 +617,14 @@ WXLRESULT wxZRColaFrame::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM
 // wxPersistentZRColaFrame
 //////////////////////////////////////////////////////////////////////////
 
-wxPersistentZRColaFrame::wxPersistentZRColaFrame(wxZRColaFrame *wnd) : wxPersistentTLW(wnd)
+wxPersistentZRColaFrame::wxPersistentZRColaFrame(wxZRColaFrame *wnd) : wxPersistentTLWEx(wnd)
 {
 }
 
 
 void wxPersistentZRColaFrame::Save() const
 {
-    wxPersistentTLW::Save();
+    wxPersistentTLWEx::Save();
 
     auto wnd = static_cast<const wxZRColaFrame*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
 
@@ -644,5 +646,5 @@ bool wxPersistentZRColaFrame::Restore()
     if (RestoreValue(wxT("transeqId"), &num))
         wnd->m_transeq_id = num;
 
-    return wxPersistentTLW::Restore();
+    return wxPersistentTLWEx::Restore();
 }

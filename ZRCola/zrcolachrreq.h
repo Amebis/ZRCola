@@ -21,12 +21,14 @@
 /// Forward declarations
 ///
 class wxZRColaCharRequest;
+class wxPersistentZRColaCharRequest;
 
 
 #pragma once
 
 #include "zrcolagui.h"
 #include "zrcolakeyhndlr.h"
+#include <wxex/persist/toplevel.h>
 
 
 ///
@@ -49,7 +51,7 @@ protected:
 ///
 /// Supports saving/restoring wxZRColaCharRequest state
 ///
-class wxPersistentZRColaCharRequest : public wxPersistentDialog
+class wxPersistentZRColaCharRequest : public wxPersistentTLWEx
 {
 public:
     wxPersistentZRColaCharRequest(wxZRColaCharRequest *wnd);

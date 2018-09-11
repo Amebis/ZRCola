@@ -21,6 +21,7 @@
 /// Forward declarations
 ///
 class wxZRColaFrame;
+class wxPersistentZRColaFrame;
 
 
 #pragma once
@@ -32,8 +33,8 @@ class wxZRColaFrame;
 #include "zrcolatranseq.h"
 #include <zrcola/language.h>
 #include <zrcola/translate.h>
+#include <wxex/persist/toplevel.h>
 #include <wx/taskbar.h>
-#include <wx/persist/toplevel.h>
 #if defined(__WXMSW__)
 #include <msctf.h>
 #endif
@@ -136,7 +137,7 @@ protected:
 ///
 /// Supports saving/restoring wxZRColaFrame GUI state
 ///
-class wxPersistentZRColaFrame : public wxPersistentTLW
+class wxPersistentZRColaFrame : public wxPersistentTLWEx
 {
 public:
     wxPersistentZRColaFrame(wxZRColaFrame *wnd);

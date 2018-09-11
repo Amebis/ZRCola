@@ -139,14 +139,14 @@ void wxZRColaSettings::OnOKButtonClick(wxCommandEvent& event)
 // wxPersistentZRColaSettings
 //////////////////////////////////////////////////////////////////////////
 
-wxPersistentZRColaSettings::wxPersistentZRColaSettings(wxZRColaSettings *wnd) : wxPersistentDialog(wnd)
+wxPersistentZRColaSettings::wxPersistentZRColaSettings(wxZRColaSettings *wnd) : wxPersistentTLWEx(wnd)
 {
 }
 
 
 void wxPersistentZRColaSettings::Save() const
 {
-    wxPersistentDialog::Save();
+    wxPersistentTLWEx::Save();
 
     auto wnd = static_cast<const wxZRColaSettings*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
 
@@ -177,5 +177,5 @@ bool wxPersistentZRColaSettings::Restore()
     } else
         wnd->m_lang = ZRCola::langid_t::blank;
 
-    return wxPersistentDialog::Restore();
+    return wxPersistentTLWEx::Restore();
 }

@@ -27,7 +27,7 @@ class wxPersistentZRColaSettings;
 #pragma once
 
 #include "zrcolagui.h"
-#include <wxex/persist/dialog.h>
+#include <wxex/persist/toplevel.h>
 #include <vector>
 
 
@@ -56,7 +56,7 @@ public:
 ///
 /// Supports saving/restoring wxZRColaSettings state
 ///
-class wxPersistentZRColaSettings : public wxPersistentDialog
+class wxPersistentZRColaSettings : public wxPersistentTLWEx
 {
 public:
     wxPersistentZRColaSettings(wxZRColaSettings *wnd);

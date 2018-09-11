@@ -28,8 +28,8 @@ class wxPersistentZRColaCharSelect;
 
 #include "zrcolagui.h"
 #include <zrcola/character.h>
+#include <wxex/persist/toplevel.h>
 #include <wx/validate.h>
-#include <wxex/persist/dialog.h>
 #include <wx/event.h>
 #include <wx/thread.h>
 #include <list>
@@ -41,7 +41,7 @@ class wxPersistentZRColaCharSelect;
 ///
 /// Validator for Unicode character
 ///
-class WXEXTEND_API wxZRColaUTF16CharValidator : public wxValidator
+class wxZRColaUTF16CharValidator : public wxValidator
 {
 public:
     ///
@@ -221,7 +221,7 @@ protected:
 ///
 /// Supports saving/restoring wxZRColaCharSelect state
 ///
-class wxPersistentZRColaCharSelect : public wxPersistentDialog
+class wxPersistentZRColaCharSelect : public wxPersistentTLWEx
 {
 public:
     wxPersistentZRColaCharSelect(wxZRColaCharSelect *wnd);

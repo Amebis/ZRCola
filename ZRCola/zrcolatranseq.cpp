@@ -208,14 +208,14 @@ void wxZRColaTranslationSeq::OnOKButtonClick(wxCommandEvent& event)
 // wxPersistentZRColaTranslationSeq
 //////////////////////////////////////////////////////////////////////////
 
-wxPersistentZRColaTranslationSeq::wxPersistentZRColaTranslationSeq(wxZRColaTranslationSeq *wnd) : wxPersistentDialog(wnd)
+wxPersistentZRColaTranslationSeq::wxPersistentZRColaTranslationSeq(wxZRColaTranslationSeq *wnd) : wxPersistentTLWEx(wnd)
 {
 }
 
 
 void wxPersistentZRColaTranslationSeq::Save() const
 {
-    wxPersistentDialog::Save();
+    wxPersistentTLWEx::Save();
 
     auto wnd = static_cast<const wxZRColaTranslationSeq*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
 
@@ -249,5 +249,5 @@ bool wxPersistentZRColaTranslationSeq::Restore()
             wnd->m_transeq = std::move(transet);
     }
 
-    return wxPersistentDialog::Restore();
+    return wxPersistentTLWEx::Restore();
 }

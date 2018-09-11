@@ -786,14 +786,14 @@ bool __cdecl wxZRColaCharSelect::SearchThread::TestDestroyS(void *cookie)
 // wxPersistentZRColaCharSelect
 //////////////////////////////////////////////////////////////////////////
 
-wxPersistentZRColaCharSelect::wxPersistentZRColaCharSelect(wxZRColaCharSelect *wnd) : wxPersistentDialog(wnd)
+wxPersistentZRColaCharSelect::wxPersistentZRColaCharSelect(wxZRColaCharSelect *wnd) : wxPersistentTLWEx(wnd)
 {
 }
 
 
 void wxPersistentZRColaCharSelect::Save() const
 {
-    wxPersistentDialog::Save();
+    wxPersistentTLWEx::Save();
 
     auto wnd = static_cast<const wxZRColaCharSelect*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
@@ -870,5 +870,5 @@ bool wxPersistentZRColaCharSelect::Restore()
 
     wnd->ResetResults();
 
-    return wxPersistentDialog::Restore();
+    return wxPersistentTLWEx::Restore();
 }
