@@ -411,10 +411,11 @@ wxString wxPersistentZRColaComposerPanel::GetKind() const
 
 void wxPersistentZRColaComposerPanel::Save() const
 {
-    auto const wnd = static_cast<const wxZRColaComposerPanel*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
+    auto wnd = static_cast<wxZRColaComposerPanel*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
 
-    SaveValue(wxT("splitDecomposed"), wnd->m_splitterSource->GetSashPosition());
-    SaveValue(wxT("splitComposed"  ), wnd->m_splitterDestination  ->GetSashPosition());
+    SaveValue(wxT("dpiX"           ), wxClientDC(wnd).GetPPI().x);
+    SaveValue(wxT("splitDecomposed"), wnd->m_splitterSource     ->GetSashPosition());
+    SaveValue(wxT("splitComposed"  ), wnd->m_splitterDestination->GetSashPosition());
 }
 
 
@@ -422,18 +423,23 @@ bool wxPersistentZRColaComposerPanel::Restore()
 {
     auto wnd = dynamic_cast<wxZRColaComposerPanel*>(GetWindow());
 
+    int dpiHorz = wxClientDC(wnd).GetPPI().x;
+    int dpiHorzVal;
     int sashVal;
+
+    if (!RestoreValue(wxT("dpiX"), &dpiHorzVal))
+        dpiHorzVal = 96;
 
     if (RestoreValue(wxT("splitDecomposed"), &sashVal)) {
         // wxFormBuilder sets initial splitter stash in idle event handler after GUI settles. Overriding our loaded value. Disconnect it's idle event handler.
         wnd->m_splitterSource->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterSourceOnIdle ), NULL, wnd );
-        wnd->m_splitterSource->SetSashPosition(sashVal);
+        wnd->m_splitterSource->SetSashPosition(wxMulDivInt32(sashVal, dpiHorz, dpiHorzVal));
     }
 
     if (RestoreValue(wxT("splitComposed"), &sashVal)) {
         // wxFormBuilder sets initial splitter stash in idle event handler after GUI settles. Overriding our loaded value. Disconnect it's idle event handler.
         wnd->m_splitterDestination->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterDestinationOnIdle ), NULL, wnd );
-        wnd->m_splitterDestination->SetSashPosition(sashVal);
+        wnd->m_splitterDestination->SetSashPosition(wxMulDivInt32(sashVal, dpiHorz, dpiHorzVal));
     }
 
     return true;

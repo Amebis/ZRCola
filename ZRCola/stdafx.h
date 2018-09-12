@@ -40,6 +40,7 @@
 #include <wxex/persist/toplevel.h>
 
 #include <wx/clipbrd.h>
+#include <wx/dcclient.h>
 #include <wx/ffile.h>
 #include <wx/msgdlg.h>
 #include <wx/persist.h>
