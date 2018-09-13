@@ -793,6 +793,9 @@ wxZRColaSettingsBase::wxZRColaSettingsBase( wxWindow* parent, wxWindowID id, con
 	bSizerContent = new wxBoxSizer( wxVERTICAL );
 	
 	m_listbook = new wxListbook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLB_DEFAULT );
+	wxListView *list = m_listbook->GetListView();
+	list->SetColumnWidth(0, FromDIP(120));
+
 	m_panelLanguage = new wxPanel( m_listbook, wxID_ANY, wxDefaultPosition, FromDIP(wxSize( 500,-1 )), wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizerLanguage;
 	bSizerLanguage = new wxBoxSizer( wxVERTICAL );
