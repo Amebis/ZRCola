@@ -113,7 +113,13 @@ inline void wxZRColaComposerPanel::GetTranslationSeq(_Out_ const ZRCola::transet
 {
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
 
-    if (app->m_mainWnd->m_transeq_id != ZRCOLA_TRANSEQID_CUSTOM) {
+    if (app->m_mainWnd->m_transeq_id == ZRCOLA_TRANSEQID_DEFAULT) {
+        sets_begin = NULL;
+        sets_end   = NULL;
+    } else if (app->m_mainWnd->m_transeq_id == ZRCOLA_TRANSEQID_CUSTOM) {
+        sets_begin = app->m_mainWnd->m_transeq->m_transeq.data();
+        sets_end   = sets_begin + app->m_mainWnd->m_transeq->m_transeq.size();
+    } else {
         size_t start;
         if (app->m_tsq_db.idxTranSeq.find(ZRCola::transeq_db::transeq(app->m_mainWnd->m_transeq_id), start)) {
             const auto &ts = app->m_tsq_db.idxTranSeq[start];
@@ -123,9 +129,6 @@ inline void wxZRColaComposerPanel::GetTranslationSeq(_Out_ const ZRCola::transet
             sets_begin = NULL;
             sets_end   = NULL;
         }
-    } else {
-        sets_begin = app->m_mainWnd->m_transeq->m_transeq.data();
-        sets_end   = sets_begin + app->m_mainWnd->m_transeq->m_transeq.size();
     }
 }
 

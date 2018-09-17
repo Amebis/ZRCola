@@ -417,26 +417,16 @@ int _tmain(int argc, _TCHAR *argv[])
         if (src.SelectTranlationSets(rs)) {
             size_t count = src.GetRecordsetCount(rs);
             if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
-                ZRCola::DBSource::transet ts;
                 ZRCola::transet_db db;
 
                 // Preallocate memory.
                 db.idxTranSet.reserve((count+1));
                 db.data      .reserve((count+1)*4);
 
-                // Add (de)composing translation set to index and data.
-                ts.set = 0;
-                ts.src = L"ZRCola Decomposed";
-                ts.dst = L"ZRCola Composed";
-                db << ts;
-                if (build_pot) {
-                    pot.insert(ts.src);
-                    pot.insert(ts.dst);
-                }
-
                 // Parse translation sets and build index and data.
                 for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
                     // Read translation set from the database.
+                    ZRCola::DBSource::transet ts;
                     if (src.GetTranslationSet(rs, ts)) {
                         if (build_pot) {
                             pot.insert(ts.src);
@@ -501,7 +491,6 @@ int _tmain(int argc, _TCHAR *argv[])
         if (src.SelectTranlationSeqs(rs)) {
             size_t count = src.GetRecordsetCount(rs);
             if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
-                ZRCola::DBSource::transeq ts;
                 ZRCola::transeq_db db;
 
                 // Preallocate memory.
@@ -509,18 +498,10 @@ int _tmain(int argc, _TCHAR *argv[])
                 db.idxRank   .reserve((count+1));
                 db.data      .reserve((count+1)*4);
 
-                // Add basic ZRCola translation sequence to index and data.
-                ts.seq  = 0;
-                ts.rank = 0;
-                ts.name = L"ZRCola (De)composition";
-                ts.sets.push_back(0);
-                db << ts;
-                if (build_pot)
-                    pot.insert(ts.name);
-
                 // Parse translation sequences and build index and data.
                 for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
                     // Read translation sequence from the database.
+                    ZRCola::DBSource::transeq ts;
                     if (src.GetTranslationSeq(rs, ts)) {
                         if (build_pot)
                             pot.insert(ts.name);

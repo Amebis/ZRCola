@@ -128,7 +128,7 @@
     <None Include="res\edit_paste.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="ZRCola.fbp">
+    <None Include="res\ZRCola.fbp">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\char_select.ico">
@@ -165,5 +165,10 @@
     <POCompile Include="locale\ru_RU.po">
       <Filter>Resource Files\Localization</Filter>
     </POCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\composition.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

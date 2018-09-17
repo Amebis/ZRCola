@@ -183,7 +183,7 @@
     <None Include="res\send_composed.ico" />
     <None Include="res\send_decomposed.ico" />
     <None Include="res\zrcola.ico" />
-    <None Include="ZRCola.fbp">
+    <None Include="res\ZRCola.fbp">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
@@ -194,6 +194,9 @@
     <POCompile Include="locale\de_DE.po" />
     <POCompile Include="locale\ru_RU.po" />
     <POCompile Include="locale\sl_SI.po" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\composition.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

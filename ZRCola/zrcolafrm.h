@@ -60,6 +60,9 @@ public:
     enum
     {
         wxID_FOCUS_CHARACTER_CATALOG = 2000,
+        wxID_TRANSLATION_SEQ_DEFAULT = 2001,
+        wxID_TRANSLATION_SEQ_START   = 2002,
+        wxID_TRANSLATION_SEQ_END     = 2100,
     };
 
     wxZRColaFrame();
@@ -79,6 +82,8 @@ protected:
     void OnSendSource(wxCommandEvent& event);
     void OnCopySourceAndReturn(wxCommandEvent& event);
     void OnSendAbort(wxCommandEvent& event);
+    void OnCompositionMenu(wxCommandEvent& event);
+    void OnCompositionToolbar(wxCommandEvent& event);
     void OnSettings(wxCommandEvent& event);
     virtual void OnIdle(wxIdleEvent& event);
     void OnTaskbarIconClick(wxTaskBarIconEvent& event);
@@ -87,6 +92,7 @@ protected:
     void OnToolbarEdit(wxCommandEvent& event);
     void OnToolbarTranslateUpdate(wxUpdateUIEvent& event);
     void OnToolbarTranslate(wxCommandEvent& event);
+    void OnTranslationSeqMenu(wxCommandEvent& event);
     virtual void OnTranslationSeqChoice(wxCommandEvent& event);
     void OnPanelCharacterCatalogUpdate(wxUpdateUIEvent& event);
     void OnPanelCharacterCatalog(wxCommandEvent& event);
@@ -117,6 +123,7 @@ protected:
 private:
     void DoSend(const wxString& str);
     void DoCopyAndReturn(const wxString& str);
+    void DoSetTranslationSeq(int idx, ZRCola::transeqid_t transeq_id);
 
 protected:
 #ifdef __WXMSW__
@@ -129,6 +136,7 @@ protected:
     wxZRColaCharSelect *m_chrSelect;    ///< Character selection dialog
     wxZRColaCharRequest *m_chrReq;      ///< Request a New Character dialog
     wxZRColaSettings *m_settings;       ///< Configuration dialog
+    bool m_composition;                 ///< Is (de)composition enabled?
     ZRCola::transeqid_t m_transeq_id;   ///< Translation sequence ID
     wxZRColaTranslationSeq *m_transeq;  ///< Custom translation sequence dialog
 };

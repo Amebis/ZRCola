@@ -25,38 +25,42 @@
 //////////////////////////////////////////////////////////////////////////
 
 wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
-    EVT_MENU           (wxID_EXIT                                  , wxZRColaFrame::OnExit                       )
+    EVT_MENU           (wxID_EXIT                                             , wxZRColaFrame::OnExit                       )
 
-    EVT_UPDATE_UI_RANGE(wxID_CUT                  , wxID_CLEAR     , wxZRColaFrame::OnForwardEventUpdate         )
-    EVT_MENU_RANGE     (wxID_CUT                  , wxID_CLEAR     , wxZRColaFrame::OnForwardEvent               )
-    EVT_UPDATE_UI      (wxID_SELECTALL                             , wxZRColaFrame::OnForwardEventUpdate         )
-    EVT_MENU           (wxID_SELECTALL                             , wxZRColaFrame::OnForwardEvent               )
+    EVT_UPDATE_UI_RANGE(wxID_CUT                  , wxID_CLEAR                , wxZRColaFrame::OnForwardEventUpdate         )
+    EVT_MENU_RANGE     (wxID_CUT                  , wxID_CLEAR                , wxZRColaFrame::OnForwardEvent               )
+    EVT_UPDATE_UI      (wxID_SELECTALL                                        , wxZRColaFrame::OnForwardEventUpdate         )
+    EVT_MENU           (wxID_SELECTALL                                        , wxZRColaFrame::OnForwardEvent               )
 
-    EVT_MENU           (wxID_CHARACTER_SELECTOR                    , wxZRColaFrame::OnInsertCharacter            )
+    EVT_MENU           (wxID_CHARACTER_SELECTOR                               , wxZRColaFrame::OnInsertCharacter            )
 
-    EVT_UPDATE_UI_RANGE(wxID_SEND_DESTINATION     , wxID_SEND_ABORT, wxZRColaFrame::OnSendUpdate                 )
-    EVT_MENU           (wxID_COPY_DESTINATION_AND_RETURN           , wxZRColaFrame::OnCopyDestinationAndReturn   )
-    EVT_MENU           (wxID_SEND_DESTINATION                      , wxZRColaFrame::OnSendDestination            )
-    EVT_MENU           (wxID_COPY_SOURCE_AND_RETURN                , wxZRColaFrame::OnCopySourceAndReturn        )
-    EVT_MENU           (wxID_SEND_SOURCE                           , wxZRColaFrame::OnSendSource                 )
-    EVT_MENU           (wxID_SEND_ABORT                            , wxZRColaFrame::OnSendAbort                  )
+    EVT_UPDATE_UI_RANGE(wxID_SEND_DESTINATION     , wxID_SEND_ABORT           , wxZRColaFrame::OnSendUpdate                 )
+    EVT_MENU           (wxID_COPY_DESTINATION_AND_RETURN                      , wxZRColaFrame::OnCopyDestinationAndReturn   )
+    EVT_MENU           (wxID_SEND_DESTINATION                                 , wxZRColaFrame::OnSendDestination            )
+    EVT_MENU           (wxID_COPY_SOURCE_AND_RETURN                           , wxZRColaFrame::OnCopySourceAndReturn        )
+    EVT_MENU           (wxID_SEND_SOURCE                                      , wxZRColaFrame::OnSendSource                 )
+    EVT_MENU           (wxID_SEND_ABORT                                       , wxZRColaFrame::OnSendAbort                  )
 
-    EVT_MENU           (wxID_SETTINGS                              , wxZRColaFrame::OnSettings                   )
+    EVT_MENU           (wxID_COMPOSITION_MENU                                 , wxZRColaFrame::OnCompositionMenu            )
+    EVT_MENU           (wxID_COMPOSITION_TOOLBAR                              , wxZRColaFrame::OnCompositionToolbar         )
+    EVT_MENU_RANGE     (wxID_TRANSLATION_SEQ_DEFAULT, wxID_TRANSLATION_SEQ_END, wxZRColaFrame::OnTranslationSeqMenu         )
 
-    EVT_UPDATE_UI      (wxID_TOOLBAR_EDIT                          , wxZRColaFrame::OnToolbarEditUpdate          )
-    EVT_MENU           (wxID_TOOLBAR_EDIT                          , wxZRColaFrame::OnToolbarEdit                )
-    EVT_UPDATE_UI      (wxID_TOOLBAR_TRANSLATE                     , wxZRColaFrame::OnToolbarTranslateUpdate     )
-    EVT_MENU           (wxID_TOOLBAR_TRANSLATE                     , wxZRColaFrame::OnToolbarTranslate           )
-    EVT_UPDATE_UI      (wxID_PANEL_CHRGRPS                         , wxZRColaFrame::OnPanelCharacterCatalogUpdate)
-    EVT_MENU           (wxID_PANEL_CHRGRPS                         , wxZRColaFrame::OnPanelCharacterCatalog      )
-    EVT_MENU           (wxID_FOCUS_CHARACTER_CATALOG               , wxZRColaFrame::OnPanelCharacterCatalogFocus )
+    EVT_MENU           (wxID_SETTINGS                                         , wxZRColaFrame::OnSettings                   )
 
-    EVT_MENU           (wxID_HELP_INSTRUCTIONS                     , wxZRColaFrame::OnHelpInstructions           )
-    EVT_MENU           (wxID_HELP_SHORTCUTS                        , wxZRColaFrame::OnHelpShortcuts              )
+    EVT_UPDATE_UI      (wxID_TOOLBAR_EDIT                                     , wxZRColaFrame::OnToolbarEditUpdate          )
+    EVT_MENU           (wxID_TOOLBAR_EDIT                                     , wxZRColaFrame::OnToolbarEdit                )
+    EVT_UPDATE_UI      (wxID_TOOLBAR_TRANSLATE                                , wxZRColaFrame::OnToolbarTranslateUpdate     )
+    EVT_MENU           (wxID_TOOLBAR_TRANSLATE                                , wxZRColaFrame::OnToolbarTranslate           )
+    EVT_UPDATE_UI      (wxID_PANEL_CHRGRPS                                    , wxZRColaFrame::OnPanelCharacterCatalogUpdate)
+    EVT_MENU           (wxID_PANEL_CHRGRPS                                    , wxZRColaFrame::OnPanelCharacterCatalog      )
+    EVT_MENU           (wxID_FOCUS_CHARACTER_CATALOG                          , wxZRColaFrame::OnPanelCharacterCatalogFocus )
 
-    EVT_MENU           (wxID_HELP_REQCHAR                          , wxZRColaFrame::OnHelpReqChar                )
-    EVT_MENU           (wxID_HELP_UPDATE                           , wxZRColaFrame::OnHelpUpdate                 )
-    EVT_MENU           (wxID_ABOUT                                 , wxZRColaFrame::OnHelpAbout                  )
+    EVT_MENU           (wxID_HELP_INSTRUCTIONS                                , wxZRColaFrame::OnHelpInstructions           )
+    EVT_MENU           (wxID_HELP_SHORTCUTS                                   , wxZRColaFrame::OnHelpShortcuts              )
+
+    EVT_MENU           (wxID_HELP_REQCHAR                                     , wxZRColaFrame::OnHelpReqChar                )
+    EVT_MENU           (wxID_HELP_UPDATE                                      , wxZRColaFrame::OnHelpUpdate                 )
+    EVT_MENU           (wxID_ABOUT                                            , wxZRColaFrame::OnHelpAbout                  )
 wxEND_EVENT_TABLE()
 
 
@@ -65,7 +69,8 @@ wxZRColaFrame::wxZRColaFrame() :
     m_chrSelect(NULL),
     m_settings(NULL),
     m_chrReq(NULL),
-    m_transeq_id(0), // By default use predefined translation sequence 0 (ZRCola Decomposed >> Composed)
+    m_composition(true),
+    m_transeq_id(ZRCOLA_TRANSEQID_DEFAULT),
     m_transeq(NULL),
     wxZRColaFrameBase(NULL)
 {
@@ -80,14 +85,26 @@ wxZRColaFrame::wxZRColaFrame() :
     // Populate list of translation sequences.
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     m_toolTranslationSeq->Clear();
-    for (size_t i = 0, n = app->m_tsq_db.idxRank.size(); i < n; i++) {
-        const ZRCola::transeq_db::transeq &ts = app->m_tsq_db.idxRank[i];
-        wxString
-            name(ts.name(), ts.name_len()),
-            name_tran(wxGetTranslation(name, wxT("ZRCola-zrcdb")));
-        m_toolTranslationSeq->Append(name_tran, reinterpret_cast<void*>(ts.seq));
+    {
+        wxString name_tran(_("No Translation"));
+        m_menuTranslationSeq->AppendRadioItem(wxID_TRANSLATION_SEQ_DEFAULT, name_tran);
+        m_toolTranslationSeq->Append(name_tran, reinterpret_cast<void*>(ZRCOLA_TRANSEQID_DEFAULT));
     }
-    m_toolTranslationSeq->Append(_("Custom Translation..."), reinterpret_cast<void*>(ZRCOLA_TRANSEQID_CUSTOM));
+    for (size_t i = 0, n = app->m_tsq_db.idxRank.size(); ; i++) {
+        if (i < n) {
+            const ZRCola::transeq_db::transeq &ts = app->m_tsq_db.idxRank[i];
+            wxString
+                name(ts.name(), ts.name_len()),
+                name_tran(wxGetTranslation(name, wxT("ZRCola-zrcdb")));
+            m_menuTranslationSeq->AppendRadioItem(wxID_TRANSLATION_SEQ_START + i, name_tran);
+            m_toolTranslationSeq->Append(name_tran, reinterpret_cast<void*>(ts.seq));
+        } else {
+            wxString name_tran(_("Custom Translation..."));
+            m_menuTranslationSeq->AppendRadioItem(wxID_TRANSLATION_SEQ_START + i, name_tran);
+            m_toolTranslationSeq->Append(name_tran, reinterpret_cast<void*>(ZRCOLA_TRANSEQID_CUSTOM));
+            break;
+        }
+    }
 
     // Load main window icons.
 #ifdef __WINDOWS__
@@ -159,15 +176,26 @@ wxZRColaFrame::wxZRColaFrame() :
     wxPersistentAuiManager(&m_mgr).Restore();
     persist_mgr.RegisterAndRestore(this, new wxPersistentZRColaFrame(this));
 
-    // Populate list of translation sequences.
+    // Update (de)composition selection.
+    if (m_composition) {
+        m_menuItemComposition->Check(true);
+        m_toolComposition->SetState(m_toolComposition->GetState() | wxAUI_BUTTON_STATE_CHECKED);
+    } else {
+        m_menuItemComposition->Check(false);
+        m_toolComposition->SetState(m_toolComposition->GetState() & ~wxAUI_BUTTON_STATE_CHECKED);
+    }
+
+    // Update translation sequence selection.
     for (unsigned int i = 0, n = m_toolTranslationSeq->GetCount(); ; i++) {
         if (i < n) {
             if (static_cast<ZRCola::transeqid_t>((size_t)m_toolTranslationSeq->GetClientData(i)) == m_transeq_id) {
+                m_menuTranslationSeq->Check(wxID_TRANSLATION_SEQ_DEFAULT + i, true);
                 m_toolTranslationSeq->SetSelection(i);
                 break;
             }
         } else {
-            m_transeq_id = static_cast<ZRCola::transeqid_t>((size_t)m_toolTranslationSeq->GetClientData(0));
+            m_transeq_id = ZRCOLA_TRANSEQID_DEFAULT;
+            m_menuTranslationSeq->Check(wxID_TRANSLATION_SEQ_DEFAULT, true);
             m_toolTranslationSeq->SetSelection(0);
             break;
         }
@@ -300,6 +328,33 @@ void wxZRColaFrame::OnSendAbort(wxCommandEvent& event)
 }
 
 
+void wxZRColaFrame::OnCompositionMenu(wxCommandEvent& event)
+{
+    m_composition = m_menuItemComposition->IsChecked();
+    m_toolComposition->SetState((m_toolComposition->GetState() & ~wxAUI_BUTTON_STATE_CHECKED) | (m_composition ? wxAUI_BUTTON_STATE_CHECKED : 0));
+    m_toolbarTranslate->Refresh();
+
+    // Notify source text something changed and should re-translate.
+    wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
+    m_panel->m_source->ProcessWindowEvent(event2);
+
+    event.Skip();
+}
+
+
+void wxZRColaFrame::OnCompositionToolbar(wxCommandEvent& event)
+{
+    m_composition = (m_toolComposition->GetState() & wxAUI_BUTTON_STATE_CHECKED) ? true : false;
+    m_menuItemComposition->Check(m_composition);
+
+    // Notify source text something changed and should re-translate.
+    wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
+    m_panel->m_source->ProcessWindowEvent(event2);
+
+    event.Skip();
+}
+
+
 void wxZRColaFrame::OnSettings(wxCommandEvent& event)
 {
     m_settings->ShowModal();
@@ -361,19 +416,28 @@ void wxZRColaFrame::OnToolbarTranslate(wxCommandEvent& event)
 }
 
 
+void wxZRColaFrame::OnTranslationSeqMenu(wxCommandEvent& event)
+{
+    int idx = event.GetId() - wxID_TRANSLATION_SEQ_DEFAULT;
+    ZRCola::transeqid_t transeq_id = static_cast<ZRCola::transeqid_t>((size_t)m_toolTranslationSeq->GetClientData(idx));
+
+    DoSetTranslationSeq(idx, transeq_id);
+
+    m_toolTranslationSeq->Select(idx);
+}
+
+
 void wxZRColaFrame::OnTranslationSeqChoice(wxCommandEvent& event)
 {
+    int idx = event.GetSelection();
     ZRCola::transeqid_t transeq_id = static_cast<ZRCola::transeqid_t>((size_t)event.GetClientData());
-    if (m_transeq_id != transeq_id) {
-        m_transeq_id = transeq_id;
 
-        // Notify source text something changed and should re-translate.
-        wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
-        m_panel->m_source->ProcessWindowEvent(event2);
-    }
+    DoSetTranslationSeq(idx, transeq_id);
 
-    if (m_transeq_id == ZRCOLA_TRANSEQID_CUSTOM)
-        m_transeq->ShowModal();
+    if (m_transeq_id == ZRCOLA_TRANSEQID_DEFAULT)
+        m_menuTranslationSeq->Check(wxID_TRANSLATION_SEQ_DEFAULT, true);
+    else
+        m_menuTranslationSeq->Check(wxID_TRANSLATION_SEQ_DEFAULT + idx, true);
 }
 
 
@@ -559,8 +623,37 @@ void wxZRColaFrame::DoCopyAndReturn(const wxString& str)
     m_hWndSource = NULL;
 
     // Select all input in composer and source to prepare for the overwrite next time.
-    m_panel->m_source     ->SelectAll();
+    m_panel->m_source->SelectAll();
     m_panel->m_destination->SelectAll();
+}
+
+
+void wxZRColaFrame::DoSetTranslationSeq(int idx, ZRCola::transeqid_t transeq_id)
+{
+    if (transeq_id == ZRCOLA_TRANSEQID_CUSTOM) {
+        // Prompt user to modify translation.
+        if (m_transeq->ShowModal() != wxID_OK)
+            return;
+
+        if (m_transeq->m_transeq.empty()) {
+            // User submitted an empty translation. Revert to "No Translation" case.
+            m_transeq_id = ZRCOLA_TRANSEQID_DEFAULT;
+            m_menuTranslationSeq->Check(wxID_TRANSLATION_SEQ_DEFAULT, true);
+            m_toolTranslationSeq->SetSelection(0);
+        } else {
+            m_transeq_id = ZRCOLA_TRANSEQID_CUSTOM;
+            m_menuTranslationSeq->Check(wxID_TRANSLATION_SEQ_DEFAULT + idx, true);
+        }
+    } else if (m_transeq_id != transeq_id) {
+        // User choose a new translation sequence.
+        m_transeq_id = transeq_id;
+        m_menuTranslationSeq->Check(wxID_TRANSLATION_SEQ_DEFAULT + idx, true);
+    } else
+        return;
+
+    // Notify source text something changed and should re-translate.
+    wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
+    m_panel->m_source->ProcessWindowEvent(event2);
 }
 
 
@@ -573,7 +666,7 @@ WXLRESULT wxZRColaFrame::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM
         WXHWND hWndSource = ::GetForegroundWindow();
 
         switch (wParam) {
-        case wxZRColaHKID_INVOKE_TRANSLATE    : m_panel->m_source     ->SetFocus(); break;
+        case wxZRColaHKID_INVOKE_TRANSLATE: m_panel->m_source->SetFocus(); break;
         case wxZRColaHKID_INVOKE_TRANSLATE_INV: m_panel->m_destination->SetFocus(); break;
         default:
             wxFAIL_MSG(wxT("not our registered shortcut"));
@@ -588,10 +681,10 @@ WXLRESULT wxZRColaFrame::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM
         m_hWndSource = hWndSource;
 
         //if (m_state == wxABS_FLOAT) {
-            if (IsIconized())
-                ::SendMessage(m_hWnd, WM_SYSCOMMAND, SC_RESTORE, 0);
-            ::SetActiveWindow(m_hWnd);
-            ::SetForegroundWindow(m_hWnd);
+        if (IsIconized())
+            ::SendMessage(m_hWnd, WM_SYSCOMMAND, SC_RESTORE, 0);
+        ::SetActiveWindow(m_hWnd);
+        ::SetForegroundWindow(m_hWnd);
         //} else if (wxAppBarIsDocked(m_state)) {
         //    // ZRCola window is currently docked.
 
@@ -606,7 +699,8 @@ WXLRESULT wxZRColaFrame::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM
         //    wxFAIL_MSG(wxT("unsupported application bar state"));
 
         return 0;
-    } else
+    }
+    else
         return wxZRColaFrameBase::MSWWindowProc(message, wParam, lParam);
 }
 
@@ -628,6 +722,7 @@ void wxPersistentZRColaFrame::Save() const
 
     auto wnd = static_cast<const wxZRColaFrame*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
 
+    SaveValue(wxT("composition"), wnd->m_composition);
     SaveValue(wxT("transeqId"), static_cast<int>(wnd->m_transeq_id));
 
     wxPersistentZRColaComposerPanel(wnd->m_panel).Save();
@@ -645,6 +740,12 @@ bool wxPersistentZRColaFrame::Restore()
     int num;
     if (RestoreValue(wxT("transeqId"), &num))
         wnd->m_transeq_id = num;
+
+    bool b;
+    if (RestoreValue(wxT("composition"), &b))
+        wnd->m_composition = b;
+    else
+        wnd->m_composition = wnd->m_transeq_id == ZRCOLA_TRANSEQID_DEFAULT;
 
     return wxPersistentTLWEx::Restore();
 }
