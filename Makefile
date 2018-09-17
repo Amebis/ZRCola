@@ -158,7 +158,7 @@ Publish :: "MSI\MSIBuild\Version\Version.mak"
 !INCLUDE "include\MSIBuildCfg.mak"
 
 PUBLISH_PACKAGE_DIR=$(PUBLISH_DIR)\$(MSIBUILD_VERSION_STR)
-PUBLISH_PACKAGE_URL=https://www.amebis.si/prenos/ZRCola/$(MSIBUILD_VERSION_STR)
+PUBLISH_PACKAGE_URL=http://www.amebis.si/prenos/ZRCola/$(MSIBUILD_VERSION_STR)
 
 ######################################################################
 # Main targets
