@@ -1,572 +1,427 @@
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2017-06-01 18:04+0200\n"
-"PO-Revision-Date: 2016-05-13 15:52+0200\n"
+"POT-Creation-Date: 2018-09-19 09:00+0200\n"
+"PO-Revision-Date: 2018-09-19 09:09+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.2\n"
+"X-Generator: Poedit 2.1.1\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: zrcolaabout.cpp:31
-#, fuzzy, c-format
-msgid "© 2004-%s ZRC SAZU"
-msgstr "© 2004-%s ZRC SAZU"
-
-#: zrcolaapp.cpp:72 zrcolafrm.cpp:106 zrcolagui.cpp:894 zrcolagui.h:108
-#: MSIBuild/en_US.Win32.Release.Feature-2.idtx:4
-#: MSIBuild/en_US.Win32.Release.Shortcut-2.idtx:4
-#: MSIBuild/en_US.x64.Release.Feature-2.idtx:4
-#: MSIBuild/en_US.x64.Release.Shortcut-2.idtx:4
-#, fuzzy
-msgid "ZRCola"
-msgstr "ZRCola"
-
-#: zrcolachrreq.cpp:49 zrcolagui.cpp:1024
-#, fuzzy
-msgid "Character"
-msgstr "Znak"
-
-#: zrcolachrreq.cpp:58 zrcolagui.cpp:1045
-#, fuzzy
-msgid "Context"
-msgstr "Kontekst"
-
-#: zrcolachrreq.cpp:64 zrcolagui.h:366
-#, fuzzy
-msgid "Request a New Character"
-msgstr "Zahtevaj nov znak"
-
-#: zrcolachrslct.cpp:89
-msgid "Too many digits in Unicode."
-msgstr ""
-
-#: zrcolachrslct.cpp:89 zrcolachrslct.cpp:107
-#, fuzzy
-msgid "Validation conflict"
-msgstr "Konflikt pri preverjanju"
-
-#: zrcolachrslct.cpp:107
-#, c-format
-msgid "Invalid character in Unicode found: %c"
-msgstr ""
-
-#: zrcolachrslct.cpp:214 zrcolachrslct.cpp:390 zrcolachrslct.cpp:869
-#, fuzzy
-msgid "▸ Search Options"
-msgstr "▸ Možnosti iskanja"
-
-#: zrcolachrslct.cpp:328
-msgid ", "
-msgstr ""
-
-#: zrcolachrslct.cpp:393 zrcolachrslct.cpp:866
-#, fuzzy
-msgid "▾ Search Options"
-msgstr "▾ Možnosti iskanja"
-
-#: zrcolafrm.cpp:90
-msgid "Custom Translation..."
-msgstr ""
-
-#: zrcolafrm.cpp:175
-#, fuzzy
-msgid "ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality will not be available."
-msgstr "ZRColine bližnjice na tipkovnici Win+F5 ni mogoče registrirati. Nekaj funkcionalnosti ne bo na voljo."
-
-#: zrcolafrm.cpp:175 zrcolafrm.cpp:177
-#, fuzzy
-msgid "Warning"
-msgstr "Opozorilo"
-
-#: zrcolafrm.cpp:177
-#, fuzzy
-msgid "ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality will not be available."
-msgstr "ZRColine bližnjice na tipkovnici Win+F6 ni mogoče registrirati. Nekaj funkcionalnosti ne bo na voljo."
-
-#: zrcolafrm.cpp:410
-#, fuzzy
-msgid "http://zrcola.zrc-sazu.si/en/info/instructions/"
-msgstr "http://zrcola.zrc-sazu.si/info/instructions/"
-
-#: zrcolafrm.cpp:434
-#, fuzzy
-msgid "http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
-msgstr "http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
-
-#: zrcolagui.cpp:36
-#, fuzzy
+#: res/zrcolagui.cpp:42 zrcolagui.cpp:42
 msgid "E&xit"
-msgstr "I&zhod"
+msgstr ""
 
-#: zrcolagui.cpp:36
-#, fuzzy
+#: res/zrcolagui.cpp:42 zrcolagui.cpp:42
 msgid "Quit this program"
-msgstr "Zapri ta program"
+msgstr ""
 
-#: zrcolagui.cpp:39
-#, fuzzy
+#: res/zrcolagui.cpp:45 zrcolagui.cpp:45
 msgid "&Program"
-msgstr "&Program"
+msgstr ""
 
-#: zrcolagui.cpp:72
-#, fuzzy
+#: res/zrcolagui.cpp:78 zrcolagui.cpp:78
 msgid "Select &All"
-msgstr "Izberi &vse"
+msgstr ""
 
-#: zrcolagui.cpp:72
-#, fuzzy
+#: res/zrcolagui.cpp:78 zrcolagui.cpp:78
 msgid "Select all text"
-msgstr "Izberi celotno besedilo"
+msgstr ""
 
-#: zrcolagui.cpp:78
-#, fuzzy
+#: res/zrcolagui.cpp:84 zrcolagui.cpp:84
 msgid "Find C&haracter..."
-msgstr "Poišči &znak ..."
+msgstr ""
 
-#: zrcolagui.cpp:78 zrcolagui.cpp:198
-#, fuzzy
+#: res/zrcolagui.cpp:84 res/zrcolagui.cpp:213 zrcolagui.cpp:84
+#: zrcolagui.cpp:213
 msgid "Display character search to select character to insert into text"
-msgstr "Prikaži iskalnik znakov za izbor znaka za vstavljanje v besedilo"
+msgstr ""
 
-#: zrcolagui.cpp:89
-#, fuzzy
+#: res/zrcolagui.cpp:95 zrcolagui.cpp:95
 msgid "&Send Composed"
-msgstr "Pošlji &sestavljeno"
+msgstr ""
 
-#: zrcolagui.cpp:89 zrcolagui.cpp:200
-#, fuzzy
+#: res/zrcolagui.cpp:95 res/zrcolagui.cpp:215 zrcolagui.cpp:95
+#: zrcolagui.cpp:215
 msgid "Send composed text to source window"
-msgstr "Pošlji sestavljeno besedilo izvornemu oknu"
+msgstr ""
 
-#: zrcolagui.cpp:98
+#: res/zrcolagui.cpp:104 zrcolagui.cpp:104
 msgid "Copy Composed and &Return"
 msgstr ""
 
-#: zrcolagui.cpp:98
+#: res/zrcolagui.cpp:104 zrcolagui.cpp:104
 msgid "Copy composed text to clipboard and return focus to source window"
 msgstr ""
 
-#: zrcolagui.cpp:107
-#, fuzzy
+#: res/zrcolagui.cpp:113 zrcolagui.cpp:113
 msgid "Send &Decomposed"
-msgstr "Pošlji &razstavljeno"
+msgstr ""
 
-#: zrcolagui.cpp:107 zrcolagui.cpp:202
-#, fuzzy
+#: res/zrcolagui.cpp:113 res/zrcolagui.cpp:217 zrcolagui.cpp:113
+#: zrcolagui.cpp:217
 msgid "Send decomposed text to source window"
-msgstr "Pošlji razstavljeno besedilo izvornemu oknu"
+msgstr ""
 
-#: zrcolagui.cpp:116
+#: res/zrcolagui.cpp:122 zrcolagui.cpp:122
 msgid "Copy Decomposed and Re&turn"
 msgstr ""
 
-#: zrcolagui.cpp:116
+#: res/zrcolagui.cpp:122 zrcolagui.cpp:122
 msgid "Copy decomposed text to clipboard and return focus to source window"
 msgstr ""
 
-#: zrcolagui.cpp:125
-#, fuzzy
+#: res/zrcolagui.cpp:131 zrcolagui.cpp:131
 msgid "Abort (De)composition"
-msgstr "Prekini raz/sestavljanje"
+msgstr ""
 
-#: zrcolagui.cpp:125
-#, fuzzy
+#: res/zrcolagui.cpp:131 zrcolagui.cpp:131
 msgid "Abort composition and return focus to source window"
-msgstr "Prekini sestavljanje in vrni fokus nazaj izvornemu oknu"
+msgstr ""
 
-#: zrcolagui.cpp:136
-#, fuzzy
+#: res/zrcolagui.cpp:141 zrcolagui.cpp:141
+msgid "&ZRCola (De)composition"
+msgstr ""
+
+#: res/zrcolagui.cpp:141 res/zrcolagui.cpp:219 zrcolagui.cpp:141
+#: zrcolagui.cpp:221
+msgid "Toggle ZRCola character (De)composition"
+msgstr ""
+
+#: res/zrcolagui.cpp:145 zrcolagui.cpp:145
+msgid "Tra&nslation"
+msgstr ""
+
+#: res/zrcolagui.cpp:151 zrcolagui.cpp:151
 msgid "&Settings..."
-msgstr "Na&stavitve ..."
+msgstr ""
 
-#: zrcolagui.cpp:136
-#, fuzzy
+#: res/zrcolagui.cpp:151 zrcolagui.cpp:151
 msgid "Open program configuration dialog"
-msgstr "Odpri nastavitveni dialog programa"
+msgstr ""
 
-#: zrcolagui.cpp:139
-#, fuzzy
+#: res/zrcolagui.cpp:154 zrcolagui.cpp:154
 msgid "&Edit"
-msgstr "Ur&edi"
+msgstr ""
 
-#: zrcolagui.cpp:143
-#, fuzzy
+#: res/zrcolagui.cpp:158 zrcolagui.cpp:158
 msgid "&Edit Toolbar"
-msgstr "Orodna vrstica za ur&ejanje"
+msgstr ""
 
-#: zrcolagui.cpp:143
-#, fuzzy
+#: res/zrcolagui.cpp:158 zrcolagui.cpp:158
 msgid "Toggle edit toolbar"
-msgstr "Prikaži/skrij orodno vrstico za urejanje"
+msgstr ""
 
-#: zrcolagui.cpp:147
-#, fuzzy
+#: res/zrcolagui.cpp:162 zrcolagui.cpp:162
 msgid "&Compose Toolbar"
-msgstr "Orodna vrsti&ca za sestavljanje"
+msgstr ""
 
-#: zrcolagui.cpp:147
-#, fuzzy
+#: res/zrcolagui.cpp:162 zrcolagui.cpp:162
 msgid "Toggle compose toolbar"
-msgstr "Prikaži/skrij orodno vrstico za sestavljanje"
+msgstr ""
 
-#: zrcolagui.cpp:153
-#, fuzzy
+#: res/zrcolagui.cpp:168 zrcolagui.cpp:168
 msgid "Character Catalo&g"
-msgstr "Katalo&g znakov"
+msgstr ""
 
-#: zrcolagui.cpp:153
-#, fuzzy
+#: res/zrcolagui.cpp:168 zrcolagui.cpp:168
 msgid "Toggle character catalog panel"
-msgstr "Prikaži/skrij katalog znakov"
+msgstr ""
 
-#: zrcolagui.cpp:156
-#, fuzzy
+#: res/zrcolagui.cpp:171 zrcolagui.cpp:171
 msgid "&View"
-msgstr "Po&gled"
+msgstr ""
 
-#: zrcolagui.cpp:160
-#, fuzzy
+#: res/zrcolagui.cpp:175 zrcolagui.cpp:175
 msgid "&Instructions..."
-msgstr "Navod&ila ..."
+msgstr ""
 
-#: zrcolagui.cpp:160
-#, fuzzy
+#: res/zrcolagui.cpp:175 zrcolagui.cpp:175
 msgid "Open a web site with product instructions"
-msgstr "Odpri spletno stran z navodili izdelka"
+msgstr ""
 
-#: zrcolagui.cpp:164
-#, fuzzy
+#: res/zrcolagui.cpp:179 zrcolagui.cpp:179
 msgid "Keyboard &Shortcuts..."
-msgstr "&Bližnjice na tipkovnici ..."
+msgstr ""
 
-#: zrcolagui.cpp:164
-#, fuzzy
+#: res/zrcolagui.cpp:179 zrcolagui.cpp:179
 msgid "Open a list of keyboard shortcuts"
-msgstr "Odpri seznam bližnjic na tipkovnici"
+msgstr ""
 
-#: zrcolagui.cpp:170
-#, fuzzy
+#: res/zrcolagui.cpp:185 zrcolagui.cpp:185
 msgid "&Request a new character..."
-msgstr "&Zahtevaj nov znak ..."
+msgstr ""
 
-#: zrcolagui.cpp:170
-#, fuzzy
+#: res/zrcolagui.cpp:185 zrcolagui.cpp:185
 msgid "Submit a request to ZRC to add a new character"
-msgstr "Oddaj prošnjo ZRC-u za dodajanje novega znaka"
+msgstr ""
 
-#: zrcolagui.cpp:174
-#, fuzzy
+#: res/zrcolagui.cpp:189 zrcolagui.cpp:189
 msgid "Check for &Updates..."
-msgstr "Preveri za &posodobitev ..."
+msgstr ""
 
-#: zrcolagui.cpp:174
-#, fuzzy
+#: res/zrcolagui.cpp:189 zrcolagui.cpp:189
 msgid "Check online for product update"
-msgstr "Preveri na spletu za posodobitev izdelka"
+msgstr ""
 
-#: zrcolagui.cpp:180
-#, fuzzy
+#: res/zrcolagui.cpp:195 zrcolagui.cpp:195
 msgid "&About..."
-msgstr "O programu ..."
+msgstr ""
 
-#: zrcolagui.cpp:183
-#, fuzzy
+#: res/zrcolagui.cpp:198 zrcolagui.cpp:198
 msgid "&Help"
-msgstr "Po&moč"
+msgstr ""
 
-#: zrcolagui.cpp:188
-#, fuzzy
+#: res/zrcolagui.cpp:203 zrcolagui.cpp:203
 msgid "Cut"
-msgstr "Izreži"
+msgstr ""
 
-#: zrcolagui.cpp:188
-#, fuzzy
+#: res/zrcolagui.cpp:203 zrcolagui.cpp:203
 msgid "Cut selection"
-msgstr "Izreži izbor"
+msgstr ""
 
-#: zrcolagui.cpp:190
-#, fuzzy
+#: res/zrcolagui.cpp:205 zrcolagui.cpp:205
 msgid "Copy"
-msgstr "&Kopiraj"
+msgstr ""
 
-#: zrcolagui.cpp:190
-#, fuzzy
+#: res/zrcolagui.cpp:205 zrcolagui.cpp:205
 msgid "Copy selection"
-msgstr "Kopiraj izbor"
+msgstr ""
 
-#: zrcolagui.cpp:192
-#, fuzzy
+#: res/zrcolagui.cpp:207 zrcolagui.cpp:207
 msgid "Paste"
-msgstr "Prilepi"
+msgstr ""
 
-#: zrcolagui.cpp:192
-#, fuzzy
+#: res/zrcolagui.cpp:207 zrcolagui.cpp:207
 msgid "Paste selection"
-msgstr "Prilepi izbor"
+msgstr ""
 
-#: zrcolagui.cpp:195
-#, fuzzy
+#: res/zrcolagui.cpp:210 zrcolagui.cpp:210
 msgid "Edit"
-msgstr "Urejanje"
+msgstr ""
 
-#: zrcolagui.cpp:198
-#, fuzzy
+#: res/zrcolagui.cpp:213 zrcolagui.cpp:213
 msgid "Find Character"
-msgstr "Poišči znak"
+msgstr ""
 
-#: zrcolagui.cpp:200
-#, fuzzy
+#: res/zrcolagui.cpp:215 zrcolagui.cpp:215
 msgid "Send Composed"
-msgstr "Pošlji sestavljeno"
+msgstr ""
 
-#: zrcolagui.cpp:202
-#, fuzzy
+#: res/zrcolagui.cpp:217 zrcolagui.cpp:217
 msgid "Send Decomposed"
-msgstr "Pošlji razstavljeno"
+msgstr ""
 
-#: zrcolagui.cpp:209
-#, fuzzy
+#: res/zrcolagui.cpp:219 zrcolagui.cpp:221
+msgid "ZRCola (De)composition"
+msgstr ""
+
+#: res/zrcolagui.cpp:226 zrcolagui.cpp:228
 msgid "Compose"
-msgstr "Sestavljanje"
+msgstr ""
 
-#: zrcolagui.cpp:213
-#, fuzzy
+#: res/zrcolagui.cpp:230 zrcolagui.cpp:232
 msgid "Character Catalog"
-msgstr "Katalog znakov"
+msgstr ""
 
-#: zrcolagui.cpp:217
-#, fuzzy
+#: res/zrcolagui.cpp:234 zrcolagui.cpp:236
 msgid "(De)Composer"
-msgstr "Raz/Sestavljalnik"
+msgstr ""
 
-#: zrcolagui.cpp:258
-#, fuzzy
+#: res/zrcolagui.cpp:275 zrcolagui.cpp:277
 msgid "Decomposed Text"
-msgstr "Razstavljeno besedilo"
+msgstr ""
 
-#: zrcolagui.cpp:278
-#, fuzzy
+#: res/zrcolagui.cpp:295 zrcolagui.cpp:297
 msgid "Decomposed Unicode Dump"
-msgstr "Unicode razstavljenega"
+msgstr ""
 
-#: zrcolagui.cpp:305
-#, fuzzy
+#: res/zrcolagui.cpp:322 zrcolagui.cpp:324
 msgid "Composed Text"
-msgstr "Sestavljeno besedilo"
+msgstr ""
 
-#: zrcolagui.cpp:325
-#, fuzzy
+#: res/zrcolagui.cpp:342 zrcolagui.cpp:344
 msgid "Composed Unicode Dump"
-msgstr "Unicode sestavljenega"
+msgstr ""
 
-#: zrcolagui.cpp:379
-#, fuzzy
+#: res/zrcolagui.cpp:396 zrcolagui.cpp:398
 msgid "Select category to display"
-msgstr "Izberi kategorijo za prikaz"
+msgstr ""
 
-#: zrcolagui.cpp:413
-#, fuzzy
+#: res/zrcolagui.cpp:430 zrcolagui.cpp:432
 msgid "Show &All"
-msgstr "Prik&aži vse"
+msgstr ""
 
-#: zrcolagui.cpp:414
-#, fuzzy
+#: res/zrcolagui.cpp:431 zrcolagui.cpp:433
 msgid "Toggle display of less frequent characters"
-msgstr "Prikaži/skrij manj pogoste znake"
+msgstr ""
 
-#: zrcolagui.cpp:454
-#, fuzzy
+#: res/zrcolagui.cpp:471 zrcolagui.cpp:473
 msgid "&Browse"
-msgstr "Pre&brskaj"
+msgstr ""
 
-#: zrcolagui.cpp:461
-#, fuzzy
+#: res/zrcolagui.cpp:478 zrcolagui.cpp:480
 msgid "Full or partial terms from Unicode character description (in English) to search for"
-msgstr "Polne ali delne besede iz opisa znaka Unicode (v angleščini) za iskanje"
+msgstr ""
 
-#: zrcolagui.cpp:465
-#, fuzzy
+#: res/zrcolagui.cpp:482 zrcolagui.cpp:484
 msgid "Search Options"
-msgstr "Možnosti iskanja"
+msgstr ""
 
-#: zrcolagui.cpp:466
-#, fuzzy
+#: res/zrcolagui.cpp:483 zrcolagui.cpp:485
 msgid "Shows/hides additional search options"
-msgstr "Prikaže/skrije dodatne možnosti iskanja"
+msgstr ""
 
-#: zrcolagui.cpp:478
-#, fuzzy
+#: res/zrcolagui.cpp:495 zrcolagui.cpp:497
 msgid "List of Unicode character categories to search in"
-msgstr "Seznam kategorij znaka Unicode za iskanje"
+msgstr ""
 
-#: zrcolagui.cpp:485
-#, fuzzy
+#: res/zrcolagui.cpp:502 zrcolagui.cpp:504
 msgid "All"
-msgstr "Vse"
+msgstr ""
 
-#: zrcolagui.cpp:486
-#, fuzzy
+#: res/zrcolagui.cpp:503 zrcolagui.cpp:505
 msgid "Select all categories"
-msgstr "Izberi vse kategorije"
+msgstr ""
 
-#: zrcolagui.cpp:490
-#, fuzzy
+#: res/zrcolagui.cpp:507 zrcolagui.cpp:509
 msgid "None"
-msgstr "Nič"
+msgstr ""
 
-#: zrcolagui.cpp:491
-#, fuzzy
+#: res/zrcolagui.cpp:508 zrcolagui.cpp:510
 msgid "Clear category selection"
-msgstr "Počisti izbor kategorij"
+msgstr ""
 
-#: zrcolagui.cpp:495
-#, fuzzy
+#: res/zrcolagui.cpp:512 zrcolagui.cpp:514
 msgid "Invert"
-msgstr "Obrni"
+msgstr ""
 
-#: zrcolagui.cpp:496
-#, fuzzy
+#: res/zrcolagui.cpp:513 zrcolagui.cpp:515
 msgid "Invert category selection"
-msgstr "Obrni izbor kategorij"
+msgstr ""
 
-#: zrcolagui.cpp:535
-#, fuzzy
+#: res/zrcolagui.cpp:552 zrcolagui.cpp:554
 msgid "Character search results"
-msgstr "Rezultati iskanja znakov"
+msgstr ""
 
-#: zrcolagui.cpp:545
-#, fuzzy
+#: res/zrcolagui.cpp:562 zrcolagui.cpp:564
 msgid "Re&cently Used"
-msgstr "Nedavno &uporabljeni"
+msgstr ""
 
-#: zrcolagui.cpp:573
-#, fuzzy
+#: res/zrcolagui.cpp:590 zrcolagui.cpp:592
 msgid "List of recently inserted characters"
-msgstr "Seznam nedavno vstavljenih znakov"
+msgstr ""
 
-#: zrcolagui.cpp:587
-#, fuzzy
+#: res/zrcolagui.cpp:604 zrcolagui.cpp:606
 msgid "Preview"
-msgstr "Predogled:"
+msgstr ""
 
-#: zrcolagui.cpp:592
-#, fuzzy
+#: res/zrcolagui.cpp:609 zrcolagui.cpp:611
 msgid "U+"
-msgstr "U+"
+msgstr ""
 
-#: zrcolagui.cpp:597
-#, fuzzy
+#: res/zrcolagui.cpp:614 zrcolagui.cpp:616
 msgid "Unicode hexadecimal code"
-msgstr "Šestnajstiška koda Unicode"
+msgstr ""
 
-#: zrcolagui.cpp:602
-#, fuzzy
+#: res/zrcolagui.cpp:619 zrcolagui.cpp:621
 msgid "Keyboard shortcut in Composer window"
-msgstr "Bližnjica na tipkovnici v oknu sestavljalnika"
+msgstr ""
 
-#: zrcolagui.cpp:637
-#, fuzzy
+#: res/zrcolagui.cpp:654 zrcolagui.cpp:656
 msgid "Character preview"
-msgstr "Predogled znaka"
+msgstr ""
 
-#: zrcolagui.cpp:642
-#, fuzzy
+#: res/zrcolagui.cpp:659 zrcolagui.cpp:661
 msgid "Unicode character description"
-msgstr "Opis znaka Unicode"
+msgstr ""
 
-#: zrcolagui.cpp:647
+#: res/zrcolagui.cpp:664 zrcolagui.cpp:666
 msgid "Character tags"
 msgstr ""
 
-#: zrcolagui.cpp:652
-#, fuzzy
+#: res/zrcolagui.cpp:669 zrcolagui.cpp:671
 msgid "Unicode character category"
-msgstr "Kategorija znaka Unicode"
+msgstr ""
 
-#: zrcolagui.cpp:659
-#, fuzzy
+#: res/zrcolagui.cpp:676 zrcolagui.cpp:678
 msgid "« Back"
-msgstr "< &Nazaj"
+msgstr ""
 
-#: zrcolagui.cpp:661
-#, fuzzy
+#: res/zrcolagui.cpp:678 zrcolagui.cpp:680
 msgid "To previously viewed character"
-msgstr "Na prejšnji prikazan znak"
+msgstr ""
 
-#: zrcolagui.cpp:665
-#, fuzzy
+#: res/zrcolagui.cpp:682 zrcolagui.cpp:684
 msgid "Forward »"
-msgstr "Naprej »"
+msgstr ""
 
-#: zrcolagui.cpp:667
-#, fuzzy
+#: res/zrcolagui.cpp:684 zrcolagui.cpp:686
 msgid "To following viewed character"
-msgstr "Na naslednji prikazan znak"
+msgstr ""
 
-#: zrcolagui.cpp:678
-#, fuzzy
+#: res/zrcolagui.cpp:695 zrcolagui.cpp:697
 msgid "Re&lated"
-msgstr "&Sorodni"
+msgstr ""
 
-#: zrcolagui.cpp:705
-#, fuzzy
+#: res/zrcolagui.cpp:722 zrcolagui.cpp:724
 msgid "List of related characters"
-msgstr "Seznam sorodnih znakov"
+msgstr ""
 
-#: zrcolagui.cpp:794
-#, fuzzy
+#: res/zrcolagui.cpp:811 zrcolagui.cpp:816
 msgid ""
 "Some character native to specific language you are working with should not decompose to primitives.\n"
 "For optimal decomposition you should set the language correctly."
 msgstr ""
-"Nekateri znaki iz posameznih jezikov, s katerimi delate, se ne smejo razstaviti v dele.\n"
-"Za optimalno razstavljanje izberite pravilni jezik."
 
-#: zrcolagui.cpp:798
-#, fuzzy
+#: res/zrcolagui.cpp:815 zrcolagui.cpp:820
 msgid "Select language &automatically according to selected keyboard"
-msgstr "S&amodejno izberi jezik glede na izbrano tipkovnico"
+msgstr ""
 
-#: zrcolagui.cpp:801
-#, fuzzy
+#: res/zrcolagui.cpp:818 zrcolagui.cpp:823
 msgid "&Manually select the language from the list below:"
-msgstr "Ročno izberi jezik na spodnje&m spisku:"
+msgstr ""
 
-#: zrcolagui.cpp:812
-#, fuzzy
+#: res/zrcolagui.cpp:829 zrcolagui.cpp:834
 msgid "Text Language"
-msgstr "Jezik besedila"
+msgstr ""
 
-#: zrcolagui.cpp:817
-#, fuzzy
+#: res/zrcolagui.cpp:834 zrcolagui.cpp:839
 msgid ""
 "ZRCola can be launched every time you log in to your computer.\n"
 "It will be available on the system tray and via registered shortcuts Win+F5 and Win+F6."
 msgstr ""
-"ZRCola se lahko zažene ob vsaki prijavi v vaš računalnik.\n"
-"Na voljo bo na vrstici za sistemska obvestila ter preko registriranih bližnjic Win+F5 in Win+F6."
 
-#: zrcolagui.cpp:821
-#, fuzzy
+#: res/zrcolagui.cpp:838 zrcolagui.cpp:843
 msgid "Start ZRCola &automatically on logon"
-msgstr "S&amodejno zaženi ZRColo ob prijavi"
+msgstr ""
 
-#: zrcolagui.cpp:827
-#, fuzzy
+#: res/zrcolagui.cpp:844 zrcolagui.cpp:849
 msgid "Startup"
-msgstr "Zagon"
+msgstr ""
 
-#: zrcolagui.cpp:905
+#: res/zrcolagui.cpp:911 res/zrcolagui.h:113 zrcolaapp.cpp:72 zrcolafrm.cpp:123
+#: zrcolagui.cpp:916 zrcolagui.h:113
+#: MSIBuild/en_US.Win32.Debug.Feature-2.idtx:4
+#: MSIBuild/en_US.Win32.Debug.Shortcut-2.idtx:4
+#: MSIBuild/en_US.Win32.Release.Feature-2.idtx:4
+#: MSIBuild/en_US.Win32.Release.Shortcut-2.idtx:4
+#: MSIBuild/en_US.x64.Debug.Feature-2.idtx:4
+#: MSIBuild/en_US.x64.Debug.Shortcut-2.idtx:4
+#: MSIBuild/en_US.x64.Release.Feature-2.idtx:4
+#: MSIBuild/en_US.x64.Release.Shortcut-2.idtx:4
+msgid "ZRCola"
+msgstr ""
+
+#: res/zrcolagui.cpp:922 zrcolagui.cpp:927
 msgid ""
 "Program and Website Editor: Janoš Ježovnik\n"
 "Development: Amebis, d. o. o., Kamnik\n"
@@ -575,149 +430,197 @@ msgid ""
 "Development and maintenance of the original program (2004–2015): Peter Weiss"
 msgstr ""
 
-#: zrcolagui.cpp:913
-#, fuzzy
+#: res/zrcolagui.cpp:930 zrcolagui.cpp:935
 msgid "zrcola.zrc-sazu.si"
-msgstr "zrcola.zrc-sazu.si"
+msgstr ""
 
-#: zrcolagui.cpp:919
+#: res/zrcolagui.cpp:936 zrcolagui.cpp:941
 msgid "Texts made using ZRCola have to include in a footnote or some other appropriate part of the publication the note below:"
 msgstr ""
 
-#: zrcolagui.cpp:923
-#, fuzzy
+#: res/zrcolagui.cpp:940 zrcolagui.cpp:945
 msgid "This text was written using the ZRCola input system (http://zrcola.zrc-sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana (http://www.zrc-sazu.si) by Peter Weiss."
-msgstr "Besedilo je bilo pripravljeno z vnašalnim sistemom ZRCola (http://zrcola.zrc-sazu.si), ki ga je na Znanstvenoraziskovalnem centru SAZU v Ljubljani (http://www.zrc-sazu.si) razvil dr. Peter Weiss."
+msgstr ""
 
-#: zrcolagui.cpp:964
-#, fuzzy
+#: res/zrcolagui.cpp:981 zrcolagui.cpp:986
 msgid "Log"
-msgstr "Dnevnik"
+msgstr ""
 
-#: zrcolagui.cpp:980
-#, fuzzy
+#: res/zrcolagui.cpp:997 zrcolagui.cpp:1002
 msgid "Quit and &Update..."
-msgstr "Za&ustavi in posodobi ..."
+msgstr ""
 
-#: zrcolagui.cpp:982
-#, fuzzy
+#: res/zrcolagui.cpp:999 zrcolagui.cpp:1004
 msgid "Exit this program and launch product update"
-msgstr "Zaustavi ta program in zaženi posodobitev izdelka"
+msgstr ""
 
-#: zrcolagui.cpp:986
-#, fuzzy
+#: res/zrcolagui.cpp:1003 zrcolagui.cpp:1008
 msgid "&Close"
-msgstr "&Zapri"
+msgstr ""
 
-#: zrcolagui.cpp:987
-#, fuzzy
+#: res/zrcolagui.cpp:1004 zrcolagui.cpp:1009
 msgid "Close this window"
-msgstr "Zapri to okno"
+msgstr ""
 
-#: zrcolagui.cpp:1026
-#, fuzzy
+#: res/zrcolagui.cpp:1041 zrcolachrreq.cpp:49 zrcolagui.cpp:1046
+msgid "Character"
+msgstr ""
+
+#: res/zrcolagui.cpp:1043 zrcolagui.cpp:1048
 msgid "Enter the &character you would like to request:"
-msgstr "Vpišite &znak, ki ga želite zahtevati:"
+msgstr ""
 
-#: zrcolagui.cpp:1033
-#, fuzzy
+#: res/zrcolagui.cpp:1057 zrcolagui.cpp:1062
 msgid "Decomposed character to request"
-msgstr "Razstavljen znak, ki ga zahtevate"
+msgstr ""
 
-#: zrcolagui.cpp:1037
-#, fuzzy
+#: res/zrcolagui.cpp:1061 zrcolagui.cpp:1066
 msgid ""
 "Please, use the decomposed form.\n"
 "You can use ZRCola keyboard shortcuts to enter the character or Copy&&Paste it from the Decomposed window."
 msgstr ""
-"Uporabite razstavljeno obliko.\n"
-"Za vnos znaka lahko uporavite ZRColine bližnjice na tipkovnici ali kopirate in prilepite iz okna z razstavljenim besedilom."
 
-#: zrcolagui.cpp:1047
-#, fuzzy
+#: res/zrcolagui.cpp:1069 zrcolachrreq.cpp:58 zrcolagui.cpp:1074
+msgid "Context"
+msgstr ""
+
+#: res/zrcolagui.cpp:1071 zrcolagui.cpp:1076
 msgid "The &context, examples or description why and where the character is required:"
-msgstr "&Kontekst, primeri oz. kratek opis zakaj in kje potrebujete novi znak:"
+msgstr ""
 
-#: zrcolagui.cpp:1053
-#, fuzzy
+#: res/zrcolagui.cpp:1077 zrcolagui.cpp:1082
 msgid "Additional notes for character request"
-msgstr "Dodatne opombe za zahtevo znaka"
+msgstr ""
 
-#: zrcolagui.cpp:1060
+#: res/zrcolagui.cpp:1084 zrcolagui.cpp:1089
 msgid ""
 "After clicking OK button, your e-mail application should open allowing you to submit the new character request to ZRCola Editor.\n"
 "Your e-mail application might not display all the characters correctly, but the Editor will be able to read them correctly anyway."
 msgstr ""
 
-#: zrcolagui.cpp:1102
+#: res/zrcolagui.cpp:1126 zrcolagui.cpp:1131
 msgid "Translation"
 msgstr ""
 
-#: zrcolagui.cpp:1104
+#: res/zrcolagui.cpp:1128 zrcolagui.cpp:1133
 msgid ""
 "ZRCola offers multiple text translations that can be arranged in a sequence.\n"
 "Please select desired translations and the order they are applied."
 msgstr ""
 
-#: zrcolagui.cpp:1114
+#: res/zrcolagui.cpp:1138 zrcolagui.cpp:1143
 msgid "A&vailable:"
 msgstr ""
 
-#: zrcolagui.cpp:1129
+#: res/zrcolagui.cpp:1153 zrcolagui.cpp:1158
 msgid ">"
 msgstr ""
 
-#: zrcolagui.cpp:1132
+#: res/zrcolagui.cpp:1156 zrcolagui.cpp:1161
 msgid "<"
 msgstr ""
 
-#: zrcolagui.cpp:1141
+#: res/zrcolagui.cpp:1165 zrcolagui.cpp:1170
 msgid "&Selected:"
 msgstr ""
 
-#: zrcolagui.cpp:1159
-#, fuzzy
+#: res/zrcolagui.cpp:1183 zrcolagui.cpp:1188
 msgid "Up"
-msgstr "Up"
+msgstr ""
 
-#: zrcolagui.cpp:1162
-#, fuzzy
+#: res/zrcolagui.cpp:1186 zrcolagui.cpp:1191
 msgid "Down"
-msgstr "Down"
+msgstr ""
 
-#: zrcolagui.h:250
-#, fuzzy
+#: res/zrcolagui.h:255 zrcolagui.h:255
 msgid "Character Search"
-msgstr "Poišči znak"
+msgstr ""
 
-#: zrcolagui.h:286
-#, fuzzy
+#: res/zrcolagui.h:291 zrcolagui.h:291
 msgid "Settings"
-msgstr "Nastavitve"
+msgstr ""
 
-#: zrcolagui.h:312
-#, fuzzy
+#: res/zrcolagui.h:317 zrcolagui.h:317
 msgid "About ZRCola"
-msgstr "O ZRColi"
+msgstr ""
 
-#: zrcolagui.h:337 zrcolaupdater.cpp:94
-#, fuzzy
+#: res/zrcolagui.h:342 zrcolagui.h:342 zrcolaupdater.cpp:94
 msgid "Product Update"
-msgstr "Posodabljanje izdelka"
+msgstr ""
 
-#: zrcolagui.h:408
+#: res/zrcolagui.h:371 zrcolachrreq.cpp:64 zrcolagui.h:371
+msgid "Request a New Character"
+msgstr ""
+
+#: res/zrcolagui.h:413 zrcolagui.h:413
 msgid "Custom Translation Sequence"
 msgstr ""
 
+#: zrcolaabout.cpp:31
+#, c-format
+msgid "© 2004-%s ZRC SAZU"
+msgstr ""
+
+#: zrcolachrslct.cpp:89
+msgid "Too many digits in Unicode."
+msgstr ""
+
+#: zrcolachrslct.cpp:89 zrcolachrslct.cpp:107
+msgid "Validation conflict"
+msgstr ""
+
+#: zrcolachrslct.cpp:107
+#, c-format
+msgid "Invalid character in Unicode found: %c"
+msgstr ""
+
+#: zrcolachrslct.cpp:214 zrcolachrslct.cpp:388 zrcolachrslct.cpp:867
+msgid "▸ Search Options"
+msgstr ""
+
+#: zrcolachrslct.cpp:326
+msgid ", "
+msgstr ""
+
+#: zrcolachrslct.cpp:391 zrcolachrslct.cpp:864
+msgid "▾ Search Options"
+msgstr ""
+
+#: zrcolafrm.cpp:89
+msgid "No Translation"
+msgstr ""
+
+#: zrcolafrm.cpp:102
+msgid "Custom Translation..."
+msgstr ""
+
+#: zrcolafrm.cpp:206
+msgid "ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality will not be available."
+msgstr ""
+
+#: zrcolafrm.cpp:206 zrcolafrm.cpp:208
+msgid "Warning"
+msgstr ""
+
+#: zrcolafrm.cpp:208
+msgid "ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality will not be available."
+msgstr ""
+
+#: zrcolafrm.cpp:472
+msgid "http://zrcola.zrc-sazu.si/en/info/instructions/"
+msgstr ""
+
+#: zrcolafrm.cpp:496
+msgid "http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
+msgstr ""
+
 #: zrcolakeyhndlr.cpp:44
-#, fuzzy
 msgid "INS key is pressed. Type the Unicode code of desired character now (up to four hexadecimal digits: 0-9, A-F), then release INS."
-msgstr "Pritisnjena tipka INS. Zdaj vtpikajte kodo Unicode želenega znaka (do štiri šestnajstiške števke: 0-9, A-F), nato izpustite INS."
+msgstr ""
 
 #: zrcolasettings.cpp:87
-#, fuzzy
 msgid "Start ZRCola automatically on logon"
-msgstr "Samodejno zaženi ZRColo ob prijavi"
+msgstr ""
 
 #: zrcolatranseq.cpp:63
 #, c-format
@@ -725,98 +628,118 @@ msgid "Unknown translation (%u)"
 msgstr ""
 
 #: zrcolaupdater.cpp:94
-#, fuzzy
 msgid ""
 "This program will now close and the upgrade will be launched.\n"
 "Are you sure?"
 msgstr ""
-"Ta program se bo zdaj zaprl in zagnala se bo posodobitev.\n"
-"Ali ste prepričani?"
 
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:4
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:10
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:15
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:4
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:10
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:15
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:4
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:10
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:15
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:4
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:10
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:15
-#, fuzzy
 msgid "binUIHeader.bmp"
-msgstr "binUIHeader.bmp"
+msgstr ""
 
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:5
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:5
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:5
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:5
-#, fuzzy
 msgid "[DlgTitleFont][SimpleProductName] Tutorial : Starting"
-msgstr "[DlgTitleFont]Vadnica [SimpleProductName] : Zagon"
+msgstr ""
 
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:6
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:6
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:6
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:6
-#, fuzzy
 msgid "bintutorial1.bmp"
-msgstr "bintutorial1.bmp"
+msgstr ""
 
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:7
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:7
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:7
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:7
-#, fuzzy
 msgid "When configured, ZRCola starts at system startup and runs in the background. If needed, it can be brought up by pressing the combination Win+F5."
-msgstr "Če jo tako nastavimo, se ZRCola zažene samodejno in teče v ozadju. V ospredje jo prikličemo s pritiskom na bližnjico Win+F5."
+msgstr ""
 
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:8
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:8
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:8
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:8
-#, fuzzy
 msgid "IMPORTANT: Upon pressing the combination Win+F5 the program memorises the location of the cursor in the text. If ZRCola is brought to the foreground without using the aforementioned combination of keys, the program won't know where to insert the special characters!"
-msgstr "POMEMBNO: Ob pritisku na Win+F5 si program zapomni mesto kurzorja v besedilu. Če ZRColo povečamo brez pritiska na ti dve tipki, program ne bo vedel, kam vstaviti želene znake!"
+msgstr ""
 
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:9
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:14
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:19
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:9
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:14
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:19
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:9
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:14
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:19
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:9
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:14
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:19
-#, fuzzy
 msgid "&Continue"
-msgstr "&Nadaljuj"
+msgstr ""
 
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:11
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:11
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:11
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:11
-#, fuzzy
 msgid "[DlgTitleFont][SimpleProductName] Tutorial : Composition"
-msgstr "[DlgTitleFont]Vadnica [SimpleProductName] : Sestavljanje"
+msgstr ""
 
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:12
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:12
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:12
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:12
-#, fuzzy
 msgid "bintutorial2.bmp"
-msgstr "bintutorial2.bmp"
+msgstr ""
 
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:13
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:13
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:13
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:13
-#, fuzzy
 msgid "The string of basic and substitute characters is entered into the upper input window of the program. In the window below the resulted special characters are displayed. To insert them in the text, the F5 key is used."
-msgstr "Želeni niz osnovnih in nadomestnih znakov vnesemo v zgornjo vrstico v programu. V spodnji vrstici se prikažejo sestavljeni znaki. V besedilo jih vnesemo s pritiskom na tipko F5."
+msgstr ""
 
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:16
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:16
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:16
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:16
-#, fuzzy
 msgid "[DlgTitleFont][SimpleProductName] Tutorial : Entering Characters"
-msgstr "[DlgTitleFont]Vadnica [SimpleProductName] : Vnos znakov"
+msgstr ""
 
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:17
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:17
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:17
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:17
-#, fuzzy
 msgid "bintutorial3.bmp"
-msgstr "bintutorial3.bmp"
+msgstr ""
 
+#: MSIBuild/en_US.Win32.Debug.Control-2.idtx:18
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:18
+#: MSIBuild/en_US.x64.Debug.Control-2.idtx:18
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:18
-#, fuzzy
 msgid "Characters can be entered using keyboard shortcuts, the character catalogue (F4) or the character finding tool (F8)."
-msgstr "Znake lahko v vnosno vrstico vstavljamo s pomočjo bližnjic na tipkovnici, iz kataloga znakov (F4) ali z iskalnikom znakov (F8)."
+msgstr ""
 
+#: MSIBuild/en_US.Win32.Debug.Feature-2.idtx:4
+#: MSIBuild/en_US.Win32.Debug.Shortcut-2.idtx:4
 #: MSIBuild/en_US.Win32.Release.Feature-2.idtx:4
 #: MSIBuild/en_US.Win32.Release.Shortcut-2.idtx:4
+#: MSIBuild/en_US.x64.Debug.Feature-2.idtx:4
+#: MSIBuild/en_US.x64.Debug.Shortcut-2.idtx:4
 #: MSIBuild/en_US.x64.Release.Feature-2.idtx:4
 #: MSIBuild/en_US.x64.Release.Shortcut-2.idtx:4
-#, fuzzy
 msgid "Input system for linguistic use"
-msgstr "Vnašalni sistem za jezikoslovno rabo"
+msgstr ""
