@@ -1,17 +1,16 @@
+# Translators:
+# Simon Rozman <simon@rozman.si>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola.zrcdb\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
-"Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
-"Language: ru_RU\n"
+"Last-Translator: Simon Rozman <simon@rozman.si>, 2018\n"
+"Language-Team: Russian (Russia) (https://www.transifex.com/amebis/teams/91592/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.4\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Poedit-SourceCharset: UTF-8\n"
+"Language: ru_RU\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"X-Generator: ZRColaCompile\n"
 
 msgid "Albanian"
 msgstr "албанский"
@@ -70,62 +69,23 @@ msgstr "Кириллические знаки"
 msgid "Cyrillic (Belarusian)"
 msgstr "кириллица (белорусский)"
 
-msgid "Cyrillic (Belarusian) » Latin (English)"
-msgstr "кириллица (белорусский) » латиница (английский)"
-
-msgid "Cyrillic (Belarusian) » Latin (Slovenian)"
-msgstr "кириллица (белорусский) » латиница (словенский)"
-
 msgid "Cyrillic (Bulgarian)"
 msgstr "кириллица (болгарский)"
-
-msgid "Cyrillic (Bulgarian) » Latin (English)"
-msgstr "кириллица (болгарский) » латиница (английский)"
-
-msgid "Cyrillic (Bulgarian) » Latin (Slovenian)"
-msgstr "кириллица (болгарский) » латиница (словенский)"
-
-msgid "Cyrillic (GOST2000)"
-msgstr "кириллица (ГОСТ2000)"
 
 msgid "Cyrillic (Macedonian)"
 msgstr "кириллица (македонский)"
 
-msgid "Cyrillic (Macedonian) » Latin (English)"
-msgstr "кириллица (македонский) » латиница (английский)"
-
-msgid "Cyrillic (Macedonian) » Latin (Slovenian)"
-msgstr "кириллица (македонский) » латиница (словенский)"
-
 msgid "Cyrillic (Russian)"
 msgstr "кириллица (русский)"
-
-msgid "Cyrillic (Russian) » Latin (English)"
-msgstr "кириллица (русский) » латиница (английский)"
-
-msgid "Cyrillic (Russian) » Latin (Slovenian)"
-msgstr "кириллица (русский) » латиница (словенский)"
 
 msgid "Cyrillic (Serbian)"
 msgstr "кириллица (сербский)"
 
-msgid "Cyrillic (Serbian) » Latin"
-msgstr "кириллица (сербский) » латиница"
-
 msgid "Cyrillic (Ukrainian)"
 msgstr "кириллица (украинский)"
 
-msgid "Cyrillic (Ukrainian) » Latin (English)"
-msgstr "кириллица (украинский) » латиница (английский)"
-
-msgid "Cyrillic (Ukrainian) » Latin (Slovenian)"
-msgstr "кириллица (украинский) » латиница (словенский)"
-
 msgid "Cyrillic BdC"
 msgstr "кириллица (BdC)"
-
-msgid "Cyrillic » Latin (GOST2000)"
-msgstr "кириллица » латиница (ГОСТ2000)"
 
 msgid "Czech"
 msgstr "чешский"
@@ -170,7 +130,8 @@ msgid "Greek (Modern)"
 msgstr "греческий алфавит (новогреческий)"
 
 msgid "Greek (Modern) » Greek (Old)"
-msgstr "греческий алфавит (новогреческий) » греческий алфавит (древнегреческий)"
+msgstr ""
+"греческий алфавит (новогреческий) » греческий алфавит (древнегреческий)"
 
 msgid "Greek (Old)"
 msgstr "греческий алфавит (древнегреческий)"
@@ -180,9 +141,6 @@ msgstr "Еврейские знаки"
 
 msgid "Hungarian"
 msgstr "венгерский"
-
-msgid "IPA"
-msgstr "IPA"
 
 msgid "Irish Gaelic"
 msgstr "ирландский гэльский"
@@ -289,15 +247,6 @@ msgstr "кашубский"
 msgid "Latin"
 msgstr "латинский"
 
-msgid "Latin (English)"
-msgstr "латиница (английский)"
-
-msgid "Latin (GOST2000)"
-msgstr "латиница (ГОСТ2000)"
-
-msgid "Latin (Slovenian)"
-msgstr "латиница (словенский)"
-
 msgid "Latin ALE"
 msgstr "латиница (ALE)"
 
@@ -309,9 +258,6 @@ msgstr "латиница » кириллица (белорусский)"
 
 msgid "Latin » Cyrillic (Bulgarian)"
 msgstr "латиница » кириллица (болгарский)"
-
-msgid "Latin » Cyrillic (GOST2000)"
-msgstr "латиница » кириллица (ГОСТ2000)"
 
 msgid "Latin » Cyrillic (Macedonian)"
 msgstr "латиница » кириллица (македонский)"
@@ -574,12 +520,6 @@ msgstr "Пунктуация, остальное"
 msgid "Quotes"
 msgstr "Кавычки"
 
-msgid "Rigler transcription"
-msgstr "транскрипция Риглера"
-
-msgid "Rigler transcription » IPA"
-msgstr "транскрипция Риглера » IPA"
-
 msgid "Romanian"
 msgstr "румынский"
 
@@ -610,7 +550,6 @@ msgstr "сигма (обычная)"
 msgid "Slovak"
 msgstr "словацкий"
 
-# Preveri исторический!
 msgid "Slovene Historical Writings"
 msgstr "Словенские исторические письма"
 
@@ -713,15 +652,6 @@ msgstr "украинский"
 msgid "Units"
 msgstr "Единицы"
 
-msgid "ZRCola (De)composition"
-msgstr "ZRCola составление/разборка"
-
-msgid "ZRCola Composed"
-msgstr "ZRCola составленное"
-
-msgid "ZRCola Decomposed"
-msgstr "ZRCola разобранное"
-
 msgid "l+j l|j"
 msgstr "l+j l|j"
 
@@ -730,11 +660,3 @@ msgstr "без + |"
 
 msgid "small Case"
 msgstr "строчние буквы"
-
-#, fuzzy
-#~ msgid "Modified Greek"
-#~ msgstr "Изменяющие знаки"
-
-#, fuzzy
-#~ msgid "Old Greek"
-#~ msgstr "Греческие знаки"

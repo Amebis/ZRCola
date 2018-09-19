@@ -1,17 +1,16 @@
+# Translators:
+# Simon Rozman <simon@rozman.si>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola.zrcdb\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
-"Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
-"Language: sl_SI\n"
+"Last-Translator: Simon Rozman <simon@rozman.si>, 2018\n"
+"Language-Team: Slovenian (Slovenia) (https://www.transifex.com/amebis/teams/91592/sl_SI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.4\n"
+"Language: sl_SI\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
-"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: ZRColaCompile\n"
 
 msgid "Albanian"
 msgstr "albanščina"
@@ -70,62 +69,23 @@ msgstr "Cirilski znaki"
 msgid "Cyrillic (Belarusian)"
 msgstr "cirilica (beloruščina)"
 
-msgid "Cyrillic (Belarusian) » Latin (English)"
-msgstr "cirilica (beloruščina) » latinica (angleščina)"
-
-msgid "Cyrillic (Belarusian) » Latin (Slovenian)"
-msgstr "cirilica (beloruščina) » latinica (slovenščina)"
-
 msgid "Cyrillic (Bulgarian)"
 msgstr "cirilica (bolgarščina)"
-
-msgid "Cyrillic (Bulgarian) » Latin (English)"
-msgstr "cirilica (bolgarščina) » latinica (angleščina)"
-
-msgid "Cyrillic (Bulgarian) » Latin (Slovenian)"
-msgstr "cirilica (bolgarščina) » latinica (slovenščina)"
-
-msgid "Cyrillic (GOST2000)"
-msgstr "cirilica (GOST2000)"
 
 msgid "Cyrillic (Macedonian)"
 msgstr "cirilica (makedonščina)"
 
-msgid "Cyrillic (Macedonian) » Latin (English)"
-msgstr "cirilica (makedonščina) » latinica (angleščina)"
-
-msgid "Cyrillic (Macedonian) » Latin (Slovenian)"
-msgstr "cirilica (makedonščina) » latinica (slovenščina)"
-
 msgid "Cyrillic (Russian)"
 msgstr "cirilica (ruščina)"
-
-msgid "Cyrillic (Russian) » Latin (English)"
-msgstr "cirilica (ruščina) » latinica (angleščina)"
-
-msgid "Cyrillic (Russian) » Latin (Slovenian)"
-msgstr "cirilica (ruščina) » latinica (slovenščina)"
 
 msgid "Cyrillic (Serbian)"
 msgstr "cirilica (srbščina)"
 
-msgid "Cyrillic (Serbian) » Latin"
-msgstr "cirilica (srbščina) » latinica"
-
 msgid "Cyrillic (Ukrainian)"
 msgstr "cirilica (ukrajinščina)"
 
-msgid "Cyrillic (Ukrainian) » Latin (English)"
-msgstr "cirilica (ukrajinščina) » latinica (angleščina)"
-
-msgid "Cyrillic (Ukrainian) » Latin (Slovenian)"
-msgstr "cirilica (ukrajinščina) » latinica (slovenščina)"
-
 msgid "Cyrillic BdC"
 msgstr "cirilica (BdC)"
-
-msgid "Cyrillic » Latin (GOST2000)"
-msgstr "cirilica » latinica (GOST2000)"
 
 msgid "Czech"
 msgstr "češčina"
@@ -180,9 +140,6 @@ msgstr "Hebrejski znaki"
 
 msgid "Hungarian"
 msgstr "madžarščina"
-
-msgid "IPA"
-msgstr "IPA"
 
 msgid "Irish Gaelic"
 msgstr "irščina"
@@ -289,15 +246,6 @@ msgstr "kašubščina"
 msgid "Latin"
 msgstr "latinščina"
 
-msgid "Latin (English)"
-msgstr "latinica (angleščina)"
-
-msgid "Latin (GOST2000)"
-msgstr "latinica (GOST2000)"
-
-msgid "Latin (Slovenian)"
-msgstr "latinica (slovenščina)"
-
 msgid "Latin ALE"
 msgstr "latinščina (ALE)"
 
@@ -309,9 +257,6 @@ msgstr "latinica » cirilica (beloruščina)"
 
 msgid "Latin » Cyrillic (Bulgarian)"
 msgstr "latinica » cirilica (bolgarščina)"
-
-msgid "Latin » Cyrillic (GOST2000)"
-msgstr "latinica » cirilica (GOST2000)"
 
 msgid "Latin » Cyrillic (Macedonian)"
 msgstr "latinica » cirilica (makedonščina)"
@@ -574,12 +519,6 @@ msgstr "Ločilo, drugo"
 msgid "Quotes"
 msgstr "Narekovaji"
 
-msgid "Rigler transcription"
-msgstr "Riglerjeva transkripcija"
-
-msgid "Rigler transcription » IPA"
-msgstr "Riglerjeva transkripcija » IPA"
-
 msgid "Romanian"
 msgstr "romunščina"
 
@@ -712,15 +651,6 @@ msgstr "ukrajinščina"
 msgid "Units"
 msgstr "Enote"
 
-msgid "ZRCola (De)composition"
-msgstr "ZRCola (raz-)sestavljanje"
-
-msgid "ZRCola Composed"
-msgstr "ZRCola sestavljeno"
-
-msgid "ZRCola Decomposed"
-msgstr "ZRCola razstavljeno"
-
 msgid "l+j l|j"
 msgstr "l+j l|j"
 
@@ -729,72 +659,3 @@ msgstr "brez + |"
 
 msgid "small Case"
 msgstr "male črke"
-
-#~ msgid "ZRCola Decomposed » Composed"
-#~ msgstr "ZRCola razstavljeno » sestavljeno"
-
-#~ msgid "Letter b"
-#~ msgstr "Črka b"
-
-#~ msgid "Letter c"
-#~ msgstr "Črka c"
-
-#~ msgid "Letter d"
-#~ msgstr "Črka d"
-
-#~ msgid "Letter f"
-#~ msgstr "Črka f"
-
-#~ msgid "Letter g"
-#~ msgstr "Črka g"
-
-#~ msgid "Letter h"
-#~ msgstr "Črka h"
-
-#~ msgid "Letter j"
-#~ msgstr "Črka j"
-
-#~ msgid "Letter k"
-#~ msgstr "Črka k"
-
-#~ msgid "Letter l"
-#~ msgstr "Črka l"
-
-#~ msgid "Letter m"
-#~ msgstr "Črka m"
-
-#~ msgid "Letter n"
-#~ msgstr "Črka n"
-
-#~ msgid "Letter p"
-#~ msgstr "Črka p"
-
-#~ msgid "Letter q"
-#~ msgstr "Črka q"
-
-#~ msgid "Letter r"
-#~ msgstr "Črka r"
-
-#~ msgid "Letter s"
-#~ msgstr "Črka s"
-
-#~ msgid "Letter t"
-#~ msgstr "Črka t"
-
-#~ msgid "Letter v"
-#~ msgstr "Črka v"
-
-#~ msgid "Letter w"
-#~ msgstr "Črka w"
-
-#~ msgid "Letter x"
-#~ msgstr "Črka x"
-
-#~ msgid "Letter y"
-#~ msgstr "Črka y"
-
-#~ msgid "Letter z"
-#~ msgstr "Črka z"
-
-#~ msgid "Other, Control"
-#~ msgstr "Drugo, kontrolni"

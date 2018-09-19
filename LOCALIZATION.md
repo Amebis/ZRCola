@@ -2,16 +2,17 @@
 
 In order to get ZRCola experience in your language the following resources should be translated:
 
-1. [ZRCola](https://poeditor.com/join/project/NTidhEPdDM)
-2. [ZRCola-zrcdb](https://poeditor.com/join/project/QBuYsTwk0d)
-3. [libZRColaUI](https://poeditor.com/join/project/vrnIvk5IOM)
-4. [Updater](https://poeditor.com/join/project/oDK4ktH3ZV)
-5. [wxExtend](https://poeditor.com/join/project/YmsdlC3CBv)
+1. [ZRCola Application](https://www.transifex.com/amebis/zrcola/app/)
+2. [ZRCola Database](https://www.transifex.com/amebis/zrcola/database/)
+3. [ZRCola Core](https://www.transifex.com/amebis/zrcola/core/)
+4. [Updater](https://www.transifex.com/amebis/updater/updater/) and [Updater UpdCheck](https://www.transifex.com/amebis/updater/updcheck/)
+5. [wxExtend](https://www.transifex.com/amebis/wxextend/wxextend/)
 6. Setup
-   - [MSIBuildUI](https://poeditor.com/join/project/ikxWBlq1o5)
-   - [MSIBuildCore](https://poeditor.com/join/project/RSCSsz9fXi)
-   - [MSICALib](https://poeditor.com/join/project/cKP0wwBrHU)
-   - [MSICA](https://poeditor.com/join/project/gCNPagUQvn)
+   - [ZRCola Setup](https://www.transifex.com/amebis/zrcola/setup/)
+   - [MSIBuild UI](https://www.transifex.com/amebis/msibuild/ui/)
+   - [MSIBuild Core](https://www.transifex.com/amebis/msibuild/core/)
+   - [MSICALib](https://www.transifex.com/amebis/msicalib/msicalib/)
+   - [MSICA](https://www.transifex.com/amebis/msica/msica/)
 
 ## General Guidelines
 
