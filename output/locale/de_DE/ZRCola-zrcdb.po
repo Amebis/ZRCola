@@ -67,22 +67,61 @@ msgstr ""
 msgid "Cyrillic (Belarusian)"
 msgstr ""
 
+msgid "Cyrillic (Belarusian) » Latin (English)"
+msgstr ""
+
+msgid "Cyrillic (Belarusian) » Latin (Slovenian)"
+msgstr ""
+
 msgid "Cyrillic (Bulgarian)"
+msgstr ""
+
+msgid "Cyrillic (Bulgarian) » Latin (English)"
+msgstr ""
+
+msgid "Cyrillic (Bulgarian) » Latin (Slovenian)"
+msgstr ""
+
+msgid "Cyrillic (GOST2000)"
 msgstr ""
 
 msgid "Cyrillic (Macedonian)"
 msgstr ""
 
+msgid "Cyrillic (Macedonian) » Latin (English)"
+msgstr ""
+
+msgid "Cyrillic (Macedonian) » Latin (Slovenian)"
+msgstr ""
+
 msgid "Cyrillic (Russian)"
+msgstr ""
+
+msgid "Cyrillic (Russian) » Latin (English)"
+msgstr ""
+
+msgid "Cyrillic (Russian) » Latin (Slovenian)"
 msgstr ""
 
 msgid "Cyrillic (Serbian)"
 msgstr ""
 
+msgid "Cyrillic (Serbian) » Latin"
+msgstr ""
+
 msgid "Cyrillic (Ukrainian)"
 msgstr ""
 
+msgid "Cyrillic (Ukrainian) » Latin (English)"
+msgstr ""
+
+msgid "Cyrillic (Ukrainian) » Latin (Slovenian)"
+msgstr ""
+
 msgid "Cyrillic BdC"
+msgstr ""
+
+msgid "Cyrillic » Latin (GOST2000)"
 msgstr ""
 
 msgid "Czech"
@@ -244,6 +283,15 @@ msgstr ""
 msgid "Latin"
 msgstr ""
 
+msgid "Latin (English)"
+msgstr ""
+
+msgid "Latin (GOST2000)"
+msgstr ""
+
+msgid "Latin (Slovenian)"
+msgstr ""
+
 msgid "Latin ALE"
 msgstr ""
 
@@ -254,6 +302,9 @@ msgid "Latin » Cyrillic (Belarusian)"
 msgstr ""
 
 msgid "Latin » Cyrillic (Bulgarian)"
+msgstr ""
+
+msgid "Latin » Cyrillic (GOST2000)"
 msgstr ""
 
 msgid "Latin » Cyrillic (Macedonian)"

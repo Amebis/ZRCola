@@ -69,23 +69,62 @@ msgstr "Кириллические знаки"
 msgid "Cyrillic (Belarusian)"
 msgstr "кириллица (белорусский)"
 
+msgid "Cyrillic (Belarusian) » Latin (English)"
+msgstr "кириллица (белорусский) » латиница (английский)"
+
+msgid "Cyrillic (Belarusian) » Latin (Slovenian)"
+msgstr "кириллица (белорусский) » латиница (словенский)"
+
 msgid "Cyrillic (Bulgarian)"
 msgstr "кириллица (болгарский)"
+
+msgid "Cyrillic (Bulgarian) » Latin (English)"
+msgstr "кириллица (болгарский) » латиница (английский)"
+
+msgid "Cyrillic (Bulgarian) » Latin (Slovenian)"
+msgstr "кириллица (болгарский) » латиница (словенский)"
+
+msgid "Cyrillic (GOST2000)"
+msgstr "кириллица (ГОСТ2000)"
 
 msgid "Cyrillic (Macedonian)"
 msgstr "кириллица (македонский)"
 
+msgid "Cyrillic (Macedonian) » Latin (English)"
+msgstr "кириллица (македонский) » латиница (английский)"
+
+msgid "Cyrillic (Macedonian) » Latin (Slovenian)"
+msgstr "кириллица (македонский) » латиница (словенский)"
+
 msgid "Cyrillic (Russian)"
 msgstr "кириллица (русский)"
+
+msgid "Cyrillic (Russian) » Latin (English)"
+msgstr "кириллица (русский) » латиница (английский)"
+
+msgid "Cyrillic (Russian) » Latin (Slovenian)"
+msgstr "кириллица (русский) » латиница (словенский)"
 
 msgid "Cyrillic (Serbian)"
 msgstr "кириллица (сербский)"
 
+msgid "Cyrillic (Serbian) » Latin"
+msgstr "кириллица (сербский) » латиница"
+
 msgid "Cyrillic (Ukrainian)"
 msgstr "кириллица (украинский)"
 
+msgid "Cyrillic (Ukrainian) » Latin (English)"
+msgstr "кириллица (украинский) » латиница (английский)"
+
+msgid "Cyrillic (Ukrainian) » Latin (Slovenian)"
+msgstr "кириллица (украинский) » латиница (словенский)"
+
 msgid "Cyrillic BdC"
 msgstr "кириллица (BdC)"
+
+msgid "Cyrillic » Latin (GOST2000)"
+msgstr "кириллица » латиница (ГОСТ2000)"
 
 msgid "Czech"
 msgstr "чешский"
@@ -247,6 +286,15 @@ msgstr "кашубский"
 msgid "Latin"
 msgstr "латинский"
 
+msgid "Latin (English)"
+msgstr "латиница (английский)"
+
+msgid "Latin (GOST2000)"
+msgstr "латиница (ГОСТ2000)"
+
+msgid "Latin (Slovenian)"
+msgstr "латиница (словенский)"
+
 msgid "Latin ALE"
 msgstr "латиница (ALE)"
 
@@ -258,6 +306,9 @@ msgstr "латиница » кириллица (белорусский)"
 
 msgid "Latin » Cyrillic (Bulgarian)"
 msgstr "латиница » кириллица (болгарский)"
+
+msgid "Latin » Cyrillic (GOST2000)"
+msgstr "латиница » кириллица (ГОСТ2000)"
 
 msgid "Latin » Cyrillic (Macedonian)"
 msgstr "латиница » кириллица (македонский)"

@@ -1,11 +1,12 @@
 # Translators:
 # Simon Rozman <simon@rozman.si>, 2018
+# Janoš Ježovnik, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
 "POT-Creation-Date: 2018-09-19 09:00+0200\n"
 "PO-Revision-Date: 2018-09-19 09:09+0200\n"
-"Last-Translator: Simon Rozman <simon@rozman.si>, 2018\n"
+"Last-Translator: Janoš Ježovnik, 2018\n"
 "Language-Team: Russian (Russia) (https://www.transifex.com/amebis/teams/91592/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,16 +96,16 @@ msgstr "Прервать составление и возвратить фоку
 
 #: res/zrcolagui.cpp:141 zrcolagui.cpp:141
 msgid "&ZRCola (De)composition"
-msgstr "&ZRCola составление/разборка"
+msgstr "Составление/разборка &ZRCola "
 
 #: res/zrcolagui.cpp:141 res/zrcolagui.cpp:219 zrcolagui.cpp:141
 #: zrcolagui.cpp:221
 msgid "Toggle ZRCola character (De)composition"
-msgstr ""
+msgstr "Переключить составление/разборку ZRCola"
 
 #: res/zrcolagui.cpp:145 zrcolagui.cpp:145
 msgid "Tra&nslation"
-msgstr ""
+msgstr "Тра&нслитерация"
 
 #: res/zrcolagui.cpp:151 zrcolagui.cpp:151
 msgid "&Settings..."
@@ -626,7 +627,7 @@ msgstr "▾ Опции поиска"
 
 #: zrcolafrm.cpp:89
 msgid "No Translation"
-msgstr ""
+msgstr "Без транслитерации"
 
 #: zrcolafrm.cpp:102
 msgid "Custom Translation..."
