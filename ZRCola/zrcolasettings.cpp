@@ -139,6 +139,9 @@ void wxZRColaSettings::OnOKButtonClick(wxCommandEvent& event)
 // wxPersistentZRColaSettings
 //////////////////////////////////////////////////////////////////////////
 
+const int wxPersistentZRColaSettings::s_guiLevel = 1;
+
+
 wxPersistentZRColaSettings::wxPersistentZRColaSettings(wxZRColaSettings *wnd) : wxPersistentTLWEx(wnd)
 {
 }
@@ -146,6 +149,7 @@ wxPersistentZRColaSettings::wxPersistentZRColaSettings(wxZRColaSettings *wnd) : 
 
 void wxPersistentZRColaSettings::Save() const
 {
+    SaveValue(wxT("guiLevel"), s_guiLevel);
     wxPersistentTLWEx::Save();
 
     auto wnd = static_cast<const wxZRColaSettings*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
@@ -177,5 +181,6 @@ bool wxPersistentZRColaSettings::Restore()
     } else
         wnd->m_lang = ZRCola::langid_t::blank;
 
-    return wxPersistentTLWEx::Restore();
+    int guiLevel;
+    return RestoreValue(wxT("guiLevel"), &guiLevel) && guiLevel == s_guiLevel ? wxPersistentTLWEx::Restore() : true;
 }

@@ -786,6 +786,9 @@ bool __cdecl wxZRColaCharSelect::SearchThread::TestDestroyS(void *cookie)
 // wxPersistentZRColaCharSelect
 //////////////////////////////////////////////////////////////////////////
 
+const int wxPersistentZRColaCharSelect::s_guiLevel = 1;
+
+
 wxPersistentZRColaCharSelect::wxPersistentZRColaCharSelect(wxZRColaCharSelect *wnd) : wxPersistentTLWEx(wnd)
 {
 }
@@ -793,6 +796,7 @@ wxPersistentZRColaCharSelect::wxPersistentZRColaCharSelect(wxZRColaCharSelect *w
 
 void wxPersistentZRColaCharSelect::Save() const
 {
+    SaveValue(wxT("guiLevel"), s_guiLevel);
     wxPersistentTLWEx::Save();
 
     auto wnd = static_cast<const wxZRColaCharSelect*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
@@ -870,5 +874,6 @@ bool wxPersistentZRColaCharSelect::Restore()
 
     wnd->ResetResults();
 
-    return wxPersistentTLWEx::Restore();
+    int guiLevel;
+    return RestoreValue(wxT("guiLevel"), &guiLevel) && guiLevel == s_guiLevel ? wxPersistentTLWEx::Restore() : true;
 }

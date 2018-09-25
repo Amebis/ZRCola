@@ -398,6 +398,9 @@ void wxZRColaComposerPanel::SetHexValue(wxTextCtrl *wnd, std::pair<long, long> &
 // wxPersistentZRColaComposerPanel
 //////////////////////////////////////////////////////////////////////////
 
+const int wxPersistentZRColaComposerPanel::s_guiLevel = 1;
+
+
 wxPersistentZRColaComposerPanel::wxPersistentZRColaComposerPanel(wxZRColaComposerPanel *wnd) : wxPersistentWindow<wxZRColaComposerPanel>(wnd)
 {
 }
@@ -413,6 +416,7 @@ void wxPersistentZRColaComposerPanel::Save() const
 {
     auto wnd = static_cast<wxZRColaComposerPanel*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
 
+    SaveValue(wxT("guiLevel"       ), s_guiLevel);
     SaveValue(wxT("dpiX"           ), wxClientDC(wnd).GetPPI().x);
     SaveValue(wxT("splitDecomposed"), wnd->m_splitterSource     ->GetSashPosition());
     SaveValue(wxT("splitComposed"  ), wnd->m_splitterDestination->GetSashPosition());
@@ -422,6 +426,10 @@ void wxPersistentZRColaComposerPanel::Save() const
 bool wxPersistentZRColaComposerPanel::Restore()
 {
     auto wnd = dynamic_cast<wxZRColaComposerPanel*>(GetWindow());
+
+    int guiLevel;
+    if (!RestoreValue(wxT("guiLevel"), &guiLevel) || guiLevel != s_guiLevel)
+        return true;
 
     int dpiHorz = wxClientDC(wnd).GetPPI().x;
     int dpiHorzVal;

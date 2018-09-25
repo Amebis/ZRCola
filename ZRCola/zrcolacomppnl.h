@@ -88,6 +88,9 @@ public:
     virtual wxString GetKind() const;
     virtual void Save() const;
     virtual bool Restore();
+
+protected:
+    static const int s_guiLevel;    ///< Persisted placements/sizing are considered incompatible between different GUI levels
 };
 
 

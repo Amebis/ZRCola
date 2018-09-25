@@ -71,6 +71,9 @@ void wxZRColaCharRequest::OnOKButtonClick(wxCommandEvent& event)
 // wxPersistentZRColaCharRequest
 //////////////////////////////////////////////////////////////////////////
 
+const int wxPersistentZRColaCharRequest::s_guiLevel = 1;
+
+
 wxPersistentZRColaCharRequest::wxPersistentZRColaCharRequest(wxZRColaCharRequest *wnd) : wxPersistentTLWEx(wnd)
 {
 }
@@ -78,6 +81,7 @@ wxPersistentZRColaCharRequest::wxPersistentZRColaCharRequest(wxZRColaCharRequest
 
 void wxPersistentZRColaCharRequest::Save() const
 {
+    SaveValue(wxT("guiLevel"), s_guiLevel);
     wxPersistentTLWEx::Save();
 
     auto wnd = static_cast<const wxZRColaCharRequest*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
@@ -97,5 +101,6 @@ bool wxPersistentZRColaCharRequest::Restore()
     if (RestoreValue(wxT("context"), &str))
         wnd->m_context->SetValue(str);
 
-    return wxPersistentTLWEx::Restore();
+    int guiLevel;
+    return RestoreValue(wxT("guiLevel"), &guiLevel) && guiLevel == s_guiLevel ? wxPersistentTLWEx::Restore() : true;
 }

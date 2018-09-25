@@ -208,6 +208,9 @@ void wxZRColaTranslationSeq::OnOKButtonClick(wxCommandEvent& event)
 // wxPersistentZRColaTranslationSeq
 //////////////////////////////////////////////////////////////////////////
 
+const int wxPersistentZRColaTranslationSeq::s_guiLevel = 1;
+
+
 wxPersistentZRColaTranslationSeq::wxPersistentZRColaTranslationSeq(wxZRColaTranslationSeq *wnd) : wxPersistentTLWEx(wnd)
 {
 }
@@ -215,6 +218,7 @@ wxPersistentZRColaTranslationSeq::wxPersistentZRColaTranslationSeq(wxZRColaTrans
 
 void wxPersistentZRColaTranslationSeq::Save() const
 {
+    SaveValue(wxT("guiLevel"), s_guiLevel);
     wxPersistentTLWEx::Save();
 
     auto wnd = static_cast<const wxZRColaTranslationSeq*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
@@ -249,5 +253,6 @@ bool wxPersistentZRColaTranslationSeq::Restore()
             wnd->m_transeq = std::move(transet);
     }
 
-    return wxPersistentTLWEx::Restore();
+    int guiLevel;
+    return RestoreValue(wxT("guiLevel"), &guiLevel) && guiLevel == s_guiLevel ? wxPersistentTLWEx::Restore() : true;
 }

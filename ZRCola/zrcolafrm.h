@@ -131,6 +131,9 @@ protected:
 #endif
 
 protected:
+    static const int s_guiLevel;        ///< Persisted placements/sizing are considered incompatible between different GUI levels
+
+protected:
     WXHWND m_hWndSource;                ///< Handle of the active window, when the ZRCola hotkey was pressed
     bool m_wasIconised;                 ///< Was the ZRCola window iconized, when the ZRCola hotkey was pressed
     wxTaskBarIcon *m_taskBarIcon;       ///< Taskbar icon
@@ -153,6 +156,9 @@ public:
 
     virtual void Save() const;
     virtual bool Restore();
+
+protected:
+    static const int s_guiLevel;    ///< Persisted placements/sizing are considered incompatible between different GUI levels
 };
 
 

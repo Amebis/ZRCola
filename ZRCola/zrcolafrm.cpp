@@ -64,6 +64,9 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
 wxEND_EVENT_TABLE()
 
 
+const int wxZRColaFrame::s_guiLevel = 1;
+
+
 wxZRColaFrame::wxZRColaFrame() :
     m_hWndSource(NULL),
     m_wasIconised(false),
@@ -173,9 +176,12 @@ wxZRColaFrame::wxZRColaFrame() :
         SetAcceleratorTable(wxAcceleratorTable(_countof(entries), entries));
     }
 
-    // Restore persistent state of wxAuiManager manually, since m_mgr is not a standalone heap object
-    // and cannot be registered for persistence.
-    wxPersistentAuiManager(&m_mgr).Restore();
+    int guiLevel;
+    if (wxConfigBase::Get()->Read(wxT("guiLevel"), &guiLevel) && guiLevel == s_guiLevel) {
+        // Restore persistent state of wxAuiManager manually, since m_mgr is not a standalone heap object
+        // and cannot be registered for persistence.
+        wxPersistentAuiManager(&m_mgr).Restore();
+    }
     persist_mgr.RegisterAndRestore(this, new wxPersistentZRColaFrame(this));
 
     // Update (de)composition selection.
@@ -219,6 +225,7 @@ wxZRColaFrame::~wxZRColaFrame()
 
     // Save wxAuiManager's state before destructor is finished.
     // m_mgr is not a standalone heap object and is bound to wxZRColaFrame, which is being destroyed.
+    wxConfigBase::Get()->Write(wxT("guiLevel"), s_guiLevel);
     wxPersistentAuiManager(&m_mgr).Save();
     wxPersistenceManager::Get().SaveAndUnregister(this);
 
@@ -717,6 +724,9 @@ WXLRESULT wxZRColaFrame::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM
 // wxPersistentZRColaFrame
 //////////////////////////////////////////////////////////////////////////
 
+const int wxPersistentZRColaFrame::s_guiLevel = 1;
+
+
 wxPersistentZRColaFrame::wxPersistentZRColaFrame(wxZRColaFrame *wnd) : wxPersistentTLWEx(wnd)
 {
 }
@@ -724,6 +734,7 @@ wxPersistentZRColaFrame::wxPersistentZRColaFrame(wxZRColaFrame *wnd) : wxPersist
 
 void wxPersistentZRColaFrame::Save() const
 {
+    SaveValue(wxT("guiLevel"), s_guiLevel);
     wxPersistentTLWEx::Save();
 
     auto wnd = static_cast<const wxZRColaFrame*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
@@ -753,5 +764,6 @@ bool wxPersistentZRColaFrame::Restore()
     else
         wnd->m_composition = wnd->m_transeq_id == ZRCOLA_TRANSEQID_DEFAULT;
 
-    return wxPersistentTLWEx::Restore();
+    int guiLevel;
+    return RestoreValue(wxT("guiLevel"), &guiLevel) && guiLevel == s_guiLevel ? wxPersistentTLWEx::Restore() : true;
 }
