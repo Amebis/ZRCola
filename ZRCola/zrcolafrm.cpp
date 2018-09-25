@@ -125,6 +125,7 @@ wxZRColaFrame::wxZRColaFrame() :
     } else {
         // Taskbar icon creation failed. Not the end of the world. No taskbar icon then.
         delete m_taskBarIcon;
+        m_taskBarIcon = NULL;
     }
 
     wxPersistenceManager &persist_mgr = wxPersistenceManager::Get();
