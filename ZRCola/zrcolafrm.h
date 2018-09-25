@@ -132,6 +132,7 @@ protected:
 
 protected:
     WXHWND m_hWndSource;                ///< Handle of the active window, when the ZRCola hotkey was pressed
+    bool m_wasIconised;                 ///< Was the ZRCola window iconized, when the ZRCola hotkey was pressed
     wxTaskBarIcon *m_taskBarIcon;       ///< Taskbar icon
     wxZRColaCharSelect *m_chrSelect;    ///< Character selection dialog
     wxZRColaCharRequest *m_chrReq;      ///< Request a New Character dialog
