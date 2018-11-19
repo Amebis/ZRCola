@@ -324,6 +324,7 @@ void wxZRColaFrame::OnSendAbort(wxCommandEvent& event)
 {
     if (m_hWndSource) {
         // Return focus to the source window.
+        ::SetWindowPos(m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
         if (m_wasIconised) Iconize();
         ::SetActiveWindow(m_hWndSource);
         ::SetForegroundWindow(m_hWndSource);
@@ -608,6 +609,7 @@ void wxZRColaFrame::DoSend(const wxString& str)
     }
 
     // Return focus to the source window and send the input.
+    ::SetWindowPos(m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
     if (m_wasIconised) Iconize();
     ::SetActiveWindow(m_hWndSource);
     ::SetForegroundWindow(m_hWndSource);
@@ -629,6 +631,7 @@ void wxZRColaFrame::DoCopyAndReturn(const wxString& str)
     }
 
     // Return focus to the source window.
+    ::SetWindowPos(m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
     if (m_wasIconised) Iconize();
     ::SetActiveWindow(m_hWndSource);
     ::SetForegroundWindow(m_hWndSource);
@@ -697,6 +700,7 @@ WXLRESULT wxZRColaFrame::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM
         Show(true);
         Iconize(false);
         Raise();
+        ::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
         ::SetActiveWindow(m_hWnd);
         //} else if (wxAppBarIsDocked(m_state)) {
         //    // ZRCola window is currently docked.
