@@ -90,7 +90,7 @@ public:
 
 protected:
 #ifdef __WXMSW__
-    winstd::win_handle m_running;   ///< Global Win32 event to determine if another instance of ZRCola is already running
+    winstd::win_handle<NULL> m_running; ///< Global Win32 event to determine if another instance of ZRCola is already running
 #endif
 };
 
