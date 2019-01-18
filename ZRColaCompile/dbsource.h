@@ -269,14 +269,14 @@ namespace ZRCola {
             void build_related();
 
         protected:
-            class build_related_worker : public winstd::win_handle
+            class build_related_worker : public winstd::win_handle<INVALID_HANDLE_VALUE>
             {
             public:
                 build_related_worker(_In_ const character_bank *cb, _In_ iterator from, _In_ iterator to);
 
                 inline void join()
                 {
-                    if (m_h)
+                    if (m_h != invalid)
                         WaitForSingleObject(m_h, INFINITE);
                 }
 
