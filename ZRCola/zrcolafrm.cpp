@@ -32,6 +32,7 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
     EVT_UPDATE_UI      (wxID_SELECTALL                                        , wxZRColaFrame::OnForwardEventUpdate         )
     EVT_MENU           (wxID_SELECTALL                                        , wxZRColaFrame::OnForwardEvent               )
 
+    EVT_UPDATE_UI      (wxID_CHARACTER_SELECTOR                               , wxZRColaFrame::OnInsertCharacterUpdate      )
     EVT_MENU           (wxID_CHARACTER_SELECTOR                               , wxZRColaFrame::OnInsertCharacter            )
 
     EVT_UPDATE_UI_RANGE(wxID_SEND_DESTINATION     , wxID_SEND_ABORT           , wxZRColaFrame::OnSendUpdate                 )
@@ -269,12 +270,15 @@ void wxZRColaFrame::OnForwardEvent(wxCommandEvent& event)
 }
 
 
+void wxZRColaFrame::OnInsertCharacterUpdate(wxUpdateUIEvent& event)
+{
+    event.Check(m_chrSelect->IsVisible());
+}
+
+
 void wxZRColaFrame::OnInsertCharacter(wxCommandEvent& event)
 {
-    if (m_chrSelect->ShowModal() == wxID_OK && !m_chrSelect->m_char.empty()) {
-        m_panel->m_source->WriteText(m_chrSelect->m_char);
-        m_panel->m_source->SetFocus();
-    }
+    m_chrSelect->Show(!m_chrSelect->IsVisible());
 }
 
 

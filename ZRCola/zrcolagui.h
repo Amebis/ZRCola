@@ -224,9 +224,7 @@ class wxZRColaCharSelectBase : public wxDialog
 		wxHyperlinkCtrl* m_navigateBack;
 		wxHyperlinkCtrl* m_navigateForward;
 		wxZRColaCharGrid* m_gridRelated;
-		wxStdDialogButtonSizer* m_sdbSizerButtons;
-		wxButton* m_sdbSizerButtonsOK;
-		wxButton* m_sdbSizerButtonsCancel;
+		wxButton* m_buttonInsert;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnIdle( wxIdleEvent& event ) { event.Skip(); }
@@ -247,7 +245,8 @@ class wxZRColaCharSelectBase : public wxDialog
 		virtual void OnNavigateBack( wxHyperlinkEvent& event ) { event.Skip(); }
 		virtual void OnNavigateForward( wxHyperlinkEvent& event ) { event.Skip(); }
 		virtual void OnRelatedSelectCell( wxGridEvent& event ) { event.Skip(); }
-		virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnInsert( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnInsertUpdateUI( wxUpdateUIEvent& event ) { event.Skip(); }
 		
 	
 	public:

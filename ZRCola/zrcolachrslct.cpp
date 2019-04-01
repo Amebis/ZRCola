@@ -477,7 +477,7 @@ void wxZRColaCharSelect::OnResultCellDClick(wxGridEvent& event)
     if (!val.IsEmpty()) {
         NavigateTo(val);
         wxCommandEvent e(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
-        m_sdbSizerButtonsOK->GetEventHandler()->ProcessEvent(e);
+        m_buttonInsert->GetEventHandler()->ProcessEvent(e);
     }
 }
 
@@ -491,7 +491,7 @@ void wxZRColaCharSelect::OnResultsKeyDown(wxKeyEvent& event)
         if (!val.IsEmpty()) {
             NavigateTo(val);
             wxCommandEvent e(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
-            m_sdbSizerButtonsOK->GetEventHandler()->ProcessEvent(e);
+            m_buttonInsert->GetEventHandler()->ProcessEvent(e);
 
             event.StopPropagation();
             return;
@@ -520,7 +520,7 @@ void wxZRColaCharSelect::OnRecentCellDClick(wxGridEvent& event)
     if (!val.IsEmpty()) {
         NavigateTo(val);
         wxCommandEvent e(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
-        m_sdbSizerButtonsOK->GetEventHandler()->ProcessEvent(e);
+        m_buttonInsert->GetEventHandler()->ProcessEvent(e);
     }
 }
 
@@ -534,7 +534,7 @@ void wxZRColaCharSelect::OnRecentKeyDown(wxKeyEvent& event)
         if (!val.IsEmpty()) {
             NavigateTo(val);
             wxCommandEvent e(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
-            m_sdbSizerButtonsOK->GetEventHandler()->ProcessEvent(e);
+            m_buttonInsert->GetEventHandler()->ProcessEvent(e);
 
             event.StopPropagation();
             return;
@@ -596,7 +596,13 @@ void wxZRColaCharSelect::OnRelatedSelectCell(wxGridEvent& event)
 }
 
 
-void wxZRColaCharSelect::OnOKButtonClick(wxCommandEvent& event)
+void wxZRColaCharSelect::OnInsertUpdateUI(wxUpdateUIEvent& event)
+{
+    event.Enable(!m_char.empty());
+}
+
+
+void wxZRColaCharSelect::OnInsert(wxCommandEvent& event)
 {
     event.Skip();
 
@@ -610,6 +616,14 @@ void wxZRColaCharSelect::OnOKButtonClick(wxCommandEvent& event)
             val.Add(c);
     }
     m_gridRecent->SetCharacters(val);
+
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
+    if (app->m_mainWnd) {
+        app->m_mainWnd->m_panel->m_source->WriteText(m_char);
+        app->m_mainWnd->m_panel->m_source->SetFocus();
+    }
+
+    Show(false);
 }
 
 

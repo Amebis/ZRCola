@@ -163,7 +163,8 @@ protected:
     virtual void OnUnicodeText(wxCommandEvent& event);
     virtual void OnPreviewKeyDown(wxKeyEvent& event);
     virtual void OnRelatedSelectCell(wxGridEvent& event);
-    virtual void OnOKButtonClick(wxCommandEvent& event);
+    virtual void OnInsertUpdateUI(wxUpdateUIEvent& event);
+    virtual void OnInsert(wxCommandEvent& event);
 
     void ResetResults();
     void NavigateBy(int offset);

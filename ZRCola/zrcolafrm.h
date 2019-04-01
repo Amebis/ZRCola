@@ -75,6 +75,7 @@ protected:
     void OnExit(wxCommandEvent& event);
     void OnForwardEventUpdate(wxUpdateUIEvent& event);
     void OnForwardEvent(wxCommandEvent& event);
+    void OnInsertCharacterUpdate(wxUpdateUIEvent& event);
     void OnInsertCharacter(wxCommandEvent& event);
     void OnSendUpdate(wxUpdateUIEvent& event);
     void OnSendDestination(wxCommandEvent& event);

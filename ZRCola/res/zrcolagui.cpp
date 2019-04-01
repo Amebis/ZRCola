@@ -81,12 +81,7 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_menuEdit->AppendSeparator();
 	
 	wxMenuItem* m_menuItemCharSelect;
-	m_menuItemCharSelect = new wxMenuItem( m_menuEdit, wxID_CHARACTER_SELECTOR, wxString( _("Find C&haracter...") ) + wxT('\t') + wxT("F8"), _("Display character search to select character to insert into text"), wxITEM_NORMAL );
-	#ifdef __WXMSW__
-	m_menuItemCharSelect->SetBitmaps( wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
-	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
-	m_menuItemCharSelect->SetBitmap( wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 16, 16 ) );
-	#endif
+	m_menuItemCharSelect = new wxMenuItem( m_menuEdit, wxID_CHARACTER_SELECTOR, wxString( _("Find C&haracter...") ) + wxT('\t') + wxT("F8"), _("Toggle character search to select character to insert into text"), wxITEM_CHECK );
 	m_menuEdit->Append( m_menuItemCharSelect );
 	
 	m_menuEdit->AppendSeparator();
@@ -210,7 +205,7 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_mgr.AddPane( m_toolbarEdit, wxAuiPaneInfo().Name( wxT("toolbarEdit") ).Top().Caption( _("Edit") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );
 	
 	m_toolbarTranslate = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT ); 
-	m_toolCharSelect = m_toolbarTranslate->AddTool( wxID_CHARACTER_SELECTOR, _("Find Character"), wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Find Character"), _("Display character search to select character to insert into text"), NULL ); 
+	m_toolCharSelect = m_toolbarTranslate->AddTool( wxID_CHARACTER_SELECTOR, _("Find Character"), wxIcon( wxT("char_select.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_CHECK, _("Find Character"), _("Toggle character search to select character to insert into text"), NULL ); 
 	
 	m_toolSendDestination = m_toolbarTranslate->AddTool( wxID_SEND_DESTINATION, _("Send Composed"), wxIcon( wxT("send_destination.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_NORMAL, _("Send Composed"), _("Send composed text to source window"), NULL ); 
 	
@@ -735,14 +730,19 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	
 	bSizerContent->Add( 5, 5, 0, wxALL|wxEXPAND, 5 );
 	
-	m_sdbSizerButtons = new wxStdDialogButtonSizer();
-	m_sdbSizerButtonsOK = new wxButton( this, wxID_OK );
-	m_sdbSizerButtons->AddButton( m_sdbSizerButtonsOK );
-	m_sdbSizerButtonsCancel = new wxButton( this, wxID_CANCEL );
-	m_sdbSizerButtons->AddButton( m_sdbSizerButtonsCancel );
-	m_sdbSizerButtons->Realize();
+	wxBoxSizer* bSizerButtons;
+	bSizerButtons = new wxBoxSizer( wxHORIZONTAL );
 	
-	bSizerContent->Add( m_sdbSizerButtons, 0, wxALL|wxEXPAND, 5 );
+	m_buttonInsert = new wxButton( this, wxID_ANY, _("&Insert"), wxDefaultPosition, wxDefaultSize, 0 );
+	
+	m_buttonInsert->SetDefault();
+	m_buttonInsert->Enable( false );
+	m_buttonInsert->SetToolTip( _("Insert character into decomposed text") );
+	
+	bSizerButtons->Add( m_buttonInsert, 0, wxALL, 5 );
+	
+	
+	bSizerContent->Add( bSizerButtons, 0, wxALIGN_RIGHT|wxALL, 5 );
 	
 	
 	this->SetSizer( bSizerContent );
@@ -768,7 +768,8 @@ wxZRColaCharSelectBase::wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id,
 	m_navigateBack->Connect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnNavigateBack ), NULL, this );
 	m_navigateForward->Connect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnNavigateForward ), NULL, this );
 	m_gridRelated->Connect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( wxZRColaCharSelectBase::OnRelatedSelectCell ), NULL, this );
-	m_sdbSizerButtonsOK->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaCharSelectBase::OnOKButtonClick ), NULL, this );
+	m_buttonInsert->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaCharSelectBase::OnInsert ), NULL, this );
+	m_buttonInsert->Connect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( wxZRColaCharSelectBase::OnInsertUpdateUI ), NULL, this );
 }
 
 wxZRColaCharSelectBase::~wxZRColaCharSelectBase()
@@ -792,7 +793,8 @@ wxZRColaCharSelectBase::~wxZRColaCharSelectBase()
 	m_navigateBack->Disconnect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnNavigateBack ), NULL, this );
 	m_navigateForward->Disconnect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( wxZRColaCharSelectBase::OnNavigateForward ), NULL, this );
 	m_gridRelated->Disconnect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( wxZRColaCharSelectBase::OnRelatedSelectCell ), NULL, this );
-	m_sdbSizerButtonsOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaCharSelectBase::OnOKButtonClick ), NULL, this );
+	m_buttonInsert->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( wxZRColaCharSelectBase::OnInsert ), NULL, this );
+	m_buttonInsert->Disconnect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( wxZRColaCharSelectBase::OnInsertUpdateUI ), NULL, this );
 	
 }
 
