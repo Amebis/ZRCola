@@ -96,7 +96,7 @@ void wxZRColaComposerPanel::SynchronizePanels()
         m_mapping.clear();
 
         if (app->m_mainWnd->m_composition) {
-            // ZRCola Decomposed => ZRCola Composed should decompose first.
+            // ZRCola decompose first, then re-compose.
             app->m_t_db.TranslateInv(ZRCOLA_TRANSEQID_DEFAULT, dst.data(), dst.size(), dst2, &map);
             m_mapping.push_back(std::move(map));
 
@@ -151,8 +151,12 @@ void wxZRColaComposerPanel::SynchronizePanels()
         }
 
         if (app->m_mainWnd->m_composition) {
-            // ZRCola Decomposed => ZRCola Composed
+            // ZRCola decompose.
             app->m_t_db.TranslateInv(ZRCOLA_TRANSEQID_DEFAULT, dst.data(), dst.size(), &app->m_lc_db, app->m_mainWnd->m_settings->m_lang, dst2, &map);
+            dst = std::move(dst2);
+
+            map.invert();
+            m_mapping.push_back(std::move(map));
         }
 
         m_destination->GetSelection(&m_selDestination.first, &m_selDestination.second);
