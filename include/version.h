@@ -1,5 +1,5 @@
 /*
-    Copyright 2015-2018 Amebis
+    Copyright 2015-2019 Amebis
 
     This file is part of ZRCola.
 
@@ -40,7 +40,7 @@
 // Human readable product version and build year for UI
 //
 #define PRODUCT_VERSION_STR      "2.1.3"
-#define PRODUCT_BUILD_YEAR_STR   "2018"
+#define PRODUCT_BUILD_YEAR_STR   "2019"
 
 //
 // Numerical version presentation for ProductVersion propery in

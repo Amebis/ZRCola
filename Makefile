@@ -1,5 +1,5 @@
 #
-#    Copyright 1991-2018 Amebis
+#    Copyright 1991-2019 Amebis
 #
 #    This file is part of ZRCola.
 #
