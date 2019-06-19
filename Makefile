@@ -147,16 +147,16 @@ InstallFonts :: \
 	reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"           /v "ZRCola Bold Italic (TrueType)" /t REG_SZ /d "ZRCola_BI.otf" $(REG_FLAGS) > NUL
 	reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\FontSubstitutes" /v "00 ZRCola"                     /t REG_SZ /d "ZRCola"        $(REG_FLAGS) > NUL
 
-UninstallFonts::
+UninstallFonts ::
 	-reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"           /v "ZRCola (TrueType)"             $(REG_FLAGS) > NUL
 	-reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"           /v "ZRCola Italic (TrueType)"      $(REG_FLAGS) > NUL
 	-reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"           /v "ZRCola Bold (TrueType)"        $(REG_FLAGS) > NUL
 	-reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"           /v "ZRCola Bold Italic (TrueType)" $(REG_FLAGS) > NUL
 	-reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\FontSubstitutes" /v "00 ZRCola"                     $(REG_FLAGS) > NUL
-	-if exist "$(WINDIR)\Fonts\ZRCola_Re.otf" rd /s /q "$(WINDIR)\Fonts\ZRCola_Re.otf"
-	-if exist "$(WINDIR)\Fonts\ZRCola_It.otf" rd /s /q "$(WINDIR)\Fonts\ZRCola_It.otf"
-	-if exist "$(WINDIR)\Fonts\ZRCola_Bd.otf" rd /s /q "$(WINDIR)\Fonts\ZRCola_Bd.otf"
-	-if exist "$(WINDIR)\Fonts\ZRCola_BI.otf" rd /s /q "$(WINDIR)\Fonts\ZRCola_BI.otf"
+	-if exist "$(WINDIR)\Fonts\ZRCola_Re.otf" del /f /q "$(WINDIR)\Fonts\ZRCola_Re.otf"
+	-if exist "$(WINDIR)\Fonts\ZRCola_It.otf" del /f /q "$(WINDIR)\Fonts\ZRCola_It.otf"
+	-if exist "$(WINDIR)\Fonts\ZRCola_Bd.otf" del /f /q "$(WINDIR)\Fonts\ZRCola_Bd.otf"
+	-if exist "$(WINDIR)\Fonts\ZRCola_BI.otf" del /f /q "$(WINDIR)\Fonts\ZRCola_BI.otf"
 
 RegisterShortcuts :: \
 	"$(PROGRAMDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" \
