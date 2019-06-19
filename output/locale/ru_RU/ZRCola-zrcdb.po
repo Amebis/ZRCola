@@ -1,5 +1,6 @@
 # Translators:
 # Simon Rozman <simon@rozman.si>, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola.zrcdb\n"

@@ -1,10 +1,11 @@
 # Translators:
 # Simon Rozman <simon@rozman.si>, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2018-09-19 09:00+0200\n"
-"PO-Revision-Date: 2018-09-19 09:09+0200\n"
+"POT-Creation-Date: 2019-04-01 11:13+0200\n"
+"PO-Revision-Date: 2018-09-19 07:18+0000\n"
 "Last-Translator: Simon Rozman <simon@rozman.si>, 2018\n"
 "Language-Team: German (Germany) (https://www.transifex.com/amebis/teams/91592/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -12,7 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: de_DE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -42,378 +43,386 @@ msgstr ""
 msgid "Find C&haracter..."
 msgstr ""
 
-#: res/zrcolagui.cpp:84 res/zrcolagui.cpp:213 zrcolagui.cpp:84
-#: zrcolagui.cpp:213
-msgid "Display character search to select character to insert into text"
+#: res/zrcolagui.cpp:84 res/zrcolagui.cpp:208 zrcolagui.cpp:84
+#: zrcolagui.cpp:208
+msgid "Toggle character search to select character to insert into text"
 msgstr ""
 
-#: res/zrcolagui.cpp:95 zrcolagui.cpp:95
+#: res/zrcolagui.cpp:90 zrcolagui.cpp:90
 msgid "&Send Composed"
 msgstr ""
 
-#: res/zrcolagui.cpp:95 res/zrcolagui.cpp:215 zrcolagui.cpp:95
-#: zrcolagui.cpp:215
+#: res/zrcolagui.cpp:90 res/zrcolagui.cpp:210 zrcolagui.cpp:90
+#: zrcolagui.cpp:210
 msgid "Send composed text to source window"
 msgstr ""
 
-#: res/zrcolagui.cpp:104 zrcolagui.cpp:104
+#: res/zrcolagui.cpp:99 zrcolagui.cpp:99
 msgid "Copy Composed and &Return"
 msgstr ""
 
-#: res/zrcolagui.cpp:104 zrcolagui.cpp:104
+#: res/zrcolagui.cpp:99 zrcolagui.cpp:99
 msgid "Copy composed text to clipboard and return focus to source window"
 msgstr ""
 
-#: res/zrcolagui.cpp:113 zrcolagui.cpp:113
+#: res/zrcolagui.cpp:108 zrcolagui.cpp:108
 msgid "Send &Decomposed"
 msgstr ""
 
-#: res/zrcolagui.cpp:113 res/zrcolagui.cpp:217 zrcolagui.cpp:113
-#: zrcolagui.cpp:217
+#: res/zrcolagui.cpp:108 res/zrcolagui.cpp:212 zrcolagui.cpp:108
+#: zrcolagui.cpp:212
 msgid "Send decomposed text to source window"
 msgstr ""
 
-#: res/zrcolagui.cpp:122 zrcolagui.cpp:122
+#: res/zrcolagui.cpp:117 zrcolagui.cpp:117
 msgid "Copy Decomposed and Re&turn"
 msgstr ""
 
-#: res/zrcolagui.cpp:122 zrcolagui.cpp:122
+#: res/zrcolagui.cpp:117 zrcolagui.cpp:117
 msgid "Copy decomposed text to clipboard and return focus to source window"
 msgstr ""
 
-#: res/zrcolagui.cpp:131 zrcolagui.cpp:131
+#: res/zrcolagui.cpp:126 zrcolagui.cpp:126
 msgid "Abort (De)composition"
 msgstr ""
 
-#: res/zrcolagui.cpp:131 zrcolagui.cpp:131
+#: res/zrcolagui.cpp:126 zrcolagui.cpp:126
 msgid "Abort composition and return focus to source window"
 msgstr ""
 
-#: res/zrcolagui.cpp:141 zrcolagui.cpp:141
+#: res/zrcolagui.cpp:136 zrcolagui.cpp:136
 msgid "&ZRCola (De)composition"
 msgstr ""
 
-#: res/zrcolagui.cpp:141 res/zrcolagui.cpp:219 zrcolagui.cpp:141
-#: zrcolagui.cpp:221
+#: res/zrcolagui.cpp:136 res/zrcolagui.cpp:214 zrcolagui.cpp:136
+#: zrcolagui.cpp:216
 msgid "Toggle ZRCola character (De)composition"
 msgstr ""
 
-#: res/zrcolagui.cpp:145 zrcolagui.cpp:145
+#: res/zrcolagui.cpp:140 zrcolagui.cpp:140
 msgid "Tra&nslation"
 msgstr ""
 
-#: res/zrcolagui.cpp:151 zrcolagui.cpp:151
+#: res/zrcolagui.cpp:146 zrcolagui.cpp:146
 msgid "&Settings..."
 msgstr ""
 
-#: res/zrcolagui.cpp:151 zrcolagui.cpp:151
+#: res/zrcolagui.cpp:146 zrcolagui.cpp:146
 msgid "Open program configuration dialog"
 msgstr ""
 
-#: res/zrcolagui.cpp:154 zrcolagui.cpp:154
+#: res/zrcolagui.cpp:149 zrcolagui.cpp:149
 msgid "&Edit"
 msgstr ""
 
-#: res/zrcolagui.cpp:158 zrcolagui.cpp:158
+#: res/zrcolagui.cpp:153 zrcolagui.cpp:153
 msgid "&Edit Toolbar"
 msgstr ""
 
-#: res/zrcolagui.cpp:158 zrcolagui.cpp:158
+#: res/zrcolagui.cpp:153 zrcolagui.cpp:153
 msgid "Toggle edit toolbar"
 msgstr ""
 
-#: res/zrcolagui.cpp:162 zrcolagui.cpp:162
+#: res/zrcolagui.cpp:157 zrcolagui.cpp:157
 msgid "&Compose Toolbar"
 msgstr ""
 
-#: res/zrcolagui.cpp:162 zrcolagui.cpp:162
+#: res/zrcolagui.cpp:157 zrcolagui.cpp:157
 msgid "Toggle compose toolbar"
 msgstr ""
 
-#: res/zrcolagui.cpp:168 zrcolagui.cpp:168
+#: res/zrcolagui.cpp:163 zrcolagui.cpp:163
 msgid "Character Catalo&g"
 msgstr ""
 
-#: res/zrcolagui.cpp:168 zrcolagui.cpp:168
+#: res/zrcolagui.cpp:163 zrcolagui.cpp:163
 msgid "Toggle character catalog panel"
 msgstr ""
 
-#: res/zrcolagui.cpp:171 zrcolagui.cpp:171
+#: res/zrcolagui.cpp:166 zrcolagui.cpp:166
 msgid "&View"
 msgstr ""
 
-#: res/zrcolagui.cpp:175 zrcolagui.cpp:175
+#: res/zrcolagui.cpp:170 zrcolagui.cpp:170
 msgid "&Instructions..."
 msgstr ""
 
-#: res/zrcolagui.cpp:175 zrcolagui.cpp:175
+#: res/zrcolagui.cpp:170 zrcolagui.cpp:170
 msgid "Open a web site with product instructions"
 msgstr ""
 
-#: res/zrcolagui.cpp:179 zrcolagui.cpp:179
+#: res/zrcolagui.cpp:174 zrcolagui.cpp:174
 msgid "Keyboard &Shortcuts..."
 msgstr ""
 
-#: res/zrcolagui.cpp:179 zrcolagui.cpp:179
+#: res/zrcolagui.cpp:174 zrcolagui.cpp:174
 msgid "Open a list of keyboard shortcuts"
 msgstr ""
 
-#: res/zrcolagui.cpp:185 zrcolagui.cpp:185
+#: res/zrcolagui.cpp:180 zrcolagui.cpp:180
 msgid "&Request a new character..."
 msgstr ""
 
-#: res/zrcolagui.cpp:185 zrcolagui.cpp:185
+#: res/zrcolagui.cpp:180 zrcolagui.cpp:180
 msgid "Submit a request to ZRC to add a new character"
 msgstr ""
 
-#: res/zrcolagui.cpp:189 zrcolagui.cpp:189
+#: res/zrcolagui.cpp:184 zrcolagui.cpp:184
 msgid "Check for &Updates..."
 msgstr ""
 
-#: res/zrcolagui.cpp:189 zrcolagui.cpp:189
+#: res/zrcolagui.cpp:184 zrcolagui.cpp:184
 msgid "Check online for product update"
 msgstr ""
 
-#: res/zrcolagui.cpp:195 zrcolagui.cpp:195
+#: res/zrcolagui.cpp:190 zrcolagui.cpp:190
 msgid "&About..."
 msgstr ""
 
-#: res/zrcolagui.cpp:198 zrcolagui.cpp:198
+#: res/zrcolagui.cpp:193 zrcolagui.cpp:193
 msgid "&Help"
 msgstr ""
 
-#: res/zrcolagui.cpp:203 zrcolagui.cpp:203
+#: res/zrcolagui.cpp:198 zrcolagui.cpp:198
 msgid "Cut"
 msgstr ""
 
-#: res/zrcolagui.cpp:203 zrcolagui.cpp:203
+#: res/zrcolagui.cpp:198 zrcolagui.cpp:198
 msgid "Cut selection"
 msgstr ""
 
-#: res/zrcolagui.cpp:205 zrcolagui.cpp:205
+#: res/zrcolagui.cpp:200 zrcolagui.cpp:200
 msgid "Copy"
 msgstr ""
 
-#: res/zrcolagui.cpp:205 zrcolagui.cpp:205
+#: res/zrcolagui.cpp:200 zrcolagui.cpp:200
 msgid "Copy selection"
 msgstr ""
 
-#: res/zrcolagui.cpp:207 zrcolagui.cpp:207
+#: res/zrcolagui.cpp:202 zrcolagui.cpp:202
 msgid "Paste"
 msgstr ""
 
-#: res/zrcolagui.cpp:207 zrcolagui.cpp:207
+#: res/zrcolagui.cpp:202 zrcolagui.cpp:202
 msgid "Paste selection"
 msgstr ""
 
-#: res/zrcolagui.cpp:210 zrcolagui.cpp:210
+#: res/zrcolagui.cpp:205 zrcolagui.cpp:205
 msgid "Edit"
 msgstr ""
 
-#: res/zrcolagui.cpp:213 zrcolagui.cpp:213
+#: res/zrcolagui.cpp:208 zrcolagui.cpp:208
 msgid "Find Character"
 msgstr ""
 
-#: res/zrcolagui.cpp:215 zrcolagui.cpp:215
+#: res/zrcolagui.cpp:210 zrcolagui.cpp:210
 msgid "Send Composed"
 msgstr ""
 
-#: res/zrcolagui.cpp:217 zrcolagui.cpp:217
+#: res/zrcolagui.cpp:212 zrcolagui.cpp:212
 msgid "Send Decomposed"
 msgstr ""
 
-#: res/zrcolagui.cpp:219 zrcolagui.cpp:221
+#: res/zrcolagui.cpp:214 zrcolagui.cpp:216
 msgid "ZRCola (De)composition"
 msgstr ""
 
-#: res/zrcolagui.cpp:226 zrcolagui.cpp:228
+#: res/zrcolagui.cpp:221 zrcolagui.cpp:223
 msgid "Compose"
 msgstr ""
 
-#: res/zrcolagui.cpp:230 zrcolagui.cpp:232
+#: res/zrcolagui.cpp:225 zrcolagui.cpp:227
 msgid "Character Catalog"
 msgstr ""
 
-#: res/zrcolagui.cpp:234 zrcolagui.cpp:236
+#: res/zrcolagui.cpp:229 zrcolagui.cpp:231
 msgid "(De)Composer"
 msgstr ""
 
-#: res/zrcolagui.cpp:275 zrcolagui.cpp:277
+#: res/zrcolagui.cpp:270 zrcolagui.cpp:272
 msgid "Decomposed Text"
 msgstr ""
 
-#: res/zrcolagui.cpp:295 zrcolagui.cpp:297
+#: res/zrcolagui.cpp:290 zrcolagui.cpp:292
 msgid "Decomposed Unicode Dump"
 msgstr ""
 
-#: res/zrcolagui.cpp:322 zrcolagui.cpp:324
+#: res/zrcolagui.cpp:317 zrcolagui.cpp:319
 msgid "Composed Text"
 msgstr ""
 
-#: res/zrcolagui.cpp:342 zrcolagui.cpp:344
+#: res/zrcolagui.cpp:337 zrcolagui.cpp:339
 msgid "Composed Unicode Dump"
 msgstr ""
 
-#: res/zrcolagui.cpp:396 zrcolagui.cpp:398
+#: res/zrcolagui.cpp:391 zrcolagui.cpp:393
 msgid "Select category to display"
 msgstr ""
 
-#: res/zrcolagui.cpp:430 zrcolagui.cpp:432
+#: res/zrcolagui.cpp:425 zrcolagui.cpp:427
 msgid "Show &All"
 msgstr ""
 
-#: res/zrcolagui.cpp:431 zrcolagui.cpp:433
+#: res/zrcolagui.cpp:426 zrcolagui.cpp:428
 msgid "Toggle display of less frequent characters"
 msgstr ""
 
-#: res/zrcolagui.cpp:471 zrcolagui.cpp:473
+#: res/zrcolagui.cpp:466 zrcolagui.cpp:468
 msgid "&Browse"
 msgstr ""
 
-#: res/zrcolagui.cpp:478 zrcolagui.cpp:480
+#: res/zrcolagui.cpp:473 zrcolagui.cpp:475
 msgid ""
 "Full or partial terms from Unicode character description (in English) to "
 "search for"
 msgstr ""
 
-#: res/zrcolagui.cpp:482 zrcolagui.cpp:484
+#: res/zrcolagui.cpp:477 zrcolagui.cpp:479
 msgid "Search Options"
 msgstr ""
 
-#: res/zrcolagui.cpp:483 zrcolagui.cpp:485
+#: res/zrcolagui.cpp:478 zrcolagui.cpp:480
 msgid "Shows/hides additional search options"
 msgstr ""
 
-#: res/zrcolagui.cpp:495 zrcolagui.cpp:497
+#: res/zrcolagui.cpp:490 zrcolagui.cpp:492
 msgid "List of Unicode character categories to search in"
 msgstr ""
 
-#: res/zrcolagui.cpp:502 zrcolagui.cpp:504
+#: res/zrcolagui.cpp:497 zrcolagui.cpp:499
 msgid "All"
 msgstr ""
 
-#: res/zrcolagui.cpp:503 zrcolagui.cpp:505
+#: res/zrcolagui.cpp:498 zrcolagui.cpp:500
 msgid "Select all categories"
 msgstr ""
 
-#: res/zrcolagui.cpp:507 zrcolagui.cpp:509
+#: res/zrcolagui.cpp:502 zrcolagui.cpp:504
 msgid "None"
 msgstr ""
 
-#: res/zrcolagui.cpp:508 zrcolagui.cpp:510
+#: res/zrcolagui.cpp:503 zrcolagui.cpp:505
 msgid "Clear category selection"
 msgstr ""
 
-#: res/zrcolagui.cpp:512 zrcolagui.cpp:514
+#: res/zrcolagui.cpp:507 zrcolagui.cpp:509
 msgid "Invert"
 msgstr ""
 
-#: res/zrcolagui.cpp:513 zrcolagui.cpp:515
+#: res/zrcolagui.cpp:508 zrcolagui.cpp:510
 msgid "Invert category selection"
 msgstr ""
 
-#: res/zrcolagui.cpp:552 zrcolagui.cpp:554
+#: res/zrcolagui.cpp:547 zrcolagui.cpp:549
 msgid "Character search results"
 msgstr ""
 
-#: res/zrcolagui.cpp:562 zrcolagui.cpp:564
+#: res/zrcolagui.cpp:557 zrcolagui.cpp:559
 msgid "Re&cently Used"
 msgstr ""
 
-#: res/zrcolagui.cpp:590 zrcolagui.cpp:592
+#: res/zrcolagui.cpp:585 zrcolagui.cpp:587
 msgid "List of recently inserted characters"
 msgstr ""
 
-#: res/zrcolagui.cpp:604 zrcolagui.cpp:606
+#: res/zrcolagui.cpp:599 zrcolagui.cpp:601
 msgid "Preview"
 msgstr ""
 
-#: res/zrcolagui.cpp:609 zrcolagui.cpp:611
+#: res/zrcolagui.cpp:604 zrcolagui.cpp:606
 msgid "U+"
 msgstr "U+"
 
-#: res/zrcolagui.cpp:614 zrcolagui.cpp:616
+#: res/zrcolagui.cpp:609 zrcolagui.cpp:611
 msgid "Unicode hexadecimal code"
 msgstr ""
 
-#: res/zrcolagui.cpp:619 zrcolagui.cpp:621
+#: res/zrcolagui.cpp:614 zrcolagui.cpp:616
 msgid "Keyboard shortcut in Composer window"
 msgstr ""
 
-#: res/zrcolagui.cpp:654 zrcolagui.cpp:656
+#: res/zrcolagui.cpp:649 zrcolagui.cpp:651
 msgid "Character preview"
 msgstr ""
 
-#: res/zrcolagui.cpp:659 zrcolagui.cpp:661
+#: res/zrcolagui.cpp:654 zrcolagui.cpp:656
 msgid "Unicode character description"
 msgstr ""
 
-#: res/zrcolagui.cpp:664 zrcolagui.cpp:666
+#: res/zrcolagui.cpp:659 zrcolagui.cpp:661
 msgid "Character tags"
 msgstr ""
 
-#: res/zrcolagui.cpp:669 zrcolagui.cpp:671
+#: res/zrcolagui.cpp:664 zrcolagui.cpp:666
 msgid "Unicode character category"
 msgstr ""
 
-#: res/zrcolagui.cpp:676 zrcolagui.cpp:678
+#: res/zrcolagui.cpp:671 zrcolagui.cpp:673
 msgid "« Back"
 msgstr ""
 
-#: res/zrcolagui.cpp:678 zrcolagui.cpp:680
+#: res/zrcolagui.cpp:673 zrcolagui.cpp:675
 msgid "To previously viewed character"
 msgstr ""
 
-#: res/zrcolagui.cpp:682 zrcolagui.cpp:684
+#: res/zrcolagui.cpp:677 zrcolagui.cpp:679
 msgid "Forward »"
 msgstr ""
 
-#: res/zrcolagui.cpp:684 zrcolagui.cpp:686
+#: res/zrcolagui.cpp:679 zrcolagui.cpp:681
 msgid "To following viewed character"
 msgstr ""
 
-#: res/zrcolagui.cpp:695 zrcolagui.cpp:697
+#: res/zrcolagui.cpp:690 zrcolagui.cpp:692
 msgid "Re&lated"
 msgstr ""
 
-#: res/zrcolagui.cpp:722 zrcolagui.cpp:724
+#: res/zrcolagui.cpp:717 zrcolagui.cpp:719
 msgid "List of related characters"
 msgstr ""
 
-#: res/zrcolagui.cpp:811 zrcolagui.cpp:816
+#: res/zrcolagui.cpp:736 zrcolagui.cpp:738
+msgid "&Insert"
+msgstr ""
+
+#: res/zrcolagui.cpp:740 zrcolagui.cpp:742
+msgid "Insert character into decomposed text"
+msgstr ""
+
+#: res/zrcolagui.cpp:813 zrcolagui.cpp:818
 msgid ""
 "Some character native to specific language you are working with should not decompose to primitives.\n"
 "For optimal decomposition you should set the language correctly."
 msgstr ""
 
-#: res/zrcolagui.cpp:815 zrcolagui.cpp:820
+#: res/zrcolagui.cpp:817 zrcolagui.cpp:822
 msgid "Select language &automatically according to selected keyboard"
 msgstr ""
 
-#: res/zrcolagui.cpp:818 zrcolagui.cpp:823
+#: res/zrcolagui.cpp:820 zrcolagui.cpp:825
 msgid "&Manually select the language from the list below:"
 msgstr ""
 
-#: res/zrcolagui.cpp:829 zrcolagui.cpp:834
+#: res/zrcolagui.cpp:831 zrcolagui.cpp:836
 msgid "Text Language"
 msgstr ""
 
-#: res/zrcolagui.cpp:834 zrcolagui.cpp:839
+#: res/zrcolagui.cpp:836 zrcolagui.cpp:841
 msgid ""
 "ZRCola can be launched every time you log in to your computer.\n"
 "It will be available on the system tray and via registered shortcuts Win+F5 and Win+F6."
 msgstr ""
 
-#: res/zrcolagui.cpp:838 zrcolagui.cpp:843
+#: res/zrcolagui.cpp:840 zrcolagui.cpp:845
 msgid "Start ZRCola &automatically on logon"
 msgstr ""
 
-#: res/zrcolagui.cpp:844 zrcolagui.cpp:849
+#: res/zrcolagui.cpp:846 zrcolagui.cpp:851
 msgid "Startup"
 msgstr ""
 
-#: res/zrcolagui.cpp:911 res/zrcolagui.h:113 zrcolaapp.cpp:72
-#: zrcolafrm.cpp:123 zrcolagui.cpp:916 zrcolagui.h:113
+#: res/zrcolagui.cpp:913 res/zrcolagui.h:113 zrcolaapp.cpp:72
+#: zrcolafrm.cpp:128 zrcolagui.cpp:918 zrcolagui.h:113
 #: MSIBuild/en_US.Win32.Debug.Feature-2.idtx:4
 #: MSIBuild/en_US.Win32.Debug.Shortcut-2.idtx:4
 #: MSIBuild/en_US.Win32.Release.Feature-2.idtx:4
@@ -425,7 +434,7 @@ msgstr ""
 msgid "ZRCola"
 msgstr "ZRCola"
 
-#: res/zrcolagui.cpp:922 zrcolagui.cpp:927
+#: res/zrcolagui.cpp:924 zrcolagui.cpp:929
 msgid ""
 "Program and Website Editor: Janoš Ježovnik\n"
 "Development: Amebis, d. o. o., Kamnik\n"
@@ -434,136 +443,136 @@ msgid ""
 "Development and maintenance of the original program (2004–2015): Peter Weiss"
 msgstr ""
 
-#: res/zrcolagui.cpp:930 zrcolagui.cpp:935
+#: res/zrcolagui.cpp:932 zrcolagui.cpp:937
 msgid "zrcola.zrc-sazu.si"
 msgstr ""
 
-#: res/zrcolagui.cpp:936 zrcolagui.cpp:941
+#: res/zrcolagui.cpp:938 zrcolagui.cpp:943
 msgid ""
 "Texts made using ZRCola have to include in a footnote or some other "
 "appropriate part of the publication the note below:"
 msgstr ""
 
-#: res/zrcolagui.cpp:940 zrcolagui.cpp:945
+#: res/zrcolagui.cpp:942 zrcolagui.cpp:947
 msgid ""
 "This text was written using the ZRCola input system (http://zrcola.zrc-"
 "sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana "
 "(http://www.zrc-sazu.si) by Peter Weiss."
 msgstr ""
 
-#: res/zrcolagui.cpp:981 zrcolagui.cpp:986
+#: res/zrcolagui.cpp:983 zrcolagui.cpp:988
 msgid "Log"
 msgstr ""
 
-#: res/zrcolagui.cpp:997 zrcolagui.cpp:1002
+#: res/zrcolagui.cpp:999 zrcolagui.cpp:1004
 msgid "Quit and &Update..."
 msgstr ""
 
-#: res/zrcolagui.cpp:999 zrcolagui.cpp:1004
+#: res/zrcolagui.cpp:1001 zrcolagui.cpp:1006
 msgid "Exit this program and launch product update"
 msgstr ""
 
-#: res/zrcolagui.cpp:1003 zrcolagui.cpp:1008
+#: res/zrcolagui.cpp:1005 zrcolagui.cpp:1010
 msgid "&Close"
 msgstr ""
 
-#: res/zrcolagui.cpp:1004 zrcolagui.cpp:1009
+#: res/zrcolagui.cpp:1006 zrcolagui.cpp:1011
 msgid "Close this window"
 msgstr ""
 
-#: res/zrcolagui.cpp:1041 zrcolachrreq.cpp:49 zrcolagui.cpp:1046
+#: res/zrcolagui.cpp:1043 zrcolachrreq.cpp:49 zrcolagui.cpp:1048
 msgid "Character"
 msgstr ""
 
-#: res/zrcolagui.cpp:1043 zrcolagui.cpp:1048
+#: res/zrcolagui.cpp:1045 zrcolagui.cpp:1050
 msgid "Enter the &character you would like to request:"
 msgstr ""
 
-#: res/zrcolagui.cpp:1057 zrcolagui.cpp:1062
+#: res/zrcolagui.cpp:1059 zrcolagui.cpp:1064
 msgid "Decomposed character to request"
 msgstr ""
 
-#: res/zrcolagui.cpp:1061 zrcolagui.cpp:1066
+#: res/zrcolagui.cpp:1063 zrcolagui.cpp:1068
 msgid ""
 "Please, use the decomposed form.\n"
 "You can use ZRCola keyboard shortcuts to enter the character or Copy&&Paste it from the Decomposed window."
 msgstr ""
 
-#: res/zrcolagui.cpp:1069 zrcolachrreq.cpp:58 zrcolagui.cpp:1074
+#: res/zrcolagui.cpp:1071 zrcolachrreq.cpp:58 zrcolagui.cpp:1076
 msgid "Context"
 msgstr ""
 
-#: res/zrcolagui.cpp:1071 zrcolagui.cpp:1076
+#: res/zrcolagui.cpp:1073 zrcolagui.cpp:1078
 msgid ""
 "The &context, examples or description why and where the character is "
 "required:"
 msgstr ""
 
-#: res/zrcolagui.cpp:1077 zrcolagui.cpp:1082
+#: res/zrcolagui.cpp:1079 zrcolagui.cpp:1084
 msgid "Additional notes for character request"
 msgstr ""
 
-#: res/zrcolagui.cpp:1084 zrcolagui.cpp:1089
+#: res/zrcolagui.cpp:1086 zrcolagui.cpp:1091
 msgid ""
 "After clicking OK button, your e-mail application should open allowing you to submit the new character request to ZRCola Editor.\n"
 "Your e-mail application might not display all the characters correctly, but the Editor will be able to read them correctly anyway."
 msgstr ""
 
-#: res/zrcolagui.cpp:1126 zrcolagui.cpp:1131
+#: res/zrcolagui.cpp:1128 zrcolagui.cpp:1133
 msgid "Translation"
 msgstr ""
 
-#: res/zrcolagui.cpp:1128 zrcolagui.cpp:1133
+#: res/zrcolagui.cpp:1130 zrcolagui.cpp:1135
 msgid ""
 "ZRCola offers multiple text translations that can be arranged in a sequence.\n"
 "Please select desired translations and the order they are applied."
 msgstr ""
 
-#: res/zrcolagui.cpp:1138 zrcolagui.cpp:1143
+#: res/zrcolagui.cpp:1140 zrcolagui.cpp:1145
 msgid "A&vailable:"
 msgstr ""
 
-#: res/zrcolagui.cpp:1153 zrcolagui.cpp:1158
+#: res/zrcolagui.cpp:1155 zrcolagui.cpp:1160
 msgid ">"
 msgstr ">"
 
-#: res/zrcolagui.cpp:1156 zrcolagui.cpp:1161
+#: res/zrcolagui.cpp:1158 zrcolagui.cpp:1163
 msgid "<"
 msgstr "<"
 
-#: res/zrcolagui.cpp:1165 zrcolagui.cpp:1170
+#: res/zrcolagui.cpp:1167 zrcolagui.cpp:1172
 msgid "&Selected:"
 msgstr ""
 
-#: res/zrcolagui.cpp:1183 zrcolagui.cpp:1188
+#: res/zrcolagui.cpp:1185 zrcolagui.cpp:1190
 msgid "Up"
 msgstr ""
 
-#: res/zrcolagui.cpp:1186 zrcolagui.cpp:1191
+#: res/zrcolagui.cpp:1188 zrcolagui.cpp:1193
 msgid "Down"
 msgstr ""
 
-#: res/zrcolagui.h:255 zrcolagui.h:255
+#: res/zrcolagui.h:254 zrcolagui.h:254
 msgid "Character Search"
 msgstr ""
 
-#: res/zrcolagui.h:291 zrcolagui.h:291
+#: res/zrcolagui.h:290 zrcolagui.h:290
 msgid "Settings"
 msgstr ""
 
-#: res/zrcolagui.h:317 zrcolagui.h:317
+#: res/zrcolagui.h:316 zrcolagui.h:316
 msgid "About ZRCola"
 msgstr ""
 
-#: res/zrcolagui.h:342 zrcolagui.h:342 zrcolaupdater.cpp:94
+#: res/zrcolagui.h:341 zrcolagui.h:341 zrcolaupdater.cpp:94
 msgid "Product Update"
 msgstr ""
 
-#: res/zrcolagui.h:371 zrcolachrreq.cpp:64 zrcolagui.h:371
+#: res/zrcolagui.h:370 zrcolachrreq.cpp:64 zrcolagui.h:370
 msgid "Request a New Character"
 msgstr ""
 
-#: res/zrcolagui.h:413 zrcolagui.h:413
+#: res/zrcolagui.h:412 zrcolagui.h:412
 msgid "Custom Translation Sequence"
 msgstr ""
 
@@ -585,7 +594,7 @@ msgstr "Fehler bei der Validierung"
 msgid "Invalid character in Unicode found: %c"
 msgstr ""
 
-#: zrcolachrslct.cpp:214 zrcolachrslct.cpp:388 zrcolachrslct.cpp:867
+#: zrcolachrslct.cpp:214 zrcolachrslct.cpp:388 zrcolachrslct.cpp:885
 msgid "▸ Search Options"
 msgstr ""
 
@@ -593,39 +602,39 @@ msgstr ""
 msgid ", "
 msgstr ""
 
-#: zrcolachrslct.cpp:391 zrcolachrslct.cpp:864
+#: zrcolachrslct.cpp:391 zrcolachrslct.cpp:882
 msgid "▾ Search Options"
 msgstr ""
 
-#: zrcolafrm.cpp:89
+#: zrcolafrm.cpp:94
 msgid "No Translation"
 msgstr ""
 
-#: zrcolafrm.cpp:102
+#: zrcolafrm.cpp:107
 msgid "Custom Translation..."
 msgstr ""
 
-#: zrcolafrm.cpp:206
+#: zrcolafrm.cpp:215
 msgid ""
 "ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality "
 "will not be available."
 msgstr ""
 
-#: zrcolafrm.cpp:206 zrcolafrm.cpp:208
+#: zrcolafrm.cpp:215 zrcolafrm.cpp:217
 msgid "Warning"
 msgstr ""
 
-#: zrcolafrm.cpp:208
+#: zrcolafrm.cpp:217
 msgid ""
 "ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality "
 "will not be available."
 msgstr ""
 
-#: zrcolafrm.cpp:472
+#: zrcolafrm.cpp:486
 msgid "http://zrcola.zrc-sazu.si/en/info/instructions/"
 msgstr "http://zrcola.zrc-sazu.si/de/info/instructions/"
 
-#: zrcolafrm.cpp:496
+#: zrcolafrm.cpp:510
 msgid ""
 "http://zrcola.zrc-sazu.si/wp-"
 "content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"

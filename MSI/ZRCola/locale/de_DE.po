@@ -1,3 +1,5 @@
+# Translators:
+# Simon Rozman <simon@rozman.si>, 2018
 # 
 #, fuzzy
 msgid ""
@@ -5,7 +7,7 @@ msgstr ""
 "Project-Id-Version: ZRCola MSI\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-19 08:59+0200\n"
-"PO-Revision-Date: \n"
+"PO-Revision-Date: 2018-09-19 07:19+0000\n"
 "Last-Translator: Simon Rozman <simon@rozman.si>, 2018\n"
 "Language-Team: German (Germany) (https://www.transifex.com/amebis/teams/91592/de_DE/)\n"
 "MIME-Version: 1.0\n"
