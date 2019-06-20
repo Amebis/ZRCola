@@ -50,7 +50,8 @@ wxZRColaCharacterCatalogPanel::wxZRColaCharacterCatalogPanel(wxWindow* parent) :
             }
         } else
             wxFAIL_MSG(wxT("ZRCola.zrcdb is not a valid ZRCola database."));
-    }
+    } else
+        wxFAIL_MSG(wxT("ZRCola.zrcdb not found or cannot be opened."));
 
     if (!m_cg_db.idxRank.empty()) {
         // Populate character group list.

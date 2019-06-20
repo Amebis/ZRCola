@@ -165,7 +165,8 @@ bool ZRColaApp::OnInit()
             }
         } else
             wxFAIL_MSG(wxT("ZRCola.zrcdb is not a valid ZRCola database."));
-    }
+    } else
+        wxFAIL_MSG(wxT("ZRCola.zrcdb not found or cannot be opened."));
 
     // Initialize sockets. Otherwise Updater thread will not work.
     wxSocketBase::Initialize();
