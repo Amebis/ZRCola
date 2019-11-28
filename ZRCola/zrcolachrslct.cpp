@@ -1,4 +1,4 @@
-﻿/*
+/*
     Copyright 2015-2019 Amebis
 
     This file is part of ZRCola.
