@@ -18,7 +18,8 @@
 #
 
 OUTPUT_DIR=output
-PUBLISH_DIR=\\amebis.doma\Splet\WWW\Apache\www.amebis.si-prenos\ZRCola
+PUBLISH_DIR_LEGACY=\\amebis.doma\Splet\WWW\Apache\www.amebis.si-prenos\ZRCola
+PUBLISH_DIR=\\amebis.doma\Splet\WWW\IIS-ext\prenos.amebis.si\ZRCola
 
 !IF "$(PROCESSOR_ARCHITECTURE)" == "AMD64"
 PLAT=x64
@@ -79,7 +80,7 @@ Publish :: "MSI\MSIBuild\Version\Version.mak"
 !INCLUDE "include\MSIBuildCfg.mak"
 
 PUBLISH_PACKAGE_DIR=$(PUBLISH_DIR)\$(MSIBUILD_VERSION_STR)
-PUBLISH_PACKAGE_URL=http://www.amebis.si/prenos/ZRCola/$(MSIBUILD_VERSION_STR)
+PUBLISH_PACKAGE_URL=http://prenos.amebis.si/ZRCola/$(MSIBUILD_VERSION_STR)
 
 ######################################################################
 # Main targets
@@ -95,10 +96,12 @@ All :: \
 
 PublishPre :: \
 	"$(PUBLISH_PACKAGE_DIR)" \
+	"$(PUBLISH_DIR_LEGACY)" \
 	"$(PUBLISH_DIR)"
 
 Publish :: \
 	PublishPre \
+	"$(PUBLISH_DIR_LEGACY)\catalog-0000.xml" \
 	"$(PUBLISH_DIR)\catalog-0000.xml"
 
 
@@ -173,6 +176,7 @@ UnregisterShortcuts ::
 "$(OUTPUT_DIR)" \
 "$(OUTPUT_DIR)\Keys" \
 "$(OUTPUT_DIR)\locale" \
+"$(PUBLISH_DIR_LEGACY)" \
 "$(PUBLISH_DIR)" \
 "$(PUBLISH_PACKAGE_DIR)" \
 "$(PROGRAMDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" :
@@ -213,9 +217,12 @@ UnregisterShortcuts ::
 # Building
 ######################################################################
 
+"$(PUBLISH_DIR_LEGACY)\catalog-0000.xml" : "$(OUTPUT_DIR)\catalog.xml"
+	copy /y $** $@ > NUL
+
 "$(PUBLISH_DIR)\catalog-0000.xml" : "$(OUTPUT_DIR)\catalog.xml"
-	if exist $@  del /f /q $@
-	"$(OUTPUT_DIR)\$(PLAT).Release\UpdSignXML.exe" $** $@
+	copy /y $** $@ > NUL
+	attrib.exe +h $@
 
 "$(OUTPUT_DIR)\catalog.xml" : \
 #	"$(OUTPUT_DIR)\ZRColaDe32.msi" \
@@ -227,7 +234,6 @@ UnregisterShortcuts ::
 	"$(OUTPUT_DIR)\ZRColaSl32.msi" \
 	"$(OUTPUT_DIR)\ZRColaSl64.msi"
 	-if exist $@ del /f /q $@
-	-if exist "$(@:"=).tmp" del /f /q "$(@:"=).tmp"
 	copy /y "$(PUBLISH_DIR)\catalog-0000.xml" "$(@:"=).tmp" > NUL
 #	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-x86   de_DE "$(PUBLISH_PACKAGE_URL)/ZRColaDe32.msi" -f "$(OUTPUT_DIR)\ZRColaDe32.msi"
 #	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 de_DE "$(PUBLISH_PACKAGE_URL)/ZRColaDe64.msi" -f "$(OUTPUT_DIR)\ZRColaDe64.msi"
@@ -237,7 +243,8 @@ UnregisterShortcuts ::
 	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 ru_RU "$(PUBLISH_PACKAGE_URL)/ZRColaRu64.msi" -f "$(OUTPUT_DIR)\ZRColaRu64.msi"
 	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-x86   sl_SI "$(PUBLISH_PACKAGE_URL)/ZRColaSl32.msi" -f "$(OUTPUT_DIR)\ZRColaSl32.msi"
 	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 sl_SI "$(PUBLISH_PACKAGE_URL)/ZRColaSl64.msi" -f "$(OUTPUT_DIR)\ZRColaSl64.msi"
-	move /y "$(@:"=).tmp" $@ > NUL
+	"$(OUTPUT_DIR)\$(PLAT).Release\UpdSignXML.exe" "$(@:"=).tmp" $@
+	-if exist "$(@:"=).tmp" del /f /q "$(@:"=).tmp"
 
 !ENDIF
 

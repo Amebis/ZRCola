@@ -6,7 +6,7 @@ A Microsoft Windows application for composing texts using a wide range of Slavic
 http://zrcola.zrc-sazu.si/en/
 
 ## Binaries for Download
-https://www.amebis.si/prenos/ZRCola/
+https://prenos.amebis.si/ZRCola/
 
 ## Building
 

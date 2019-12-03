@@ -79,7 +79,7 @@ extern "C" void WinMainCRTStartup()
     };
     FormatMessage(
         FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_ARGUMENT_ARRAY | FORMAT_MESSAGE_FROM_STRING,
-        TEXT("/i \"http://www.amebis.si/prenos/ZRCola/_latest/ZRCola%1%2.msi\" /l* \"%3ZRCola%1%2.log\""),
+        TEXT("/i \"https://prenos.amebis.si/ZRCola/_latest/ZRCola%1%2.msi\" /l* \"%3ZRCola%1%2.log\""),
         0,
         0,
         (LPTSTR)&pszParams,

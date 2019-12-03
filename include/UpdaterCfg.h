@@ -4,7 +4,7 @@
 // Update server(s)
 // Zero delimited list of update servers
 //
-#define UPDATER_HTTP_SERVER         "www.amebis.si\0"
+#define UPDATER_HTTP_SERVER         "prenos.amebis.si\0"
 
 //
 // Update server port
@@ -14,4 +14,4 @@
 //
 // Update server catalog location
 //
-#define UPDATER_HTTP_PATH           "/prenos/ZRCola/catalog-0000.xml"
+#define UPDATER_HTTP_PATH           "/ZRCola/catalog-0000.xml"
