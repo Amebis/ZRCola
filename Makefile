@@ -250,12 +250,10 @@ UnregisterShortcuts ::
 
 PLAT=Win32
 PLAT_SUFFIX=32
-PLAT_SLN=x86
 !INCLUDE "MakefilePlat.mak"
 
 PLAT=x64
 PLAT_SUFFIX=64
-PLAT_SLN=x64
 !INCLUDE "MakefilePlat.mak"
 
 

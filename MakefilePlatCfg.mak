@@ -20,12 +20,12 @@
 All ::
 
 Clean ::
-	msbuild.exe $(MSBUILDFLAGS) "ZRCola.sln"          /t:Clean /p:Configuration=$(CFG) /p:Platform=$(PLAT_SLN)
+	msbuild.exe $(MSBUILDFLAGS) "ZRCola.sln"          /t:Clean /p:Configuration=$(CFG) /p:Platform=$(PLAT)
 !IF "$(PLAT)" == "Win32"
-	msbuild.exe $(MSBUILDFLAGS) "ZRColaUtils.sln"     /t:Clean /p:Configuration=$(CFG) /p:Platform=$(PLAT_SLN)
+	msbuild.exe $(MSBUILDFLAGS) "ZRColaUtils.sln"     /t:Clean /p:Configuration=$(CFG) /p:Platform=$(PLAT)
 !ENDIF
-	msbuild.exe $(MSBUILDFLAGS) "MSI\MSICA\MSICA.sln" /t:Clean /p:Configuration=$(CFG) /p:Platform=$(PLAT_SLN)
-	msbuild.exe $(MSBUILDFLAGS) "Updater\Updater.sln" /t:Clean /p:Configuration=$(CFG) /p:Platform=$(PLAT_SLN)
+	msbuild.exe $(MSBUILDFLAGS) "MSI\MSICA\MSICA.sln" /t:Clean /p:Configuration=$(CFG) /p:Platform=$(PLAT)
+	msbuild.exe $(MSBUILDFLAGS) "Updater\Updater.sln" /t:Clean /p:Configuration=$(CFG) /p:Platform=$(PLAT)
 	-if exist "$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).ddf" del /f /q "$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).ddf"
 	-if exist "$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).cab" del /f /q "$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).cab"
 	-if exist "$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).inf" del /f /q "$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).inf"
@@ -46,7 +46,7 @@ Clean ::
 "$(OUTPUT_DIR)\$(PLAT).$(CFG)\ZRCola.exe" :: Localization
 
 "$(OUTPUT_DIR)\$(PLAT).$(CFG)\ZRCola.exe" ::
-	msbuild.exe $(MSBUILDFLAGS) "ZRCola.sln" /t:Build /p:Configuration=$(CFG) /p:Platform=$(PLAT_SLN)
+	msbuild.exe $(MSBUILDFLAGS) "ZRCola.sln" /t:Build /p:Configuration=$(CFG) /p:Platform=$(PLAT)
 
 "$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).ddf" : \
 #	"$(OUTPUT_DIR)\ZRCola.de_DE.$(PLAT_SUFFIX)$(CFG_SUFFIX).2.msi" \

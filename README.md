@@ -20,7 +20,7 @@ https://prenos.amebis.si/ZRCola/
 ### wxWidgets
 ZRCola is using wxWidgets static libraries. You have to compile static libraries yourself.
 
-#### Compiling wxWidgets x86 static libraries
+#### Compiling wxWidgets Win32 static libraries
 1. Start _x86 Native Tools Command Prompt for VS 2017_
 2. Change working folder to `build\msw`
 3. Run: `nmake /f makefile.vc /ls RUNTIME_LIBS=static SHARED=0 COMPILER_VERSION=141`
