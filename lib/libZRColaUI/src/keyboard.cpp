@@ -17,7 +17,7 @@
     along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "stdafx.h"
+#include "pch.h"
 
 
 bool ZRCola::keyseq_db::GetSequenceAsText(_In_count_(seq_len) const keyseq::key_t *seq, _In_ size_t seq_len, _Out_ wxString& str)

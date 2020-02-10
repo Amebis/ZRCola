@@ -31,7 +31,7 @@
     <ClCompile Include="..\src\common.cpp" />
     <ClCompile Include="..\src\language.cpp" />
     <ClCompile Include="..\src\mapping.cpp" />
-    <ClCompile Include="..\src\stdafx.cpp">
+    <ClCompile Include="..\src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -48,7 +48,7 @@
     <ClInclude Include="..\include\zrcola\language.h" />
     <ClInclude Include="..\include\zrcola\tag.h" />
     <ClInclude Include="..\include\zrcola\translate.h" />
-    <ClInclude Include="..\src\stdafx.h" />
+    <ClInclude Include="..\src\pch.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3C61929E-7289-4101-8D0A-DA22D6E1AEA8}</ProjectGuid>

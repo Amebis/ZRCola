@@ -17,7 +17,7 @@
     along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "stdafx.h"
+#include "pch.h"
 
 
 const ZRCola::langid_t ZRCola::langid_t::blank = {};

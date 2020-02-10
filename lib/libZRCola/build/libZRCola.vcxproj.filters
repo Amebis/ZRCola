@@ -11,7 +11,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\stdafx.cpp">
+    <ClCompile Include="..\src\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\mapping.cpp">
@@ -34,7 +34,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\stdafx.h">
+    <ClInclude Include="..\src\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\zrcola\common.h">

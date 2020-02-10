@@ -17,7 +17,7 @@
     along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "stdafx.h"
+#include "pch.h"
 
 
 void ZRCola::translation_db::Translate(_In_ transetid_t set, _In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map) const

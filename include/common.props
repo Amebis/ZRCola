@@ -37,7 +37,7 @@
       <WarningLevel>Level4</WarningLevel>
       <PreprocessorDefinitions>NTDDI_VERSION=NTDDI_WINXP;_WIN32_WINNT=_WIN32_WINNT_WINXP;wxMSVC_VERSION=$(PlatformToolsetVersion);_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <StringPooling>true</StringPooling>
       <DisableSpecificWarnings>4100;4505</DisableSpecificWarnings>

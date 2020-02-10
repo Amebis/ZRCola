@@ -49,7 +49,7 @@
     <ClCompile Include="dbsource.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="parse.cpp" />
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
@@ -57,7 +57,7 @@
   <ItemGroup>
     <ClInclude Include="dbsource.h" />
     <ClInclude Include="parse.h" />
-    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\lib\libZRColaUI\build\libZRColaUI.vcxproj">

@@ -17,7 +17,7 @@
     along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "stdafx.h"
+#include "pch.h"
 
 
 size_t ZRCola::mapping_vector::to_src(_In_ size_t dst) const

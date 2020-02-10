@@ -17,7 +17,7 @@
     along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "stdafx.h"
+#include "pch.h"
 
 
 bool ZRCola::chrtag_db::Search(_In_ const std::map<tagid_t, unsigned __int16> &tags, _In_ const character_db &ch_db, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<std::wstring, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
