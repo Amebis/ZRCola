@@ -43,13 +43,13 @@ wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
             file.Read(&n, sizeof(n));
             if (!file.Error()) {
                 wxString source;
-                file.Read(wxStringBuffer(source, n), sizeof(wchar_t)*n);
+                file.Read(wxStringBuffer(source, (size_t)n), sizeof(wchar_t)*(size_t)n);
                 if (!file.Error()) {
                     // Load destination text.
                     file.Read(&n, sizeof(n));
                     if (!file.Error()) {
                         wxString destination;
-                        file.Read(wxStringBuffer(destination, n), sizeof(wchar_t)*n);
+                        file.Read(wxStringBuffer(destination, (size_t)n), sizeof(wchar_t)*(size_t)n);
                         if (!file.Error()) {
                             // Restore state.
                             m_source->SetValue(source);
@@ -121,8 +121,8 @@ void wxZRColaComposerPanel::SynchronizePanels()
         // Update destination text, and its HEX dump.
         m_destination->SetValue(dst);
         m_destination->SetSelection(
-            m_selDestination.first  = MapToDestination(m_selSource.first ),
-            m_selDestination.second = MapToDestination(m_selSource.second));
+            m_selDestination.first  = (long)MapToDestination(m_selSource.first ),
+            m_selDestination.second = (long)MapToDestination(m_selSource.second));
         SetHexValue(m_destinationHex, m_selDestinationHex, m_mappingDestinationHex, dst.data(), dst.length(), m_selDestination.first, m_selDestination.second);
 
         // Schedule state save after 3s.
@@ -167,8 +167,8 @@ void wxZRColaComposerPanel::SynchronizePanels()
         // Update source text, and its HEX dump.
         m_source->SetValue(dst);
         m_source->SetSelection(
-            m_selSource.first  = MapToSource(m_selDestination.first ),
-            m_selSource.second = MapToSource(m_selDestination.second));
+            m_selSource.first  = (long)MapToSource(m_selDestination.first ),
+            m_selSource.second = (long)MapToSource(m_selDestination.second));
         SetHexValue(m_sourceHex, m_selSourceHex, m_mappingSourceHex, dst.data(), dst.length(), m_selSource.first, m_selSource.second);
 
         // Schedule state save after 3s.
@@ -194,16 +194,16 @@ void wxZRColaComposerPanel::OnSourcePaint(wxPaintEvent& event)
         m_selSource.second = to;
 
         m_sourceHex->SetSelection(
-            m_selSourceHex.first  = m_mappingSourceHex.to_dst(from),
-            m_selSourceHex.second = m_mappingSourceHex.to_dst(to  ));
+            m_selSourceHex.first  = (long)m_mappingSourceHex.to_dst(from),
+            m_selSourceHex.second = (long)m_mappingSourceHex.to_dst(to  ));
 
         m_destination->SetSelection(
-            m_selDestination.first  = MapToDestination(from),
-            m_selDestination.second = MapToDestination(to  ));
+            m_selDestination.first  = (long)MapToDestination(from),
+            m_selDestination.second = (long)MapToDestination(to  ));
 
         m_destinationHex->SetSelection(
-            m_selDestinationHex.first  = m_mappingDestinationHex.to_dst(m_selDestination.first ),
-            m_selDestinationHex.second = m_mappingDestinationHex.to_dst(m_selDestination.second));
+            m_selDestinationHex.first  = (long)m_mappingDestinationHex.to_dst(m_selDestination.first ),
+            m_selDestinationHex.second = (long)m_mappingDestinationHex.to_dst(m_selDestination.second));
     }
 }
 
@@ -221,16 +221,16 @@ void wxZRColaComposerPanel::OnSourceHexPaint(wxPaintEvent& event)
         m_selSourceHex.second = to;
 
         m_source->SetSelection(
-            m_selSource.first  = m_mappingSourceHex.to_src(from),
-            m_selSource.second = m_mappingSourceHex.to_src(to  ));
+            m_selSource.first  = (long)m_mappingSourceHex.to_src(from),
+            m_selSource.second = (long)m_mappingSourceHex.to_src(to  ));
 
         m_destination->SetSelection(
-            m_selDestination.first  = MapToDestination(m_selSource.first ),
-            m_selDestination.second = MapToDestination(m_selSource.second));
+            m_selDestination.first  = (long)MapToDestination(m_selSource.first ),
+            m_selDestination.second = (long)MapToDestination(m_selSource.second));
 
         m_destinationHex->SetSelection(
-            m_selDestinationHex.first  = m_mappingDestinationHex.to_dst(m_selDestination.first ),
-            m_selDestinationHex.second = m_mappingDestinationHex.to_dst(m_selDestination.second));
+            m_selDestinationHex.first  = (long)m_mappingDestinationHex.to_dst(m_selDestination.first ),
+            m_selDestinationHex.second = (long)m_mappingDestinationHex.to_dst(m_selDestination.second));
     }
 }
 
@@ -257,16 +257,16 @@ void wxZRColaComposerPanel::OnDestinationPaint(wxPaintEvent& event)
         m_selDestination.second = to;
 
         m_destinationHex->SetSelection(
-            m_selDestinationHex.first  = m_mappingDestinationHex.to_dst(from),
-            m_selDestinationHex.second = m_mappingDestinationHex.to_dst(to  ));
+            m_selDestinationHex.first  = (long)m_mappingDestinationHex.to_dst(from),
+            m_selDestinationHex.second = (long)m_mappingDestinationHex.to_dst(to  ));
 
         m_source->SetSelection(
-            m_selSource.first  = MapToSource(from),
-            m_selSource.second = MapToSource(to  ));
+            m_selSource.first  = (long)MapToSource(from),
+            m_selSource.second = (long)MapToSource(to  ));
 
         m_sourceHex->SetSelection(
-            m_selSourceHex.first  = m_mappingSourceHex.to_dst(m_selSource.first ),
-            m_selSourceHex.second = m_mappingSourceHex.to_dst(m_selSource.second));
+            m_selSourceHex.first  = (long)m_mappingSourceHex.to_dst(m_selSource.first ),
+            m_selSourceHex.second = (long)m_mappingSourceHex.to_dst(m_selSource.second));
     }
 }
 
@@ -284,16 +284,16 @@ void wxZRColaComposerPanel::OnDestinationHexPaint(wxPaintEvent& event)
         m_selDestinationHex.second = to;
 
         m_destination->SetSelection(
-            m_selDestination.first  = m_mappingDestinationHex.to_src(from),
-            m_selDestination.second = m_mappingDestinationHex.to_src(to  ));
+            m_selDestination.first  = (long)m_mappingDestinationHex.to_src(from),
+            m_selDestination.second = (long)m_mappingDestinationHex.to_src(to  ));
 
         m_source->SetSelection(
-            m_selSource.first  = MapToSource(m_selDestination.first ),
-            m_selSource.second = MapToSource(m_selDestination.second));
+            m_selSource.first  = (long)MapToSource(m_selDestination.first ),
+            m_selSource.second = (long)MapToSource(m_selDestination.second));
 
         m_sourceHex->SetSelection(
-            m_selSourceHex.first  = m_mappingSourceHex.to_dst(m_selSource.first ),
-            m_selSourceHex.second = m_mappingSourceHex.to_dst(m_selSource.second));
+            m_selSourceHex.first  = (long)m_mappingSourceHex.to_dst(m_selSource.first ),
+            m_selSourceHex.second = (long)m_mappingSourceHex.to_dst(m_selSource.second));
     }
 }
 
@@ -356,11 +356,11 @@ size_t wxZRColaComposerPanel::GetValue(wxTextCtrl *wnd, wxString &text)
     size_t len = ::GetWindowTextLengthW(hWnd);
     if (len < 0x100) {
         WCHAR buf[0x100];
-        ::GetWindowTextW(hWnd, buf, len + 1);
+        ::GetWindowTextW(hWnd, buf, (int)(len + 1));
         text.assign(buf, len);
     } else {
         LPWSTR buf = new WCHAR[len + 1];
-        ::GetWindowTextW(hWnd, buf, len + 1);
+        ::GetWindowTextW(hWnd, buf, (int)(len + 1));
         text.assign(buf, len);
         delete [] buf;
     }
@@ -393,8 +393,8 @@ void wxZRColaComposerPanel::SetHexValue(wxTextCtrl *wnd, std::pair<long, long> &
 
     wnd->SetValue(hex);
     wnd->SetSelection(
-        range.first  = mapping.to_dst(from),
-        range.second = mapping.to_dst(to  ));
+        range.first  = (long)mapping.to_dst(from),
+        range.second = (long)mapping.to_dst(to  ));
 }
 
 

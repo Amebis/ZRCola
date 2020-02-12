@@ -101,11 +101,11 @@ wxZRColaFrame::wxZRColaFrame() :
             wxString
                 name(ts.name(), ts.name_len()),
                 name_tran(wxGetTranslation(name, wxT("ZRCola-zrcdb")));
-            m_menuTranslationSeq->AppendRadioItem(wxID_TRANSLATION_SEQ_START + i, name_tran);
+            m_menuTranslationSeq->AppendRadioItem((int)(wxID_TRANSLATION_SEQ_START + i), name_tran);
             m_toolTranslationSeq->Append(name_tran, reinterpret_cast<void*>(ts.seq));
         } else {
             wxString name_tran(_("Custom Translation..."));
-            m_menuTranslationSeq->AppendRadioItem(wxID_TRANSLATION_SEQ_START + i, name_tran);
+            m_menuTranslationSeq->AppendRadioItem((int)(wxID_TRANSLATION_SEQ_START + i), name_tran);
             m_toolTranslationSeq->Append(name_tran, reinterpret_cast<void*>(ZRCOLA_TRANSEQID_CUSTOM));
             break;
         }
@@ -154,13 +154,14 @@ wxZRColaFrame::wxZRColaFrame() :
     // Register notification sink for language detection.
     m_ulRefCount = 1;
     m_tfSource = NULL;
+    m_dwCookie = MAXDWORD;
     ITfInputProcessorProfiles *pProfiles;
     HRESULT hr = CoCreateInstance(CLSID_TF_InputProcessorProfiles, NULL, CLSCTX_INPROC_SERVER, IID_ITfInputProcessorProfiles, (LPVOID*)&pProfiles);
     if(SUCCEEDED(hr)) {
         hr = pProfiles->QueryInterface(IID_ITfSource, (LPVOID*)&m_tfSource);
         if(SUCCEEDED(hr)) {
             hr = m_tfSource->AdviseSink(IID_ITfLanguageProfileNotifySink, (ITfLanguageProfileNotifySink*)this, &m_dwCookie);
-            if (FAILED(hr) || m_dwCookie == -1) {
+            if (FAILED(hr) || m_dwCookie == MAXDWORD) {
                 m_tfSource->Release();
                 m_tfSource = NULL;
             }
@@ -493,6 +494,7 @@ void wxZRColaFrame::OnHelpShortcuts(wxCommandEvent& event)
 
 #ifdef __WXMSW__
     // Search and try to launch installed PDF.
+    #pragma warning(suppress: 26812) // INSTALLSTATE is unscoped.
     INSTALLSTATE pdf_is = ::MsiGetComponentPath(_T(PRODUCT_VERSION_GUID), _T("{68AC2C38-10E2-41A3-B92C-844C03FFDF6A}"), pdf_path);
     if ((pdf_is == INSTALLSTATE_LOCAL || pdf_is == INSTALLSTATE_SOURCE) &&
         wxFileExists(pdf_path) &&
@@ -594,10 +596,10 @@ void wxZRColaFrame::DoSend(const wxString& str)
 {
     // Prepare the INPUT table.
     wxString::size_type n = str.length();
-    auto i_str = str.begin();
+    wxString::const_iterator i_str = str.begin();
     std::vector<INPUT> input;
     input.reserve(n*2);
-    for (std::vector<INPUT>::size_type i = 0; i < n; i++, i_str++) {
+    for (std::vector<INPUT>::size_type i = 0; i < n; i++, ++i_str) {
         wxString::char_type c = *i_str;
 
         // Add key down event.
@@ -616,7 +618,7 @@ void wxZRColaFrame::DoSend(const wxString& str)
     ::SetActiveWindow(m_hWndSource);
     ::SetForegroundWindow(m_hWndSource);
     ::Sleep(200);
-    ::SendInput(input.size(), input.data(), sizeof(INPUT));
+    ::SendInput((UINT)input.size(), input.data(), sizeof(INPUT));
     m_hWndSource = NULL;
 
     // Select all input in source and destination to prepare for the overwrite next time.
@@ -760,7 +762,7 @@ bool wxPersistentZRColaFrame::Restore()
 
     int num;
     if (RestoreValue(wxT("transeqId"), &num))
-        wnd->m_transeq_id = num;
+        wnd->m_transeq_id = (ZRCola::transeqid_t)num;
 
     bool b;
     if (RestoreValue(wxT("composition"), &b))

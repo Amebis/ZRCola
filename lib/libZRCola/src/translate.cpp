@@ -98,7 +98,7 @@ void ZRCola::translation_db::Translate(_In_ transetid_t set, _In_z_count_(inputM
 }
 
 
-void ZRCola::translation_db::TranslateInv(_In_ transetid_t set, _In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _In_ const langchar_db *lc_db, _In_ langid_t lang, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map) const
+void ZRCola::translation_db::TranslateInv(_In_ transetid_t set, _In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _In_opt_ const langchar_db *lc_db, _In_opt_ langid_t lang, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map) const
 {
     assert(input || inputMax == 0);
 

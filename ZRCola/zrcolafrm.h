@@ -26,7 +26,11 @@ class wxPersistentZRColaFrame;
 
 #pragma once
 
+#include <wxex/common.h>
+#pragma warning(push)
+#pragma warning(disable: WXWIDGETS_CODE_ANALYSIS_WARNINGS)
 #include "zrcolagui.h"
+#pragma warning(pop)
 #include "zrcolachrslct.h"
 #include "zrcolachrreq.h"
 #include "zrcolasettings.h"
@@ -34,7 +38,10 @@ class wxPersistentZRColaFrame;
 #include <zrcola/language.h>
 #include <zrcola/translate.h>
 #include <wxex/persist/toplevel.h>
+#pragma warning(push)
+#pragma warning(disable: WXWIDGETS_CODE_ANALYSIS_WARNINGS)
 #include <wx/taskbar.h>
+#pragma warning(pop)
 #if defined(__WXMSW__)
 #include <msctf.h>
 #endif

@@ -39,6 +39,8 @@
 #include <wxex/persist/auimanager.h>
 #include <wxex/persist/toplevel.h>
 
+#pragma warning(push)
+#pragma warning(disable: WXWIDGETS_CODE_ANALYSIS_WARNINGS)
 #include <wx/clipbrd.h>
 #include <wx/dcclient.h>
 #include <wx/ffile.h>
@@ -49,6 +51,7 @@
 #include <wx/tokenzr.h>
 #include <wx/utils.h>
 #include <wx/valtext.h>
+#pragma warning(pop)
 
 #include <WinStd/MSI.h>
 

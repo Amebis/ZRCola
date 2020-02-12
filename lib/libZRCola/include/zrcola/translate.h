@@ -106,9 +106,9 @@ namespace ZRCola {
                 this->dst_rank = dst_rank;
                 this->src_rank = src_rank;
                 this->dst_to = static_cast<unsigned __int16>(dst_len);
-                if (dst_len) memcpy(this->data, dst, sizeof(wchar_t)*dst_len);
+                if (dst && dst_len) memcpy(this->data, dst, sizeof(wchar_t)*dst_len);
                 this->src_to = static_cast<unsigned __int16>(this->dst_to + src_len);
-                if (src_len) memcpy(this->data + this->dst_to, src, sizeof(wchar_t)*src_len);
+                if (src && src_len) memcpy(this->data + this->dst_to, src, sizeof(wchar_t)*src_len);
             }
 
             inline const wchar_t*         dst    () const { return data;          };
@@ -369,9 +369,9 @@ namespace ZRCola {
             {
                 this->set = set;
                 this->src_to = static_cast<unsigned __int16>(src_len);
-                if (src_len) memcpy(this->data, src, sizeof(wchar_t)*src_len);
+                if (src && src_len) memcpy(this->data, src, sizeof(wchar_t)*src_len);
                 this->dst_to = static_cast<unsigned __int16>(this->src_to + dst_len);
-                if (dst_len) memcpy(this->data + this->src_to, dst, sizeof(wchar_t)*dst_len);
+                if (dst && dst_len) memcpy(this->data + this->src_to, dst, sizeof(wchar_t)*dst_len);
             }
 
             inline const wchar_t*         src    () const { return data;          };
@@ -489,9 +489,9 @@ namespace ZRCola {
                 this->seq  = seq;
                 this->rank = rank;
                 this->name_to = static_cast<unsigned __int16>(name_len);
-                if (name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
+                if (name && name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
                 this->sets_to = static_cast<unsigned __int16>(this->name_to + sets_len);
-                if (sets_len) memcpy(this->data + this->name_to, sets, sizeof(transetid_t)*sets_len);
+                if (sets && sets_len) memcpy(this->data + this->name_to, sets, sizeof(transetid_t)*sets_len);
             }
 
             inline const wchar_t*         name    () const { return data;           };
@@ -663,7 +663,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
 
     // Write data.
     if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
+    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -695,7 +695,7 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::transl
     if (count) {
         // Read data.
         db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*count);
+        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
     } else
         db.data.clear();
 
@@ -732,7 +732,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
 
     // Write data.
     if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
+    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -760,7 +760,7 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::transe
     if (count) {
         // Read data.
         db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*count);
+        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
     } else
         db.data.clear();
 
@@ -801,7 +801,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
 
     // Write data.
     if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
+    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -833,7 +833,7 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::transe
     if (count) {
         // Read data.
         db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*count);
+        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
     } else
         db.data.clear();
 

@@ -80,7 +80,7 @@ wxZRColaUpdater::~wxZRColaUpdater()
 void wxZRColaUpdater::OnIdle(wxIdleEvent& event)
 {
     if (!m_finished) {
-        m_buttonUpdate->Enable(m_updater->CheckForUpdate() == wxUpdCheckThread::wxUpdUpdateAvailable);
+        m_buttonUpdate->Enable(m_updater->CheckForUpdate() == wxUpdCheckThread::wxResult::UpdateAvailable);
         m_finished = true;
     }
 }

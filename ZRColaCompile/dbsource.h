@@ -31,7 +31,11 @@
 #include <WinStd/COM.h>
 #include <WinStd/Win.h>
 
+#include <wxex/common.h>
+#pragma warning(push)
+#pragma warning(disable: WXWIDGETS_CODE_ANALYSIS_WARNINGS)
 #include <wx/debug.h>
+#pragma warning(pop)
 
 #pragma warning(push)
 #pragma warning(disable: 4091)
@@ -60,7 +64,8 @@ namespace ZRCola {
             int rank;         ///< Sequence rank
             std::wstring str; ///< Sequence string
 
-            inline charseq()
+            inline charseq() :
+                rank(0)
             {
             }
 
@@ -126,6 +131,8 @@ namespace ZRCola {
             charseq src;        ///< Source sequence
             std::string norm;   ///< Normalization footprint
             charseq dst;        ///< Destination sequence
+
+            inline translation() : set(0) {}
         };
 
 
@@ -137,6 +144,8 @@ namespace ZRCola {
             int set;            ///< ID
             std::wstring src;   ///< Source name
             std::wstring dst;   ///< Destination name
+
+            inline transet() : set(0) {}
         };
 
 
@@ -149,6 +158,11 @@ namespace ZRCola {
             int rank;               ///< Rank
             std::wstring name;      ///< Name
             std::vector<int> sets;  ///< Sets
+
+            inline transeq() :
+                seq(0),
+                rank(0)
+            {}
         };
 
 
@@ -200,6 +214,8 @@ namespace ZRCola {
         public:
             ZRCola::langid_t lang;      ///< Language ID
             std::wstring name;          ///< Name
+
+            inline language() : lang(ZRCola::langid_t::blank) {}
         };
 
 
@@ -210,6 +226,8 @@ namespace ZRCola {
         public:
             std::wstring chr;           ///> Character
             ZRCola::langid_t lang;      ///< Language ID
+
+            inline langchar() : lang(ZRCola::langid_t::blank) {}
         };
 
 
@@ -223,6 +241,8 @@ namespace ZRCola {
             std::wstring name;                  ///< Name
             std::vector<wchar_t> chars;         ///< Characters (zero-delimited)
             std::vector<unsigned __int16> show; ///< Bit vector if particular character from \c chars is displayed initially
+
+            inline chrgrp() : grp(0), rank(0) {}
         };
 
 
@@ -325,7 +345,7 @@ namespace ZRCola {
         class character_desc_idx : public std::map<std::wstring, std::vector<wchar_t>, character_desc_idx_less>
         {
         public:
-            static void parse_keywords(const wchar_t *str, std::set<std::wstring> &terms);
+            static void parse_keywords(_In_ const wchar_t *str, _Inout_ std::set<std::wstring> &terms);
             void add_keywords(const std::set<std::wstring> &terms, const std::wstring &chr, size_t sub = 0);
             inline void add_keywords(const wchar_t *str, const std::wstring &chr, size_t sub = 0)
             {
@@ -369,6 +389,8 @@ namespace ZRCola {
             ZRCola::chrcatid_t cat;     ///> Category ID
             int rank;                   ///< Rank
             std::wstring name;          ///< Name
+
+            inline chrcat() : cat(ZRCola::chrcatid_t::blank), rank(0) {}
         };
 
 
@@ -379,6 +401,8 @@ namespace ZRCola {
         public:
             std::wstring chr;           ///> Character
             int tag;                    ///< Tag ID
+
+            inline chrtag() : tag(0) {}
         };
 
 
@@ -389,6 +413,8 @@ namespace ZRCola {
         public:
             int tag;                    ///< Tag ID
             std::map<LCID, std::list<std::wstring> > names; ///< Names
+
+            inline tagname() : tag(0) {}
         };
 
 

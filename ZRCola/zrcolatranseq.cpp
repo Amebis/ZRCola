@@ -240,7 +240,7 @@ bool wxPersistentZRColaTranslationSeq::Restore()
     if (RestoreValue(wxT("transeq"), &str)) {
         std::vector<ZRCola::transetid_t> transet;
         for (wxStringTokenizer tok(str, wxT("|")); tok.HasMoreTokens(); ) {
-            unsigned long val = _tcstoul(tok.GetNextToken().c_str(), NULL, 10);
+            ZRCola::transetid_t val = (ZRCola::transetid_t)_tcstoul(tok.GetNextToken().c_str(), NULL, 10);
             for (size_t i = 0, n = app->m_ts_db.idxTranSet.size(); i < n; i++) {
                 const ZRCola::transet_db::transet &cg = app->m_ts_db.idxTranSet[i];
                 if (cg.set == val) {

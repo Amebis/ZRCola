@@ -85,7 +85,7 @@ bool wxZRColaUTF16CharValidator::Parse(const wxString &val_in, size_t i_start, s
         } else if (i >= i_start + 4) {
             // Maximum characters exceeded.
             ctrl->SetFocus();
-            ctrl->SetSelection(i, i_end);
+            ctrl->SetSelection((int)i, (int)i_end);
             wxMessageBox(_("Too many digits in Unicode."), _("Validation conflict"), wxOK | wxICON_EXCLAMATION, parent);
             return false;
         } else if (_T('0') <= buf[i] && buf[i] <= _T('9')) {
@@ -103,7 +103,7 @@ bool wxZRColaUTF16CharValidator::Parse(const wxString &val_in, size_t i_start, s
         } else {
             // Invalid character found.
             ctrl->SetFocus();
-            ctrl->SetSelection(i, i + 1);
+            ctrl->SetSelection((long)i, (long)(i + 1));
             wxMessageBox(wxString::Format(_("Invalid character in Unicode found: %c"), buf[i]), _("Validation conflict"), wxOK | wxICON_EXCLAMATION, parent);
             return false;
         }
@@ -202,6 +202,7 @@ wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) :
     wxZRColaCharSelectBase(parent)
 {
     // Set tag lookup locale.
+    #pragma warning(suppress: 26812) // wxLanguage is unscoped
     wxLanguage language = dynamic_cast<ZRColaApp*>(wxTheApp)->m_lang_ui;
          if (wxLANGUAGE_DEFAULT   == language ||
              wxLANGUAGE_ENGLISH   <= language && language <= wxLANGUAGE_ENGLISH_ZIMBABWE) m_locale = MAKELCID(MAKELANGID(LANG_ENGLISH  , SUBLANG_DEFAULT), SORT_DEFAULT);
@@ -219,7 +220,7 @@ wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) :
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     for (size_t i = 0, n = app->m_cc_db.idxRank.size(); i < n; i++) {
         const auto &cc = app->m_cc_db.idxRank[i];
-        int idx = m_categories->Insert(wxGetTranslation(wxString(cc.name(), cc.name_len()), wxT("ZRCola-zrcdb")), i);
+        int idx = m_categories->Insert(wxGetTranslation(wxString(cc.name(), cc.name_len()), wxT("ZRCola-zrcdb")), (unsigned int)i);
         m_categories->Check(idx);
         m_ccOrder.insert(std::make_pair(cc.cat, idx));
     }
@@ -354,7 +355,7 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
             // Select categories.
             for (size_t i = 0, n = app->m_cc_db.idxRank.size(); i < n; i++) {
                 const auto &cc = app->m_cc_db.idxRank[i];
-                if (m_categories->IsChecked(i))
+                if (m_categories->IsChecked((unsigned int)i))
                     m_searchThread->m_cats.insert(cc.cat);
             }
 
@@ -401,7 +402,7 @@ void wxZRColaCharSelect::OnCategoriesAll(wxHyperlinkEvent& event)
 
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     for (size_t i = 0, n = app->m_cc_db.idxRank.size(); i < n; i++)
-        m_categories->Check(i, true);
+        m_categories->Check((unsigned int)i, true);
 
     m_searchChanged = true;
 }
@@ -413,7 +414,7 @@ void wxZRColaCharSelect::OnCategoriesNone(wxHyperlinkEvent& event)
 
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     for (size_t i = 0, n = app->m_cc_db.idxRank.size(); i < n; i++)
-        m_categories->Check(i, false);
+        m_categories->Check((unsigned int)i, false);
 
     m_searchChanged = true;
 }
@@ -425,7 +426,7 @@ void wxZRColaCharSelect::OnCategoriesInvert(wxHyperlinkEvent& event)
 
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     for (size_t i = 0, n = app->m_cc_db.idxRank.size(); i < n; i++)
-        m_categories->Check(i, !m_categories->IsChecked(i));
+        m_categories->Check((unsigned int)i, !m_categories->IsChecked((unsigned int)i));
 
     m_searchChanged = true;
 }
@@ -835,7 +836,7 @@ void wxPersistentZRColaCharSelect::Save() const
         const auto &cc = app->m_cc_db.idxRank[i];
         wxString name(wxT("category"));
         name.Append(cc.cat.data, _countof(cc.cat.data));
-        SaveValue(name, wnd->m_categories->IsChecked(i));
+        SaveValue(name, wnd->m_categories->IsChecked((unsigned int)i));
     }
 
     SaveValue(wxT("searchPanel"), wnd->m_search_panel->IsShown());
@@ -872,7 +873,7 @@ bool wxPersistentZRColaCharSelect::Restore()
         name.Append(cc.cat.data, _countof(cc.cat.data));
         bool val;
         if (RestoreValue(name, &val))
-            wnd->m_categories->Check(i, val);
+            wnd->m_categories->Check((unsigned int)i, val);
     }
 
     bool search_panel;

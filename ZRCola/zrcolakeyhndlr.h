@@ -27,7 +27,11 @@ class wxZRColaKeyHandler;
 
 #include <zrcolaui/keyboard.h>
 
+#include <wxex/common.h>
+#pragma warning(push)
+#pragma warning(disable: WXWIDGETS_CODE_ANALYSIS_WARNINGS)
 #include <wx/event.h>
+#pragma warning(pop)
 #include <vector>
 
 

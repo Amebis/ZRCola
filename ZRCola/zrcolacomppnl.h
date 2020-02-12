@@ -25,10 +25,17 @@ class wxZRColaComposerPanel;
 
 #pragma once
 
+#include <wxex/common.h>
+#pragma warning(push)
+#pragma warning(disable: WXWIDGETS_CODE_ANALYSIS_WARNINGS)
 #include "zrcolagui.h"
+#pragma warning(pop)
 #include "zrcolakeyhndlr.h"
+#pragma warning(push)
+#pragma warning(disable: WXWIDGETS_CODE_ANALYSIS_WARNINGS)
 #include <wx/persist/window.h>
 #include <wx/timer.h>
+#pragma warning(pop)
 #include <utility>
 #include <vector>
 

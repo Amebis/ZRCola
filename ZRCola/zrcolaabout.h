@@ -25,7 +25,11 @@ class wxZRColaAbout;
 
 #pragma once
 
+#include <wxex/common.h>
+#pragma warning(push)
+#pragma warning(disable: WXWIDGETS_CODE_ANALYSIS_WARNINGS)
 #include "zrcolagui.h"
+#pragma warning(pop)
 
 
 ///

@@ -51,7 +51,7 @@ void ZRCola::DBSource::character_bank::build_related()
         }
     }
 
-    delete workers; // This line of code sounds horrible, I know.
+    delete [] workers; // This line of code sounds horrible, I know.
 }
 
 
@@ -134,7 +134,7 @@ unsigned int __stdcall ZRCola::DBSource::character_bank::build_related_worker::p
 // ZRCola::DBSource::character_desc_idx
 //////////////////////////////////////////////////////////////////////////
 
-void ZRCola::DBSource::character_desc_idx::parse_keywords(const wchar_t *str, set<wstring> &terms)
+void ZRCola::DBSource::character_desc_idx::parse_keywords(_In_ const wchar_t *str, _Inout_ set<wstring> &terms)
 {
     wxASSERT_MSG(str, wxT("string is NULL"));
 
@@ -231,7 +231,8 @@ void ZRCola::DBSource::character_desc_idx::save(ZRCola::textindex<wchar_t, wchar
 // ZRCola::DBSource
 //////////////////////////////////////////////////////////////////////////
 
-ZRCola::DBSource::DBSource()
+ZRCola::DBSource::DBSource() :
+    m_locale(nullptr)
 {
     // Initialize ignore list.
     m_terms_ignore.insert(L"letter");
@@ -277,7 +278,10 @@ bool ZRCola::DBSource::Open(LPCTSTR filename)
         cn += L"Dbq=";
         cn += filename;
         cn += L";Uid=;Pwd=;";
+#pragma warning(push)
+#pragma warning(disable: 6387) // Connection15::Open() declaration is wrong: it defaults username and password parameters to NULL, but annotates them as required non-NULL.
         hr = m_db->Open(bstr(cn.c_str()));
+#pragma warning(pop)
         if (SUCCEEDED(hr)) {
             // Database open and ready.
             m_filename = filename;
@@ -1009,18 +1013,18 @@ bool ZRCola::DBSource::GetKeySequence(const com_obj<ADORecordset>& rs, ZRCola::D
     if (keycode1) {
         // First key in the sequence is complete.
         keyseq::keycode kc1 = {
-            keyseq::keycode::translate_slen(keycode1),
+            keyseq::keycode::translate_slen(static_cast<wchar_t>(keycode1 & 0xffff)),
             (modifiers & 0x100) != 0,
             (modifiers & 0x200) != 0,
             (modifiers & 0x400) != 0 };
         ks.seq.push_back(kc1);
 
-        keyseq::keycode kc2 = { keyseq::keycode::translate_slen(keycode), shift };
+        keyseq::keycode kc2 = { keyseq::keycode::translate_slen(static_cast<wchar_t>(keycode & 0xffff)), shift };
         ks.seq.push_back(kc2);
     } else {
         // First key in the sequence is only modifier(s).
         keyseq::keycode kc1 = {
-            keyseq::keycode::translate_slen(keycode),
+            keyseq::keycode::translate_slen(static_cast<wchar_t>(keycode & 0xffff)),
             shift || (modifiers & 0x100) != 0,
                      (modifiers & 0x200) != 0,
                      (modifiers & 0x400) != 0 };

@@ -26,12 +26,19 @@ class wxPersistentZRColaCharSelect;
 
 #pragma once
 
+#include <wxex/common.h>
+#pragma warning(push)
+#pragma warning(disable: WXWIDGETS_CODE_ANALYSIS_WARNINGS)
 #include "zrcolagui.h"
+#pragma warning(pop)
 #include <zrcola/character.h>
 #include <wxex/persist/toplevel.h>
+#pragma warning(push)
+#pragma warning(disable: WXWIDGETS_CODE_ANALYSIS_WARNINGS)
 #include <wx/validate.h>
 #include <wx/event.h>
 #include <wx/thread.h>
+#pragma warning(pop)
 #include <list>
 #include <map>
 #include <string>

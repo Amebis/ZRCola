@@ -462,7 +462,7 @@ namespace ZRCola {
         /// - \c true if found
         /// - \c false otherwise
         ///
-        bool find(_In_count_(key_len) const T_key *key, _In_ size_t key_len, _Out_ const T_val **val, _Out_ size_t *val_len) const
+        _Success_(return) bool find(_In_count_(key_len) const T_key *key, _In_ size_t key_len, _Out_ const T_val **val, _Out_ size_t *val_len) const
         {
             for (size_type start = 0, end = size(); start < end; ) {
                 size_type m = (start + end) / 2;
@@ -510,7 +510,7 @@ namespace ZRCola {
         size_t src;     ///< Character index in source string
         size_t dst;     ///< Character index in destination string
 
-        inline mapping() {};
+        inline mapping() : src(0), dst(0) {};
         inline mapping(_In_ size_t s, _In_ size_t d) : src(s), dst(d) {}
 
         ///
@@ -588,7 +588,7 @@ namespace ZRCola {
     /// \param[in] count  Number of characters in string \p str
     /// \param[in] sep    Separator
     ///
-    inline std::string GetUnicodeDumpA(_In_ const wchar_t *str, _In_ size_t count, _In_opt_z_ const char *sep = "+")
+    inline std::string GetUnicodeDumpA(_In_ const wchar_t *str, _In_ size_t count, _In_z_ const char *sep = "+")
     {
         std::string out;
         size_t dump_len_max = strlen(sep) + 4 + 1;
@@ -611,7 +611,7 @@ namespace ZRCola {
     /// \param[in] count  Number of characters in string \p str
     /// \param[in] sep    Separator
     ///
-    inline std::wstring GetUnicodeDumpW(_In_ const wchar_t *str, _In_ size_t count, _In_opt_z_ const wchar_t *sep = L"+")
+    inline std::wstring GetUnicodeDumpW(_In_ const wchar_t *str, _In_ size_t count, _In_z_ const wchar_t *sep = L"+")
     {
         std::wstring out;
         size_t dump_len_max = wcslen(sep) + 4 + 1;
@@ -661,7 +661,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::i
 
     // Write index data.
     if (stream.fail()) return stream;
-    stream.write((const char*)idx.data(), sizeof(T_idx)*count);
+    stream.write((const char*)idx.data(), sizeof(T_idx)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -682,12 +682,15 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::index<
 
     // Read index count.
     stream.read((char*)&count, sizeof(count));
-    if (!stream.good()) return stream;
+    if (!stream.good()) {
+        idx.clear();
+        return stream;
+    }
 
     if (count) {
         // Read index data.
         idx.resize(count);
-        stream.read((char*)idx.data(), sizeof(T_idx)*count);
+        stream.read((char*)idx.data(), sizeof(T_idx)*static_cast<std::streamsize>(count));
     } else
         idx.clear();
 
@@ -723,7 +726,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
 
     // Write index data.
     if (stream.fail()) return stream;
-    stream.write((const char*)idx.data(), sizeof(ZRCola::textindex<T_key, T_val, T_idx>::value_type)*count);
+    stream.write((const char*)idx.data(), sizeof(ZRCola::textindex<T_key, T_val, T_idx>::value_type)*static_cast<std::streamsize>(count));
 
     // Write key count.
     auto key_count = idx.keys.size();
@@ -740,7 +743,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
 
     // Write key data.
     if (stream.fail()) return stream;
-    stream.write((const char*)idx.keys.data(), sizeof(std::vector<T_key>::value_type)*count);
+    stream.write((const char*)idx.keys.data(), sizeof(std::vector<T_key>::value_type)*static_cast<std::streamsize>(count));
 
     // Write value count.
     auto value_count = idx.values.size();
@@ -757,7 +760,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
 
     // Write value data.
     if (stream.fail()) return stream;
-    stream.write((const char*)idx.values.data(), sizeof(std::vector<T_val>::value_type)*count);
+    stream.write((const char*)idx.values.data(), sizeof(std::vector<T_val>::value_type)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -778,12 +781,15 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::textin
 
     // Read text index count.
     stream.read((char*)&count, sizeof(count));
-    if (!stream.good()) return stream;
+    if (!stream.good()) {
+        idx.clear();
+        return stream;
+    }
 
     if (count) {
         // Read text index.
         idx.resize(count);
-        stream.read((char*)idx.data(), sizeof(ZRCola::textindex<T_key, T_val, T_idx>::value_type)*count);
+        stream.read((char*)idx.data(), sizeof(ZRCola::textindex<T_key, T_val, T_idx>::value_type)*static_cast<std::streamsize>(count));
         if (!stream.good()) return stream;
     } else
         idx.clear();
@@ -795,7 +801,7 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::textin
     if (count) {
         // Read keys.
         idx.keys.resize(count);
-        stream.read((char*)idx.keys.data(), sizeof(std::vector<T_key>::value_type)*count);
+        stream.read((char*)idx.keys.data(), sizeof(std::vector<T_key>::value_type)*static_cast<std::streamsize>(count));
         if (!stream.good()) return stream;
     } else
         idx.keys.clear();
@@ -807,7 +813,7 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::textin
     if (count) {
         // Read values.
         idx.values.resize(count);
-        stream.read((char*)idx.values.data(), sizeof(std::vector<T_val>::value_type)*count);
+        stream.read((char*)idx.values.data(), sizeof(std::vector<T_val>::value_type)*static_cast<std::streamsize>(count));
     } else
         idx.values.clear();
 

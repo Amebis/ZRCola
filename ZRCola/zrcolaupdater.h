@@ -25,11 +25,16 @@ class wxZRColaUpdater;
 
 #pragma once
 
+#include <wxex/common.h>
+#pragma warning(push)
+#pragma warning(disable: WXWIDGETS_CODE_ANALYSIS_WARNINGS)
 #include "zrcolagui.h"
-
+#pragma warning(pop)
 #include <Updater/chkthread.h>
-
+#pragma warning(push)
+#pragma warning(disable: WXWIDGETS_CODE_ANALYSIS_WARNINGS)
 #include <wx/log.h>
+#pragma warning(pop)
 
 
 ///

@@ -23,13 +23,16 @@
 #include "dbsource.h"
 #include "parse.h"
 
+#include <wxex/common.h>
+#include <wxex/comutils.h>
+
+#pragma warning(push)
+#pragma warning(disable: WXWIDGETS_CODE_ANALYSIS_WARNINGS)
 #include <wx/app.h>
 #include <wx/cmdline.h>
 #include <wx/config.h>
 #include <wx/intl.h>
-
-#include <wxex/common.h>
-#include <wxex/comutils.h>
+#pragma warning(pop)
 
 #include <stdex/idrec.h>
 

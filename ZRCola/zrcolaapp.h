@@ -27,9 +27,13 @@ class ZRColaApp;
 
 #include "zrcolafrm.h"
 #include <WinStd/Win.h>
+#include <wxex/common.h>
+#pragma warning(push)
+#pragma warning(disable: WXWIDGETS_CODE_ANALYSIS_WARNINGS)
 #include <wx/app.h>
 #include <wx/config.h>
 #include <wx/intl.h>
+#pragma warning(pop)
 #include <zrcola/character.h>
 #include <zrcola/language.h>
 #include <zrcola/translate.h>

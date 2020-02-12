@@ -73,7 +73,7 @@ namespace ZRCola {
             {
                 this->tag    = tag;
                 this->chr_to = static_cast<unsigned __int16>(chr_len);
-                if (chr_len) memcpy(this->data, chr, sizeof(wchar_t)*chr_len);
+                if (chr && chr_len) memcpy(this->data, chr, sizeof(wchar_t)*chr_len);
             }
 
             inline const wchar_t*         chr    () const { return data;          };
@@ -271,7 +271,7 @@ namespace ZRCola {
                 this->tag    = tag;
                 this->locale = locale;
                 this->name_to = static_cast<unsigned __int16>(name_len);
-                if (name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
+                if (name && name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
             }
 
             inline const wchar_t*         name    () const { return data; };
@@ -481,7 +481,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::c
 
     // Write data.
     if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
+    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -513,7 +513,7 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::chrtag
     if (count) {
         // Read data.
         db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*count);
+        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
     } else
         db.data.clear();
 
@@ -554,7 +554,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
 
     // Write data.
     if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
+    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -586,7 +586,7 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::tagnam
     if (count) {
         // Read data.
         db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*count);
+        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
     } else
         db.data.clear();
 

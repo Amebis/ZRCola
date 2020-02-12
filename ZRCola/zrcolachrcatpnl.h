@@ -25,9 +25,16 @@ class wxZRColaCharacterCatalogPanel;
 
 #pragma once
 
+#include <wxex/common.h>
+#pragma warning(push)
+#pragma warning(disable: WXWIDGETS_CODE_ANALYSIS_WARNINGS)
 #include "zrcolagui.h"
+#pragma warning(pop)
 #include <zrcolaui/chargroup.h>
+#pragma warning(push)
+#pragma warning(disable: WXWIDGETS_CODE_ANALYSIS_WARNINGS)
 #include <wx/persist/window.h>
+#pragma warning(pop)
 
 
 ///

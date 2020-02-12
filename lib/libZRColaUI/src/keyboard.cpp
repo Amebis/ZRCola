@@ -34,10 +34,10 @@ bool ZRCola::keyseq_db::GetSequenceAsText(_In_count_(seq_len) const keyseq::key_
 #if defined(__WXMSW__)
         // Translate from U.S. Keyboard to scan code.
         static const HKL s_hkl = ::LoadKeyboardLayout(_T("00000409"), 0);
-        k = ::MapVirtualKeyEx(k, MAPVK_VK_TO_VSC, s_hkl);
+        k = static_cast<wchar_t>(::MapVirtualKeyEx(k, MAPVK_VK_TO_VSC, s_hkl) & 0xffff);
 
         // Translate from scan code to local keyboard.
-        k = ::MapVirtualKey(k, MAPVK_VSC_TO_VK);
+        k = static_cast<wchar_t>(::MapVirtualKey(k, MAPVK_VSC_TO_VK) & 0xffff);
 #endif
         switch (k) {
             case 0            : return false;
@@ -88,7 +88,7 @@ bool ZRCola::keyseq_db::GetSequenceAsText(_In_count_(seq_len) const keyseq::key_
 
             default:
 #if defined(__WXMSW__)
-                k = ::MapVirtualKey(k, MAPVK_VK_TO_CHAR);
+                k = static_cast<wchar_t>(::MapVirtualKey(k, MAPVK_VK_TO_CHAR) & 0xffff);
 #endif
                 str += k;
         }

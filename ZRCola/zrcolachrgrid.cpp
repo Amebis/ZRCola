@@ -156,13 +156,13 @@ void wxZRColaCharGrid::OnSize(wxSizeEvent& event)
         row_height = FromDIP(wxZRColaCharacterGridRowHeight),
         width      = size.GetWidth() - m_rowLabelWidth - m_extraWidth,
         cols       = std::max<int>(width / col_width, 1),
-        rows       = std::max<int>((char_count + cols - 1) / cols, 1);
+        rows       = std::max<int>((int)((char_count + cols - 1) / cols), 1);
 
     if (m_colLabelHeight + rows*row_height + m_extraHeight > size.GetHeight()) {
         // Vertical scrollbar will be shown. Adjust the width and recalculate layout to avoid horizontal scrollbar.
         width = std::max<int>(width - wxSystemSettings::GetMetric(wxSYS_VSCROLL_X, this), 0);
         cols  = std::max<int>(width / col_width, 1);
-        rows  = std::max<int>((char_count + cols - 1) / cols, 1);
+        rows  = std::max<int>((int)((char_count + cols - 1) / cols), 1);
     }
 
     BeginBatch();
@@ -242,7 +242,7 @@ void wxZRColaCharGrid::OnMotion(wxMouseEvent& event)
     if (col == wxNOT_FOUND || row == wxNOT_FOUND )
         return;
 
-    size_t toolTipIdx = row*m_numCols + col;
+    size_t toolTipIdx = (size_t)row*m_numCols + col;
     if (toolTipIdx >= m_chars.GetCount()) {
         // Index out of range.
         m_toolTipIdx = (size_t)-1;
@@ -254,7 +254,7 @@ void wxZRColaCharGrid::OnMotion(wxMouseEvent& event)
         wxWindow *gridWnd = GetGridWindow();
         if (gridWnd->GetToolTip()) {
             // The tooltip is already shown. Update it immediately.
-            gridWnd->SetToolTip(GetToolTipText(m_toolTipIdx));
+            gridWnd->SetToolTip(GetToolTipText((int)m_toolTipIdx));
         } else {
             // This must be our initial entry. Schedule tooltip display after 1s.
             m_timerToolTip.Start(1000, true);
@@ -270,5 +270,5 @@ void wxZRColaCharGrid::OnTooltipTimer(wxTimerEvent& event)
     if (m_toolTipIdx >= m_chars.GetCount())
         return;
 
-    GetGridWindow()->SetToolTip(GetToolTipText(m_toolTipIdx));
+    GetGridWindow()->SetToolTip(GetToolTipText((int)m_toolTipIdx));
 }

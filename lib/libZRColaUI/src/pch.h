@@ -23,6 +23,10 @@
 #include "../include/zrcolaui/chargroup.h"
 #include "../include/zrcolaui/keyboard.h"
 
+#include <wxex/common.h>
+#pragma warning(push)
+#pragma warning(disable: WXWIDGETS_CODE_ANALYSIS_WARNINGS)
 #include <wx/translation.h>
+#pragma warning(pop)
 
 #include <assert.h>

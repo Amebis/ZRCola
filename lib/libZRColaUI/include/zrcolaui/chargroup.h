@@ -86,9 +86,9 @@ namespace ZRCola {
                 this->grp  = grp;
                 this->rank = rank;
                 this->name_to = static_cast<unsigned __int16>(name_len);
-                if (name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
+                if (name && name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
                 this->chrlst_to = static_cast<unsigned __int16>(this->name_to + chrlst_len);
-                if (chrlst_len) {
+                if (chrlst && chrshow && chrlst_len) {
                     memcpy(this->data + this->name_to, chrlst, sizeof(wchar_t)*chrlst_len);
                     memcpy(this->data + this->chrlst_to, chrshow, (chrlst_len + sizeof(*data)*8 - 1)/8);
                 }
@@ -220,7 +220,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::c
 
     // Write data.
     if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*count);
+    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -248,7 +248,7 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::chrgrp
     if (count) {
         // Read data.
         db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*count);
+        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
     } else
         db.data.clear();
 

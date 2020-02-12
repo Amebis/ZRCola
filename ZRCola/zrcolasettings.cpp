@@ -36,7 +36,7 @@ wxZRColaSettings::wxZRColaSettings(wxWindow* parent) :
         wxString
             label(lang.name(), lang.name_len()),
             label_tran(wxGetTranslation(label, wxT("ZRCola-zrcdb")));
-        m_languages->Insert(label_tran, i);
+        m_languages->Insert(label_tran, (unsigned int)i);
     }
 }
 
@@ -59,7 +59,7 @@ void wxZRColaSettings::OnInitDialog(wxInitDialogEvent& event)
 
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     ZRCola::language_db::indexLang::size_type start;
-    m_languages->Select(app->m_lang_db.idxLang.find(ZRCola::language_db::language(m_lang), start) ? start : -1);
+    m_languages->Select(app->m_lang_db.idxLang.find(ZRCola::language_db::language(m_lang), start) ? (int)start : -1);
 }
 
 

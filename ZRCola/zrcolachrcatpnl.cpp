@@ -29,7 +29,9 @@ BEGIN_EVENT_TABLE(wxZRColaCharacterCatalogPanel, wxZRColaCharacterCatalogPanelBa
 END_EVENT_TABLE()
 
 
-wxZRColaCharacterCatalogPanel::wxZRColaCharacterCatalogPanel(wxWindow* parent) : wxZRColaCharacterCatalogPanelBase(parent)
+wxZRColaCharacterCatalogPanel::wxZRColaCharacterCatalogPanel(wxWindow* parent) :
+    m_cg_id(0),
+    wxZRColaCharacterCatalogPanelBase(parent)
 {
     std::fstream dat((LPCTSTR)dynamic_cast<ZRColaApp*>(wxTheApp)->GetDatabaseFilePath(), std::ios_base::in | std::ios_base::binary);
     if (dat.good()) {
@@ -60,7 +62,7 @@ wxZRColaCharacterCatalogPanel::wxZRColaCharacterCatalogPanel(wxWindow* parent) :
             wxString
                 label(cg.name(), cg.name_len()),
                 label_tran2(wxGetTranslation(label, wxT("ZRCola-zrcdb")));
-            m_choice->Insert(label_tran2, i);
+            m_choice->Insert(label_tran2, (unsigned int)i);
         }
         m_cg_id = m_cg_db.idxRank[0].grp;
         m_choice->Select(0);
@@ -216,7 +218,7 @@ bool wxPersistentZRColaCharacterCatalogPanel::Restore()
             if (cg.grp == cg_id) {
                 if (wnd->m_cg_id != cg.grp) {
                     wnd->m_cg_id = cg.grp;
-                    wnd->m_choice->Select(i);
+                    wnd->m_choice->Select((int)i);
                     update = true;
                 }
 

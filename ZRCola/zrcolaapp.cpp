@@ -27,11 +27,13 @@
 // ZRColaApp
 //////////////////////////////////////////////////////////////////////////
 
+#pragma warning(suppress: 28251) // wxWidgets implement WinMain without code analysis annotations.
 wxIMPLEMENT_APP(ZRColaApp);
 
 
 ZRColaApp::ZRColaApp() :
     m_mainWnd(NULL),
+    #pragma warning(suppress: 26812) // wxLanguage is unscoped
     m_lang_ui(wxLANGUAGE_DEFAULT),
     wxApp()
 {

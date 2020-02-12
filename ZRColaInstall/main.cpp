@@ -58,7 +58,7 @@ extern "C" void WinMainCRTStartup()
     LPTSTR pszTempFolder;
     DWORD dwLength;
     if ((dwLength = GetEnvironmentVariable(TEXT("TEMP"), NULL, 0)) != 0 &&
-        (pszTempFolder = (LPTSTR)LocalAlloc(LMEM_FIXED, (dwLength + 1)*sizeof(TCHAR))) != NULL) // +1 is for trailing backslash when missing!
+        (pszTempFolder = (LPTSTR)LocalAlloc(LMEM_FIXED, (dwLength + 2)*sizeof(TCHAR))) != NULL) // +1 for trailing backslash when missing, +1 for zero terminator
     {
         dwLength = ::GetEnvironmentVariable(TEXT("TEMP"), pszTempFolder, dwLength);
 

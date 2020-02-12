@@ -25,7 +25,11 @@ class wxZRColaCharGrid;
 
 #pragma once
 
+#include <wxex/common.h>
+#pragma warning(push)
+#pragma warning(disable: WXWIDGETS_CODE_ANALYSIS_WARNINGS)
 #include <wx/grid.h>
+#pragma warning(pop)
 
 
 ///
@@ -96,7 +100,7 @@ public:
             if (i >= n)
                 return wxGridCellCoords(-1, -1);
             else if (m_chars[i] == c)
-                return wxGridCellCoords(i / m_numCols, i % m_numCols);
+                return wxGridCellCoords((int)(i / m_numCols), i % m_numCols);
         }
     }
 

@@ -47,7 +47,7 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
             if (!chr) {
                 int key = e.GetKeyCode();
                 if (WXK_NUMPAD0 <= key && key <= WXK_NUMPAD9)
-                    chr = '0' + (key - WXK_NUMPAD0);
+                    chr = '0' + (wxChar)(key - WXK_NUMPAD0);
             }
             wxFrame *pFrame = wxDynamicCast(dynamic_cast<ZRColaApp*>(wxTheApp)->m_mainWnd, wxFrame);
             if (('0' <= chr && chr <= '9' || 'A' <= chr && chr <= 'F') && m_insert_seq.size() < 4) {
@@ -81,14 +81,14 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
             {
                 // Parse key event and save it at the end of the key sequence.
                 ZRCola::keyseq_db::keyseq::key_t key;
-                key.key = e.GetRawKeyCode();
+                key.key = (wchar_t)e.GetRawKeyCode();
 #if defined(__WXMSW__)
                 // Translate from local keyboard to scan code.
-                key.key = ::MapVirtualKey(key.key, MAPVK_VK_TO_VSC);
+                key.key = static_cast<wchar_t>(::MapVirtualKey(key.key, MAPVK_VK_TO_VSC) & 0xffff);
 
                 // Translate from scan code to U.S. Keyboard.
                 static const HKL s_hkl = ::LoadKeyboardLayout(_T("00000409"), 0);
-                key.key = ::MapVirtualKeyEx(key.key, MAPVK_VSC_TO_VK, s_hkl);
+                key.key = static_cast<wchar_t>(::MapVirtualKeyEx(key.key, MAPVK_VSC_TO_VK, s_hkl) & 0xffff);
 #endif
                 key.modifiers =
                     (e.ShiftDown()   ? ZRCola::keyseq_db::keyseq::SHIFT : 0) |
@@ -147,7 +147,7 @@ bool wxZRColaKeyHandler::ProcessEvent(wxEvent& event)
             if (count) {
                 // Zero terminate sequence and parse the Unicode value.
                 m_insert_seq.push_back(0);
-                wchar_t chr = strtoul(m_insert_seq.data(), NULL, 16);
+                wchar_t chr = (wchar_t)strtoul(m_insert_seq.data(), NULL, 16);
 
                 if (chr) {
                     wxObject *obj = event.GetEventObject();
