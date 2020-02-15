@@ -217,12 +217,9 @@ UnregisterShortcuts ::
 # Building
 ######################################################################
 
-"$(PUBLISH_DIR_LEGACY)\catalog-0000.xml" : "$(OUTPUT_DIR)\catalog.xml"
-	copy /y $** $@ > NUL
-
+"$(PUBLISH_DIR_LEGACY)\catalog-0000.xml" \
 "$(PUBLISH_DIR)\catalog-0000.xml" : "$(OUTPUT_DIR)\catalog.xml"
 	copy /y $** $@ > NUL
-	attrib.exe +h $@
 
 "$(OUTPUT_DIR)\catalog.xml" : \
 	"$(OUTPUT_DIR)\ZRColaEn32.msi" \
