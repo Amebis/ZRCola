@@ -18,7 +18,7 @@
 #
 
 OUTPUT_DIR=output
-PUBLISH_DIR_LEGACY=\\amebis.doma\Splet\WWW\Apache\www.amebis.si-prenos\ZRCola
+PUBLISH_DIR_LEGACY=\\amebis.doma\Splet\WWW\Apache2\www.amebis.si-prenos\ZRCola
 PUBLISH_DIR=\\amebis.doma\Splet\WWW\IIS-ext\prenos.amebis.si\ZRCola
 
 !IF "$(PROCESSOR_ARCHITECTURE)" == "AMD64"
