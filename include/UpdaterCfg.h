@@ -14,4 +14,4 @@
 //
 // Update server catalog location
 //
-#define UPDATER_HTTP_PATH           "/ZRCola/catalog-0000.xml"
+#define UPDATER_HTTP_PATH           "/ZRCola/catalog-0001.xml"
