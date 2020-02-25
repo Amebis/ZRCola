@@ -18,7 +18,6 @@
 #
 
 OUTPUT_DIR=output
-PUBLISH_DIR_LEGACY=\\amebis.doma\Splet\WWW\Apache2\www.amebis.si-prenos\ZRCola
 PUBLISH_DIR=\\amebis.doma\Splet\WWW\IIS-ext\prenos.amebis.si\ZRCola
 
 !IF "$(PROCESSOR_ARCHITECTURE)" == "AMD64"
@@ -96,13 +95,11 @@ All :: \
 
 PublishPre :: \
 	"$(PUBLISH_PACKAGE_DIR)" \
-	"$(PUBLISH_DIR_LEGACY)" \
 	"$(PUBLISH_DIR)"
 
 Publish :: \
 	PublishPre \
-	"$(PUBLISH_DIR_LEGACY)\catalog-0000.xml" \
-	"$(PUBLISH_DIR)\catalog-0000.xml"
+	"$(PUBLISH_DIR)\catalog-0001.xml"
 
 
 ######################################################################
@@ -176,7 +173,6 @@ UnregisterShortcuts ::
 "$(OUTPUT_DIR)" \
 "$(OUTPUT_DIR)\Keys" \
 "$(OUTPUT_DIR)\locale" \
-"$(PUBLISH_DIR_LEGACY)" \
 "$(PUBLISH_DIR)" \
 "$(PUBLISH_PACKAGE_DIR)" \
 "$(PROGRAMDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" :
@@ -217,8 +213,7 @@ UnregisterShortcuts ::
 # Building
 ######################################################################
 
-"$(PUBLISH_DIR_LEGACY)\catalog-0000.xml" \
-"$(PUBLISH_DIR)\catalog-0000.xml" : "$(OUTPUT_DIR)\catalog.xml"
+"$(PUBLISH_DIR)\catalog-0001.xml" : "$(OUTPUT_DIR)\catalog.xml"
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\catalog.xml" : \
@@ -229,7 +224,7 @@ UnregisterShortcuts ::
 	"$(OUTPUT_DIR)\ZRColaSl32.msi" \
 	"$(OUTPUT_DIR)\ZRColaSl64.msi"
 	-if exist $@ del /f /q $@
-	copy /y "$(PUBLISH_DIR)\catalog-0000.xml" "$(@:"=).tmp" > NUL
+	copy /y "$(PUBLISH_DIR)\catalog-0001.xml" "$(@:"=).tmp" > NUL
 	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-x86   en_US "$(PUBLISH_PACKAGE_URL)/ZRColaEn32.msi" -f "$(OUTPUT_DIR)\ZRColaEn32.msi"
 	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 en_US "$(PUBLISH_PACKAGE_URL)/ZRColaEn64.msi" -f "$(OUTPUT_DIR)\ZRColaEn64.msi"
 	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-x86   ru_RU "$(PUBLISH_PACKAGE_URL)/ZRColaRu32.msi" -f "$(OUTPUT_DIR)\ZRColaRu32.msi"
