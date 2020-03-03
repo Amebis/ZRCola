@@ -40,7 +40,6 @@ MSIBUILD_IS_LOCALIZEABLE=1
 All :: "$(LANG).$(PLAT).$(CFG).AppSearch-1.idt"
 
 "$(LANG).$(PLAT).$(CFG).AppSearch-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Property	Signature_
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)
@@ -59,7 +58,6 @@ All :: \
 	"$(LANG).$(PLAT).$(CFG).Binary-1\tutorial3.bmp"
 
 "$(LANG).$(PLAT).$(CFG).Binary-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak" "$(LANG).$(PLAT).$(CFG).Binary-1"
-	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Name	Data
 s$(MSIBUILD_LENGTH_ID)	v0
@@ -85,7 +83,6 @@ bintutorial3.bmp	tutorial3.bmp
 All :: "$(LANG).$(PLAT).$(CFG).CompLocator-1.idt"
 
 "$(LANG).$(PLAT).$(CFG).CompLocator-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Signature_	ComponentId	Type
 s$(MSIBUILD_LENGTH_ID)	s38	I2
@@ -100,7 +97,6 @@ clZRCola.exe.$(PLAT)	{6DB513F9-BC90-4CE7-821$(MSIBUILD_PLAT_GUID)-AA50BF31F34E}	
 All :: "$(LANG).$(PLAT).$(CFG).Component-1.idt"
 
 "$(LANG).$(PLAT).$(CFG).Component-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Component	ComponentId	Directory_	Attributes	Condition	KeyPath
 s$(MSIBUILD_LENGTH_ID)	S38	s$(MSIBUILD_LENGTH_ID)	i2	S255	S$(MSIBUILD_LENGTH_ID)
@@ -118,7 +114,6 @@ compZRCola.mo.$(LANG)	{4F59C403-D6DE-4B3F-$(MSIBUILD_LANG_GUID)-1190DB941EB3}	ZR
 All :: "$(LANG).$(PLAT).$(CFG).Control-2.idt"
 
 "en_US.$(PLAT).$(CFG).Control-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Dialog_	Control	Type	X	Y	Width	Height	Attributes	Property	Text	Control_Next	Help
 s$(MSIBUILD_LENGTH_ID)	s50	s20	i2	i2	i2	i2	I4	S50	L0	S50	L$(MSIBUILD_LENGTH_HELP)
@@ -156,7 +151,6 @@ dlgTutorial3	ctlContinue	PushButton	325	265	60	20	3		&Continue	ctlBannerBitmap
 All :: "$(LANG).$(PLAT).$(CFG).ControlEvent-1.idt"
 
 "$(LANG).$(PLAT).$(CFG).ControlEvent-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Dialog_	Control_	Event	Argument	Condition	Ordering
 s$(MSIBUILD_LENGTH_ID)	s50	s50	s255	S255	I2
@@ -173,7 +167,6 @@ dlgTutorial3	ctlContinue	EndDialog	Return	1	1000
 All :: "$(LANG).$(PLAT).$(CFG).Dialog-1.idt"
 
 "$(LANG).$(PLAT).$(CFG).Dialog-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Dialog	HCentering	VCentering	Width	Height	Attributes	Title	Control_First	Control_Default	Control_Cancel
 s$(MSIBUILD_LENGTH_ID)	i2	i2	i2	i2	I4	L128	s50	S50	S50
@@ -190,7 +183,6 @@ dlgTutorial3	50	50	400	300	3	[Setup] [SimpleProductName] [DisplayVersion]	ctlTit
 All :: "$(LANG).$(PLAT).$(CFG).InstallUISequence-1.idt"
 
 "$(LANG).$(PLAT).$(CFG).InstallUISequence-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Action	Condition	Sequence
 s$(MSIBUILD_LENGTH_ID)	S255	I2
@@ -207,7 +199,6 @@ dlgTutorial3	NOT Installed AND &featZRCola>=3	1402
 All :: "$(LANG).$(PLAT).$(CFG).Feature-2.idt"
 
 "en_US.$(PLAT).$(CFG).Feature-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Feature	Feature_Parent	Title	Description	Display	Level	Directory_	Attributes
 s$(MSIBUILD_LENGTH_ID)	S$(MSIBUILD_LENGTH_ID)	L64	L255	I2	i2	S$(MSIBUILD_LENGTH_ID)	i2
@@ -230,7 +221,6 @@ featZRCola		ZRCola	Input system for linguistic use	1	1	ZRCOLADIR	8
 All :: "$(LANG).$(PLAT).$(CFG).FeatureComponents-1.idt"
 
 "$(LANG).$(PLAT).$(CFG).FeatureComponents-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Feature_	Component_
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)
@@ -258,7 +248,6 @@ featZRCola	compwxstd.mo.$(LANG)
 All :: "$(LANG).$(PLAT).$(CFG).File-1.idt"
 
 "$(LANG).$(PLAT).$(CFG).File-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 File	Component_	FileName	FileSize	Version	Language	Attributes	Sequence
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l255	i4	S$(MSIBUILD_LENGTH_ID)	S20	I2	i2
@@ -278,7 +267,6 @@ All :: \
 	"$(LANG).$(PLAT).$(CFG).Icon-1\ZRCola.ico"
 
 "$(LANG).$(PLAT).$(CFG).Icon-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak" "$(LANG).$(PLAT).$(CFG).Icon-1"
-	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Name	Data
 s$(MSIBUILD_LENGTH_ID)	v0
@@ -296,7 +284,6 @@ iconZRCola.ico	ZRCola.ico
 All :: "$(LANG).$(PLAT).$(CFG).RemoveFile-1.idt"
 
 "$(LANG).$(PLAT).$(CFG).RemoveFile-1.idt" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 FileKey	Component_	FileName	DirProperty	InstallMode
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	L255	s$(MSIBUILD_LENGTH_ID)	i2
@@ -311,7 +298,6 @@ rmfiZRCola	compZRCola.exe.$(PLAT)		ZRColaShortcutDir	2
 All :: "$(LANG).$(PLAT).$(CFG).Shortcut-2.idt"
 
 "en_US.$(PLAT).$(CFG).Shortcut-2.idtx" : "Makefile" "..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Shortcut	Directory_	Name	Component_	Target	Arguments	Description	Hotkey	Icon_	IconIndex	ShowCmd	WkDir
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l128	s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	S255	L255	I2	S$(MSIBUILD_LENGTH_ID)	I2	I2	S$(MSIBUILD_LENGTH_ID)

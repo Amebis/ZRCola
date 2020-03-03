@@ -40,8 +40,13 @@ MSBUILDFLAGS=/v:m /m
 
 All ::
 
-Clean ::
-	cd "MSI\MSIBuild\Version"
+Clean :: \
+	CleanSetup
+
+CleanSetup ::
+	cd "MSI\ZRCola"
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean
+	cd "$(MAKEDIR)\MSI\MSIBuild\Version"
 	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Clean
 	cd "$(MAKEDIR)"
 	-if exist "$(OUTPUT_DIR)\catalog.xml" del /f /q "$(OUTPUT_DIR)\catalog.xml"
@@ -60,13 +65,11 @@ Register \
 Unregister \
 Localization \
 PublishPre \
-Publish :: "MSI\MSIBuild\Version\Version.mak"
-	$(MAKE) /f "Makefile" /$(MAKEFLAGS) HAS_VERSION=1 $@
-
-"MSI\MSIBuild\Version\Version.mak" ::
+Publish ::
 	cd "MSI\MSIBuild\Version"
 	$(MAKE) /f "Makefile" /$(MAKEFLAGS) Version
 	cd "$(MAKEDIR)"
+	$(MAKE) /f "Makefile" /$(MAKEFLAGS) HAS_VERSION=1 $@
 
 !ELSE
 
@@ -90,6 +93,21 @@ All :: \
 
 
 ######################################################################
+# Setup
+######################################################################
+
+Setup :: \
+	Localization \
+	SetupCompile \
+	SetupPackage \
+
+SetupDebug :: \
+	Localization \
+	SetupDebugCompile \
+	SetupDebugPackage \
+
+
+######################################################################
 # Publishing
 ######################################################################
 
@@ -107,6 +125,8 @@ Publish :: \
 ######################################################################
 
 Register :: \
+	Localization \
+	RegisterCompile \
 	RegisterSettings \
 	InstallFonts \
 	RegisterShortcuts
@@ -115,6 +135,9 @@ Unregister :: \
 	UnregisterShortcuts \
 	UninstallFonts \
 	UnregisterSettings
+
+RegisterCompile ::
+	msbuild.exe $(MSBUILDFLAGS) "ZRCola.sln" /t:Build /p:Platform=$(PLAT) /p:Configuration=Debug
 
 RegisterSettings ::
 	reg.exe add "HKLM\Software\Amebis\ZRCola" /v "Language"                   /t REG_SZ /d "en_US"                           $(REG_FLAGS) > NUL
@@ -223,7 +246,6 @@ UnregisterShortcuts ::
 	"$(OUTPUT_DIR)\ZRColaRu64.msi" \
 	"$(OUTPUT_DIR)\ZRColaSl32.msi" \
 	"$(OUTPUT_DIR)\ZRColaSl64.msi"
-	-if exist $@ del /f /q $@
 	copy /y "$(PUBLISH_DIR)\catalog-0001.xml" "$(@:"=).tmp" > NUL
 	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-x86   en_US "$(PUBLISH_PACKAGE_URL)/ZRColaEn32.msi" -f "$(OUTPUT_DIR)\ZRColaEn32.msi"
 	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 en_US "$(PUBLISH_PACKAGE_URL)/ZRColaEn64.msi" -f "$(OUTPUT_DIR)\ZRColaEn64.msi"

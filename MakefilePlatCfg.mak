@@ -17,8 +17,6 @@
 #    along with ZRCola. If not, see <http://www.gnu.org/licenses/>.
 #
 
-All ::
-
 Clean ::
 	msbuild.exe $(MSBUILDFLAGS) "ZRCola.sln"          /t:Clean /p:Configuration=$(CFG) /p:Platform=$(PLAT)
 !IF "$(PLAT)" == "Win32"
@@ -26,10 +24,10 @@ Clean ::
 !ENDIF
 	msbuild.exe $(MSBUILDFLAGS) "MSI\MSICA\MSICA.sln" /t:Clean /p:Configuration=$(CFG) /p:Platform=$(PLAT)
 	msbuild.exe $(MSBUILDFLAGS) "Updater\Updater.sln" /t:Clean /p:Configuration=$(CFG) /p:Platform=$(PLAT)
-	-if exist "$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).ddf" del /f /q "$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).ddf"
-	-if exist "$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).cab" del /f /q "$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).cab"
-	-if exist "$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).inf" del /f /q "$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).inf"
-	-if exist "$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).rpt" del /f /q "$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).rpt"
+	-if exist "$(OUTPUT_DIR)\$(PLAT).$(CFG).ddf" del /f /q "$(OUTPUT_DIR)\$(PLAT).$(CFG).ddf"
+	-if exist "$(OUTPUT_DIR)\$(PLAT).$(CFG).cab" del /f /q "$(OUTPUT_DIR)\$(PLAT).$(CFG).cab"
+	-if exist "$(OUTPUT_DIR)\$(PLAT).$(CFG).inf" del /f /q "$(OUTPUT_DIR)\$(PLAT).$(CFG).inf"
+	-if exist "$(OUTPUT_DIR)\$(PLAT).$(CFG).rpt" del /f /q "$(OUTPUT_DIR)\$(PLAT).$(CFG).rpt"
 
 
 !IFDEF HAS_VERSION
@@ -43,24 +41,18 @@ Clean ::
 # Building
 ######################################################################
 
-"$(OUTPUT_DIR)\$(PLAT).$(CFG)\ZRCola.exe" :: Localization
-
-"$(OUTPUT_DIR)\$(PLAT).$(CFG)\ZRCola.exe" ::
-	msbuild.exe $(MSBUILDFLAGS) "ZRCola.sln" /t:Build /p:Configuration=$(CFG) /p:Platform=$(PLAT)
-
-"$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).ddf" : \
-#	"$(OUTPUT_DIR)\ZRCola.de_DE.$(PLAT_SUFFIX)$(CFG_SUFFIX).2.msi" \
-	"$(OUTPUT_DIR)\ZRCola.en_US.$(PLAT_SUFFIX)$(CFG_SUFFIX).2.msi" \
-	"$(OUTPUT_DIR)\ZRCola.ru_RU.$(PLAT_SUFFIX)$(CFG_SUFFIX).2.msi" \
-	"$(OUTPUT_DIR)\ZRCola.sl_SI.$(PLAT_SUFFIX)$(CFG_SUFFIX).2.msi"
-	-if exist $@ del /f /q $@
+"$(OUTPUT_DIR)\$(PLAT).$(CFG).ddf" : \
+#	"$(OUTPUT_DIR)\de_DE.$(PLAT).$(CFG).2.msi" \
+	"$(OUTPUT_DIR)\en_US.$(PLAT).$(CFG).2.msi" \
+	"$(OUTPUT_DIR)\ru_RU.$(PLAT).$(CFG).2.msi" \
+	"$(OUTPUT_DIR)\sl_SI.$(PLAT).$(CFG).2.msi"
 	-if exist "$(@:"=).tmp" del /f /q "$(@:"=).tmp"
-	cscript.exe "MSI\MSIBuild\MSI.wsf" //Job:MakeDDF //Nologo "$(@:"=).tmp" $** /O:"$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX)" /C:LZX
+	cscript.exe "MSI\MSIBuild\MSI.wsf" //Job:MakeDDF //Nologo "$(@:"=).tmp" $** /O:"$(OUTPUT_DIR)\$(PLAT).$(CFG)" /C:LZX
 	move /y "$(@:"=).tmp" $@ > NUL
 
-"$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).cab" \
-"$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).inf" \
-"$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).rpt" : "$(OUTPUT_DIR)\ZRCola$(PLAT_SUFFIX)$(CFG_SUFFIX).ddf"
+"$(OUTPUT_DIR)\$(PLAT).$(CFG).cab" \
+"$(OUTPUT_DIR)\$(PLAT).$(CFG).inf" \
+"$(OUTPUT_DIR)\$(PLAT).$(CFG).rpt" : "$(OUTPUT_DIR)\$(PLAT).$(CFG).ddf"
 	makecab.exe /F $**
 
 !ENDIF

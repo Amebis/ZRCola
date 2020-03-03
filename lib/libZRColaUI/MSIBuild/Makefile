@@ -34,7 +34,6 @@
 All :: "$(LANG).$(PLAT).$(CFG).Component-1.idt"
 
 "$(LANG).$(PLAT).$(CFG).Component-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 Component	ComponentId	Directory_	Attributes	Condition	KeyPath
 s$(MSIBUILD_LENGTH_ID)	S38	s$(MSIBUILD_LENGTH_ID)	i2	S255	S$(MSIBUILD_LENGTH_ID)
@@ -51,7 +50,6 @@ complibZRColaUI.mo.$(LANG)	{1CEF160E-B56C-4636-$(MSIBUILD_LANG_GUID)-D6BAEB0A6EF
 All :: "$(LANG).$(PLAT).$(CFG).File-1.idt"
 
 "$(LANG).$(PLAT).$(CFG).File-1.idt" : "Makefile" "..\..\..\include\MSIBuildCfg.mak"
-	-if exist $@ del /f /q $@
 	move /y << $@ > NUL
 File	Component_	FileName	FileSize	Version	Language	Attributes	Sequence
 s$(MSIBUILD_LENGTH_ID)	s$(MSIBUILD_LENGTH_ID)	l255	i4	S$(MSIBUILD_LENGTH_ID)	S20	I2	i2
