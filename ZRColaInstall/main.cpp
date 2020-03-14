@@ -23,35 +23,47 @@
 ///
 /// Main function
 ///
-extern "C" void WinMainCRTStartup()
+int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
-    // Load "KERNEL32.DLL".
-    HMODULE hKernel32 = LoadLibrary(TEXT("KERNEL32.DLL"));
-    if (!hKernel32)
-        ExitProcess(1);
+    UNREFERENCED_PARAMETER(hInstance);
+    UNREFERENCED_PARAMETER(hPrevInstance);
+    UNREFERENCED_PARAMETER(lpCmdLine);
+    UNREFERENCED_PARAMETER(nCmdShow);
 
-    // Get IsWow64Process() address.
-    BOOL (WINAPI *_IsWow64Process)(__in HANDLE hProcess, __out PBOOL Wow64Process) = (BOOL(WINAPI*)(__in HANDLE, __out PBOOL))::GetProcAddress(hKernel32, "IsWow64Process");
+    TCHAR szArchProc[MAX_PATH];
+    if (!GetEnvironmentVariable(TEXT("PROCESSOR_ARCHITECTURE"), szArchProc, _countof(szArchProc)))
+        szArchProc[0] = 0;
+    szArchProc[_countof(szArchProc) - 1] = 0;
 
-    BOOL bIs64Bit;
-#ifndef _WIN64
-    // Determine if this is a 32-bit process under Windows-over-Windows64.
-    if (_IsWow64Process) {
-        // See what IsWow64Process() says.
-        if (!_IsWow64Process(::GetCurrentProcess(), &bIs64Bit)) {
-            // IsWow64Process() returned an error. Assume not 64-bit Windows.
-            bIs64Bit = FALSE;
-        }
-    } else {
-        // This platform does not have IsWow64Process(). Therefore, this is definitely not 64-bit Windows.
-        bIs64Bit = FALSE;
+    TCHAR szArchWin[MAX_PATH];
+    if (!GetEnvironmentVariable(TEXT("PROCESSOR_ARCHITEW6432"), szArchWin, _countof(szArchWin)))
+        szArchWin[0] = 0;
+    szArchWin[_countof(szArchWin) - 1] = 0;
+
+    // If PROCESSOR_ARCHITEW6432 is defined, this is a Windows-on-Windows
+    // guest of some kind. szArchWin is the host's architecture and szArchProc
+    // is the current process' architecture.
+
+    // If PROCESSOR_ARCHITEW6432 is not defined, then PROCESSOR_ARCHITECTURE
+    // is both the process and OS architecture.
+    if (szArchWin[0] == 0)
+        memcpy_s(szArchWin, sizeof(szArchWin), szArchProc, sizeof(szArchProc));
+
+    // If PROCESSOR_ARCHITECTURE is not defined, then either we're running on
+    // Windows 9x or something is messing with the environment. Make the
+    // Windows 9x assumption.
+    if (szArchProc[0] == 0) {
+        memcpy_s(szArchProc, sizeof(szArchProc), TEXT("x86"), sizeof(TEXT("x86")));
+        memcpy_s(szArchWin , sizeof(szArchWin ), TEXT("x86"), sizeof(TEXT("x86")));
     }
-#else
-    // This is a running 64-bit process. The Windows must be 64 bit then.
-    bIs64Bit = TRUE;
-#endif
 
-    FreeLibrary(hKernel32);
+    LPCTSTR pszPlatSuffix;
+    if (_tcsicmp(szArchWin, TEXT("amd64")) == 0)
+        pszPlatSuffix = TEXT("-amd64");
+    else if (_tcsicmp(szArchWin, TEXT("arm64")) == 0)
+        pszPlatSuffix = TEXT("-arm64");
+    else
+        pszPlatSuffix = TEXT("-x86");
 
     // Get temporary folder path.
     static const LPTSTR pszTempFolderDefault = TEXT("");
@@ -74,7 +86,7 @@ extern "C" void WinMainCRTStartup()
     LPTSTR pszParams;
     DWORD_PTR aArgs[] = {
         (DWORD_PTR)TEXT(ZRCOLA_INSTALL_LANG),
-        (DWORD_PTR)(bIs64Bit ? TEXT("64") : TEXT("32")),
+        (DWORD_PTR)pszPlatSuffix,
         (DWORD_PTR)pszTempFolder,
     };
     FormatMessage(

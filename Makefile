@@ -240,19 +240,25 @@ UnregisterShortcuts ::
 	copy /y $** $@ > NUL
 
 "$(OUTPUT_DIR)\catalog.xml" : \
-	"$(OUTPUT_DIR)\ZRColaEn32.msi" \
-	"$(OUTPUT_DIR)\ZRColaEn64.msi" \
-	"$(OUTPUT_DIR)\ZRColaRu32.msi" \
-	"$(OUTPUT_DIR)\ZRColaRu64.msi" \
-	"$(OUTPUT_DIR)\ZRColaSl32.msi" \
-	"$(OUTPUT_DIR)\ZRColaSl64.msi"
+	"$(OUTPUT_DIR)\ZRColaEn-x86.msi" \
+	"$(OUTPUT_DIR)\ZRColaEn-amd64.msi" \
+	"$(OUTPUT_DIR)\ZRColaEn-arm64.msi" \
+	"$(OUTPUT_DIR)\ZRColaRu-x86.msi" \
+	"$(OUTPUT_DIR)\ZRColaRu-amd64.msi" \
+	"$(OUTPUT_DIR)\ZRColaRu-arm64.msi" \
+	"$(OUTPUT_DIR)\ZRColaSl-x86.msi" \
+	"$(OUTPUT_DIR)\ZRColaSl-amd64.msi" \
+	"$(OUTPUT_DIR)\ZRColaSl-arm64.msi"
 	copy /y "$(PUBLISH_DIR)\catalog-0001.xml" "$(@:"=).tmp" > NUL
-	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-x86   en_US "$(PUBLISH_PACKAGE_URL)/ZRColaEn32.msi" -f "$(OUTPUT_DIR)\ZRColaEn32.msi"
-	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 en_US "$(PUBLISH_PACKAGE_URL)/ZRColaEn64.msi" -f "$(OUTPUT_DIR)\ZRColaEn64.msi"
-	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-x86   ru_RU "$(PUBLISH_PACKAGE_URL)/ZRColaRu32.msi" -f "$(OUTPUT_DIR)\ZRColaRu32.msi"
-	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 ru_RU "$(PUBLISH_PACKAGE_URL)/ZRColaRu64.msi" -f "$(OUTPUT_DIR)\ZRColaRu64.msi"
-	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-x86   sl_SI "$(PUBLISH_PACKAGE_URL)/ZRColaSl32.msi" -f "$(OUTPUT_DIR)\ZRColaSl32.msi"
-	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 sl_SI "$(PUBLISH_PACKAGE_URL)/ZRColaSl64.msi" -f "$(OUTPUT_DIR)\ZRColaSl64.msi"
+	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-x86   en_US "$(PUBLISH_PACKAGE_URL)/ZRColaEn-x86.msi"   -f "$(OUTPUT_DIR)\ZRColaEn-x86.msi"
+	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 en_US "$(PUBLISH_PACKAGE_URL)/ZRColaEn-amd64.msi" -f "$(OUTPUT_DIR)\ZRColaEn-amd64.msi"
+	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-arm64 en_US "$(PUBLISH_PACKAGE_URL)/ZRColaEn-arm64.msi" -f "$(OUTPUT_DIR)\ZRColaEn-arm64.msi"
+	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-x86   ru_RU "$(PUBLISH_PACKAGE_URL)/ZRColaRu-x86.msi"   -f "$(OUTPUT_DIR)\ZRColaRu-x86.msi"
+	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 ru_RU "$(PUBLISH_PACKAGE_URL)/ZRColaRu-amd64.msi" -f "$(OUTPUT_DIR)\ZRColaRu-amd64.msi"
+	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-arm64 ru_RU "$(PUBLISH_PACKAGE_URL)/ZRColaRu-arm64.msi" -f "$(OUTPUT_DIR)\ZRColaRu-arm64.msi"
+	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-x86   sl_SI "$(PUBLISH_PACKAGE_URL)/ZRColaSl-x86.msi"   -f "$(OUTPUT_DIR)\ZRColaSl-x86.msi"
+	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-amd64 sl_SI "$(PUBLISH_PACKAGE_URL)/ZRColaSl-amd64.msi" -f "$(OUTPUT_DIR)\ZRColaSl-amd64.msi"
+	"$(OUTPUT_DIR)\$(PLAT).Release\UpdPublish.exe" "$(@:"=).tmp" "$(@:"=).tmp" win-arm64 sl_SI "$(PUBLISH_PACKAGE_URL)/ZRColaSl-arm64.msi" -f "$(OUTPUT_DIR)\ZRColaSl-arm64.msi"
 	"$(OUTPUT_DIR)\$(PLAT).Release\UpdSignXML.exe" "$(@:"=).tmp" $@
 	-if exist "$(@:"=).tmp" del /f /q "$(@:"=).tmp"
 
@@ -263,11 +269,15 @@ UnregisterShortcuts ::
 ######################################################################
 
 PLAT=Win32
-PLAT_SUFFIX=32
+PLAT_SUFFIX=-x86
 !INCLUDE "MakefilePlat.mak"
 
 PLAT=x64
-PLAT_SUFFIX=64
+PLAT_SUFFIX=-amd64
+!INCLUDE "MakefilePlat.mak"
+
+PLAT=ARM64
+PLAT_SUFFIX=-arm64
 !INCLUDE "MakefilePlat.mak"
 
 
