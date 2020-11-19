@@ -81,7 +81,6 @@ Publish ::
 !INCLUDE "MSI\MSIBuild\Version\Version.mak"
 !INCLUDE "include\MSIBuildCfg.mak"
 
-PUBLISH_PACKAGE_DIR=$(PUBLISH_DIR)\$(MSIBUILD_VERSION_STR)
 PUBLISH_PACKAGE_URL=http://prenos.amebis.si/ZRCola/$(MSIBUILD_VERSION_STR)
 
 ######################################################################
@@ -111,12 +110,9 @@ SetupDebug :: \
 # Publishing
 ######################################################################
 
-PublishPre :: \
-	"$(PUBLISH_PACKAGE_DIR)" \
-	"$(PUBLISH_DIR)"
-
 Publish :: \
 	PublishPre \
+	"$(PUBLISH_DIR)" \
 	"$(PUBLISH_DIR)\catalog-0001.xml"
 
 
@@ -197,14 +193,16 @@ UnregisterShortcuts ::
 "$(OUTPUT_DIR)\Keys" \
 "$(OUTPUT_DIR)\locale" \
 "$(PUBLISH_DIR)" \
-"$(PUBLISH_PACKAGE_DIR)" \
+"$(PUBLISH_DIR)\_latest" \
+"$(PUBLISH_DIR)\$(MSIBUILD_VERSION_STR)" \
 "$(PROGRAMDATA)\Microsoft\Windows\Start Menu\Programs\ZRCola" :
 	if not exist $@ md $@
 
 "$(OUTPUT_DIR)\Keys" \
 "$(OUTPUT_DIR)\locale" : "$(OUTPUT_DIR)"
 
-"$(PUBLISH_PACKAGE_DIR)" : "$(PUBLISH_DIR)"
+"$(PUBLISH_DIR)\_latest" \
+"$(PUBLISH_DIR)\$(MSIBUILD_VERSION_STR)" : "$(PUBLISH_DIR)"
 
 
 ######################################################################
