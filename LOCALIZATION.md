@@ -1,4 +1,4 @@
-# Localization of ZRCola
+﻿# Localization of ZRCola
 
 In order to get ZRCola experience in your language the following resources should be translated:
 

@@ -1,4 +1,4 @@
-# ZRCola
+﻿# ZRCola
 
 A Microsoft Windows application for composing texts using a wide range of Slavic (and general) letters from or beyond Unicode.
 
