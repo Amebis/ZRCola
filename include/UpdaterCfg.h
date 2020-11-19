@@ -1,4 +1,4 @@
-#include "version.h"
+﻿#include "version.h"
 
 //
 // Update server(s)
