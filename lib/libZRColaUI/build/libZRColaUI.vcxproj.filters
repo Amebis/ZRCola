@@ -29,9 +29,6 @@
     <ClInclude Include="..\src\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\zrcolaui\common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\zrcolaui\keyboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>

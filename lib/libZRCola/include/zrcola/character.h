@@ -22,6 +22,7 @@
 #include "common.h"
 
 #include <stdex/idrec.h>
+#include <assert.h>
 #include <algorithm>
 #include <istream>
 #include <map>
@@ -48,7 +49,7 @@ namespace ZRCola {
     /// Character category ID type
     /// Two letter abbreviation, non-terminated
     ///
-    struct ZRCOLA_API chrcatid_t {
+    struct chrcatid_t {
         char data[2];
 
         inline chrcatid_t& operator=(const chrcatid_t &src)
@@ -176,7 +177,7 @@ namespace ZRCola {
     ///
     /// Character Database
     ///
-    class ZRCOLA_API character_db {
+    class character_db {
     public:
 #pragma pack(push)
 #pragma pack(2)
@@ -334,13 +335,13 @@ namespace ZRCola {
     };
 
 
-    typedef ZRCOLA_API stdex::idrec::record<character_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> character_rec;
+    typedef stdex::idrec::record<character_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> character_rec;
 
 
     ///
     /// Character category database
     ///
-    class ZRCOLA_API chrcat_db {
+    class chrcat_db {
     public:
 #pragma pack(push)
 #pragma pack(2)
@@ -502,7 +503,7 @@ namespace ZRCola {
     };
 
 
-    typedef ZRCOLA_API stdex::idrec::record<chrcat_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> chrcat_rec;
+    typedef stdex::idrec::record<chrcat_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> chrcat_rec;
 };
 
 

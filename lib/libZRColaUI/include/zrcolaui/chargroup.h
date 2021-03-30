@@ -19,7 +19,6 @@
 
 #pragma once
 
-#include "common.h"
 #include <zrcola/common.h>
 
 #include <stdex/idrec.h>
@@ -45,7 +44,7 @@ namespace ZRCola {
     ///
     /// Character group database
     ///
-    class ZRCOLAUI_API chrgrp_db {
+    class chrgrp_db {
     public:
 #pragma pack(push)
 #pragma pack(2)
@@ -184,7 +183,7 @@ namespace ZRCola {
     };
 
 
-    typedef ZRCOLAUI_API stdex::idrec::record<chrgrp_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> chrgrp_rec;
+    typedef stdex::idrec::record<chrgrp_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> chrgrp_rec;
 };
 
 

@@ -37,7 +37,7 @@ namespace ZRCola {
     ///
     /// Language Character Database
     ///
-    class ZRCOLA_API langchar_db {
+    class langchar_db {
     public:
 #pragma pack(push)
 #pragma pack(2)
@@ -195,13 +195,13 @@ namespace ZRCola {
     };
 
 
-    typedef ZRCOLA_API stdex::idrec::record<langchar_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> langchar_rec;
+    typedef stdex::idrec::record<langchar_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> langchar_rec;
 
 
     ///
     /// Language database
     ///
-    class ZRCOLA_API language_db {
+    class language_db {
     public:
 #pragma pack(push)
 #pragma pack(2)
@@ -298,7 +298,7 @@ namespace ZRCola {
     };
 
 
-    typedef ZRCOLA_API stdex::idrec::record<language_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> language_rec;
+    typedef stdex::idrec::record<language_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> language_rec;
 };
 
 

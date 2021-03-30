@@ -22,6 +22,7 @@
 #include "common.h"
 
 #include <stdex/idrec.h>
+#include <assert.h>
 #include <istream>
 #include <ostream>
 #include <vector>
@@ -39,7 +40,7 @@ namespace ZRCola {
     ///
     /// Character Tag Database
     ///
-    class ZRCOLA_API chrtag_db {
+    class chrtag_db {
     public:
 #pragma pack(push)
 #pragma pack(2)
@@ -227,13 +228,13 @@ namespace ZRCola {
     };
 
 
-    typedef ZRCOLA_API stdex::idrec::record<chrtag_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> chrtag_rec;
+    typedef stdex::idrec::record<chrtag_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> chrtag_rec;
 
 
     ///
     /// Tag name database
     ///
-    class ZRCOLA_API tagname_db {
+    class tagname_db {
     public:
 #pragma pack(push)
 #pragma pack(2)
@@ -440,7 +441,7 @@ namespace ZRCola {
     };
 
 
-    typedef ZRCOLA_API stdex::idrec::record<tagname_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> tagname_rec;
+    typedef stdex::idrec::record<tagname_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> tagname_rec;
 };
 
 

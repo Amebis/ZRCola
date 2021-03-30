@@ -29,11 +29,6 @@
 #endif
 
 
-///
-/// Public function calling convention
-///
-#define ZRCOLA_API
-#define ZRCOLA_NOVTABLE __declspec(novtable)
 #pragma warning(push)
 #pragma warning(disable: 4251)
 #pragma warning(disable: 4512)
@@ -75,7 +70,7 @@ namespace ZRCola {
     /// Language ID type
     /// Three letter abbreviation, zero terminated
     ///
-    struct ZRCOLA_API langid_t {
+    struct langid_t {
         char data[4];
 
         inline langid_t& operator=(const langid_t &src)
@@ -221,7 +216,7 @@ namespace ZRCola {
     /// \param[in]     lang_win  Windows language ID
     /// \param[in,out] lang      ZRCola language ID
     ///
-    void ZRCOLA_API LangConvert(_In_ LANGID lang_win, _Inout_ langid_t &lang);
+    void LangConvert(_In_ LANGID lang_win, _Inout_ langid_t &lang);
 #endif
 
 
@@ -505,7 +500,7 @@ namespace ZRCola {
     ///
     /// Source-destination index transformation mapping
     ///
-    class ZRCOLA_NOVTABLE ZRCOLA_API mapping {
+    class __declspec(novtable) mapping {
     public:
         size_t src;     ///< Character index in source string
         size_t dst;     ///< Character index in destination string
@@ -523,7 +518,7 @@ namespace ZRCola {
     ///
     /// A vector for destination-source index transformation mapping
     ///
-    class ZRCOLA_API mapping_vector : public std::vector<mapping> {
+    class mapping_vector : public std::vector<mapping> {
     public:
         ///
         /// Transforms character index of destination to source

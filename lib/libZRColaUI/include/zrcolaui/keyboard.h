@@ -19,7 +19,6 @@
 
 #pragma once
 
-#include "common.h"
 #include <zrcola/common.h>
 
 #include <stdex/idrec.h>
@@ -44,7 +43,7 @@ namespace ZRCola {
     ///
     /// Key sequence database
     ///
-    class ZRCOLAUI_API keyseq_db {
+    class keyseq_db {
     public:
 #pragma pack(push)
 #pragma pack(2)
@@ -288,7 +287,7 @@ namespace ZRCola {
     };
 
 
-    typedef ZRCOLAUI_API stdex::idrec::record<keyseq_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> keyseq_rec;
+    typedef stdex::idrec::record<keyseq_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> keyseq_rec;
 };
 
 

@@ -59,7 +59,7 @@ namespace ZRCola {
     ///
     /// Translation database
     ///
-    class ZRCOLA_API translation_db {
+    class translation_db {
     public:
 #pragma pack(push)
 #pragma pack(2)
@@ -324,13 +324,13 @@ namespace ZRCola {
     };
 
 
-    typedef ZRCOLA_API stdex::idrec::record<translation_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> translation_rec;
+    typedef stdex::idrec::record<translation_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> translation_rec;
 
 
     ///
     /// Translation set database
     ///
-    class ZRCOLA_API transet_db {
+    class transet_db {
     public:
 #pragma pack(push)
 #pragma pack(2)
@@ -440,13 +440,13 @@ namespace ZRCola {
     };
 
 
-    typedef ZRCOLA_API stdex::idrec::record<transet_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> transet_rec;
+    typedef stdex::idrec::record<transet_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> transet_rec;
 
 
     ///
     /// Translation sequence database
     ///
-    class ZRCOLA_API transeq_db {
+    class transeq_db {
     public:
 #pragma pack(push)
 #pragma pack(2)
@@ -621,7 +621,7 @@ namespace ZRCola {
     };
 
 
-    typedef ZRCOLA_API stdex::idrec::record<transeq_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> transeq_rec;
+    typedef stdex::idrec::record<transeq_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> transeq_rec;
 };
 
 
