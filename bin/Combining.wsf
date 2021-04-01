@@ -94,7 +94,7 @@
 					var zrcola = [], combining = [];
 					var rs = WScript.CreateObject("ADODB.Recordset");
 					rs.CursorLocation = adUseClient;
-					rs.Open("SELECT [komb], [znak] FROM [VRS_ReplChar] WHERE [komb] ORDER BY [rang_komb] DESC, LEN([komb]) DESC", db, adOpenDynamic, adLockOptimistic, adCmdText);
+					rs.Open("SELECT [komb], [znak] FROM [VRS_ReplChar] ORDER BY [rang_komb], LEN([komb]) DESC", db, adOpenDynamic, adLockOptimistic, adCmdText);
 					try {
 						for (; !rs.EOF; rs.MoveNext()) {
 							var
@@ -124,7 +124,7 @@
 						"\"comp\""       + "\t" + "\"compZRCOLA\""       + "\t" +
 						"\"decomp\""     + "\t" + "\"decompZRCOLA\""     + "\t");
 
-					// Traverse all characters and their decompositions and try to replace as much decompositions as possible with combining characters.
+					// Traverse all characters in PUA and their decompositions and try to replace as much decompositions as possible with combining characters.
 					rs.Open("SELECT [VRS_CharList].[znak] AS [znak], [VRS_ReplChar].[komb] AS [komb] " +
 						"FROM [VRS_CharList] RIGHT JOIN [VRS_ReplChar] ON [VRS_CharList].[znak]=[VRS_ReplChar].[znak] "+
 						"WHERE [VRS_CharList].[znak]>='E000' AND [VRS_CharList].[znak]<='F8FF' "+
