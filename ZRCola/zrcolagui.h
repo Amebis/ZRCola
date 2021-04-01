@@ -1,12 +1,11 @@
 ﻿///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Aug  8 2018)
+// C++ code generated with wxFormBuilder (version Oct 26 2018)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO *NOT* EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
-#ifndef __ZRCOLAGUI_H__
-#define __ZRCOLAGUI_H__
+#pragma once
 
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
@@ -55,10 +54,10 @@ class wxZRColaComposerPanel;
 ///////////////////////////////////////////////////////////////////////////////
 /// Class wxZRColaFrameBase
 ///////////////////////////////////////////////////////////////////////////////
-class wxZRColaFrameBase : public wxFrame 
+class wxZRColaFrameBase : public wxFrame
 {
 	private:
-	
+
 	protected:
 		enum
 		{
@@ -79,7 +78,7 @@ class wxZRColaFrameBase : public wxFrame
 			wxID_HELP_UPDATE,
 			wxID_COMPOSITION_TOOLBAR
 		};
-		
+
 		wxMenuBar* m_menubar;
 		wxMenu* m_menuProgram;
 		wxMenu* m_menuEdit;
@@ -88,48 +87,48 @@ class wxZRColaFrameBase : public wxFrame
 		wxMenu* m_menuView;
 		wxMenu* m_menuHelp;
 		wxAuiToolBar* m_toolbarEdit;
-		wxAuiToolBarItem* m_toolEditCut; 
-		wxAuiToolBarItem* m_toolEditCopy; 
-		wxAuiToolBarItem* m_toolEditPaste; 
+		wxAuiToolBarItem* m_toolEditCut;
+		wxAuiToolBarItem* m_toolEditCopy;
+		wxAuiToolBarItem* m_toolEditPaste;
 		wxAuiToolBar* m_toolbarTranslate;
-		wxAuiToolBarItem* m_toolCharSelect; 
-		wxAuiToolBarItem* m_toolSendDestination; 
-		wxAuiToolBarItem* m_toolSendSource; 
-		wxAuiToolBarItem* m_toolComposition; 
+		wxAuiToolBarItem* m_toolCharSelect;
+		wxAuiToolBarItem* m_toolSendDestination;
+		wxAuiToolBarItem* m_toolSendSource;
+		wxAuiToolBarItem* m_toolComposition;
 		wxChoice* m_toolTranslationSeq;
 		wxZRColaCharacterCatalogPanel* m_panelChrCat;
 		wxStatusBar* m_statusBar;
-		
+
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
 		virtual void OnIconize( wxIconizeEvent& event ) { event.Skip(); }
 		virtual void OnIdle( wxIdleEvent& event ) { event.Skip(); }
 		virtual void OnTranslationSeqChoice( wxCommandEvent& event ) { event.Skip(); }
-		
-	
+
+
 	public:
 		wxZRColaComposerPanel* m_panel;
-		
+
 		wxZRColaFrameBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("ZRCola"), const wxPoint& pos = wxDefaultPosition, long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL, const wxString& name = wxT("ZRCola") );
 		wxAuiManager m_mgr;
-		
+
 		~wxZRColaFrameBase();
-	
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class wxZRColaComposerPanelBase
 ///////////////////////////////////////////////////////////////////////////////
-class wxZRColaComposerPanelBase : public wxPanel 
+class wxZRColaComposerPanelBase : public wxPanel
 {
 	private:
-	
+
 	protected:
 		enum
 		{
 			wxID_TIMER_SAVE = 1000
 		};
-		
+
 		wxSplitterWindow* m_splitterSource;
 		wxPanel* m_panelSourceEdit;
 		wxPanel* m_panelSourceHex;
@@ -139,7 +138,7 @@ class wxZRColaComposerPanelBase : public wxPanel
 		wxPanel* m_panelDestinationHex;
 		wxTextCtrl* m_destinationHex;
 		wxTimer m_timerSave;
-		
+
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnSourcePaint( wxPaintEvent& event ) { event.Skip(); }
 		virtual void OnSourceText( wxCommandEvent& event ) { event.Skip(); }
@@ -148,62 +147,62 @@ class wxZRColaComposerPanelBase : public wxPanel
 		virtual void OnDestinationText( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnDestinationHexPaint( wxPaintEvent& event ) { event.Skip(); }
 		virtual void OnSaveTimer( wxTimerEvent& event ) { event.Skip(); }
-		
-	
+
+
 	public:
 		wxTextCtrl* m_source;
 		wxTextCtrl* m_destination;
-		
-		wxZRColaComposerPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("ZRColaComposerPanel") ); 
+
+		wxZRColaComposerPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxT("ZRColaComposerPanel") );
 		~wxZRColaComposerPanelBase();
-		
+
 		void m_splitterSourceOnIdle( wxIdleEvent& )
 		{
 			m_splitterSource->SetSashPosition( FromDIP(-5) );
 			m_splitterSource->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterSourceOnIdle ), NULL, this );
 		}
-		
+
 		void m_splitterDestinationOnIdle( wxIdleEvent& )
 		{
 			m_splitterDestination->SetSashPosition( FromDIP(-5) );
 			m_splitterDestination->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaComposerPanelBase::m_splitterDestinationOnIdle ), NULL, this );
 		}
-	
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class wxZRColaCharacterCatalogPanelBase
 ///////////////////////////////////////////////////////////////////////////////
-class wxZRColaCharacterCatalogPanelBase : public wxPanel 
+class wxZRColaCharacterCatalogPanelBase : public wxPanel
 {
 	private:
-	
+
 	protected:
 		wxChoice* m_choice;
 		wxZRColaCharGrid* m_grid;
 		wxCheckBox* m_show_all;
-		
+
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnChoice( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnGridClick( wxGridEvent& event ) { event.Skip(); }
 		virtual void OnGridKeyDown( wxKeyEvent& event ) { event.Skip(); }
 		virtual void OnShowAll( wxCommandEvent& event ) { event.Skip(); }
-		
-	
+
+
 	public:
-		
-		wxZRColaCharacterCatalogPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("ZRColaCharacterCatalog") ); 
+
+		wxZRColaCharacterCatalogPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxT("ZRColaCharacterCatalog") );
 		~wxZRColaCharacterCatalogPanelBase();
-	
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class wxZRColaCharSelectBase
 ///////////////////////////////////////////////////////////////////////////////
-class wxZRColaCharSelectBase : public wxDialog 
+class wxZRColaCharSelectBase : public wxDialog
 {
 	private:
-	
+
 	protected:
 		wxSearchCtrl* m_search;
 		wxHyperlinkCtrl* m_search_more;
@@ -225,7 +224,7 @@ class wxZRColaCharSelectBase : public wxDialog
 		wxHyperlinkCtrl* m_navigateForward;
 		wxZRColaCharGrid* m_gridRelated;
 		wxButton* m_buttonInsert;
-		
+
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnIdle( wxIdleEvent& event ) { event.Skip(); }
 		virtual void OnSearchText( wxCommandEvent& event ) { event.Skip(); }
@@ -247,22 +246,22 @@ class wxZRColaCharSelectBase : public wxDialog
 		virtual void OnRelatedSelectCell( wxGridEvent& event ) { event.Skip(); }
 		virtual void OnInsert( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnInsertUpdateUI( wxUpdateUIEvent& event ) { event.Skip(); }
-		
-	
+
+
 	public:
-		
-		wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Character Search"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaCharSelect") ); 
+
+		wxZRColaCharSelectBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Character Search"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaCharSelect") );
 		~wxZRColaCharSelectBase();
-	
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class wxZRColaSettingsBase
 ///////////////////////////////////////////////////////////////////////////////
-class wxZRColaSettingsBase : public wxDialog 
+class wxZRColaSettingsBase : public wxDialog
 {
 	private:
-	
+
 	protected:
 		wxListbook* m_listbook;
 		wxPanel* m_panelLanguage;
@@ -277,28 +276,28 @@ class wxZRColaSettingsBase : public wxDialog
 		wxButton* m_sdbSizerButtonsOK;
 		wxButton* m_sdbSizerButtonsApply;
 		wxButton* m_sdbSizerButtonsCancel;
-		
+
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnInitDialog( wxInitDialogEvent& event ) { event.Skip(); }
 		virtual void OnLanguageUpdate( wxUpdateUIEvent& event ) { event.Skip(); }
 		virtual void OnApplyButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
-		
-	
+
+
 	public:
-		
-		wxZRColaSettingsBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Settings"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaSettings") ); 
+
+		wxZRColaSettingsBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Settings"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaSettings") );
 		~wxZRColaSettingsBase();
-	
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class wxZRColaAboutBase
 ///////////////////////////////////////////////////////////////////////////////
-class wxZRColaAboutBase : public wxDialog 
+class wxZRColaAboutBase : public wxDialog
 {
 	private:
-	
+
 	protected:
 		wxStaticBitmap* m_bitmapIcon;
 		wxStaticText* m_staticTextZRCola;
@@ -310,46 +309,46 @@ class wxZRColaAboutBase : public wxDialog
 		wxTextCtrl* m_declaration;
 		wxStdDialogButtonSizer* m_sdbSizerButtons;
 		wxButton* m_sdbSizerButtonsOK;
-	
+
 	public:
-		
-		wxZRColaAboutBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("About ZRCola"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaAbout") ); 
+
+		wxZRColaAboutBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("About ZRCola"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaAbout") );
 		~wxZRColaAboutBase();
-	
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class wxZRColaUpdaterBase
 ///////////////////////////////////////////////////////////////////////////////
-class wxZRColaUpdaterBase : public wxDialog 
+class wxZRColaUpdaterBase : public wxDialog
 {
 	private:
-	
+
 	protected:
 		wxTextCtrl* m_log;
 		wxButton* m_buttonUpdate;
 		wxButton* m_buttonClose;
-		
+
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnIdle( wxIdleEvent& event ) { event.Skip(); }
 		virtual void OnUpdate( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnClose( wxCommandEvent& event ) { event.Skip(); }
-		
-	
+
+
 	public:
-		
-		wxZRColaUpdaterBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Product Update"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaUpdater") ); 
+
+		wxZRColaUpdaterBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Product Update"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaUpdater") );
 		~wxZRColaUpdaterBase();
-	
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class wxZRColaCharRequestBase
 ///////////////////////////////////////////////////////////////////////////////
-class wxZRColaCharRequestBase : public wxDialog 
+class wxZRColaCharRequestBase : public wxDialog
 {
 	private:
-	
+
 	protected:
 		wxStaticText* m_characterLbl;
 		wxTextCtrl* m_character;
@@ -360,25 +359,25 @@ class wxZRColaCharRequestBase : public wxDialog
 		wxStdDialogButtonSizer* m_sdbSizerButtons;
 		wxButton* m_sdbSizerButtonsOK;
 		wxButton* m_sdbSizerButtonsCancel;
-		
+
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
-		
-	
+
+
 	public:
-		
-		wxZRColaCharRequestBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Request a New Character"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaCharRequest") ); 
+
+		wxZRColaCharRequestBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Request a New Character"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaCharRequest") );
 		~wxZRColaCharRequestBase();
-	
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class wxZRColaTranslationSeqBase
 ///////////////////////////////////////////////////////////////////////////////
-class wxZRColaTranslationSeqBase : public wxDialog 
+class wxZRColaTranslationSeqBase : public wxDialog
 {
 	private:
-	
+
 	protected:
 		wxStaticText* m_transLbl;
 		wxStaticText* m_availableLbl;
@@ -392,7 +391,7 @@ class wxZRColaTranslationSeqBase : public wxDialog
 		wxStdDialogButtonSizer* m_sdbSizerButtons;
 		wxButton* m_sdbSizerButtonsOK;
 		wxButton* m_sdbSizerButtonsCancel;
-		
+
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnInitDialog( wxInitDialogEvent& event ) { event.Skip(); }
 		virtual void OnUpdate( wxUpdateUIEvent& event ) { event.Skip(); }
@@ -405,13 +404,12 @@ class wxZRColaTranslationSeqBase : public wxDialog
 		virtual void OnSelectedUp( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSelectedDown( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
-		
-	
+
+
 	public:
-		
-		wxZRColaTranslationSeqBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Custom Translation Sequence"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaTranslationSeq") ); 
+
+		wxZRColaTranslationSeqBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Custom Translation Sequence"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("ZRColaTranslationSeq") );
 		~wxZRColaTranslationSeqBase();
-	
+
 };
 
-#endif //__ZRCOLAGUI_H__
