@@ -133,12 +133,12 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 
 	m_menuEdit->AppendSeparator();
 
-	m_menuItemComposition = new wxMenuItem( m_menuEdit, wxID_COMPOSITION_MENU, wxString( _("&ZRCola (De)composition") ) , _("Toggle ZRCola character (De)composition"), wxITEM_CHECK );
-	m_menuEdit->Append( m_menuItemComposition );
-
 	m_menuTranslationSeq = new wxMenu();
 	wxMenuItem* m_menuTranslationSeqItem = new wxMenuItem( m_menuEdit, wxID_ANY, _("Tra&nslation"), wxEmptyString, wxITEM_NORMAL, m_menuTranslationSeq );
 	m_menuEdit->Append( m_menuTranslationSeqItem );
+
+	m_menuItemComposition = new wxMenuItem( m_menuEdit, wxID_COMPOSITION_MENU, wxString( _("&ZRCola (De)composition") ) , _("Toggle ZRCola character (De)composition"), wxITEM_CHECK );
+	m_menuEdit->Append( m_menuItemComposition );
 
 	m_menuEdit->AppendSeparator();
 
@@ -213,12 +213,12 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 
 	m_toolbarTranslate->AddSeparator();
 
-	m_toolComposition = m_toolbarTranslate->AddTool( wxID_COMPOSITION_TOOLBAR, _("ZRCola (De)composition"), wxIcon( wxT("composition.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(24), FromDIP(24) ), wxNullBitmap, wxITEM_CHECK, _("ZRCola (De)composition"), _("Toggle ZRCola character (De)composition"), NULL );
-
 	wxArrayString m_toolTranslationSeqChoices;
-	m_toolTranslationSeq = new wxChoice( m_toolbarTranslate, wxID_ANY, wxDefaultPosition, FromDIP(wxSize( 250,-1 )), m_toolTranslationSeqChoices, 0 );
+	m_toolTranslationSeq = new wxChoice( m_toolbarTranslate, wxID_ANY, wxDefaultPosition, FromDIP(wxSize( 240,-1 )), m_toolTranslationSeqChoices, 0 );
 	m_toolTranslationSeq->SetSelection( 0 );
 	m_toolbarTranslate->AddControl( m_toolTranslationSeq );
+	m_toolComposition = m_toolbarTranslate->AddTool( wxID_COMPOSITION_TOOLBAR, _("ZRCola (De)composition"), wxIcon( wxT("composition.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(24), FromDIP(24) ), wxNullBitmap, wxITEM_CHECK, _("ZRCola (De)composition"), _("Toggle ZRCola character (De)composition"), NULL );
+
 	m_toolbarTranslate->Realize();
 	m_mgr.AddPane( m_toolbarTranslate, wxAuiPaneInfo().Name( wxT("toolbarCompose") ).Top().Caption( _("Compose") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );
 

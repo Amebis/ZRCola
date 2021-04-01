@@ -82,8 +82,8 @@ class wxZRColaFrameBase : public wxFrame
 		wxMenuBar* m_menubar;
 		wxMenu* m_menuProgram;
 		wxMenu* m_menuEdit;
-		wxMenuItem* m_menuItemComposition;
 		wxMenu* m_menuTranslationSeq;
+		wxMenuItem* m_menuItemComposition;
 		wxMenu* m_menuView;
 		wxMenu* m_menuHelp;
 		wxAuiToolBar* m_toolbarEdit;
@@ -94,8 +94,8 @@ class wxZRColaFrameBase : public wxFrame
 		wxAuiToolBarItem* m_toolCharSelect;
 		wxAuiToolBarItem* m_toolSendDestination;
 		wxAuiToolBarItem* m_toolSendSource;
-		wxAuiToolBarItem* m_toolComposition;
 		wxChoice* m_toolTranslationSeq;
+		wxAuiToolBarItem* m_toolComposition;
 		wxZRColaCharacterCatalogPanel* m_panelChrCat;
 		wxStatusBar* m_statusBar;
 

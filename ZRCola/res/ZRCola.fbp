@@ -27,7 +27,7 @@
         <property name="ui_table">UI</property>
         <property name="use_enum">1</property>
         <property name="use_microsoft_bom">1</property>
-        <object class="Frame" expanded="1">
+        <object class="Frame" expanded="0">
             <property name="aui_managed">1</property>
             <property name="aui_manager_style">wxAUI_MGR_DEFAULT</property>
             <property name="bg"></property>
@@ -247,6 +247,12 @@
                         <property name="name">separator4</property>
                         <property name="permission">none</property>
                     </object>
+                    <object class="submenu" expanded="0">
+                        <property name="bitmap"></property>
+                        <property name="label">Tra&amp;nslation</property>
+                        <property name="name">m_menuTranslationSeq</property>
+                        <property name="permission">protected</property>
+                    </object>
                     <object class="wxMenuItem" expanded="0">
                         <property name="bitmap"></property>
                         <property name="checked">0</property>
@@ -259,12 +265,6 @@
                         <property name="permission">protected</property>
                         <property name="shortcut"></property>
                         <property name="unchecked_bitmap"></property>
-                    </object>
-                    <object class="submenu" expanded="0">
-                        <property name="bitmap"></property>
-                        <property name="label">Tra&amp;nslation</property>
-                        <property name="name">m_menuTranslationSeq</property>
-                        <property name="permission">protected</property>
                     </object>
                     <object class="separator" expanded="0">
                         <property name="name">separator5</property>
@@ -504,7 +504,7 @@
                     <property name="tooltip">Paste</property>
                 </object>
             </object>
-            <object class="wxAuiToolBar" expanded="1">
+            <object class="wxAuiToolBar" expanded="0">
                 <property name="BottomDockable">1</property>
                 <property name="LeftDockable">0</property>
                 <property name="RightDockable">0</property>
@@ -596,19 +596,8 @@
                     <property name="statusbar">Send decomposed text to source window</property>
                     <property name="tooltip">Send Decomposed</property>
                 </object>
-                <object class="toolSeparator" expanded="1">
+                <object class="toolSeparator" expanded="0">
                     <property name="permission">protected</property>
-                </object>
-                <object class="tool" expanded="0">
-                    <property name="bitmap">Load From Icon Resource; composition.ico; [24; 24]</property>
-                    <property name="context_menu">0</property>
-                    <property name="id">wxID_COMPOSITION_TOOLBAR</property>
-                    <property name="kind">wxITEM_CHECK</property>
-                    <property name="label">ZRCola (De)composition</property>
-                    <property name="name">m_toolComposition</property>
-                    <property name="permission">protected</property>
-                    <property name="statusbar">Toggle ZRCola character (De)composition</property>
-                    <property name="tooltip">ZRCola (De)composition</property>
                 </object>
                 <object class="wxChoice" expanded="0">
                     <property name="BottomDockable">1</property>
@@ -656,7 +645,7 @@
                     <property name="resize">Resizable</property>
                     <property name="selection">0</property>
                     <property name="show">1</property>
-                    <property name="size">250,-1</property>
+                    <property name="size">240,-1</property>
                     <property name="style"></property>
                     <property name="subclass"></property>
                     <property name="toolbar_pane">0</property>
@@ -669,6 +658,17 @@
                     <property name="window_name"></property>
                     <property name="window_style"></property>
                     <event name="OnChoice">OnTranslationSeqChoice</event>
+                </object>
+                <object class="tool" expanded="0">
+                    <property name="bitmap">Load From Icon Resource; composition.ico; [24; 24]</property>
+                    <property name="context_menu">0</property>
+                    <property name="id">wxID_COMPOSITION_TOOLBAR</property>
+                    <property name="kind">wxITEM_CHECK</property>
+                    <property name="label">ZRCola (De)composition</property>
+                    <property name="name">m_toolComposition</property>
+                    <property name="permission">protected</property>
+                    <property name="statusbar">Toggle ZRCola character (De)composition</property>
+                    <property name="tooltip">ZRCola (De)composition</property>
                 </object>
             </object>
             <object class="CustomControl" expanded="0">
