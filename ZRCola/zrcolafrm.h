@@ -90,10 +90,8 @@ protected:
     void OnSendSource(wxCommandEvent& event);
     void OnCopySourceAndReturn(wxCommandEvent& event);
     void OnSendAbort(wxCommandEvent& event);
-    void OnCompositionMenu(wxCommandEvent& event);
-    void OnCompositionToolbar(wxCommandEvent& event);
-    void OnWarnPUAMenu(wxCommandEvent& event);
-    void OnWarnPUAToolbar(wxCommandEvent& event);
+    void OnComposition(wxCommandEvent& event);
+    void OnWarnPUA(wxCommandEvent& event);
     void OnSettings(wxCommandEvent& event);
     virtual void OnIdle(wxIdleEvent& event);
     void OnTaskbarIconClick(wxTaskBarIconEvent& event);

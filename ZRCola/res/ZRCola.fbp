@@ -258,7 +258,7 @@
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help">Toggle ZRCola character (De)composition</property>
-                        <property name="id">wxID_COMPOSITION_MENU</property>
+                        <property name="id">wxID_COMPOSITION</property>
                         <property name="kind">wxITEM_CHECK</property>
                         <property name="label">&amp;ZRCola (De)composition</property>
                         <property name="name">m_menuItemComposition</property>
@@ -271,7 +271,7 @@
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help">Toggle PUA warning</property>
-                        <property name="id">wxID_WARN_PUA_MENU</property>
+                        <property name="id">wxID_WARN_PUA</property>
                         <property name="kind">wxITEM_CHECK</property>
                         <property name="label">&amp;PUA Warning</property>
                         <property name="name">m_menuItemWarnPUA</property>
@@ -675,7 +675,7 @@
                 <object class="tool" expanded="0">
                     <property name="bitmap">Load From Icon Resource; composition.ico; [24; 24]</property>
                     <property name="context_menu">0</property>
-                    <property name="id">wxID_COMPOSITION_TOOLBAR</property>
+                    <property name="id">wxID_COMPOSITION</property>
                     <property name="kind">wxITEM_CHECK</property>
                     <property name="label">ZRCola (De)composition</property>
                     <property name="name">m_toolComposition</property>
@@ -686,7 +686,7 @@
                 <object class="tool" expanded="0">
                     <property name="bitmap">Load From Icon Resource; warn_pua.ico; [24; 24]</property>
                     <property name="context_menu">0</property>
-                    <property name="id">wxID_WARN_PUA_TOOLBAR</property>
+                    <property name="id">wxID_WARN_PUA</property>
                     <property name="kind">wxITEM_CHECK</property>
                     <property name="label">PUA Warning</property>
                     <property name="name">m_toolWarnPUA</property>

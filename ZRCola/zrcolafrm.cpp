@@ -42,10 +42,8 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
     EVT_MENU           (wxID_SEND_SOURCE                                      , wxZRColaFrame::OnSendSource                 )
     EVT_MENU           (wxID_SEND_ABORT                                       , wxZRColaFrame::OnSendAbort                  )
 
-    EVT_MENU           (wxID_COMPOSITION_MENU                                 , wxZRColaFrame::OnCompositionMenu            )
-    EVT_MENU           (wxID_COMPOSITION_TOOLBAR                              , wxZRColaFrame::OnCompositionToolbar         )
-    EVT_MENU           (wxID_WARN_PUA_MENU                                    , wxZRColaFrame::OnWarnPUAMenu                )
-    EVT_MENU           (wxID_WARN_PUA_TOOLBAR                                 , wxZRColaFrame::OnWarnPUAToolbar             )
+    EVT_MENU           (wxID_COMPOSITION                                      , wxZRColaFrame::OnComposition                )
+    EVT_MENU           (wxID_WARN_PUA                                         , wxZRColaFrame::OnWarnPUA                    )
     EVT_MENU_RANGE     (wxID_TRANSLATION_SEQ_DEFAULT, wxID_TRANSLATION_SEQ_END, wxZRColaFrame::OnTranslationSeqMenu         )
 
     EVT_MENU           (wxID_SETTINGS                                         , wxZRColaFrame::OnSettings                   )
@@ -354,9 +352,10 @@ void wxZRColaFrame::OnSendAbort(wxCommandEvent& event)
 }
 
 
-void wxZRColaFrame::OnCompositionMenu(wxCommandEvent& event)
+void wxZRColaFrame::OnComposition(wxCommandEvent& event)
 {
-    m_composition = m_menuItemComposition->IsChecked();
+    m_composition = !m_composition;
+    m_menuItemComposition->Check(m_composition);
     m_toolComposition->SetState((m_toolComposition->GetState() & ~wxAUI_BUTTON_STATE_CHECKED) | (m_composition ? wxAUI_BUTTON_STATE_CHECKED : 0));
     m_toolbarTranslate->Refresh();
 
@@ -368,41 +367,16 @@ void wxZRColaFrame::OnCompositionMenu(wxCommandEvent& event)
 }
 
 
-void wxZRColaFrame::OnCompositionToolbar(wxCommandEvent& event)
+void wxZRColaFrame::OnWarnPUA(wxCommandEvent& event)
 {
-    m_composition = (m_toolComposition->GetState() & wxAUI_BUTTON_STATE_CHECKED) ? true : false;
-    m_menuItemComposition->Check(m_composition);
-
-    // Notify source text something changed and should re-translate.
-    wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
-    m_panel->m_source->ProcessWindowEvent(event2);
-
-    event.Skip();
-}
-
-
-void wxZRColaFrame::OnWarnPUAMenu(wxCommandEvent& event)
-{
-    m_warnPUA = m_menuItemWarnPUA->IsChecked();
+    m_warnPUA = !m_warnPUA;
+    m_menuItemWarnPUA->Check(m_warnPUA);
     m_toolWarnPUA->SetState((m_toolWarnPUA->GetState() & ~wxAUI_BUTTON_STATE_CHECKED) | (m_warnPUA ? wxAUI_BUTTON_STATE_CHECKED : 0));
     m_toolbarTranslate->Refresh();
 
-    // Notify source text something changed and should re-translate.
+    // Notify destination text something changed and should re-paint.
     wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
-    m_panel->m_source->ProcessWindowEvent(event2);
-
-    event.Skip();
-}
-
-
-void wxZRColaFrame::OnWarnPUAToolbar(wxCommandEvent& event)
-{
-    m_warnPUA = (m_toolWarnPUA->GetState() & wxAUI_BUTTON_STATE_CHECKED) ? true : false;
-    m_menuItemWarnPUA->Check(m_warnPUA);
-
-    // Notify source text something changed and should re-translate.
-    wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
-    m_panel->m_source->ProcessWindowEvent(event2);
+    m_panel->m_destination->ProcessWindowEvent(event2);
 
     event.Skip();
 }

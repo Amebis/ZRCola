@@ -67,8 +67,8 @@ class wxZRColaFrameBase : public wxFrame
 			wxID_SEND_SOURCE,
 			wxID_COPY_SOURCE_AND_RETURN,
 			wxID_SEND_ABORT,
-			wxID_COMPOSITION_MENU,
-			wxID_WARN_PUA_MENU,
+			wxID_COMPOSITION,
+			wxID_WARN_PUA,
 			wxID_SETTINGS,
 			wxID_TOOLBAR_EDIT,
 			wxID_TOOLBAR_TRANSLATE,
@@ -76,9 +76,7 @@ class wxZRColaFrameBase : public wxFrame
 			wxID_HELP_INSTRUCTIONS,
 			wxID_HELP_SHORTCUTS,
 			wxID_HELP_REQCHAR,
-			wxID_HELP_UPDATE,
-			wxID_COMPOSITION_TOOLBAR,
-			wxID_WARN_PUA_TOOLBAR
+			wxID_HELP_UPDATE
 		};
 
 		wxMenuBar* m_menubar;
