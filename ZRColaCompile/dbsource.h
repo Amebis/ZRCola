@@ -132,7 +132,7 @@ namespace ZRCola {
             std::string norm;   ///< Normalization footprint
             charseq dst;        ///< Destination sequence
 
-            inline translation() : set(0) {}
+            inline translation() : set((int)ZRCOLA_TRANSEQID_DEFAULT) {}
         };
 
 
@@ -145,7 +145,7 @@ namespace ZRCola {
             std::wstring src;   ///< Source name
             std::wstring dst;   ///< Destination name
 
-            inline transet() : set(0) {}
+            inline transet() : set((int)ZRCOLA_TRANSEQID_DEFAULT) {}
         };
 
 
@@ -622,6 +622,17 @@ namespace ZRCola {
         bool GetNormPerm(const winstd::com_obj<ADORecordset>& rs, std::string& norm, normperm& np) const;
 
         ///
+        /// Returns all character translations
+        ///
+        /// \param[out] rs  Recordset with results
+        ///
+        /// \returns
+        /// - true when query succeeds
+        /// - false otherwise
+        ///
+        bool SelectAllTranslations(winstd::com_obj<ADORecordset>& rs) const;
+
+        ///
         /// Returns character translations
         ///
         /// \param[out] rs  Recordset with results
@@ -806,6 +817,17 @@ namespace ZRCola {
         bool SelectCharacters(winstd::com_obj<ADORecordset>& rs) const;
 
         ///
+        /// Returns Private-Use-Area characters
+        ///
+        /// \param[out] rs  Recordset with results
+        ///
+        /// \returns
+        /// - true when query succeeds
+        /// - false otherwise
+        ///
+        bool SelectPUACharacters(winstd::com_obj<ADORecordset>& rs) const;
+
+        ///
         /// Returns character data
         ///
         /// \param[in]  rs    Recordset with results
@@ -908,7 +930,7 @@ namespace ZRCola {
 inline ZRCola::translation_db& operator<<(_Inout_ ZRCola::translation_db &db, _In_ const ZRCola::DBSource::translation &rec)
 {
     unsigned __int32 idx = db.data.size();
-    wxASSERT_MSG((int)0xffff8000 <= rec.set && rec.set <= (int)0x00007fff, wxT("translation set id out of bounds"));
+    wxASSERT_MSG((int)0xffff0000 <= rec.set && rec.set <= (int)0x0000ffff, wxT("translation set id out of bounds"));
     db.data.push_back((unsigned __int16)rec.set);
     wxASSERT_MSG((int)0xffff8000 <= rec.dst.rank && rec.dst.rank <= (int)0x00007fff, wxT("destination character rank out of bounds"));
     db.data.push_back((unsigned __int16)rec.dst.rank);
@@ -932,7 +954,7 @@ inline ZRCola::translation_db& operator<<(_Inout_ ZRCola::translation_db &db, _I
 inline ZRCola::transet_db& operator<<(_Inout_ ZRCola::transet_db &db, _In_ const ZRCola::DBSource::transet &rec)
 {
     unsigned __int32 idx = db.data.size();
-    wxASSERT_MSG((int)0xffff8000 <= rec.set && rec.set <= (int)0x00007fff, wxT("translation set id out of bounds"));
+    wxASSERT_MSG((int)0xffff0000 <= rec.set && rec.set <= (int)0x0000ffff, wxT("translation set id out of bounds"));
     db.data.push_back((unsigned __int16)rec.set);
     std::wstring::size_type n = rec.src.length();
     wxASSERT_MSG(n <= 0xffff, wxT("translation set source name overflow"));

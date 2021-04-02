@@ -37,12 +37,17 @@
 ///
 /// Translation disabled/ZRCola (De)Composition
 ///
-#define ZRCOLA_TRANSEQID_DEFAULT    ((ZRCola::transeqid_t)0)
+#define ZRCOLA_TRANSEQID_DEFAULT    ((ZRCola::transeqid_t)0x0000)
 
 ///
 /// Custom translation sequence ID
 ///
-#define ZRCOLA_TRANSEQID_CUSTOM     ((ZRCola::transeqid_t)-1)
+#define ZRCOLA_TRANSEQID_CUSTOM     ((ZRCola::transeqid_t)0xffff)
+
+///
+/// ZRCola to Unicode translation sequence ID
+///
+#define ZRCOLA_TRANSEQID_UNICODE    ((ZRCola::transeqid_t)0xfffe)
 
 
 namespace ZRCola {

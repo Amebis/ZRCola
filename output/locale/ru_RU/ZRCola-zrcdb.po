@@ -1,17 +1,19 @@
 # Translators:
 # Simon Rozman <simon@rozman.si>, 2018
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola.zrcdb\n"
-"Last-Translator: Simon Rozman <simon@rozman.si>, 2018\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Russian (Russia) (https://www.transifex.com/amebis/teams/91592/ru_RU/)\n"
+"Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru_RU\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Generator: ZRColaCompile\n"
+"X-Generator: Poedit 2.4.2\n"
 
 msgid "Albanian"
 msgstr "албанский"
@@ -170,8 +172,7 @@ msgid "Greek (Modern)"
 msgstr "греческий алфавит (новогреческий)"
 
 msgid "Greek (Modern) » Greek (Old)"
-msgstr ""
-"греческий алфавит (новогреческий) » греческий алфавит (древнегреческий)"
+msgstr "греческий алфавит (новогреческий) » греческий алфавит (древнегреческий)"
 
 msgid "Greek (Old)"
 msgstr "греческий алфавит (древнегреческий)"
@@ -701,8 +702,17 @@ msgstr "турецкий"
 msgid "Ukrainian"
 msgstr "украинский"
 
+msgid "Unicode"
+msgstr "Юникод"
+
 msgid "Units"
 msgstr "Единицы"
+
+msgid "ZRCola Composed"
+msgstr "ZRCola составленное"
+
+msgid "ZRCola Decomposed"
+msgstr "ZRCola разобранное"
 
 msgid "l+j l|j"
 msgstr "l+j l|j"

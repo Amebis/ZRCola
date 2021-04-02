@@ -1,14 +1,17 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola.zrcdb\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: German (Germany) (https://www.transifex.com/amebis/teams/91592/de_DE/)\n"
+"Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de_DE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: ZRColaCompile\n"
+"X-Generator: Poedit 2.4.2\n"
 
 msgid "Albanian"
 msgstr ""
@@ -697,7 +700,16 @@ msgstr ""
 msgid "Ukrainian"
 msgstr ""
 
+msgid "Unicode"
+msgstr "Unicode"
+
 msgid "Units"
+msgstr ""
+
+msgid "ZRCola Composed"
+msgstr ""
+
+msgid "ZRCola Decomposed"
 msgstr ""
 
 msgid "l+j l|j"
