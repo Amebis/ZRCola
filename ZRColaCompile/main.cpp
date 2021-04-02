@@ -269,6 +269,15 @@ static double compare_bitmaps(
 }
 
 
+static string make_unicode(_In_ const wstring &str)
+{
+    string out;
+    for (size_t i = 0, n = str.length(); i < n; i++)
+        out += string_printf(i ? "+%04X" : "%04X", str[i]);
+    return out;
+}
+
+
 ///
 /// Main function
 ///
@@ -343,6 +352,9 @@ int _tmain(int argc, _TCHAR *argv[])
     // Set of strings to translate.
     bool build_pot = parser.GetParamCount() > 2;
     set<wstring> pot;
+
+    bool build_csv = parser.GetParamCount() > 3;
+    vector<ZRCola::DBSource::translation> csv;
 
     // Open file ID.
     streamoff dst_start = idrec::open<ZRCola::recordid_t, ZRCola::recordsize_t>(dst, ZRCOLA_DB_ID);
@@ -621,18 +633,18 @@ int _tmain(int argc, _TCHAR *argv[])
                             // Add results to a temporary database.
                             auto hit = trans.find(comp_orig);
                             if (hit != trans.end()) {
-                                if (score_pre <= FONT_MATCH_THRESHOLD) {
+                                if (build_csv || score_pre <= FONT_MATCH_THRESHOLD) {
                                     if (hit->second.find(comp_pre) == hit->second.end())
                                         hit->second.insert(make_pair(comp_pre, make_pair(score_pre, 1)));
-                                } if (score_comb <= FONT_MATCH_THRESHOLD && comp_pre != comp_comb) {
+                                } if ((build_csv || score_comb <= FONT_MATCH_THRESHOLD) && comp_pre != comp_comb) {
                                     if (hit->second.find(comp_comb) == hit->second.end())
                                         hit->second.insert(make_pair(comp_comb, make_pair(score_comb, 100)));
                                 }
                             } else {
                                 map<wstring, pair<double, int>> v;
-                                if (score_pre <= FONT_MATCH_THRESHOLD)
+                                if (build_csv || score_pre <= FONT_MATCH_THRESHOLD)
                                     v.insert(make_pair(comp_pre, make_pair(score_pre, 1)));
-                                if (score_comb <= FONT_MATCH_THRESHOLD && comp_pre != comp_comb)
+                                if ((build_csv || score_comb <= FONT_MATCH_THRESHOLD) && comp_pre != comp_comb)
                                     v.insert(make_pair(comp_comb, make_pair(score_comb, 100)));
                                 if (!v.empty())
                                     trans.insert(make_pair(comp_orig, std::move(v)));
@@ -643,10 +655,12 @@ int _tmain(int argc, _TCHAR *argv[])
                 }
 
                 // Preallocate memory.
-                size_t reserve = db_trans.idxSrc.size() + trans.size();
+                size_t reserve = db_trans.idxSrc.size() + trans.size()*2;
                 db_trans.idxSrc.reserve(reserve);
                 db_trans.idxDst.reserve(reserve);
                 db_trans.data  .reserve(reserve*5);
+                if (build_csv)
+                    csv.reserve(trans.size()*2);
 
                 ZRCola::DBSource::translation t;
                 t.set = (int)ZRCOLA_TRANSEQID_UNICODE;
@@ -664,7 +678,10 @@ int _tmain(int argc, _TCHAR *argv[])
                         t.src.str  = i->first;
                         t.src.rank = j->second.second + (j->second.second >= 100 ? rank_comb++ : rank_pre++);
                         t.dst.str  = j->second.first;
+                        t.score    = j->first;
                         db_trans << t;
+                        if (build_csv)
+                            csv.push_back(t);
                     }
                 }
             } else {
@@ -1224,6 +1241,43 @@ int _tmain(int argc, _TCHAR *argv[])
             dst_pot.close();
         } else {
             _ftprintf(stderr, wxT("%s: error ZCC0012: Error opening POT catalog.\n"), filenameOut.fn_str());
+            has_errors = true;
+        }
+    }
+
+    if (!has_errors && build_csv) {
+        const wxString& filenameCsv = parser.GetParam(3);
+        fstream dst_csv((LPCTSTR)filenameCsv, ios_base::out | ios_base::trunc);
+        if (dst_csv.good()) {
+            dst_csv
+                << "\xef\xbb\xbf" // UTF-8 BOM
+                << "\"znak\";"
+                << "\"znakZRCola\";"
+                << "\"znakRank\";"
+                << "\"komb\";"
+                << "\"kombZRCola\";"
+                << "\"kombRank\";"
+                << "\"razlika\"" << endl;
+            wstring_convert<codecvt_utf8<wchar_t>> conv;
+            for (auto i = csv.cbegin(), i_end = csv.cend(); i != i_end; ++i) {
+                dst_csv
+                    << "\"" << make_unicode(i->src.str) << "\";"
+                    << "\"" << conv.to_bytes(i->src.str) << "\";"
+                    << i->src.rank << ";"
+                    << "\"" << make_unicode(i->dst.str) << "\";"
+                    << "\"" << conv.to_bytes(i->dst.str) << "\";"
+                    << i->dst.rank << ";"
+                    << i->score << endl;
+            }
+
+            if (dst_csv.fail()) {
+                _ftprintf(stderr, wxT("%s: error ZCC0013: Writing to CSV report failed.\n"), (LPCTSTR)filenameOut.c_str());
+                has_errors = true;
+            }
+
+            dst_csv.close();
+        } else {
+            _ftprintf(stderr, wxT("%s: error ZCC0012: Error opening CSV report.\n"), filenameOut.fn_str());
             has_errors = true;
         }
     }

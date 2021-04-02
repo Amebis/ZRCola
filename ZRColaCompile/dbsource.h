@@ -131,8 +131,12 @@ namespace ZRCola {
             charseq src;        ///< Source sequence
             std::string norm;   ///< Normalization footprint
             charseq dst;        ///< Destination sequence
+            double score;       ///< Score
 
-            inline translation() : set((int)ZRCOLA_TRANSEQID_DEFAULT) {}
+            inline translation() :
+                set((int)ZRCOLA_TRANSEQID_DEFAULT),
+                score(0)
+            {}
         };
 
 
