@@ -66,12 +66,17 @@ protected:
     inline void GetTranslationSeq(_Out_ const ZRCola::transetid_t *&sets_begin, _Out_ const ZRCola::transetid_t *&sets_end) const;
 
     static wxString GetStateFileName();
-    static size_t GetValue(wxTextCtrl *wnd, wxString &text);
     static void SetHexValue(wxTextCtrl *wnd, std::pair<long, long> &range, ZRCola::mapping_vector &mapping, const wchar_t *src, size_t len, long from, long to);
 
 protected:
     bool m_sourceChanged;                           ///< Boolean flag to mark source text "dirty" to trigger translation
     bool m_destinationChanged;                      ///< Boolean flag to mark destination text "dirty" to trigger inverse translation
+    volatile bool
+        m_sourceRestyled,                           ///< Boolean flag to mark source text is being restyled
+        m_destinationRestyled;                      ///< Boolean flag to mark destination text is being restyled
+    wxTextAttr
+        m_styleNormal,                              ///< Normal text style
+        m_stylePUA;                                 ///< PUA character text style
     std::vector<ZRCola::mapping_vector> m_mapping;  ///< Character index mapping vector between source and normalized text
     std::pair<long, long>
         m_selSource,                                ///< Character index of selected text in source text control

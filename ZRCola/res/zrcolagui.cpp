@@ -140,6 +140,9 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_menuItemComposition = new wxMenuItem( m_menuEdit, wxID_COMPOSITION_MENU, wxString( _("&ZRCola (De)composition") ) , _("Toggle ZRCola character (De)composition"), wxITEM_CHECK );
 	m_menuEdit->Append( m_menuItemComposition );
 
+	m_menuItemWarnPUA = new wxMenuItem( m_menuEdit, wxID_WARN_PUA_MENU, wxString( _("&PUA Warning") ) , _("Toggle PUA warning"), wxITEM_CHECK );
+	m_menuEdit->Append( m_menuItemWarnPUA );
+
 	m_menuEdit->AppendSeparator();
 
 	wxMenuItem* m_menuSettings;
@@ -219,6 +222,8 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_toolbarTranslate->AddControl( m_toolTranslationSeq );
 	m_toolComposition = m_toolbarTranslate->AddTool( wxID_COMPOSITION_TOOLBAR, _("ZRCola (De)composition"), wxIcon( wxT("composition.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_CHECK, _("ZRCola (De)composition"), _("Toggle ZRCola character (De)composition"), NULL );
 
+	m_toolWarnPUA = m_toolbarTranslate->AddTool( wxID_WARN_PUA_TOOLBAR, _("PUA Warning"), wxIcon( wxT("warn_pua.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_CHECK, _("Highlight PUA Characters"), _("Toggle PUA warning"), NULL );
+
 	m_toolbarTranslate->Realize();
 	m_mgr.AddPane( m_toolbarTranslate, wxAuiPaneInfo().Name( wxT("toolbarCompose") ).Top().Caption( _("Compose") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );
 
@@ -271,7 +276,7 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	wxStaticBoxSizer* bSizerSourceEdit2;
 	bSizerSourceEdit2 = new wxStaticBoxSizer( new wxStaticBox( m_panelSourceEdit, wxID_ANY, _("Decomposed Text") ), wxVERTICAL );
 
-	m_source = new wxTextCtrl( bSizerSourceEdit2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
+	m_source = new wxTextCtrl( bSizerSourceEdit2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_RICH );
 	m_source->SetFont( wxFont( 20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola") ) );
 	m_source->SetMinSize( wxSize( 100,25 ) );
 
@@ -318,7 +323,7 @@ wxZRColaComposerPanelBase::wxZRColaComposerPanelBase( wxWindow* parent, wxWindow
 	wxStaticBoxSizer* bSizerDestinationEdit2;
 	bSizerDestinationEdit2 = new wxStaticBoxSizer( new wxStaticBox( m_panelDestinationEdit, wxID_ANY, _("Composed Text") ), wxVERTICAL );
 
-	m_destination = new wxTextCtrl( bSizerDestinationEdit2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
+	m_destination = new wxTextCtrl( bSizerDestinationEdit2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_RICH );
 	m_destination->SetFont( wxFont( 20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola") ) );
 	m_destination->SetMinSize( wxSize( 100,25 ) );
 

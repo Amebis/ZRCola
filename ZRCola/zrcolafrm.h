@@ -92,6 +92,8 @@ protected:
     void OnSendAbort(wxCommandEvent& event);
     void OnCompositionMenu(wxCommandEvent& event);
     void OnCompositionToolbar(wxCommandEvent& event);
+    void OnWarnPUAMenu(wxCommandEvent& event);
+    void OnWarnPUAToolbar(wxCommandEvent& event);
     void OnSettings(wxCommandEvent& event);
     virtual void OnIdle(wxIdleEvent& event);
     void OnTaskbarIconClick(wxTaskBarIconEvent& event);
@@ -149,6 +151,7 @@ protected:
     wxZRColaCharRequest *m_chrReq;      ///< Request a New Character dialog
     wxZRColaSettings *m_settings;       ///< Configuration dialog
     bool m_composition;                 ///< Is (de)composition enabled?
+    bool m_warnPUA;                     ///< Mark Private-Use-Area characters in destination text
     ZRCola::transeqid_t m_transeq_id;   ///< Translation sequence ID
     wxZRColaTranslationSeq *m_transeq;  ///< Custom translation sequence dialog
 };

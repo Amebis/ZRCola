@@ -68,6 +68,7 @@ class wxZRColaFrameBase : public wxFrame
 			wxID_COPY_SOURCE_AND_RETURN,
 			wxID_SEND_ABORT,
 			wxID_COMPOSITION_MENU,
+			wxID_WARN_PUA_MENU,
 			wxID_SETTINGS,
 			wxID_TOOLBAR_EDIT,
 			wxID_TOOLBAR_TRANSLATE,
@@ -76,7 +77,8 @@ class wxZRColaFrameBase : public wxFrame
 			wxID_HELP_SHORTCUTS,
 			wxID_HELP_REQCHAR,
 			wxID_HELP_UPDATE,
-			wxID_COMPOSITION_TOOLBAR
+			wxID_COMPOSITION_TOOLBAR,
+			wxID_WARN_PUA_TOOLBAR
 		};
 
 		wxMenuBar* m_menubar;
@@ -84,6 +86,7 @@ class wxZRColaFrameBase : public wxFrame
 		wxMenu* m_menuEdit;
 		wxMenu* m_menuTranslationSeq;
 		wxMenuItem* m_menuItemComposition;
+		wxMenuItem* m_menuItemWarnPUA;
 		wxMenu* m_menuView;
 		wxMenu* m_menuHelp;
 		wxAuiToolBar* m_toolbarEdit;
@@ -96,6 +99,7 @@ class wxZRColaFrameBase : public wxFrame
 		wxAuiToolBarItem* m_toolSendSource;
 		wxChoice* m_toolTranslationSeq;
 		wxAuiToolBarItem* m_toolComposition;
+		wxAuiToolBarItem* m_toolWarnPUA;
 		wxZRColaCharacterCatalogPanel* m_panelChrCat;
 		wxStatusBar* m_statusBar;
 

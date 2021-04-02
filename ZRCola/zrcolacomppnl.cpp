@@ -19,6 +19,11 @@
 
 #include "pch.h"
 
+static inline bool is_pua(_In_ wchar_t c)
+{
+    return L'\ue000' <= c && c <= L'\uf8ff';
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 // wxZRColaComposerPanel
@@ -27,10 +32,18 @@
 wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
     m_sourceChanged(false),
     m_destinationChanged(false),
+    m_sourceRestyled(false),
+    m_destinationRestyled(false),
+    m_styleNormal(*wxBLACK, *wxWHITE, wxFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola"))),
+    m_stylePUA(*wxBLUE, *wxWHITE, wxFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola"))),
     m_selSource(0, 0),
     m_selDestination(0, 0),
     wxZRColaComposerPanelBase(parent)
 {
+    // RichEdit control has no inner margins by default.
+    m_source->SetMargins(FromDIP(wxPoint(5, 2)));
+    m_destination->SetMargins(FromDIP(wxPoint(5, 2)));
+
     m_source->PushEventHandler(&m_keyhandler);
 
     // Restore the previously saved state (if exists).
@@ -88,8 +101,8 @@ void wxZRColaComposerPanel::SynchronizePanels()
 
         auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
 
-        wxString src;
-        size_t len = GetValue(m_source, src);
+        wxString src = m_source->GetValue();
+        size_t len = src.Length();
         std::wstring dst(src.data(), len), dst2;
         ZRCola::mapping_vector map;
 
@@ -132,8 +145,8 @@ void wxZRColaComposerPanel::SynchronizePanels()
 
         auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
 
-        wxString src;
-        size_t len = GetValue(m_destination, src);
+        wxString src = m_destination->GetValue();
+        size_t len = src.Length();
         std::wstring dst(src.data(), len), dst2;
         ZRCola::mapping_vector map;
 
@@ -184,6 +197,9 @@ void wxZRColaComposerPanel::SynchronizePanels()
 void wxZRColaComposerPanel::OnSourcePaint(wxPaintEvent& event)
 {
     event.Skip();
+
+    if (m_sourceRestyled)
+        return;
 
     long from, to;
     m_source->GetSelection(&from, &to);
@@ -239,14 +255,24 @@ void wxZRColaComposerPanel::OnSourceText(wxCommandEvent& event)
 {
     event.Skip();
 
+    if (m_sourceRestyled)
+        return;
+
     // Set the flag the source text changed to trigger idle-time translation.
     m_sourceChanged = true;
+
+    m_sourceRestyled = true;
+    m_source->SetStyle(0, GetWindowTextLength(m_source->GetHWND()), m_styleNormal);
+    m_sourceRestyled = false;
 }
 
 
 void wxZRColaComposerPanel::OnDestinationPaint(wxPaintEvent& event)
 {
     event.Skip();
+
+    if (m_destinationRestyled)
+        return;
 
     long from, to;
     m_destination->GetSelection(&from, &to);
@@ -302,8 +328,26 @@ void wxZRColaComposerPanel::OnDestinationText(wxCommandEvent& event)
 {
     event.Skip();
 
+    if (m_destinationRestyled)
+        return;
+
     // Set the flag the destination text changed to trigger idle-time inverse translation.
     m_destinationChanged = true;
+
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
+    m_destinationRestyled = true;
+    if (app->m_mainWnd->m_warnPUA) {
+        wxString src = m_destination->GetValue();
+        size_t len = src.Length();
+        for (size_t i = 0, j; i < len;) {
+            bool pua_i = is_pua(src[i]);
+            for (j = i + 1; j < len && pua_i == is_pua(src[j]); j++);
+            m_destination->SetStyle((long)i, (long)j, pua_i ? m_stylePUA : m_styleNormal);
+            i = j;
+        }
+    } else
+        m_destination->SetStyle(0, GetWindowTextLength(m_destination->GetHWND()), m_styleNormal);
+    m_destinationRestyled = false;
 }
 
 
@@ -312,18 +356,21 @@ void wxZRColaComposerPanel::OnSaveTimer(wxTimerEvent& event)
     wxString fileName(GetStateFileName());
     wxFFile file(fileName, wxT("wb"));
     if (file.IsOpened()) {
-        wxString text;
-        size_t len;
+        {
+            // Save source text.
+            wxString text = m_source->GetValue();
+            size_t len = text.Length();
+            file.Write(&len, sizeof(len));
+            file.Write((const wchar_t*)text, sizeof(wchar_t)*len);
+        }
 
-        // Save source text.
-        len = GetValue(m_source, text);
-        file.Write(&len, sizeof(len));
-        file.Write((const wchar_t*)text, sizeof(wchar_t)*len);
-
-        // Save destination text.
-        len = GetValue(m_destination, text);
-        file.Write(&len, sizeof(len));
-        file.Write((const wchar_t*)text, sizeof(wchar_t)*len);
+        {
+            // Save destination text.
+            wxString text = m_destination->GetValue();
+            size_t len = text.Length();
+            file.Write(&len, sizeof(len));
+            file.Write((const wchar_t*)text, sizeof(wchar_t)*len);
+        }
     }
 
     event.Skip();
@@ -348,31 +395,6 @@ wxString wxZRColaComposerPanel::GetStateFileName()
 }
 
 
-size_t wxZRColaComposerPanel::GetValue(wxTextCtrl *wnd, wxString &text)
-{
-#ifdef __WINDOWS__
-    // Use Windows GetWindowText() function to avoid line ending conversion incompletely imposed by wxWidgets.
-    WXHWND hWnd = wnd->GetHWND();
-    size_t len = ::GetWindowTextLengthW(hWnd);
-    if (len < 0x100) {
-        WCHAR buf[0x100];
-        ::GetWindowTextW(hWnd, buf, (int)(len + 1));
-        text.assign(buf, len);
-    } else {
-        LPWSTR buf = new WCHAR[len + 1];
-        ::GetWindowTextW(hWnd, buf, (int)(len + 1));
-        text.assign(buf, len);
-        delete [] buf;
-    }
-
-    return len;
-#else
-    text = wnd->GetValue();
-    return text.Length();
-#endif
-}
-
-
 void wxZRColaComposerPanel::SetHexValue(wxTextCtrl *wnd, std::pair<long, long> &range, ZRCola::mapping_vector &mapping, const wchar_t *src, size_t len, long from, long to)
 {
     wxString hex;
@@ -381,8 +403,8 @@ void wxZRColaComposerPanel::SetHexValue(wxTextCtrl *wnd, std::pair<long, long> &
     mapping.clear();
     for (size_t i = 0; i < len && src[i]; i++) {
         wchar_t c = src[i];
-        if (c == L'\n' || c == '\r') {
-            hex += c;
+        if (c == L'\n') {
+            hex += L"\r\n";
             first = true;
         } else {
             hex += wxString::Format(first ? wxT("%04X") : wxT(" %04X"), src[i]);

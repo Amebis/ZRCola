@@ -44,6 +44,8 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
 
     EVT_MENU           (wxID_COMPOSITION_MENU                                 , wxZRColaFrame::OnCompositionMenu            )
     EVT_MENU           (wxID_COMPOSITION_TOOLBAR                              , wxZRColaFrame::OnCompositionToolbar         )
+    EVT_MENU           (wxID_WARN_PUA_MENU                                    , wxZRColaFrame::OnWarnPUAMenu                )
+    EVT_MENU           (wxID_WARN_PUA_TOOLBAR                                 , wxZRColaFrame::OnWarnPUAToolbar             )
     EVT_MENU_RANGE     (wxID_TRANSLATION_SEQ_DEFAULT, wxID_TRANSLATION_SEQ_END, wxZRColaFrame::OnTranslationSeqMenu         )
 
     EVT_MENU           (wxID_SETTINGS                                         , wxZRColaFrame::OnSettings                   )
@@ -75,6 +77,7 @@ wxZRColaFrame::wxZRColaFrame() :
     m_settings(NULL),
     m_chrReq(NULL),
     m_composition(true),
+    m_warnPUA(false),
     m_transeq_id(ZRCOLA_TRANSEQID_DEFAULT),
     m_transeq(NULL),
     wxZRColaFrameBase(NULL)
@@ -193,6 +196,14 @@ wxZRColaFrame::wxZRColaFrame() :
     } else {
         m_menuItemComposition->Check(false);
         m_toolComposition->SetState(m_toolComposition->GetState() & ~wxAUI_BUTTON_STATE_CHECKED);
+    }
+
+    if (m_warnPUA) {
+        m_menuItemWarnPUA->Check(true);
+        m_toolWarnPUA->SetState(m_toolWarnPUA->GetState() | wxAUI_BUTTON_STATE_CHECKED);
+    } else {
+        m_menuItemWarnPUA->Check(false);
+        m_toolWarnPUA->SetState(m_toolWarnPUA->GetState() & ~wxAUI_BUTTON_STATE_CHECKED);
     }
 
     // Update translation sequence selection.
@@ -361,6 +372,33 @@ void wxZRColaFrame::OnCompositionToolbar(wxCommandEvent& event)
 {
     m_composition = (m_toolComposition->GetState() & wxAUI_BUTTON_STATE_CHECKED) ? true : false;
     m_menuItemComposition->Check(m_composition);
+
+    // Notify source text something changed and should re-translate.
+    wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
+    m_panel->m_source->ProcessWindowEvent(event2);
+
+    event.Skip();
+}
+
+
+void wxZRColaFrame::OnWarnPUAMenu(wxCommandEvent& event)
+{
+    m_warnPUA = m_menuItemWarnPUA->IsChecked();
+    m_toolWarnPUA->SetState((m_toolWarnPUA->GetState() & ~wxAUI_BUTTON_STATE_CHECKED) | (m_warnPUA ? wxAUI_BUTTON_STATE_CHECKED : 0));
+    m_toolbarTranslate->Refresh();
+
+    // Notify source text something changed and should re-translate.
+    wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
+    m_panel->m_source->ProcessWindowEvent(event2);
+
+    event.Skip();
+}
+
+
+void wxZRColaFrame::OnWarnPUAToolbar(wxCommandEvent& event)
+{
+    m_warnPUA = (m_toolWarnPUA->GetState() & wxAUI_BUTTON_STATE_CHECKED) ? true : false;
+    m_menuItemWarnPUA->Check(m_warnPUA);
 
     // Notify source text something changed and should re-translate.
     wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
@@ -746,6 +784,7 @@ void wxPersistentZRColaFrame::Save() const
     auto wnd = static_cast<const wxZRColaFrame*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
 
     SaveValue(wxT("composition"), wnd->m_composition);
+    SaveValue(wxT("warnPUA"), wnd->m_warnPUA);
     SaveValue(wxT("transeqId"), static_cast<int>(wnd->m_transeq_id));
 
     wxPersistentZRColaComposerPanel(wnd->m_panel).Save();
@@ -769,6 +808,10 @@ bool wxPersistentZRColaFrame::Restore()
         wnd->m_composition = b;
     else
         wnd->m_composition = wnd->m_transeq_id == ZRCOLA_TRANSEQID_DEFAULT;
+    if (RestoreValue(wxT("warnPUA"), &b))
+        wnd->m_warnPUA = b;
+    else
+        wnd->m_warnPUA = false;
 
     int guiLevel;
     return RestoreValue(wxT("guiLevel"), &guiLevel) && guiLevel == s_guiLevel ? wxPersistentTLWEx::Restore() : true;
