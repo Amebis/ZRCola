@@ -304,10 +304,11 @@ int _tmain(int argc, _TCHAR *argv[])
     // Parse command line.
     static const wxCmdLineEntryDesc cmdLineDesc[] =
     {
-        { wxCMD_LINE_SWITCH, "h"  , "help", _("Show this help message"), wxCMD_LINE_VAL_NONE  , wxCMD_LINE_OPTION_HELP      },
-        { wxCMD_LINE_PARAM ,  NULL, NULL  , _("<input file>"          ), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
-        { wxCMD_LINE_PARAM ,  NULL, NULL  , _("<output file>"         ), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
-        { wxCMD_LINE_PARAM ,  NULL, NULL  , _("<output POT catalog>"  ), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION           },
+        { wxCMD_LINE_SWITCH, "h" , "help"   , _("Show this help message"), wxCMD_LINE_VAL_NONE  , wxCMD_LINE_OPTION_HELP      },
+        { wxCMD_LINE_PARAM , NULL, NULL     , _("<Input file>"          ), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
+        { wxCMD_LINE_PARAM , NULL, NULL     , _("<Output file>"         ), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
+        { wxCMD_LINE_OPTION, NULL, "pot-cat", _("Output POT catalog"    ), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
+        { wxCMD_LINE_OPTION, NULL, "csv-rep", _("Output CSV report"     ), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
 
         { wxCMD_LINE_NONE }
     };
@@ -350,10 +351,12 @@ int _tmain(int argc, _TCHAR *argv[])
     bool has_errors = false;
 
     // Set of strings to translate.
-    bool build_pot = parser.GetParamCount() > 2;
+    wxString filenamePot;
+    bool build_pot = parser.Found("pot-cat", &filenamePot);
     set<wstring> pot;
 
-    bool build_csv = parser.GetParamCount() > 3;
+    wxString filenameCsv;
+    bool build_csv = parser.Found("csv-rep", &filenameCsv);
     vector<ZRCola::DBSource::translation> csv;
 
     // Open file ID.
@@ -1215,7 +1218,6 @@ int _tmain(int argc, _TCHAR *argv[])
     }
 
     if (!has_errors && build_pot) {
-        const wxString& filenamePot = parser.GetParam(2);
         fstream dst_pot((LPCTSTR)filenamePot, ios_base::out | ios_base::trunc);
         if (dst_pot.good()) {
             dst_pot << "msgid \"\"" << endl
@@ -1259,7 +1261,6 @@ int _tmain(int argc, _TCHAR *argv[])
     }
 
     if (!has_errors && build_csv) {
-        const wxString& filenameCsv = parser.GetParam(3);
         fstream dst_csv((LPCTSTR)filenameCsv, ios_base::out | ios_base::trunc);
         if (dst_csv.good()) {
             dst_csv
