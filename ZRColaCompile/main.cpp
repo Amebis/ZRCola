@@ -520,17 +520,30 @@ int _tmain(int argc, _TCHAR *argv[])
             com_obj<ADORecordset> rs2;
             if (src.SelectPUACharacters(rs2)) {
                 // Parse characters and build translations.
-                static const LOGFONT lf_zrcola = {
-                    -FONT_MATCH_HEIGHT/2, 0,
-                    0, 0,
-                    FW_NORMAL,
-                    FALSE, FALSE, FALSE,
-                    ANSI_CHARSET,
-                    OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
-                    DEFAULT_PITCH | FF_DONTCARE,
-                    TEXT("ZRCola")
-                };
-                gdi_handle<HFONT> fnt_zrcola(::CreateFontIndirect(&lf_zrcola));
+                static const LOGFONT
+                    lf_zrcola = {
+                        -FONT_MATCH_HEIGHT/2, 0,
+                        0, 0,
+                        FW_NORMAL,
+                        FALSE, FALSE, FALSE,
+                        ANSI_CHARSET,
+                        OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
+                        DEFAULT_PITCH | FF_DONTCARE,
+                        TEXT("ZRCola")
+                    },
+                    lf_times = {
+                        -FONT_MATCH_HEIGHT/2, 0,
+                        0, 0,
+                        FW_NORMAL,
+                        FALSE, FALSE, FALSE,
+                        ANSI_CHARSET,
+                        OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
+                        DEFAULT_PITCH | FF_DONTCARE,
+                        TEXT("Times New Roman")
+                    };
+                gdi_handle<HFONT>
+                    fnt_zrcola(::CreateFontIndirect(&lf_zrcola)),
+                    fnt_times (::CreateFontIndirect(&lf_times ));
                 gdi_handle<HBRUSH> brush_bg(::CreateSolidBrush(RGB(0x00, 0x00, 0x00)));
                 gdi_handle<HBITMAP>
                     bmp_orig(::CreateBitmap(FONT_MATCH_WIDTH, FONT_MATCH_HEIGHT, 1, 1, NULL)),
@@ -554,8 +567,8 @@ int _tmain(int argc, _TCHAR *argv[])
                 SetTextAlign(dc_pre , TA_BASELINE | TA_CENTER | TA_NOUPDATECP);
                 dc_selector
                     selector_font_orig(dc_orig, fnt_zrcola),
-                    selector_font_comb(dc_comb, fnt_zrcola),
-                    selector_font_pre (dc_pre , fnt_zrcola);
+                    selector_font_comb(dc_comb, fnt_times ),
+                    selector_font_pre (dc_pre , fnt_times );
                 struct {
                     BITMAPINFOHEADER bmiHeader;
                     RGBQUAD          bmiColors[2];
