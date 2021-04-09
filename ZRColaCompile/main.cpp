@@ -598,6 +598,69 @@ int _tmain(int argc, _TCHAR *argv[])
                     bits_comb(FONT_MATCH_WIDTH * FONT_MATCH_HEIGHT / 8),
                     bits_pre (FONT_MATCH_WIDTH * FONT_MATCH_HEIGHT / 8);
                 map<wstring, map<wstring, pair<double, int>>> trans;
+
+                auto process_permutation = [&] (const wstring &comp_orig, const wstring &decomp_orig) {
+                    // Replace ZRCola decomposition with Unicode combining characters wherever possible.
+                    wstring decomp = decomp_orig;
+                    for (auto i = db_combining.cbegin(), i_end = db_combining.cend(); i != i_end; ++i)
+                        replace_all(decomp, i->src.str, i->dst.str);
+                    wstring comp = decomp;
+                    for (auto i = db_all.cbegin(), i_end = db_all.cend(); i != i_end; ++i)
+                        replace_all(comp, i->src.str, i->dst.str);
+                    // Check if we got anything useful.
+                    if (comp_orig == comp ||
+                        contains_pua(comp))
+                        return;
+                    // Do the Unicode normalization.
+                    wstring comp_pre;
+                    if (comp.length() > 2) {
+                        NormalizeString(NormalizationC, comp.c_str(), 2, comp_pre);
+                        comp_pre += comp.c_str() + 2;
+                    } else
+                        NormalizeString(NormalizationC, comp, comp_pre);
+                    {
+                        // Paint original character and Unicode precomposed/combining one.
+                        dc_selector
+                            selector_bmp_orig(dc_orig, bmp_orig),
+                            selector_bmp_comb(dc_comb, bmp_comb),
+                            selector_bmp_pre (dc_pre , bmp_pre );
+                        static const RECT bounds = { 0, 0, FONT_MATCH_WIDTH, FONT_MATCH_HEIGHT };
+                        FillRect(dc_orig, &bounds, brush_bg);
+                        FillRect(dc_comb, &bounds, brush_bg);
+                        FillRect(dc_pre , &bounds, brush_bg);
+                        TextOutW(dc_orig, FONT_MATCH_WIDTH/2, FONT_MATCH_HEIGHT*5/8, comp_orig.c_str(), comp_orig.length());
+                        TextOutW(dc_comb, FONT_MATCH_WIDTH/2, FONT_MATCH_HEIGHT*5/8, comp     .c_str(), comp     .length());
+                        TextOutW(dc_pre , FONT_MATCH_WIDTH/2, FONT_MATCH_HEIGHT*5/8, comp_pre .c_str(), comp_pre .length());
+                    }
+                    // Compare bitmaps.
+                    if (!GetDIBits(dc_orig, bmp_orig, 0, FONT_MATCH_HEIGHT, bits_orig.data(), (BITMAPINFO*)&bmi, DIB_PAL_COLORS) ||
+                        !GetDIBits(dc_comb, bmp_comb, 0, FONT_MATCH_HEIGHT, bits_comb.data(), (BITMAPINFO*)&bmi, DIB_PAL_COLORS) ||
+                        !GetDIBits(dc_pre , bmp_pre , 0, FONT_MATCH_HEIGHT, bits_pre .data(), (BITMAPINFO*)&bmi, DIB_PAL_COLORS))
+                        return;
+                    double
+                        score_comb = compare_bitmaps(bits_orig.data(), bits_comb.data()),
+                        score_pre  = compare_bitmaps(bits_orig.data(), bits_pre .data());
+                    // Add results to a temporary database.
+                    auto hit = trans.find(comp_orig);
+                    if (hit != trans.end()) {
+                        if (build_csv || score_pre <= FONT_MATCH_THRESHOLD) {
+                            if (hit->second.find(comp_pre) == hit->second.end())
+                                hit->second.insert(make_pair(comp_pre, make_pair(score_pre, 1)));
+                        } if ((build_csv || score_comb <= FONT_MATCH_THRESHOLD) && comp_pre != comp) {
+                            if (hit->second.find(comp) == hit->second.end())
+                                hit->second.insert(make_pair(comp, make_pair(score_comb, 100)));
+                        }
+                    } else {
+                        map<wstring, pair<double, int>> v;
+                        if (build_csv || score_pre <= FONT_MATCH_THRESHOLD)
+                            v.insert(make_pair(comp_pre, make_pair(score_pre, 1)));
+                        if ((build_csv || score_comb <= FONT_MATCH_THRESHOLD) && comp_pre != comp)
+                            v.insert(make_pair(comp, make_pair(score_comb, 100)));
+                        if (!v.empty())
+                            trans.insert(make_pair(comp_orig, std::move(v)));
+                    }
+                };
+
                 for (; !ZRCola::DBSource::IsEOF(rs2); rs2->MoveNext()) {
                     // Read character from the database.
                     ZRCola::DBSource::character chr;
@@ -605,65 +668,22 @@ int _tmain(int argc, _TCHAR *argv[])
                         for (auto t = db_all.cbegin(), t_end = db_all.cend(); t != t_end; ++t) {
                             if (t->dst.str != chr.first)
                                 continue;
-                            // Replace ZRCola decomposition with Unicode combining characters wherever possible.
-                            const auto &comp_orig = chr.first;
-                            const auto &decomp_orig = t->src.str;
-                            wstring decomp = decomp_orig;
-                            for (auto i = db_combining.cbegin(), i_end = db_combining.cend(); i != i_end; ++i)
-                                replace_all(decomp, i->src.str, i->dst.str);
-                            wstring comp = decomp;
-                            for (auto i = db_all.cbegin(), i_end = db_all.cend(); i != i_end; ++i)
-                                replace_all(comp, i->src.str, i->dst.str);
-                            // Check if we got anything useful.
-                            if (comp_orig == comp ||
-                                contains_pua(comp))
-                                continue;
-                            // Do the Unicode C and D normalizations to get two variants:
-                            // - Use precomposed characters as much as possible
-                            // - Use combining characters only
-                            wstring comp_comb, comp_pre;
-                            NormalizeString(NormalizationC, comp    , comp_pre );
-                            NormalizeString(NormalizationD, comp_pre, comp_comb);
-                            {
-                                // Paint original character and Unicode precomposed/combining one.
-                                dc_selector
-                                    selector_bmp_orig(dc_orig, bmp_orig),
-                                    selector_bmp_comb(dc_comb, bmp_comb),
-                                    selector_bmp_pre (dc_pre , bmp_pre );
-                                static const RECT bounds = { 0, 0, FONT_MATCH_WIDTH, FONT_MATCH_HEIGHT };
-                                FillRect(dc_orig, &bounds, brush_bg);
-                                FillRect(dc_comb, &bounds, brush_bg);
-                                FillRect(dc_pre , &bounds, brush_bg);
-                                TextOutW(dc_orig, FONT_MATCH_WIDTH/2, FONT_MATCH_HEIGHT*5/8, comp_orig.c_str(), comp_orig.length());
-                                TextOutW(dc_comb, FONT_MATCH_WIDTH/2, FONT_MATCH_HEIGHT*5/8, comp_comb.c_str(), comp_comb.length());
-                                TextOutW(dc_pre , FONT_MATCH_WIDTH/2, FONT_MATCH_HEIGHT*5/8, comp_pre .c_str(), comp_pre .length());
-                            }
-                            // Compare bitmaps.
-                            if (!GetDIBits(dc_orig, bmp_orig, 0, FONT_MATCH_HEIGHT, bits_orig.data(), (BITMAPINFO*)&bmi, DIB_PAL_COLORS) ||
-                                !GetDIBits(dc_comb, bmp_comb, 0, FONT_MATCH_HEIGHT, bits_comb.data(), (BITMAPINFO*)&bmi, DIB_PAL_COLORS) ||
-                                !GetDIBits(dc_pre , bmp_pre , 0, FONT_MATCH_HEIGHT, bits_pre .data(), (BITMAPINFO*)&bmi, DIB_PAL_COLORS))
-                                continue;
-                            double
-                                score_comb = compare_bitmaps(bits_orig.data(), bits_comb.data()),
-                                score_pre  = compare_bitmaps(bits_orig.data(), bits_pre .data());
-                            // Add results to a temporary database.
-                            auto hit = trans.find(comp_orig);
-                            if (hit != trans.end()) {
-                                if (build_csv || score_pre <= FONT_MATCH_THRESHOLD) {
-                                    if (hit->second.find(comp_pre) == hit->second.end())
-                                        hit->second.insert(make_pair(comp_pre, make_pair(score_pre, 1)));
-                                } if ((build_csv || score_comb <= FONT_MATCH_THRESHOLD) && comp_pre != comp_comb) {
-                                    if (hit->second.find(comp_comb) == hit->second.end())
-                                        hit->second.insert(make_pair(comp_comb, make_pair(score_comb, 100)));
+
+                            // Process primary permutation.
+                            process_permutation(chr.first, t->src.str);
+
+                            // Secondary permutation(s).
+                            auto const hit_np = db_np.find(t->norm);
+                            if (hit_np != db_np.end()) {
+                                for (auto perm = hit_np->second.cbegin(), perm_end = hit_np->second.cend(); perm != perm_end; ++perm) {
+                                    // Prepare permutated string.
+                                    translation_db::mapped_type::key_type str_perm;
+                                    for (auto idx = perm->cbegin(), idx_end = perm->cend(); idx != idx_end; ++idx)
+                                        str_perm += t->src.str[*idx];
+
+                                    // Process secondary permutation.
+                                    process_permutation(chr.first, str_perm);
                                 }
-                            } else {
-                                map<wstring, pair<double, int>> v;
-                                if (build_csv || score_pre <= FONT_MATCH_THRESHOLD)
-                                    v.insert(make_pair(comp_pre, make_pair(score_pre, 1)));
-                                if ((build_csv || score_comb <= FONT_MATCH_THRESHOLD) && comp_pre != comp_comb)
-                                    v.insert(make_pair(comp_comb, make_pair(score_comb, 100)));
-                                if (!v.empty())
-                                    trans.insert(make_pair(comp_orig, std::move(v)));
                             }
                         }
                     } else
