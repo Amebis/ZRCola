@@ -33,15 +33,15 @@ ZRCola is using wxWidgets static libraries. You have to compile static libraries
 4. Run: `nmake /f makefile.vc /ls RUNTIME_LIBS=static SHARED=0 COMPILER_VERSION=141 TARGET_CPU=X64 BUILD=release`
 
 #### Specifying wxWidgets path
-ZRCola compilation references wxWidgets libraries using `WXWIN` environment variable. Please set it to wxWidgets folder (i.e. `C:\SDK\wxWidgets`).
+ZRCola compilation references wxWidgets libraries using `WXWIN` environment variable. Please set it to wxWidgets folder (e.g. `C:\SDK\wxWidgets`).
 
 ### Digital Signing of Build Outputs
 In order to have the build process digitally sign output files, one should provide the following:
 
 1. A signing certificate installed in the current user's certificate store.
 2. The following variables in the environment:
-  - `ManifestCertificateThumbprint` - set the value to certificate's SHA1 thumbprint (hexadecimal, without spaces, i.e. `f61b973226c502a732d24f41aa85e192b009e7c0`).
-  - `ManifestTimestampRFC3161Url`   - set the value to URL used to perform RFC3161 timestamp signature (i.e. `http://time.certum.pl`). In order to perform timestamp signing successfully, the computer running the build should be online and able to access this URL.
+  - `ManifestCertificateThumbprint` - set the value to certificate's SHA1 thumbprint (hexadecimal, without spaces, e.g. `f61b973226c502a732d24f41aa85e192b009e7c0`).
+  - `ManifestTimestampRFC3161Url`   - set the value to URL used to perform RFC3161 timestamp signature (e.g. `http://time.certum.pl`). In order to perform timestamp signing successfully, the computer running the build should be online and able to access this URL.
 
 Please note that only Release builds are configured for timestamp signing. Debug configurations do not attempt to timestamp sign the resulting DLL and EXE files in order to speed up the building process and enable offline building.
 
@@ -54,7 +54,7 @@ Use Microsoft NMAKE to build the project. The resulting files can be found in ou
 - `nmake Register`	Build a debug version of project, install fonts (reboot required), and Start Menu shortcuts. For development purposes only!
 - `nmake Unregister`	Remove Start Menu shortcuts, and fonts. For development purposes only!
 
-The `/ls` flag can be appended to the commands above to reduce NMAKE's verbosity. You can combine multiple targets (i.e. nmake Unregister Clean). Please, see NMAKE reference for further reading.
+The `/ls` flag can be appended to the commands above to reduce NMAKE's verbosity. You can combine multiple targets (e.g. nmake Unregister Clean). Please, see NMAKE reference for further reading.
 
 ## Translating ZRCola
 Instructions how to translate ZRCola to your language can be found [here](LOCALIZATION.md).
