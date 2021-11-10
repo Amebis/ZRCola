@@ -41,6 +41,7 @@ wxZRColaUpdater::wxZRColaUpdater(wxWindow* parent) :
 
     // Prepare Updater.
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
+    #pragma warning(suppress: 26812) // wxLanguage is unscoped.
     m_updater = new wxUpdCheckThread(app->m_lang_ui == wxLANGUAGE_DEFAULT ? wxT("en_US") : wxLocale::GetLanguageCanonicalName(app->m_lang_ui), this);
     //if (m_updater->Run() != wxTHREAD_NO_ERROR) {
     //    wxFAIL_MSG(wxT("Can't create the thread!"));

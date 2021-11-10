@@ -237,8 +237,10 @@ wxZRColaCharSelect::wxZRColaCharSelect(wxWindow* parent) :
 
 wxZRColaCharSelect::~wxZRColaCharSelect()
 {
-    if (m_searchThread)
+    if (m_searchThread) {
+        #pragma warning(suppress: 26812) // wxThreadError is unscoped.
         m_searchThread->Delete();
+    }
 
     Disconnect(wxID_ANY, wxEVT_SEARCH_COMPLETE, wxThreadEventHandler(wxZRColaCharSelect::OnSearchComplete), NULL, this);
 }
