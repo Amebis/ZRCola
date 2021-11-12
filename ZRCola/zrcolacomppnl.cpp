@@ -45,7 +45,22 @@ wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
     m_destination->SetMargins(FromDIP(wxPoint(5, 2)));
 
     m_source->PushEventHandler(&m_keyhandler);
+}
 
+
+wxZRColaComposerPanel::~wxZRColaComposerPanel()
+{
+    m_source->PopEventHandler();
+
+    // This is a controlled exit. Purge saved state.
+    wxString fileName(GetStateFileName());
+    if (wxFileExists(fileName))
+        wxRemoveFile(fileName);
+}
+
+
+void wxZRColaComposerPanel::RestoreFromStateFile()
+{
     // Restore the previously saved state (if exists).
     wxString fileName(GetStateFileName());
     if (wxFileExists(fileName)) {
@@ -80,17 +95,6 @@ wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
             }
         }
     }
-}
-
-
-wxZRColaComposerPanel::~wxZRColaComposerPanel()
-{
-    m_source->PopEventHandler();
-
-    // This is a controlled exit. Purge saved state.
-    wxString fileName(GetStateFileName());
-    if (wxFileExists(fileName))
-        wxRemoveFile(fileName);
 }
 
 
@@ -191,7 +195,6 @@ void wxZRColaComposerPanel::SynchronizePanels()
     m_sourceChanged      = false;
     m_destinationChanged = false;
 }
-
 
 
 void wxZRColaComposerPanel::OnSourcePaint(wxPaintEvent& event)

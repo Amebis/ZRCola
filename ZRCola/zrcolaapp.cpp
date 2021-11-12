@@ -174,6 +174,7 @@ bool ZRColaApp::OnInit()
     wxSocketBase::Initialize();
 
     m_mainWnd = new wxZRColaFrame();
+    m_mainWnd->m_panel->RestoreFromStateFile();
     m_mainWnd->Show();
 
     return true;

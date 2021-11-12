@@ -49,6 +49,7 @@ public:
     wxZRColaComposerPanel(wxWindow* parent);
     virtual ~wxZRColaComposerPanel();
 
+    void RestoreFromStateFile();
     void SynchronizePanels();
 
     friend class wxPersistentZRColaComposerPanel;   // Allow saving/restoring window state.
