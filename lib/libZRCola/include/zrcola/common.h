@@ -19,14 +19,15 @@
 
 #pragma once
 
+#ifdef _WIN32
+#define _WINSOCKAPI_    // Prevent inclusion of winsock.h in windows.h.
+#include <Windows.h>
+#endif
 #include <sal.h>
 #include <istream>
 #include <ostream>
 #include <utility>
 #include <vector>
-#ifdef _WIN32
-#include <Windows.h>
-#endif
 
 
 #pragma warning(push)
