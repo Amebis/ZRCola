@@ -142,7 +142,7 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 
 	m_menuEdit->AppendSeparator();
 
-	m_menuItemWarnPUA = new wxMenuItem( m_menuEdit, wxID_WARN_PUA, wxString( _("&PUA Warning") ) , _("Toggle PUA warning"), wxITEM_CHECK );
+	m_menuItemWarnPUA = new wxMenuItem( m_menuEdit, wxID_WARN_PUA, wxString( _("&PUA Warning") ) , _("Highlight Private Use Area Characters"), wxITEM_CHECK );
 	m_menuEdit->Append( m_menuItemWarnPUA );
 
 	m_menuEdit->AppendSeparator();
@@ -226,7 +226,7 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_toolbarTranslate->AddControl( m_toolTranslationSeq );
 	m_toolbarTranslate->AddSeparator();
 
-	m_toolWarnPUA = m_toolbarTranslate->AddTool( wxID_WARN_PUA, _("PUA Warning"), wxIcon( wxT("warn_pua.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_CHECK, _("Highlight PUA Characters"), _("Toggle PUA warning"), NULL );
+	m_toolWarnPUA = m_toolbarTranslate->AddTool( wxID_WARN_PUA, _("PUA Warning"), wxIcon( wxT("warn_pua.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_CHECK, _("Highlight Private Use Area Characters"), _("Highlight Private Use Area Characters"), NULL );
 
 	m_toolbarTranslate->Realize();
 	m_mgr.AddPane( m_toolbarTranslate, wxAuiPaneInfo().Name( wxT("toolbarCompose") ).Top().Caption( _("Compose") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );

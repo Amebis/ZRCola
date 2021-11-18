@@ -274,7 +274,7 @@
                         <property name="bitmap"></property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
-                        <property name="help">Toggle PUA warning</property>
+                        <property name="help">Highlight Private Use Area Characters</property>
                         <property name="id">wxID_WARN_PUA</property>
                         <property name="kind">wxITEM_CHECK</property>
                         <property name="label">&amp;PUA Warning</property>
@@ -698,8 +698,8 @@
                     <property name="label">PUA Warning</property>
                     <property name="name">m_toolWarnPUA</property>
                     <property name="permission">protected</property>
-                    <property name="statusbar">Toggle PUA warning</property>
-                    <property name="tooltip">Highlight PUA Characters</property>
+                    <property name="statusbar">Highlight Private Use Area Characters</property>
+                    <property name="tooltip">Highlight Private Use Area Characters</property>
                 </object>
             </object>
             <object class="CustomControl" expanded="0">
