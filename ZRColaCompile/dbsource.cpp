@@ -729,27 +729,6 @@ bool ZRCola::DBSource::GetNormPerm(const winstd::com_obj<ADORecordset>& rs, std:
 }
 
 
-bool ZRCola::DBSource::SelectAllTranslations(com_obj<ADORecordset> &rs) const
-{
-    // Create a new recordset.
-    rs.free();
-    wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
-
-    // Open it.
-    if (FAILED(rs->Open(variant(
-        L"SELECT [komb], [rang_komb], [Kano], [Kanoniziraj], [znak], [rang_znak] "
-        L"FROM [VRS_ReplChar] "
-        L"ORDER BY [rang_komb], LEN([komb]) DESC"), variant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
-    {
-        _ftprintf(stderr, wxT("%s: error ZCC0040: Error loading translations from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
-        LogErrors();
-        return false;
-    }
-
-    return true;
-}
-
-
 bool ZRCola::DBSource::SelectTranslations(com_obj<ADORecordset> &rs) const
 {
     // Create a new recordset.
@@ -1249,30 +1228,6 @@ bool ZRCola::DBSource::SelectCharacters(com_obj<ADORecordset>& rs) const
         L"WHERE "
         L"[aktiven]=1 AND " // Active characters only
         L"[kat]<>'g' "      // Ignore "Other, Control" category!
-        L"ORDER BY [znak]"), variant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
-    {
-        _ftprintf(stderr, wxT("%s: error ZCC0120: Error loading characters from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
-        LogErrors();
-        return false;
-    }
-
-    return true;
-}
-
-
-bool ZRCola::DBSource::SelectPUACharacters(com_obj<ADORecordset>& rs) const
-{
-    // Create a new recordset.
-    rs.free();
-    wxCHECK(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)), false);
-
-    // Open it.
-    if (FAILED(rs->Open(variant(
-        L"SELECT [znak], [opis_en], [kat], [znak_v], [znak_m] "
-        L"FROM [VRS_CharList] "
-        L"WHERE "
-        L"[znak]>='E000' AND [znak]<='F8FF' AND " // Private-Use-Area
-        L"[aktiven]=1 "                           // Active characters only
         L"ORDER BY [znak]"), variant(m_db), adOpenStatic, adLockReadOnly, adCmdText)))
     {
         _ftprintf(stderr, wxT("%s: error ZCC0120: Error loading characters from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());

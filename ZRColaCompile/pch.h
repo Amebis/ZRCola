@@ -37,7 +37,6 @@
 #include <stdex/idrec.h>
 
 #include <WinStd/Common.h>
-#include <WinStd/GDI.h>
 
 #include <initguid.h> // GUID helper to prevent LNK2001 errors (unresolved external symbol IID_IADO...)
 #pragma warning(push)
@@ -46,7 +45,6 @@
 #include <adoid.h>
 #pragma warning(pop)
 
-#include <memory.h>
 #include <process.h>
 #include <tchar.h>
 
@@ -58,5 +56,4 @@
 #include <fstream>
 #include <memory>
 #include <set>
-#include <utility>
 #include <vector>

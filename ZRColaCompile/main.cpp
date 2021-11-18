@@ -19,10 +19,6 @@
 
 #include "pch.h"
 
-#define FONT_MATCH_WIDTH        512 // must be a multiple of 8
-#define FONT_MATCH_HEIGHT       512
-#define FONT_MATCH_THRESHOLD    8e-2
-
 using namespace std;
 using namespace stdex;
 using namespace winstd;
@@ -228,56 +224,6 @@ static inline set<ZRCola::DBSource::charseq> permutate_and_translate_inv(_In_ co
 }
 
 
-static bool contains_pua(_In_ const wstring &str)
-{
-    for (auto p = str.c_str(), p_end = str.c_str() + str.size(); p < p_end; p++)
-        if (L'\ue000' <= *p && *p <= L'\uf8ff')
-            return true;
-    return false;
-}
-
-
-static void replace_all(_Inout_ wstring &str, _In_ const wstring &from, _In_ const wstring &to)
-{
-    size_t start_pos = 0;
-    while ((start_pos = str.find(from, start_pos)) != wstring::npos) {
-        str.replace(start_pos, from.length(), to);
-        start_pos += to.length();
-    }
-}
-
-
-static double compare_bitmaps(
-    _In_count_c_(FONT_MATCH_WIDTH * FONT_MATCH_HEIGHT / 8) const unsigned char *bits_orig,
-    _In_count_c_(FONT_MATCH_WIDTH * FONT_MATCH_HEIGHT / 8) const unsigned char *bits)
-{
-#define B2(n) n, n + 1, n + 1, n + 2
-#define B4(n) B2(n), B2(n + 1), B2(n + 1), B2(n + 2)
-#define B6(n) B4(n), B4(n + 1), B4(n + 1), B4(n + 2)
-    static const unsigned char number_of_bits[256] = { B6(0), B6(1), B6(1), B6(2) };
-#undef B2
-#undef B4
-#undef B6
-    // Set divisors to 1 to prevent divide-by-zero.
-    size_t b_orig = 1, b = 1, x = 0;
-    for (size_t i = 0; i < FONT_MATCH_WIDTH * FONT_MATCH_HEIGHT / 8; ++i) {
-        b_orig += number_of_bits[bits_orig[i]];
-        b      += number_of_bits[bits     [i]];
-        x      += number_of_bits[bits_orig[i] ^ bits[i]];
-    }
-    return (double)x/b_orig * (double)x/b;
-}
-
-
-static string make_unicode(_In_ const wstring &str)
-{
-    string out;
-    for (size_t i = 0, n = str.length(); i < n; i++)
-        out += string_printf(i ? "+%04X" : "%04X", str[i]);
-    return out;
-}
-
-
 ///
 /// Main function
 ///
@@ -308,7 +254,6 @@ int _tmain(int argc, _TCHAR *argv[])
         { wxCMD_LINE_PARAM , NULL, NULL     , _("<Input file>"          ), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
         { wxCMD_LINE_PARAM , NULL, NULL     , _("<Output file>"         ), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
         { wxCMD_LINE_OPTION, NULL, "pot-cat", _("Output POT catalog"    ), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
-        { wxCMD_LINE_OPTION, NULL, "csv-rep", _("Output CSV report"     ), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
 
         { wxCMD_LINE_NONE }
     };
@@ -355,10 +300,6 @@ int _tmain(int argc, _TCHAR *argv[])
     bool build_pot = parser.Found("pot-cat", &filenamePot);
     set<wstring> pot;
 
-    wxString filenameCsv;
-    bool build_csv = parser.Found("csv-rep", &filenameCsv);
-    vector<ZRCola::DBSource::translation> csv;
-
     // Open file ID.
     streamoff dst_start = idrec::open<ZRCola::recordid_t, ZRCola::recordsize_t>(dst, ZRCOLA_DB_ID);
 
@@ -395,19 +336,6 @@ int _tmain(int argc, _TCHAR *argv[])
     }
 
     {
-        // Build ZRCola Decomposed to ZRCola Composed translation set.
-        ZRCola::DBSource::transet ts;
-        ts.set = (int)ZRCOLA_TRANSEQID_DEFAULT;
-        ts.src = L"ZRCola Decomposed";
-        ts.dst = L"ZRCola Composed";
-        if (build_pot) {
-            pot.insert(ts.src);
-            pot.insert(ts.dst);
-        }
-
-        // Add translation set to index and data.
-        db_transset << ts;
-
         // Get translations.
         com_obj<ADORecordset> rs;
         if (src.SelectTranslations(rs)) {
@@ -488,257 +416,14 @@ int _tmain(int argc, _TCHAR *argv[])
     }
 
     {
-        // Build ZRCola to Unicode translation set.
-        ZRCola::DBSource::transet ts;
-        ts.set = (int)ZRCOLA_TRANSEQID_UNICODE;
-        ts.src = L"ZRCola Composed";
-        ts.dst = L"Unicode";
-        if (build_pot) {
-            pot.insert(ts.src);
-            pot.insert(ts.dst);
-        }
-
-        // Add translation set to index and data.
-        db_transset << ts;
-
-        // Get all translations.
-        com_obj<ADORecordset> rs;
-        if (src.SelectAllTranslations(rs)) {
-            // Parse translations and build temporary database.
-            vector<ZRCola::DBSource::translation> db_all, db_combining;
-            for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
-                // Read translation from the database.
-                ZRCola::DBSource::translation trans;
-                if (src.GetTranslation(rs, trans)) {
-                    // Add translation to temporary databases.
-                    db_all.push_back(trans);
-                    if (!trans.src.str.empty() && trans.src.str[0] == L'\u203f') {
-                        trans.src.str.erase(0, 1);
-                        db_combining.push_back(trans);
-                    }
-                } else
-                    has_errors = true;
-            }
-
-            com_obj<ADORecordset> rs2;
-            if (src.SelectPUACharacters(rs2)) {
-                // Parse characters and build translations.
-                static const LOGFONT
-                    lf_zrcola = {
-                        -FONT_MATCH_HEIGHT/2, 0,
-                        0, 0,
-                        FW_NORMAL,
-                        FALSE, FALSE, FALSE,
-                        ANSI_CHARSET,
-                        OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
-                        DEFAULT_PITCH | FF_DONTCARE,
-                        TEXT("ZRCola")
-                    },
-                    lf_times = {
-                        -FONT_MATCH_HEIGHT/2, 0,
-                        0, 0,
-                        FW_NORMAL,
-                        FALSE, FALSE, FALSE,
-                        ANSI_CHARSET,
-                        OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
-                        DEFAULT_PITCH | FF_DONTCARE,
-                        TEXT("Times New Roman")
-                    };
-                gdi_handle<HFONT>
-                    fnt_zrcola(::CreateFontIndirect(&lf_zrcola)),
-                    fnt_times (::CreateFontIndirect(&lf_times ));
-                gdi_handle<HBRUSH> brush_bg(::CreateSolidBrush(RGB(0x00, 0x00, 0x00)));
-                gdi_handle<HBITMAP>
-                    bmp_orig(::CreateBitmap(FONT_MATCH_WIDTH, FONT_MATCH_HEIGHT, 1, 1, NULL)),
-                    bmp_comb(::CreateBitmap(FONT_MATCH_WIDTH, FONT_MATCH_HEIGHT, 1, 1, NULL)),
-                    bmp_pre (::CreateBitmap(FONT_MATCH_WIDTH, FONT_MATCH_HEIGHT, 1, 1, NULL));
-                dc
-                    dc_orig(::CreateCompatibleDC(NULL)),
-                    dc_comb(::CreateCompatibleDC(NULL)),
-                    dc_pre (::CreateCompatibleDC(NULL));
-                SetBkColor(dc_orig, RGB(0x00, 0x00, 0x00));
-                SetBkColor(dc_comb, RGB(0x00, 0x00, 0x00));
-                SetBkColor(dc_pre , RGB(0x00, 0x00, 0x00));
-                SetBkMode (dc_orig, TRANSPARENT);
-                SetBkMode (dc_comb, TRANSPARENT);
-                SetBkMode (dc_pre , TRANSPARENT);
-                SetTextColor(dc_orig, RGB(0xff, 0xff, 0xff));
-                SetTextColor(dc_comb, RGB(0xff, 0xff, 0xff));
-                SetTextColor(dc_pre , RGB(0xff, 0xff, 0xff));
-                SetTextAlign(dc_orig, TA_BASELINE | TA_CENTER | TA_NOUPDATECP);
-                SetTextAlign(dc_comb, TA_BASELINE | TA_CENTER | TA_NOUPDATECP);
-                SetTextAlign(dc_pre , TA_BASELINE | TA_CENTER | TA_NOUPDATECP);
-                dc_selector
-                    selector_font_orig(dc_orig, fnt_zrcola),
-                    selector_font_comb(dc_comb, fnt_times ),
-                    selector_font_pre (dc_pre , fnt_times );
-                struct {
-                    BITMAPINFOHEADER bmiHeader;
-                    RGBQUAD          bmiColors[2];
-                } bmi =
-                {
-                    {
-                        sizeof(BITMAPINFOHEADER),
-                        FONT_MATCH_WIDTH,
-                        FONT_MATCH_HEIGHT,
-                        1,
-                        1,
-                        BI_RGB,
-                        0,
-                        3780, 3780,
-                        2, 0
-                    },
-                    {
-                        { 0x00, 0x00, 0x00 },
-                        { 0xff, 0xff, 0xff },
-                    }
-                };
-                vector<unsigned char>
-                    bits_orig(FONT_MATCH_WIDTH * FONT_MATCH_HEIGHT / 8),
-                    bits_comb(FONT_MATCH_WIDTH * FONT_MATCH_HEIGHT / 8),
-                    bits_pre (FONT_MATCH_WIDTH * FONT_MATCH_HEIGHT / 8);
-                map<wstring, map<wstring, pair<double, int>>> trans;
-
-                auto process_permutation = [&] (const wstring &comp_orig, const wstring &decomp_orig) {
-                    // Replace ZRCola decomposition with Unicode combining characters wherever possible.
-                    wstring decomp = decomp_orig;
-                    for (auto i = db_combining.cbegin(), i_end = db_combining.cend(); i != i_end; ++i)
-                        replace_all(decomp, i->src.str, i->dst.str);
-                    wstring comp = decomp;
-                    for (auto i = db_all.cbegin(), i_end = db_all.cend(); i != i_end; ++i)
-                        replace_all(comp, i->src.str, i->dst.str);
-                    // Check if we got anything useful.
-                    if (comp_orig == comp ||
-                        contains_pua(comp))
-                        return;
-                    // Do the Unicode normalization.
-                    wstring comp_pre;
-                    if (comp.length() > 2) {
-                        NormalizeString(NormalizationC, comp.c_str(), 2, comp_pre);
-                        comp_pre += comp.c_str() + 2;
-                    } else
-                        NormalizeString(NormalizationC, comp, comp_pre);
-                    {
-                        // Paint original character and Unicode precomposed/combining one.
-                        dc_selector
-                            selector_bmp_orig(dc_orig, bmp_orig),
-                            selector_bmp_comb(dc_comb, bmp_comb),
-                            selector_bmp_pre (dc_pre , bmp_pre );
-                        static const RECT bounds = { 0, 0, FONT_MATCH_WIDTH, FONT_MATCH_HEIGHT };
-                        FillRect(dc_orig, &bounds, brush_bg);
-                        FillRect(dc_comb, &bounds, brush_bg);
-                        FillRect(dc_pre , &bounds, brush_bg);
-                        TextOutW(dc_orig, FONT_MATCH_WIDTH/2, FONT_MATCH_HEIGHT*5/8, comp_orig.c_str(), comp_orig.length());
-                        TextOutW(dc_comb, FONT_MATCH_WIDTH/2, FONT_MATCH_HEIGHT*5/8, comp     .c_str(), comp     .length());
-                        TextOutW(dc_pre , FONT_MATCH_WIDTH/2, FONT_MATCH_HEIGHT*5/8, comp_pre .c_str(), comp_pre .length());
-                    }
-                    // Compare bitmaps.
-                    if (!GetDIBits(dc_orig, bmp_orig, 0, FONT_MATCH_HEIGHT, bits_orig.data(), (BITMAPINFO*)&bmi, DIB_PAL_COLORS) ||
-                        !GetDIBits(dc_comb, bmp_comb, 0, FONT_MATCH_HEIGHT, bits_comb.data(), (BITMAPINFO*)&bmi, DIB_PAL_COLORS) ||
-                        !GetDIBits(dc_pre , bmp_pre , 0, FONT_MATCH_HEIGHT, bits_pre .data(), (BITMAPINFO*)&bmi, DIB_PAL_COLORS))
-                        return;
-                    double
-                        score_comb = compare_bitmaps(bits_orig.data(), bits_comb.data()),
-                        score_pre  = compare_bitmaps(bits_orig.data(), bits_pre .data());
-                    // Add results to a temporary database.
-                    auto hit = trans.find(comp_orig);
-                    if (hit != trans.end()) {
-                        if (build_csv || score_pre <= FONT_MATCH_THRESHOLD) {
-                            if (hit->second.find(comp_pre) == hit->second.end())
-                                hit->second.insert(make_pair(comp_pre, make_pair(score_pre, 1)));
-                        } if ((build_csv || score_comb <= FONT_MATCH_THRESHOLD) && comp_pre != comp) {
-                            if (hit->second.find(comp) == hit->second.end())
-                                hit->second.insert(make_pair(comp, make_pair(score_comb, 100)));
-                        }
-                    } else {
-                        map<wstring, pair<double, int>> v;
-                        if (build_csv || score_pre <= FONT_MATCH_THRESHOLD)
-                            v.insert(make_pair(comp_pre, make_pair(score_pre, 1)));
-                        if ((build_csv || score_comb <= FONT_MATCH_THRESHOLD) && comp_pre != comp)
-                            v.insert(make_pair(comp, make_pair(score_comb, 100)));
-                        if (!v.empty())
-                            trans.insert(make_pair(comp_orig, std::move(v)));
-                    }
-                };
-
-                for (; !ZRCola::DBSource::IsEOF(rs2); rs2->MoveNext()) {
-                    // Read character from the database.
-                    ZRCola::DBSource::character chr;
-                    if (src.GetCharacter(rs2, chr)) {
-                        for (auto t = db_all.cbegin(), t_end = db_all.cend(); t != t_end; ++t) {
-                            if (t->dst.str != chr.first)
-                                continue;
-
-                            // Process primary permutation.
-                            process_permutation(chr.first, t->src.str);
-
-                            // Secondary permutation(s).
-                            auto const hit_np = db_np.find(t->norm);
-                            if (hit_np != db_np.end()) {
-                                for (auto perm = hit_np->second.cbegin(), perm_end = hit_np->second.cend(); perm != perm_end; ++perm) {
-                                    // Prepare permutated string.
-                                    translation_db::mapped_type::key_type str_perm;
-                                    for (auto idx = perm->cbegin(), idx_end = perm->cend(); idx != idx_end; ++idx)
-                                        str_perm += t->src.str[*idx];
-
-                                    // Process secondary permutation.
-                                    process_permutation(chr.first, str_perm);
-                                }
-                            }
-                        }
-                    } else
-                        has_errors = true;
-                }
-
-                // Preallocate memory.
-                size_t reserve = db_trans.idxSrc.size() + trans.size()*2;
-                db_trans.idxSrc.reserve(reserve);
-                db_trans.idxDst.reserve(reserve);
-                db_trans.data  .reserve(reserve*5);
-                if (build_csv)
-                    csv.reserve(trans.size()*2);
-
-                ZRCola::DBSource::translation t;
-                t.set = (int)ZRCOLA_TRANSEQID_UNICODE;
-                t.dst.rank = 1;
-                vector<pair<double, pair<wstring, int>>> results;
-                for (auto i = trans.cbegin(), i_end = trans.cend(); i != i_end; ++i) {
-                    // Sort results by score.
-                    results.clear();
-                    results.reserve(i->second.size());
-                    for (auto j = i->second.cbegin(), j_end = i->second.cend(); j != j_end; ++j)
-                        results.push_back(make_pair(j->second.first, make_pair(j->first, j->second.second)));
-                    sort(results.begin(), results.end(), [] (pair<double, pair<wstring, int>> const& a, pair<double, pair<wstring, int>> const& b) { return a.first < b.first; });
-                    int rank_comb = 0, rank_pre = 0;
-                    for (auto j = results.cbegin(), j_end = results.cend(); j != j_end; ++j) {
-                        t.src.str  = i->first;
-                        t.src.rank = j->second.second + (j->second.second >= 100 ? rank_comb++ : rank_pre++);
-                        t.dst.str  = j->second.first;
-                        t.score    = j->first;
-                        db_trans << t;
-                        if (build_csv)
-                            csv.push_back(t);
-                    }
-                }
-            } else {
-                _ftprintf(stderr, wxT("%s: error ZCC0016: Error getting characters from database. Please make sure the file is ZRCola.zrc compatible.\n"), (LPCTSTR)filenameIn.c_str());
-                has_errors = true;
-            }
-        } else {
-            _ftprintf(stderr, wxT("%s: error ZCC0003: Error getting translations from database. Please make sure the file is ZRCola.zrc compatible.\n"), (LPCTSTR)filenameIn.c_str());
-            has_errors = true;
-        }
-    }
-
-    {
         // Get translation sets.
         com_obj<ADORecordset> rs;
         if (src.SelectTranlationSets(rs)) {
             size_t count = src.GetRecordsetCount(rs);
             if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
                 // Preallocate memory.
-                db_transset.idxTranSet.reserve((count+2));
-                db_transset.data      .reserve((count+2)*4);
+                db_transset.idxTranSet.reserve((count+1));
+                db_transset.data      .reserve((count+1)*4);
 
                 // Parse translation sets and build index and data.
                 for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
@@ -1276,42 +961,6 @@ int _tmain(int argc, _TCHAR *argv[])
             dst_pot.close();
         } else {
             _ftprintf(stderr, wxT("%s: error ZCC0012: Error opening POT catalog.\n"), filenameOut.fn_str());
-            has_errors = true;
-        }
-    }
-
-    if (!has_errors && build_csv) {
-        fstream dst_csv((LPCTSTR)filenameCsv, ios_base::out | ios_base::trunc);
-        if (dst_csv.good()) {
-            dst_csv
-                << "\xef\xbb\xbf" // UTF-8 BOM
-                << "\"znak\";"
-                << "\"znakZRCola\";"
-                << "\"znakRank\";"
-                << "\"komb\";"
-                << "\"kombZRCola\";"
-                << "\"kombRank\";"
-                << "\"razlika\"" << endl;
-            wstring_convert<codecvt_utf8<wchar_t>> conv;
-            for (auto i = csv.cbegin(), i_end = csv.cend(); i != i_end; ++i) {
-                dst_csv
-                    << "\"" << make_unicode(i->src.str) << "\";"
-                    << "\"" << conv.to_bytes(i->src.str) << "\";"
-                    << i->src.rank << ";"
-                    << "\"" << make_unicode(i->dst.str) << "\";"
-                    << "\"" << conv.to_bytes(i->dst.str) << "\";"
-                    << i->dst.rank << ";"
-                    << i->score << endl;
-            }
-
-            if (dst_csv.fail()) {
-                _ftprintf(stderr, wxT("%s: error ZCC0013: Writing to CSV report failed.\n"), (LPCTSTR)filenameOut.c_str());
-                has_errors = true;
-            }
-
-            dst_csv.close();
-        } else {
-            _ftprintf(stderr, wxT("%s: error ZCC0012: Error opening CSV report.\n"), filenameOut.fn_str());
             has_errors = true;
         }
     }

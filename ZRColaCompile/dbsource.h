@@ -131,12 +131,8 @@ namespace ZRCola {
             charseq src;        ///< Source sequence
             std::string norm;   ///< Normalization footprint
             charseq dst;        ///< Destination sequence
-            double score;       ///< Score
 
-            inline translation() :
-                set((int)ZRCOLA_TRANSEQID_DEFAULT),
-                score(0)
-            {}
+            inline translation() : set((int)ZRCOLA_TRANSEQID_DEFAULT) {}
         };
 
 
@@ -626,17 +622,6 @@ namespace ZRCola {
         bool GetNormPerm(const winstd::com_obj<ADORecordset>& rs, std::string& norm, normperm& np) const;
 
         ///
-        /// Returns all character translations
-        ///
-        /// \param[out] rs  Recordset with results
-        ///
-        /// \returns
-        /// - true when query succeeds
-        /// - false otherwise
-        ///
-        bool SelectAllTranslations(winstd::com_obj<ADORecordset>& rs) const;
-
-        ///
         /// Returns character translations
         ///
         /// \param[out] rs  Recordset with results
@@ -819,17 +804,6 @@ namespace ZRCola {
         /// - false otherwise
         ///
         bool SelectCharacters(winstd::com_obj<ADORecordset>& rs) const;
-
-        ///
-        /// Returns Private-Use-Area characters
-        ///
-        /// \param[out] rs  Recordset with results
-        ///
-        /// \returns
-        /// - true when query succeeds
-        /// - false otherwise
-        ///
-        bool SelectPUACharacters(winstd::com_obj<ADORecordset>& rs) const;
 
         ///
         /// Returns character data

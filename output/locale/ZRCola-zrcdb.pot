@@ -694,7 +694,7 @@ msgstr ""
 msgid "Ukrainian"
 msgstr ""
 
-msgid "Unicode"
+msgid "Unicode Combining"
 msgstr ""
 
 msgid "Units"
@@ -703,7 +703,7 @@ msgstr ""
 msgid "ZRCola Composed"
 msgstr ""
 
-msgid "ZRCola Decomposed"
+msgid "ZRCola Composed » Unicode Combining"
 msgstr ""
 
 msgid "l+j l|j"
