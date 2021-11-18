@@ -247,12 +247,6 @@
                         <property name="name">separator4</property>
                         <property name="permission">none</property>
                     </object>
-                    <object class="submenu" expanded="0">
-                        <property name="bitmap"></property>
-                        <property name="label">Tra&amp;nslation</property>
-                        <property name="name">m_menuTranslationSeq</property>
-                        <property name="permission">protected</property>
-                    </object>
                     <object class="wxMenuItem" expanded="0">
                         <property name="bitmap"></property>
                         <property name="checked">0</property>
@@ -265,6 +259,16 @@
                         <property name="permission">protected</property>
                         <property name="shortcut"></property>
                         <property name="unchecked_bitmap"></property>
+                    </object>
+                    <object class="submenu" expanded="0">
+                        <property name="bitmap"></property>
+                        <property name="label">Tra&amp;nslation</property>
+                        <property name="name">m_menuTranslationSeq</property>
+                        <property name="permission">protected</property>
+                    </object>
+                    <object class="separator" expanded="0">
+                        <property name="name">separator5</property>
+                        <property name="permission">none</property>
                     </object>
                     <object class="wxMenuItem" expanded="0">
                         <property name="bitmap"></property>
@@ -280,7 +284,7 @@
                         <property name="unchecked_bitmap"></property>
                     </object>
                     <object class="separator" expanded="0">
-                        <property name="name">separator5</property>
+                        <property name="name">separator6</property>
                         <property name="permission">none</property>
                     </object>
                     <object class="wxMenuItem" expanded="0">
@@ -612,6 +616,17 @@
                 <object class="toolSeparator" expanded="0">
                     <property name="permission">protected</property>
                 </object>
+                <object class="tool" expanded="0">
+                    <property name="bitmap">Load From Icon Resource; composition.ico; [24; 24]</property>
+                    <property name="context_menu">0</property>
+                    <property name="id">wxID_COMPOSITION</property>
+                    <property name="kind">wxITEM_CHECK</property>
+                    <property name="label">ZRCola (De)composition</property>
+                    <property name="name">m_toolComposition</property>
+                    <property name="permission">protected</property>
+                    <property name="statusbar">Toggle ZRCola character (De)composition</property>
+                    <property name="tooltip">ZRCola (De)composition</property>
+                </object>
                 <object class="wxChoice" expanded="0">
                     <property name="BottomDockable">1</property>
                     <property name="LeftDockable">1</property>
@@ -672,16 +687,8 @@
                     <property name="window_style"></property>
                     <event name="OnChoice">OnTranslationSeqChoice</event>
                 </object>
-                <object class="tool" expanded="0">
-                    <property name="bitmap">Load From Icon Resource; composition.ico; [24; 24]</property>
-                    <property name="context_menu">0</property>
-                    <property name="id">wxID_COMPOSITION</property>
-                    <property name="kind">wxITEM_CHECK</property>
-                    <property name="label">ZRCola (De)composition</property>
-                    <property name="name">m_toolComposition</property>
+                <object class="toolSeparator" expanded="0">
                     <property name="permission">protected</property>
-                    <property name="statusbar">Toggle ZRCola character (De)composition</property>
-                    <property name="tooltip">ZRCola (De)composition</property>
                 </object>
                 <object class="tool" expanded="0">
                     <property name="bitmap">Load From Icon Resource; warn_pua.ico; [24; 24]</property>
