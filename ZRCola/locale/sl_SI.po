@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2021-11-18 15:44+0100\n"
-"PO-Revision-Date: 2021-11-18 15:45+0100\n"
+"POT-Creation-Date: 2021-11-19 14:27+0100\n"
+"PO-Revision-Date: 2021-11-19 14:27+0100\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Slovenian (Slovenia) (https://www.transifex.com/amebis/teams/91592/sl_SI/)\n"
 "Language: sl_SI\n"
@@ -550,24 +550,24 @@ msgid "A&vailable:"
 msgstr "Na &voljo:"
 
 #: res/zrcolagui.cpp:1166 zrcolagui.cpp:1169
-msgid ">"
-msgstr ">"
+msgid "→"
+msgstr "→"
 
 #: res/zrcolagui.cpp:1169 zrcolagui.cpp:1172
-msgid "<"
-msgstr "<"
+msgid "←"
+msgstr "←"
 
 #: res/zrcolagui.cpp:1178 zrcolagui.cpp:1181
 msgid "&Selected:"
 msgstr "I&zbrano:"
 
 #: res/zrcolagui.cpp:1196 zrcolagui.cpp:1199
-msgid "Up"
-msgstr "Gor"
+msgid "↑"
+msgstr "↑"
 
 #: res/zrcolagui.cpp:1199 zrcolagui.cpp:1202
-msgid "Down"
-msgstr "Dol"
+msgid "↓"
+msgstr "↓"
 
 #: res/zrcolagui.h:255 zrcolagui.h:255
 msgid "Character Search"
@@ -764,3 +764,15 @@ msgstr "Znake lahko v vnosno vrstico vstavljamo s pomočjo bližnjic na tipkovni
 #: MSIBuild/en_US.x64.Release.Shortcut-2.idtx:4
 msgid "Input system for linguistic use"
 msgstr "Vnašalni sistem za jezikoslovno rabo"
+
+#~ msgid ">"
+#~ msgstr ">"
+
+#~ msgid "<"
+#~ msgstr "<"
+
+#~ msgid "Up"
+#~ msgstr "Gor"
+
+#~ msgid "Down"
+#~ msgstr "Dol"

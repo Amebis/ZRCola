@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2021-11-18 15:44+0100\n"
+"POT-Creation-Date: 2021-11-19 14:27+0100\n"
 "PO-Revision-Date: 2019-04-01 19:38+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
@@ -128,9 +128,8 @@ msgstr "O&pozorilo OZU"
 
 #: res/zrcolagui.cpp:145 res/zrcolagui.cpp:229 zrcolagui.cpp:145
 #: zrcolagui.cpp:229
-#, fuzzy
 msgid "Highlight Private Use Area Characters"
-msgstr "Obarvaj znake iz območja zasebne uporabe"
+msgstr ""
 
 #: res/zrcolagui.cpp:151 zrcolagui.cpp:151
 #, fuzzy
@@ -670,11 +669,11 @@ msgid "A&vailable:"
 msgstr "Na &voljo:"
 
 #: res/zrcolagui.cpp:1166 zrcolagui.cpp:1169
-msgid ">"
+msgid "→"
 msgstr ""
 
 #: res/zrcolagui.cpp:1169 zrcolagui.cpp:1172
-msgid "<"
+msgid "←"
 msgstr ""
 
 #: res/zrcolagui.cpp:1178 zrcolagui.cpp:1181
@@ -683,14 +682,12 @@ msgid "&Selected:"
 msgstr "I&zbrano:"
 
 #: res/zrcolagui.cpp:1196 zrcolagui.cpp:1199
-#, fuzzy
-msgid "Up"
-msgstr "Gor"
+msgid "↑"
+msgstr ""
 
 #: res/zrcolagui.cpp:1199 zrcolagui.cpp:1202
-#, fuzzy
-msgid "Down"
-msgstr "Dol"
+msgid "↓"
+msgstr ""
 
 #: res/zrcolagui.h:255 zrcolagui.h:255
 #, fuzzy

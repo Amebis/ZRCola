@@ -1163,10 +1163,10 @@ wxZRColaTranslationSeqBase::wxZRColaTranslationSeqBase( wxWindow* parent, wxWind
 	wxBoxSizer* bSizerTransSelect;
 	bSizerTransSelect = new wxBoxSizer( wxVERTICAL );
 
-	m_add = new wxButton( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, _(">"), wxDefaultPosition, wxSize( 32,32 ), 0 );
+	m_add = new wxButton( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, _("→"), wxDefaultPosition, wxSize( 32,32 ), 0 );
 	bSizerTransSelect->Add( m_add, 0, wxALL, 5 );
 
-	m_remove = new wxButton( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, _("<"), wxDefaultPosition, wxSize( 32,32 ), 0 );
+	m_remove = new wxButton( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, _("←"), wxDefaultPosition, wxSize( 32,32 ), 0 );
 	bSizerTransSelect->Add( m_remove, 0, wxALL, 5 );
 
 
@@ -1193,10 +1193,10 @@ wxZRColaTranslationSeqBase::wxZRColaTranslationSeqBase( wxWindow* parent, wxWind
 	wxBoxSizer* bSizerTransActiveReorder;
 	bSizerTransActiveReorder = new wxBoxSizer( wxHORIZONTAL );
 
-	m_selectedUp = new wxButton( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, _("Up"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_selectedUp = new wxButton( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, _("↑"), wxDefaultPosition, wxSize( 32,32 ), 0 );
 	bSizerTransActiveReorder->Add( m_selectedUp, 0, wxALL, 5 );
 
-	m_selectedDown = new wxButton( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, _("Down"), wxDefaultPosition, wxSize( 70,-1 ), 0 );
+	m_selectedDown = new wxButton( sbSizerTranslationSet->GetStaticBox(), wxID_ANY, _("↓"), wxDefaultPosition, wxSize( 32,32 ), 0 );
 	bSizerTransActiveReorder->Add( m_selectedDown, 0, wxALL, 5 );
 
 

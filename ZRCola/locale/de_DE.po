@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2021-11-18 15:45+0100\n"
-"PO-Revision-Date: 2021-11-18 15:45+0100\n"
+"POT-Creation-Date: 2021-11-19 14:27+0100\n"
+"PO-Revision-Date: 2021-11-19 14:28+0100\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: German (Germany) (https://www.transifex.com/amebis/teams/91592/de_DE/)\n"
 "Language: de_DE\n"
@@ -454,7 +454,7 @@ msgstr ""
 
 #: res/zrcolagui.cpp:943 zrcolagui.cpp:946
 msgid "zrcola.zrc-sazu.si"
-msgstr ""
+msgstr "zrcola.zrc-sazu.si"
 
 #: res/zrcolagui.cpp:949 zrcolagui.cpp:952
 msgid "Texts made using ZRCola have to include in a footnote or some other appropriate part of the publication the note below:"
@@ -535,24 +535,24 @@ msgid "A&vailable:"
 msgstr ""
 
 #: res/zrcolagui.cpp:1166 zrcolagui.cpp:1169
-msgid ">"
-msgstr ">"
+msgid "→"
+msgstr "→"
 
 #: res/zrcolagui.cpp:1169 zrcolagui.cpp:1172
-msgid "<"
-msgstr "<"
+msgid "←"
+msgstr "←"
 
 #: res/zrcolagui.cpp:1178 zrcolagui.cpp:1181
 msgid "&Selected:"
 msgstr ""
 
 #: res/zrcolagui.cpp:1196 zrcolagui.cpp:1199
-msgid "Up"
-msgstr ""
+msgid "↑"
+msgstr "↑"
 
 #: res/zrcolagui.cpp:1199 zrcolagui.cpp:1202
-msgid "Down"
-msgstr ""
+msgid "↓"
+msgstr "↓"
 
 #: res/zrcolagui.h:255 zrcolagui.h:255
 msgid "Character Search"
@@ -602,7 +602,7 @@ msgstr ""
 
 #: zrcolachrslct.cpp:329
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: zrcolachrslct.cpp:394 zrcolachrslct.cpp:885
 msgid "▾ Search Options"
@@ -747,3 +747,9 @@ msgstr ""
 #: MSIBuild/en_US.x64.Release.Shortcut-2.idtx:4
 msgid "Input system for linguistic use"
 msgstr ""
+
+#~ msgid ">"
+#~ msgstr ">"
+
+#~ msgid "<"
+#~ msgstr "<"
