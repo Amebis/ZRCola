@@ -43,6 +43,7 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
     EVT_MENU           (wxID_SEND_ABORT                                       , wxZRColaFrame::OnSendAbort                  )
 
     EVT_MENU           (wxID_COMPOSITION                                      , wxZRColaFrame::OnComposition                )
+    EVT_MENU           (wxID_FONT_DESTINATION                                 , wxZRColaFrame::OnFontDestination            )
     EVT_MENU           (wxID_WARN_PUA                                         , wxZRColaFrame::OnWarnPUA                    )
     EVT_MENU_RANGE     (wxID_TRANSLATION_SEQ_DEFAULT, wxID_TRANSLATION_SEQ_END, wxZRColaFrame::OnTranslationSeqMenu         )
 
@@ -52,6 +53,8 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
     EVT_MENU           (wxID_TOOLBAR_EDIT                                     , wxZRColaFrame::OnToolbarEdit                )
     EVT_UPDATE_UI      (wxID_TOOLBAR_TRANSLATE                                , wxZRColaFrame::OnToolbarTranslateUpdate     )
     EVT_MENU           (wxID_TOOLBAR_TRANSLATE                                , wxZRColaFrame::OnToolbarTranslate           )
+    EVT_UPDATE_UI      (wxID_TOOLBAR_DESTINATION                              , wxZRColaFrame::OnToolbarDestinationUpdate   )
+    EVT_MENU           (wxID_TOOLBAR_DESTINATION                              , wxZRColaFrame::OnToolbarDestination         )
     EVT_UPDATE_UI      (wxID_PANEL_CHRGRPS                                    , wxZRColaFrame::OnPanelCharacterCatalogUpdate)
     EVT_MENU           (wxID_PANEL_CHRGRPS                                    , wxZRColaFrame::OnPanelCharacterCatalog      )
     EVT_MENU           (wxID_FOCUS_CHARACTER_CATALOG                          , wxZRColaFrame::OnPanelCharacterCatalogFocus )
@@ -75,6 +78,7 @@ wxZRColaFrame::wxZRColaFrame() :
     m_settings(NULL),
     m_chrReq(NULL),
     m_composition(true),
+    m_fontDestination(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola")),
     m_warnPUA(false),
     m_transeq_id(ZRCOLA_TRANSEQID_DEFAULT),
     m_transeq(NULL),
@@ -196,6 +200,8 @@ wxZRColaFrame::wxZRColaFrame() :
         m_toolComposition->SetState(m_toolComposition->GetState() & ~wxAUI_BUTTON_STATE_CHECKED);
     }
 
+    m_fontpickerDestination->SetSelectedFont(m_fontDestination);
+    m_panel->SetDestinationFont(m_fontDestination);
     if (m_warnPUA) {
         m_menuItemWarnPUA->Check(true);
         m_toolWarnPUA->SetState(m_toolWarnPUA->GetState() | wxAUI_BUTTON_STATE_CHECKED);
@@ -367,16 +373,41 @@ void wxZRColaFrame::OnComposition(wxCommandEvent& event)
 }
 
 
+void wxZRColaFrame::OnFontDestinationChanged(wxFontPickerEvent& event)
+{
+    m_fontDestination = event.GetFont();
+    m_panel->SetDestinationFont(m_fontDestination);
+    m_panel->RestyleDestination();
+
+    event.Skip();
+}
+
+
+void wxZRColaFrame::OnFontDestination(wxCommandEvent& event)
+{
+    wxFontData data;
+    data.SetInitialFont(m_fontDestination);
+    wxFontDialog dlg(this, data);
+    if (dlg.ShowModal() == wxID_OK)
+    {
+        data = dlg.GetFontData();
+        m_fontDestination = data.GetChosenFont();
+        m_fontpickerDestination->SetSelectedFont(m_fontDestination);
+        m_panel->SetDestinationFont(m_fontDestination);
+        m_panel->RestyleDestination();
+    }
+
+    event.Skip();
+}
+
+
 void wxZRColaFrame::OnWarnPUA(wxCommandEvent& event)
 {
     m_warnPUA = !m_warnPUA;
     m_menuItemWarnPUA->Check(m_warnPUA);
     m_toolWarnPUA->SetState((m_toolWarnPUA->GetState() & ~wxAUI_BUTTON_STATE_CHECKED) | (m_warnPUA ? wxAUI_BUTTON_STATE_CHECKED : 0));
-    m_toolbarTranslate->Refresh();
-
-    // Notify destination text something changed and should re-paint.
-    wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
-    m_panel->m_destination->ProcessWindowEvent(event2);
+    m_toolbarDestination->Refresh();
+    m_panel->RestyleDestination();
 
     event.Skip();
 }
@@ -438,6 +469,20 @@ void wxZRColaFrame::OnToolbarTranslateUpdate(wxUpdateUIEvent& event)
 void wxZRColaFrame::OnToolbarTranslate(wxCommandEvent& event)
 {
     wxAuiPaneInfo &paneInfo = m_mgr.GetPane(m_toolbarTranslate);
+    paneInfo.Show(!paneInfo.IsShown());
+    m_mgr.Update();
+}
+
+
+void wxZRColaFrame::OnToolbarDestinationUpdate(wxUpdateUIEvent& event)
+{
+    event.Check(m_mgr.GetPane(m_toolbarDestination).IsShown());
+}
+
+
+void wxZRColaFrame::OnToolbarDestination(wxCommandEvent& event)
+{
+    wxAuiPaneInfo &paneInfo = m_mgr.GetPane(m_toolbarDestination);
     paneInfo.Show(!paneInfo.IsShown());
     m_mgr.Update();
 }
@@ -758,8 +803,18 @@ void wxPersistentZRColaFrame::Save() const
     auto wnd = static_cast<const wxZRColaFrame*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
 
     SaveValue(wxT("composition"), wnd->m_composition);
-    SaveValue(wxT("warnPUA"), wnd->m_warnPUA);
     SaveValue(wxT("transeqId"), static_cast<int>(wnd->m_transeq_id));
+
+    #pragma warning(push)
+    #pragma warning(disable: 26812) // wxWidgets font enums are unscoped.
+    SaveValue(wxT("fontDestinationSize"        ), wnd->m_fontDestination.GetPointSize());
+    SaveValue(wxT("fontDestinationFamily"      ), wnd->m_fontDestination.GetFamily());
+    SaveValue(wxT("fontDestinationStyle"       ), wnd->m_fontDestination.GetStyle());
+    SaveValue(wxT("fontDestinationWeight"      ), wnd->m_fontDestination.GetWeight());
+    SaveValue(wxT("fontDestinationIsUnderlined"), wnd->m_fontDestination.GetUnderlined());
+    SaveValue(wxT("fontDestinationFace"        ), wnd->m_fontDestination.GetFaceName());
+    #pragma warning(pop)
+    SaveValue(wxT("warnPUA"), wnd->m_warnPUA);
 
     wxPersistentZRColaComposerPanel(wnd->m_panel).Save();
     wxPersistentZRColaCharacterCatalogPanel(wnd->m_panelChrCat).Save();
@@ -782,6 +837,19 @@ bool wxPersistentZRColaFrame::Restore()
         wnd->m_composition = b;
     else
         wnd->m_composition = wnd->m_transeq_id == ZRCOLA_TRANSEQID_DEFAULT;
+
+    int fontSize = 20, fontFamily = wxFONTFAMILY_DEFAULT, fontStyle = wxFONTSTYLE_NORMAL, fontWeight = wxFONTWEIGHT_NORMAL;
+    bool fontIsUnderlined = false;
+    wxString fontFace(wxT("ZRCola"));
+    if (RestoreValue(wxT("fontDestinationSize"        ), &fontSize) &&
+        RestoreValue(wxT("fontDestinationFamily"      ), &fontFamily) &&
+        RestoreValue(wxT("fontDestinationStyle"       ), &fontStyle) &&
+        RestoreValue(wxT("fontDestinationWeight"      ), &fontWeight) &&
+        RestoreValue(wxT("fontDestinationIsUnderlined"), &fontIsUnderlined) &&
+        RestoreValue(wxT("fontDestinationFace"        ), &fontFace))
+        wnd->m_fontDestination = wxFont(fontSize, (wxFontFamily)fontFamily, (wxFontStyle)fontStyle, (wxFontWeight)fontWeight, fontIsUnderlined, fontFace);
+    else
+        wnd->m_fontDestination = wxFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola"));
     if (RestoreValue(wxT("warnPUA"), &b))
         wnd->m_warnPUA = b;
     else

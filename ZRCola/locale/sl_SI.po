@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2021-11-19 14:27+0100\n"
-"PO-Revision-Date: 2021-11-19 14:27+0100\n"
+"POT-Creation-Date: 2021-11-26 16:48+0100\n"
+"PO-Revision-Date: 2021-11-26 16:49+0100\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Slovenian (Slovenia) (https://www.transifex.com/amebis/teams/91592/sl_SI/)\n"
 "Language: sl_SI\n"
@@ -43,8 +43,8 @@ msgstr "Izberi celotno besedilo"
 msgid "Find C&haracter..."
 msgstr "Poišči &znak ..."
 
-#: res/zrcolagui.cpp:84 res/zrcolagui.cpp:213 zrcolagui.cpp:84
-#: zrcolagui.cpp:213
+#: res/zrcolagui.cpp:84 res/zrcolagui.cpp:221 zrcolagui.cpp:84
+#: zrcolagui.cpp:221
 msgid "Toggle character search to select character to insert into text"
 msgstr "Prikaži/skrij iskalnik znakov za izbor znaka za vstavljanje v besedilo"
 
@@ -52,8 +52,8 @@ msgstr "Prikaži/skrij iskalnik znakov za izbor znaka za vstavljanje v besedilo"
 msgid "&Send Composed"
 msgstr "Pošlji &sestavljeno"
 
-#: res/zrcolagui.cpp:90 res/zrcolagui.cpp:215 zrcolagui.cpp:90
-#: zrcolagui.cpp:215
+#: res/zrcolagui.cpp:90 res/zrcolagui.cpp:223 zrcolagui.cpp:90
+#: zrcolagui.cpp:223
 msgid "Send composed text to source window"
 msgstr "Pošlji sestavljeno besedilo izvornemu oknu"
 
@@ -69,8 +69,8 @@ msgstr "Kopiraj sestavljeno besedilo na odložišče in vrni fokus nazaj izvorne
 msgid "Send &Decomposed"
 msgstr "Pošlji &razstavljeno"
 
-#: res/zrcolagui.cpp:108 res/zrcolagui.cpp:217 zrcolagui.cpp:108
-#: zrcolagui.cpp:217
+#: res/zrcolagui.cpp:108 res/zrcolagui.cpp:225 zrcolagui.cpp:108
+#: zrcolagui.cpp:225
 msgid "Send decomposed text to source window"
 msgstr "Pošlji razstavljeno besedilo izvornemu oknu"
 
@@ -94,8 +94,8 @@ msgstr "Prekini sestavljanje in vrni fokus nazaj izvornemu oknu"
 msgid "&ZRCola (De)composition"
 msgstr "(Raz-)Sestavljanje &ZRCola"
 
-#: res/zrcolagui.cpp:136 res/zrcolagui.cpp:221 zrcolagui.cpp:136
-#: zrcolagui.cpp:221
+#: res/zrcolagui.cpp:136 res/zrcolagui.cpp:229 zrcolagui.cpp:136
+#: zrcolagui.cpp:229
 msgid "Toggle ZRCola character (De)composition"
 msgstr "Vklopi/izklopi (raz-)sestavljanje ZRCola"
 
@@ -103,304 +103,321 @@ msgstr "Vklopi/izklopi (raz-)sestavljanje ZRCola"
 msgid "Tra&nslation"
 msgstr "Tra&nsliteracija"
 
-#: res/zrcolagui.cpp:145 zrcolagui.cpp:145
+#: res/zrcolagui.cpp:146 zrcolagui.cpp:146
+msgid "Composed Text &Font..."
+msgstr "&Pisava sestavljenega besedila ..."
+
+#: res/zrcolagui.cpp:146 zrcolagui.cpp:146
+msgid "Select font for composed text"
+msgstr "Izberi pisavo za sestavljeno besedilo"
+
+#: res/zrcolagui.cpp:149 zrcolagui.cpp:149
 msgid "&PUA Warning"
 msgstr "O&pozorilo OZU"
 
-#: res/zrcolagui.cpp:145 res/zrcolagui.cpp:229 zrcolagui.cpp:145
-#: zrcolagui.cpp:229
+#: res/zrcolagui.cpp:149 res/zrcolagui.cpp:245 zrcolagui.cpp:149
+#: zrcolagui.cpp:245
 msgid "Highlight Private Use Area Characters"
 msgstr "Obarvaj znake iz območja zasebne uporabe"
 
-#: res/zrcolagui.cpp:151 zrcolagui.cpp:151
+#: res/zrcolagui.cpp:155 zrcolagui.cpp:155
 msgid "&Settings..."
 msgstr "Na&stavitve ..."
 
-#: res/zrcolagui.cpp:151 zrcolagui.cpp:151
+#: res/zrcolagui.cpp:155 zrcolagui.cpp:155
 msgid "Open program configuration dialog"
 msgstr "Odpri nastavitveni dialog programa"
 
-#: res/zrcolagui.cpp:154 zrcolagui.cpp:154
+#: res/zrcolagui.cpp:158 zrcolagui.cpp:158
 msgid "&Edit"
 msgstr "Ur&edi"
 
-#: res/zrcolagui.cpp:158 zrcolagui.cpp:158
+#: res/zrcolagui.cpp:162 zrcolagui.cpp:162
 msgid "&Edit Toolbar"
 msgstr "Orodna vrstica za ur&ejanje"
 
-#: res/zrcolagui.cpp:158 zrcolagui.cpp:158
+#: res/zrcolagui.cpp:162 zrcolagui.cpp:162
 msgid "Toggle edit toolbar"
 msgstr "Prikaži/skrij orodno vrstico za urejanje"
 
-#: res/zrcolagui.cpp:162 zrcolagui.cpp:162
+#: res/zrcolagui.cpp:166 zrcolagui.cpp:166
 msgid "&Compose Toolbar"
 msgstr "Orodna vrsti&ca za sestavljanje"
 
-#: res/zrcolagui.cpp:162 zrcolagui.cpp:162
+#: res/zrcolagui.cpp:166 zrcolagui.cpp:166
 msgid "Toggle compose toolbar"
 msgstr "Prikaži/skrij orodno vrstico za sestavljanje"
 
-#: res/zrcolagui.cpp:168 zrcolagui.cpp:168
+#: res/zrcolagui.cpp:170 zrcolagui.cpp:170
+msgid "Composed &Text Toolbar"
+msgstr "Orodna vrs&tica sestavljenega besedila"
+
+#: res/zrcolagui.cpp:170 zrcolagui.cpp:170
+msgid "Toggle composed text toolbar"
+msgstr "Prikaži/skrij orodno vrstico sestavljenega besedila"
+
+#: res/zrcolagui.cpp:176 zrcolagui.cpp:176
 msgid "Character Catalo&g"
 msgstr "Katalo&g znakov"
 
-#: res/zrcolagui.cpp:168 zrcolagui.cpp:168
+#: res/zrcolagui.cpp:176 zrcolagui.cpp:176
 msgid "Toggle character catalog panel"
 msgstr "Prikaži/skrij katalog znakov"
 
-#: res/zrcolagui.cpp:171 zrcolagui.cpp:171
+#: res/zrcolagui.cpp:179 zrcolagui.cpp:179
 msgid "&View"
 msgstr "Po&gled"
 
-#: res/zrcolagui.cpp:175 zrcolagui.cpp:175
+#: res/zrcolagui.cpp:183 zrcolagui.cpp:183
 msgid "&Instructions..."
 msgstr "Navod&ila ..."
 
-#: res/zrcolagui.cpp:175 zrcolagui.cpp:175
+#: res/zrcolagui.cpp:183 zrcolagui.cpp:183
 msgid "Open a web site with product instructions"
 msgstr "Odpri spletno stran z navodili izdelka"
 
-#: res/zrcolagui.cpp:179 zrcolagui.cpp:179
+#: res/zrcolagui.cpp:187 zrcolagui.cpp:187
 msgid "Keyboard &Shortcuts..."
 msgstr "&Bližnjice na tipkovnici ..."
 
-#: res/zrcolagui.cpp:179 zrcolagui.cpp:179
+#: res/zrcolagui.cpp:187 zrcolagui.cpp:187
 msgid "Open a list of keyboard shortcuts"
 msgstr "Odpri seznam bližnjic na tipkovnici"
 
-#: res/zrcolagui.cpp:185 zrcolagui.cpp:185
+#: res/zrcolagui.cpp:193 zrcolagui.cpp:193
 msgid "&Request a new character..."
 msgstr "&Zahtevaj nov znak ..."
 
-#: res/zrcolagui.cpp:185 zrcolagui.cpp:185
+#: res/zrcolagui.cpp:193 zrcolagui.cpp:193
 msgid "Submit a request to ZRC to add a new character"
 msgstr "Oddaj prošnjo za dodajanje novega znaka"
 
-#: res/zrcolagui.cpp:189 zrcolagui.cpp:189
+#: res/zrcolagui.cpp:197 zrcolagui.cpp:197
 msgid "Check for &Updates..."
 msgstr "Preveri &posodobitve ..."
 
-#: res/zrcolagui.cpp:189 zrcolagui.cpp:189
+#: res/zrcolagui.cpp:197 zrcolagui.cpp:197
 msgid "Check online for product update"
 msgstr "Preveri na spletu za posodobitev izdelka"
 
-#: res/zrcolagui.cpp:195 zrcolagui.cpp:195
+#: res/zrcolagui.cpp:203 zrcolagui.cpp:203
 msgid "&About..."
 msgstr "O progr&amu ..."
 
-#: res/zrcolagui.cpp:198 zrcolagui.cpp:198
+#: res/zrcolagui.cpp:206 zrcolagui.cpp:206
 msgid "&Help"
 msgstr "Po&moč"
 
-#: res/zrcolagui.cpp:203 zrcolagui.cpp:203
+#: res/zrcolagui.cpp:211 zrcolagui.cpp:211
 msgid "Cut"
 msgstr "Izreži"
 
-#: res/zrcolagui.cpp:203 zrcolagui.cpp:203
+#: res/zrcolagui.cpp:211 zrcolagui.cpp:211
 msgid "Cut selection"
 msgstr "Izreži izbor"
 
-#: res/zrcolagui.cpp:205 zrcolagui.cpp:205
+#: res/zrcolagui.cpp:213 zrcolagui.cpp:213
 msgid "Copy"
 msgstr "Kopiraj"
 
-#: res/zrcolagui.cpp:205 zrcolagui.cpp:205
+#: res/zrcolagui.cpp:213 zrcolagui.cpp:213
 msgid "Copy selection"
 msgstr "Kopiraj izbor"
 
-#: res/zrcolagui.cpp:207 zrcolagui.cpp:207
+#: res/zrcolagui.cpp:215 zrcolagui.cpp:215
 msgid "Paste"
 msgstr "Prilepi"
 
-#: res/zrcolagui.cpp:207 zrcolagui.cpp:207
+#: res/zrcolagui.cpp:215 zrcolagui.cpp:215
 msgid "Paste selection"
 msgstr "Prilepi izbor"
 
-#: res/zrcolagui.cpp:210 zrcolagui.cpp:210
+#: res/zrcolagui.cpp:218 zrcolagui.cpp:218
 msgid "Edit"
 msgstr "Urejanje"
 
-#: res/zrcolagui.cpp:213 zrcolagui.cpp:213
+#: res/zrcolagui.cpp:221 zrcolagui.cpp:221
 msgid "Find Character"
 msgstr "Poišči znak"
 
-#: res/zrcolagui.cpp:215 zrcolagui.cpp:215
+#: res/zrcolagui.cpp:223 zrcolagui.cpp:223
 msgid "Send Composed"
 msgstr "Pošlji sestavljeno"
 
-#: res/zrcolagui.cpp:217 zrcolagui.cpp:217
+#: res/zrcolagui.cpp:225 zrcolagui.cpp:225
 msgid "Send Decomposed"
 msgstr "Pošlji razstavljeno"
 
-#: res/zrcolagui.cpp:221 zrcolagui.cpp:221
+#: res/zrcolagui.cpp:229 zrcolagui.cpp:229
 msgid "ZRCola (De)composition"
 msgstr "(Raz-)Sestavljanje ZRCola"
 
-#: res/zrcolagui.cpp:229 zrcolagui.cpp:229
-msgid "PUA Warning"
-msgstr "Opozorilo OZU"
-
-#: res/zrcolagui.cpp:232 zrcolagui.cpp:232
+#: res/zrcolagui.cpp:236 res/zrcolagui.cpp:248 zrcolagui.cpp:236
+#: zrcolagui.cpp:248
 msgid "Compose"
 msgstr "Sestavljanje"
 
-#: res/zrcolagui.cpp:236 zrcolagui.cpp:236
+#: res/zrcolagui.cpp:245 zrcolagui.cpp:245
+msgid "PUA Warning"
+msgstr "Opozorilo OZU"
+
+#: res/zrcolagui.cpp:252 zrcolagui.cpp:252
 msgid "Character Catalog"
 msgstr "Katalog znakov"
 
-#: res/zrcolagui.cpp:240 zrcolagui.cpp:240
+#: res/zrcolagui.cpp:256 zrcolagui.cpp:256
 msgid "(De)Composer"
 msgstr "Razstavljalnik/Sestavljalnik"
 
-#: res/zrcolagui.cpp:281 zrcolagui.cpp:281
+#: res/zrcolagui.cpp:299 zrcolagui.cpp:299
 msgid "Decomposed Text"
 msgstr "Razstavljeno besedilo"
 
-#: res/zrcolagui.cpp:301 zrcolagui.cpp:301
+#: res/zrcolagui.cpp:319 zrcolagui.cpp:319
 msgid "Decomposed Unicode Dump"
 msgstr "Unicode razstavljenega"
 
-#: res/zrcolagui.cpp:328 zrcolagui.cpp:328
+#: res/zrcolagui.cpp:346 zrcolagui.cpp:346
 msgid "Composed Text"
 msgstr "Sestavljeno besedilo"
 
-#: res/zrcolagui.cpp:348 zrcolagui.cpp:348
+#: res/zrcolagui.cpp:366 zrcolagui.cpp:366
 msgid "Composed Unicode Dump"
 msgstr "Unicode sestavljenega"
 
-#: res/zrcolagui.cpp:402 zrcolagui.cpp:402
+#: res/zrcolagui.cpp:420 zrcolagui.cpp:420
 msgid "Select category to display"
 msgstr "Izberi kategorijo za prikaz"
 
-#: res/zrcolagui.cpp:436 zrcolagui.cpp:436
+#: res/zrcolagui.cpp:454 zrcolagui.cpp:454
 msgid "Show &All"
 msgstr "Prik&aži vse"
 
-#: res/zrcolagui.cpp:437 zrcolagui.cpp:437
+#: res/zrcolagui.cpp:455 zrcolagui.cpp:455
 msgid "Toggle display of less frequent characters"
 msgstr "Prikaži/skrij manj pogoste znake"
 
-#: res/zrcolagui.cpp:477 zrcolagui.cpp:477
+#: res/zrcolagui.cpp:495 zrcolagui.cpp:495
 msgid "&Browse"
 msgstr "Pre&brskaj"
 
-#: res/zrcolagui.cpp:484 zrcolagui.cpp:484
+#: res/zrcolagui.cpp:502 zrcolagui.cpp:502
 msgid "Full or partial terms from Unicode character description (in English) to search for"
 msgstr "Polne ali delne besede iz opisa znaka Unicode (v angleščini) za iskanje"
 
-#: res/zrcolagui.cpp:488 zrcolagui.cpp:488
+#: res/zrcolagui.cpp:506 zrcolagui.cpp:506
 msgid "Search Options"
 msgstr "Možnosti iskanja"
 
-#: res/zrcolagui.cpp:489 zrcolagui.cpp:489
+#: res/zrcolagui.cpp:507 zrcolagui.cpp:507
 msgid "Shows/hides additional search options"
 msgstr "Prikaže/skrije dodatne možnosti iskanja"
 
-#: res/zrcolagui.cpp:501 zrcolagui.cpp:501
+#: res/zrcolagui.cpp:519 zrcolagui.cpp:519
 msgid "List of Unicode character categories to search in"
 msgstr "Seznam kategorij znaka Unicode za iskanje"
 
-#: res/zrcolagui.cpp:508 zrcolagui.cpp:508
+#: res/zrcolagui.cpp:526 zrcolagui.cpp:526
 msgid "All"
 msgstr "Vse"
 
-#: res/zrcolagui.cpp:509 zrcolagui.cpp:509
+#: res/zrcolagui.cpp:527 zrcolagui.cpp:527
 msgid "Select all categories"
 msgstr "Izberi vse kategorije"
 
-#: res/zrcolagui.cpp:513 zrcolagui.cpp:513
+#: res/zrcolagui.cpp:531 zrcolagui.cpp:531
 msgid "None"
 msgstr "Nič"
 
-#: res/zrcolagui.cpp:514 zrcolagui.cpp:514
+#: res/zrcolagui.cpp:532 zrcolagui.cpp:532
 msgid "Clear category selection"
 msgstr "Počisti izbor kategorij"
 
-#: res/zrcolagui.cpp:518 zrcolagui.cpp:518
+#: res/zrcolagui.cpp:536 zrcolagui.cpp:536
 msgid "Invert"
 msgstr "Obrni"
 
-#: res/zrcolagui.cpp:519 zrcolagui.cpp:519
+#: res/zrcolagui.cpp:537 zrcolagui.cpp:537
 msgid "Invert category selection"
 msgstr "Obrni izbor kategorij"
 
-#: res/zrcolagui.cpp:558 zrcolagui.cpp:558
+#: res/zrcolagui.cpp:576 zrcolagui.cpp:576
 msgid "Character search results"
 msgstr "Rezultati iskanja znakov"
 
-#: res/zrcolagui.cpp:568 zrcolagui.cpp:568
+#: res/zrcolagui.cpp:586 zrcolagui.cpp:586
 msgid "Re&cently Used"
 msgstr "Nedavno &uporabljeni"
 
-#: res/zrcolagui.cpp:596 zrcolagui.cpp:596
+#: res/zrcolagui.cpp:614 zrcolagui.cpp:614
 msgid "List of recently inserted characters"
 msgstr "Seznam nedavno vstavljenih znakov"
 
-#: res/zrcolagui.cpp:610 zrcolagui.cpp:610
+#: res/zrcolagui.cpp:628 zrcolagui.cpp:628
 msgid "Preview"
 msgstr "Predogled"
 
-#: res/zrcolagui.cpp:615 zrcolagui.cpp:615
+#: res/zrcolagui.cpp:633 zrcolagui.cpp:633
 msgid "U+"
 msgstr "U+"
 
-#: res/zrcolagui.cpp:620 zrcolagui.cpp:620
+#: res/zrcolagui.cpp:638 zrcolagui.cpp:638
 msgid "Unicode hexadecimal code"
 msgstr "Šestnajstiška koda Unicode"
 
-#: res/zrcolagui.cpp:625 zrcolagui.cpp:625
+#: res/zrcolagui.cpp:643 zrcolagui.cpp:643
 msgid "Keyboard shortcut in Composer window"
 msgstr "Bližnjica na tipkovnici v oknu sestavljalnika"
 
-#: res/zrcolagui.cpp:660 zrcolagui.cpp:660
+#: res/zrcolagui.cpp:678 zrcolagui.cpp:678
 msgid "Character preview"
 msgstr "Predogled znaka"
 
-#: res/zrcolagui.cpp:665 zrcolagui.cpp:665
+#: res/zrcolagui.cpp:683 zrcolagui.cpp:683
 msgid "Unicode character description"
 msgstr "Opis znaka Unicode"
 
-#: res/zrcolagui.cpp:670 zrcolagui.cpp:670
+#: res/zrcolagui.cpp:688 zrcolagui.cpp:688
 msgid "Character tags"
 msgstr "Oznake znaka"
 
-#: res/zrcolagui.cpp:675 zrcolagui.cpp:675
+#: res/zrcolagui.cpp:693 zrcolagui.cpp:693
 msgid "Unicode character category"
 msgstr "Kategorija znaka Unicode"
 
-#: res/zrcolagui.cpp:682 zrcolagui.cpp:682
+#: res/zrcolagui.cpp:700 zrcolagui.cpp:700
 msgid "« Back"
 msgstr "« Nazaj"
 
-#: res/zrcolagui.cpp:684 zrcolagui.cpp:684
+#: res/zrcolagui.cpp:702 zrcolagui.cpp:702
 msgid "To previously viewed character"
 msgstr "Na prejšnji prikazan znak"
 
-#: res/zrcolagui.cpp:688 zrcolagui.cpp:688
+#: res/zrcolagui.cpp:706 zrcolagui.cpp:706
 msgid "Forward »"
 msgstr "Naprej »"
 
-#: res/zrcolagui.cpp:690 zrcolagui.cpp:690
+#: res/zrcolagui.cpp:708 zrcolagui.cpp:708
 msgid "To following viewed character"
 msgstr "Na naslednji prikazan znak"
 
-#: res/zrcolagui.cpp:701 zrcolagui.cpp:701
+#: res/zrcolagui.cpp:719 zrcolagui.cpp:719
 msgid "Re&lated"
 msgstr "&Sorodni"
 
-#: res/zrcolagui.cpp:728 zrcolagui.cpp:728
+#: res/zrcolagui.cpp:746 zrcolagui.cpp:746
 msgid "List of related characters"
 msgstr "Seznam sorodnih znakov"
 
-#: res/zrcolagui.cpp:747 zrcolagui.cpp:747
+#: res/zrcolagui.cpp:765 zrcolagui.cpp:765
 msgid "&Insert"
 msgstr "Vstav&i"
 
-#: res/zrcolagui.cpp:751 zrcolagui.cpp:751
+#: res/zrcolagui.cpp:769 zrcolagui.cpp:769
 msgid "Insert character into decomposed text"
 msgstr "Vstavi znak v razstavljeno besedilo"
 
-#: res/zrcolagui.cpp:824 zrcolagui.cpp:827
+#: res/zrcolagui.cpp:842 zrcolagui.cpp:845
 msgid ""
 "Some character native to specific language you are working with should not decompose to primitives.\n"
 "For optimal decomposition you should set the language correctly."
@@ -408,19 +425,19 @@ msgstr ""
 "Nekateri znaki iz posameznih jezikov, s katerimi delate, se ne smejo razstavljati.\n"
 "Za optimalno razstavljanje izberite pravilni jezik."
 
-#: res/zrcolagui.cpp:828 zrcolagui.cpp:831
+#: res/zrcolagui.cpp:846 zrcolagui.cpp:849
 msgid "Select language &automatically according to selected keyboard"
 msgstr "S&amodejno izberi jezik glede na izbrano tipkovnico"
 
-#: res/zrcolagui.cpp:831 zrcolagui.cpp:834
+#: res/zrcolagui.cpp:849 zrcolagui.cpp:852
 msgid "&Manually select the language from the list below:"
 msgstr "&Ročno izberi jezik s seznama spodaj:"
 
-#: res/zrcolagui.cpp:842 zrcolagui.cpp:845
+#: res/zrcolagui.cpp:860 zrcolagui.cpp:863
 msgid "Text Language"
 msgstr "Jezik besedila"
 
-#: res/zrcolagui.cpp:847 zrcolagui.cpp:850
+#: res/zrcolagui.cpp:865 zrcolagui.cpp:868
 msgid ""
 "ZRCola can be launched every time you log in to your computer.\n"
 "It will be available on the system tray and via registered shortcuts Win+F5 and Win+F6."
@@ -428,16 +445,16 @@ msgstr ""
 "ZRCola se lahko zažene ob vsaki prijavi v vaš računalnik.\n"
 "Na voljo bo v vrstici za sistemska obvestila ter preko registriranih bližnjic Win+F5 in Win+F6."
 
-#: res/zrcolagui.cpp:851 zrcolagui.cpp:854
+#: res/zrcolagui.cpp:869 zrcolagui.cpp:872
 msgid "Start ZRCola &automatically on logon"
 msgstr "S&amodejno zaženi ZRColo ob prijavi"
 
-#: res/zrcolagui.cpp:857 zrcolagui.cpp:860
+#: res/zrcolagui.cpp:875 zrcolagui.cpp:878
 msgid "Startup"
 msgstr "Zagon"
 
-#: res/zrcolagui.cpp:924 res/zrcolagui.h:114 zrcolaapp.cpp:74 zrcolafrm.cpp:129
-#: zrcolagui.cpp:927 zrcolagui.h:114
+#: res/zrcolagui.cpp:942 res/zrcolagui.h:120 zrcolaapp.cpp:74 zrcolafrm.cpp:133
+#: zrcolagui.cpp:945 zrcolagui.h:120
 #: MSIBuild/en_US.ARM64.Release.Feature-2.idtx:4
 #: MSIBuild/en_US.ARM64.Release.Shortcut-2.idtx:4
 #: MSIBuild/en_US.Win32.Release.Feature-2.idtx:4
@@ -447,7 +464,7 @@ msgstr "Zagon"
 msgid "ZRCola"
 msgstr "ZRCola"
 
-#: res/zrcolagui.cpp:935 zrcolagui.cpp:938
+#: res/zrcolagui.cpp:953 zrcolagui.cpp:956
 msgid ""
 "Program and Website Editor: Janoš Ježovnik\n"
 "Development: Amebis, d. o. o., Kamnik\n"
@@ -461,51 +478,51 @@ msgstr ""
 "Prevod v ruski jezik: Domen Krvina, Silvo Torkar, Anastasija Plotnikova\n"
 "Razvoj in vzdrževanje prvotnega programa (2004–2015): Peter Weiss"
 
-#: res/zrcolagui.cpp:943 zrcolagui.cpp:946
+#: res/zrcolagui.cpp:961 zrcolagui.cpp:964
 msgid "zrcola.zrc-sazu.si"
 msgstr "zrcola.zrc-sazu.si"
 
-#: res/zrcolagui.cpp:949 zrcolagui.cpp:952
+#: res/zrcolagui.cpp:967 zrcolagui.cpp:970
 msgid "Texts made using ZRCola have to include in a footnote or some other appropriate part of the publication the note below:"
 msgstr "Besedilo, nastalo z uporabo ZRCole, mora biti v opombi ali na drugem ustreznem mestu v publikaciji opremljeno z naslednjim zapisom:"
 
-#: res/zrcolagui.cpp:953 zrcolagui.cpp:956
+#: res/zrcolagui.cpp:971 zrcolagui.cpp:974
 msgid "This text was written using the ZRCola input system (http://zrcola.zrc-sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana (http://www.zrc-sazu.si) by Peter Weiss."
 msgstr "Besedilo je bilo pripravljeno z vnašalnim sistemom ZRCola (http://zrcola.zrc-sazu.si), ki ga je na Znanstvenoraziskovalnem centru SAZU v Ljubljani (http://www.zrc-sazu.si) razvil Peter Weiss."
 
-#: res/zrcolagui.cpp:994 zrcolagui.cpp:997
+#: res/zrcolagui.cpp:1012 zrcolagui.cpp:1015
 msgid "Log"
 msgstr "Dnevnik"
 
-#: res/zrcolagui.cpp:1010 zrcolagui.cpp:1013
+#: res/zrcolagui.cpp:1028 zrcolagui.cpp:1031
 msgid "Quit and &Update..."
 msgstr "Za&ustavi in posodobi ..."
 
-#: res/zrcolagui.cpp:1012 zrcolagui.cpp:1015
+#: res/zrcolagui.cpp:1030 zrcolagui.cpp:1033
 msgid "Exit this program and launch product update"
 msgstr "Zaustavi program in zaženi posodobitev izdelka"
 
-#: res/zrcolagui.cpp:1016 zrcolagui.cpp:1019
+#: res/zrcolagui.cpp:1034 zrcolagui.cpp:1037
 msgid "&Close"
 msgstr "&Zapri"
 
-#: res/zrcolagui.cpp:1017 zrcolagui.cpp:1020
+#: res/zrcolagui.cpp:1035 zrcolagui.cpp:1038
 msgid "Close this window"
 msgstr "Zapri to okno"
 
-#: res/zrcolagui.cpp:1054 zrcolachrreq.cpp:49 zrcolagui.cpp:1057
+#: res/zrcolagui.cpp:1072 zrcolachrreq.cpp:49 zrcolagui.cpp:1075
 msgid "Character"
 msgstr "Znak"
 
-#: res/zrcolagui.cpp:1056 zrcolagui.cpp:1059
+#: res/zrcolagui.cpp:1074 zrcolagui.cpp:1077
 msgid "Enter the &character you would like to request:"
 msgstr "Vpišite &znak, ki ga želite zahtevati:"
 
-#: res/zrcolagui.cpp:1070 zrcolagui.cpp:1073
+#: res/zrcolagui.cpp:1088 zrcolagui.cpp:1091
 msgid "Decomposed character to request"
 msgstr "Zahtevani znak v razstavljeni obliki"
 
-#: res/zrcolagui.cpp:1074 zrcolagui.cpp:1077
+#: res/zrcolagui.cpp:1092 zrcolagui.cpp:1095
 msgid ""
 "Please, use the decomposed form.\n"
 "You can use ZRCola keyboard shortcuts to enter the character or Copy&&Paste it from the Decomposed window."
@@ -513,19 +530,19 @@ msgstr ""
 "Uporabite razstavljeno obliko.\n"
 "Za vnos znaka lahko uporabite ZRColine bližnjice na tipkovnici ali ga kopirate in prilepite iz okna z razstavljenim besedilom."
 
-#: res/zrcolagui.cpp:1082 zrcolachrreq.cpp:58 zrcolagui.cpp:1085
+#: res/zrcolagui.cpp:1100 zrcolachrreq.cpp:58 zrcolagui.cpp:1103
 msgid "Context"
 msgstr "Kontekst"
 
-#: res/zrcolagui.cpp:1084 zrcolagui.cpp:1087
+#: res/zrcolagui.cpp:1102 zrcolagui.cpp:1105
 msgid "The &context, examples or description why and where the character is required:"
 msgstr "&Kontekst, primeri oziroma opis, zakaj in kje potrebujete novi znak:"
 
-#: res/zrcolagui.cpp:1090 zrcolagui.cpp:1093
+#: res/zrcolagui.cpp:1108 zrcolagui.cpp:1111
 msgid "Additional notes for character request"
 msgstr "Dodatne opombe za zahtevo znaka"
 
-#: res/zrcolagui.cpp:1097 zrcolagui.cpp:1100
+#: res/zrcolagui.cpp:1115 zrcolagui.cpp:1118
 msgid ""
 "After clicking OK button, your e-mail application should open allowing you to submit the new character request to ZRCola Editor.\n"
 "Your e-mail application might not display all the characters correctly, but the Editor will be able to read them correctly anyway."
@@ -533,11 +550,11 @@ msgstr ""
 "Ko boste kliknili gumb V redu, se bo odprl vaš program za e-pošto, s katerim boste lahko oddali zahtevo za nov znak uredniku programa.\n"
 "Vsi znaki v sporočilu morda ne bodo prikazani pravilno, vendar jih bo urednik lahko kljub temu razbral."
 
-#: res/zrcolagui.cpp:1139 zrcolagui.cpp:1142
+#: res/zrcolagui.cpp:1157 zrcolagui.cpp:1160
 msgid "Translation"
 msgstr "Pretvorba"
 
-#: res/zrcolagui.cpp:1141 zrcolagui.cpp:1144
+#: res/zrcolagui.cpp:1159 zrcolagui.cpp:1162
 msgid ""
 "ZRCola offers multiple text translations that can be arranged in a sequence.\n"
 "Please select desired translations and the order they are applied."
@@ -545,51 +562,51 @@ msgstr ""
 "ZRCola ponuja različne pretvorbe besedila, ki jih lahko uredimo v zaporedje.\n"
 "Prosimo, izberite želene pretvorbe in vrstni red, v katerem naj potečejo."
 
-#: res/zrcolagui.cpp:1151 zrcolagui.cpp:1154
+#: res/zrcolagui.cpp:1169 zrcolagui.cpp:1172
 msgid "A&vailable:"
 msgstr "Na &voljo:"
 
-#: res/zrcolagui.cpp:1166 zrcolagui.cpp:1169
+#: res/zrcolagui.cpp:1184 zrcolagui.cpp:1187
 msgid "→"
 msgstr "→"
 
-#: res/zrcolagui.cpp:1169 zrcolagui.cpp:1172
+#: res/zrcolagui.cpp:1187 zrcolagui.cpp:1190
 msgid "←"
 msgstr "←"
 
-#: res/zrcolagui.cpp:1178 zrcolagui.cpp:1181
+#: res/zrcolagui.cpp:1196 zrcolagui.cpp:1199
 msgid "&Selected:"
 msgstr "I&zbrano:"
 
-#: res/zrcolagui.cpp:1196 zrcolagui.cpp:1199
+#: res/zrcolagui.cpp:1214 zrcolagui.cpp:1217
 msgid "↑"
 msgstr "↑"
 
-#: res/zrcolagui.cpp:1199 zrcolagui.cpp:1202
+#: res/zrcolagui.cpp:1217 zrcolagui.cpp:1220
 msgid "↓"
 msgstr "↓"
 
-#: res/zrcolagui.h:255 zrcolagui.h:255
+#: res/zrcolagui.h:261 zrcolagui.h:261
 msgid "Character Search"
 msgstr "Poišči znak"
 
-#: res/zrcolagui.h:291 zrcolagui.h:291
+#: res/zrcolagui.h:297 zrcolagui.h:297
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: res/zrcolagui.h:317 zrcolagui.h:317
+#: res/zrcolagui.h:323 zrcolagui.h:323
 msgid "About ZRCola"
 msgstr "O ZRColi"
 
-#: res/zrcolagui.h:342 zrcolagui.h:342 zrcolaupdater.cpp:95
+#: res/zrcolagui.h:348 zrcolagui.h:348 zrcolaupdater.cpp:95
 msgid "Product Update"
 msgstr "Posodabljanje izdelka"
 
-#: res/zrcolagui.h:371 zrcolachrreq.cpp:64 zrcolagui.h:371
+#: res/zrcolagui.h:377 zrcolachrreq.cpp:64 zrcolagui.h:377
 msgid "Request a New Character"
 msgstr "Zahtevaj nov znak"
 
-#: res/zrcolagui.h:413 zrcolagui.h:413
+#: res/zrcolagui.h:419 zrcolagui.h:419
 msgid "Custom Translation Sequence"
 msgstr "Zaporedje pretvorb po meri"
 
@@ -623,31 +640,31 @@ msgstr ", "
 msgid "▾ Search Options"
 msgstr "▾ Možnosti iskanja"
 
-#: zrcolafrm.cpp:95
+#: zrcolafrm.cpp:99
 msgid "No Translation"
 msgstr "Brez transliteracije"
 
-#: zrcolafrm.cpp:108
+#: zrcolafrm.cpp:112
 msgid "Custom Translation..."
 msgstr "Pretvorba po meri ..."
 
-#: zrcolafrm.cpp:225
+#: zrcolafrm.cpp:231
 msgid "ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality will not be available."
 msgstr "ZRColine bližnjice na tipkovnici Win+F5 ni mogoče registrirati. Nekaj funkcionalnosti ne bo na voljo."
 
-#: zrcolafrm.cpp:225 zrcolafrm.cpp:227
+#: zrcolafrm.cpp:231 zrcolafrm.cpp:233
 msgid "Warning"
 msgstr "Opozorilo"
 
-#: zrcolafrm.cpp:227
+#: zrcolafrm.cpp:233
 msgid "ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality will not be available."
 msgstr "ZRColine bližnjice na tipkovnici Win+F6 ni mogoče registrirati. Nekaj funkcionalnosti ne bo na voljo."
 
-#: zrcolafrm.cpp:499
+#: zrcolafrm.cpp:544
 msgid "http://zrcola.zrc-sazu.si/en/info/instructions/"
 msgstr "http://zrcola.zrc-sazu.si/info/instructions/"
 
-#: zrcolafrm.cpp:524
+#: zrcolafrm.cpp:569
 msgid "http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
 msgstr "http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
 

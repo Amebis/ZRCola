@@ -34,8 +34,9 @@ wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
     m_destinationChanged(false),
     m_sourceRestyled(false),
     m_destinationRestyled(false),
-    m_styleNormal(*wxBLACK, *wxWHITE, wxFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola"))),
-    m_stylePUA(*wxBLUE, *wxWHITE, wxFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola"))),
+    m_styleSource(*wxBLACK, *wxWHITE, wxFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola"))),
+    m_styleDestination(*wxBLACK, *wxWHITE, wxFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola"))),
+    m_styleDestinationPUA(*wxBLUE, *wxWHITE, wxFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola"))),
     m_selSource(0, 0),
     m_selDestination(0, 0),
     wxZRColaComposerPanelBase(parent)
@@ -197,6 +198,41 @@ void wxZRColaComposerPanel::SynchronizePanels()
 }
 
 
+void wxZRColaComposerPanel::SetDestinationFont(const wxFont& font, int flags)
+{
+    m_styleDestination.SetFont(font, flags);
+    m_styleDestinationPUA.SetFont(font, flags);
+}
+
+
+void wxZRColaComposerPanel::RestyleSource()
+{
+    m_sourceRestyled = true;
+    m_source->SetStyle(0, GetWindowTextLength(m_source->GetHWND()), m_styleSource);
+    m_sourceRestyled = false;
+}
+
+
+void wxZRColaComposerPanel::RestyleDestination()
+{
+    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
+
+    m_destinationRestyled = true;
+    if (app->m_mainWnd->m_warnPUA) {
+        wxString src = m_destination->GetValue();
+        size_t len = src.Length();
+        for (size_t i = 0, j; i < len;) {
+            bool pua_i = is_pua(src[i]);
+            for (j = i + 1; j < len && pua_i == is_pua(src[j]); j++);
+            m_destination->SetStyle((long)i, (long)j, pua_i ? m_styleDestinationPUA : m_styleDestination);
+            i = j;
+        }
+    } else
+        m_destination->SetStyle(0, GetWindowTextLength(m_destination->GetHWND()), m_styleDestination);
+    m_destinationRestyled = false;
+}
+
+
 void wxZRColaComposerPanel::OnSourcePaint(wxPaintEvent& event)
 {
     event.Skip();
@@ -263,10 +299,7 @@ void wxZRColaComposerPanel::OnSourceText(wxCommandEvent& event)
 
     // Set the flag the source text changed to trigger idle-time translation.
     m_sourceChanged = true;
-
-    m_sourceRestyled = true;
-    m_source->SetStyle(0, GetWindowTextLength(m_source->GetHWND()), m_styleNormal);
-    m_sourceRestyled = false;
+    RestyleSource();
 }
 
 
@@ -336,21 +369,7 @@ void wxZRColaComposerPanel::OnDestinationText(wxCommandEvent& event)
 
     // Set the flag the destination text changed to trigger idle-time inverse translation.
     m_destinationChanged = true;
-
-    auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
-    m_destinationRestyled = true;
-    if (app->m_mainWnd->m_warnPUA) {
-        wxString src = m_destination->GetValue();
-        size_t len = src.Length();
-        for (size_t i = 0, j; i < len;) {
-            bool pua_i = is_pua(src[i]);
-            for (j = i + 1; j < len && pua_i == is_pua(src[j]); j++);
-            m_destination->SetStyle((long)i, (long)j, pua_i ? m_stylePUA : m_styleNormal);
-            i = j;
-        }
-    } else
-        m_destination->SetStyle(0, GetWindowTextLength(m_destination->GetHWND()), m_styleNormal);
-    m_destinationRestyled = false;
+    RestyleDestination();
 }
 
 
