@@ -703,7 +703,7 @@ msgid "Ukrainian"
 msgstr "украинский"
 
 msgid "Unicode Combining"
-msgstr ""
+msgstr "комбинируемые символы в Юникоде"
 
 msgid "Units"
 msgstr "Единицы"
@@ -712,7 +712,7 @@ msgid "ZRCola Composed"
 msgstr "ZRCola составленное"
 
 msgid "ZRCola Composed » Unicode Combining"
-msgstr ""
+msgstr "ZRCola составленное » комбинируемые символы в Юникоде"
 
 msgid "l+j l|j"
 msgstr "l+j l|j"
