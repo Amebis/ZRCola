@@ -21,7 +21,6 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="common.props" />
   </ImportGroup>
-  <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_PropertySheetDisplayName>ZRCola x64</_PropertySheetDisplayName>
     <LibraryPath>$(WXWIN)\lib\vc$(PlatformToolsetVersion)_x64_lib;$(LibraryPath)</LibraryPath>
@@ -35,5 +34,4 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup />
 </Project>

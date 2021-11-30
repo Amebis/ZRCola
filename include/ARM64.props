@@ -21,7 +21,6 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="common.props" />
   </ImportGroup>
-  <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_PropertySheetDisplayName>ZRCola ARM64</_PropertySheetDisplayName>
     <LibraryPath>$(WXWIN)\lib\vc$(PlatformToolsetVersion)_arm64_lib;$(LibraryPath)</LibraryPath>
@@ -39,5 +38,4 @@
       <AdditionalDependencies>advapi32.lib;ole32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup />
 </Project>

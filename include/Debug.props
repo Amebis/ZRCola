@@ -19,7 +19,6 @@
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
-  <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_PropertySheetDisplayName>ZRCola Debug</_PropertySheetDisplayName>
   </PropertyGroup>
@@ -37,7 +36,6 @@
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup />
   <Target Name="Sign" Condition="'$(ManifestCertificateThumbprint)' != '' and ('$(ConfigurationType)' == 'Application' or '$(ConfigurationType)' == 'DynamicLibrary')" AfterTargets="_Manifest" BeforeTargets="RegisterOutput" Inputs="$(OutDir)$(TargetName)$(TargetExt)" Outputs="$(IntDir)$(TargetName).sign">
     <Message Text="Signing output file..." />
     <Exec Command="signtool.exe sign /du &quot;https://www.amebis.si&quot; /sha1 &quot;%ManifestCertificateThumbprint%&quot; /fd sha256 /q &quot;$(TargetPath)&quot;" />

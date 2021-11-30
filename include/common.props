@@ -59,5 +59,4 @@
       <OutputFile>$(OutDir)..\locale\%(Filename)\$(ProjectName).mo</OutputFile>
     </POCompile>
   </ItemDefinitionGroup>
-  <ItemGroup />
 </Project>

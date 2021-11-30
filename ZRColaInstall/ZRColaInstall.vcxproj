@@ -11,8 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{87A3ADEC-1BE4-42E4-92B8-B742F3D21BC4}</ProjectGuid>
-    <RootNamespace>ZRColaCompile</RootNamespace>
+    <Language Condition="'$(Language)'==''">En</Language>
+  </PropertyGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5BD95B95-38B0-4C7D-9471-F99CA1203DF4}</ProjectGuid>
+    <RootNamespace>ZRColaInstall$(Language)</RootNamespace>
+    <ProjectName>ZRColaInstall$(Language)</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="Configuration">
@@ -35,57 +39,36 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
+    <IntDir>temp\$(ProjectName).$(Platform).$(Configuration).$(PlatformToolset)\</IntDir>
     <OutDir>..\output\$(Platform).$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\lib\wxExtend\include;..\lib\WinStd\include;..\lib\stdex\include;..\lib\libZRCola\include;..\lib\libZRColaUI\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ZRCOLA_INSTALL_LANG="$(Language)";%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="dbsource.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="parse.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="dbsource.h" />
-    <ClInclude Include="parse.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\lib\libZRColaUI\build\libZRColaUI.vcxproj">
-      <Project>{c0a84bd2-3870-4cd6-b281-0ab322e3c579}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\lib\libZRCola\build\libZRCola.vcxproj">
-      <Project>{3c61929e-7289-4101-8d0a-da22d6e1aea8}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\lib\WinStd\build\WinStd.vcxproj">
-      <Project>{47399d91-7eb9-41de-b521-514ba5db0c43}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\lib\wxExtend\build\wxExtendLib.vcxproj">
-      <Project>{D3E29951-D9F5-486D-A167-20AE8E90B1FA}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="ZRColaCompile.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <POCompile Include="locale\de_DE.po" />
-    <POCompile Include="locale\ru_RU.po" />
-    <POCompile Include="locale\sl_SI.po" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="locale\ZRColaCompile.pot" />
+    <ResourceCompile Include="ZRColaInstall.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\include\xgettext.targets" />
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>
