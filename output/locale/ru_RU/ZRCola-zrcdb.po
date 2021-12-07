@@ -702,17 +702,23 @@ msgstr "турецкий"
 msgid "Ukrainian"
 msgstr "украинский"
 
+msgid "Unicode"
+msgstr "Юникод"
+
 msgid "Unicode Combining"
 msgstr "комбинируемые символы в Юникоде"
 
 msgid "Units"
 msgstr "Единицы"
 
+msgid "ZRCola"
+msgstr "ZRCola"
+
 msgid "ZRCola Composed"
 msgstr "ZRCola составленное"
 
-msgid "ZRCola Composed » Unicode Combining"
-msgstr "ZRCola составленное » комбинируемые символы в Юникоде"
+msgid "ZRCola » Unicode"
+msgstr "ZRCola » Юникод"
 
 msgid "l+j l|j"
 msgstr "l+j l|j"
@@ -723,8 +729,8 @@ msgstr "без + |"
 msgid "small Case"
 msgstr "строчние буквы"
 
-#~ msgid "Unicode"
-#~ msgstr "Юникод"
+#~ msgid "ZRCola Composed » Unicode Combining"
+#~ msgstr "ZRCola составленное » комбинируемые символы в Юникоде"
 
 #~ msgid "ZRCola Decomposed"
 #~ msgstr "ZRCola разобранное"

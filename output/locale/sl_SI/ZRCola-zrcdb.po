@@ -702,17 +702,23 @@ msgstr "turščina"
 msgid "Ukrainian"
 msgstr "ukrajinščina"
 
+msgid "Unicode"
+msgstr "Unicode"
+
 msgid "Unicode Combining"
 msgstr "sestavljivi Unicode"
 
 msgid "Units"
 msgstr "Enote"
 
+msgid "ZRCola"
+msgstr "ZRCola"
+
 msgid "ZRCola Composed"
 msgstr "ZRCola-sestavljeno"
 
-msgid "ZRCola Composed » Unicode Combining"
-msgstr "ZRCola-sestavljeno » sestavljivi Unicode"
+msgid "ZRCola » Unicode"
+msgstr "ZRCola » Unicode"
 
 msgid "l+j l|j"
 msgstr "l+j l|j"
@@ -723,8 +729,8 @@ msgstr "brez + |"
 msgid "small Case"
 msgstr "male črke"
 
-#~ msgid "Unicode"
-#~ msgstr "Unicode"
+#~ msgid "ZRCola Composed » Unicode Combining"
+#~ msgstr "ZRCola-sestavljeno » sestavljivi Unicode"
 
 #~ msgid "ZRCola Decomposed"
 #~ msgstr "ZRCola razstavljeno"
