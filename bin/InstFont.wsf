@@ -6,7 +6,7 @@
 <package>
 	<job id="InstFont">
 		<runtime>
-			<description>Installs font - Amebis, Copyright © 2016-2017</description>
+			<description>Installs font - Amebis, Copyright © 2016-2021</description>
 			<unnamed name="&lt;Shortcut.lnk&gt;" required="true"  helpstring="Shortcut file to create"/>
 			<example>
 Example:

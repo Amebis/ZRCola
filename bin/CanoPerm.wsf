@@ -6,7 +6,7 @@
 <package>
 	<job id="CanoPerm">
 		<runtime>
-			<description>Generates character index permutations - Amebis, Copyright © 2017</description>
+			<description>Generates character index permutations - Amebis, Copyright © 2017-2021</description>
 			<unnamed name="&lt;Pattern&gt;" required="true" helpstring="Cannonical form (X=unmoveable character; 0-9=moveable character, characters of the same number must preserve global order of appearance; maximum 10 characters)"/>
 			<example>
 Example:
