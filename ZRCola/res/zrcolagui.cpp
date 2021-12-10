@@ -142,10 +142,6 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 
 	m_menuEdit->AppendSeparator();
 
-	wxMenuItem* m_menuItemFontDestination;
-	m_menuItemFontDestination = new wxMenuItem( m_menuEdit, wxID_FONT_DESTINATION, wxString( _("Composed Text &Font...") ) , _("Select font for composed text"), wxITEM_NORMAL );
-	m_menuEdit->Append( m_menuItemFontDestination );
-
 	m_menuItemWarnPUA = new wxMenuItem( m_menuEdit, wxID_WARN_PUA, wxString( _("&PUA Warning") ) , _("Highlight Private Use Area Characters"), wxITEM_CHECK );
 	m_menuEdit->Append( m_menuItemWarnPUA );
 
@@ -165,10 +161,6 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	wxMenuItem* m_menuItemToolbarCompose;
 	m_menuItemToolbarCompose = new wxMenuItem( m_menuView, wxID_TOOLBAR_TRANSLATE, wxString( _("&Compose Toolbar") ) , _("Toggle compose toolbar"), wxITEM_CHECK );
 	m_menuView->Append( m_menuItemToolbarCompose );
-
-	wxMenuItem* m_menuItemToolbarDestination;
-	m_menuItemToolbarDestination = new wxMenuItem( m_menuView, wxID_TOOLBAR_DESTINATION, wxString( _("Composed &Text Toolbar") ) , _("Toggle composed text toolbar"), wxITEM_CHECK );
-	m_menuView->Append( m_menuItemToolbarDestination );
 
 	m_menuView->AppendSeparator();
 
@@ -232,20 +224,12 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	m_toolTranslationSeq = new wxChoice( m_toolbarTranslate, wxID_ANY, wxDefaultPosition, wxSize( 240,-1 ), m_toolTranslationSeqChoices, 0 );
 	m_toolTranslationSeq->SetSelection( 0 );
 	m_toolbarTranslate->AddControl( m_toolTranslationSeq );
+	m_toolbarTranslate->AddSeparator();
+
+	m_toolWarnPUA = m_toolbarTranslate->AddTool( wxID_WARN_PUA, _("PUA Warning"), wxIcon( wxT("warn_pua.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_CHECK, _("Highlight Private Use Area Characters"), _("Highlight Private Use Area Characters"), NULL );
+
 	m_toolbarTranslate->Realize();
 	m_mgr.AddPane( m_toolbarTranslate, wxAuiPaneInfo().Name( wxT("toolbarCompose") ).Top().Caption( _("Compose") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );
-
-	m_toolbarDestination = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxAUI_TB_HORZ_LAYOUT );
-	m_fontpickerDestination = new wxFontPickerCtrl( m_toolbarDestination, wxID_FONT_DESTINATION, wxFont( 20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola") ), wxDefaultPosition, wxDefaultSize, wxFNTP_FONTDESC_AS_LABEL );
-	m_fontpickerDestination->SetMaxPointSize( 100 );
-	m_fontpickerDestination->SetMinSize( wxSize( 120,-1 ) );
-	m_fontpickerDestination->SetMaxSize( wxSize( 180,-1 ) );
-
-	m_toolbarDestination->AddControl( m_fontpickerDestination );
-	m_toolWarnPUA = m_toolbarDestination->AddTool( wxID_WARN_PUA, _("PUA Warning"), wxIcon( wxT("warn_pua.ico"), wxBITMAP_TYPE_ICO_RESOURCE, 24, 24 ), wxNullBitmap, wxITEM_CHECK, _("Highlight Private Use Area Characters"), _("Highlight Private Use Area Characters"), NULL );
-
-	m_toolbarDestination->Realize();
-	m_mgr.AddPane( m_toolbarDestination, wxAuiPaneInfo().Name( wxT("toolbarDestination") ).Top().Caption( _("Compose") ).PinButton( true ).Dock().Resizable().FloatingSize( wxSize( -1,-1 ) ).LeftDockable( false ).RightDockable( false ).Row( 0 ).Layer( 1 ).ToolbarPane() );
 
 	m_panelChrCat = new wxZRColaCharacterCatalogPanel( this );
 
@@ -265,7 +249,6 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	this->Connect( wxEVT_ICONIZE, wxIconizeEventHandler( wxZRColaFrameBase::OnIconize ) );
 	this->Connect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaFrameBase::OnIdle ) );
 	m_toolTranslationSeq->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( wxZRColaFrameBase::OnTranslationSeqChoice ), NULL, this );
-	m_fontpickerDestination->Connect( wxEVT_COMMAND_FONTPICKER_CHANGED, wxFontPickerEventHandler( wxZRColaFrameBase::OnFontDestinationChanged ), NULL, this );
 }
 
 wxZRColaFrameBase::~wxZRColaFrameBase()
@@ -275,7 +258,6 @@ wxZRColaFrameBase::~wxZRColaFrameBase()
 	this->Disconnect( wxEVT_ICONIZE, wxIconizeEventHandler( wxZRColaFrameBase::OnIconize ) );
 	this->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaFrameBase::OnIdle ) );
 	m_toolTranslationSeq->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( wxZRColaFrameBase::OnTranslationSeqChoice ), NULL, this );
-	m_fontpickerDestination->Disconnect( wxEVT_COMMAND_FONTPICKER_CHANGED, wxFontPickerEventHandler( wxZRColaFrameBase::OnFontDestinationChanged ), NULL, this );
 
 	m_mgr.UnInit();
 

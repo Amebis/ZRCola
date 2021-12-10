@@ -77,8 +77,6 @@ protected:
     void OnCopySourceAndReturn(wxCommandEvent& event);
     void OnSendAbort(wxCommandEvent& event);
     void OnComposition(wxCommandEvent& event);
-    virtual void OnFontDestinationChanged(wxFontPickerEvent& event);
-    void OnFontDestination(wxCommandEvent& event);
     void OnWarnPUA(wxCommandEvent& event);
     void OnSettings(wxCommandEvent& event);
     virtual void OnIdle(wxIdleEvent& event);
@@ -88,8 +86,6 @@ protected:
     void OnToolbarEdit(wxCommandEvent& event);
     void OnToolbarTranslateUpdate(wxUpdateUIEvent& event);
     void OnToolbarTranslate(wxCommandEvent& event);
-    void OnToolbarDestinationUpdate(wxUpdateUIEvent& event);
-    void OnToolbarDestination(wxCommandEvent& event);
     void OnTranslationSeqMenu(wxCommandEvent& event);
     virtual void OnTranslationSeqChoice(wxCommandEvent& event);
     void OnPanelCharacterCatalogUpdate(wxUpdateUIEvent& event);
@@ -139,7 +135,6 @@ protected:
     wxZRColaCharRequest *m_chrReq;      ///< Request a New Character dialog
     wxZRColaSettings *m_settings;       ///< Configuration dialog
     bool m_composition;                 ///< Is (de)composition enabled?
-    wxFont m_fontDestination;           ///< Destination window font
     bool m_warnPUA;                     ///< Mark Private-Use-Area characters in destination text
     ZRCola::transeqid_t m_transeq_id;   ///< Translation sequence ID
     wxZRColaTranslationSeq *m_transeq;  ///< Custom translation sequence dialog

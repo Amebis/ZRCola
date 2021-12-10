@@ -37,9 +37,6 @@ public:
 
     void RestoreFromStateFile();
     void SynchronizePanels();
-    void SetDestinationFont(const wxFont& font, int flags = (wxTEXT_ATTR_FONT & ~wxTEXT_ATTR_FONT_PIXEL_SIZE));
-    void RestyleSource();
-    void RestyleDestination();
 
     friend class wxPersistentZRColaComposerPanel;   // Allow saving/restoring window state.
 
@@ -65,9 +62,8 @@ protected:
         m_sourceRestyled,                           ///< Boolean flag to mark source text is being restyled
         m_destinationRestyled;                      ///< Boolean flag to mark destination text is being restyled
     wxTextAttr
-        m_styleSource,                              ///< Normal source text style
-        m_styleDestination,                         ///< Normal destination text style
-        m_styleDestinationPUA;                      ///< PUA character destination text style
+        m_styleNormal,                              ///< Normal text style
+        m_stylePUA;                                 ///< PUA character text style
     std::vector<ZRCola::mapping_vector> m_mapping;  ///< Character index mapping vector between source and normalized text
     std::pair<long, long>
         m_selSource,                                ///< Character index of selected text in source text control
