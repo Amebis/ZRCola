@@ -33,7 +33,7 @@
 ///
 /// ZRCola to Unicode translation sequence ID
 ///
-#define ZRCOLA_TRANSEQID_UNICODE    ((ZRCola::transeqid_t)31)
+#define ZRCOLA_TRANSEQID_UNICODE    ((ZRCola::transeqid_t)32)
 
 
 namespace ZRCola {

@@ -380,15 +380,27 @@ int _tmain(int argc, _TCHAR *argv[])
 
                 // Parse translations and build index and data.
                 ZRCola::DBSource::translation trans;
-                trans.set = 0;
                 for (auto t = db_temp2.cbegin(), t_end = db_temp2.cend(); t != t_end; ++t) {
                     // Add translation to index and data.
                     trans.dst.str = t->first;
                     for (auto d = t->second.cbegin(), d_end = t->second.cend(); d != d_end; ++d) {
+                        trans.set = (int)ZRCOLA_TRANSEQID_DEFAULT;
                         trans.dst.rank = d->second.rank_dst;
                         trans.src.rank = d->second.rank_src;
                         trans.src.str  = d->first;
                         db_trans << trans;
+
+                        // If destination contains no PUA characters, add it to the ZRCola >> Unicode transliteration too.
+                        bool has_pua = false;
+                        for (auto ch = trans.dst.str.cbegin(), ch_end = trans.dst.str.cend(); ch != ch_end; ++ch)
+                            if (ZRCola::ispua(*ch)) {
+                                has_pua = true;
+                                break;
+                            }
+                        if (!has_pua) {
+                            trans.set = (int)ZRCOLA_TRANSEQID_UNICODE;
+                            db_trans << trans;
+                        }
                     }
                 }
             } else {

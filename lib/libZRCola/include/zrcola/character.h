@@ -29,6 +29,11 @@ namespace ZRCola {
     ///
     typedef double charrank_t;
 
+    inline bool ispua(_In_ wchar_t c)
+    {
+        return L'\ue000' <= c && c <= L'\uf8ff';
+    }
+
 #pragma pack(push)
 #pragma pack(2)
     ///

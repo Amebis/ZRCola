@@ -5,11 +5,6 @@
 
 #include "pch.h"
 
-static inline bool is_pua(_In_ wchar_t c)
-{
-    return L'\ue000' <= c && c <= L'\uf8ff';
-}
-
 
 //////////////////////////////////////////////////////////////////////////
 // wxZRColaComposerPanel
@@ -329,8 +324,8 @@ void wxZRColaComposerPanel::OnDestinationText(wxCommandEvent& event)
         wxString src = m_destination->GetValue();
         size_t len = src.Length();
         for (size_t i = 0, j; i < len;) {
-            bool pua_i = is_pua(src[i]);
-            for (j = i + 1; j < len && pua_i == is_pua(src[j]); j++);
+            bool pua_i = ZRCola::ispua(src[i]);
+            for (j = i + 1; j < len && pua_i == ZRCola::ispua(src[j]); j++);
             m_destination->SetStyle((long)i, (long)j, pua_i ? m_stylePUA : m_styleNormal);
             i = j;
         }
