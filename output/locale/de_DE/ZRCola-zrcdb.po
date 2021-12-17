@@ -700,23 +700,8 @@ msgstr ""
 msgid "Ukrainian"
 msgstr ""
 
-msgid "Unicode"
-msgstr "Unicode"
-
-msgid "Unicode Combining"
-msgstr ""
-
 msgid "Units"
 msgstr ""
-
-msgid "ZRCola"
-msgstr "ZRCola"
-
-msgid "ZRCola Composed"
-msgstr ""
-
-msgid "ZRCola » Unicode"
-msgstr "ZRCola » Unicode"
 
 msgid "l+j l|j"
 msgstr ""
@@ -726,3 +711,12 @@ msgstr ""
 
 msgid "small Case"
 msgstr ""
+
+#~ msgid "Unicode"
+#~ msgstr "Unicode"
+
+#~ msgid "ZRCola"
+#~ msgstr "ZRCola"
+
+#~ msgid "ZRCola » Unicode"
+#~ msgstr "ZRCola » Unicode"

@@ -384,13 +384,13 @@ int _tmain(int argc, _TCHAR *argv[])
                     // Add translation to index and data.
                     trans.dst.str = t->first;
                     for (auto d = t->second.cbegin(), d_end = t->second.cend(); d != d_end; ++d) {
-                        trans.set = (int)ZRCOLA_TRANSEQID_DEFAULT;
+                        trans.set = (int)ZRCOLA_TRANSETID_DEFAULT;
                         trans.dst.rank = d->second.rank_dst;
                         trans.src.rank = d->second.rank_src;
                         trans.src.str  = d->first;
                         db_trans << trans;
 
-                        // If destination contains no PUA characters, add it to the ZRCola >> Unicode transliteration too.
+                        // If destination contains no PUA characters, add it to the ZRCola » Unicode transliteration too.
                         bool has_pua = false;
                         for (auto ch = trans.dst.str.cbegin(), ch_end = trans.dst.str.cend(); ch != ch_end; ++ch)
                             if (ZRCola::ispua(*ch)) {
@@ -398,7 +398,7 @@ int _tmain(int argc, _TCHAR *argv[])
                                 break;
                             }
                         if (!has_pua) {
-                            trans.set = (int)ZRCOLA_TRANSEQID_UNICODE;
+                            trans.set = (int)ZRCOLA_TRANSETID_UNICODE;
                             db_trans << trans;
                         }
                     }
@@ -428,11 +428,8 @@ int _tmain(int argc, _TCHAR *argv[])
                     // Read translation set from the database.
                     ZRCola::DBSource::transet ts;
                     if (src.GetTranslationSet(rs, ts)) {
-                        if (ts.set <= (int)ZRCOLA_TRANSEQID_DEFAULT) {
-                            _ftprintf(stderr, wxT("%s: error ZCC0008: Translation set is using reserved ID %i.\n"), (LPCTSTR)filenameIn.c_str(), ts.set);
-                            has_errors = true;
+                        if (ts.set <= (int)ZRCOLA_TRANSETID_DEFAULT)
                             continue;
-                        }
 
                         if (build_pot) {
                             pot.insert(ts.src);

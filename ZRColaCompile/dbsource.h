@@ -118,7 +118,7 @@ namespace ZRCola {
             std::string norm;   ///< Normalization footprint
             charseq dst;        ///< Destination sequence
 
-            inline translation() : set((int)ZRCOLA_TRANSEQID_DEFAULT) {}
+            inline translation() : set((int)ZRCOLA_TRANSETID_DEFAULT) {}
         };
 
 
@@ -131,7 +131,7 @@ namespace ZRCola {
             std::wstring src;   ///< Source name
             std::wstring dst;   ///< Destination name
 
-            inline transet() : set((int)ZRCOLA_TRANSEQID_DEFAULT) {}
+            inline transet() : set((int)ZRCOLA_TRANSETID_DEFAULT) {}
         };
 
 

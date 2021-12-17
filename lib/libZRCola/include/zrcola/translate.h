@@ -21,6 +21,11 @@
 #pragma warning(disable: 4512)
 
 ///
+/// ZRCola (De)Composition
+///
+#define ZRCOLA_TRANSETID_DEFAULT    ((ZRCola::transetid_t)0x0000)
+
+///
 /// Translation disabled/ZRCola (De)Composition
 ///
 #define ZRCOLA_TRANSEQID_DEFAULT    ((ZRCola::transeqid_t)0x0000)
@@ -29,11 +34,6 @@
 /// Custom translation sequence ID
 ///
 #define ZRCOLA_TRANSEQID_CUSTOM     ((ZRCola::transeqid_t)0xffff)
-
-///
-/// ZRCola to Unicode translation sequence ID
-///
-#define ZRCOLA_TRANSEQID_UNICODE    ((ZRCola::transeqid_t)32)
 
 
 namespace ZRCola {
