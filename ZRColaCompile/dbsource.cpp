@@ -305,7 +305,7 @@ bool ZRCola::DBSource::Open(LPCTSTR filename)
                 com_obj<ADOParameters> params;
                 wxVERIFY(SUCCEEDED(m_comTranslation->get_Parameters(&params)));
                 wxASSERT_MSG(!m_pTranslation1, wxT("ADO command parameter already created"));
-                wxVERIFY(SUCCEEDED(m_comTranslation->CreateParameter(bstr(L"@Script"), adInteger, adParamInput, 0, variant(DISP_E_PARAMNOTFOUND, VT_ERROR), &m_pTranslation1)));
+                wxVERIFY(SUCCEEDED(m_comTranslation->CreateParameter(bstr(L"@Script"), adSmallInt, adParamInput, 0, variant(DISP_E_PARAMNOTFOUND, VT_ERROR), &m_pTranslation1)));
                 wxVERIFY(SUCCEEDED(params->Append(m_pTranslation1)));
             }
 
@@ -322,7 +322,7 @@ bool ZRCola::DBSource::Open(LPCTSTR filename)
                 com_obj<ADOParameters> params;
                 wxVERIFY(SUCCEEDED(m_comTranslationSets->get_Parameters(&params)));
                 wxASSERT_MSG(!m_pTranslationSets1, wxT("ADO command parameter already created"));
-                wxVERIFY(SUCCEEDED(m_comTranslationSets->CreateParameter(bstr(L"@ID"), adInteger, adParamInput, 0, variant(DISP_E_PARAMNOTFOUND, VT_ERROR), &m_pTranslationSets1)));
+                wxVERIFY(SUCCEEDED(m_comTranslationSets->CreateParameter(bstr(L"@ID"), adSmallInt, adParamInput, 0, variant(DISP_E_PARAMNOTFOUND, VT_ERROR), &m_pTranslationSets1)));
                 wxVERIFY(SUCCEEDED(params->Append(m_pTranslationSets1)));
             }
 
@@ -386,15 +386,15 @@ bool ZRCola::DBSource::GetValue(const com_obj<ADOField>& f, bool& val) const
 }
 
 
-bool ZRCola::DBSource::GetValue(const com_obj<ADOField>& f, int& val) const
+bool ZRCola::DBSource::GetValue(const com_obj<ADOField>& f, short& val) const
 {
     wxASSERT_MSG(f, wxT("field is empty"));
 
     variant v;
     wxVERIFY(SUCCEEDED(f->get_Value(&v)));
-    wxCHECK(SUCCEEDED(v.change_type(VT_I4)), false);
+    wxCHECK(SUCCEEDED(v.change_type(VT_I2)), false);
 
-    val = V_I4(&v);
+    val = V_I2(&v);
 
     return true;
 }
@@ -737,7 +737,7 @@ bool ZRCola::DBSource::SelectTranslations(com_obj<ADORecordset> &rs) const
 }
 
 
-bool ZRCola::DBSource::SelectTranslations(int set, winstd::com_obj<ADORecordset>& rs) const
+bool ZRCola::DBSource::SelectTranslations(short set, winstd::com_obj<ADORecordset>& rs) const
 {
     // Create a new recordset.
     rs.free();
@@ -923,7 +923,7 @@ bool ZRCola::DBSource::GetTranslationSeq(const com_obj<ADORecordset>& rs, ZRCola
         wxVERIFY(SUCCEEDED(flds2->get_Item(variant(L"Script"), &f_set)));
         size_t n = 0;
         for (VARIANT_BOOL eof = VARIANT_TRUE; SUCCEEDED(rs_chars->get_EOF(&eof)) && !eof; rs_chars->MoveNext(), n++) {
-            int set;
+            short set;
             wxCHECK(GetValue(f_set, set), false);
             ts.sets.push_back(set);
         }
@@ -967,21 +967,21 @@ bool ZRCola::DBSource::GetKeySequence(const com_obj<ADORecordset>& rs, ZRCola::D
         wxCHECK(GetUnicodeString(f, ks.chr), false);
     }
 
-    int modifiers;
+    short modifiers;
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"Modifiers"), &f)));
         wxCHECK(GetValue(f, modifiers), false);
     }
 
-    int keycode1;
+    short keycode1;
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"KeyCodePre"), &f)));
         wxCHECK(GetValue(f, keycode1), false);
     }
 
-    int keycode;
+    short keycode;
     {
         com_obj<ADOField> f;
         wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"KeyCode"), &f)));
@@ -999,18 +999,18 @@ bool ZRCola::DBSource::GetKeySequence(const com_obj<ADORecordset>& rs, ZRCola::D
     if (keycode1) {
         // First key in the sequence is complete.
         keyseq::keycode kc1 = {
-            keyseq::keycode::translate_slen(static_cast<wchar_t>(keycode1 & 0xffff)),
+            keyseq::keycode::translate_slen(static_cast<wchar_t>(keycode1)),
             (modifiers & 0x100) != 0,
             (modifiers & 0x200) != 0,
             (modifiers & 0x400) != 0 };
         ks.seq.push_back(kc1);
 
-        keyseq::keycode kc2 = { keyseq::keycode::translate_slen(static_cast<wchar_t>(keycode & 0xffff)), shift };
+        keyseq::keycode kc2 = { keyseq::keycode::translate_slen(static_cast<wchar_t>(keycode)), shift };
         ks.seq.push_back(kc2);
     } else {
         // First key in the sequence is only modifier(s).
         keyseq::keycode kc1 = {
-            keyseq::keycode::translate_slen(static_cast<wchar_t>(keycode & 0xffff)),
+            keyseq::keycode::translate_slen(static_cast<wchar_t>(keycode)),
             shift || (modifiers & 0x100) != 0,
                      (modifiers & 0x200) != 0,
                      (modifiers & 0x400) != 0 };

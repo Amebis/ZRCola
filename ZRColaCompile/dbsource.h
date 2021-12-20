@@ -47,7 +47,7 @@ namespace ZRCola {
         ///
         class charseq {
         public:
-            int rank;         ///< Sequence rank
+            short rank;       ///< Sequence rank
             std::wstring str; ///< Sequence string
 
             inline charseq() :
@@ -55,19 +55,19 @@ namespace ZRCola {
             {
             }
 
-            inline charseq(_In_ int _rank, _In_z_ const wchar_t *_str) :
+            inline charseq(_In_ short _rank, _In_z_ const wchar_t *_str) :
                 rank(_rank),
                 str (_str)
             {
             }
 
-            inline charseq(_In_ int _rank, _In_ const std::wstring &_str) :
+            inline charseq(_In_ short _rank, _In_ const std::wstring &_str) :
                 rank(_rank),
                 str (_str)
             {
             }
 
-            inline charseq(_In_ int _rank, _Inout_ std::wstring &&_str) :
+            inline charseq(_In_ short _rank, _Inout_ std::wstring &&_str) :
                 rank(_rank),
                 str (std::move(_str))
             {
@@ -113,12 +113,12 @@ namespace ZRCola {
         ///
         class translation {
         public:
-            int set;            ///< Translation set ID
+            short set;          ///< Translation set ID
             charseq src;        ///< Source sequence
             std::string norm;   ///< Normalization footprint
             charseq dst;        ///< Destination sequence
 
-            inline translation() : set((int)ZRCOLA_TRANSETID_DEFAULT) {}
+            inline translation() : set((short)ZRCOLA_TRANSETID_DEFAULT) {}
         };
 
 
@@ -127,11 +127,11 @@ namespace ZRCola {
         ///
         class transet {
         public:
-            int set;            ///< ID
+            short set;          ///< ID
             std::wstring src;   ///< Source name
             std::wstring dst;   ///< Destination name
 
-            inline transet() : set((int)ZRCOLA_TRANSETID_DEFAULT) {}
+            inline transet() : set((short)ZRCOLA_TRANSETID_DEFAULT) {}
         };
 
 
@@ -140,10 +140,10 @@ namespace ZRCola {
         ///
         class transeq {
         public:
-            int seq;                ///< ID
-            int rank;               ///< Rank
-            std::wstring name;      ///< Name
-            std::vector<int> sets;  ///< Sets
+            short seq;                  ///< ID
+            short rank;                 ///< Rank
+            std::wstring name;          ///< Name
+            std::vector<short> sets;    ///< Sets
 
             inline transeq() :
                 seq(0),
@@ -222,8 +222,8 @@ namespace ZRCola {
         ///
         class chrgrp {
         public:
-            int grp;                            ///< Character group ID
-            int rank;                           ///< Rank
+            short grp;                          ///< Character group ID
+            short rank;                         ///< Rank
             std::wstring name;                  ///< Name
             std::vector<wchar_t> chars;         ///< Characters (zero-delimited)
             std::vector<unsigned __int16> show; ///< Bit vector if particular character from \c chars is displayed initially
@@ -373,7 +373,7 @@ namespace ZRCola {
         class chrcat {
         public:
             ZRCola::chrcatid_t cat;     ///> Category ID
-            int rank;                   ///< Rank
+            short rank;                 ///< Rank
             std::wstring name;          ///< Name
 
             inline chrcat() : cat(ZRCola::chrcatid_t::blank), rank(0) {}
@@ -386,7 +386,7 @@ namespace ZRCola {
         class chrtag {
         public:
             std::wstring chr;           ///> Character
-            int tag;                    ///< Tag ID
+            short tag;                  ///< Tag ID
 
             inline chrtag() : tag(0) {}
         };
@@ -397,7 +397,7 @@ namespace ZRCola {
         ///
         class tagname {
         public:
-            int tag;                    ///< Tag ID
+            short tag;                  ///< Tag ID
             std::map<LCID, std::list<std::wstring> > names; ///< Names
 
             inline tagname() : tag(0) {}
@@ -486,7 +486,7 @@ namespace ZRCola {
         /// - true when successful
         /// - false otherwise
         ///
-        bool GetValue(const winstd::com_obj<ADOField>& f, int& val) const;
+        bool GetValue(const winstd::com_obj<ADOField>& f, short& val) const;
 
         ///
         /// Gets string from ZRCola.zrc database
@@ -628,7 +628,7 @@ namespace ZRCola {
         /// - true when query succeeds
         /// - false otherwise
         ///
-        bool SelectTranslations(int set, winstd::com_obj<ADORecordset>& rs) const;
+        bool SelectTranslations(short set, winstd::com_obj<ADORecordset>& rs) const;
 
         ///
         /// Returns translation data
@@ -894,11 +894,8 @@ namespace ZRCola {
 inline ZRCola::translation_db& operator<<(_Inout_ ZRCola::translation_db &db, _In_ const ZRCola::DBSource::translation &rec)
 {
     unsigned __int32 idx = db.data.size();
-    wxASSERT_MSG((int)0xffff0000 <= rec.set && rec.set <= (int)0x0000ffff, wxT("translation set id out of bounds"));
     db.data.push_back((unsigned __int16)rec.set);
-    wxASSERT_MSG((int)0xffff8000 <= rec.dst.rank && rec.dst.rank <= (int)0x00007fff, wxT("destination character rank out of bounds"));
     db.data.push_back((unsigned __int16)rec.dst.rank);
-    wxASSERT_MSG((int)0xffff8000 <= rec.src.rank && rec.src.rank <= (int)0x00007fff, wxT("source character rank out of bounds"));
     db.data.push_back((unsigned __int16)rec.src.rank);
     std::wstring::size_type n = rec.dst.str.length();
     wxASSERT_MSG(n <= 0xffff, wxT("destination overflow"));
@@ -918,7 +915,6 @@ inline ZRCola::translation_db& operator<<(_Inout_ ZRCola::translation_db &db, _I
 inline ZRCola::transet_db& operator<<(_Inout_ ZRCola::transet_db &db, _In_ const ZRCola::DBSource::transet &rec)
 {
     unsigned __int32 idx = db.data.size();
-    wxASSERT_MSG((int)0xffff0000 <= rec.set && rec.set <= (int)0x0000ffff, wxT("translation set id out of bounds"));
     db.data.push_back((unsigned __int16)rec.set);
     std::wstring::size_type n = rec.src.length();
     wxASSERT_MSG(n <= 0xffff, wxT("translation set source name overflow"));
@@ -937,9 +933,7 @@ inline ZRCola::transet_db& operator<<(_Inout_ ZRCola::transet_db &db, _In_ const
 inline ZRCola::transeq_db& operator<<(_Inout_ ZRCola::transeq_db &db, _In_ const ZRCola::DBSource::transeq &rec)
 {
     unsigned __int32 idx = db.data.size();
-    wxASSERT_MSG((int)0xffff8000 <= rec.seq && rec.seq <= (int)0x00007fff, wxT("translation sequence id out of bounds"));
     db.data.push_back((unsigned __int16)rec.seq);
-    wxASSERT_MSG((int)0xffff8000 <= rec.rank && rec.rank <= (int)0x00007fff, wxT("translation rank id out of bounds"));
     db.data.push_back((unsigned __int16)rec.rank);
     std::wstring::size_type n = rec.name.length();
     wxASSERT_MSG(n <= 0xffff, wxT("translation sequence name overflow"));
@@ -948,11 +942,8 @@ inline ZRCola::transeq_db& operator<<(_Inout_ ZRCola::transeq_db &db, _In_ const
     wxASSERT_MSG(n <= 0xffff, wxT("translation sequence sets overflow"));
     db.data.push_back((unsigned __int16)n);
     db.data.insert(db.data.end(), rec.name.cbegin(), rec.name.cend());
-    for (auto s = rec.sets.cbegin(), s_end = rec.sets.cend(); s != s_end; ++s) {
-        int val = *s;
-        wxASSERT_MSG(val <= 0xffff, wxT("translation sequence ID overflow"));
-        db.data.push_back((unsigned __int16)val);
-    }
+    for (auto s = rec.sets.cbegin(), s_end = rec.sets.cend(); s != s_end; ++s)
+        db.data.push_back((unsigned __int16)*s);
     db.idxTranSeq.push_back(idx);
     db.idxRank   .push_back(idx);
 
@@ -1018,9 +1009,7 @@ inline ZRCola::langchar_db& operator<<(_Inout_ ZRCola::langchar_db &db, _In_ con
 inline ZRCola::chrgrp_db& operator<<(_Inout_ ZRCola::chrgrp_db &db, _In_ const ZRCola::DBSource::chrgrp &rec)
 {
     unsigned __int32 idx = db.data.size();
-    wxASSERT_MSG((int)0xffff8000 <= rec.grp && rec.grp <= (int)0x00007fff, wxT("character group ID out of bounds"));
     db.data.push_back((unsigned __int16)rec.grp);
-    wxASSERT_MSG((int)0xffff8000 <= rec.rank && rec.rank <= (int)0x00007fff, wxT("character group rank out of bounds"));
     db.data.push_back((unsigned __int16)rec.rank);
     std::wstring::size_type n = rec.name.length();
     wxASSERT_MSG(n <= 0xffff, wxT("character group name overflow"));
@@ -1063,7 +1052,6 @@ inline ZRCola::chrcat_db& operator<<(_Inout_ ZRCola::chrcat_db &db, _In_ const Z
 {
     unsigned __int32 idx = db.data.size();
     db.data.insert(db.data.end(), reinterpret_cast<const unsigned __int16*>(&rec.cat), reinterpret_cast<const unsigned __int16*>(&rec.cat + 1));
-    wxASSERT_MSG((int)0xffff8000 <= rec.rank && rec.rank <= (int)0x00007fff, wxT("character category rank out of bounds"));
     db.data.push_back((unsigned __int16)rec.rank);
     std::wstring::size_type n = rec.name.length();
     wxASSERT_MSG(n <= 0xffff, wxT("character category name overflow"));
@@ -1079,7 +1067,6 @@ inline ZRCola::chrcat_db& operator<<(_Inout_ ZRCola::chrcat_db &db, _In_ const Z
 inline ZRCola::chrtag_db& operator<<(_Inout_ ZRCola::chrtag_db &db, _In_ const ZRCola::DBSource::chrtag &rec)
 {
     unsigned __int32 idx = db.data.size();
-    wxASSERT_MSG((int)0xffff8000 <= rec.tag && rec.tag <= (int)0x00007fff, wxT("tag out of bounds"));
     db.data.push_back((unsigned __int16)rec.tag);
     std::wstring::size_type n = rec.chr.length();
     wxASSERT_MSG(n <= 0xffff, wxT("character overflow"));
@@ -1097,7 +1084,6 @@ inline ZRCola::tagname_db& operator<<(_Inout_ ZRCola::tagname_db &db, _In_ const
     for (auto ln = rec.names.cbegin(), ln_end = rec.names.cend(); ln != ln_end; ++ln) {
         for (auto nm = ln->second.cbegin(), nm_end = ln->second.cend(); nm != nm_end; ++nm) {
             unsigned __int32 idx = db.data.size();
-            wxASSERT_MSG((int)0xffff8000 <= rec.tag && rec.tag <= (int)0x00007fff, wxT("tag out of bounds"));
             db.data.push_back((unsigned __int16)rec.tag);
             db.data.push_back(LOWORD(ln->first));
             db.data.push_back(HIWORD(ln->first));

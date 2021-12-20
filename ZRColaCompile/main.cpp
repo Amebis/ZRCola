@@ -16,8 +16,8 @@ using namespace winstd;
 class com_translation
 {
 public:
-    int rank_src;                   ///< Source sequence rank
-    int rank_dst;                   ///< Destination character rank
+    short rank_src;                 ///< Source sequence rank
+    short rank_dst;                 ///< Destination character rank
     string norm;                    ///< Normalization footprint
 
     inline com_translation() :
@@ -26,20 +26,20 @@ public:
     {
     }
 
-    inline com_translation(int _rank_src, int _rank_dst) :
+    inline com_translation(short _rank_src, short _rank_dst) :
         rank_src(_rank_src),
         rank_dst(_rank_dst)
     {
     }
 
-    inline com_translation(int _rank_src, int _rank_dst, const char *_norm) :
+    inline com_translation(short _rank_src, short _rank_dst, const char *_norm) :
         rank_src(_rank_src),
         rank_dst(_rank_dst),
         norm    (_norm    )
     {
     }
 
-    inline com_translation(int _rank_src, int _rank_dst, string &&_norm) :
+    inline com_translation(short _rank_src, short _rank_dst, string &&_norm) :
         rank_src(          _rank_src ),
         rank_dst(          _rank_dst ),
         norm    (std::move(_norm    ))
@@ -365,8 +365,8 @@ int _tmain(int argc, _TCHAR *argv[])
                             translation_db::mapped_type::mapped_type ct(d1->second.rank_src + r->rank, d1->second.rank_dst);
                             auto hit = t2->second.find(r->str);
                             if (hit != t2->second.end()) {
-                                hit->second.rank_src = std::min<int>(hit->second.rank_src, ct.rank_src);
-                                hit->second.rank_dst = std::max<int>(hit->second.rank_dst, ct.rank_dst);
+                                hit->second.rank_src = std::min<short>(hit->second.rank_src, ct.rank_src);
+                                hit->second.rank_dst = std::max<short>(hit->second.rank_dst, ct.rank_dst);
                             } else
                                 t2->second.insert(pair<translation_db::mapped_type::key_type, translation_db::mapped_type::mapped_type>(r->str, std::move(ct)));
                         }
@@ -384,7 +384,7 @@ int _tmain(int argc, _TCHAR *argv[])
                     // Add translation to index and data.
                     trans.dst.str = t->first;
                     for (auto d = t->second.cbegin(), d_end = t->second.cend(); d != d_end; ++d) {
-                        trans.set = (int)ZRCOLA_TRANSETID_DEFAULT;
+                        trans.set = (short)ZRCOLA_TRANSETID_DEFAULT;
                         trans.dst.rank = d->second.rank_dst;
                         trans.src.rank = d->second.rank_src;
                         trans.src.str  = d->first;
@@ -398,7 +398,7 @@ int _tmain(int argc, _TCHAR *argv[])
                                 break;
                             }
                         if (!has_pua) {
-                            trans.set = (int)ZRCOLA_TRANSETID_UNICODE;
+                            trans.set = (short)ZRCOLA_TRANSETID_UNICODE;
                             db_trans << trans;
                         }
                     }
@@ -428,7 +428,7 @@ int _tmain(int argc, _TCHAR *argv[])
                     // Read translation set from the database.
                     ZRCola::DBSource::transet ts;
                     if (src.GetTranslationSet(rs, ts)) {
-                        if (ts.set <= (int)ZRCOLA_TRANSETID_DEFAULT)
+                        if (ts.set <= (short)ZRCOLA_TRANSETID_DEFAULT)
                             continue;
 
                         if (build_pot) {
