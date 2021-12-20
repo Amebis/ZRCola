@@ -133,8 +133,19 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 
 	m_menuEdit->AppendSeparator();
 
-	m_menuItemComposition = new wxMenuItem( m_menuEdit, wxID_COMPOSITION, wxString( _("&ZRCola (De)composition") ) , _("Toggle ZRCola character (De)composition"), wxITEM_CHECK );
-	m_menuEdit->Append( m_menuItemComposition );
+	wxMenu* m_menuComposition;
+	m_menuComposition = new wxMenu();
+	wxMenuItem* m_menuCompositionItem = new wxMenuItem( m_menuEdit, wxID_ANY, _("(De)&composition"), wxEmptyString, wxITEM_NORMAL, m_menuComposition );
+	m_menuItemCompositionNone = new wxMenuItem( m_menuComposition, wxID_COMPOSITION_NONE, wxString( _("&None") ) , _("No character (De)composition"), wxITEM_RADIO );
+	m_menuComposition->Append( m_menuItemCompositionNone );
+
+	m_menuItemCompositionZRCola = new wxMenuItem( m_menuComposition, wxID_COMPOSITION_ZRCOLA, wxString( _("&ZRCola") ) , _("ZRCola character (De)composition"), wxITEM_RADIO );
+	m_menuComposition->Append( m_menuItemCompositionZRCola );
+
+	m_menuItemCompositionUnicode = new wxMenuItem( m_menuComposition, wxID_COMPOSITION_UNICODE, wxString( _("&Unicode") ) , _("Unicode character (De)composition"), wxITEM_RADIO );
+	m_menuComposition->Append( m_menuItemCompositionUnicode );
+
+	m_menuEdit->Append( m_menuCompositionItem );
 
 	m_menuTranslationSeq = new wxMenu();
 	wxMenuItem* m_menuTranslationSeqItem = new wxMenuItem( m_menuEdit, wxID_ANY, _("Tra&nslation"), wxEmptyString, wxITEM_NORMAL, m_menuTranslationSeq );
@@ -218,10 +229,13 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 
 	m_toolbarTranslate->AddSeparator();
 
-	m_toolComposition = m_toolbarTranslate->AddTool( wxID_COMPOSITION, _("ZRCola (De)composition"), wxIcon( wxT("composition.ico"), wxBITMAP_TYPE_ICO_RESOURCE, FromDIP(24), FromDIP(24) ), wxNullBitmap, wxITEM_CHECK, _("ZRCola (De)composition"), _("Toggle ZRCola character (De)composition"), NULL );
-
+	wxString m_toolCompositionChoices[] = { _("No (De)composition"), _("ZRCola"), _("Unicode") };
+	int m_toolCompositionNChoices = sizeof( m_toolCompositionChoices ) / sizeof( wxString );
+	m_toolComposition = new wxChoice( m_toolbarTranslate, wxID_ANY, wxDefaultPosition, FromDIP(wxSize( 120,-1 )), m_toolCompositionNChoices, m_toolCompositionChoices, 0 );
+	m_toolComposition->SetSelection( 0 );
+	m_toolbarTranslate->AddControl( m_toolComposition );
 	wxArrayString m_toolTranslationSeqChoices;
-	m_toolTranslationSeq = new wxChoice( m_toolbarTranslate, wxID_ANY, wxDefaultPosition, FromDIP(wxSize( 240,-1 )), m_toolTranslationSeqChoices, 0 );
+	m_toolTranslationSeq = new wxChoice( m_toolbarTranslate, wxID_ANY, wxDefaultPosition, FromDIP(wxSize( 180,-1 )), m_toolTranslationSeqChoices, 0 );
 	m_toolTranslationSeq->SetSelection( 0 );
 	m_toolbarTranslate->AddControl( m_toolTranslationSeq );
 	m_toolbarTranslate->AddSeparator();
@@ -248,6 +262,7 @@ wxZRColaFrameBase::wxZRColaFrameBase( wxWindow* parent, wxWindowID id, const wxS
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( wxZRColaFrameBase::OnClose ) );
 	this->Connect( wxEVT_ICONIZE, wxIconizeEventHandler( wxZRColaFrameBase::OnIconize ) );
 	this->Connect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaFrameBase::OnIdle ) );
+	m_toolComposition->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( wxZRColaFrameBase::OnCompositionChoice ), NULL, this );
 	m_toolTranslationSeq->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( wxZRColaFrameBase::OnTranslationSeqChoice ), NULL, this );
 }
 
@@ -257,6 +272,7 @@ wxZRColaFrameBase::~wxZRColaFrameBase()
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( wxZRColaFrameBase::OnClose ) );
 	this->Disconnect( wxEVT_ICONIZE, wxIconizeEventHandler( wxZRColaFrameBase::OnIconize ) );
 	this->Disconnect( wxEVT_IDLE, wxIdleEventHandler( wxZRColaFrameBase::OnIdle ) );
+	m_toolComposition->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( wxZRColaFrameBase::OnCompositionChoice ), NULL, this );
 	m_toolTranslationSeq->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( wxZRColaFrameBase::OnTranslationSeqChoice ), NULL, this );
 
 	m_mgr.UnInit();

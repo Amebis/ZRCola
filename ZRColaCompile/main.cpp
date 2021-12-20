@@ -414,6 +414,31 @@ int _tmain(int argc, _TCHAR *argv[])
     }
 
     {
+        com_obj<ADORecordset> rs_tran;
+        if (src.SelectTranslations(static_cast<short>(ZRCOLA_TRANSETID_UNICODE), rs_tran)) {
+            if (src.GetRecordsetCount(rs_tran) < 0xffffffff) { // 4G check (-1 is reserved for error condition)
+                // Parse translations and build temporary database.
+                ZRCola::DBSource::translation trans;
+                trans.set = (short)ZRCOLA_TRANSETID_UNICODE;
+                for (; !ZRCola::DBSource::IsEOF(rs_tran); rs_tran->MoveNext()) {
+                    // Read translation from the database.
+                    if (src.GetTranslation(rs_tran, trans)) {
+                        // Add translation to index and data.
+                        db_trans << trans;
+                    } else
+                        has_errors = true;
+                }
+            } else {
+                _ftprintf(stderr, wxT("%s: error ZCC0004: Error getting Unicode translation count from database or too many translations.\n"), (LPCTSTR)filenameIn.c_str());
+                has_errors = true;
+            }
+        } else {
+            _ftprintf(stderr, wxT("%s: error ZCC0003: Error getting Unicode translations from database. Please make sure the file is ZRCola.zrc compatible.\n"), (LPCTSTR)filenameIn.c_str());
+            has_errors = true;
+        }
+    }
+
+    {
         // Get translation sets.
         com_obj<ADORecordset> rs;
         if (src.SelectTranlationSets(rs)) {
@@ -428,7 +453,7 @@ int _tmain(int argc, _TCHAR *argv[])
                     // Read translation set from the database.
                     ZRCola::DBSource::transet ts;
                     if (src.GetTranslationSet(rs, ts)) {
-                        if (ts.set <= (short)ZRCOLA_TRANSETID_DEFAULT)
+                        if (ts.set <= (short)ZRCOLA_TRANSETID_DEFAULT || (short)ZRCOLA_TRANSETID_UNICODE <= ts.set)
                             continue;
 
                         if (build_pot) {

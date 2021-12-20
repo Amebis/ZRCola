@@ -28,7 +28,9 @@ wxBEGIN_EVENT_TABLE(wxZRColaFrame, wxZRColaFrameBase)
     EVT_MENU           (wxID_SEND_SOURCE                                      , wxZRColaFrame::OnSendSource                 )
     EVT_MENU           (wxID_SEND_ABORT                                       , wxZRColaFrame::OnSendAbort                  )
 
-    EVT_MENU           (wxID_COMPOSITION                                      , wxZRColaFrame::OnComposition                )
+    EVT_MENU           (wxID_COMPOSITION_NONE                                 , wxZRColaFrame::OnCompositionNone            )
+    EVT_MENU           (wxID_COMPOSITION_ZRCOLA                               , wxZRColaFrame::OnCompositionZRCola          )
+    EVT_MENU           (wxID_COMPOSITION_UNICODE                              , wxZRColaFrame::OnCompositionUnicode         )
     EVT_MENU           (wxID_WARN_PUA                                         , wxZRColaFrame::OnWarnPUA                    )
     EVT_MENU_RANGE     (wxID_TRANSLATION_SEQ_DEFAULT, wxID_TRANSLATION_SEQ_END, wxZRColaFrame::OnTranslationSeqMenu         )
 
@@ -61,6 +63,7 @@ wxZRColaFrame::wxZRColaFrame() :
     m_settings(NULL),
     m_chrReq(NULL),
     m_composition(true),
+    m_composition_id(ZRCOLA_TRANSETID_DEFAULT),
     m_warnPUA(false),
     m_transeq_id(ZRCOLA_TRANSEQID_DEFAULT),
     m_transeq(NULL),
@@ -174,12 +177,15 @@ wxZRColaFrame::wxZRColaFrame() :
     persist_mgr.RegisterAndRestore(this, new wxPersistentZRColaFrame(this));
 
     // Update (de)composition selection.
-    if (m_composition) {
-        m_menuItemComposition->Check(true);
-        m_toolComposition->SetState(m_toolComposition->GetState() | wxAUI_BUTTON_STATE_CHECKED);
+    if (m_composition && m_composition_id == ZRCOLA_TRANSETID_DEFAULT) {
+        m_menuItemCompositionZRCola->Check(true);
+        m_toolComposition->Select(1);
+    } else if (m_composition && m_composition_id == ZRCOLA_TRANSETID_UNICODE) {
+        m_menuItemCompositionUnicode->Check(true);
+        m_toolComposition->Select(2);
     } else {
-        m_menuItemComposition->Check(false);
-        m_toolComposition->SetState(m_toolComposition->GetState() & ~wxAUI_BUTTON_STATE_CHECKED);
+        m_menuItemCompositionNone->Check(true);
+        m_toolComposition->Select(0);
     }
 
     if (m_warnPUA) {
@@ -338,18 +344,40 @@ void wxZRColaFrame::OnSendAbort(wxCommandEvent& event)
 }
 
 
-void wxZRColaFrame::OnComposition(wxCommandEvent& event)
+void wxZRColaFrame::OnCompositionNone(wxCommandEvent& event)
 {
-    m_composition = !m_composition;
-    m_menuItemComposition->Check(m_composition);
-    m_toolComposition->SetState((m_toolComposition->GetState() & ~wxAUI_BUTTON_STATE_CHECKED) | (m_composition ? wxAUI_BUTTON_STATE_CHECKED : 0));
+    DoSetComposition(false, ZRCOLA_TRANSETID_DEFAULT);
     m_toolbarTranslate->Refresh();
 
-    // Notify source text something changed and should re-translate.
-    wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
-    m_panel->m_source->ProcessWindowEvent(event2);
+    event.Skip();
+}
+
+
+void wxZRColaFrame::OnCompositionZRCola(wxCommandEvent& event)
+{
+    DoSetComposition(true, ZRCOLA_TRANSETID_DEFAULT);
+    m_toolbarTranslate->Refresh();
 
     event.Skip();
+}
+
+
+void wxZRColaFrame::OnCompositionUnicode(wxCommandEvent& event)
+{
+    DoSetComposition(true, ZRCOLA_TRANSETID_UNICODE);
+    m_toolbarTranslate->Refresh();
+
+    event.Skip();
+}
+
+
+void wxZRColaFrame::OnCompositionChoice(wxCommandEvent& event)
+{
+    switch (event.GetSelection()) {
+    case 0: DoSetComposition(false, ZRCOLA_TRANSETID_DEFAULT); break;
+    case 1: DoSetComposition(true, ZRCOLA_TRANSETID_DEFAULT); break;
+    case 2: DoSetComposition(true, ZRCOLA_TRANSETID_UNICODE); break;
+    }
 }
 
 
@@ -644,6 +672,30 @@ void wxZRColaFrame::DoCopyAndReturn(const wxString& str)
 }
 
 
+void wxZRColaFrame::DoSetComposition(bool enable, ZRCola::transetid_t transet_id)
+{
+    if (enable && transet_id == ZRCOLA_TRANSETID_DEFAULT) {
+        m_composition = true;
+        m_composition_id = ZRCOLA_TRANSETID_DEFAULT;
+        m_menuItemCompositionZRCola->Check(true);
+        m_toolComposition->Select(1);
+    } else if (enable && transet_id == ZRCOLA_TRANSETID_UNICODE) {
+        m_composition = true;
+        m_composition_id = ZRCOLA_TRANSETID_UNICODE;
+        m_menuItemCompositionUnicode->Check(true);
+        m_toolComposition->Select(2);
+    } else {
+        m_composition = false;
+        m_menuItemCompositionNone->Check(true);
+        m_toolComposition->Select(0);
+    }
+
+    // Notify source text something changed and should re-translate.
+    wxCommandEvent event2(wxEVT_COMMAND_TEXT_UPDATED);
+    m_panel->m_source->ProcessWindowEvent(event2);
+}
+
+
 void wxZRColaFrame::DoSetTranslationSeq(int idx, ZRCola::transeqid_t transeq_id)
 {
     if (transeq_id == ZRCOLA_TRANSEQID_CUSTOM) {
@@ -744,6 +796,7 @@ void wxPersistentZRColaFrame::Save() const
     auto wnd = static_cast<const wxZRColaFrame*>(GetWindow()); // dynamic_cast is not reliable as we are typically called late in the wxTopLevelWindowMSW destructor.
 
     SaveValue(wxT("composition"), wnd->m_composition);
+    SaveValue(wxT("compositionId"), static_cast<int>(wnd->m_composition_id));
     SaveValue(wxT("warnPUA"), wnd->m_warnPUA);
     SaveValue(wxT("transeqId"), static_cast<int>(wnd->m_transeq_id));
 
@@ -768,6 +821,8 @@ bool wxPersistentZRColaFrame::Restore()
         wnd->m_composition = b;
     else
         wnd->m_composition = wnd->m_transeq_id == ZRCOLA_TRANSEQID_DEFAULT;
+    if (RestoreValue(wxT("compositionId"), &num))
+        wnd->m_composition_id = (ZRCola::transetid_t)num;
     if (RestoreValue(wxT("warnPUA"), &b))
         wnd->m_warnPUA = b;
     else

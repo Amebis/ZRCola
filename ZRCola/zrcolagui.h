@@ -67,7 +67,9 @@ class wxZRColaFrameBase : public wxFrame
 			wxID_SEND_SOURCE,
 			wxID_COPY_SOURCE_AND_RETURN,
 			wxID_SEND_ABORT,
-			wxID_COMPOSITION,
+			wxID_COMPOSITION_NONE,
+			wxID_COMPOSITION_ZRCOLA,
+			wxID_COMPOSITION_UNICODE,
 			wxID_WARN_PUA,
 			wxID_SETTINGS,
 			wxID_TOOLBAR_EDIT,
@@ -82,7 +84,9 @@ class wxZRColaFrameBase : public wxFrame
 		wxMenuBar* m_menubar;
 		wxMenu* m_menuProgram;
 		wxMenu* m_menuEdit;
-		wxMenuItem* m_menuItemComposition;
+		wxMenuItem* m_menuItemCompositionNone;
+		wxMenuItem* m_menuItemCompositionZRCola;
+		wxMenuItem* m_menuItemCompositionUnicode;
 		wxMenu* m_menuTranslationSeq;
 		wxMenuItem* m_menuItemWarnPUA;
 		wxMenu* m_menuView;
@@ -95,7 +99,7 @@ class wxZRColaFrameBase : public wxFrame
 		wxAuiToolBarItem* m_toolCharSelect;
 		wxAuiToolBarItem* m_toolSendDestination;
 		wxAuiToolBarItem* m_toolSendSource;
-		wxAuiToolBarItem* m_toolComposition;
+		wxChoice* m_toolComposition;
 		wxChoice* m_toolTranslationSeq;
 		wxAuiToolBarItem* m_toolWarnPUA;
 		wxZRColaCharacterCatalogPanel* m_panelChrCat;
@@ -105,6 +109,7 @@ class wxZRColaFrameBase : public wxFrame
 		virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
 		virtual void OnIconize( wxIconizeEvent& event ) { event.Skip(); }
 		virtual void OnIdle( wxIdleEvent& event ) { event.Skip(); }
+		virtual void OnCompositionChoice( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnTranslationSeqChoice( wxCommandEvent& event ) { event.Skip(); }
 
 

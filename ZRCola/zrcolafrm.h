@@ -76,7 +76,10 @@ protected:
     void OnSendSource(wxCommandEvent& event);
     void OnCopySourceAndReturn(wxCommandEvent& event);
     void OnSendAbort(wxCommandEvent& event);
-    void OnComposition(wxCommandEvent& event);
+    void OnCompositionNone(wxCommandEvent& event);
+    void OnCompositionZRCola(wxCommandEvent& event);
+    void OnCompositionUnicode(wxCommandEvent& event);
+    virtual void OnCompositionChoice(wxCommandEvent& event);
     void OnWarnPUA(wxCommandEvent& event);
     void OnSettings(wxCommandEvent& event);
     virtual void OnIdle(wxIdleEvent& event);
@@ -117,6 +120,7 @@ protected:
 private:
     void DoSend(const wxString& str);
     void DoCopyAndReturn(const wxString& str);
+    void DoSetComposition(bool enable, ZRCola::transetid_t transet_id);
     void DoSetTranslationSeq(int idx, ZRCola::transeqid_t transeq_id);
 
 protected:
@@ -128,16 +132,17 @@ protected:
     static const int s_guiLevel;        ///< Persisted placements/sizing are considered incompatible between different GUI levels
 
 protected:
-    WXHWND m_hWndSource;                ///< Handle of the active window, when the ZRCola hotkey was pressed
-    bool m_wasIconised;                 ///< Was the ZRCola window iconized, when the ZRCola hotkey was pressed
-    wxTaskBarIcon *m_taskBarIcon;       ///< Taskbar icon
-    wxZRColaCharSelect *m_chrSelect;    ///< Character selection dialog
-    wxZRColaCharRequest *m_chrReq;      ///< Request a New Character dialog
-    wxZRColaSettings *m_settings;       ///< Configuration dialog
-    bool m_composition;                 ///< Is (de)composition enabled?
-    bool m_warnPUA;                     ///< Mark Private-Use-Area characters in destination text
-    ZRCola::transeqid_t m_transeq_id;   ///< Translation sequence ID
-    wxZRColaTranslationSeq *m_transeq;  ///< Custom translation sequence dialog
+    WXHWND m_hWndSource;                    ///< Handle of the active window, when the ZRCola hotkey was pressed
+    bool m_wasIconised;                     ///< Was the ZRCola window iconized, when the ZRCola hotkey was pressed
+    wxTaskBarIcon *m_taskBarIcon;           ///< Taskbar icon
+    wxZRColaCharSelect *m_chrSelect;        ///< Character selection dialog
+    wxZRColaCharRequest *m_chrReq;          ///< Request a New Character dialog
+    wxZRColaSettings *m_settings;           ///< Configuration dialog
+    bool m_composition;                     ///< Is (de)composition enabled?
+    ZRCola::transetid_t m_composition_id;   ///< Which (de)composition is enabled
+    bool m_warnPUA;                         ///< Mark Private-Use-Area characters in destination text
+    ZRCola::transeqid_t m_transeq_id;       ///< Translation sequence ID
+    wxZRColaTranslationSeq *m_transeq;      ///< Custom translation sequence dialog
 };
 
 

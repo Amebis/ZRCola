@@ -26,6 +26,11 @@
 #define ZRCOLA_TRANSETID_DEFAULT    ((ZRCola::transetid_t)0x0000)
 
 ///
+/// ZRCola to Unicode translation ID
+///
+#define ZRCOLA_TRANSETID_UNICODE    ((ZRCola::transetid_t)0x7fff)
+
+///
 /// Translation disabled/ZRCola (De)Composition
 ///
 #define ZRCOLA_TRANSEQID_DEFAULT    ((ZRCola::transeqid_t)0x0000)

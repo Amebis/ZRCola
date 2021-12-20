@@ -247,18 +247,50 @@
                         <property name="name">separator4</property>
                         <property name="permission">none</property>
                     </object>
-                    <object class="wxMenuItem" expanded="0">
+                    <object class="submenu" expanded="0">
                         <property name="bitmap"></property>
-                        <property name="checked">0</property>
-                        <property name="enabled">1</property>
-                        <property name="help">Toggle ZRCola character (De)composition</property>
-                        <property name="id">wxID_COMPOSITION</property>
-                        <property name="kind">wxITEM_CHECK</property>
-                        <property name="label">&amp;ZRCola (De)composition</property>
-                        <property name="name">m_menuItemComposition</property>
-                        <property name="permission">protected</property>
-                        <property name="shortcut"></property>
-                        <property name="unchecked_bitmap"></property>
+                        <property name="label">(De)&amp;composition</property>
+                        <property name="name">m_menuComposition</property>
+                        <property name="permission">none</property>
+                        <object class="wxMenuItem" expanded="0">
+                            <property name="bitmap"></property>
+                            <property name="checked">0</property>
+                            <property name="enabled">1</property>
+                            <property name="help">No character (De)composition</property>
+                            <property name="id">wxID_COMPOSITION_NONE</property>
+                            <property name="kind">wxITEM_RADIO</property>
+                            <property name="label">&amp;None</property>
+                            <property name="name">m_menuItemCompositionNone</property>
+                            <property name="permission">protected</property>
+                            <property name="shortcut"></property>
+                            <property name="unchecked_bitmap"></property>
+                        </object>
+                        <object class="wxMenuItem" expanded="0">
+                            <property name="bitmap"></property>
+                            <property name="checked">0</property>
+                            <property name="enabled">1</property>
+                            <property name="help">ZRCola character (De)composition</property>
+                            <property name="id">wxID_COMPOSITION_ZRCOLA</property>
+                            <property name="kind">wxITEM_RADIO</property>
+                            <property name="label">&amp;ZRCola</property>
+                            <property name="name">m_menuItemCompositionZRCola</property>
+                            <property name="permission">protected</property>
+                            <property name="shortcut"></property>
+                            <property name="unchecked_bitmap"></property>
+                        </object>
+                        <object class="wxMenuItem" expanded="0">
+                            <property name="bitmap"></property>
+                            <property name="checked">0</property>
+                            <property name="enabled">1</property>
+                            <property name="help">Unicode character (De)composition</property>
+                            <property name="id">wxID_COMPOSITION_UNICODE</property>
+                            <property name="kind">wxITEM_RADIO</property>
+                            <property name="label">&amp;Unicode</property>
+                            <property name="name">m_menuItemCompositionUnicode</property>
+                            <property name="permission">protected</property>
+                            <property name="shortcut"></property>
+                            <property name="unchecked_bitmap"></property>
+                        </object>
                     </object>
                     <object class="submenu" expanded="0">
                         <property name="bitmap"></property>
@@ -616,16 +648,65 @@
                 <object class="toolSeparator" expanded="0">
                     <property name="permission">protected</property>
                 </object>
-                <object class="tool" expanded="0">
-                    <property name="bitmap">Load From Icon Resource; composition.ico; [24; 24]</property>
-                    <property name="context_menu">0</property>
-                    <property name="id">wxID_COMPOSITION</property>
-                    <property name="kind">wxITEM_CHECK</property>
-                    <property name="label">ZRCola (De)composition</property>
+                <object class="wxChoice" expanded="0">
+                    <property name="BottomDockable">1</property>
+                    <property name="LeftDockable">1</property>
+                    <property name="RightDockable">1</property>
+                    <property name="TopDockable">1</property>
+                    <property name="aui_layer"></property>
+                    <property name="aui_name"></property>
+                    <property name="aui_position"></property>
+                    <property name="aui_row"></property>
+                    <property name="best_size"></property>
+                    <property name="bg"></property>
+                    <property name="caption"></property>
+                    <property name="caption_visible">1</property>
+                    <property name="center_pane">0</property>
+                    <property name="choices">&quot;None&quot; &quot;ZRCola&quot; &quot;Unicode&quot;</property>
+                    <property name="close_button">1</property>
+                    <property name="context_help"></property>
+                    <property name="context_menu">1</property>
+                    <property name="default_pane">0</property>
+                    <property name="dock">Dock</property>
+                    <property name="dock_fixed">0</property>
+                    <property name="docking">Left</property>
+                    <property name="enabled">1</property>
+                    <property name="fg"></property>
+                    <property name="floatable">1</property>
+                    <property name="font"></property>
+                    <property name="gripper">0</property>
+                    <property name="hidden">0</property>
+                    <property name="id">wxID_ANY</property>
+                    <property name="max_size"></property>
+                    <property name="maximize_button">0</property>
+                    <property name="maximum_size"></property>
+                    <property name="min_size"></property>
+                    <property name="minimize_button">0</property>
+                    <property name="minimum_size">-1,-1</property>
+                    <property name="moveable">1</property>
                     <property name="name">m_toolComposition</property>
+                    <property name="pane_border">1</property>
+                    <property name="pane_position"></property>
+                    <property name="pane_size"></property>
                     <property name="permission">protected</property>
-                    <property name="statusbar">Toggle ZRCola character (De)composition</property>
-                    <property name="tooltip">ZRCola (De)composition</property>
+                    <property name="pin_button">1</property>
+                    <property name="pos"></property>
+                    <property name="resize">Resizable</property>
+                    <property name="selection">0</property>
+                    <property name="show">1</property>
+                    <property name="size">120,-1</property>
+                    <property name="style"></property>
+                    <property name="subclass"></property>
+                    <property name="toolbar_pane">0</property>
+                    <property name="tooltip"></property>
+                    <property name="validator_data_type"></property>
+                    <property name="validator_style">wxFILTER_NONE</property>
+                    <property name="validator_type">wxDefaultValidator</property>
+                    <property name="validator_variable"></property>
+                    <property name="window_extra_style"></property>
+                    <property name="window_name"></property>
+                    <property name="window_style"></property>
+                    <event name="OnChoice">OnCompositionChoice</event>
                 </object>
                 <object class="wxChoice" expanded="0">
                     <property name="BottomDockable">1</property>
@@ -673,7 +754,7 @@
                     <property name="resize">Resizable</property>
                     <property name="selection">0</property>
                     <property name="show">1</property>
-                    <property name="size">240,-1</property>
+                    <property name="size">180,-1</property>
                     <property name="style"></property>
                     <property name="subclass"></property>
                     <property name="toolbar_pane">0</property>
