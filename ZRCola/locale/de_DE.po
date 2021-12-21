@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2021-12-20 20:18+0100\n"
-"PO-Revision-Date: 2021-12-20 20:18+0100\n"
+"POT-Creation-Date: 2021-12-21 14:17+0100\n"
+"PO-Revision-Date: 2021-12-21 14:17+0100\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: German (Germany) (https://www.transifex.com/amebis/teams/91592/de_DE/)\n"
 "Language: de_DE\n"
@@ -655,11 +655,11 @@ msgstr ""
 msgid "ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality will not be available."
 msgstr ""
 
-#: zrcolafrm.cpp:508
+#: zrcolafrm.cpp:513
 msgid "http://zrcola.zrc-sazu.si/en/info/instructions/"
 msgstr "http://zrcola.zrc-sazu.si/de/info/instructions/"
 
-#: zrcolafrm.cpp:533
+#: zrcolafrm.cpp:538
 msgid "http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
 msgstr "http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
 

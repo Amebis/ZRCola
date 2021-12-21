@@ -21,6 +21,7 @@ class ZRColaApp;
 #include <wx/intl.h>
 #pragma warning(pop)
 #include <zrcola/character.h>
+#include <zrcola/highlight.h>
 #include <zrcola/language.h>
 #include <zrcola/translate.h>
 #include <zrcola/tag.h>
@@ -72,6 +73,7 @@ public:
     ZRCola::chrcat_db m_cc_db;      ///< Characted category database
     ZRCola::chrtag_db m_ct_db;      ///< Character tag database
     ZRCola::tagname_db m_tn_db;     ///< Tag name database
+    ZRCola::highlight_db m_h_db;    ///< Highlight database
 
     wxZRColaFrame *m_mainWnd;       ///< Main window
 

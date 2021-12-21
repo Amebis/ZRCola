@@ -64,6 +64,7 @@
   <ItemGroup>
     <ClCompile Include="..\src\character.cpp" />
     <ClCompile Include="..\src\common.cpp" />
+    <ClCompile Include="..\src\highlight.cpp" />
     <ClCompile Include="..\src\language.cpp" />
     <ClCompile Include="..\src\mapping.cpp" />
     <ClCompile Include="..\src\pch.cpp">
@@ -75,6 +76,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\zrcola\character.h" />
     <ClInclude Include="..\include\zrcola\common.h" />
+    <ClInclude Include="..\include\zrcola\highlight.h" />
     <ClInclude Include="..\include\zrcola\language.h" />
     <ClInclude Include="..\include\zrcola\tag.h" />
     <ClInclude Include="..\include\zrcola\translate.h" />

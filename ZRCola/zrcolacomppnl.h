@@ -63,7 +63,8 @@ protected:
         m_destinationRestyled;                      ///< Boolean flag to mark destination text is being restyled
     wxTextAttr
         m_styleNormal,                              ///< Normal text style
-        m_stylePUA;                                 ///< PUA character text style
+        m_stylePUA,                                 ///< PUA character text style
+        m_styleZRColaUnicodeComposedIssues;         ///< ZRCola Unicode Composed issues character text style
     std::vector<ZRCola::mapping_vector> m_mapping;  ///< Character index mapping vector between source and normalized text
     std::pair<long, long>
         m_selSource,                                ///< Character index of selected text in source text control

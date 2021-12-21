@@ -144,6 +144,12 @@ bool ZRColaApp::OnInit()
                             wxFAIL_MSG(wxT("Error reading tag name data from ZRCola.zrcdb."));
                             m_tn_db.clear();
                         }
+                    } else if (id == ZRCola::highlight_rec::id) {
+                        dat >> ZRCola::highlight_rec(m_h_db);
+                        if (!dat.good()) {
+                            wxFAIL_MSG(wxT("Error reading highlight data from ZRCola.zrcdb."));
+                            m_h_db.clear();
+                        }
                     } else
                         stdex::idrec::ignore<ZRCola::recordsize_t, ZRCOLA_RECORD_ALIGN>(dat);
                 }

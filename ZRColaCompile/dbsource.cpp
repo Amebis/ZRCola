@@ -242,6 +242,8 @@ ZRCola::DBSource::~DBSource()
     m_comTranslation.free();
     m_pCharacterGroup1.free();
     m_comCharacterGroup.free();
+    m_pHighlight1.free();
+    m_comHighlight.free();
 
     if (m_db)
         m_db->Close();
@@ -324,6 +326,23 @@ bool ZRCola::DBSource::Open(LPCTSTR filename)
                 wxASSERT_MSG(!m_pTranslationSets1, wxT("ADO command parameter already created"));
                 wxVERIFY(SUCCEEDED(m_comTranslationSets->CreateParameter(bstr(L"@ID"), adSmallInt, adParamInput, 0, variant(DISP_E_PARAMNOTFOUND, VT_ERROR), &m_pTranslationSets1)));
                 wxVERIFY(SUCCEEDED(params->Append(m_pTranslationSets1)));
+            }
+
+            wxASSERT_MSG(!m_comHighlight, wxT("ADO command already created"));
+            wxVERIFY(SUCCEEDED(::CoCreateInstance(CLSID_CADOCommand, NULL, CLSCTX_ALL, IID_IADOCommand, (LPVOID*)&m_comHighlight)));
+            wxVERIFY(SUCCEEDED(m_comHighlight->put_ActiveConnection(variant(m_db))));
+            wxVERIFY(SUCCEEDED(m_comHighlight->put_CommandType(adCmdText)));
+            wxVERIFY(SUCCEEDED(m_comHighlight->put_CommandText(bstr(L"SELECT [komb] "
+                L"FROM [VRS_HighlightChars2] "
+                L"WHERE [group]=? "
+                L"ORDER BY [komb]"))));
+            {
+                // Create and add command parameters.
+                com_obj<ADOParameters> params;
+                wxVERIFY(SUCCEEDED(m_comHighlight->get_Parameters(&params)));
+                wxASSERT_MSG(!m_pHighlight1, wxT("ADO command parameter already created"));
+                wxVERIFY(SUCCEEDED(m_comHighlight->CreateParameter(bstr(L"@group"), adSmallInt, adParamInput, 0, variant(DISP_E_PARAMNOTFOUND, VT_ERROR), &m_pHighlight1)));
+                wxVERIFY(SUCCEEDED(params->Append(m_pHighlight1)));
             }
 
             return true;
@@ -1435,6 +1454,44 @@ bool ZRCola::DBSource::GetTagName(const winstd::com_obj<ADORecordset>& rs, tagna
         list<wstring> names;
         wxCHECK(GetTagNames(f, lcid, names), false);
         tn.names.insert(std::move(pair<LCID, list<wstring> >(lcid, std::move(names))));
+    }
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::SelectHighlights(short set, winstd::com_obj<ADORecordset>& rs) const
+{
+    // Create a new recordset.
+    rs.free();
+    wxVERIFY(SUCCEEDED(::CoCreateInstance(CLSID_CADORecordset, NULL, CLSCTX_ALL, IID_IADORecordset, (LPVOID*)&rs)));
+    wxVERIFY(SUCCEEDED(rs->put_CursorLocation(adUseClient)));
+    wxVERIFY(SUCCEEDED(rs->put_CursorType(adOpenForwardOnly)));
+    wxVERIFY(SUCCEEDED(rs->put_LockType(adLockReadOnly)));
+
+    // Open it.
+    wxVERIFY(SUCCEEDED(m_pHighlight1->put_Value(variant(set))));
+    if (FAILED(rs->Open(variant(m_comHighlight), variant(DISP_E_PARAMNOTFOUND, VT_ERROR)))) {
+        _ftprintf(stderr, wxT("%s: error ZCC0101: Error loading highlights from database. Please make sure the file is ZRCola.zrc compatible.\n"), m_filename.c_str());
+        LogErrors();
+        return false;
+    }
+
+    return true;
+}
+
+
+bool ZRCola::DBSource::GetHighlight(const com_obj<ADORecordset>& rs, ZRCola::DBSource::highlight& h) const
+{
+    wxASSERT_MSG(rs, wxT("recordset is empty"));
+
+    com_obj<ADOFields> flds;
+    wxVERIFY(SUCCEEDED(rs->get_Fields(&flds)));
+
+    {
+        com_obj<ADOField> f;
+        wxVERIFY(SUCCEEDED(flds->get_Item(variant(L"komb"), &f)));
+        wxCHECK(GetUnicodeString(f, h.chr), false);
     }
 
     return true;

@@ -17,6 +17,7 @@ wxZRColaComposerPanel::wxZRColaComposerPanel(wxWindow* parent) :
     m_destinationRestyled(false),
     m_styleNormal(*wxBLACK, *wxWHITE, wxFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola"))),
     m_stylePUA(*wxBLUE, *wxWHITE, wxFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola"))),
+    m_styleZRColaUnicodeComposedIssues(*wxRED, *wxWHITE, wxFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("ZRCola"))),
     m_selSource(0, 0),
     m_selDestination(0, 0),
     wxZRColaComposerPanelBase(parent)
@@ -320,17 +321,25 @@ void wxZRColaComposerPanel::OnDestinationText(wxCommandEvent& event)
 
     auto app = dynamic_cast<ZRColaApp*>(wxTheApp);
     m_destinationRestyled = true;
-    if (app->m_mainWnd->m_warnPUA) {
-        wxString src = m_destination->GetValue();
-        size_t len = src.Length();
-        for (size_t i = 0, j; i < len;) {
-            bool pua_i = ZRCola::ispua(src[i]);
-            for (j = i + 1; j < len && pua_i == ZRCola::ispua(src[j]); j++);
-            m_destination->SetStyle((long)i, (long)j, pua_i ? m_stylePUA : m_styleNormal);
-            i = j;
+    wxString src = m_destination->GetValue();
+    app->m_h_db.Highlight(src, src.Length(), [this, app, src](ZRCola::hlghtsetid_t set, size_t start, size_t end) {
+        switch (set) {
+        case ZRCOLA_HLGHTSETID_ZRCOLA_UNICODE_COMPOSED_ISSUES:
+            m_destination->SetStyle((long)start, (long)end, m_styleZRColaUnicodeComposedIssues);
+            break;
+
+        default:
+            if (app->m_mainWnd->m_warnPUA) {
+                for (size_t i = start, j; i < end;) {
+                    bool pua_i = ZRCola::ispua(src[i]);
+                    for (j = i + 1; j < end && pua_i == ZRCola::ispua(src[j]); j++);
+                    m_destination->SetStyle((long)i, (long)j, pua_i ? m_stylePUA : m_styleNormal);
+                    i = j;
+                }
+            } else
+                m_destination->SetStyle((long)start, (long)end, m_styleNormal);
         }
-    } else
-        m_destination->SetStyle(0, GetWindowTextLength(m_destination->GetHWND()), m_styleNormal);
+    });
     m_destinationRestyled = false;
 }
 

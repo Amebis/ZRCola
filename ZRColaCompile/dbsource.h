@@ -6,7 +6,7 @@
 #pragma once
 
 #include <zrcola/character.h>
-#include <zrcola/common.h>
+#include <zrcola/highlight.h>
 #include <zrcola/language.h>
 #include <zrcola/tag.h>
 #include <zrcola/translate.h>
@@ -404,6 +404,18 @@ namespace ZRCola {
         };
 
 
+        ///
+        /// Highlight
+        ///
+        class highlight {
+        public:
+            short set;          ///< Highlight set ID
+            std::wstring chr;   ///< Character sequence
+
+            inline highlight() : set((short)ZRCOLA_HLGHTSETID_DEFAULT) {}
+        };
+
+
     public:
         DBSource();
         virtual ~DBSource();
@@ -451,18 +463,6 @@ namespace ZRCola {
             ADO_LONGPTR count;
             return SUCCEEDED(rs->get_RecordCount(&count)) ? count : (size_t)-1;
         }
-
-        ///
-        /// Splits string to individual keywords
-        ///
-        /// \param[in ] str       String
-        /// \param[out] keywords  Array of keywords
-        ///
-        /// \returns
-        /// - true when successful
-        /// - false otherwise
-        ///
-        static bool GetKeywords(const wchar_t *str, std::vector< std::wstring > &keywords);
 
         ///
         /// Gets boolean from ZRCola.zrc database
@@ -872,6 +872,30 @@ namespace ZRCola {
         ///
         bool GetTagName(const winstd::com_obj<ADORecordset>& rs, tagname& tn) const;
 
+        ///
+        /// Returns character highlights by set
+        ///
+        /// \param[in ] set  Highlight set ID
+        /// \param[out] rs   Recordset with results
+        ///
+        /// \returns
+        /// - true when query succeeds
+        /// - false otherwise
+        ///
+        bool SelectHighlights(short set, winstd::com_obj<ADORecordset>& rs) const;
+
+        ///
+        /// Returns highlight data
+        ///
+        /// \param[in]  rs  Recordset with results
+        /// \param[out] h   Highlight
+        ///
+        /// \returns
+        /// - true when succeeded
+        /// - false otherwise
+        ///
+        bool GetHighlight(const winstd::com_obj<ADORecordset>& rs, highlight& h) const;
+
     protected:
         std::basic_string<TCHAR> m_filename;    ///< Database filename
         winstd::com_obj<ADOConnection> m_db;    ///< Database
@@ -885,6 +909,9 @@ namespace ZRCola {
 
         winstd::com_obj<ADOCommand> m_comTranslationSets;   ///< ADO Command for GetTranslationSeq subquery
         winstd::com_obj<ADOParameter> m_pTranslationSets1;  ///< \c m_comTranslationSets parameter
+
+        winstd::com_obj<ADOCommand> m_comHighlight;         ///< ADO Command for SelectHighlights subquery
+        winstd::com_obj<ADOParameter> m_pHighlight1;        ///< \c m_comHighlights parameter
 
         std::set<std::wstring> m_terms_ignore;  ///< Terms to ignore when comparing characters
     };
@@ -1095,6 +1122,20 @@ inline ZRCola::tagname_db& operator<<(_Inout_ ZRCola::tagname_db &db, _In_ const
             db.idxTag .push_back(idx);
         }
     }
+
+    return db;
+}
+
+
+inline ZRCola::highlight_db& operator<<(_Inout_ ZRCola::highlight_db &db, _In_ const ZRCola::DBSource::highlight &rec)
+{
+    unsigned __int32 idx = db.data.size();
+    db.data.push_back((unsigned __int16)rec.set);
+    std::wstring::size_type n = rec.chr.length();
+    wxASSERT_MSG(n <= 0xffff, wxT("character overflow"));
+    db.data.push_back((unsigned __int16)n);
+    db.data.insert(db.data.end(), rec.chr.cbegin(), rec.chr.cend());
+    db.idxChr.push_back(idx);
 
     return db;
 }

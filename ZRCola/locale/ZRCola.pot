@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2021-12-20 20:17+0100\n"
+"POT-Creation-Date: 2021-12-21 14:16+0100\n"
 "PO-Revision-Date: 2019-04-01 19:38+0200\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Amebis, d. o. o., Kamnik <info@amebis.si>\n"
@@ -108,36 +108,37 @@ msgstr "Prekini sestavljanje in vrni fokus nazaj izvornemu oknu"
 #: res/zrcolagui.cpp:138 zrcolagui.cpp:138
 #, fuzzy
 msgid "(De)&composition"
-msgstr "Vklopi/izklopi (raz-)sestavljanje ZRCola"
+msgstr "(&Raz-)sestavljanje"
 
 #: res/zrcolagui.cpp:139 zrcolagui.cpp:139
 #, fuzzy
 msgid "&None"
-msgstr "(brez)"
+msgstr "&Brez"
 
 #: res/zrcolagui.cpp:139 zrcolagui.cpp:139
 #, fuzzy
 msgid "No character (De)composition"
-msgstr "Vklopi/izklopi (raz-)sestavljanje ZRCola"
+msgstr "Brez (raz-)sestavljanja znakov"
 
 #: res/zrcolagui.cpp:142 zrcolagui.cpp:142
 #, fuzzy
 msgid "&ZRCola"
-msgstr "ZRCola"
+msgstr "&ZRCola"
 
 #: res/zrcolagui.cpp:142 zrcolagui.cpp:142
 #, fuzzy
 msgid "ZRCola character (De)composition"
-msgstr "Vklopi/izklopi (raz-)sestavljanje ZRCola"
+msgstr "(Raz-)sestavljanje znakov ZRCola"
 
 #: res/zrcolagui.cpp:145 zrcolagui.cpp:145
 #, fuzzy
 msgid "&Unicode"
-msgstr "Unicode"
+msgstr "&Unicode"
 
 #: res/zrcolagui.cpp:145 zrcolagui.cpp:145
+#, fuzzy
 msgid "Unicode character (De)composition"
-msgstr ""
+msgstr "(Raz-)sestavljanje znakov Unicode"
 
 #: res/zrcolagui.cpp:151 zrcolagui.cpp:151
 #, fuzzy
@@ -308,7 +309,7 @@ msgstr "Pošlji razstavljeno"
 #: res/zrcolagui.cpp:232 zrcolagui.cpp:232
 #, fuzzy
 msgid "No (De)composition"
-msgstr "Prekini raz/sestavljanje"
+msgstr "Brez (raz-)sestavljanja"
 
 #: res/zrcolagui.cpp:232 res/zrcolagui.cpp:940 res/zrcolagui.h:119
 #: zrcolaapp.cpp:60 zrcolafrm.cpp:118 zrcolagui.cpp:232 zrcolagui.cpp:943
@@ -807,12 +808,12 @@ msgstr "Opozorilo"
 msgid "ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality will not be available."
 msgstr "ZRColine bližnjice na tipkovnici Win+F6 ni mogoče registrirati. Nekaj funkcionalnosti ne bo na voljo."
 
-#: zrcolafrm.cpp:508
+#: zrcolafrm.cpp:513
 #, fuzzy
 msgid "http://zrcola.zrc-sazu.si/en/info/instructions/"
 msgstr "http://zrcola.zrc-sazu.si/info/instructions/"
 
-#: zrcolafrm.cpp:533
+#: zrcolafrm.cpp:538
 #, fuzzy
 msgid "http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
 msgstr "http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"

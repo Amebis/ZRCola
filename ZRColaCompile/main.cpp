@@ -374,9 +374,9 @@ int _tmain(int argc, _TCHAR *argv[])
                 }
 
                 // Preallocate memory.
-                db_trans.idxSrc.reserve(count);
-                db_trans.idxDst.reserve(count);
-                db_trans.data  .reserve(count*5);
+                db_trans.idxSrc.reserve(count*2);
+                db_trans.idxDst.reserve(count*2);
+                db_trans.data  .reserve(count*2*8);
 
                 // Parse translations and build index and data.
                 ZRCola::DBSource::translation trans;
@@ -399,6 +399,7 @@ int _tmain(int argc, _TCHAR *argv[])
                             }
                         if (!has_pua) {
                             trans.set = (short)ZRCOLA_TRANSETID_UNICODE;
+                            trans.dst.rank += 50;
                             db_trans << trans;
                         }
                     }
@@ -416,7 +417,13 @@ int _tmain(int argc, _TCHAR *argv[])
     {
         com_obj<ADORecordset> rs_tran;
         if (src.SelectTranslations(static_cast<short>(ZRCOLA_TRANSETID_UNICODE), rs_tran)) {
-            if (src.GetRecordsetCount(rs_tran) < 0xffffffff) { // 4G check (-1 is reserved for error condition)
+            size_t count = src.GetRecordsetCount(rs_tran);
+            if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
+                // Preallocate memory.
+                db_trans.idxSrc.reserve(db_trans.idxSrc.size() + count);
+                db_trans.idxDst.reserve(db_trans.idxDst.size() + count);
+                db_trans.data  .reserve(db_trans.data.size()   + count*8);
+
                 // Parse translations and build temporary database.
                 ZRCola::DBSource::translation trans;
                 trans.set = (short)ZRCOLA_TRANSETID_UNICODE;
@@ -467,7 +474,13 @@ int _tmain(int argc, _TCHAR *argv[])
                         // Get translations.
                         com_obj<ADORecordset> rs_tran;
                         if (src.SelectTranslations(ts.set, rs_tran)) {
-                            if (src.GetRecordsetCount(rs_tran) < 0xffffffff) { // 4G check (-1 is reserved for error condition)
+                            count = src.GetRecordsetCount(rs_tran);
+                            if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
+                                // Preallocate memory.
+                                db_trans.idxSrc.reserve(db_trans.idxSrc.size() + count);
+                                db_trans.idxDst.reserve(db_trans.idxDst.size() + count);
+                                db_trans.data  .reserve(db_trans.data.size()   + count*8);
+
                                 // Parse translations and build temporary database.
                                 ZRCola::DBSource::translation trans;
                                 trans.set = ts.set;
@@ -500,17 +513,13 @@ int _tmain(int argc, _TCHAR *argv[])
         }
     }
 
-    // Sort indices.
-    db_transset.idxTranSet.sort();
-
     // Write translation sets to file.
+    db_transset.idxTranSet.sort();
     dst << ZRCola::transet_rec(db_transset);
 
-    // Sort indices.
+    // Write translations to file.
     db_trans.idxSrc.sort();
     db_trans.idxDst.sort();
-
-    // Write translations to file.
     dst << ZRCola::translation_rec(db_trans);
 
     {
@@ -540,11 +549,9 @@ int _tmain(int argc, _TCHAR *argv[])
                         has_errors = true;
                 }
 
-                // Sort indices.
+                // Write translation sequences to file.
                 db.idxTranSeq.sort();
                 db.idxRank   .sort();
-
-                // Write translation sequences to file.
                 dst << ZRCola::transeq_rec(db);
             } else {
                 _ftprintf(stderr, wxT("%s: error ZCC0025: Error getting translation sequence count from database or too many translation sequences.\n"), (LPCTSTR)filenameIn.c_str());
@@ -639,10 +646,8 @@ int _tmain(int argc, _TCHAR *argv[])
                         has_errors = true;
                 }
 
-                // Sort indices.
-                db.idxLang.sort();
-
                 // Write languages to file.
+                db.idxLang.sort();
                 dst << ZRCola::language_rec(db);
             } else {
                 _ftprintf(stderr, wxT("%s: error ZCC0009: Error getting language count from database or too many languages.\n"), (LPCTSTR)filenameIn.c_str());
@@ -680,13 +685,11 @@ int _tmain(int argc, _TCHAR *argv[])
                         has_errors = true;
                 }
 
-                // Sort indices.
+                // Write language characters to file.
                 db.idxChr .sort();
 #ifdef ZRCOLA_LANGCHAR_LANG_IDX
                 db.idxLang.sort();
 #endif
-
-                // Write language characters to file.
                 dst << ZRCola::langchar_rec(db);
             } else {
                 _ftprintf(stderr, wxT("%s: error ZCC0011: Error getting language characters count from database or too many langchars.\n"), (LPCTSTR)filenameIn.c_str());
@@ -729,10 +732,8 @@ int _tmain(int argc, _TCHAR *argv[])
                         has_errors = true;
                 }
 
-                // Sort indices.
-                db.idxRank.sort();
-
                 // Write character groups to file.
+                db.idxRank.sort();
                 dst << ZRCola::chrgrp_rec(db);
             } else {
                 _ftprintf(stderr, wxT("%s: error ZCC0015: Error getting character group count from database or too many character groups.\n"), (LPCTSTR)filenameIn.c_str());
@@ -753,7 +754,6 @@ int _tmain(int argc, _TCHAR *argv[])
             size_t count = src.GetRecordsetCount(rs);
             if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
                 ZRCola::DBSource::character_desc_idx idxChrDsc, idxChrDscSub;
-
                 ZRCola::DBSource::character_bank chrs;
 
                 // Phase 1: Parse characters and build indexes.
@@ -788,14 +788,10 @@ int _tmain(int argc, _TCHAR *argv[])
                     categories_used.insert(chr->second.cat);
                 }
 
-                // Sort indices.
+                // Write characters to file.
                 db.idxChr.sort();
-
-                // Save text indices.
                 idxChrDsc   .save(db.idxDsc   );
                 idxChrDscSub.save(db.idxDscSub);
-
-                // Write characters to file.
                 dst << ZRCola::character_rec(db);
             } else {
                 _ftprintf(stderr, wxT("%s: error ZCC0017: Error getting character count from database or too many characters.\n"), (LPCTSTR)filenameIn.c_str());
@@ -839,11 +835,9 @@ int _tmain(int argc, _TCHAR *argv[])
                         has_errors = true;
                 }
 
-                // Sort indices.
+                // Write character categories to file.
                 db.idxChrCat.sort();
                 db.idxRank  .sort();
-
-                // Write character categories to file.
                 dst << ZRCola::chrcat_rec(db);
             } else {
                 _ftprintf(stderr, wxT("%s: error ZCC0019: Error getting character category count from database or too many character categories.\n"), (LPCTSTR)filenameIn.c_str());
@@ -879,11 +873,9 @@ int _tmain(int argc, _TCHAR *argv[])
                         has_errors = true;
                 }
 
-                // Sort indices.
+                // Write characters tags to file.
                 db.idxChr.sort();
                 db.idxTag.sort();
-
-                // Write characters tags to file.
                 dst << ZRCola::chrtag_rec(db);
             } else {
                 _ftprintf(stderr, wxT("%s: error ZCC0021: Error getting characters tags count from database or too many character tags.\n"), (LPCTSTR)filenameIn.c_str());
@@ -919,11 +911,9 @@ int _tmain(int argc, _TCHAR *argv[])
                         has_errors = true;
                 }
 
-                // Sort indices.
+                // Write tags to file.
                 db.idxName.sort();
                 db.idxTag .sort();
-
-                // Write tags to file.
                 dst << ZRCola::tagname_rec(db);
             } else {
                 _ftprintf(stderr, wxT("%s: error ZCC0023: Error getting tag name count from database or too many tags.\n"), (LPCTSTR)filenameIn.c_str());
@@ -931,6 +921,43 @@ int _tmain(int argc, _TCHAR *argv[])
             }
         } else {
             _ftprintf(stderr, wxT("%s: error ZCC0022: Error getting tags from database. Please make sure the file is ZRCola.zrc compatible.\n"), (LPCTSTR)filenameIn.c_str());
+            has_errors = true;
+        }
+    }
+
+    {
+        // Get highlights.
+        com_obj<ADORecordset> rs;
+        if (src.SelectHighlights((short)ZRCOLA_HLGHTSETID_ZRCOLA_UNICODE_COMPOSED_ISSUES, rs)) {
+            size_t count = src.GetRecordsetCount(rs);
+            if (count < 0xffffffff) { // 4G check (-1 is reserved for error condition)
+                ZRCola::DBSource::highlight h;
+                ZRCola::highlight_db db;
+
+                // Preallocate memory.
+                db.idxChr.reserve(count);
+                db.data  .reserve(count*5);
+
+                // Parse highlights and build index and data.
+                h.set = (short)ZRCOLA_HLGHTSETID_ZRCOLA_UNICODE_COMPOSED_ISSUES;
+                for (; !ZRCola::DBSource::IsEOF(rs); rs->MoveNext()) {
+                    // Read tag name from the database.
+                    if (src.GetHighlight(rs, h)) {
+                        // Add highlight to index and data.
+                        db << h;
+                    } else
+                        has_errors = true;
+                }
+
+                // Write highlights to file.
+                db.idxChr.sort();
+                dst << ZRCola::highlight_rec(db);
+            } else {
+                _ftprintf(stderr, wxT("%s: error ZCC0027: Error getting highlight count from database or too many tags.\n"), (LPCTSTR)filenameIn.c_str());
+                has_errors = true;
+            }
+        } else {
+            _ftprintf(stderr, wxT("%s: error ZCC0026: Error getting highlights from database. Please make sure the file is ZRCola.zrc compatible.\n"), (LPCTSTR)filenameIn.c_str());
             has_errors = true;
         }
     }

@@ -8,6 +8,7 @@
 #include "../../../include/version.h"
 
 #include "../include/zrcola/character.h"
+#include "../include/zrcola/highlight.h"
 #include "../include/zrcola/language.h"
 #include "../include/zrcola/translate.h"
 #include "../include/zrcola/tag.h"
