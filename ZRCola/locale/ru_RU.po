@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2021-12-21 14:17+0100\n"
-"PO-Revision-Date: 2021-12-21 14:17+0100\n"
+"POT-Creation-Date: 2021-12-21 14:46+0100\n"
+"PO-Revision-Date: 2021-12-21 14:46+0100\n"
 "Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
 "Language-Team: Russian (Russia) (https://www.transifex.com/amebis/teams/91592/ru_RU/)\n"
 "Language: ru_RU\n"
@@ -19,261 +19,13 @@ msgstr ""
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: res/zrcolagui.*\n"
 
-#: res/zrcolagui.cpp:42 zrcolagui.cpp:42
-msgid "E&xit"
-msgstr "Вы&ход"
+#: zrcolaabout.cpp:17
+#, c-format
+msgid "© 2004-%s ZRC SAZU"
+msgstr "© 2004–%s ZRC SAZU"
 
-#: res/zrcolagui.cpp:42 zrcolagui.cpp:42
-msgid "Quit this program"
-msgstr "Выйти из программы"
-
-#: res/zrcolagui.cpp:45 zrcolagui.cpp:45
-msgid "&Program"
-msgstr "П&рограмма"
-
-#: res/zrcolagui.cpp:78 zrcolagui.cpp:78
-msgid "Select &All"
-msgstr "Выделить в&се"
-
-#: res/zrcolagui.cpp:78 zrcolagui.cpp:78
-msgid "Select all text"
-msgstr "Выделить весь текст"
-
-#: res/zrcolagui.cpp:84 zrcolagui.cpp:84
-msgid "Find C&haracter..."
-msgstr "Поиск &знака ..."
-
-#: res/zrcolagui.cpp:84 res/zrcolagui.cpp:224 zrcolagui.cpp:84
-#: zrcolagui.cpp:224
-msgid "Toggle character search to select character to insert into text"
-msgstr "Переключить поиск знаков для вставки выбранного знака в текст"
-
-#: res/zrcolagui.cpp:90 zrcolagui.cpp:90
-msgid "&Send Composed"
-msgstr "&Послать составленное"
-
-#: res/zrcolagui.cpp:90 res/zrcolagui.cpp:226 zrcolagui.cpp:90
-#: zrcolagui.cpp:226
-msgid "Send composed text to source window"
-msgstr "Послать составленный текст в исходное окно"
-
-#: res/zrcolagui.cpp:99 zrcolagui.cpp:99
-msgid "Copy Composed and &Return"
-msgstr "Копировать составленное и &возвратиться"
-
-#: res/zrcolagui.cpp:99 zrcolagui.cpp:99
-msgid "Copy composed text to clipboard and return focus to source window"
-msgstr "Копировать составленный текст в буфер обмена и возвратить фокус в исходное окно"
-
-#: res/zrcolagui.cpp:108 zrcolagui.cpp:108
-msgid "Send &Decomposed"
-msgstr "Послать &разобранное"
-
-#: res/zrcolagui.cpp:108 res/zrcolagui.cpp:228 zrcolagui.cpp:108
-#: zrcolagui.cpp:228
-msgid "Send decomposed text to source window"
-msgstr "Послать разобранный текст в исходное окно"
-
-#: res/zrcolagui.cpp:117 zrcolagui.cpp:117
-msgid "Copy Decomposed and Re&turn"
-msgstr "Копировать разобранное и возв&ратиться"
-
-#: res/zrcolagui.cpp:117 zrcolagui.cpp:117
-msgid "Copy decomposed text to clipboard and return focus to source window"
-msgstr "Копировать разобранный текст в буфер обмена и возвратить фокус в исходное окно"
-
-#: res/zrcolagui.cpp:126 zrcolagui.cpp:126
-msgid "Abort (De)composition"
-msgstr "Прервать составление/разборку"
-
-#: res/zrcolagui.cpp:126 zrcolagui.cpp:126
-msgid "Abort composition and return focus to source window"
-msgstr "Прервать составление и возвратить фокус в исходное окно"
-
-#: res/zrcolagui.cpp:138 zrcolagui.cpp:138
-#, fuzzy
-#| msgid "Abort (De)composition"
-msgid "(De)&composition"
-msgstr "Переключить составление/разборку ZRCola"
-
-#: res/zrcolagui.cpp:139 zrcolagui.cpp:139
-#, fuzzy
-#| msgid "None"
-msgid "&None"
-msgstr "Ничего"
-
-#: res/zrcolagui.cpp:139 zrcolagui.cpp:139
-#, fuzzy
-#| msgid "Toggle ZRCola character (De)composition"
-msgid "No character (De)composition"
-msgstr "Переключить составление/разборку ZRCola"
-
-#: res/zrcolagui.cpp:142 zrcolagui.cpp:142
-#, fuzzy
-#| msgid "ZRCola"
-msgid "&ZRCola"
-msgstr "ZRCola"
-
-#: res/zrcolagui.cpp:142 zrcolagui.cpp:142
-#, fuzzy
-#| msgid "Toggle ZRCola character (De)composition"
-msgid "ZRCola character (De)composition"
-msgstr "Переключить составление/разборку ZRCola"
-
-#: res/zrcolagui.cpp:145 zrcolagui.cpp:145
-#, fuzzy
-msgid "&Unicode"
-msgstr "Юникод"
-
-#: res/zrcolagui.cpp:145 zrcolagui.cpp:145
-#, fuzzy
-#| msgid "Unicode character description"
-msgid "Unicode character (De)composition"
-msgstr "Описание знака Юникод"
-
-#: res/zrcolagui.cpp:151 zrcolagui.cpp:151
-msgid "Tra&nslation"
-msgstr "Тра&нслитерация"
-
-#: res/zrcolagui.cpp:156 zrcolagui.cpp:156
-#, fuzzy
-#| msgid "Warning"
-msgid "&PUA Warning"
-msgstr "Предупреждение"
-
-#: res/zrcolagui.cpp:156 res/zrcolagui.cpp:243 zrcolagui.cpp:156
-#: zrcolagui.cpp:243
-msgid "Highlight Private Use Area Characters"
-msgstr ""
-
-#: res/zrcolagui.cpp:162 zrcolagui.cpp:162
-msgid "&Settings..."
-msgstr "&Настройки ..."
-
-#: res/zrcolagui.cpp:162 zrcolagui.cpp:162
-msgid "Open program configuration dialog"
-msgstr "Открыть диалог конфигурации программы"
-
-#: res/zrcolagui.cpp:165 zrcolagui.cpp:165
-msgid "&Edit"
-msgstr "&Правка"
-
-#: res/zrcolagui.cpp:169 zrcolagui.cpp:169
-msgid "&Edit Toolbar"
-msgstr "Панель инструментов для &правки"
-
-#: res/zrcolagui.cpp:169 zrcolagui.cpp:169
-msgid "Toggle edit toolbar"
-msgstr "Переключить панель инструментов для правки"
-
-#: res/zrcolagui.cpp:173 zrcolagui.cpp:173
-msgid "&Compose Toolbar"
-msgstr "Панель инструментов для &составления"
-
-#: res/zrcolagui.cpp:173 zrcolagui.cpp:173
-msgid "Toggle compose toolbar"
-msgstr "Переключить панель инструментов для составления"
-
-#: res/zrcolagui.cpp:179 zrcolagui.cpp:179
-msgid "Character Catalo&g"
-msgstr "Список &знаков"
-
-#: res/zrcolagui.cpp:179 zrcolagui.cpp:179
-msgid "Toggle character catalog panel"
-msgstr "Переключить список знаков"
-
-#: res/zrcolagui.cpp:182 zrcolagui.cpp:182
-msgid "&View"
-msgstr "&Вид"
-
-#: res/zrcolagui.cpp:186 zrcolagui.cpp:186
-msgid "&Instructions..."
-msgstr "&Инструкции ..."
-
-#: res/zrcolagui.cpp:186 zrcolagui.cpp:186
-msgid "Open a web site with product instructions"
-msgstr "Открыть сайт с инструкциями по продукту"
-
-#: res/zrcolagui.cpp:190 zrcolagui.cpp:190
-msgid "Keyboard &Shortcuts..."
-msgstr "Сочетания &клавиш ..."
-
-#: res/zrcolagui.cpp:190 zrcolagui.cpp:190
-msgid "Open a list of keyboard shortcuts"
-msgstr "Открыть список сочетаний клавиш"
-
-#: res/zrcolagui.cpp:196 zrcolagui.cpp:196
-msgid "&Request a new character..."
-msgstr "&Запрос нового знака ..."
-
-#: res/zrcolagui.cpp:196 zrcolagui.cpp:196
-msgid "Submit a request to ZRC to add a new character"
-msgstr "Отправить запрос нового знака"
-
-#: res/zrcolagui.cpp:200 zrcolagui.cpp:200
-msgid "Check for &Updates..."
-msgstr "Проверить наличие &обновлений ..."
-
-#: res/zrcolagui.cpp:200 zrcolagui.cpp:200
-msgid "Check online for product update"
-msgstr "Проверить наличие обновлений онлайн"
-
-#: res/zrcolagui.cpp:206 zrcolagui.cpp:206
-msgid "&About..."
-msgstr "О прогр&амме ..."
-
-#: res/zrcolagui.cpp:209 zrcolagui.cpp:209
-msgid "&Help"
-msgstr "&Справка"
-
-#: res/zrcolagui.cpp:214 zrcolagui.cpp:214
-msgid "Cut"
-msgstr "Вырезать"
-
-#: res/zrcolagui.cpp:214 zrcolagui.cpp:214
-msgid "Cut selection"
-msgstr "Вырезать выбор"
-
-#: res/zrcolagui.cpp:216 zrcolagui.cpp:216
-msgid "Copy"
-msgstr "Копировать"
-
-#: res/zrcolagui.cpp:216 zrcolagui.cpp:216
-msgid "Copy selection"
-msgstr "Копировать выбор"
-
-#: res/zrcolagui.cpp:218 zrcolagui.cpp:218
-msgid "Paste"
-msgstr "Вставить"
-
-#: res/zrcolagui.cpp:218 zrcolagui.cpp:218
-msgid "Paste selection"
-msgstr "Вставить выбор"
-
-#: res/zrcolagui.cpp:221 zrcolagui.cpp:221
-msgid "Edit"
-msgstr "Правка"
-
-#: res/zrcolagui.cpp:224 zrcolagui.cpp:224
-msgid "Find Character"
-msgstr "Поиск знака"
-
-#: res/zrcolagui.cpp:226 zrcolagui.cpp:226
-msgid "Send Composed"
-msgstr "Послать составленное (F5)"
-
-#: res/zrcolagui.cpp:228 zrcolagui.cpp:228
-msgid "Send Decomposed"
-msgstr "Послать разобранное (F6)"
-
-#: res/zrcolagui.cpp:232 zrcolagui.cpp:232
-#, fuzzy
-#| msgid "Abort (De)composition"
-msgid "No (De)composition"
-msgstr "Прервать составление/разборку"
-
-#: res/zrcolagui.cpp:232 res/zrcolagui.cpp:940 res/zrcolagui.h:119
 #: zrcolaapp.cpp:60 zrcolafrm.cpp:118 zrcolagui.cpp:232 zrcolagui.cpp:943
 #: zrcolagui.h:119 MSIBuild/en_US.ARM64.Release.Feature-2.idtx:4
 #: MSIBuild/en_US.ARM64.Release.Shortcut-2.idtx:4
@@ -284,363 +36,17 @@ msgstr "Прервать составление/разборку"
 msgid "ZRCola"
 msgstr "ZRCola"
 
-#: res/zrcolagui.cpp:232 zrcolagui.cpp:232
-#, fuzzy
-msgid "Unicode"
-msgstr "Юникод"
-
-#: res/zrcolagui.cpp:243 zrcolagui.cpp:243
-#, fuzzy
-#| msgid "Warning"
-msgid "PUA Warning"
-msgstr "Предупреждение"
-
-#: res/zrcolagui.cpp:246 zrcolagui.cpp:246
-msgid "Compose"
-msgstr "Составить"
-
-#: res/zrcolagui.cpp:250 zrcolagui.cpp:250
-msgid "Character Catalog"
-msgstr "Список знаков"
-
-#: res/zrcolagui.cpp:254 zrcolagui.cpp:254
-msgid "(De)Composer"
-msgstr "(Де)Композитор"
-
-#: res/zrcolagui.cpp:297 zrcolagui.cpp:297
-msgid "Decomposed Text"
-msgstr "Разобранний текст"
-
-#: res/zrcolagui.cpp:317 zrcolagui.cpp:317
-msgid "Decomposed Unicode Dump"
-msgstr "Дамп разобранного Юнукода"
-
-#: res/zrcolagui.cpp:344 zrcolagui.cpp:344
-msgid "Composed Text"
-msgstr "Составленный текст"
-
-#: res/zrcolagui.cpp:364 zrcolagui.cpp:364
-msgid "Composed Unicode Dump"
-msgstr "Дамп составленного Юникода"
-
-#: res/zrcolagui.cpp:418 zrcolagui.cpp:418
-msgid "Select category to display"
-msgstr "Выделить категории для отображения"
-
-#: res/zrcolagui.cpp:452 zrcolagui.cpp:452
-msgid "Show &All"
-msgstr "Показать &все"
-
-#: res/zrcolagui.cpp:453 zrcolagui.cpp:453
-msgid "Toggle display of less frequent characters"
-msgstr "Переключить отображение редко использованных знаков"
-
-#: res/zrcolagui.cpp:493 zrcolagui.cpp:493
-msgid "&Browse"
-msgstr "&Обзор"
-
-#: res/zrcolagui.cpp:500 zrcolagui.cpp:500
-msgid "Full or partial terms from Unicode character description (in English) to search for"
-msgstr "Полное либо частичное описание знака Юникод (на английском) для поиска"
-
-#: res/zrcolagui.cpp:504 zrcolagui.cpp:504
-msgid "Search Options"
-msgstr "Опции поиска"
-
-#: res/zrcolagui.cpp:505 zrcolagui.cpp:505
-msgid "Shows/hides additional search options"
-msgstr "Показать/скрыть дополнительные опции поиска"
-
-#: res/zrcolagui.cpp:517 zrcolagui.cpp:517
-msgid "List of Unicode character categories to search in"
-msgstr "Список категории Юникод для проведения поиска"
-
-#: res/zrcolagui.cpp:524 zrcolagui.cpp:524
-msgid "All"
-msgstr "Все"
-
-#: res/zrcolagui.cpp:525 zrcolagui.cpp:525
-msgid "Select all categories"
-msgstr "Выбрать все категории"
-
-#: res/zrcolagui.cpp:529 zrcolagui.cpp:529
-msgid "None"
-msgstr "Ничего"
-
-#: res/zrcolagui.cpp:530 zrcolagui.cpp:530
-msgid "Clear category selection"
-msgstr "Очистить выбор категории"
-
-#: res/zrcolagui.cpp:534 zrcolagui.cpp:534
-msgid "Invert"
-msgstr "Обратить"
-
-#: res/zrcolagui.cpp:535 zrcolagui.cpp:535
-msgid "Invert category selection"
-msgstr "Обратить выбор категории"
-
-#: res/zrcolagui.cpp:574 zrcolagui.cpp:574
-msgid "Character search results"
-msgstr "Результаты поиска знаков"
-
-#: res/zrcolagui.cpp:584 zrcolagui.cpp:584
-msgid "Re&cently Used"
-msgstr "&Недавно использованное"
-
-#: res/zrcolagui.cpp:612 zrcolagui.cpp:612
-msgid "List of recently inserted characters"
-msgstr "Список недавно вставленных знаков"
-
-#: res/zrcolagui.cpp:626 zrcolagui.cpp:626
-msgid "Preview"
-msgstr "Просмотр"
-
-#: res/zrcolagui.cpp:631 zrcolagui.cpp:631
-msgid "U+"
-msgstr "U+"
-
-#: res/zrcolagui.cpp:636 zrcolagui.cpp:636
-msgid "Unicode hexadecimal code"
-msgstr "Шестнадцатеричный код Юникод"
-
-#: res/zrcolagui.cpp:641 zrcolagui.cpp:641
-msgid "Keyboard shortcut in Composer window"
-msgstr "Сочетание клавиш в окне композитора"
-
-#: res/zrcolagui.cpp:676 zrcolagui.cpp:676
-msgid "Character preview"
-msgstr "Просмотр знака"
-
-#: res/zrcolagui.cpp:681 zrcolagui.cpp:681
-msgid "Unicode character description"
-msgstr "Описание знака Юникод"
-
-#: res/zrcolagui.cpp:686 zrcolagui.cpp:686
-msgid "Character tags"
-msgstr "Ключевые слова"
-
-#: res/zrcolagui.cpp:691 zrcolagui.cpp:691
-msgid "Unicode character category"
-msgstr "Категория знака Юникод"
-
-#: res/zrcolagui.cpp:698 zrcolagui.cpp:698
-msgid "« Back"
-msgstr "« Назад"
-
-#: res/zrcolagui.cpp:700 zrcolagui.cpp:700
-msgid "To previously viewed character"
-msgstr "К предыдущему знаку"
-
-#: res/zrcolagui.cpp:704 zrcolagui.cpp:704
-msgid "Forward »"
-msgstr "Далее »"
-
-#: res/zrcolagui.cpp:706 zrcolagui.cpp:706
-msgid "To following viewed character"
-msgstr "К следующему знаку"
-
-#: res/zrcolagui.cpp:717 zrcolagui.cpp:717
-msgid "Re&lated"
-msgstr "&Связанное"
-
-#: res/zrcolagui.cpp:744 zrcolagui.cpp:744
-msgid "List of related characters"
-msgstr "Список связанных знаков"
-
-#: res/zrcolagui.cpp:763 zrcolagui.cpp:763
-msgid "&Insert"
-msgstr "&Вставить"
-
-#: res/zrcolagui.cpp:767 zrcolagui.cpp:767
-msgid "Insert character into decomposed text"
-msgstr "Вставка знака в разобранный текст"
-
-#: res/zrcolagui.cpp:840 zrcolagui.cpp:843
-msgid ""
-"Some character native to specific language you are working with should not decompose to primitives.\n"
-"For optimal decomposition you should set the language correctly."
-msgstr ""
-"Некоторые знаки использованного языка нельзя разбирать.\n"
-"Для оптимальной разборки вы должны настроить правильный язык."
-
-#: res/zrcolagui.cpp:844 zrcolagui.cpp:847
-msgid "Select language &automatically according to selected keyboard"
-msgstr "&Автоматически установить язык на основе выбранной клавиатуры"
-
-#: res/zrcolagui.cpp:847 zrcolagui.cpp:850
-msgid "&Manually select the language from the list below:"
-msgstr "&Вручную выбрать язык со списка:"
-
-#: res/zrcolagui.cpp:858 zrcolagui.cpp:861
-msgid "Text Language"
-msgstr "Язык текста"
-
-#: res/zrcolagui.cpp:863 zrcolagui.cpp:866
-msgid ""
-"ZRCola can be launched every time you log in to your computer.\n"
-"It will be available on the system tray and via registered shortcuts Win+F5 and Win+F6."
-msgstr ""
-"Запуск системы ZRCola возможен при каждом запуске компьютера.\n"
-"После запуска система ZRCola доступна на панели задач либо через нажатие сочетания клавиш Win+F5 и Win+F6."
-
-#: res/zrcolagui.cpp:867 zrcolagui.cpp:870
-msgid "Start ZRCola &automatically on logon"
-msgstr "&Автоматически запустить систему ZRCola при запуске компьютера"
-
-#: res/zrcolagui.cpp:873 zrcolagui.cpp:876
-msgid "Startup"
-msgstr "Запуск"
-
-#: res/zrcolagui.cpp:951 zrcolagui.cpp:954
-msgid ""
-"Program and Website Editor: Janoš Ježovnik\n"
-"Development: Amebis, d. o. o., Kamnik\n"
-"Translation into English: Janoš Ježovnik\n"
-"Translation into Russian language: Domen Krvina, Silvo Torkar, Anastasia Plotnikova\n"
-"Development and maintenance of the original program (2004–2015): Peter Weiss"
-msgstr ""
-"Администратор программы и сайта: Янош Ежовник (Janoš Ježovnik)\n"
-"Разработка: Amebis, d. o. o., Kamnik\n"
-"Перевод на английский яазык: Янош Ежовник (Janoš Ježovnik)\n"
-"Перевод на русский язык: Домен Крвина (Domen Krvina), Силво Торкар (Silvo Torkar), Анастасия Плотникова\n"
-"Разработка in техническая поддержка первоначальной программы (2004–2015): Петер Вейсс (Peter Weiss)"
-
-#: res/zrcolagui.cpp:959 zrcolagui.cpp:962
-msgid "zrcola.zrc-sazu.si"
-msgstr "zrcola.zrc-sazu.si"
-
-#: res/zrcolagui.cpp:965 zrcolagui.cpp:968
-msgid "Texts made using ZRCola have to include in a footnote or some other appropriate part of the publication the note below:"
-msgstr "Текст, созданный с помощью системы ZRCola, должен в примечании или другом соответствующем месте в публикации сопровождаться следующей записью:"
-
-#: res/zrcolagui.cpp:969 zrcolagui.cpp:972
-msgid "This text was written using the ZRCola input system (http://zrcola.zrc-sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana (http://www.zrc-sazu.si) by Peter Weiss."
-msgstr "Текст подготовлен с помощью системы ввода ZRCola (http://zrcola.zrc-sazu.si), разработанной в Научно-исследовательском центре Словенской академии наук и искусств в Любляне (http://www.zrc-sazu.si) Петром Вейссoм."
-
-#: res/zrcolagui.cpp:1010 zrcolagui.cpp:1013
-msgid "Log"
-msgstr "Журнал"
-
-#: res/zrcolagui.cpp:1026 zrcolagui.cpp:1029
-msgid "Quit and &Update..."
-msgstr "Выйти и &обновить ..."
-
-#: res/zrcolagui.cpp:1028 zrcolagui.cpp:1031
-msgid "Exit this program and launch product update"
-msgstr "Выйти из программы и запустить обновление"
-
-#: res/zrcolagui.cpp:1032 zrcolagui.cpp:1035
-msgid "&Close"
-msgstr "&Закрыть"
-
-#: res/zrcolagui.cpp:1033 zrcolagui.cpp:1036
-msgid "Close this window"
-msgstr "Закрыть это окно"
-
-#: res/zrcolagui.cpp:1070 zrcolachrreq.cpp:35 zrcolagui.cpp:1073
+#: zrcolachrreq.cpp:35 zrcolagui.cpp:1073
 msgid "Character"
 msgstr "Знак"
 
-#: res/zrcolagui.cpp:1072 zrcolagui.cpp:1075
-msgid "Enter the &character you would like to request:"
-msgstr "Ввести запрашиваемый &знак:"
-
-#: res/zrcolagui.cpp:1086 zrcolagui.cpp:1089
-msgid "Decomposed character to request"
-msgstr "Запрашиваемый разобранный знак"
-
-#: res/zrcolagui.cpp:1090 zrcolagui.cpp:1093
-msgid ""
-"Please, use the decomposed form.\n"
-"You can use ZRCola keyboard shortcuts to enter the character or Copy&&Paste it from the Decomposed window."
-msgstr ""
-"Пожалуйста, используйте разобранный формат.\n"
-"Для ввода запрашиваемого знака можно использовать сочетания клавиш системы ZRCola либо копировать и вставить знаки из окна для разборки."
-
-#: res/zrcolagui.cpp:1098 zrcolachrreq.cpp:44 zrcolagui.cpp:1101
+#: zrcolachrreq.cpp:44 zrcolagui.cpp:1101
 msgid "Context"
 msgstr "Контекст"
 
-#: res/zrcolagui.cpp:1100 zrcolagui.cpp:1103
-msgid "The &context, examples or description why and where the character is required:"
-msgstr "&Контекст, примеры либо описание запрашиваемого знака или объяснение, зачем он нужен:"
-
-#: res/zrcolagui.cpp:1106 zrcolagui.cpp:1109
-msgid "Additional notes for character request"
-msgstr "Дополнительные примечания"
-
-#: res/zrcolagui.cpp:1113 zrcolagui.cpp:1116
-msgid ""
-"After clicking OK button, your e-mail application should open allowing you to submit the new character request to ZRCola Editor.\n"
-"Your e-mail application might not display all the characters correctly, but the Editor will be able to read them correctly anyway."
-msgstr ""
-"После нажатия на кнопку «OK» ваша почтовая программа должна открытся для отправки запроса нового знака администратору системы ZRCola.\n"
-"Возможно, не все знаки будут отображены правильно, но все информации будут закодированны таким образом, что администратор сможет их правильно прочитать."
-
-#: res/zrcolagui.cpp:1155 zrcolagui.cpp:1158
-msgid "Translation"
-msgstr "Преобразование"
-
-#: res/zrcolagui.cpp:1157 zrcolagui.cpp:1160
-msgid ""
-"ZRCola offers multiple text translations that can be arranged in a sequence.\n"
-"Please select desired translations and the order they are applied."
-msgstr ""
-"ZRCola предоставляет различные преобразования текста, последовательность которых можно свободно изменять.\n"
-"Пожалуйста, выбрать желаемые преобразования и порядок их применения."
-
-#: res/zrcolagui.cpp:1167 zrcolagui.cpp:1170
-msgid "A&vailable:"
-msgstr "&Доступное:"
-
-#: res/zrcolagui.cpp:1182 zrcolagui.cpp:1185
-msgid "→"
-msgstr "→"
-
-#: res/zrcolagui.cpp:1185 zrcolagui.cpp:1188
-msgid "←"
-msgstr "←"
-
-#: res/zrcolagui.cpp:1194 zrcolagui.cpp:1197
-msgid "&Selected:"
-msgstr "&Выбранное:"
-
-#: res/zrcolagui.cpp:1212 zrcolagui.cpp:1215
-msgid "↑"
-msgstr "↑"
-
-#: res/zrcolagui.cpp:1215 zrcolagui.cpp:1218
-msgid "↓"
-msgstr "↓"
-
-#: res/zrcolagui.h:260 zrcolagui.h:260
-msgid "Character Search"
-msgstr "Поиск знака"
-
-#: res/zrcolagui.h:296 zrcolagui.h:296
-msgid "Settings"
-msgstr "Настройки"
-
-#: res/zrcolagui.h:322 zrcolagui.h:322
-msgid "About ZRCola"
-msgstr "О системе ZRCola"
-
-#: res/zrcolagui.h:347 zrcolagui.h:347 zrcolaupdater.cpp:81
-msgid "Product Update"
-msgstr "Обновление продукта"
-
-#: res/zrcolagui.h:376 zrcolachrreq.cpp:50 zrcolagui.h:376
+#: zrcolachrreq.cpp:50 zrcolagui.h:376
 msgid "Request a New Character"
 msgstr "Запрос нового знака"
-
-#: res/zrcolagui.h:418 zrcolagui.h:418
-msgid "Custom Translation Sequence"
-msgstr "Настраиваемая последовательность преобразований"
-
-#: zrcolaabout.cpp:17
-#, c-format
-msgid "© 2004-%s ZRC SAZU"
-msgstr "© 2004–%s ZRC SAZU"
 
 #: zrcolachrslct.cpp:75
 msgid "Too many digits in Unicode."
@@ -694,6 +100,576 @@ msgstr "http://zrcola.zrc-sazu.si/ru/info/instructions/"
 #: zrcolafrm.cpp:538
 msgid "http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
 msgstr "http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
+
+#: zrcolagui.cpp:42
+msgid "E&xit"
+msgstr "Вы&ход"
+
+#: zrcolagui.cpp:42
+msgid "Quit this program"
+msgstr "Выйти из программы"
+
+#: zrcolagui.cpp:45
+msgid "&Program"
+msgstr "П&рограмма"
+
+#: zrcolagui.cpp:78
+msgid "Select &All"
+msgstr "Выделить в&се"
+
+#: zrcolagui.cpp:78
+msgid "Select all text"
+msgstr "Выделить весь текст"
+
+#: zrcolagui.cpp:84
+msgid "Find C&haracter..."
+msgstr "Поиск &знака ..."
+
+#: zrcolagui.cpp:84 zrcolagui.cpp:224
+msgid "Toggle character search to select character to insert into text"
+msgstr "Переключить поиск знаков для вставки выбранного знака в текст"
+
+#: zrcolagui.cpp:90
+msgid "&Send Composed"
+msgstr "&Послать составленное"
+
+#: zrcolagui.cpp:90 zrcolagui.cpp:226
+msgid "Send composed text to source window"
+msgstr "Послать составленный текст в исходное окно"
+
+#: zrcolagui.cpp:99
+msgid "Copy Composed and &Return"
+msgstr "Копировать составленное и &возвратиться"
+
+#: zrcolagui.cpp:99
+msgid "Copy composed text to clipboard and return focus to source window"
+msgstr "Копировать составленный текст в буфер обмена и возвратить фокус в исходное окно"
+
+#: zrcolagui.cpp:108
+msgid "Send &Decomposed"
+msgstr "Послать &разобранное"
+
+#: zrcolagui.cpp:108 zrcolagui.cpp:228
+msgid "Send decomposed text to source window"
+msgstr "Послать разобранный текст в исходное окно"
+
+#: zrcolagui.cpp:117
+msgid "Copy Decomposed and Re&turn"
+msgstr "Копировать разобранное и возв&ратиться"
+
+#: zrcolagui.cpp:117
+msgid "Copy decomposed text to clipboard and return focus to source window"
+msgstr "Копировать разобранный текст в буфер обмена и возвратить фокус в исходное окно"
+
+#: zrcolagui.cpp:126
+msgid "Abort (De)composition"
+msgstr "Прервать составление/разборку"
+
+#: zrcolagui.cpp:126
+msgid "Abort composition and return focus to source window"
+msgstr "Прервать составление и возвратить фокус в исходное окно"
+
+#: zrcolagui.cpp:138
+msgid "(De)&composition"
+msgstr ""
+
+#: zrcolagui.cpp:139
+msgid "&None"
+msgstr ""
+
+#: zrcolagui.cpp:139
+msgid "No character (De)composition"
+msgstr ""
+
+#: zrcolagui.cpp:142
+msgid "&ZRCola"
+msgstr "&ZRCola"
+
+#: zrcolagui.cpp:142
+msgid "ZRCola character (De)composition"
+msgstr ""
+
+#: zrcolagui.cpp:145
+msgid "&Unicode"
+msgstr "&Юникод"
+
+#: zrcolagui.cpp:145
+msgid "Unicode character (De)composition"
+msgstr ""
+
+#: zrcolagui.cpp:151
+msgid "Tra&nslation"
+msgstr "Тра&нслитерация"
+
+#: zrcolagui.cpp:156
+msgid "&PUA Warning"
+msgstr ""
+
+#: zrcolagui.cpp:156 zrcolagui.cpp:243
+msgid "Highlight Private Use Area Characters"
+msgstr ""
+
+#: zrcolagui.cpp:162
+msgid "&Settings..."
+msgstr "&Настройки ..."
+
+#: zrcolagui.cpp:162
+msgid "Open program configuration dialog"
+msgstr "Открыть диалог конфигурации программы"
+
+#: zrcolagui.cpp:165
+msgid "&Edit"
+msgstr "&Правка"
+
+#: zrcolagui.cpp:169
+msgid "&Edit Toolbar"
+msgstr "Панель инструментов для &правки"
+
+#: zrcolagui.cpp:169
+msgid "Toggle edit toolbar"
+msgstr "Переключить панель инструментов для правки"
+
+#: zrcolagui.cpp:173
+msgid "&Compose Toolbar"
+msgstr "Панель инструментов для &составления"
+
+#: zrcolagui.cpp:173
+msgid "Toggle compose toolbar"
+msgstr "Переключить панель инструментов для составления"
+
+#: zrcolagui.cpp:179
+msgid "Character Catalo&g"
+msgstr "Список &знаков"
+
+#: zrcolagui.cpp:179
+msgid "Toggle character catalog panel"
+msgstr "Переключить список знаков"
+
+#: zrcolagui.cpp:182
+msgid "&View"
+msgstr "&Вид"
+
+#: zrcolagui.cpp:186
+msgid "&Instructions..."
+msgstr "&Инструкции ..."
+
+#: zrcolagui.cpp:186
+msgid "Open a web site with product instructions"
+msgstr "Открыть сайт с инструкциями по продукту"
+
+#: zrcolagui.cpp:190
+msgid "Keyboard &Shortcuts..."
+msgstr "Сочетания &клавиш ..."
+
+#: zrcolagui.cpp:190
+msgid "Open a list of keyboard shortcuts"
+msgstr "Открыть список сочетаний клавиш"
+
+#: zrcolagui.cpp:196
+msgid "&Request a new character..."
+msgstr "&Запрос нового знака ..."
+
+#: zrcolagui.cpp:196
+msgid "Submit a request to ZRC to add a new character"
+msgstr "Отправить запрос нового знака"
+
+#: zrcolagui.cpp:200
+msgid "Check for &Updates..."
+msgstr "Проверить наличие &обновлений ..."
+
+#: zrcolagui.cpp:200
+msgid "Check online for product update"
+msgstr "Проверить наличие обновлений онлайн"
+
+#: zrcolagui.cpp:206
+msgid "&About..."
+msgstr "О прогр&амме ..."
+
+#: zrcolagui.cpp:209
+msgid "&Help"
+msgstr "&Справка"
+
+#: zrcolagui.cpp:214
+msgid "Cut"
+msgstr "Вырезать"
+
+#: zrcolagui.cpp:214
+msgid "Cut selection"
+msgstr "Вырезать выбор"
+
+#: zrcolagui.cpp:216
+msgid "Copy"
+msgstr "Копировать"
+
+#: zrcolagui.cpp:216
+msgid "Copy selection"
+msgstr "Копировать выбор"
+
+#: zrcolagui.cpp:218
+msgid "Paste"
+msgstr "Вставить"
+
+#: zrcolagui.cpp:218
+msgid "Paste selection"
+msgstr "Вставить выбор"
+
+#: zrcolagui.cpp:221
+msgid "Edit"
+msgstr "Правка"
+
+#: zrcolagui.cpp:224
+msgid "Find Character"
+msgstr "Поиск знака"
+
+#: zrcolagui.cpp:226
+msgid "Send Composed"
+msgstr "Послать составленное (F5)"
+
+#: zrcolagui.cpp:228
+msgid "Send Decomposed"
+msgstr "Послать разобранное (F6)"
+
+#: zrcolagui.cpp:232
+msgid "No (De)composition"
+msgstr ""
+
+#: zrcolagui.cpp:232
+msgid "Unicode"
+msgstr "Юникод"
+
+#: zrcolagui.cpp:243
+msgid "PUA Warning"
+msgstr ""
+
+#: zrcolagui.cpp:246
+msgid "Compose"
+msgstr "Составить"
+
+#: zrcolagui.cpp:250
+msgid "Character Catalog"
+msgstr "Список знаков"
+
+#: zrcolagui.cpp:254
+msgid "(De)Composer"
+msgstr "(Де)Композитор"
+
+#: zrcolagui.cpp:297
+msgid "Decomposed Text"
+msgstr "Разобранний текст"
+
+#: zrcolagui.cpp:317
+msgid "Decomposed Unicode Dump"
+msgstr "Дамп разобранного Юнукода"
+
+#: zrcolagui.cpp:344
+msgid "Composed Text"
+msgstr "Составленный текст"
+
+#: zrcolagui.cpp:364
+msgid "Composed Unicode Dump"
+msgstr "Дамп составленного Юникода"
+
+#: zrcolagui.cpp:418
+msgid "Select category to display"
+msgstr "Выделить категории для отображения"
+
+#: zrcolagui.cpp:452
+msgid "Show &All"
+msgstr "Показать &все"
+
+#: zrcolagui.cpp:453
+msgid "Toggle display of less frequent characters"
+msgstr "Переключить отображение редко использованных знаков"
+
+#: zrcolagui.cpp:493
+msgid "&Browse"
+msgstr "&Обзор"
+
+#: zrcolagui.cpp:500
+msgid "Full or partial terms from Unicode character description (in English) to search for"
+msgstr "Полное либо частичное описание знака Юникод (на английском) для поиска"
+
+#: zrcolagui.cpp:504
+msgid "Search Options"
+msgstr "Опции поиска"
+
+#: zrcolagui.cpp:505
+msgid "Shows/hides additional search options"
+msgstr "Показать/скрыть дополнительные опции поиска"
+
+#: zrcolagui.cpp:517
+msgid "List of Unicode character categories to search in"
+msgstr "Список категории Юникод для проведения поиска"
+
+#: zrcolagui.cpp:524
+msgid "All"
+msgstr "Все"
+
+#: zrcolagui.cpp:525
+msgid "Select all categories"
+msgstr "Выбрать все категории"
+
+#: zrcolagui.cpp:529
+msgid "None"
+msgstr "Ничего"
+
+#: zrcolagui.cpp:530
+msgid "Clear category selection"
+msgstr "Очистить выбор категории"
+
+#: zrcolagui.cpp:534
+msgid "Invert"
+msgstr "Обратить"
+
+#: zrcolagui.cpp:535
+msgid "Invert category selection"
+msgstr "Обратить выбор категории"
+
+#: zrcolagui.cpp:574
+msgid "Character search results"
+msgstr "Результаты поиска знаков"
+
+#: zrcolagui.cpp:584
+msgid "Re&cently Used"
+msgstr "&Недавно использованное"
+
+#: zrcolagui.cpp:612
+msgid "List of recently inserted characters"
+msgstr "Список недавно вставленных знаков"
+
+#: zrcolagui.cpp:626
+msgid "Preview"
+msgstr "Просмотр"
+
+#: zrcolagui.cpp:631
+msgid "U+"
+msgstr "U+"
+
+#: zrcolagui.cpp:636
+msgid "Unicode hexadecimal code"
+msgstr "Шестнадцатеричный код Юникод"
+
+#: zrcolagui.cpp:641
+msgid "Keyboard shortcut in Composer window"
+msgstr "Сочетание клавиш в окне композитора"
+
+#: zrcolagui.cpp:676
+msgid "Character preview"
+msgstr "Просмотр знака"
+
+#: zrcolagui.cpp:681
+msgid "Unicode character description"
+msgstr "Описание знака Юникод"
+
+#: zrcolagui.cpp:686
+msgid "Character tags"
+msgstr "Ключевые слова"
+
+#: zrcolagui.cpp:691
+msgid "Unicode character category"
+msgstr "Категория знака Юникод"
+
+#: zrcolagui.cpp:698
+msgid "« Back"
+msgstr "« Назад"
+
+#: zrcolagui.cpp:700
+msgid "To previously viewed character"
+msgstr "К предыдущему знаку"
+
+#: zrcolagui.cpp:704
+msgid "Forward »"
+msgstr "Далее »"
+
+#: zrcolagui.cpp:706
+msgid "To following viewed character"
+msgstr "К следующему знаку"
+
+#: zrcolagui.cpp:717
+msgid "Re&lated"
+msgstr "&Связанное"
+
+#: zrcolagui.cpp:744
+msgid "List of related characters"
+msgstr "Список связанных знаков"
+
+#: zrcolagui.cpp:763
+msgid "&Insert"
+msgstr "&Вставить"
+
+#: zrcolagui.cpp:767
+msgid "Insert character into decomposed text"
+msgstr "Вставка знака в разобранный текст"
+
+#: zrcolagui.cpp:843
+msgid ""
+"Some character native to specific language you are working with should not decompose to primitives.\n"
+"For optimal decomposition you should set the language correctly."
+msgstr ""
+"Некоторые знаки использованного языка нельзя разбирать.\n"
+"Для оптимальной разборки вы должны настроить правильный язык."
+
+#: zrcolagui.cpp:847
+msgid "Select language &automatically according to selected keyboard"
+msgstr "&Автоматически установить язык на основе выбранной клавиатуры"
+
+#: zrcolagui.cpp:850
+msgid "&Manually select the language from the list below:"
+msgstr "&Вручную выбрать язык со списка:"
+
+#: zrcolagui.cpp:861
+msgid "Text Language"
+msgstr "Язык текста"
+
+#: zrcolagui.cpp:866
+msgid ""
+"ZRCola can be launched every time you log in to your computer.\n"
+"It will be available on the system tray and via registered shortcuts Win+F5 and Win+F6."
+msgstr ""
+"Запуск системы ZRCola возможен при каждом запуске компьютера.\n"
+"После запуска система ZRCola доступна на панели задач либо через нажатие сочетания клавиш Win+F5 и Win+F6."
+
+#: zrcolagui.cpp:870
+msgid "Start ZRCola &automatically on logon"
+msgstr "&Автоматически запустить систему ZRCola при запуске компьютера"
+
+#: zrcolagui.cpp:876
+msgid "Startup"
+msgstr "Запуск"
+
+#: zrcolagui.cpp:954
+msgid ""
+"Program and Website Editor: Janoš Ježovnik\n"
+"Development: Amebis, d. o. o., Kamnik\n"
+"Translation into English: Janoš Ježovnik\n"
+"Translation into Russian language: Domen Krvina, Silvo Torkar, Anastasia Plotnikova\n"
+"Development and maintenance of the original program (2004–2015): Peter Weiss"
+msgstr ""
+"Администратор программы и сайта: Янош Ежовник (Janoš Ježovnik)\n"
+"Разработка: Amebis, d. o. o., Kamnik\n"
+"Перевод на английский яазык: Янош Ежовник (Janoš Ježovnik)\n"
+"Перевод на русский язык: Домен Крвина (Domen Krvina), Силво Торкар (Silvo Torkar), Анастасия Плотникова\n"
+"Разработка in техническая поддержка первоначальной программы (2004–2015): Петер Вейсс (Peter Weiss)"
+
+#: zrcolagui.cpp:962
+msgid "zrcola.zrc-sazu.si"
+msgstr "zrcola.zrc-sazu.si"
+
+#: zrcolagui.cpp:968
+msgid "Texts made using ZRCola have to include in a footnote or some other appropriate part of the publication the note below:"
+msgstr "Текст, созданный с помощью системы ZRCola, должен в примечании или другом соответствующем месте в публикации сопровождаться следующей записью:"
+
+#: zrcolagui.cpp:972
+msgid "This text was written using the ZRCola input system (http://zrcola.zrc-sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana (http://www.zrc-sazu.si) by Peter Weiss."
+msgstr "Текст подготовлен с помощью системы ввода ZRCola (http://zrcola.zrc-sazu.si), разработанной в Научно-исследовательском центре Словенской академии наук и искусств в Любляне (http://www.zrc-sazu.si) Петром Вейссoм."
+
+#: zrcolagui.cpp:1013
+msgid "Log"
+msgstr "Журнал"
+
+#: zrcolagui.cpp:1029
+msgid "Quit and &Update..."
+msgstr "Выйти и &обновить ..."
+
+#: zrcolagui.cpp:1031
+msgid "Exit this program and launch product update"
+msgstr "Выйти из программы и запустить обновление"
+
+#: zrcolagui.cpp:1035
+msgid "&Close"
+msgstr "&Закрыть"
+
+#: zrcolagui.cpp:1036
+msgid "Close this window"
+msgstr "Закрыть это окно"
+
+#: zrcolagui.cpp:1075
+msgid "Enter the &character you would like to request:"
+msgstr "Ввести запрашиваемый &знак:"
+
+#: zrcolagui.cpp:1089
+msgid "Decomposed character to request"
+msgstr "Запрашиваемый разобранный знак"
+
+#: zrcolagui.cpp:1093
+msgid ""
+"Please, use the decomposed form.\n"
+"You can use ZRCola keyboard shortcuts to enter the character or Copy&&Paste it from the Decomposed window."
+msgstr ""
+"Пожалуйста, используйте разобранный формат.\n"
+"Для ввода запрашиваемого знака можно использовать сочетания клавиш системы ZRCola либо копировать и вставить знаки из окна для разборки."
+
+#: zrcolagui.cpp:1103
+msgid "The &context, examples or description why and where the character is required:"
+msgstr "&Контекст, примеры либо описание запрашиваемого знака или объяснение, зачем он нужен:"
+
+#: zrcolagui.cpp:1109
+msgid "Additional notes for character request"
+msgstr "Дополнительные примечания"
+
+#: zrcolagui.cpp:1116
+msgid ""
+"After clicking OK button, your e-mail application should open allowing you to submit the new character request to ZRCola Editor.\n"
+"Your e-mail application might not display all the characters correctly, but the Editor will be able to read them correctly anyway."
+msgstr ""
+"После нажатия на кнопку «OK» ваша почтовая программа должна открытся для отправки запроса нового знака администратору системы ZRCola.\n"
+"Возможно, не все знаки будут отображены правильно, но все информации будут закодированны таким образом, что администратор сможет их правильно прочитать."
+
+#: zrcolagui.cpp:1158
+msgid "Translation"
+msgstr "Преобразование"
+
+#: zrcolagui.cpp:1160
+msgid ""
+"ZRCola offers multiple text translations that can be arranged in a sequence.\n"
+"Please select desired translations and the order they are applied."
+msgstr ""
+"ZRCola предоставляет различные преобразования текста, последовательность которых можно свободно изменять.\n"
+"Пожалуйста, выбрать желаемые преобразования и порядок их применения."
+
+#: zrcolagui.cpp:1170
+msgid "A&vailable:"
+msgstr "&Доступное:"
+
+#: zrcolagui.cpp:1185
+msgid "→"
+msgstr "→"
+
+#: zrcolagui.cpp:1188
+msgid "←"
+msgstr "←"
+
+#: zrcolagui.cpp:1197
+msgid "&Selected:"
+msgstr "&Выбранное:"
+
+#: zrcolagui.cpp:1215
+msgid "↑"
+msgstr "↑"
+
+#: zrcolagui.cpp:1218
+msgid "↓"
+msgstr "↓"
+
+#: zrcolagui.h:260
+msgid "Character Search"
+msgstr "Поиск знака"
+
+#: zrcolagui.h:296
+msgid "Settings"
+msgstr "Настройки"
+
+#: zrcolagui.h:322
+msgid "About ZRCola"
+msgstr "О системе ZRCola"
+
+#: zrcolagui.h:347 zrcolaupdater.cpp:81
+msgid "Product Update"
+msgstr "Обновление продукта"
+
+#: zrcolagui.h:418
+msgid "Custom Translation Sequence"
+msgstr "Настраиваемая последовательность преобразований"
 
 #: zrcolakeyhndlr.cpp:30
 msgid "INS key is pressed. Type the Unicode code of desired character now (up to four hexadecimal digits: 0-9, A-F), then release INS."
