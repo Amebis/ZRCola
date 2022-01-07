@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
     SPDX-License-Identifier: GPL-3.0-or-later
-    Copyright © 2016-2021 Amebis
+    Copyright © 2016-2022 Amebis
 -->
 <package>
 	<job id="InstFont">
 		<runtime>
-			<description>Installs font - Amebis, Copyright © 2016-2021</description>
+			<description>Installs font - Amebis, Copyright © 2016-2022</description>
 			<unnamed name="&lt;Shortcut.lnk&gt;" required="true"  helpstring="Shortcut file to create"/>
 			<example>
 Example:

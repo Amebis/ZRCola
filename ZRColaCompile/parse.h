@@ -1,6 +1,6 @@
 ﻿/*
     SPDX-License-Identifier: GPL-3.0-or-later
-    Copyright © 2018-2021 Amebis
+    Copyright © 2018-2022 Amebis
 */
 
 #pragma once

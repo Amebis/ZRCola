@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
     SPDX-License-Identifier: GPL-3.0-or-later
-    Copyright © 2017-2021 Amebis
+    Copyright © 2017-2022 Amebis
 -->
 <package>
 	<job id="CanoPerm">
 		<runtime>
-			<description>Generates character index permutations - Amebis, Copyright © 2017-2021</description>
+			<description>Generates character index permutations - Amebis, Copyright © 2017-2022</description>
 			<unnamed name="&lt;Pattern&gt;" required="true" helpstring="Cannonical form (X=unmoveable character; 0-9=moveable character, characters of the same number must preserve global order of appearance; maximum 10 characters)"/>
 			<example>
 Example:

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-3.0-or-later
-    Copyright © 2021 Amebis
+    Copyright © 2021-2022 Amebis
 */
 
 #include "pch.h"
