@@ -46,7 +46,7 @@
 #include <utility>
 #include <vector>
 
-#include <stdex/idrec.h>
+#include <stdex/idrec>
 
 #if defined(__WXMSW__)
 #include <Msi.h>

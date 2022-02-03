@@ -7,7 +7,7 @@
 
 #include "common.h"
 
-#include <stdex/idrec.h>
+#include <stdex/idrec>
 
 #include <functional>
 

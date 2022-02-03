@@ -8,7 +8,7 @@
 #include "common.h"
 #include "language.h"
 
-#include <stdex/idrec.h>
+#include <stdex/idrec>
 #include <algorithm>
 #include <istream>
 #include <ostream>
