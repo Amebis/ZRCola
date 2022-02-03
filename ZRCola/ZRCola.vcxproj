@@ -108,9 +108,6 @@
     <ProjectReference Include="..\lib\libZRCola\build\libZRCola.vcxproj">
       <Project>{3c61929e-7289-4101-8d0a-da22d6e1aea8}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\lib\WinStd\build\WinStd.vcxproj">
-      <Project>{47399d91-7eb9-41de-b521-514ba5db0c43}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\lib\wxExtend\build\wxExtendLib.vcxproj">
       <Project>{D3E29951-D9F5-486D-A167-20AE8E90B1FA}</Project>
     </ProjectReference>
