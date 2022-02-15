@@ -3468,8 +3468,8 @@ msgstr ""
 #: en_US.Win32.Release.Control-2.idtx:5 en_US.Win32.Release.Control-2.idtx:12
 #: en_US.x64.Debug.Control-2.idtx:5 en_US.x64.Debug.Control-2.idtx:12
 #: en_US.x64.Release.Control-2.idtx:5 en_US.x64.Release.Control-2.idtx:12
-msgid "binUIHeader.bmp"
-msgstr "binUIHeader.bmp"
+msgid "UIHeader.bmp"
+msgstr "UIHeader.bmp"
 
 #: en_US.Win32.Debug.Control-2.idtx:6 en_US.Win32.Release.Control-2.idtx:6
 #: en_US.x64.Debug.Control-2.idtx:6 en_US.x64.Release.Control-2.idtx:6
@@ -3522,8 +3522,8 @@ msgstr ""
 
 #: en_US.Win32.Debug.Control-2.idtx:14 en_US.Win32.Release.Control-2.idtx:14
 #: en_US.x64.Debug.Control-2.idtx:14 en_US.x64.Release.Control-2.idtx:14
-msgid "binfontsubst.bmp"
-msgstr "binfontsubst.bmp"
+msgid "fontsubst.bmp"
+msgstr "fontsubst.bmp"
 
 #: en_US.Win32.Debug.Control-2.idtx:15 en_US.Win32.Release.Control-2.idtx:15
 #: en_US.x64.Debug.Control-2.idtx:15 en_US.x64.Release.Control-2.idtx:15

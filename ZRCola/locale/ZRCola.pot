@@ -679,7 +679,7 @@ msgstr ""
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:4
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:10
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:15
-msgid "binUIHeader.bmp"
+msgid "UIHeader.bmp"
 msgstr ""
 
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:5
@@ -691,7 +691,7 @@ msgstr ""
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:6
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:6
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:6
-msgid "bintutorial1.bmp"
+msgid "tutorial1.bmp"
 msgstr ""
 
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:7
@@ -727,7 +727,7 @@ msgstr ""
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:12
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:12
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:12
-msgid "bintutorial2.bmp"
+msgid "tutorial2.bmp"
 msgstr ""
 
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:13
@@ -745,7 +745,7 @@ msgstr ""
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:17
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:17
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:17
-msgid "bintutorial3.bmp"
+msgid "tutorial3.bmp"
 msgstr ""
 
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:18

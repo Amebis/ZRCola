@@ -700,8 +700,8 @@ msgstr ""
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:4
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:10
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:15
-msgid "binUIHeader.bmp"
-msgstr "binUIHeader.bmp"
+msgid "UIHeader.bmp"
+msgstr "UIHeader.bmp"
 
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:5
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:5
@@ -712,8 +712,8 @@ msgstr "[DlgTitleFont]Vadnica [SimpleProductName] : Zagon"
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:6
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:6
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:6
-msgid "bintutorial1.bmp"
-msgstr "bintutorial1.bmp"
+msgid "tutorial1.bmp"
+msgstr "tutorial1.bmp"
 
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:7
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:7
@@ -748,8 +748,8 @@ msgstr "[DlgTitleFont]Vadnica [SimpleProductName] : Sestavljanje"
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:12
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:12
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:12
-msgid "bintutorial2.bmp"
-msgstr "bintutorial2.bmp"
+msgid "tutorial2.bmp"
+msgstr "tutorial2.bmp"
 
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:13
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:13
@@ -766,8 +766,8 @@ msgstr "[DlgTitleFont]Vadnica [SimpleProductName] : Vnos znakov"
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:17
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:17
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:17
-msgid "bintutorial3.bmp"
-msgstr "bintutorial3.bmp"
+msgid "tutorial3.bmp"
+msgstr "tutorial3.bmp"
 
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:18
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:18
