@@ -1,19 +1,18 @@
+# 
 # Translators:
 # Simon Rozman <simon@rozman.si>, 2018
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola.zrcdb\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
+"Last-Translator: Simon Rozman <simon@rozman.si>, 2018\n"
 "Language-Team: Slovenian (Slovenia) (https://www.transifex.com/amebis/teams/91592/sl_SI/)\n"
-"Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sl_SI\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: ZRColaCompile\n"
 
 msgid "Albanian"
 msgstr "albanščina"
@@ -713,24 +712,3 @@ msgstr "brez + |"
 
 msgid "small Case"
 msgstr "male črke"
-
-#~ msgid "Unicode"
-#~ msgstr "Unicode"
-
-#~ msgid "Unicode Combining"
-#~ msgstr "sestavljivi Unicode"
-
-#~ msgid "ZRCola"
-#~ msgstr "ZRCola"
-
-#~ msgid "ZRCola Composed"
-#~ msgstr "ZRCola-sestavljeno"
-
-#~ msgid "ZRCola » Unicode"
-#~ msgstr "ZRCola » Unicode"
-
-#~ msgid "ZRCola Composed » Unicode Combining"
-#~ msgstr "ZRCola-sestavljeno » sestavljivi Unicode"
-
-#~ msgid "ZRCola Decomposed"
-#~ msgstr "ZRCola razstavljeno"

@@ -1,24 +1,26 @@
+# 
 # Translators:
-# Simon Rozman <simon@rozman.si>, 2018
-#
+# Simon Rozman <simon@rozman.si>, 2021
+# 
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
-"POT-Creation-Date: 2021-12-21 14:47+0100\n"
-"PO-Revision-Date: 2021-12-21 14:47+0100\n"
-"Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
+"POT-Creation-Date: 2021-12-21 14:45+0100\n"
+"PO-Revision-Date: 2018-09-19 07:18+0000\n"
+"Last-Translator: Simon Rozman <simon@rozman.si>, 2021\n"
 "Language-Team: German (Germany) (https://www.transifex.com/amebis/teams/91592/de_DE/)\n"
-"Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de_DE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.4.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: _\n"
-"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: res/zrcolagui.*\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
 #: zrcolaabout.cpp:17
 #, c-format
@@ -81,7 +83,9 @@ msgid "Custom Translation..."
 msgstr ""
 
 #: zrcolafrm.cpp:217
-msgid "ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality will not be available."
+msgid ""
+"ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality "
+"will not be available."
 msgstr ""
 
 #: zrcolafrm.cpp:217 zrcolafrm.cpp:219
@@ -89,7 +93,9 @@ msgid "Warning"
 msgstr ""
 
 #: zrcolafrm.cpp:219
-msgid "ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality will not be available."
+msgid ""
+"ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality "
+"will not be available."
 msgstr ""
 
 #: zrcolafrm.cpp:513
@@ -97,8 +103,12 @@ msgid "http://zrcola.zrc-sazu.si/en/info/instructions/"
 msgstr "http://zrcola.zrc-sazu.si/de/info/instructions/"
 
 #: zrcolafrm.cpp:538
-msgid "http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
-msgstr "http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
+msgid ""
+"http://zrcola.zrc-sazu.si/wp-"
+"content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
+msgstr ""
+"http://zrcola.zrc-sazu.si/wp-"
+"content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
 
 #: zrcolagui.cpp:42
 msgid "E&xit"
@@ -385,7 +395,9 @@ msgid "&Browse"
 msgstr ""
 
 #: zrcolagui.cpp:500
-msgid "Full or partial terms from Unicode character description (in English) to search for"
+msgid ""
+"Full or partial terms from Unicode character description (in English) to "
+"search for"
 msgstr ""
 
 #: zrcolagui.cpp:504
@@ -546,11 +558,16 @@ msgid "zrcola.zrc-sazu.si"
 msgstr "zrcola.zrc-sazu.si"
 
 #: zrcolagui.cpp:968
-msgid "Texts made using ZRCola have to include in a footnote or some other appropriate part of the publication the note below:"
+msgid ""
+"Texts made using ZRCola have to include in a footnote or some other "
+"appropriate part of the publication the note below:"
 msgstr ""
 
 #: zrcolagui.cpp:972
-msgid "This text was written using the ZRCola input system (http://zrcola.zrc-sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana (http://www.zrc-sazu.si) by Peter Weiss."
+msgid ""
+"This text was written using the ZRCola input system (http://zrcola.zrc-"
+"sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana "
+"(http://www.zrc-sazu.si) by Peter Weiss."
 msgstr ""
 
 #: zrcolagui.cpp:1013
@@ -588,7 +605,9 @@ msgid ""
 msgstr ""
 
 #: zrcolagui.cpp:1103
-msgid "The &context, examples or description why and where the character is required:"
+msgid ""
+"The &context, examples or description why and where the character is "
+"required:"
 msgstr ""
 
 #: zrcolagui.cpp:1109
@@ -656,7 +675,9 @@ msgid "Custom Translation Sequence"
 msgstr ""
 
 #: zrcolakeyhndlr.cpp:30
-msgid "INS key is pressed. Type the Unicode code of desired character now (up to four hexadecimal digits: 0-9, A-F), then release INS."
+msgid ""
+"INS key is pressed. Type the Unicode code of desired character now (up to "
+"four hexadecimal digits: 0-9, A-F), then release INS."
 msgstr ""
 
 #: zrcolasettings.cpp:73
@@ -701,13 +722,19 @@ msgstr "tutorial1.bmp"
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:7
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:7
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:7
-msgid "When configured, ZRCola starts at system startup and runs in the background. If needed, it can be brought up by pressing the combination Win+F5."
+msgid ""
+"When configured, ZRCola starts at system startup and runs in the background."
+" If needed, it can be brought up by pressing the combination Win+F5."
 msgstr ""
 
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:8
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:8
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:8
-msgid "IMPORTANT: Upon pressing the combination Win+F5 the program memorises the location of the cursor in the text. If ZRCola is brought to the foreground without using the aforementioned combination of keys, the program won't know where to insert the special characters!"
+msgid ""
+"IMPORTANT: Upon pressing the combination Win+F5 the program memorises the "
+"location of the cursor in the text. If ZRCola is brought to the foreground "
+"without using the aforementioned combination of keys, the program won't know"
+" where to insert the special characters!"
 msgstr ""
 
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:9
@@ -737,7 +764,10 @@ msgstr "tutorial2.bmp"
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:13
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:13
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:13
-msgid "The string of basic and substitute characters is entered into the upper input window of the program. In the window below the resulted special characters are displayed. To insert them in the text, the F5 key is used."
+msgid ""
+"The string of basic and substitute characters is entered into the upper "
+"input window of the program. In the window below the resulted special "
+"characters are displayed. To insert them in the text, the F5 key is used."
 msgstr ""
 
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:16
@@ -755,7 +785,9 @@ msgstr "tutorial3.bmp"
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:18
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:18
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:18
-msgid "Characters can be entered using keyboard shortcuts, the character catalogue (F4) or the character finding tool (F8)."
+msgid ""
+"Characters can be entered using keyboard shortcuts, the character catalogue "
+"(F4) or the character finding tool (F8)."
 msgstr ""
 
 #: MSIBuild/en_US.ARM64.Release.Feature-2.idtx:4
@@ -766,9 +798,3 @@ msgstr ""
 #: MSIBuild/en_US.x64.Release.Shortcut-2.idtx:4
 msgid "Input system for linguistic use"
 msgstr ""
-
-#~ msgid ">"
-#~ msgstr ">"
-
-#~ msgid "<"
-#~ msgstr "<"

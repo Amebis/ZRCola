@@ -1,24 +1,26 @@
+# 
 # Translators:
-# Simon Rozman <simon@rozman.si>, 2019
-#
+# Simon Rozman <simon@rozman.si>, 2021
+# 
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ZRCola\n"
 "POT-Creation-Date: 2021-12-21 14:45+0100\n"
-"PO-Revision-Date: 2021-12-21 14:45+0100\n"
-"Last-Translator: Simon Rozman <simon.rozman@amebis.si>\n"
+"PO-Revision-Date: 2018-09-19 07:18+0000\n"
+"Last-Translator: Simon Rozman <simon@rozman.si>, 2021\n"
 "Language-Team: Slovenian (Slovenia) (https://www.transifex.com/amebis/teams/91592/sl_SI/)\n"
-"Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sl_SI\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 "X-Generator: Poedit 2.4.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: _\n"
-"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: res/zrcolagui.*\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
 #: zrcolaabout.cpp:17
 #, c-format
@@ -81,24 +83,36 @@ msgid "Custom Translation..."
 msgstr "Pretvorba po meri ..."
 
 #: zrcolafrm.cpp:217
-msgid "ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality will not be available."
-msgstr "ZRColine bližnjice na tipkovnici Win+F5 ni mogoče registrirati. Nekaj funkcionalnosti ne bo na voljo."
+msgid ""
+"ZRCola keyboard shortcut Win+F5 could not be registered. Some functionality "
+"will not be available."
+msgstr ""
+"ZRColine bližnjice na tipkovnici Win+F5 ni mogoče registrirati. Nekaj "
+"funkcionalnosti ne bo na voljo."
 
 #: zrcolafrm.cpp:217 zrcolafrm.cpp:219
 msgid "Warning"
 msgstr "Opozorilo"
 
 #: zrcolafrm.cpp:219
-msgid "ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality will not be available."
-msgstr "ZRColine bližnjice na tipkovnici Win+F6 ni mogoče registrirati. Nekaj funkcionalnosti ne bo na voljo."
+msgid ""
+"ZRCola keyboard shortcut Win+F6 could not be registered. Some functionality "
+"will not be available."
+msgstr ""
+"ZRColine bližnjice na tipkovnici Win+F6 ni mogoče registrirati. Nekaj "
+"funkcionalnosti ne bo na voljo."
 
 #: zrcolafrm.cpp:513
 msgid "http://zrcola.zrc-sazu.si/en/info/instructions/"
 msgstr "http://zrcola.zrc-sazu.si/info/instructions/"
 
 #: zrcolafrm.cpp:538
-msgid "http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
-msgstr "http://zrcola.zrc-sazu.si/wp-content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
+msgid ""
+"http://zrcola.zrc-sazu.si/wp-"
+"content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
+msgstr ""
+"http://zrcola.zrc-sazu.si/wp-"
+"content/uploads/2016/06/ZRCola_tipkovnica_Jun2016.pdf"
 
 #: zrcolagui.cpp:42
 msgid "E&xit"
@@ -126,7 +140,8 @@ msgstr "Poišči &znak ..."
 
 #: zrcolagui.cpp:84 zrcolagui.cpp:224
 msgid "Toggle character search to select character to insert into text"
-msgstr "Prikaži/skrij iskalnik znakov za izbor znaka za vstavljanje v besedilo"
+msgstr ""
+"Prikaži/skrij iskalnik znakov za izbor znaka za vstavljanje v besedilo"
 
 #: zrcolagui.cpp:90
 msgid "&Send Composed"
@@ -142,7 +157,8 @@ msgstr "Kopi&raj sestavljeno in se vrni"
 
 #: zrcolagui.cpp:99
 msgid "Copy composed text to clipboard and return focus to source window"
-msgstr "Kopiraj sestavljeno besedilo na odložišče in vrni fokus nazaj izvornemu oknu"
+msgstr ""
+"Kopiraj sestavljeno besedilo na odložišče in vrni fokus nazaj izvornemu oknu"
 
 #: zrcolagui.cpp:108
 msgid "Send &Decomposed"
@@ -158,7 +174,9 @@ msgstr "Kopi&raj razstavljeno in se vrni"
 
 #: zrcolagui.cpp:117
 msgid "Copy decomposed text to clipboard and return focus to source window"
-msgstr "Kopiraj razstavljeno besedilo na odložišče in vrni fokus nazaj izvornemu oknu"
+msgstr ""
+"Kopiraj razstavljeno besedilo na odložišče in vrni fokus nazaj izvornemu "
+"oknu"
 
 #: zrcolagui.cpp:126
 msgid "Abort (De)composition"
@@ -385,8 +403,11 @@ msgid "&Browse"
 msgstr "Pre&brskaj"
 
 #: zrcolagui.cpp:500
-msgid "Full or partial terms from Unicode character description (in English) to search for"
-msgstr "Polne ali delne besede iz opisa znaka Unicode (v angleščini) za iskanje"
+msgid ""
+"Full or partial terms from Unicode character description (in English) to "
+"search for"
+msgstr ""
+"Polne ali delne besede iz opisa znaka Unicode (v angleščini) za iskanje"
 
 #: zrcolagui.cpp:504
 msgid "Search Options"
@@ -555,12 +576,22 @@ msgid "zrcola.zrc-sazu.si"
 msgstr "zrcola.zrc-sazu.si"
 
 #: zrcolagui.cpp:968
-msgid "Texts made using ZRCola have to include in a footnote or some other appropriate part of the publication the note below:"
-msgstr "Besedilo, nastalo z uporabo ZRCole, mora biti v opombi ali na drugem ustreznem mestu v publikaciji opremljeno z naslednjim zapisom:"
+msgid ""
+"Texts made using ZRCola have to include in a footnote or some other "
+"appropriate part of the publication the note below:"
+msgstr ""
+"Besedilo, nastalo z uporabo ZRCole, mora biti v opombi ali na drugem "
+"ustreznem mestu v publikaciji opremljeno z naslednjim zapisom:"
 
 #: zrcolagui.cpp:972
-msgid "This text was written using the ZRCola input system (http://zrcola.zrc-sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana (http://www.zrc-sazu.si) by Peter Weiss."
-msgstr "Besedilo je bilo pripravljeno z vnašalnim sistemom ZRCola (http://zrcola.zrc-sazu.si), ki ga je na Znanstvenoraziskovalnem centru SAZU v Ljubljani (http://www.zrc-sazu.si) razvil Peter Weiss."
+msgid ""
+"This text was written using the ZRCola input system (http://zrcola.zrc-"
+"sazu.si), developed at the Science and Research Centre of SAZU in Ljubljana "
+"(http://www.zrc-sazu.si) by Peter Weiss."
+msgstr ""
+"Besedilo je bilo pripravljeno z vnašalnim sistemom ZRCola "
+"(http://zrcola.zrc-sazu.si), ki ga je na Znanstvenoraziskovalnem centru SAZU"
+" v Ljubljani (http://www.zrc-sazu.si) razvil Peter Weiss."
 
 #: zrcolagui.cpp:1013
 msgid "Log"
@@ -599,7 +630,9 @@ msgstr ""
 "Za vnos znaka lahko uporabite ZRColine bližnjice na tipkovnici ali ga kopirate in prilepite iz okna z razstavljenim besedilom."
 
 #: zrcolagui.cpp:1103
-msgid "The &context, examples or description why and where the character is required:"
+msgid ""
+"The &context, examples or description why and where the character is "
+"required:"
 msgstr "&Kontekst, primeri oziroma opis, zakaj in kje potrebujete novi znak:"
 
 #: zrcolagui.cpp:1109
@@ -671,8 +704,12 @@ msgid "Custom Translation Sequence"
 msgstr "Zaporedje pretvorb po meri"
 
 #: zrcolakeyhndlr.cpp:30
-msgid "INS key is pressed. Type the Unicode code of desired character now (up to four hexadecimal digits: 0-9, A-F), then release INS."
-msgstr "Pritisnili ste tipko INS. Vtipkajte kodo Unicode želenega znaka (do štiri šestnajstiške števke: 0–9, A–F), nato izpustite INS."
+msgid ""
+"INS key is pressed. Type the Unicode code of desired character now (up to "
+"four hexadecimal digits: 0-9, A-F), then release INS."
+msgstr ""
+"Pritisnili ste tipko INS. Vtipkajte kodo Unicode želenega znaka (do štiri "
+"šestnajstiške števke: 0–9, A–F), nato izpustite INS."
 
 #: zrcolasettings.cpp:73
 msgid "Start ZRCola automatically on logon"
@@ -718,14 +755,25 @@ msgstr "tutorial1.bmp"
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:7
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:7
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:7
-msgid "When configured, ZRCola starts at system startup and runs in the background. If needed, it can be brought up by pressing the combination Win+F5."
-msgstr "Če jo tako nastavimo, se ZRCola zažene samodejno in teče v ozadju. V ospredje jo prikličemo s pritiskom na bližnjico Win+F5."
+msgid ""
+"When configured, ZRCola starts at system startup and runs in the background."
+" If needed, it can be brought up by pressing the combination Win+F5."
+msgstr ""
+"Če jo tako nastavimo, se ZRCola zažene samodejno in teče v ozadju. V "
+"ospredje jo prikličemo s pritiskom na bližnjico Win+F5."
 
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:8
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:8
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:8
-msgid "IMPORTANT: Upon pressing the combination Win+F5 the program memorises the location of the cursor in the text. If ZRCola is brought to the foreground without using the aforementioned combination of keys, the program won't know where to insert the special characters!"
-msgstr "POMEMBNO: Ob pritisku na Win+F5 si program zapomni mesto kurzorja v besedilu. Če ZRColo povečamo brez pritiska na ti dve tipki, program ne bo vedel, kam vstaviti želene znake!"
+msgid ""
+"IMPORTANT: Upon pressing the combination Win+F5 the program memorises the "
+"location of the cursor in the text. If ZRCola is brought to the foreground "
+"without using the aforementioned combination of keys, the program won't know"
+" where to insert the special characters!"
+msgstr ""
+"POMEMBNO: Ob pritisku na Win+F5 si program zapomni mesto kurzorja v "
+"besedilu. Če ZRColo povečamo brez pritiska na ti dve tipki, program ne bo "
+"vedel, kam vstaviti želene znake!"
 
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:9
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:14
@@ -754,8 +802,14 @@ msgstr "tutorial2.bmp"
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:13
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:13
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:13
-msgid "The string of basic and substitute characters is entered into the upper input window of the program. In the window below the resulted special characters are displayed. To insert them in the text, the F5 key is used."
-msgstr "Želeni niz osnovnih in nadomestnih znakov vnesemo v zgornjo vrstico v programu. V spodnji vrstici se prikažejo sestavljeni znaki. V besedilo jih vnesemo s pritiskom na tipko F5."
+msgid ""
+"The string of basic and substitute characters is entered into the upper "
+"input window of the program. In the window below the resulted special "
+"characters are displayed. To insert them in the text, the F5 key is used."
+msgstr ""
+"Želeni niz osnovnih in nadomestnih znakov vnesemo v zgornjo vrstico v "
+"programu. V spodnji vrstici se prikažejo sestavljeni znaki. V besedilo jih "
+"vnesemo s pritiskom na tipko F5."
 
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:16
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:16
@@ -772,8 +826,12 @@ msgstr "tutorial3.bmp"
 #: MSIBuild/en_US.ARM64.Release.Control-2.idtx:18
 #: MSIBuild/en_US.Win32.Release.Control-2.idtx:18
 #: MSIBuild/en_US.x64.Release.Control-2.idtx:18
-msgid "Characters can be entered using keyboard shortcuts, the character catalogue (F4) or the character finding tool (F8)."
-msgstr "Znake lahko v vnosno vrstico vstavljamo s pomočjo bližnjic na tipkovnici, iz kataloga znakov (F4) ali z iskalnikom znakov (F8)."
+msgid ""
+"Characters can be entered using keyboard shortcuts, the character catalogue "
+"(F4) or the character finding tool (F8)."
+msgstr ""
+"Znake lahko v vnosno vrstico vstavljamo s pomočjo bližnjic na tipkovnici, iz"
+" kataloga znakov (F4) ali z iskalnikom znakov (F8)."
 
 #: MSIBuild/en_US.ARM64.Release.Feature-2.idtx:4
 #: MSIBuild/en_US.ARM64.Release.Shortcut-2.idtx:4
@@ -783,33 +841,3 @@ msgstr "Znake lahko v vnosno vrstico vstavljamo s pomočjo bližnjic na tipkovni
 #: MSIBuild/en_US.x64.Release.Shortcut-2.idtx:4
 msgid "Input system for linguistic use"
 msgstr "Vnašalni sistem za jezikoslovno rabo"
-
-#~ msgid "&ZRCola (De)composition"
-#~ msgstr "(Raz-)Sestavljanje &ZRCola"
-
-#~ msgid "ZRCola (De)composition"
-#~ msgstr "(Raz-)Sestavljanje ZRCola"
-
-#~ msgid "Composed Text &Font..."
-#~ msgstr "&Pisava sestavljenega besedila ..."
-
-#~ msgid "Select font for composed text"
-#~ msgstr "Izberi pisavo za sestavljeno besedilo"
-
-#~ msgid "Composed &Text Toolbar"
-#~ msgstr "Orodna vrs&tica sestavljenega besedila"
-
-#~ msgid "Toggle composed text toolbar"
-#~ msgstr "Prikaži/skrij orodno vrstico sestavljenega besedila"
-
-#~ msgid ">"
-#~ msgstr ">"
-
-#~ msgid "<"
-#~ msgstr "<"
-
-#~ msgid "Up"
-#~ msgstr "Gor"
-
-#~ msgid "Down"
-#~ msgstr "Dol"
