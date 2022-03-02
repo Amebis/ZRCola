@@ -275,7 +275,7 @@ namespace ZRCola {
             void build_related();
 
         protected:
-            class build_related_worker : public winstd::win_handle<INVALID_HANDLE_VALUE>
+            class build_related_worker : public winstd::thread
             {
             public:
                 build_related_worker(_In_ const character_bank *cb, _In_ iterator from, _In_ iterator to);

@@ -42,7 +42,7 @@ void ZRCola::DBSource::character_bank::build_related()
 
 
 ZRCola::DBSource::character_bank::build_related_worker::build_related_worker(_In_ const character_bank *cb, _In_ iterator from, _In_ iterator to) :
-    win_handle<INVALID_HANDLE_VALUE>((HANDLE)_beginthreadex(NULL, 0, process, this, CREATE_SUSPENDED, NULL)),
+    thread((HANDLE)_beginthreadex(NULL, 0, process, this, CREATE_SUSPENDED, NULL)),
     m_heap(HeapCreate(0, 0, 0)),
     m_cb(cb),
     m_from(from),
