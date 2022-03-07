@@ -7,7 +7,7 @@
 
 #include <zrcola/common.h>
 
-#include <stdex/idrec>
+#include <stdex/idrec.h>
 #include <assert.h>
 #include <algorithm>
 #include <istream>

@@ -7,7 +7,7 @@
 
 #include "common.h"
 
-#include <stdex/idrec>
+#include <stdex/idrec.h>
 #include <istream>
 #include <ostream>
 #include <vector>
