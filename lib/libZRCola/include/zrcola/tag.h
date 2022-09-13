@@ -214,7 +214,7 @@ namespace ZRCola {
     };
 
 
-    typedef stdex::idrec::record<chrtag_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> chrtag_rec;
+    typedef stdex::idrec::record<chrtag_db, recordid_t, 0x542d43 /*"C-T"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> chrtag_rec;
 
 
     ///
@@ -230,7 +230,7 @@ namespace ZRCola {
         struct tagname {
         public:
             tagid_t tag;        ///< Tag ID
-            LCID locale;        ///< Locale ID
+            uint32_t locale;    ///< Locale ID
 
         protected:
             uint16_t name_to;   ///< Tag name end in \c data
@@ -250,10 +250,10 @@ namespace ZRCola {
             /// \param[in] name_len  Number of UTF-16 characters in \p name
             ///
             inline tagname(
-                _In_opt_                         tagid_t  tag      = 0,
-                _In_opt_                         LCID     locale   = MAKELCID(MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL), SORT_DEFAULT),
-                _In_opt_z_count_(name_len) const wchar_t *name     = NULL,
-                _In_opt_                         size_t   name_len = 0)
+                _In_opt_                         tagid_t   tag      = 0,
+                _In_opt_                         uint32_t  locale   = 0,
+                _In_opt_z_count_(name_len) const wchar_t  *name     = NULL,
+                _In_opt_                         size_t    name_len = 0)
             {
                 this->tag    = tag;
                 this->locale = locale;
@@ -285,14 +285,26 @@ namespace ZRCola {
             /// The function does not treat \\0 characters as terminators for performance reasons.
             /// Therefore \p count_a and \p count_b must represent exact string lengths.
             ///
-            static inline int CompareName(LCID locale, const wchar_t *str_a, uint16_t count_a, const wchar_t *str_b, uint16_t count_b)
+            static inline int CompareName(_In_ uint32_t locale, _In_z_count_(count_a) const wchar_t *str_a, _In_ uint16_t count_a, _In_z_count_(count_b) const wchar_t *str_b, _In_ uint16_t count_b)
             {
+#ifdef _WIN32
                 switch (::CompareString(locale, SORT_STRINGSORT | NORM_IGNORECASE, str_a, count_a, str_b, count_b)) {
                     case CSTR_LESS_THAN   : return -1;
                     case CSTR_EQUAL       : return  0;
                     case CSTR_GREATER_THAN: return  1;
                     default               : assert(0); return -1;
                 }
+#else
+                assert(0); // TODO: 1. Should honour locale. 2. Should use ICU for lowercase conversion.
+                std::wstring
+                    a(str_a, count_a),
+                    b(str_b, count_b);
+                auto tolower = [](wchar_t c){ return std::towlower(c); };
+                std::transform(a.begin(), a.end(), a.begin(), tolower);
+                std::transform(b.begin(), b.end(), b.begin(), tolower);
+                auto &coll = std::use_facet<std::collate<wchar_t>>(std::locale());
+                return coll.compare(&*a.cbegin(), &*a.cend(), &*b.cbegin(), &*b.cend());
+#endif
             }
         };
 #pragma pack(pop)
@@ -423,16 +435,12 @@ namespace ZRCola {
         /// \param[in   ] fn_abort  Pointer to function to periodically test for search cancellation
         /// \param[in   ] cookie    Cookie for \p fn_abort call
         ///
-        bool Search(_In_z_ const wchar_t *str, _In_ LCID locale, _Inout_ std::map<tagid_t, uint16_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
+        bool Search(_In_z_ const wchar_t *str, _In_ uint32_t locale, _Inout_ std::map<tagid_t, uint16_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
     };
 
 
-    typedef stdex::idrec::record<tagname_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> tagname_rec;
+    typedef stdex::idrec::record<tagname_db, recordid_t, 0x4e4754 /*"TGN"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> tagname_rec;
 };
-
-
-const ZRCola::recordid_t ZRCola::chrtag_rec ::id = *(ZRCola::recordid_t*)"C-T";
-const ZRCola::recordid_t ZRCola::tagname_rec::id = *(ZRCola::recordid_t*)"TGN";
 
 
 ///

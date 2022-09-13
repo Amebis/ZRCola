@@ -11,11 +11,12 @@
 #include <assert.h>
 #include <algorithm>
 #include <istream>
+#include <locale>
 #include <map>
 #include <ostream>
-#include <vector>
 #include <set>
 #include <string>
+#include <vector>
 
 #pragma warning(push)
 #pragma warning(disable: 4200)
@@ -319,14 +320,14 @@ namespace ZRCola {
         {
             assert(len <= 0xffff);
             std::unique_ptr<character> c((character*)new char[sizeof(character) + sizeof(wchar_t)*len]);
-            c->character::character(chr, len);
+            new (c.get()) character(chr, len);
             indexChr::size_type start;
             return idxChr.find(*c, start) ? idxChr[start].cat : chrcatid_t::blank;
         }
     };
 
 
-    typedef stdex::idrec::record<character_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> character_rec;
+    typedef stdex::idrec::record<character_db, recordid_t, 0x524843 /*"CHR"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> character_rec;
 
 
     ///
@@ -462,15 +463,8 @@ namespace ZRCola {
                      if (a.rank < b.rank) return -1;
                 else if (a.rank > b.rank) return +1;
 
-                uint16_t
-                    a_name_len = a.name_len(),
-                    b_name_len = b.name_len();
-                int r = _wcsncoll(a.name(), b.name(), std::min<uint16_t>(a_name_len, b_name_len));
-                if (r != 0) return r;
-                     if (a_name_len < b_name_len) return -1;
-                else if (a_name_len > b_name_len) return +1;
-
-                return 0;
+                auto &coll = std::use_facet<std::collate<wchar_t>>(std::locale());
+                return coll.compare(a.name(), a.name_end(), b.name(), b.name_end());
             }
         } idxRank;  ///< Rank index
 
@@ -494,12 +488,8 @@ namespace ZRCola {
     };
 
 
-    typedef stdex::idrec::record<chrcat_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> chrcat_rec;
+    typedef stdex::idrec::record<chrcat_db, recordid_t, 0x544343 /*"CCT"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> chrcat_rec;
 };
-
-
-const ZRCola::recordid_t ZRCola::character_rec::id = *(ZRCola::recordid_t*)"CHR";
-const ZRCola::recordid_t ZRCola::chrcat_rec   ::id = *(ZRCola::recordid_t*)"CCT";
 
 
 ///

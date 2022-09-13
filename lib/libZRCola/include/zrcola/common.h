@@ -8,10 +8,14 @@
 #ifdef _WIN32
 #define _WINSOCKAPI_    // Prevent inclusion of winsock.h in windows.h.
 #include <Windows.h>
-#include <sal.h>
 #endif
+#include <stdex/sal.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+#include <wchar.h>
 #include <istream>
+#include <memory>
 #include <ostream>
 #include <utility>
 #include <vector>
@@ -30,8 +34,15 @@
 ///
 /// Database IDs
 ///
-#define ZRCOLA_DB_ID        (*(ZRCola::recordid_t*)"ZRC")
+#define ZRCOLA_DB_ID        0x43525a // "ZRC"
 
+#ifdef __GNUC__
+#ifdef __i386__
+#define __cdecl __attribute__((__cdecl__))
+#else
+#define __cdecl
+#endif
+#endif
 
 namespace ZRCola {
     typedef uint32_t recordid_t;
@@ -214,6 +225,11 @@ namespace ZRCola {
     template <class T_data, class T_idx = uint32_t, class T_el = T_data>
     class index : public std::vector<T_idx>
     {
+        typedef std::vector<T_idx> base_t;
+
+    public:
+        typedef size_t size_type;
+
     protected:
         std::vector<T_data> &host;  ///< Reference to host data
 
@@ -235,7 +251,7 @@ namespace ZRCola {
         ///
         inline const T_el& at(size_type pos) const
         {
-            return *reinterpret_cast<const T_el*>(&host[std::vector<T_idx>::at(pos)]);
+            return *reinterpret_cast<const T_el*>(&host[base_t::at(pos)]);
         }
 
 
@@ -248,7 +264,7 @@ namespace ZRCola {
         ///
         inline T_el& at(size_type pos)
         {
-            return *reinterpret_cast<T_el*>(&host[std::vector<T_idx>::at(pos)]);
+            return *reinterpret_cast<T_el*>(&host[base_t::at(pos)]);
         }
 
 
@@ -261,7 +277,7 @@ namespace ZRCola {
         ///
         inline const T_el& operator[](size_type pos) const
         {
-            return *reinterpret_cast<const T_el*>(&host[std::vector<T_idx>::operator[](pos)]);
+            return *reinterpret_cast<const T_el*>(&host[base_t::operator[](pos)]);
         }
 
 
@@ -274,7 +290,7 @@ namespace ZRCola {
         ///
         inline T_el& operator[](size_type pos)
         {
-            return *reinterpret_cast<T_el*>(&host[std::vector<T_idx>::operator[](pos)]);
+            return *reinterpret_cast<T_el*>(&host[base_t::operator[](pos)]);
         }
 
 
@@ -283,7 +299,7 @@ namespace ZRCola {
         ///
         inline void sort()
         {
-            qsort_s(data(), size(), sizeof(T_idx), compare_s, this);
+            qsort_s(base_t::data(), base_t::size(), sizeof(T_idx), compare_s, this);
         }
 
 
@@ -334,21 +350,21 @@ namespace ZRCola {
         bool find(_In_ const T_el &el, _Out_ size_type &start, _Out_ size_type &end) const
         {
             // Start with the full search area.
-            for (start = 0, end = size(); start < end; ) {
-                size_type m = (start + end) / 2;
+            for (start = 0, end = base_t::size(); start < end; ) {
+                auto m = (start + end) / 2;
                 int r = compare(el, at(m));
                      if (r < 0) end   = m;
                 else if (r > 0) start = m + 1;
                 else {
                     // Narrow the search area on the left to start at the first element in the run.
-                    for (size_type end2 = m; start < end2;) {
-                        size_type m2 = (start + end2) / 2;
+                    for (auto end2 = m; start < end2;) {
+                        auto m2 = (start + end2) / 2;
                         if (compare(el, at(m2)) <= 0) end2 = m2; else start = m2 + 1;
                     }
 
                     // Narrow the search area on the right to end at the first element not in the run.
-                    for (size_type start2 = m + 1; start2 < end;) {
-                        size_type m2 = (start2 + end) / 2;
+                    for (auto start2 = m + 1; start2 < end;) {
+                        auto m2 = (start2 + end) / 2;
                         if (0 <= compare(el, at(m2))) start2 = m2 + 1; else end = m2;
                     }
 
@@ -373,14 +389,14 @@ namespace ZRCola {
         {
             // Start with the full search area.
             size_t end;
-            for (start = 0, end = size(); start < end; ) {
-                size_type m = (start + end) / 2;
+            for (start = 0, end = base_t::size(); start < end; ) {
+                auto m = (start + end) / 2;
                 int r = compare(el, at(m));
                      if (r < 0) end   = m;
                 else if (r > 0) start = m + 1;
                 else {
                     // Narrow the search area on the left to start at the first element in the run.
-                    for (size_type end2 = m; start < end2;) {
+                    for (auto end2 = m; start < end2;) {
                         m = (start + end2) / 2;
                         if (compare(el, at(m)) <= 0) end2 = m; else start = m + 1;
                     }
@@ -410,8 +426,10 @@ namespace ZRCola {
     template <class T_key, class T_val, class T_idx = uint32_t>
     class textindex : public std::vector< mappair_t<T_idx> >
     {
-    public:
         typedef std::vector< mappair_t<T_idx> > base_t;
+
+    public:
+        typedef size_t size_type;
         std::vector<T_key> keys;    ///< Key data
         std::vector<T_val> values;  ///< Index values
 
@@ -447,15 +465,15 @@ namespace ZRCola {
         ///
         _Success_(return) bool find(_In_count_(key_len) const T_key *key, _In_ size_t key_len, _Out_ const T_val **val, _Out_ size_t *val_len) const
         {
-            for (size_type start = 0, end = size(); start < end; ) {
-                size_type m = (start + end) / 2;
+            for (size_type start = 0, end = base_t::size(); start < end; ) {
+                auto m = (start + end) / 2;
                 int r = compare(key, key_len, m);
                      if (r < 0) end   = m;
                 else if (r > 0) start = m + 1;
                 else {
                     // Get values at position m.
-                    start    =               base_t::at(m    ).idx_val;
-                    *val_len = (m < size() ? base_t::at(m + 1).idx_val : values.size()) - start;
+                    start    =                       base_t::at(m    ).idx_val;
+                    *val_len = (m < base_t::size() ? base_t::at(m + 1).idx_val : values.size()) - start;
                     *val     = &values.at(start);
                     return true;
                 }
@@ -468,11 +486,11 @@ namespace ZRCola {
         inline int compare(_In_count_(key_len) const T_key *key, _In_ size_t key_len, size_type pos) const
         {
             // Get key at position pos.
-            size_type pos_next = pos + 1;
+            auto pos_next = pos + 1;
             size_t
-                start    =                      base_t::at(pos     ).idx_key,
-                key2_len = (pos_next < size() ? base_t::at(pos_next).idx_key : keys.size()) - start;
-            std::vector<T_key>::const_pointer key2 = &keys.at(start);
+                start    =                              base_t::at(pos     ).idx_key,
+                key2_len = (pos_next < base_t::size() ? base_t::at(pos_next).idx_key : keys.size()) - start;
+            auto key2 = &keys.at(start);
 
             // Compare keys.
             int r = memcmp(key, key2, sizeof(T_key)*std::min<size_t>(key_len, key2_len));
@@ -488,7 +506,7 @@ namespace ZRCola {
     ///
     /// Source-destination index transformation mapping
     ///
-    class __declspec(novtable) mapping {
+    struct mapping {
     public:
         size_t src;     ///< Character index in source string
         size_t dst;     ///< Character index in destination string
@@ -553,16 +571,7 @@ namespace ZRCola {
     /// The function does not treat \\0 characters as terminators for performance reasons.
     /// Therefore \p count_a and \p count_b must represent exact string lengths.
     ///
-    inline int CompareString(_In_ const wchar_t *str_a, _In_ size_t count_a, _In_ const wchar_t *str_b, _In_ size_t count_b)
-    {
-        for (size_t i = 0; ; i++) {
-                 if (i >= count_a && i >= count_b) return  0;
-            else if (i >= count_a && i <  count_b) return -1;
-            else if (i <  count_a && i >= count_b) return +1;
-            else if (str_a[i] < str_b[i]) return -1;
-            else if (str_a[i] > str_b[i]) return +1;
-        }
-    }
+    int CompareString(_In_ const wchar_t* str_a, _In_ size_t count_a, _In_ const wchar_t* str_b, _In_ size_t count_b);
 
     ///
     /// Generates and returns Unicode representation of the string using hexadecimal codes.
@@ -571,21 +580,7 @@ namespace ZRCola {
     /// \param[in] count  Number of characters in string \p str
     /// \param[in] sep    Separator
     ///
-    inline std::string GetUnicodeDumpA(_In_ const wchar_t *str, _In_ size_t count, _In_z_ const char *sep = "+")
-    {
-        std::string out;
-        size_t dump_len_max = strlen(sep) + 4 + 1;
-        char *dump;
-        std::unique_ptr<char> dump_obj(dump = new char[dump_len_max]);
-        if (count && str[0]) {
-            size_t i = 0;
-            out.insert(out.end(), dump, dump + _snprintf(dump, dump_len_max, "%04X", str[i++]));
-            while (i < count && str[i])
-                out.insert(out.end(), dump, dump + _snprintf(dump, dump_len_max, "%s%04X", sep, str[i++]));
-        }
-
-        return out;
-    }
+    std::string GetUnicodeDumpA(_In_z_count_(count) const wchar_t* str, _In_ size_t count, _In_z_ const char* sep = "+");
 
     ///
     /// Generates and returns Unicode representation of the string using hexadecimal codes.
@@ -594,21 +589,7 @@ namespace ZRCola {
     /// \param[in] count  Number of characters in string \p str
     /// \param[in] sep    Separator
     ///
-    inline std::wstring GetUnicodeDumpW(_In_ const wchar_t *str, _In_ size_t count, _In_z_ const wchar_t *sep = L"+")
-    {
-        std::wstring out;
-        size_t dump_len_max = wcslen(sep) + 4 + 1;
-        wchar_t *dump;
-        std::unique_ptr<wchar_t> dump_obj(dump = new wchar_t[dump_len_max]);
-        if (count && str[0]) {
-            size_t i = 0;
-            out.insert(out.end(), dump, dump + _snwprintf(dump, dump_len_max, L"%04X", str[i++]));
-            while (i < count && str[i])
-                out.insert(out.end(), dump, dump + _snwprintf(dump, dump_len_max, L"%s%04X", sep, str[i++]));
-        }
-
-        return out;
-    }
+    std::wstring GetUnicodeDumpW(_In_z_count_(count) const wchar_t* str, _In_ size_t count, _In_z_ const wchar_t* sep = L"+");
 
 #ifdef _UNICODE
 #define GetUnicodeDump GetUnicodeDumpW
@@ -709,7 +690,8 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
 
     // Write index data.
     if (stream.fail()) return stream;
-    stream.write((const char*)idx.data(), sizeof(ZRCola::textindex<T_key, T_val, T_idx>::value_type)*static_cast<std::streamsize>(count));
+    auto idx_data = idx.data();
+    stream.write((const char*)idx_data, sizeof(*idx_data)*static_cast<std::streamsize>(count));
 
     // Write key count.
     auto key_count = idx.keys.size();
@@ -726,7 +708,8 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
 
     // Write key data.
     if (stream.fail()) return stream;
-    stream.write((const char*)idx.keys.data(), sizeof(std::vector<T_key>::value_type)*static_cast<std::streamsize>(count));
+    auto idx_keys_data = idx.keys.data();
+    stream.write((const char*)idx_keys_data, sizeof(*idx_keys_data)*static_cast<std::streamsize>(count));
 
     // Write value count.
     auto value_count = idx.values.size();
@@ -743,7 +726,8 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
 
     // Write value data.
     if (stream.fail()) return stream;
-    stream.write((const char*)idx.values.data(), sizeof(std::vector<T_val>::value_type)*static_cast<std::streamsize>(count));
+    auto idx_values_data = idx.values.data();
+    stream.write((const char*)idx_values_data, sizeof(*idx_values_data)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -772,7 +756,8 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::textin
     if (count) {
         // Read text index.
         idx.resize(count);
-        stream.read((char*)idx.data(), sizeof(ZRCola::textindex<T_key, T_val, T_idx>::value_type)*static_cast<std::streamsize>(count));
+        auto p = idx.data();
+        stream.read((char*)p, sizeof(*p)*static_cast<std::streamsize>(count));
         if (!stream.good()) return stream;
     } else
         idx.clear();
@@ -784,7 +769,8 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::textin
     if (count) {
         // Read keys.
         idx.keys.resize(count);
-        stream.read((char*)idx.keys.data(), sizeof(std::vector<T_key>::value_type)*static_cast<std::streamsize>(count));
+        auto p = idx.keys.data();
+        stream.read((char*)p, sizeof(*p)*static_cast<std::streamsize>(count));
         if (!stream.good()) return stream;
     } else
         idx.keys.clear();
@@ -796,7 +782,8 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::textin
     if (count) {
         // Read values.
         idx.values.resize(count);
-        stream.read((char*)idx.values.data(), sizeof(std::vector<T_val>::value_type)*static_cast<std::streamsize>(count));
+        auto p = idx.values.data();
+        stream.read((char*)p, sizeof(*p)*static_cast<std::streamsize>(count));
     } else
         idx.values.clear();
 

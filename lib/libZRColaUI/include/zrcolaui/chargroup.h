@@ -11,6 +11,7 @@
 #include <assert.h>
 #include <algorithm>
 #include <istream>
+#include <locale>
 #include <ostream>
 #include <vector>
 
@@ -147,15 +148,8 @@ namespace ZRCola {
                      if (a.rank < b.rank) return -1;
                 else if (a.rank > b.rank) return +1;
 
-                uint16_t
-                    a_name_len = a.name_len(),
-                    b_name_len = b.name_len();
-                int r = _wcsncoll(a.name(), b.name(), std::min<uint16_t>(a_name_len, b_name_len));
-                if (r != 0) return r;
-                     if (a_name_len < b_name_len) return -1;
-                else if (a_name_len > b_name_len) return +1;
-
-                return 0;
+                auto &coll = std::use_facet<std::collate<wchar_t>>(std::locale());
+                return coll.compare(a.name(), a.name_end(), b.name(), b.name_end());
             }
         } idxRank;  ///< Rank index
 
@@ -169,11 +163,8 @@ namespace ZRCola {
     };
 
 
-    typedef stdex::idrec::record<chrgrp_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> chrgrp_rec;
+    typedef stdex::idrec::record<chrgrp_db, recordid_t, 0x524743 /*"CGR"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> chrgrp_rec;
 };
-
-
-const ZRCola::recordid_t ZRCola::chrgrp_rec::id = *(ZRCola::recordid_t*)"CGR";
 
 
 ///

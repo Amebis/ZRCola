@@ -37,7 +37,7 @@ bool ZRCola::chrtag_db::Search(_In_ const std::map<tagid_t, uint16_t> &tags, _In
 }
 
 
-bool ZRCola::tagname_db::Search(_In_z_ const wchar_t *str, _In_ LCID locale, _Inout_ std::map<tagid_t, uint16_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
+bool ZRCola::tagname_db::Search(_In_z_ const wchar_t *str, _In_ uint32_t locale, _Inout_ std::map<tagid_t, uint16_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
 {
     assert(str);
 
@@ -82,7 +82,7 @@ bool ZRCola::tagname_db::Search(_In_z_ const wchar_t *str, _In_ LCID locale, _In
 
             // Find the name.
             std::unique_ptr<tagname> tn(reinterpret_cast<tagname*>(new char[sizeof(tagname) + sizeof(wchar_t)*name.length()]));
-            tn->tagname::tagname(0, locale, name.data(), name.length());
+            new (tn.get()) tagname(0, locale, name.data(), name.length());
             size_t start, end;
             if (idxName.find(*tn, start, end)) {
                 // The name was found.

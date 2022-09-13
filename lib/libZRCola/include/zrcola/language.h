@@ -181,7 +181,7 @@ namespace ZRCola {
     };
 
 
-    typedef stdex::idrec::record<langchar_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> langchar_rec;
+    typedef stdex::idrec::record<langchar_db, recordid_t, 0x432d4c /*"L-C"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> langchar_rec;
 
 
     ///
@@ -284,12 +284,8 @@ namespace ZRCola {
     };
 
 
-    typedef stdex::idrec::record<language_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> language_rec;
+    typedef stdex::idrec::record<language_db, recordid_t, 0x474e4c /*"LNG"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> language_rec;
 };
-
-
-const ZRCola::recordid_t ZRCola::langchar_rec::id = *(ZRCola::recordid_t*)"L-C";
-const ZRCola::recordid_t ZRCola::language_rec::id = *(ZRCola::recordid_t*)"LNG";
 
 
 ///

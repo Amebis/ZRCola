@@ -320,7 +320,7 @@ namespace ZRCola {
     };
 
 
-    typedef stdex::idrec::record<translation_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> translation_rec;
+    typedef stdex::idrec::record<translation_db, recordid_t, 0x4e5254 /*"TRN"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> translation_rec;
 
 
     ///
@@ -436,7 +436,7 @@ namespace ZRCola {
     };
 
 
-    typedef stdex::idrec::record<transet_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> transet_rec;
+    typedef stdex::idrec::record<transet_db, recordid_t, 0x455354 /*"TSE"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> transet_rec;
 
 
     ///
@@ -585,15 +585,8 @@ namespace ZRCola {
                      if (a.rank < b.rank) return -1;
                 else if (a.rank > b.rank) return +1;
 
-                uint16_t
-                    a_name_len = a.name_len(),
-                    b_name_len = b.name_len();
-                int r = _wcsncoll(a.name(), b.name(), std::min<uint16_t>(a_name_len, b_name_len));
-                if (r != 0) return r;
-                     if (a_name_len < b_name_len) return -1;
-                else if (a_name_len > b_name_len) return +1;
-
-                return 0;
+                auto &coll = std::use_facet<std::collate<wchar_t>>(std::locale());
+                return coll.compare(a.name(), a.name_end(), b.name(), b.name_end());
             }
         } idxRank;  ///< Rank index
 
@@ -617,13 +610,8 @@ namespace ZRCola {
     };
 
 
-    typedef stdex::idrec::record<transeq_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> transeq_rec;
+    typedef stdex::idrec::record<transeq_db, recordid_t, 0x515354 /*"TSQ"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> transeq_rec;
 };
-
-
-const ZRCola::recordid_t ZRCola::translation_rec::id = *(ZRCola::recordid_t*)"TRN";
-const ZRCola::recordid_t ZRCola::transet_rec    ::id = *(ZRCola::recordid_t*)"TSE";
-const ZRCola::recordid_t ZRCola::transeq_rec    ::id = *(ZRCola::recordid_t*)"TSQ";
 
 
 ///

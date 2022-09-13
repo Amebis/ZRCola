@@ -82,7 +82,7 @@ bool ZRColaApp::OnInit()
                     ZRCola::recordid_t id;
                     if (!stdex::idrec::read_id(dat, id, size)) break;
 
-                    if (id == ZRCola::translation_rec::id) {
+                    if (id == ZRCola::translation_rec::id()) {
                         dat >> ZRCola::translation_rec(m_t_db);
                         if (dat.good()) {
                             has_translation_data = true;
@@ -90,61 +90,61 @@ bool ZRColaApp::OnInit()
                             wxFAIL_MSG(wxT("Error reading translation data from ZRCola.zrcdb."));
                             m_t_db.clear();
                         }
-                    } else if (id == ZRCola::transet_rec::id) {
+                    } else if (id == ZRCola::transet_rec::id()) {
                         dat >> ZRCola::transet_rec(m_ts_db);
                         if (!dat.good()) {
                             wxFAIL_MSG(wxT("Error reading translation set data from ZRCola.zrcdb."));
                             m_ts_db.clear();
                         }
-                    } else if (id == ZRCola::transeq_rec::id) {
+                    } else if (id == ZRCola::transeq_rec::id()) {
                         dat >> ZRCola::transeq_rec(m_tsq_db);
                         if (!dat.good()) {
                             wxFAIL_MSG(wxT("Error reading translation sequence data from ZRCola.zrcdb."));
                             m_tsq_db.clear();
                         }
-                    } else if (id == ZRCola::langchar_rec::id) {
+                    } else if (id == ZRCola::langchar_rec::id()) {
                         dat >> ZRCola::langchar_rec(m_lc_db);
                         if (!dat.good()) {
                             wxFAIL_MSG(wxT("Error reading language character data from ZRCola.zrcdb."));
                             m_lc_db.clear();
                         }
-                    } else if (id == ZRCola::language_rec::id) {
+                    } else if (id == ZRCola::language_rec::id()) {
                         dat >> ZRCola::language_rec(m_lang_db);
                         if (!dat.good()) {
                             wxFAIL_MSG(wxT("Error reading language character data from ZRCola.zrcdb."));
                             m_lang_db.clear();
                         }
-                    } else if (id == ZRCola::keyseq_rec::id) {
+                    } else if (id == ZRCola::keyseq_rec::id()) {
                         dat >> ZRCola::keyseq_rec(m_ks_db);
                         if (!dat.good()) {
                             wxFAIL_MSG(wxT("Error reading key sequences data from ZRCola.zrcdb."));
                             m_ks_db.clear();
                         }
-                    } else if (id == ZRCola::character_rec::id) {
+                    } else if (id == ZRCola::character_rec::id()) {
                         dat >> ZRCola::character_rec(m_chr_db);
                         if (!dat.good()) {
                             wxFAIL_MSG(wxT("Error reading character data from ZRCola.zrcdb."));
                             m_chr_db.clear();
                         }
-                    } else if (id == ZRCola::chrcat_rec::id) {
+                    } else if (id == ZRCola::chrcat_rec::id()) {
                         dat >> ZRCola::chrcat_rec(m_cc_db);
                         if (!dat.good()) {
                             wxFAIL_MSG(wxT("Error reading character category data from ZRCola.zrcdb."));
                             m_cc_db.clear();
                         }
-                    } else if (id == ZRCola::chrtag_rec::id) {
+                    } else if (id == ZRCola::chrtag_rec::id()) {
                         dat >> ZRCola::chrtag_rec(m_ct_db);
                         if (!dat.good()) {
                             wxFAIL_MSG(wxT("Error reading character tag data from ZRCola.zrcdb."));
                             m_ct_db.clear();
                         }
-                    } else if (id == ZRCola::tagname_rec::id) {
+                    } else if (id == ZRCola::tagname_rec::id()) {
                         dat >> ZRCola::tagname_rec(m_tn_db);
                         if (!dat.good()) {
                             wxFAIL_MSG(wxT("Error reading tag name data from ZRCola.zrcdb."));
                             m_tn_db.clear();
                         }
-                    } else if (id == ZRCola::highlight_rec::id) {
+                    } else if (id == ZRCola::highlight_rec::id()) {
                         dat >> ZRCola::highlight_rec(m_h_db);
                         if (!dat.good()) {
                             wxFAIL_MSG(wxT("Error reading highlight data from ZRCola.zrcdb."));

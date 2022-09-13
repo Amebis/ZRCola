@@ -166,11 +166,8 @@ namespace ZRCola {
     };
 
 
-    typedef stdex::idrec::record<highlight_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> highlight_rec;
+    typedef stdex::idrec::record<highlight_db, recordid_t, 0x484748 /*"HGH"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> highlight_rec;
 };
-
-
-const ZRCola::recordid_t ZRCola::highlight_rec::id = *(ZRCola::recordid_t*)"HGH";
 
 
 ///

@@ -312,15 +312,8 @@ namespace ZRCola {
         {
             inline bool operator()(const std::wstring& _Left, const std::wstring& _Right) const
             {
-                size_t
-                    _Left_len  = _Left .size(),
-                    _Right_len = _Right.size();
-
-                int r = _wcsncoll(_Left.c_str(), _Right.c_str(), std::min<size_t>(_Left_len, _Right_len));
-                     if (r         != 0         ) return r < 0;
-                else if (_Left_len <  _Right_len) return true;
-
-                return false;
+                auto &coll = std::use_facet<std::collate<wchar_t>>(std::locale());
+                return coll.compare(&*_Left.cbegin(), &*_Left.cend(), &*_Right.cbegin(), &*_Right.cend()) < 0;
             }
         };
 

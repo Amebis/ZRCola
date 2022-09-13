@@ -273,11 +273,8 @@ namespace ZRCola {
     };
 
 
-    typedef stdex::idrec::record<keyseq_db, recordid_t, recordsize_t, ZRCOLA_RECORD_ALIGN> keyseq_rec;
+    typedef stdex::idrec::record<keyseq_db, recordid_t, 0x59454b /*"KEY"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> keyseq_rec;
 };
-
-
-const ZRCola::recordid_t ZRCola::keyseq_rec::id = *(ZRCola::recordid_t*)"KEY";
 
 
 ///
