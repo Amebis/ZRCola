@@ -6,7 +6,7 @@
 #include "pch.h"
 
 
-bool ZRCola::chrtag_db::Search(_In_ const std::map<tagid_t, unsigned __int16> &tags, _In_ const character_db &ch_db, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<std::wstring, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
+bool ZRCola::chrtag_db::Search(_In_ const std::map<tagid_t, uint16_t> &tags, _In_ const character_db &ch_db, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<std::wstring, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
 {
     for (auto tag = tags.cbegin(), tag_end = tags.cend(); tag != tag_end; ++tag) {
         if (fn_abort && fn_abort(cookie)) return false;
@@ -17,7 +17,7 @@ bool ZRCola::chrtag_db::Search(_In_ const std::map<tagid_t, unsigned __int16> &t
             for (size_t i = start; i < end; i++) {
                 if (fn_abort && fn_abort(cookie)) return false;
                 const chrtag &ct = idxTag[i];
-                unsigned __int16 len = ct.chr_len();
+                uint16_t len = ct.chr_len();
                 if (cats.find(ch_db.GetCharCat(ct.chr(), len)) != cats.end()) {
                     std::wstring chr(ct.chr(), len);
                     auto idx = hits.find(chr);
@@ -37,7 +37,7 @@ bool ZRCola::chrtag_db::Search(_In_ const std::map<tagid_t, unsigned __int16> &t
 }
 
 
-bool ZRCola::tagname_db::Search(_In_z_ const wchar_t *str, _In_ LCID locale, _Inout_ std::map<tagid_t, unsigned __int16> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
+bool ZRCola::tagname_db::Search(_In_z_ const wchar_t *str, _In_ LCID locale, _Inout_ std::map<tagid_t, uint16_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
 {
     assert(str);
 
@@ -92,7 +92,7 @@ bool ZRCola::tagname_db::Search(_In_z_ const wchar_t *str, _In_ LCID locale, _In
                     auto idx = hits.find(val.tag);
                     if (idx == hits.end()) {
                         // New tag.
-                        hits.insert(std::make_pair(val.tag, (unsigned __int16)1));
+                        hits.insert(std::make_pair(val.tag, (uint16_t)1));
                     } else {
                         // Increase count for existing tag.
                         idx->second++;

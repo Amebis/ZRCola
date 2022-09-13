@@ -186,7 +186,7 @@ void ZRCola::DBSource::character_desc_idx::add_keywords(const set<wstring> &term
 }
 
 
-void ZRCola::DBSource::character_desc_idx::save(ZRCola::textindex<wchar_t, wchar_t, unsigned __int32> &idx) const
+void ZRCola::DBSource::character_desc_idx::save(ZRCola::textindex<wchar_t, wchar_t, uint32_t> &idx) const
 {
     idx       .clear();
     idx.keys  .clear();
@@ -205,7 +205,7 @@ void ZRCola::DBSource::character_desc_idx::save(ZRCola::textindex<wchar_t, wchar
 
     // Convert the index.
     for (const_iterator i = cbegin(), i_end = cend(); i != i_end; ++i) {
-        ZRCola::mappair_t<unsigned __int32> p = { idx.keys.size(), idx.values.size() };
+        ZRCola::mappair_t<uint32_t> p = { idx.keys.size(), idx.values.size() };
         idx.push_back(p);
         idx.keys.insert(idx.keys.end(), i->first.cbegin(), i->first.cend());
         idx.values.insert(idx.values.end(), i->second.cbegin(), i->second.cend());
@@ -670,7 +670,7 @@ bool ZRCola::DBSource::GetTagNames(const winstd::com_obj<ADOField>& f, LCID lcid
                 // Add name to the list.
                 names.push_back(std::move(name));
                 break;
-            } else if (ZRCola::tagname_db::tagname::CompareName(lcid, n->data(), (unsigned __int16)n->length(), name.data(), (unsigned __int16)name.length()) == CSTR_EQUAL) {
+            } else if (ZRCola::tagname_db::tagname::CompareName(lcid, n->data(), (uint16_t)n->length(), name.data(), (uint16_t)name.length()) == CSTR_EQUAL) {
                 // Name is already on the list.
                 break;
             }

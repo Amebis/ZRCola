@@ -3,7 +3,8 @@
     Copyright © 2015-2022 Amebis
 */
 
-#pragma once
+#ifndef __PCH_H__
+#define __PCH_H__
 
 #include "../../../include/version.h"
 
@@ -17,3 +18,5 @@
 
 #include <algorithm>
 #include <cwctype>
+
+#endif

@@ -49,7 +49,7 @@ void wxZRColaComposerPanel::RestoreFromStateFile()
         wxFFile file(fileName, wxT("rb"));
         if (file.IsOpened()) {
             // Load source text.
-            unsigned __int64 n;
+            uint64_t n;
             file.Read(&n, sizeof(n));
             if (!file.Error()) {
                 wxString source;

@@ -29,7 +29,7 @@ namespace ZRCola {
     ///
     /// Highlight set ID
     ///
-    typedef unsigned __int16 hlghtsetid_t;
+    typedef uint16_t hlghtsetid_t;
 
     ///
     /// Highlight database
@@ -43,11 +43,11 @@ namespace ZRCola {
         ///
         struct highlight {
         public:
-            hlghtsetid_t set;           ///< Highlight set ID
+            hlghtsetid_t set;   ///< Highlight set ID
 
         protected:
-            unsigned __int16 chr_to;    ///< Character end in \c data
-            wchar_t data[];             ///< Character
+            uint16_t chr_to;    ///< Character end in \c data
+            wchar_t data[];     ///< Character
 
         private:
             inline highlight(_In_ const highlight &other);
@@ -67,15 +67,15 @@ namespace ZRCola {
                 _In_opt_                        size_t        chr_len = 0)
             {
                 this->set    = set;
-                this->chr_to = static_cast<unsigned __int16>(chr_len);
+                this->chr_to = static_cast<uint16_t>(chr_len);
                 if (chr && chr_len) memcpy(this->data, chr, sizeof(wchar_t)*chr_len);
             }
 
-            inline const wchar_t*         chr    () const { return data;          };
-            inline       wchar_t*         chr    ()       { return data;          };
-            inline const wchar_t*         chr_end() const { return data + chr_to; };
-            inline       wchar_t*         chr_end()       { return data + chr_to; };
-            inline       unsigned __int16 chr_len() const { return chr_to;        };
+            inline const wchar_t* chr    () const { return data;          };
+            inline       wchar_t* chr    ()       { return data;          };
+            inline const wchar_t* chr_end() const { return data + chr_to; };
+            inline       wchar_t* chr_end()       { return data + chr_to; };
+            inline       uint16_t chr_len() const { return chr_to;        };
 
             inline wchar_t chr_at(_In_ size_t i) const
             {
@@ -87,7 +87,7 @@ namespace ZRCola {
         ///
         /// Highlight index
         ///
-        class indexChr : public index<unsigned __int16, unsigned __int32, highlight>
+        class indexChr : public index<uint16_t, uint32_t, highlight>
         {
         public:
             ///
@@ -95,7 +95,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexChr(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, highlight>(h) {}
+            indexChr(_In_ std::vector<uint16_t> &h) : index<uint16_t, uint32_t, highlight>(h) {}
 
             ///
             /// Compares two highlights by string (for searching)
@@ -138,7 +138,7 @@ namespace ZRCola {
         } idxChr;   ///< Highlight index
 
 
-        std::vector<unsigned __int16> data;         ///< Highlight data
+        std::vector<uint16_t> data; ///< Highlight data
 
     public:
         ///
@@ -197,12 +197,12 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::h
     }
 #endif
     if (stream.fail()) return stream;
-    unsigned __int32 count = (unsigned __int32)data_count;
+    uint32_t count = (uint32_t)data_count;
     stream.write((const char*)&count, sizeof(count));
 
     // Write data.
     if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -223,14 +223,14 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::highli
     if (!stream.good()) return stream;
 
     // Read data count.
-    unsigned __int32 count;
+    uint32_t count;
     stream.read((char*)&count, sizeof(count));
     if (!stream.good()) return stream;
 
     if (count) {
         // Read data.
         db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
     } else
         db.data.clear();
 

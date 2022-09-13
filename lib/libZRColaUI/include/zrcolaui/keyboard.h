@@ -39,20 +39,20 @@ namespace ZRCola {
         struct keyseq {
         public:
             enum modifiers_t {
-                SHIFT   = 1<<0,                 ///< SHIFT key was pressed
-                CTRL    = 1<<1,                 ///< CTRL key was pressed
-                ALT     = 1<<2,                 ///< ALT key was pressed
+                SHIFT   = 1<<0,     ///< SHIFT key was pressed
+                CTRL    = 1<<1,     ///< CTRL key was pressed
+                ALT     = 1<<2,     ///< ALT key was pressed
             };
 
             struct key_t {
-                wchar_t key;                    ///< Key
-                unsigned __int16 modifiers;     ///< Modifiers (bitwise combination of SHIFT, CTRL and ALT)
+                wchar_t key;        ///< Key
+                uint16_t modifiers; ///< Modifiers (bitwise combination of SHIFT, CTRL and ALT)
             };
 
         protected:
-            unsigned __int16 chr_to;            ///< Character end in \c data
-            unsigned __int16 seq_to;            ///< Key sequence end in \c data
-            wchar_t data[];                     ///< Character and key sequence
+            uint16_t chr_to;        ///< Character end in \c data
+            uint16_t seq_to;        ///< Key sequence end in \c data
+            wchar_t data[];         ///< Character and key sequence
 
         public:
             ///
@@ -69,23 +69,23 @@ namespace ZRCola {
                 _In_opt_z_count_(chr_len) const wchar_t *chr       = NULL,
                 _In_opt_                        size_t   chr_len   = 0)
             {
-                this->chr_to = static_cast<unsigned __int16>(chr_len);
+                this->chr_to = static_cast<uint16_t>(chr_len);
                 if (chr && chr_len) memcpy(this->data, chr, sizeof(wchar_t)*chr_len);
-                this->seq_to = static_cast<unsigned __int16>(this->chr_to + seq_count * sizeof(key_t) / sizeof(*data));
+                this->seq_to = static_cast<uint16_t>(this->chr_to + seq_count * sizeof(key_t) / sizeof(*data));
                 if (seq && seq_count) memcpy(this->data + this->chr_to, seq, sizeof(key_t)*seq_count);
             }
 
-            inline const wchar_t*         chr    () const { return data;          };
-            inline       wchar_t*         chr    ()       { return data;          };
-            inline const wchar_t*         chr_end() const { return data + chr_to; };
-            inline       wchar_t*         chr_end()       { return data + chr_to; };
-            inline       unsigned __int16 chr_len() const { return chr_to;        };
+            inline const wchar_t* chr    () const { return data;          };
+            inline       wchar_t* chr    ()       { return data;          };
+            inline const wchar_t* chr_end() const { return data + chr_to; };
+            inline       wchar_t* chr_end()       { return data + chr_to; };
+            inline       uint16_t chr_len() const { return chr_to;        };
 
-            inline const key_t*           seq    () const { return reinterpret_cast<const key_t*>(data + chr_to);     };
-            inline       key_t*           seq    ()       { return reinterpret_cast<      key_t*>(data + chr_to);     };
-            inline const key_t*           seq_end() const { return reinterpret_cast<const key_t*>(data + seq_to);     };
-            inline       key_t*           seq_end()       { return reinterpret_cast<      key_t*>(data + seq_to);     };
-            inline       unsigned __int16 seq_len() const { return (seq_to - chr_to) * sizeof(*data) / sizeof(key_t); };
+            inline const key_t*   seq    () const { return reinterpret_cast<const key_t*>(data + chr_to);     };
+            inline       key_t*   seq    ()       { return reinterpret_cast<      key_t*>(data + chr_to);     };
+            inline const key_t*   seq_end() const { return reinterpret_cast<const key_t*>(data + seq_to);     };
+            inline       key_t*   seq_end()       { return reinterpret_cast<      key_t*>(data + seq_to);     };
+            inline       uint16_t seq_len() const { return (seq_to - chr_to) * sizeof(*data) / sizeof(key_t); };
 
             ///
             /// Compares two key sequences
@@ -118,7 +118,7 @@ namespace ZRCola {
         ///
         /// Character index
         ///
-        class indexChr : public index<unsigned __int16, unsigned __int32, keyseq>
+        class indexChr : public index<uint16_t, uint32_t, keyseq>
         {
         public:
             ///
@@ -126,7 +126,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexChr(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, keyseq>(h) {}
+            indexChr(_In_ std::vector<uint16_t> &h) : index<uint16_t, uint32_t, keyseq>(h) {}
 
             ///
             /// Compares two key sequences by character (for searching)
@@ -174,7 +174,7 @@ namespace ZRCola {
         ///
         /// Key index
         ///
-        class indexKey : public index<unsigned __int16, unsigned __int32, keyseq>
+        class indexKey : public index<uint16_t, uint32_t, keyseq>
         {
         public:
             ///
@@ -182,7 +182,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexKey(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, keyseq>(h) {}
+            indexKey(_In_ std::vector<uint16_t> &h) : index<uint16_t, uint32_t, keyseq>(h) {}
 
             ///
             /// Compares two key sequences by key (for searching)
@@ -226,7 +226,7 @@ namespace ZRCola {
             }
         } idxKey;   ///< Key index
 
-        std::vector<unsigned __int16> data;     ///< Key sequences data
+        std::vector<uint16_t> data; ///< Key sequences data
 
     public:
         ///
@@ -308,12 +308,12 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::k
     }
 #endif
     if (stream.fail()) return stream;
-    unsigned __int32 count = (unsigned __int32)data_count;
+    uint32_t count = (uint32_t)data_count;
     stream.write((const char*)&count, sizeof(count));
 
     // Write data.
     if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -338,14 +338,14 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::keyseq
     if (!stream.good()) return stream;
 
     // Read data count.
-    unsigned __int32 count;
+    uint32_t count;
     stream.read((char*)&count, sizeof(count));
     if (!stream.good()) return stream;
 
     if (count) {
         // Read data.
         db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
     } else
         db.data.clear();
 

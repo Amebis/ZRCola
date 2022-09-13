@@ -21,7 +21,7 @@
 
 
 namespace ZRCola {
-    typedef unsigned __int16 tagid_t;
+    typedef uint16_t tagid_t;
 
     ///
     /// Character Tag Database
@@ -35,11 +35,11 @@ namespace ZRCola {
         ///
         struct chrtag {
         public:
-            tagid_t tag;    ///< Tag ID
+            tagid_t tag;        ///< Tag ID
 
         protected:
-            unsigned __int16 chr_to;    ///< Character end in \c data
-            wchar_t data[];             ///< Character
+            uint16_t chr_to;    ///< Character end in \c data
+            wchar_t data[];     ///< Character
 
         private:
             inline chrtag(_In_ const chrtag &other);
@@ -59,22 +59,22 @@ namespace ZRCola {
                 _In_opt_                        tagid_t  tag      = 0)
             {
                 this->tag    = tag;
-                this->chr_to = static_cast<unsigned __int16>(chr_len);
+                this->chr_to = static_cast<uint16_t>(chr_len);
                 if (chr && chr_len) memcpy(this->data, chr, sizeof(wchar_t)*chr_len);
             }
 
-            inline const wchar_t*         chr    () const { return data;          };
-            inline       wchar_t*         chr    ()       { return data;          };
-            inline const wchar_t*         chr_end() const { return data + chr_to; };
-            inline       wchar_t*         chr_end()       { return data + chr_to; };
-            inline       unsigned __int16 chr_len() const { return chr_to;        };
+            inline const wchar_t* chr    () const { return data;          };
+            inline       wchar_t* chr    ()       { return data;          };
+            inline const wchar_t* chr_end() const { return data + chr_to; };
+            inline       wchar_t* chr_end()       { return data + chr_to; };
+            inline       uint16_t chr_len() const { return chr_to;        };
         };
 #pragma pack(pop)
 
         ///
         /// Character Index
         ///
-        class indexChr : public index<unsigned __int16, unsigned __int32, chrtag>
+        class indexChr : public index<uint16_t, uint32_t, chrtag>
         {
         public:
             ///
@@ -82,7 +82,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexChr(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, chrtag>(h) {}
+            indexChr(_In_ std::vector<uint16_t> &h) : index<uint16_t, uint32_t, chrtag>(h) {}
 
             ///
             /// Compares two character tags by character (for searching)
@@ -130,7 +130,7 @@ namespace ZRCola {
         ///
         /// Tag Index
         ///
-        class indexTag : public index<unsigned __int16, unsigned __int32, chrtag>
+        class indexTag : public index<uint16_t, uint32_t, chrtag>
         {
         public:
             ///
@@ -138,7 +138,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexTag(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, chrtag>(h) {}
+            indexTag(_In_ std::vector<uint16_t> &h) : index<uint16_t, uint32_t, chrtag>(h) {}
 
             ///
             /// Compares two character tags by tag (for searching)
@@ -182,7 +182,7 @@ namespace ZRCola {
             }
         } idxTag;      ///< Tag index
 
-        std::vector<unsigned __int16> data;     ///< Character tags data
+        std::vector<uint16_t> data; ///< Character tags data
 
     public:
         ///
@@ -210,7 +210,7 @@ namespace ZRCola {
         /// \param[in   ] fn_abort  Pointer to function to periodically test for search cancellation
         /// \param[in   ] cookie    Cookie for \p fn_abort call
         ///
-        bool Search(_In_ const std::map<tagid_t, unsigned __int16> &tags, _In_ const character_db &ch_db, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<std::wstring, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
+        bool Search(_In_ const std::map<tagid_t, uint16_t> &tags, _In_ const character_db &ch_db, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<std::wstring, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
     };
 
 
@@ -229,12 +229,12 @@ namespace ZRCola {
         ///
         struct tagname {
         public:
-            tagid_t tag;                ///< Tag ID
-            LCID locale;                ///< Locale ID
+            tagid_t tag;        ///< Tag ID
+            LCID locale;        ///< Locale ID
 
         protected:
-            unsigned __int16 name_to;   ///< Tag name end in \c data
-            wchar_t data[];             ///< Tag name
+            uint16_t name_to;   ///< Tag name end in \c data
+            wchar_t data[];     ///< Tag name
 
         private:
             inline tagname(_In_ const tagname &other);
@@ -257,15 +257,15 @@ namespace ZRCola {
             {
                 this->tag    = tag;
                 this->locale = locale;
-                this->name_to = static_cast<unsigned __int16>(name_len);
+                this->name_to = static_cast<uint16_t>(name_len);
                 if (name && name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
             }
 
-            inline const wchar_t*         name    () const { return data; };
-            inline       wchar_t*         name    ()       { return data; };
-            inline const wchar_t*         name_end() const { return data + name_to; };
-            inline       wchar_t*         name_end()       { return data + name_to; };
-            inline       unsigned __int16 name_len() const { return name_to; };
+            inline const wchar_t* name    () const { return data; };
+            inline       wchar_t* name    ()       { return data; };
+            inline const wchar_t* name_end() const { return data + name_to; };
+            inline       wchar_t* name_end()       { return data + name_to; };
+            inline       uint16_t name_len() const { return name_to; };
 
             ///
             /// Compares two names
@@ -285,7 +285,7 @@ namespace ZRCola {
             /// The function does not treat \\0 characters as terminators for performance reasons.
             /// Therefore \p count_a and \p count_b must represent exact string lengths.
             ///
-            static inline int CompareName(LCID locale, const wchar_t *str_a, unsigned __int16 count_a, const wchar_t *str_b, unsigned __int16 count_b)
+            static inline int CompareName(LCID locale, const wchar_t *str_a, uint16_t count_a, const wchar_t *str_b, uint16_t count_b)
             {
                 switch (::CompareString(locale, SORT_STRINGSORT | NORM_IGNORECASE, str_a, count_a, str_b, count_b)) {
                     case CSTR_LESS_THAN   : return -1;
@@ -300,7 +300,7 @@ namespace ZRCola {
         ///
         /// Name index
         ///
-        class indexName : public index<unsigned __int16, unsigned __int32, tagname>
+        class indexName : public index<uint16_t, uint32_t, tagname>
         {
         public:
             ///
@@ -309,7 +309,7 @@ namespace ZRCola {
             /// \param[in] h       Reference to vector holding the data
             /// \param[in] locale  Locale used to perform tag name comparison
             ///
-            indexName(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, tagname>(h) {}
+            indexName(_In_ std::vector<uint16_t> &h) : index<uint16_t, uint32_t, tagname>(h) {}
 
             ///
             /// Compares two tag names by locale and name (for searching)
@@ -362,7 +362,7 @@ namespace ZRCola {
         ///
         /// Tag index
         ///
-        class indexTag : public index<unsigned __int16, unsigned __int32, tagname>
+        class indexTag : public index<uint16_t, uint32_t, tagname>
         {
         public:
             ///
@@ -371,7 +371,7 @@ namespace ZRCola {
             /// \param[in] h       Reference to vector holding the data
             /// \param[in] locale  Locale used to perform tag name comparison
             ///
-            indexTag(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, tagname>(h) {}
+            indexTag(_In_ std::vector<uint16_t> &h) : index<uint16_t, uint32_t, tagname>(h) {}
 
             ///
             /// Compares two tag names by tag (for searching)
@@ -396,7 +396,7 @@ namespace ZRCola {
             }
         } idxTag;      ///< Tag index
 
-        std::vector<unsigned __int16> data;     ///< Tag data
+        std::vector<uint16_t> data; ///< Tag data
 
     public:
         ///
@@ -423,7 +423,7 @@ namespace ZRCola {
         /// \param[in   ] fn_abort  Pointer to function to periodically test for search cancellation
         /// \param[in   ] cookie    Cookie for \p fn_abort call
         ///
-        bool Search(_In_z_ const wchar_t *str, _In_ LCID locale, _Inout_ std::map<tagid_t, unsigned __int16> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
+        bool Search(_In_z_ const wchar_t *str, _In_ LCID locale, _Inout_ std::map<tagid_t, uint16_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
     };
 
 
@@ -463,12 +463,12 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::c
     }
 #endif
     if (stream.fail()) return stream;
-    unsigned __int32 count = (unsigned __int32)data_count;
+    uint32_t count = (uint32_t)data_count;
     stream.write((const char*)&count, sizeof(count));
 
     // Write data.
     if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -493,14 +493,14 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::chrtag
     if (!stream.good()) return stream;
 
     // Read data count.
-    unsigned __int32 count;
+    uint32_t count;
     stream.read((char*)&count, sizeof(count));
     if (!stream.good()) return stream;
 
     if (count) {
         // Read data.
         db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
     } else
         db.data.clear();
 
@@ -536,12 +536,12 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
     }
 #endif
     if (stream.fail()) return stream;
-    unsigned __int32 count = (unsigned __int32)data_count;
+    uint32_t count = (uint32_t)data_count;
     stream.write((const char*)&count, sizeof(count));
 
     // Write data.
     if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -566,14 +566,14 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::tagnam
     if (!stream.good()) return stream;
 
     // Read data count.
-    unsigned __int32 count;
+    uint32_t count;
     stream.read((char*)&count, sizeof(count));
     if (!stream.good()) return stream;
 
     if (count) {
         // Read data.
         db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
     } else
         db.data.clear();
 

@@ -45,12 +45,12 @@ namespace ZRCola {
     ///
     /// Translation set ID
     ///
-    typedef unsigned __int16 transetid_t;
+    typedef uint16_t transetid_t;
 
     ///
     /// Translation sequence ID
     ///
-    typedef unsigned __int16 transeqid_t;
+    typedef uint16_t transeqid_t;
 
     ///
     /// Translation database
@@ -64,14 +64,14 @@ namespace ZRCola {
         ///
         struct translation {
         public:
-            transetid_t set;            ///< Translation set ID
-            unsigned __int16 dst_rank;  ///< Destination character rank
-            unsigned __int16 src_rank;  ///< Source character rank
+            transetid_t set;    ///< Translation set ID
+            uint16_t dst_rank;  ///< Destination character rank
+            uint16_t src_rank;  ///< Source character rank
 
         protected:
-            unsigned __int16 dst_to;    ///< Destination character end in \c data
-            unsigned __int16 src_to;    ///< Source string end in \c data
-            wchar_t data[];             ///< Destination string and source character
+            uint16_t dst_to;    ///< Destination character end in \c data
+            uint16_t src_to;    ///< Source string end in \c data
+            wchar_t data[];     ///< Destination string and source character
 
         private:
             inline translation(_In_ const translation &other);
@@ -90,39 +90,39 @@ namespace ZRCola {
             /// \param[in] src_len  Number of UTF-16 characters in \p src
             ///
             inline translation(
-                _In_opt_                        transetid_t       set      = 0,
-                _In_opt_                        unsigned __int16  dst_rank = 0,
-                _In_opt_z_count_(dst_len) const wchar_t          *dst      = NULL,
-                _In_opt_                        size_t            dst_len  = 0,
-                _In_opt_                        unsigned __int16  src_rank = 0,
-                _In_opt_z_count_(src_len) const wchar_t          *src      = NULL,
-                _In_opt_                        size_t            src_len  = 0)
+                _In_opt_                        transetid_t  set      = 0,
+                _In_opt_                        uint16_t     dst_rank = 0,
+                _In_opt_z_count_(dst_len) const wchar_t     *dst      = NULL,
+                _In_opt_                        size_t       dst_len  = 0,
+                _In_opt_                        uint16_t     src_rank = 0,
+                _In_opt_z_count_(src_len) const wchar_t     *src      = NULL,
+                _In_opt_                        size_t       src_len  = 0)
             {
                 this->set      = set;
                 this->dst_rank = dst_rank;
                 this->src_rank = src_rank;
-                this->dst_to = static_cast<unsigned __int16>(dst_len);
+                this->dst_to = static_cast<uint16_t>(dst_len);
                 if (dst && dst_len) memcpy(this->data, dst, sizeof(wchar_t)*dst_len);
-                this->src_to = static_cast<unsigned __int16>(this->dst_to + src_len);
+                this->src_to = static_cast<uint16_t>(this->dst_to + src_len);
                 if (src && src_len) memcpy(this->data + this->dst_to, src, sizeof(wchar_t)*src_len);
             }
 
-            inline const wchar_t*         dst    () const { return data;          };
-            inline       wchar_t*         dst    ()       { return data;          };
-            inline const wchar_t*         dst_end() const { return data + dst_to; };
-            inline       wchar_t*         dst_end()       { return data + dst_to; };
-            inline       unsigned __int16 dst_len() const { return dst_to;        };
+            inline const wchar_t* dst    () const { return data;          };
+            inline       wchar_t* dst    ()       { return data;          };
+            inline const wchar_t* dst_end() const { return data + dst_to; };
+            inline       wchar_t* dst_end()       { return data + dst_to; };
+            inline       uint16_t dst_len() const { return dst_to;        };
 
             inline wchar_t dst_at(_In_ size_t i) const
             {
                 return i < dst_to ? data[i] : 0;
             }
 
-            inline const wchar_t*         src    () const { return data + dst_to;   };
-            inline       wchar_t*         src    ()       { return data + dst_to;   };
-            inline const wchar_t*         src_end() const { return data + src_to;   };
-            inline       wchar_t*         src_end()       { return data + src_to;   };
-            inline       unsigned __int16 src_len() const { return src_to - dst_to; };
+            inline const wchar_t* src    () const { return data + dst_to;   };
+            inline       wchar_t* src    ()       { return data + dst_to;   };
+            inline const wchar_t* src_end() const { return data + src_to;   };
+            inline       wchar_t* src_end()       { return data + src_to;   };
+            inline       uint16_t src_len() const { return src_to - dst_to; };
 
             inline wchar_t src_at(_In_ size_t i) const
             {
@@ -135,7 +135,7 @@ namespace ZRCola {
         ///
         /// Translation index
         ///
-        class indexSrc : public index<unsigned __int16, unsigned __int32, translation>
+        class indexSrc : public index<uint16_t, uint32_t, translation>
         {
         public:
             ///
@@ -143,7 +143,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexSrc(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, translation>(h) {}
+            indexSrc(_In_ std::vector<uint16_t> &h) : index<uint16_t, uint32_t, translation>(h) {}
 
             ///
             /// Compares two transformations by string (for searching)
@@ -200,7 +200,7 @@ namespace ZRCola {
         ///
         /// Inverse translation index
         ///
-        class indexDst : public index<unsigned __int16, unsigned __int32, translation>
+        class indexDst : public index<uint16_t, uint32_t, translation>
         {
         public:
             ///
@@ -208,7 +208,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexDst(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, translation>(h) {}
+            indexDst(_In_ std::vector<uint16_t> &h) : index<uint16_t, uint32_t, translation>(h) {}
 
             ///
             /// Compares two transformations by character (for searching)
@@ -262,7 +262,7 @@ namespace ZRCola {
         } idxDst;   ///< Inverse translation index
 
 
-        std::vector<unsigned __int16> data;         ///< Transformation data
+        std::vector<uint16_t> data; ///< Transformation data
 
     public:
         ///
@@ -335,12 +335,12 @@ namespace ZRCola {
         ///
         struct transet {
         public:
-            transetid_t set;            ///< Translation set ID
+            transetid_t set;    ///< Translation set ID
 
         protected:
-            unsigned __int16 src_to;    ///< Source name end in \c data
-            unsigned __int16 dst_to;    ///< Sestination name end in \c data
-            wchar_t data[];             ///< Source and destination names
+            uint16_t src_to;    ///< Source name end in \c data
+            uint16_t dst_to;    ///< Sestination name end in \c data
+            wchar_t data[];     ///< Source and destination names
 
         private:
             inline transet(_In_ const transet &other);
@@ -364,30 +364,30 @@ namespace ZRCola {
                 _In_opt_                        size_t       dst_len = 0)
             {
                 this->set = set;
-                this->src_to = static_cast<unsigned __int16>(src_len);
+                this->src_to = static_cast<uint16_t>(src_len);
                 if (src && src_len) memcpy(this->data, src, sizeof(wchar_t)*src_len);
-                this->dst_to = static_cast<unsigned __int16>(this->src_to + dst_len);
+                this->dst_to = static_cast<uint16_t>(this->src_to + dst_len);
                 if (dst && dst_len) memcpy(this->data + this->src_to, dst, sizeof(wchar_t)*dst_len);
             }
 
-            inline const wchar_t*         src    () const { return data;          };
-            inline       wchar_t*         src    ()       { return data;          };
-            inline const wchar_t*         src_end() const { return data + src_to; };
-            inline       wchar_t*         src_end()       { return data + src_to; };
-            inline       unsigned __int16 src_len() const { return src_to;        };
+            inline const wchar_t* src    () const { return data;          };
+            inline       wchar_t* src    ()       { return data;          };
+            inline const wchar_t* src_end() const { return data + src_to; };
+            inline       wchar_t* src_end()       { return data + src_to; };
+            inline       uint16_t src_len() const { return src_to;        };
 
-            inline const wchar_t*         dst    () const { return data + src_to;   };
-            inline       wchar_t*         dst    ()       { return data + src_to;   };
-            inline const wchar_t*         dst_end() const { return data + dst_to;   };
-            inline       wchar_t*         dst_end()       { return data + dst_to;   };
-            inline       unsigned __int16 dst_len() const { return dst_to - src_to; };
+            inline const wchar_t* dst    () const { return data + src_to;   };
+            inline       wchar_t* dst    ()       { return data + src_to;   };
+            inline const wchar_t* dst_end() const { return data + dst_to;   };
+            inline       wchar_t* dst_end()       { return data + dst_to;   };
+            inline       uint16_t dst_len() const { return dst_to - src_to; };
         };
 #pragma pack(pop)
 
         ///
         /// Translation set index
         ///
-        class indexTranSet : public index<unsigned __int16, unsigned __int32, transet>
+        class indexTranSet : public index<uint16_t, uint32_t, transet>
         {
         public:
             ///
@@ -395,7 +395,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexTranSet(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, transet>(h) {}
+            indexTranSet(_In_ std::vector<uint16_t> &h) : index<uint16_t, uint32_t, transet>(h) {}
 
             ///
             /// Compares two translation sets by ID (for searching)
@@ -417,7 +417,7 @@ namespace ZRCola {
             }
         } idxTranSet;   ///< Translation set index
 
-        std::vector<unsigned __int16> data;     ///< Translation set data
+        std::vector<uint16_t> data; ///< Translation set data
 
     public:
         ///
@@ -451,13 +451,13 @@ namespace ZRCola {
         ///
         struct transeq {
         public:
-            transeqid_t seq;            ///< Translation sequence ID
-            unsigned __int16 rank;      ///< Translation sequence rank
+            transeqid_t seq;    ///< Translation sequence ID
+            uint16_t rank;      ///< Translation sequence rank
 
         protected:
-            unsigned __int16 name_to;   ///< Translation sequence name end in \c data
-            unsigned __int16 sets_to;   ///< Translation sequence sets end in \c data
-            wchar_t data[];             ///< Translation sequence name and sets
+            uint16_t name_to;   ///< Translation sequence name end in \c data
+            uint16_t sets_to;   ///< Translation sequence sets end in \c data
+            wchar_t data[];     ///< Translation sequence name and sets
 
         private:
             inline transeq(_In_ const transeq &other);
@@ -471,43 +471,43 @@ namespace ZRCola {
             /// \param[in] rank      Translation sequence rank
             /// \param[in] name      Translation sequence source
             /// \param[in] name_len  Number of UTF-16 characters in \p src
-            /// \param[in] sets       Translation sequence destination
-            /// \param[in] sets_len   Number of UTF-16 characters in \p sets
+            /// \param[in] sets      Translation sequence destination
+            /// \param[in] sets_len  Number of UTF-16 characters in \p sets
             ///
             inline transeq(
-                _In_opt_                         transeqid_t       seq      = 0,
-                _In_opt_                         unsigned __int16  rank     = 0,
-                _In_opt_z_count_(name_len) const wchar_t          *name     = NULL,
-                _In_opt_                         size_t            name_len = 0,
-                _In_opt_count_  (sets_len) const transetid_t      *sets      = NULL,
-                _In_opt_                         size_t            sets_len  = 0)
+                _In_opt_                         transeqid_t  seq      = 0,
+                _In_opt_                         uint16_t     rank     = 0,
+                _In_opt_z_count_(name_len) const wchar_t     *name     = NULL,
+                _In_opt_                         size_t       name_len = 0,
+                _In_opt_count_  (sets_len) const transetid_t *sets      = NULL,
+                _In_opt_                         size_t       sets_len  = 0)
             {
                 this->seq  = seq;
                 this->rank = rank;
-                this->name_to = static_cast<unsigned __int16>(name_len);
+                this->name_to = static_cast<uint16_t>(name_len);
                 if (name && name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
-                this->sets_to = static_cast<unsigned __int16>(this->name_to + sets_len);
+                this->sets_to = static_cast<uint16_t>(this->name_to + sets_len);
                 if (sets && sets_len) memcpy(this->data + this->name_to, sets, sizeof(transetid_t)*sets_len);
             }
 
-            inline const wchar_t*         name    () const { return data;           };
-            inline       wchar_t*         name    ()       { return data;           };
-            inline const wchar_t*         name_end() const { return data + name_to; };
-            inline       wchar_t*         name_end()       { return data + name_to; };
-            inline       unsigned __int16 name_len() const { return name_to;        };
+            inline const wchar_t* name    () const { return data;           };
+            inline       wchar_t* name    ()       { return data;           };
+            inline const wchar_t* name_end() const { return data + name_to; };
+            inline       wchar_t* name_end()       { return data + name_to; };
+            inline       uint16_t name_len() const { return name_to;        };
 
-            inline const transetid_t*     sets    () const { return reinterpret_cast<const transetid_t*>(data + name_to); };
-            inline       transetid_t*     sets    ()       { return reinterpret_cast<      transetid_t*>(data + name_to); };
-            inline const transetid_t*     sets_end() const { return reinterpret_cast<const transetid_t*>(data + sets_to); };
-            inline       transetid_t*     sets_end()       { return reinterpret_cast<      transetid_t*>(data + sets_to); };
-            inline       unsigned __int16 sets_len() const { return sets_to - name_to; };
+            inline const transetid_t* sets    () const { return reinterpret_cast<const transetid_t*>(data + name_to); };
+            inline       transetid_t* sets    ()       { return reinterpret_cast<      transetid_t*>(data + name_to); };
+            inline const transetid_t* sets_end() const { return reinterpret_cast<const transetid_t*>(data + sets_to); };
+            inline       transetid_t* sets_end()       { return reinterpret_cast<      transetid_t*>(data + sets_to); };
+            inline       uint16_t     sets_len() const { return sets_to - name_to; };
         };
 #pragma pack(pop)
 
         ///
         /// Translation sequence index
         ///
-        class indexTranSeq : public index<unsigned __int16, unsigned __int32, transeq>
+        class indexTranSeq : public index<uint16_t, uint32_t, transeq>
         {
         public:
             ///
@@ -515,7 +515,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexTranSeq(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, transeq>(h) {}
+            indexTranSeq(_In_ std::vector<uint16_t> &h) : index<uint16_t, uint32_t, transeq>(h) {}
 
             ///
             /// Compares two translation sequences by ID (for searching)
@@ -540,7 +540,7 @@ namespace ZRCola {
         ///
         /// Rank index
         ///
-        class indexRank : public index<unsigned __int16, unsigned __int32, transeq>
+        class indexRank : public index<uint16_t, uint32_t, transeq>
         {
         public:
             ///
@@ -548,7 +548,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexRank(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, transeq>(h) {}
+            indexRank(_In_ std::vector<uint16_t> &h) : index<uint16_t, uint32_t, transeq>(h) {}
 
             ///
             /// Compares two translation sets by rank (for searching)
@@ -585,10 +585,10 @@ namespace ZRCola {
                      if (a.rank < b.rank) return -1;
                 else if (a.rank > b.rank) return +1;
 
-                unsigned __int16
+                uint16_t
                     a_name_len = a.name_len(),
                     b_name_len = b.name_len();
-                int r = _wcsncoll(a.name(), b.name(), std::min<unsigned __int16>(a_name_len, b_name_len));
+                int r = _wcsncoll(a.name(), b.name(), std::min<uint16_t>(a_name_len, b_name_len));
                 if (r != 0) return r;
                      if (a_name_len < b_name_len) return -1;
                 else if (a_name_len > b_name_len) return +1;
@@ -597,7 +597,7 @@ namespace ZRCola {
             }
         } idxRank;  ///< Rank index
 
-        std::vector<unsigned __int16> data;     ///< Translation sequence data
+        std::vector<uint16_t> data; ///< Translation sequence data
 
     public:
         ///
@@ -654,12 +654,12 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
     }
 #endif
     if (stream.fail()) return stream;
-    unsigned __int32 count = (unsigned __int32)data_count;
+    uint32_t count = (uint32_t)data_count;
     stream.write((const char*)&count, sizeof(count));
 
     // Write data.
     if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -684,14 +684,14 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::transl
     if (!stream.good()) return stream;
 
     // Read data count.
-    unsigned __int32 count;
+    uint32_t count;
     stream.read((char*)&count, sizeof(count));
     if (!stream.good()) return stream;
 
     if (count) {
         // Read data.
         db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
     } else
         db.data.clear();
 
@@ -723,12 +723,12 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
     }
 #endif
     if (stream.fail()) return stream;
-    unsigned __int32 count = (unsigned __int32)data_count;
+    uint32_t count = (uint32_t)data_count;
     stream.write((const char*)&count, sizeof(count));
 
     // Write data.
     if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -749,14 +749,14 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::transe
     if (!stream.good()) return stream;
 
     // Read data count.
-    unsigned __int32 count;
+    uint32_t count;
     stream.read((char*)&count, sizeof(count));
     if (!stream.good()) return stream;
 
     if (count) {
         // Read data.
         db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
     } else
         db.data.clear();
 
@@ -792,12 +792,12 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
     }
 #endif
     if (stream.fail()) return stream;
-    unsigned __int32 count = (unsigned __int32)data_count;
+    uint32_t count = (uint32_t)data_count;
     stream.write((const char*)&count, sizeof(count));
 
     // Write data.
     if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -822,14 +822,14 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::transe
     if (!stream.good()) return stream;
 
     // Read data count.
-    unsigned __int32 count;
+    uint32_t count;
     stream.read((char*)&count, sizeof(count));
     if (!stream.good()) return stream;
 
     if (count) {
         // Read data.
         db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
     } else
         db.data.clear();
 

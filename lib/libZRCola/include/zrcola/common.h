@@ -8,8 +8,9 @@
 #ifdef _WIN32
 #define _WINSOCKAPI_    // Prevent inclusion of winsock.h in windows.h.
 #include <Windows.h>
-#endif
 #include <sal.h>
+#endif
+#include <stdint.h>
 #include <istream>
 #include <ostream>
 #include <utility>
@@ -33,8 +34,8 @@
 
 
 namespace ZRCola {
-    typedef unsigned __int32 recordid_t;
-    typedef unsigned __int32 recordsize_t;
+    typedef uint32_t recordid_t;
+    typedef uint32_t recordsize_t;
 
 
 #pragma pack(push)
@@ -210,7 +211,7 @@ namespace ZRCola {
     ///
     /// Memory index
     ///
-    template <class T_data, class T_idx = unsigned __int32, class T_el = T_data>
+    template <class T_data, class T_idx = uint32_t, class T_el = T_data>
     class index : public std::vector<T_idx>
     {
     protected:
@@ -406,7 +407,7 @@ namespace ZRCola {
     ///
     /// Memory text index
     ///
-    template <class T_key, class T_val, class T_idx = unsigned __int32>
+    template <class T_key, class T_val, class T_idx = uint32_t>
     class textindex : public std::vector< mappair_t<T_idx> >
     {
     public:
@@ -638,7 +639,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::i
     }
 #endif
     if (stream.fail()) return stream;
-    unsigned __int32 count = (unsigned __int32)idx_count;
+    uint32_t count = (uint32_t)idx_count;
     stream.write((const char*)&count, sizeof(count));
 
     // Write index data.
@@ -660,7 +661,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::i
 template <class T_data, class T_idx, class T_el>
 inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::index<T_data, T_idx, T_el> &idx)
 {
-    unsigned __int32 count;
+    uint32_t count;
 
     // Read index count.
     stream.read((char*)&count, sizeof(count));
@@ -691,7 +692,7 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::index<
 template <class T_key, class T_val, class T_idx>
 inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::textindex<T_key, T_val, T_idx> &idx)
 {
-    unsigned __int32 count;
+    uint32_t count;
 
     // Write index count.
     auto idx_count = idx.size();
@@ -703,7 +704,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
     }
 #endif
     if (stream.fail()) return stream;
-    count = (unsigned __int32)idx_count;
+    count = (uint32_t)idx_count;
     stream.write((const char*)&count, sizeof(count));
 
     // Write index data.
@@ -720,7 +721,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
     }
 #endif
     if (stream.fail()) return stream;
-    count = (unsigned __int32)key_count;
+    count = (uint32_t)key_count;
     stream.write((const char*)&count, sizeof(count));
 
     // Write key data.
@@ -737,7 +738,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
     }
 #endif
     if (stream.fail()) return stream;
-    count = (unsigned __int32)value_count;
+    count = (uint32_t)value_count;
     stream.write((const char*)&count, sizeof(count));
 
     // Write value data.
@@ -759,7 +760,7 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::t
 template <class T_key, class T_val, class T_idx>
 inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::textindex<T_key, T_val, T_idx> &idx)
 {
-    unsigned __int32 count;
+    uint32_t count;
 
     // Read text index count.
     stream.read((char*)&count, sizeof(count));

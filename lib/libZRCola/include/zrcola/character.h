@@ -177,13 +177,13 @@ namespace ZRCola {
         ///
         struct character {
         public:
-            chrcatid_t cat;             ///> Character category ID
+            chrcatid_t cat;     ///> Character category ID
 
         protected:
-            unsigned __int16 chr_to;    ///< Character end in \c data
-            unsigned __int16 desc_to;   ///< Character description end in \c data
-            unsigned __int16 rel_to;    ///< Related characters end in \c data
-            wchar_t data[];             ///< Character, character description
+            uint16_t chr_to;    ///< Character end in \c data
+            uint16_t desc_to;   ///< Character description end in \c data
+            uint16_t rel_to;    ///< Related characters end in \c data
+            wchar_t data[];     ///< Character, character description
 
         private:
             inline character(_In_ const character &other);
@@ -211,38 +211,38 @@ namespace ZRCola {
                 _In_opt_                         size_t      rel_len  = 0)
             {
                 this->cat = cat;
-                this->chr_to = static_cast<unsigned __int16>(chr_len);
+                this->chr_to = static_cast<uint16_t>(chr_len);
                 if (chr && chr_len) memcpy(this->data, chr, sizeof(wchar_t)*chr_len);
-                this->desc_to = static_cast<unsigned __int16>(this->chr_to + desc_len);
+                this->desc_to = static_cast<uint16_t>(this->chr_to + desc_len);
                 if (desc && desc_len) memcpy(this->data + this->chr_to, desc, sizeof(wchar_t)*desc_len);
-                this->rel_to = static_cast<unsigned __int16>(this->desc_to + rel_len);
+                this->rel_to = static_cast<uint16_t>(this->desc_to + rel_len);
                 if (rel && rel_len) memcpy(this->data + this->desc_to, rel, sizeof(wchar_t)*rel_len);
             }
 
-            inline const wchar_t*         chr    () const { return data;          };
-            inline       wchar_t*         chr    ()       { return data;          };
-            inline const wchar_t*         chr_end() const { return data + chr_to; };
-            inline       wchar_t*         chr_end()       { return data + chr_to; };
-            inline       unsigned __int16 chr_len() const { return chr_to;        };
+            inline const wchar_t* chr    () const { return data;          };
+            inline       wchar_t* chr    ()       { return data;          };
+            inline const wchar_t* chr_end() const { return data + chr_to; };
+            inline       wchar_t* chr_end()       { return data + chr_to; };
+            inline       uint16_t chr_len() const { return chr_to;        };
 
-            inline const wchar_t*         desc    () const { return data + chr_to;    };
-            inline       wchar_t*         desc    ()       { return data + chr_to;    };
-            inline const wchar_t*         desc_end() const { return data + desc_to;   };
-            inline       wchar_t*         desc_end()       { return data + desc_to;   };
-            inline       unsigned __int16 desc_len() const { return desc_to - chr_to; };
+            inline const wchar_t* desc    () const { return data + chr_to;    };
+            inline       wchar_t* desc    ()       { return data + chr_to;    };
+            inline const wchar_t* desc_end() const { return data + desc_to;   };
+            inline       wchar_t* desc_end()       { return data + desc_to;   };
+            inline       uint16_t desc_len() const { return desc_to - chr_to; };
 
-            inline const wchar_t*         rel    () const { return data + desc_to;   };
-            inline       wchar_t*         rel    ()       { return data + desc_to;   };
-            inline const wchar_t*         rel_end() const { return data + rel_to;    };
-            inline       wchar_t*         rel_end()       { return data + rel_to;    };
-            inline       unsigned __int16 rel_len() const { return rel_to - desc_to; };
+            inline const wchar_t* rel    () const { return data + desc_to;   };
+            inline       wchar_t* rel    ()       { return data + desc_to;   };
+            inline const wchar_t* rel_end() const { return data + rel_to;    };
+            inline       wchar_t* rel_end()       { return data + rel_to;    };
+            inline       uint16_t rel_len() const { return rel_to - desc_to; };
         };
 #pragma pack(pop)
 
         ///
         /// Character index
         ///
-        class indexChr : public index<unsigned __int16, unsigned __int32, character>
+        class indexChr : public index<uint16_t, uint32_t, character>
         {
         public:
             ///
@@ -250,7 +250,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexChr(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, character>(h) {}
+            indexChr(_In_ std::vector<uint16_t> &h) : index<uint16_t, uint32_t, character>(h) {}
 
             ///
             /// Compares two characters by ID (for searching)
@@ -272,9 +272,9 @@ namespace ZRCola {
             }
         } idxChr;      ///< Character index
 
-        textindex<wchar_t, wchar_t, unsigned __int32> idxDsc;    ///< Description index
-        textindex<wchar_t, wchar_t, unsigned __int32> idxDscSub; ///< Description index (sub-terms)
-        std::vector<unsigned __int16> data;                      ///< Character data
+        textindex<wchar_t, wchar_t, uint32_t> idxDsc;    ///< Description index
+        textindex<wchar_t, wchar_t, uint32_t> idxDscSub; ///< Description index (sub-terms)
+        std::vector<uint16_t> data;                      ///< Character data
 
     public:
         ///
@@ -341,12 +341,12 @@ namespace ZRCola {
         ///
         struct chrcat {
         public:
-            chrcatid_t cat;                             ///< Character category ID
-            unsigned __int16 rank;                      ///< Character category rank
+            chrcatid_t cat;     ///< Character category ID
+            uint16_t rank;      ///< Character category rank
 
         protected:
-            unsigned __int16 name_to;                   ///< Character category name end in \c data
-            wchar_t data[];                             ///< Character category name
+            uint16_t name_to;   ///< Character category name end in \c data
+            wchar_t data[];     ///< Character category name
 
         private:
             inline chrcat(_In_ const chrcat &other);
@@ -363,13 +363,13 @@ namespace ZRCola {
             ///
             inline chrcat(
                 _In_opt_                         chrcatid_t        cat      = chrcatid_t::blank,
-                _In_opt_                         unsigned __int16  rank     = 0,
+                _In_opt_                         uint16_t  rank     = 0,
                 _In_opt_z_count_(name_len) const wchar_t          *name     = NULL,
                 _In_opt_                         size_t            name_len = 0)
             {
                 this->cat  = cat;
                 this->rank = rank;
-                this->name_to = static_cast<unsigned __int16>(name_len);
+                this->name_to = static_cast<uint16_t>(name_len);
                 if (name && name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
             }
 
@@ -377,14 +377,14 @@ namespace ZRCola {
             inline       wchar_t*         name    ()       { return data;           };
             inline const wchar_t*         name_end() const { return data + name_to; };
             inline       wchar_t*         name_end()       { return data + name_to; };
-            inline       unsigned __int16 name_len() const { return name_to;        };
+            inline       uint16_t name_len() const { return name_to;        };
         };
 #pragma pack(pop)
 
         ///
         /// Character category index
         ///
-        class indexChrCat : public index<unsigned __int16, unsigned __int32, chrcat>
+        class indexChrCat : public index<uint16_t, uint32_t, chrcat>
         {
         public:
             ///
@@ -392,7 +392,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexChrCat(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, chrcat>(h) {}
+            indexChrCat(_In_ std::vector<uint16_t> &h) : index<uint16_t, uint32_t, chrcat>(h) {}
 
             ///
             /// Compares two character categories by ID (for searching)
@@ -417,7 +417,7 @@ namespace ZRCola {
         ///
         /// Rank index
         ///
-        class indexRank : public index<unsigned __int16, unsigned __int32, chrcat>
+        class indexRank : public index<uint16_t, uint32_t, chrcat>
         {
         public:
             ///
@@ -425,7 +425,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexRank(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, chrcat>(h) {}
+            indexRank(_In_ std::vector<uint16_t> &h) : index<uint16_t, uint32_t, chrcat>(h) {}
 
             ///
             /// Compares two character categories by ID (for searching)
@@ -462,10 +462,10 @@ namespace ZRCola {
                      if (a.rank < b.rank) return -1;
                 else if (a.rank > b.rank) return +1;
 
-                unsigned __int16
+                uint16_t
                     a_name_len = a.name_len(),
                     b_name_len = b.name_len();
-                int r = _wcsncoll(a.name(), b.name(), std::min<unsigned __int16>(a_name_len, b_name_len));
+                int r = _wcsncoll(a.name(), b.name(), std::min<uint16_t>(a_name_len, b_name_len));
                 if (r != 0) return r;
                      if (a_name_len < b_name_len) return -1;
                 else if (a_name_len > b_name_len) return +1;
@@ -474,7 +474,7 @@ namespace ZRCola {
             }
         } idxRank;  ///< Rank index
 
-        std::vector<unsigned __int16> data;     ///< Character category data
+        std::vector<uint16_t> data;     ///< Character category data
 
     public:
         ///
@@ -525,14 +525,14 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::charac
     if (!stream.good()) return stream;
 
     // Read data count.
-    unsigned __int32 count;
+    uint32_t count;
     stream.read((char*)&count, sizeof(count));
     if (!stream.good()) return stream;
 
     if (count) {
         // Read data.
         db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
     } else
         db.data.clear();
 
@@ -572,12 +572,12 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::c
     }
 #endif
     if (stream.fail()) return stream;
-    unsigned __int32 count = (unsigned __int32)data_count;
+    uint32_t count = (uint32_t)data_count;
     stream.write((const char*)&count, sizeof(count));
 
     // Write data.
     if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -611,12 +611,12 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::c
     }
 #endif
     if (stream.fail()) return stream;
-    unsigned __int32 count = (unsigned __int32)data_count;
+    uint32_t count = (uint32_t)data_count;
     stream.write((const char*)&count, sizeof(count));
 
     // Write data.
     if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -641,14 +641,14 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::chrcat
     if (!stream.good()) return stream;
 
     // Read data count.
-    unsigned __int32 count;
+    uint32_t count;
     stream.read((char*)&count, sizeof(count));
     if (!stream.good()) return stream;
 
     if (count) {
         // Read data.
         db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
     } else
         db.data.clear();
 

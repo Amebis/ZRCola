@@ -32,11 +32,11 @@ namespace ZRCola {
         ///
         struct langchar {
         public:
-            langid_t lang;              ///< Language ID
+            langid_t lang;      ///< Language ID
 
         protected:
-            unsigned __int16 chr_to;    ///< Character end in \c data
-            wchar_t data[];             ///< Character
+            uint16_t chr_to;    ///< Character end in \c data
+            wchar_t data[];     ///< Character
 
         private:
             inline langchar(_In_ const langchar &other);
@@ -56,22 +56,22 @@ namespace ZRCola {
                 _In_opt_                        size_t    chr_len = 0)
             {
                 this->lang = lang;
-                this->chr_to = static_cast<unsigned __int16>(chr_len);
+                this->chr_to = static_cast<uint16_t>(chr_len);
                 if (chr && chr_len) memcpy(this->data, chr, sizeof(wchar_t)*chr_len);
             }
 
-            inline const wchar_t*         chr    () const { return data;          };
-            inline       wchar_t*         chr    ()       { return data;          };
-            inline const wchar_t*         chr_end() const { return data + chr_to; };
-            inline       wchar_t*         chr_end()       { return data + chr_to; };
-            inline       unsigned __int16 chr_len() const { return chr_to;        };
+            inline const wchar_t* chr    () const { return data;          };
+            inline       wchar_t* chr    ()       { return data;          };
+            inline const wchar_t* chr_end() const { return data + chr_to; };
+            inline       wchar_t* chr_end()       { return data + chr_to; };
+            inline       uint16_t chr_len() const { return chr_to;        };
         };
 #pragma pack(pop)
 
         ///
         /// Character index
         ///
-        class indexChr : public index<unsigned __int16, unsigned __int32, langchar>
+        class indexChr : public index<uint16_t, uint32_t, langchar>
         {
         public:
             ///
@@ -79,7 +79,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexChr(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, langchar>(h) {}
+            indexChr(_In_ std::vector<uint16_t> &h) : index<uint16_t, uint32_t, langchar>(h) {}
 
             ///
             /// Compares two characters by ID (for searching)
@@ -109,7 +109,7 @@ namespace ZRCola {
         ///
         /// Language Index
         ///
-        class indexLang : public index<unsigned __int16, unsigned __int32, langchar>
+        class indexLang : public index<uint16_t, uint32_t, langchar>
         {
         public:
             ///
@@ -117,7 +117,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexLang(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, langchar>(h) {}
+            indexLang(_In_ std::vector<uint16_t> &h) : index<uint16_t, uint32_t, langchar>(h) {}
 
             ///
             /// Compares two languages by ID (for searching)
@@ -143,7 +143,7 @@ namespace ZRCola {
         } idxLang;  ///< Language index
 #endif
 
-        std::vector<unsigned __int16> data;     ///< Character data
+        std::vector<uint16_t> data; ///< Character data
 
     public:
         ///
@@ -196,11 +196,11 @@ namespace ZRCola {
         ///
         struct language {
         public:
-            langid_t lang;              ///< Language ID
+            langid_t lang;      ///< Language ID
 
         protected:
-            unsigned __int16 name_to;   ///< Language name end in \c data
-            wchar_t data[];             ///< Language name
+            uint16_t name_to;   ///< Language name end in \c data
+            wchar_t data[];     ///< Language name
 
         private:
             inline language(_In_ const language &other);
@@ -220,22 +220,22 @@ namespace ZRCola {
                 _In_opt_                         size_t    name_len = 0)
             {
                 this->lang = lang;
-                this->name_to = static_cast<unsigned __int16>(name_len);
+                this->name_to = static_cast<uint16_t>(name_len);
                 if (name && name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
             }
 
-            inline const wchar_t*         name    () const { return data;           };
-            inline       wchar_t*         name    ()       { return data;           };
-            inline const wchar_t*         name_end() const { return data + name_to; };
-            inline       wchar_t*         name_end()       { return data + name_to; };
-            inline       unsigned __int16 name_len() const { return name_to;        };
+            inline const wchar_t* name    () const { return data;           };
+            inline       wchar_t* name    ()       { return data;           };
+            inline const wchar_t* name_end() const { return data + name_to; };
+            inline       wchar_t* name_end()       { return data + name_to; };
+            inline       uint16_t name_len() const { return name_to;        };
         };
 #pragma pack(pop)
 
         ///
         /// Language index
         ///
-        class indexLang : public index<unsigned __int16, unsigned __int32, language>
+        class indexLang : public index<uint16_t, uint32_t, language>
         {
         public:
             ///
@@ -243,7 +243,7 @@ namespace ZRCola {
             ///
             /// \param[in] h  Reference to vector holding the data
             ///
-            indexLang(_In_ std::vector<unsigned __int16> &h) : index<unsigned __int16, unsigned __int32, language>(h) {}
+            indexLang(_In_ std::vector<uint16_t> &h) : index<uint16_t, uint32_t, language>(h) {}
 
             ///
             /// Compares two languages by ID (for searching)
@@ -265,7 +265,7 @@ namespace ZRCola {
             }
         } idxLang;  ///< Language index
 
-        std::vector<unsigned __int16> data;     ///< Language data
+        std::vector<uint16_t> data; ///< Language data
 
     public:
         ///
@@ -322,12 +322,12 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::l
     }
 #endif
     if (stream.fail()) return stream;
-    unsigned __int32 count = (unsigned __int32)data_count;
+    uint32_t count = (uint32_t)data_count;
     stream.write((const char*)&count, sizeof(count));
 
     // Write data.
     if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -354,14 +354,14 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::langch
 #endif
 
     // Read data count.
-    unsigned __int32 count;
+    uint32_t count;
     stream.read((char*)&count, sizeof(count));
     if (!stream.good()) return stream;
 
     if (count) {
         // Read data.
         db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
     } else
         db.data.clear();
 
@@ -393,12 +393,12 @@ inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::l
     }
 #endif
     if (stream.fail()) return stream;
-    unsigned __int32 count = (unsigned __int32)data_count;
+    uint32_t count = (uint32_t)data_count;
     stream.write((const char*)&count, sizeof(count));
 
     // Write data.
     if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
 
     return stream;
 }
@@ -419,14 +419,14 @@ inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::langua
     if (!stream.good()) return stream;
 
     // Read data count.
-    unsigned __int32 count;
+    uint32_t count;
     stream.read((char*)&count, sizeof(count));
     if (!stream.good()) return stream;
 
     if (count) {
         // Read data.
         db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(unsigned __int16)*static_cast<std::streamsize>(count));
+        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
     } else
         db.data.clear();
 

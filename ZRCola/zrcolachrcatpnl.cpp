@@ -149,10 +149,10 @@ void wxZRColaCharacterCatalogPanel::Update()
     } else {
         // Select frequently used characters only.
         const wchar_t *src = cg.chrlst();
-        const unsigned __int16 *shown = cg.chrshow();
+        const uint16_t *shown = cg.chrshow();
         wxArrayString chars;
         for (size_t i = 0, i_end = cg.chrlst_len(), j = 0; i < i_end; j++) {
-            for (unsigned __int16 k = 0, mask = shown[j]; k < 16 && i < i_end; k++, mask >>= 1) {
+            for (uint16_t k = 0, mask = shown[j]; k < 16 && i < i_end; k++, mask >>= 1) {
                 size_t len = wcsnlen(src + i, i_end - i);
                 if (mask & 1)
                     chars.Add(wxString(src + i, len));
