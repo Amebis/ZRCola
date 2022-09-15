@@ -110,7 +110,7 @@ wxString wxZRColaCharGrid::GetToolTipText(int idx)
     const auto &chr = m_chars[idx];
 
     // See if this character has a key sequence registered.
-    std::unique_ptr<ZRCola::keyseq_db::keyseq> ks((ZRCola::keyseq_db::keyseq*)new char[sizeof(ZRCola::keyseq_db::keyseq) + sizeof(wchar_t)*chr.length()]);
+    std::unique_ptr<ZRCola::keyseq_db::keyseq> ks((ZRCola::keyseq_db::keyseq*)new char[sizeof(ZRCola::keyseq_db::keyseq) + sizeof(ZRCola::char_t)*chr.length()]);
     ks->ZRCola::keyseq_db::keyseq::keyseq(NULL, 0, chr.data(), chr.length());
     ZRCola::keyseq_db::indexKey::size_type start;
     if (app->m_ks_db.idxChr.find(*ks, start)) {

@@ -6,7 +6,7 @@
 #include "pch.h"
 
 
-void ZRCola::translation_db::Translate(_In_ transetid_t set, _In_z_count_(inputMax) const char16_t* input, _In_ size_t inputMax, _Out_ std::u16string &output, _Out_opt_ std::vector<mapping>* map) const
+void ZRCola::translation_db::Translate(_In_ transetid_t set, _In_z_count_(inputMax) const char_t* input, _In_ size_t inputMax, _Out_ string_t &output, _Out_opt_ std::vector<mapping>* map) const
 {
     assert(input || inputMax == 0);
 
@@ -28,7 +28,7 @@ void ZRCola::translation_db::Translate(_In_ transetid_t set, _In_z_count_(inputM
         // Find the longest matching translation at i-th character.
         size_t l_match = (size_t)-1;
         for (size_t l = l_set, r = r_set, ii = i, j = 0; ii < inputMax && l < r; ii++, j++) {
-            char16_t c = input[ii];
+            auto c = input[ii];
             while (l < r) {
                 // Test the translation in the middle of the search area.
                 size_t m = (l + r) / 2;
@@ -36,7 +36,7 @@ void ZRCola::translation_db::Translate(_In_ transetid_t set, _In_z_count_(inputM
                 // Get the j-th character of the translation.
                 // All translations that get short on characters are lexically ordered before.
                 // Thus the j-th character is considered 0.
-                char16_t s = idxSrc[m].src_at(j);
+                auto s = idxSrc[m].src_at(j);
 
                 // Do the bisection test.
                      if (c < s) r = m;
@@ -84,7 +84,7 @@ void ZRCola::translation_db::Translate(_In_ transetid_t set, _In_z_count_(inputM
 }
 
 
-void ZRCola::translation_db::TranslateInv(_In_ transetid_t set, _In_z_count_(inputMax) const char16_t* input, _In_ size_t inputMax, _In_opt_ const langchar_db *lc_db, _In_opt_ langid_t lang, _Out_ std::u16string &output, _Out_opt_ std::vector<mapping>* map) const
+void ZRCola::translation_db::TranslateInv(_In_ transetid_t set, _In_z_count_(inputMax) const char_t* input, _In_ size_t inputMax, _In_opt_ const langchar_db *lc_db, _In_opt_ langid_t lang, _Out_ string_t &output, _Out_opt_ std::vector<mapping>* map) const
 {
     assert(input || inputMax == 0);
 
@@ -106,7 +106,7 @@ void ZRCola::translation_db::TranslateInv(_In_ transetid_t set, _In_z_count_(inp
         // Find the longest matching inverse translation at i-th character.
         size_t l_match = (size_t)-1;
         for (size_t l = l_set, r = r_set, ii = i, j = 0; ii < inputMax && l < r; ii++, j++) {
-            char16_t c = input[ii];
+            auto c = input[ii];
             while (l < r) {
                 // Test the inverse translation in the middle of the search area.
                 size_t m = (l + r) / 2;
@@ -114,7 +114,7 @@ void ZRCola::translation_db::TranslateInv(_In_ transetid_t set, _In_z_count_(inp
                 // Get the j-th character of the inverse translation.
                 // All inverse translations that get short on characters are lexically ordered before.
                 // Thus the j-th character is considered 0.
-                char16_t s = idxDst[m].dst_at(j);
+                auto s = idxDst[m].dst_at(j);
 
                 // Do the bisection test.
                      if (c < s) r = m;

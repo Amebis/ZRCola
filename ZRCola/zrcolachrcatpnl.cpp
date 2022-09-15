@@ -148,7 +148,7 @@ void wxZRColaCharacterCatalogPanel::Update()
             wxArrayShort(reinterpret_cast<const short*>(cg.chrshow()), reinterpret_cast<const short*>(cg.chrshow_end())));
     } else {
         // Select frequently used characters only.
-        const wchar_t *src = cg.chrlst();
+        const auto *src = cg.chrlst();
         const uint16_t *shown = cg.chrshow();
         wxArrayString chars;
         for (size_t i = 0, i_end = cg.chrlst_len(), j = 0; i < i_end; j++) {

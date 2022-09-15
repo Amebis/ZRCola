@@ -45,14 +45,14 @@ namespace ZRCola {
             };
 
             struct key_t {
-                wchar_t key;        ///< Key
+                char_t key;         ///< Key
                 uint16_t modifiers; ///< Modifiers (bitwise combination of SHIFT, CTRL and ALT)
             };
 
         protected:
             uint16_t chr_to;        ///< Character end in \c data
             uint16_t seq_to;        ///< Key sequence end in \c data
-            wchar_t data[];         ///< Character and key sequence
+            char_t data[];          ///< Character and key sequence
 
         public:
             ///
@@ -64,21 +64,21 @@ namespace ZRCola {
             /// \param[in] chr_len    Number of UTF-16 characters in \p chr
             ///
             inline keyseq(
-                _In_opt_count_(seq_count) const key_t   *seq       = NULL,
-                _In_opt_                        size_t   seq_count = 0,
-                _In_opt_z_count_(chr_len) const wchar_t *chr       = NULL,
-                _In_opt_                        size_t   chr_len   = 0)
+                _In_opt_count_(seq_count) const key_t  *seq       = NULL,
+                _In_opt_                        size_t  seq_count = 0,
+                _In_opt_z_count_(chr_len) const char_t *chr       = NULL,
+                _In_opt_                        size_t  chr_len   = 0)
             {
                 this->chr_to = static_cast<uint16_t>(chr_len);
-                if (chr && chr_len) memcpy(this->data, chr, sizeof(wchar_t)*chr_len);
+                if (chr && chr_len) memcpy(this->data, chr, sizeof(char_t)*chr_len);
                 this->seq_to = static_cast<uint16_t>(this->chr_to + seq_count * sizeof(key_t) / sizeof(*data));
                 if (seq && seq_count) memcpy(this->data + this->chr_to, seq, sizeof(key_t)*seq_count);
             }
 
-            inline const wchar_t* chr    () const { return data;          };
-            inline       wchar_t* chr    ()       { return data;          };
-            inline const wchar_t* chr_end() const { return data + chr_to; };
-            inline       wchar_t* chr_end()       { return data + chr_to; };
+            inline const char_t*  chr    () const { return data;          };
+            inline       char_t*  chr    ()       { return data;          };
+            inline const char_t*  chr_end() const { return data + chr_to; };
+            inline       char_t*  chr_end()       { return data + chr_to; };
             inline       uint16_t chr_len() const { return chr_to;        };
 
             inline const key_t*   seq    () const { return reinterpret_cast<const key_t*>(data + chr_to);     };

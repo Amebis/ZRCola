@@ -40,7 +40,7 @@ public:
     ///
     /// Construct the validator with a value to store data
     ///
-    wxZRColaUTF16CharValidator(wchar_t *val = NULL);
+    wxZRColaUTF16CharValidator(ZRCola::char_t *val = NULL);
 
     ///
     /// Copies this validator

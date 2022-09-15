@@ -46,7 +46,7 @@ namespace ZRCola {
         protected:
             uint16_t name_to;   ///< Character group name end in \c data
             uint16_t chrlst_to; ///< Character list end in \c data
-            wchar_t data[];     ///< Character group name, character list, bit vector if particular character is displayed initially
+            char_t data[];      ///< Character group name, character list, bit vector if particular character is displayed initially
 
         public:
             ///
@@ -63,33 +63,33 @@ namespace ZRCola {
             inline chrgrp(
                 _In_opt_                                     chrgrpid_t  grp        = 0,
                 _In_opt_                                     uint16_t    rank       = 0,
-                _In_opt_z_count_(name_len)             const wchar_t    *name       = NULL,
+                _In_opt_z_count_(name_len)             const char_t     *name       = NULL,
                 _In_opt_                                     size_t      name_len   = 0,
-                _In_opt_z_count_(chrlst_len)           const wchar_t    *chrlst     = NULL,
+                _In_opt_z_count_(chrlst_len)           const char_t     *chrlst     = NULL,
                 _In_opt_                                     size_t      chrlst_len = 0,
                 _In_opt_count_x_((chrlst_len + 15)/16) const uint16_t   *chrshow    = NULL)
             {
                 this->grp  = grp;
                 this->rank = rank;
                 this->name_to = static_cast<uint16_t>(name_len);
-                if (name && name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
+                if (name && name_len) memcpy(this->data, name, sizeof(char_t)*name_len);
                 this->chrlst_to = static_cast<uint16_t>(this->name_to + chrlst_len);
                 if (chrlst && chrshow && chrlst_len) {
-                    memcpy(this->data + this->name_to, chrlst, sizeof(wchar_t)*chrlst_len);
+                    memcpy(this->data + this->name_to, chrlst, sizeof(char_t)*chrlst_len);
                     memcpy(this->data + this->chrlst_to, chrshow, (chrlst_len + sizeof(*data)*8 - 1)/8);
                 }
             }
 
-            inline const wchar_t* name    () const { return data;           };
-            inline       wchar_t* name    ()       { return data;           };
-            inline const wchar_t* name_end() const { return data + name_to; };
-            inline       wchar_t* name_end()       { return data + name_to; };
+            inline const char_t*  name    () const { return data;           };
+            inline       char_t*  name    ()       { return data;           };
+            inline const char_t*  name_end() const { return data + name_to; };
+            inline       char_t*  name_end()       { return data + name_to; };
             inline       uint16_t name_len() const { return name_to;        };
 
-            inline const wchar_t* chrlst    () const { return data + name_to;      };
-            inline       wchar_t* chrlst    ()       { return data + name_to;      };
-            inline const wchar_t* chrlst_end() const { return data + chrlst_to;    };
-            inline       wchar_t* chrlst_end()       { return data + chrlst_to;    };
+            inline const char_t*  chrlst    () const { return data + name_to;      };
+            inline       char_t*  chrlst    ()       { return data + name_to;      };
+            inline const char_t*  chrlst_end() const { return data + chrlst_to;    };
+            inline       char_t*  chrlst_end()       { return data + chrlst_to;    };
             inline       uint16_t chrlst_len() const { return chrlst_to - name_to; };
 
             inline const uint16_t* chrshow    () const { return reinterpret_cast<const uint16_t*>(data + chrlst_to                ); };
@@ -148,7 +148,7 @@ namespace ZRCola {
                      if (a.rank < b.rank) return -1;
                 else if (a.rank > b.rank) return +1;
 
-                auto &coll = std::use_facet<std::collate<wchar_t>>(std::locale());
+                auto &coll = std::use_facet<std::collate<char_t>>(std::locale());
                 return coll.compare(a.name(), a.name_end(), b.name(), b.name_end());
             }
         } idxRank;  ///< Rank index

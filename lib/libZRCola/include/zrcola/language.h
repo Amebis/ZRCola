@@ -35,7 +35,7 @@ namespace ZRCola {
 
         protected:
             uint16_t chr_to;    ///< Character end in \c data
-            char16_t data[];    ///< Character
+            char_t data[];      ///< Character
 
         private:
             inline langchar(_In_ const langchar &other);
@@ -51,19 +51,19 @@ namespace ZRCola {
             ///
             inline langchar(
                 _In_opt_                        langid_t  lang    = langid_t::blank,
-                _In_opt_z_count_(chr_len) const char16_t *chr     = NULL,
+                _In_opt_z_count_(chr_len) const char_t   *chr     = NULL,
                 _In_opt_                        size_t    chr_len = 0)
             {
                 this->lang = lang;
                 this->chr_to = static_cast<uint16_t>(chr_len);
-                if (chr && chr_len) memcpy(this->data, chr, sizeof(char16_t)*chr_len);
+                if (chr && chr_len) memcpy(this->data, chr, sizeof(char_t)*chr_len);
             }
 
-            inline const char16_t* chr    () const { return data;          };
-            inline       char16_t* chr    ()       { return data;          };
-            inline const char16_t* chr_end() const { return data + chr_to; };
-            inline       char16_t* chr_end()       { return data + chr_to; };
-            inline       uint16_t  chr_len() const { return chr_to;        };
+            inline const char_t*  chr    () const { return data;          };
+            inline       char_t*  chr    ()       { return data;          };
+            inline const char_t*  chr_end() const { return data + chr_to; };
+            inline       char_t*  chr_end()       { return data + chr_to; };
+            inline       uint16_t chr_len() const { return chr_to;        };
         };
 #pragma pack(pop)
 
@@ -176,7 +176,7 @@ namespace ZRCola {
         /// \returns
         /// - \c true when character is used in language
         /// - \c false otherwise
-        bool IsLocalCharacter(_In_ const char16_t *chr, _In_ const char16_t *chr_end, _In_ langid_t lang) const;
+        bool IsLocalCharacter(_In_ const char_t *chr, _In_ const char_t *chr_end, _In_ langid_t lang) const;
     };
 
 
@@ -196,7 +196,7 @@ namespace ZRCola {
 
         protected:
             uint16_t name_to;   ///< Language name end in \c data
-            char16_t data[];    ///< Language name
+            char_t data[];      ///< Language name
 
         private:
             inline language(_In_ const language &other);
@@ -212,19 +212,19 @@ namespace ZRCola {
             ///
             inline language(
                 _In_opt_                         langid_t  lang     = langid_t::blank,
-                _In_opt_z_count_(name_len) const char16_t *name     = NULL,
+                _In_opt_z_count_(name_len) const char_t   *name     = NULL,
                 _In_opt_                         size_t    name_len = 0)
             {
                 this->lang = lang;
                 this->name_to = static_cast<uint16_t>(name_len);
-                if (name && name_len) memcpy(this->data, name, sizeof(char16_t)*name_len);
+                if (name && name_len) memcpy(this->data, name, sizeof(char_t)*name_len);
             }
 
-            inline const char16_t* name    () const { return data;           };
-            inline       char16_t* name    ()       { return data;           };
-            inline const char16_t* name_end() const { return data + name_to; };
-            inline       char16_t* name_end()       { return data + name_to; };
-            inline       uint16_t  name_len() const { return name_to;        };
+            inline const char_t*  name    () const { return data;           };
+            inline       char_t*  name    ()       { return data;           };
+            inline const char_t*  name_end() const { return data + name_to; };
+            inline       char_t*  name_end()       { return data + name_to; };
+            inline       uint16_t name_len() const { return name_to;        };
         };
 #pragma pack(pop)
 

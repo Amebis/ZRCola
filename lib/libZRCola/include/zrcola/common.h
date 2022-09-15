@@ -49,6 +49,26 @@ namespace ZRCola {
     typedef uint32_t recordsize_t;
 
 
+    ///
+    /// ZRCola database character type
+    ///
+#ifdef _WIN32
+    typedef wchar_t char_t;
+#else
+    typedef char16_t char_t;
+#endif
+
+
+    ///
+    /// ZRCola database string type
+    ///
+#ifdef _WIN32
+    typedef std::wstring string_t;
+#else
+    typedef std::u16string string_t;
+#endif
+
+
 #pragma pack(push)
 #pragma pack(2)
     ///
@@ -571,7 +591,7 @@ namespace ZRCola {
     /// The function does not treat \\0 characters as terminators for performance reasons.
     /// Therefore \p count_a and \p count_b must represent exact string lengths.
     ///
-    int CompareString(_In_ const char16_t* str_a, _In_ size_t count_a, _In_ const char16_t* str_b, _In_ size_t count_b);
+    int CompareString(_In_ const char_t* str_a, _In_ size_t count_a, _In_ const char_t* str_b, _In_ size_t count_b);
 
     ///
     /// Generates and returns Unicode representation of the string using hexadecimal codes.
@@ -580,7 +600,7 @@ namespace ZRCola {
     /// \param[in] count  Number of characters in string \p str
     /// \param[in] sep    Separator
     ///
-    std::string GetUnicodeDumpA(_In_z_count_(count) const char16_t* str, _In_ size_t count, _In_z_ const char* sep = "+");
+    std::string GetUnicodeDumpA(_In_z_count_(count) const char_t* str, _In_ size_t count, _In_z_ const char* sep = "+");
 
     ///
     /// Generates and returns Unicode representation of the string using hexadecimal codes.
@@ -589,7 +609,7 @@ namespace ZRCola {
     /// \param[in] count  Number of characters in string \p str
     /// \param[in] sep    Separator
     ///
-    std::wstring GetUnicodeDumpW(_In_z_count_(count) const char16_t* str, _In_ size_t count, _In_z_ const wchar_t* sep = L"+");
+    std::wstring GetUnicodeDumpW(_In_z_count_(count) const char_t* str, _In_ size_t count, _In_z_ const wchar_t* sep = L"+");
 
 #ifdef _UNICODE
 #define GetUnicodeDump GetUnicodeDumpW

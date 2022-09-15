@@ -13,7 +13,7 @@
 wxIMPLEMENT_DYNAMIC_CLASS(wxZRColaUTF16CharValidator, wxValidator);
 
 
-wxZRColaUTF16CharValidator::wxZRColaUTF16CharValidator(wchar_t *val) :
+wxZRColaUTF16CharValidator::wxZRColaUTF16CharValidator(ZRCola::char_t *val) :
     m_val(val),
     wxValidator()
 {
@@ -58,11 +58,11 @@ bool wxZRColaUTF16CharValidator::TransferFromWindow()
 }
 
 
-bool wxZRColaUTF16CharValidator::Parse(const wxString &val_in, size_t i_start, size_t i_end, wxTextCtrl *ctrl, wxWindow *parent, wchar_t *val_out)
+bool wxZRColaUTF16CharValidator::Parse(const wxString &val_in, size_t i_start, size_t i_end, wxTextCtrl *ctrl, wxWindow *parent, ZRCola::char_t *val_out)
 {
     const wxStringCharType *buf = val_in;
 
-    wchar_t chr = 0;
+    ZRCola::char_t chr = 0;
     for (size_t i = i_start;;) {
         if (i >= i_end) {
             // End of Unicode found.
@@ -156,7 +156,7 @@ bool wxZRColaUnicodeDumpValidator::Parse(const wxString &val_in, size_t i_start,
     wxString str;
     for (size_t i = i_start;;) {
         const wxStringCharType *buf_next;
-        wchar_t chr;
+        ZRCola::char_t chr;
         if ((buf_next = wmemchr(buf + i, L'+', i_end - i)) != NULL) {
             // Unicode dump separator found.
             if (!wxZRColaUTF16CharValidator::Parse(val_in, i, buf_next - buf, ctrl, parent, &chr))
@@ -242,7 +242,7 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
 
             m_gridPreview->SetCellValue(0, 0, m_char);
 
-            std::unique_ptr<ZRCola::character_db::character> ch((ZRCola::character_db::character*)new char[sizeof(ZRCola::character_db::character) + sizeof(wchar_t)*m_char.length()]);
+            std::unique_ptr<ZRCola::character_db::character> ch((ZRCola::character_db::character*)new char[sizeof(ZRCola::character_db::character) + sizeof(ZRCola::char_t)*m_char.length()]);
             ch->ZRCola::character_db::character::character(m_char.data(), m_char.length());
             ZRCola::character_db::indexChr::size_type ch_start;
             if (app->m_chr_db.idxChr.find(*ch, ch_start)) {
@@ -251,7 +251,7 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
                 m_description->SetValue(wxString(chr.desc(), chr.desc_len()));
                 {
                     // See if this character has a key sequence registered.
-                    std::unique_ptr<ZRCola::keyseq_db::keyseq> ks((ZRCola::keyseq_db::keyseq*)new char[sizeof(ZRCola::keyseq_db::keyseq) + sizeof(wchar_t)*m_char.length()]);
+                    std::unique_ptr<ZRCola::keyseq_db::keyseq> ks((ZRCola::keyseq_db::keyseq*)new char[sizeof(ZRCola::keyseq_db::keyseq) + sizeof(ZRCola::char_t)*m_char.length()]);
                     ks->ZRCola::keyseq_db::keyseq::keyseq(NULL, 0, m_char.data(), m_char.length());
                     ZRCola::keyseq_db::indexKey::size_type ks_start;
                     if (app->m_ks_db.idxChr.find(*ks, ks_start)) {
@@ -284,7 +284,7 @@ void wxZRColaCharSelect::OnIdle(wxIdleEvent& event)
 
             // Find character tags.
             std::list<std::wstring> tag_names;
-            std::unique_ptr<ZRCola::chrtag_db::chrtag> ct((ZRCola::chrtag_db::chrtag*)new char[sizeof(ZRCola::chrtag_db::chrtag) + sizeof(wchar_t)*m_char.length()]);
+            std::unique_ptr<ZRCola::chrtag_db::chrtag> ct((ZRCola::chrtag_db::chrtag*)new char[sizeof(ZRCola::chrtag_db::chrtag) + sizeof(ZRCola::char_t)*m_char.length()]);
             ct->ZRCola::chrtag_db::chrtag::chrtag(m_char.data(), m_char.length());
             ZRCola::chrtag_db::indexChr::size_type ct_start, ct_end;
             if (app->m_ct_db.idxChr.find(*ct, ct_start, ct_end)) {
@@ -766,14 +766,14 @@ wxThread::ExitCode wxZRColaCharSelect::SearchThread::Entry()
 
 int __cdecl wxZRColaCharSelect::SearchThread::CompareHits(const void *a, const void *b)
 {
-    const std::pair<ZRCola::charrank_t, wchar_t> *_a = (const std::pair<ZRCola::charrank_t, wchar_t>*)a;
-    const std::pair<ZRCola::charrank_t, wchar_t> *_b = (const std::pair<ZRCola::charrank_t, wchar_t>*)b;
+    const std::pair<ZRCola::charrank_t, ZRCola::char_t> *_a = (const std::pair<ZRCola::charrank_t, ZRCola::char_t>*)a;
+    const std::pair<ZRCola::charrank_t, ZRCola::char_t> *_b = (const std::pair<ZRCola::charrank_t, ZRCola::char_t>*)b;
 
-         if (_a->first > _b->first) return -1;
-    else if (_a->first < _b->first) return  1;
+    if (_a->first > _b->first) return -1;
+    if (_a->first < _b->first) return  1;
 
-         if (_a->second < _b->second) return -1;
-    else if (_a->second > _b->second) return  1;
+    if (_a->second < _b->second) return -1;
+    if (_a->second > _b->second) return  1;
 
     return 0;
 }
@@ -843,7 +843,7 @@ bool wxPersistentZRColaCharSelect::Restore()
         for (wxStringTokenizer tok(str, wxT("|")); tok.HasMoreTokens(); ) {
             wxString chr;
             for (wxStringTokenizer tok_chr(tok.GetNextToken(), wxT("+")); tok_chr.HasMoreTokens(); )
-                chr += (wchar_t)_tcstoul(tok_chr.GetNextToken().c_str(), NULL, 16);
+                chr += (ZRCola::char_t)_tcstoul(tok_chr.GetNextToken().c_str(), NULL, 16);
             val.Add(chr);
         }
         wnd->m_gridRecent->SetCharacters(val);
