@@ -1,4 +1,4 @@
-CPPFLAGS := -I../../stdex/include
+CPPFLAGS := $(CPPFLAGS) -I../../stdex/include
 SRCS := \
 	../src/character.cpp \
 	../src/common.cpp \
