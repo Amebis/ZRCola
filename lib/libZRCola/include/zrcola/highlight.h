@@ -113,8 +113,8 @@ namespace ZRCola {
                 int r = ZRCola::CompareString(a.chr(), a.chr_len(), b.chr(), b.chr_len());
                 if (r != 0) return r;
 
-                     if (a.set < b.set) return -1;
-                else if (a.set > b.set) return +1;
+                if (a.set < b.set) return -1;
+                if (a.set > b.set) return +1;
 
                 return 0;
             }

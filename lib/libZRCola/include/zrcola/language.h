@@ -97,8 +97,8 @@ namespace ZRCola {
                 int r = ZRCola::CompareString(a.chr(), a.chr_len(), b.chr(), b.chr_len());
                 if (r != 0) return r;
 
-                     if (a.lang < b.lang) return -1;
-                else if (a.lang > b.lang) return  1;
+                if (a.lang < b.lang) return -1;
+                if (a.lang > b.lang) return  1;
 
                 return 0;
             }
@@ -132,8 +132,8 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const langchar &a, _In_ const langchar &b) const
             {
-                     if (a.lang < b.lang) return -1;
-                else if (a.lang > b.lang) return  1;
+                if (a.lang < b.lang) return -1;
+                if (a.lang > b.lang) return  1;
 
                 int r = ZRCola::CompareString(a.chr, a.chr_len(), b.chr(), b.chr_len());
                 if (r != 0) return r;
@@ -258,8 +258,8 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const language &a, _In_ const language &b) const
             {
-                     if (a.lang < b.lang) return -1;
-                else if (a.lang > b.lang) return  1;
+                if (a.lang < b.lang) return -1;
+                if (a.lang > b.lang) return  1;
 
                 return 0;
             }

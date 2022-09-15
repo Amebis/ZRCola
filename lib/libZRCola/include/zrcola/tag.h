@@ -153,8 +153,8 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const chrtag &a, _In_ const chrtag &b) const
             {
-                     if (a.tag < b.tag) return -1;
-                else if (a.tag > b.tag) return  1;
+                if (a.tag < b.tag) return -1;
+                if (a.tag > b.tag) return  1;
 
                 return 0;
             }
@@ -336,8 +336,8 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const tagname &a, _In_ const tagname &b) const
             {
-                     if (a.locale < b.locale) return -1;
-                else if (a.locale > b.locale) return  1;
+                if (a.locale < b.locale) return -1;
+                if (a.locale > b.locale) return  1;
 
                 int r = tagname::CompareName(a.locale, a.name(), a.name_len(), b.name(), b.name_len());
                 if (r != 0) return r;
@@ -398,11 +398,11 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const tagname &a, _In_ const tagname &b) const
             {
-                     if (a.locale < b.locale) return -1;
-                else if (a.locale > b.locale) return  1;
+                if (a.locale < b.locale) return -1;
+                if (a.locale > b.locale) return  1;
 
-                     if (a.tag < b.tag) return -1;
-                else if (a.tag > b.tag) return  1;
+                if (a.tag < b.tag) return -1;
+                if (a.tag > b.tag) return  1;
 
                 return 0;
             }

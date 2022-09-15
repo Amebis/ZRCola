@@ -408,8 +408,8 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const chrcat &a, _In_ const chrcat &b) const
             {
-                     if (a.cat < b.cat) return -1;
-                else if (a.cat > b.cat) return  1;
+                if (a.cat < b.cat) return -1;
+                if (a.cat > b.cat) return  1;
 
                 return  0;
             }
@@ -441,8 +441,8 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const chrcat &a, _In_ const chrcat &b) const
             {
-                     if (a.rank < b.rank) return -1;
-                else if (a.rank > b.rank) return +1;
+                if (a.rank < b.rank) return -1;
+                if (a.rank > b.rank) return +1;
 
                 return 0;
             }

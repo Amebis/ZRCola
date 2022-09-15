@@ -158,8 +158,8 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const translation &a, _In_ const translation &b) const
             {
-                     if (a.set < b.set) return -1;
-                else if (a.set > b.set) return +1;
+                if (a.set < b.set) return -1;
+                if (a.set > b.set) return +1;
 
                 int r = ZRCola::CompareString(a.src(), a.src_len(), b.src(), b.src_len());
                 if (r != 0) return r;
@@ -223,8 +223,8 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const translation &a, _In_ const translation &b) const
             {
-                     if (a.set < b.set) return -1;
-                else if (a.set > b.set) return +1;
+                if (a.set < b.set) return -1;
+                if (a.set > b.set) return +1;
 
                 int r = ZRCola::CompareString(a.dst(), a.dst_len(), b.dst(), b.dst_len());
                 if (r != 0) return r;
@@ -410,8 +410,8 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const transet &a, _In_ const transet &b) const
             {
-                     if (a.set < b.set) return -1;
-                else if (a.set > b.set) return  1;
+                if (a.set < b.set) return -1;
+                if (a.set > b.set) return  1;
 
                 return 0;
             }
@@ -530,8 +530,8 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const transeq &a, _In_ const transeq &b) const
             {
-                     if (a.seq < b.seq) return -1;
-                else if (a.seq > b.seq) return  1;
+                if (a.seq < b.seq) return -1;
+                if (a.seq > b.seq) return  1;
 
                 return 0;
             }
@@ -563,8 +563,8 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const transeq &a, _In_ const transeq &b) const
             {
-                     if (a.rank < b.rank) return -1;
-                else if (a.rank > b.rank) return +1;
+                if (a.rank < b.rank) return -1;
+                if (a.rank > b.rank) return +1;
 
                 return 0;
             }

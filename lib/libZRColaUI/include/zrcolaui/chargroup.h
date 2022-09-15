@@ -126,8 +126,8 @@ namespace ZRCola {
             ///
             virtual int compare(_In_ const chrgrp &a, _In_ const chrgrp &b) const
             {
-                     if (a.rank < b.rank) return -1;
-                else if (a.rank > b.rank) return +1;
+                if (a.rank < b.rank) return -1;
+                if (a.rank > b.rank) return +1;
 
                 return 0;
             }
