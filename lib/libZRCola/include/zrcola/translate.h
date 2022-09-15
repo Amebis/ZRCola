@@ -8,7 +8,20 @@
 #include "common.h"
 #include "language.h"
 
-#include <stdex/idrec.h>
+namespace ZRCola {
+    class translation_db;
+}
+
+///
+/// Reads translation database from a stream
+///
+/// \param[in ] stream  Input stream
+/// \param[out] db      Translation database
+///
+/// \returns The stream \p stream
+///
+inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::translation_db &db);
+
 #include <algorithm>
 #include <istream>
 #include <ostream>
@@ -320,9 +333,6 @@ namespace ZRCola {
     };
 
 
-    typedef stdex::idrec::record<translation_db, recordid_t, 0x4e5254 /*"TRN"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> translation_rec;
-
-
     ///
     /// Translation set database
     ///
@@ -434,9 +444,6 @@ namespace ZRCola {
             data      .clear();
         }
     };
-
-
-    typedef stdex::idrec::record<transet_db, recordid_t, 0x455354 /*"TSE"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> transet_rec;
 
 
     ///
@@ -608,9 +615,6 @@ namespace ZRCola {
             data      .clear();
         }
     };
-
-
-    typedef stdex::idrec::record<transeq_db, recordid_t, 0x515354 /*"TSQ"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> transeq_rec;
 };
 
 

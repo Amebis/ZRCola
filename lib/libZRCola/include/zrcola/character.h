@@ -7,7 +7,6 @@
 
 #include "common.h"
 
-#include <stdex/idrec.h>
 #include <assert.h>
 #include <algorithm>
 #include <istream>
@@ -327,9 +326,6 @@ namespace ZRCola {
     };
 
 
-    typedef stdex::idrec::record<character_db, recordid_t, 0x524843 /*"CHR"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> character_rec;
-
-
     ///
     /// Character category database
     ///
@@ -486,9 +482,6 @@ namespace ZRCola {
             data     .clear();
         }
     };
-
-
-    typedef stdex::idrec::record<chrcat_db, recordid_t, 0x544343 /*"CCT"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> chrcat_rec;
 };
 
 

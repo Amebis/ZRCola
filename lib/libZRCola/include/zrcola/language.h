@@ -7,7 +7,6 @@
 
 #include "common.h"
 
-#include <stdex/idrec.h>
 #include <istream>
 #include <ostream>
 #include <vector>
@@ -181,9 +180,6 @@ namespace ZRCola {
     };
 
 
-    typedef stdex::idrec::record<langchar_db, recordid_t, 0x432d4c /*"L-C"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> langchar_rec;
-
-
     ///
     /// Language database
     ///
@@ -282,9 +278,6 @@ namespace ZRCola {
             data   .clear();
         }
     };
-
-
-    typedef stdex::idrec::record<language_db, recordid_t, 0x474e4c /*"LNG"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> language_rec;
 };
 
 

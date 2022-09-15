@@ -20,7 +20,7 @@
 #include <wx/intl.h>
 #pragma warning(pop)
 
-#include <stdex/idrec.h>
+#include <zrcola/idrec.h>
 
 #include <WinStd/Common.h>
 

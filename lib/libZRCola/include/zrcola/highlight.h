@@ -7,8 +7,6 @@
 
 #include "common.h"
 
-#include <stdex/idrec.h>
-
 #include <functional>
 
 #pragma warning(push)
@@ -164,9 +162,6 @@ namespace ZRCola {
         ///
         void Highlight(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _In_ std::function<void (hlghtsetid_t set, size_t start, size_t end)> callback) const;
     };
-
-
-    typedef stdex::idrec::record<highlight_db, recordid_t, 0x484748 /*"HGH"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> highlight_rec;
 };
 
 

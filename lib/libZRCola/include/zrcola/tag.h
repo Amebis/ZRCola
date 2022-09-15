@@ -7,7 +7,6 @@
 
 #include "common.h"
 
-#include <stdex/idrec.h>
 #include <assert.h>
 #include <istream>
 #include <ostream>
@@ -212,9 +211,6 @@ namespace ZRCola {
         ///
         bool Search(_In_ const std::map<tagid_t, uint16_t> &tags, _In_ const character_db &ch_db, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<std::wstring, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
     };
-
-
-    typedef stdex::idrec::record<chrtag_db, recordid_t, 0x542d43 /*"C-T"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> chrtag_rec;
 
 
     ///
@@ -437,9 +433,6 @@ namespace ZRCola {
         ///
         bool Search(_In_z_ const wchar_t *str, _In_ uint32_t locale, _Inout_ std::map<tagid_t, uint16_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
     };
-
-
-    typedef stdex::idrec::record<tagname_db, recordid_t, 0x4e4754 /*"TGN"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> tagname_rec;
 };
 
 
