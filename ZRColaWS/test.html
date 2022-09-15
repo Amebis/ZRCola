@@ -1,0 +1,30 @@
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="sl">
+</head>
+
+<script type="text/javascript">
+function submitJSON() {
+	var form = document.users;
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == XMLHttpRequest.DONE)
+			form["res"].value = xhr.responseText;
+	}
+	xhr.open("POST", "http://localhost:8000/users", true);
+	xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+	xhr.send(form["req"].value);
+}
+</script>
+<body>
+<form name="users">
+	<h1>users</h1>
+	<p>
+		<textarea rows="10" name="req" cols="63">{"id":0, "name":"joe"}</textarea>
+		>>
+		<textarea rows="10" name="res" cols="63"></textarea>
+	</p>
+	<p><input type="submit" value="Submit" onclick="submitJSON(); return false"><input type="reset" value="Reset"></p>
+</form>
+
+</body>

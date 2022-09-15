@@ -56,6 +56,19 @@ Use Microsoft NMAKE to build the project. The resulting files can be found in ou
 
 The `/ls` flag can be appended to the commands above to reduce NMAKE's verbosity. You can combine multiple targets (e.g. nmake Unregister Clean). Please, see NMAKE reference for further reading.
 
+## Building ZRCola webservice
+
+### Building Environment Requirements
+- Linux
+- _gcc_, _make_
+- [oat++ 1.3.0](https://oatpp.io/)
+
+### oat++
+ZRCola webservice is using oat++ library. You have to compile the library and install it to `/usr/local`.
+
+### Building
+Use `make -C ZRColaWS all` to build the project.
+
 ## Translating ZRCola
 Instructions how to translate ZRCola to your language can be found [here](LOCALIZATION.md).
 
