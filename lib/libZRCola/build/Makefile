@@ -17,9 +17,17 @@ all: ../lib/libZRCola.a
 ../lib/libZRCola.a: ../src/pch.h.gch $(OBJS)
 	$(AR) $(ARFLAGS) $@ $(OBJS)
 
+.PHONY: test
+test: ../test/test
+	../test/test
+
+../test/test: ../lib/libZRCola.a
+	$(CXX) $(CPPFLAGS) -I../../stdex/include -I../include $(CXXFLAGS) -L../lib -o $@ ../test/test.cpp -lstdc++ -lZRCola
+
 .PHONY: clean
 clean:
-	-rm -r ../src/*.h.gch ../src/*.cpp.o ../lib/libZRCola.a
+	-rm -r ../src/*.{d,gch,o} ../lib/libZRCola.a ../test/*.d ../test/test
 
 include ../../../include/targets.mak
 -include $(DEPS)
+-include ../test/test.d
