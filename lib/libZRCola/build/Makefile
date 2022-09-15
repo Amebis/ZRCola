@@ -11,7 +11,10 @@ SRCS := \
 
 include ../../../include/props.mak
 
-../lib/libZRCola.a : ../src/pch.h.gch $(OBJS)
+.PHONY: all
+all: ../lib/libZRCola.a
+
+../lib/libZRCola.a: ../src/pch.h.gch $(OBJS)
 	$(AR) $(ARFLAGS) $@ $(OBJS)
 
 .PHONY: clean
