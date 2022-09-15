@@ -1,0 +1,11 @@
+CPPFLAGS := $(CPPFLAGS) -MMD -MP
+ifeq ($(CFG),Debug)
+CPPFLAGS := $(CPPFLAGS) -D_DEBUG
+CXXFLAGS := -Og
+else
+CPPFLAGS := $(CPPFLAGS) -DNDEBUG
+CXXFLAGS := -O3
+endif
+
+OBJS := $(SRCS:%=%.o)
+DEPS := $(OBJS:.o=.d)
