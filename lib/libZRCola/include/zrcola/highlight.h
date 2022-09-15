@@ -45,7 +45,7 @@ namespace ZRCola {
 
         protected:
             uint16_t chr_to;    ///< Character end in \c data
-            wchar_t data[];     ///< Character
+            char16_t data[];    ///< Character
 
         private:
             inline highlight(_In_ const highlight &other);
@@ -61,21 +61,21 @@ namespace ZRCola {
             ///
             inline highlight(
                 _In_opt_                        hlghtsetid_t  set     = 0,
-                _In_opt_z_count_(chr_len) const wchar_t      *chr     = NULL,
+                _In_opt_z_count_(chr_len) const char16_t     *chr     = NULL,
                 _In_opt_                        size_t        chr_len = 0)
             {
                 this->set    = set;
                 this->chr_to = static_cast<uint16_t>(chr_len);
-                if (chr && chr_len) memcpy(this->data, chr, sizeof(wchar_t)*chr_len);
+                if (chr && chr_len) memcpy(this->data, chr, sizeof(char16_t)*chr_len);
             }
 
-            inline const wchar_t* chr    () const { return data;          };
-            inline       wchar_t* chr    ()       { return data;          };
-            inline const wchar_t* chr_end() const { return data + chr_to; };
-            inline       wchar_t* chr_end()       { return data + chr_to; };
-            inline       uint16_t chr_len() const { return chr_to;        };
+            inline const char16_t* chr    () const { return data;          };
+            inline       char16_t* chr    ()       { return data;          };
+            inline const char16_t* chr_end() const { return data + chr_to; };
+            inline       char16_t* chr_end()       { return data + chr_to; };
+            inline       uint16_t  chr_len() const { return chr_to;        };
 
-            inline wchar_t chr_at(_In_ size_t i) const
+            inline char16_t chr_at(_In_ size_t i) const
             {
                 return i < chr_to ? data[i] : 0;
             }
@@ -160,7 +160,7 @@ namespace ZRCola {
         /// \param[in] inputMax  Length of the input string in characters. Can be (size_t)-1 if \p input is zero terminated.
         /// \param[in] callback  Function to be called on highlight switch
         ///
-        void Highlight(_In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _In_ std::function<void (hlghtsetid_t set, size_t start, size_t end)> callback) const;
+        void Highlight(_In_z_count_(inputMax) const char16_t* input, _In_ size_t inputMax, _In_ std::function<void (hlghtsetid_t set, size_t start, size_t end)> callback) const;
     };
 };
 

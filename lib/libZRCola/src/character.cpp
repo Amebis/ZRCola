@@ -9,7 +9,29 @@
 const ZRCola::chrcatid_t ZRCola::chrcatid_t::blank = {};
 
 
-bool ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<std::wstring, charrank_t> &hits, _Inout_ std::map<std::wstring, charrank_t> &hits_sub, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
+#ifndef _WIN32
+
+_Use_decl_annotations_
+size_t ZRCola::wcslen(const char16_t *str)
+{
+    for (size_t i = 0; ; ++i)
+        if (!str[i])
+            return i;
+}
+
+_Use_decl_annotations_
+size_t ZRCola::wcsnlen(const char16_t *str, size_t count)
+{
+    for (size_t i = 0; ; ++i)
+        if (i >= count || !str[i])
+            return i;
+}
+
+#endif
+
+
+_Use_decl_annotations_
+bool ZRCola::character_db::Search(const char16_t *str, const std::set<chrcatid_t> &cats, std::map<std::u16string, charrank_t> &hits, std::map<std::u16string, charrank_t> &hits_sub, bool (__cdecl *fn_abort)(void *cookie), void *cookie) const
 {
     assert(str);
 
@@ -27,14 +49,14 @@ bool ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set
         }
 
         // Get term.
-        std::wstring term;
-        if (*str == L'"') {
-            const wchar_t *str_end = ++str;
+        std::u16string term;
+        if (*str == u'"') {
+            const char16_t *str_end = ++str;
             for (;;) {
                 if (*str_end == 0) {
                     term.assign(str, str_end);
                     break;
-                } else if (*str_end == L'"') {
+                } else if (*str_end == u'"') {
                     term.assign(str, str_end);
                     str_end++;
                     break;
@@ -43,7 +65,7 @@ bool ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set
             }
             str = str_end;
         } else {
-            const wchar_t *str_end = str + 1;
+            const char16_t *str_end = str + 1;
             for (; *str_end && !iswspace(*str_end); str_end++);
             term.assign(str, str_end);
             str = str_end;
@@ -57,7 +79,7 @@ bool ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set
 
             if (fn_abort && fn_abort(cookie)) return false;
 
-            const wchar_t *val;
+            const char16_t *val;
             size_t val_len;
 
             if (idxDsc.find(term.c_str(), term.size(), &val, &val_len)) {
@@ -66,7 +88,7 @@ bool ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set
                     if (fn_abort && fn_abort(cookie)) return false;
                     j = wcsnlen(val + i, val_len - i);
                     if (cats.find(GetCharCat(val + i, j)) != cats.end()) {
-                        std::wstring c(val + i, j);
+                        std::u16string c(val + i, j);
                         auto idx = hits.find(c);
                         if (idx == hits.end()) {
                             // New character.
@@ -85,7 +107,7 @@ bool ZRCola::character_db::Search(_In_z_ const wchar_t *str, _In_ const std::set
                     if (fn_abort && fn_abort(cookie)) return false;
                     j = wcsnlen(val + i, val_len - i);
                     if (cats.find(GetCharCat(val + i, j)) != cats.end()) {
-                        std::wstring c(val + i, j);
+                        std::u16string c(val + i, j);
                         auto idx = hits_sub.find(c);
                         if (idx == hits_sub.end()) {
                             // New character.

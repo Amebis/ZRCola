@@ -6,7 +6,7 @@
 #include "pch.h"
 
 
-bool ZRCola::chrtag_db::Search(_In_ const std::map<tagid_t, uint16_t> &tags, _In_ const character_db &ch_db, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<std::wstring, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
+bool ZRCola::chrtag_db::Search(_In_ const std::map<tagid_t, uint16_t> &tags, _In_ const character_db &ch_db, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<std::u16string, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
 {
     for (auto tag = tags.cbegin(), tag_end = tags.cend(); tag != tag_end; ++tag) {
         if (fn_abort && fn_abort(cookie)) return false;
@@ -19,7 +19,7 @@ bool ZRCola::chrtag_db::Search(_In_ const std::map<tagid_t, uint16_t> &tags, _In
                 const chrtag &ct = idxTag[i];
                 uint16_t len = ct.chr_len();
                 if (cats.find(ch_db.GetCharCat(ct.chr(), len)) != cats.end()) {
-                    std::wstring chr(ct.chr(), len);
+                    std::u16string chr(ct.chr(), len);
                     auto idx = hits.find(chr);
                     if (idx == hits.end()) {
                         // New character.
@@ -37,7 +37,7 @@ bool ZRCola::chrtag_db::Search(_In_ const std::map<tagid_t, uint16_t> &tags, _In
 }
 
 
-bool ZRCola::tagname_db::Search(_In_z_ const wchar_t *str, _In_ uint32_t locale, _Inout_ std::map<tagid_t, uint16_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
+bool ZRCola::tagname_db::Search(_In_z_ const char16_t *str, _In_ uint32_t locale, _Inout_ std::map<tagid_t, uint16_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie), _In_opt_ void *cookie) const
 {
     assert(str);
 
@@ -55,14 +55,14 @@ bool ZRCola::tagname_db::Search(_In_z_ const wchar_t *str, _In_ uint32_t locale,
         }
 
         // Get name.
-        std::wstring name;
-        if (*str == L'"') {
-            const wchar_t *str_end = ++str;
+        std::u16string name;
+        if (*str == u'"') {
+            const char16_t *str_end = ++str;
             for (;;) {
                 if (*str_end == 0) {
                     name.assign(str, str_end);
                     break;
-                } else if (*str_end == L'"') {
+                } else if (*str_end == u'"') {
                     name.assign(str, str_end);
                     str_end++;
                     break;
@@ -71,7 +71,7 @@ bool ZRCola::tagname_db::Search(_In_z_ const wchar_t *str, _In_ uint32_t locale,
             }
             str = str_end;
         } else {
-            const wchar_t *str_end = str + 1;
+            const char16_t *str_end = str + 1;
             for (; *str_end && !iswspace(*str_end); str_end++);
             name.assign(str, str_end);
             str = str_end;
@@ -81,7 +81,7 @@ bool ZRCola::tagname_db::Search(_In_z_ const wchar_t *str, _In_ uint32_t locale,
             if (fn_abort && fn_abort(cookie)) return false;
 
             // Find the name.
-            std::unique_ptr<tagname> tn(reinterpret_cast<tagname*>(new char[sizeof(tagname) + sizeof(wchar_t)*name.length()]));
+            std::unique_ptr<tagname> tn(reinterpret_cast<tagname*>(new char[sizeof(tagname) + sizeof(char16_t)*name.length()]));
             new (tn.get()) tagname(0, locale, name.data(), name.length());
             size_t start, end;
             if (idxName.find(*tn, start, end)) {

@@ -6,7 +6,7 @@
 #include "pch.h"
 
 _Use_decl_annotations_
-void ZRCola::highlight_db::Highlight(const wchar_t* input, size_t inputMax, std::function<void (hlghtsetid_t set, size_t start, size_t end)> callback) const
+void ZRCola::highlight_db::Highlight(const char16_t* input, size_t inputMax, std::function<void (hlghtsetid_t set, size_t start, size_t end)> callback) const
 {
     size_t start = 0;
     hlghtsetid_t set = ZRCOLA_HLGHTSETID_DEFAULT;
@@ -15,7 +15,7 @@ void ZRCola::highlight_db::Highlight(const wchar_t* input, size_t inputMax, std:
         // Find the longest matching highlight at i-th character.
         size_t l_match = (size_t)-1;
         for (size_t l = 0, r = idxChr.size(), ii = i, j = 0; ii < inputMax && l < r; ii++, j++) {
-            wchar_t c = input[ii];
+            char16_t c = input[ii];
             while (l < r) {
                 // Test the highlight in the middle of the search area.
                 size_t m = (l + r) / 2;
@@ -23,7 +23,7 @@ void ZRCola::highlight_db::Highlight(const wchar_t* input, size_t inputMax, std:
                 // Get the j-th character of the highlight.
                 // All highlights that get short on characters are lexically ordered before.
                 // Thus the j-th character is considered 0.
-                wchar_t s = idxChr[m].chr_at(j);
+                char16_t s = idxChr[m].chr_at(j);
 
                 // Do the bisection test.
                      if (c < s) r = m;

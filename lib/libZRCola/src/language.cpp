@@ -57,11 +57,11 @@ void ZRCola::LangConvert(_In_ LANGID lang_win, _Inout_ ZRCola::langid_t &lang)
 #endif
 
 
-bool ZRCola::langchar_db::IsLocalCharacter(_In_ const wchar_t *chr, _In_ const wchar_t *chr_end, _In_ ZRCola::langid_t lang) const
+bool ZRCola::langchar_db::IsLocalCharacter(_In_ const char16_t *chr, _In_ const char16_t *chr_end, _In_ ZRCola::langid_t lang) const
 {
     size_t n = chr_end - chr;
     assert(n <= 0xffff);
-    std::unique_ptr<langchar> lc((langchar*)new char[sizeof(langchar) + sizeof(wchar_t)*n]);
+    std::unique_ptr<langchar> lc((langchar*)new char[sizeof(langchar) + sizeof(char16_t)*n]);
     new (lc.get()) langchar(lang, chr, n);
     indexChr::size_type start;
     return idxChr.find(*lc, start);

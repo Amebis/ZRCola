@@ -38,7 +38,7 @@ namespace ZRCola {
 
         protected:
             uint16_t chr_to;    ///< Character end in \c data
-            wchar_t data[];     ///< Character
+            char16_t data[];    ///< Character
 
         private:
             inline chrtag(_In_ const chrtag &other);
@@ -53,20 +53,20 @@ namespace ZRCola {
             /// \param[in] tag      Tag
             ///
             inline chrtag(
-                _In_opt_z_count_(chr_len) const wchar_t *chr      = NULL,
-                _In_opt_                        size_t   chr_len  = 0,
-                _In_opt_                        tagid_t  tag      = 0)
+                _In_opt_z_count_(chr_len) const char16_t *chr      = NULL,
+                _In_opt_                        size_t    chr_len  = 0,
+                _In_opt_                        tagid_t   tag      = 0)
             {
                 this->tag    = tag;
                 this->chr_to = static_cast<uint16_t>(chr_len);
-                if (chr && chr_len) memcpy(this->data, chr, sizeof(wchar_t)*chr_len);
+                if (chr && chr_len) memcpy(this->data, chr, sizeof(char16_t)*chr_len);
             }
 
-            inline const wchar_t* chr    () const { return data;          };
-            inline       wchar_t* chr    ()       { return data;          };
-            inline const wchar_t* chr_end() const { return data + chr_to; };
-            inline       wchar_t* chr_end()       { return data + chr_to; };
-            inline       uint16_t chr_len() const { return chr_to;        };
+            inline const char16_t* chr    () const { return data;          };
+            inline       char16_t* chr    ()       { return data;          };
+            inline const char16_t* chr_end() const { return data + chr_to; };
+            inline       char16_t* chr_end()       { return data + chr_to; };
+            inline       uint16_t  chr_len() const { return chr_to;        };
         };
 #pragma pack(pop)
 
@@ -209,7 +209,7 @@ namespace ZRCola {
         /// \param[in   ] fn_abort  Pointer to function to periodically test for search cancellation
         /// \param[in   ] cookie    Cookie for \p fn_abort call
         ///
-        bool Search(_In_ const std::map<tagid_t, uint16_t> &tags, _In_ const character_db &ch_db, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<std::wstring, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
+        bool Search(_In_ const std::map<tagid_t, uint16_t> &tags, _In_ const character_db &ch_db, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<std::u16string, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
     };
 
 
@@ -230,7 +230,7 @@ namespace ZRCola {
 
         protected:
             uint16_t name_to;   ///< Tag name end in \c data
-            wchar_t data[];     ///< Tag name
+            char16_t data[];    ///< Tag name
 
         private:
             inline tagname(_In_ const tagname &other);
@@ -246,22 +246,22 @@ namespace ZRCola {
             /// \param[in] name_len  Number of UTF-16 characters in \p name
             ///
             inline tagname(
-                _In_opt_                         tagid_t   tag      = 0,
-                _In_opt_                         uint32_t  locale   = 0,
-                _In_opt_z_count_(name_len) const wchar_t  *name     = NULL,
-                _In_opt_                         size_t    name_len = 0)
+                _In_opt_                         tagid_t    tag      = 0,
+                _In_opt_                         uint32_t   locale   = 0,
+                _In_opt_z_count_(name_len) const char16_t  *name     = NULL,
+                _In_opt_                         size_t     name_len = 0)
             {
                 this->tag    = tag;
                 this->locale = locale;
                 this->name_to = static_cast<uint16_t>(name_len);
-                if (name && name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
+                if (name && name_len) memcpy(this->data, name, sizeof(char16_t)*name_len);
             }
 
-            inline const wchar_t* name    () const { return data; };
-            inline       wchar_t* name    ()       { return data; };
-            inline const wchar_t* name_end() const { return data + name_to; };
-            inline       wchar_t* name_end()       { return data + name_to; };
-            inline       uint16_t name_len() const { return name_to; };
+            inline const char16_t* name    () const { return data; };
+            inline       char16_t* name    ()       { return data; };
+            inline const char16_t* name_end() const { return data + name_to; };
+            inline       char16_t* name_end()       { return data + name_to; };
+            inline       uint16_t  name_len() const { return name_to; };
 
             ///
             /// Compares two names
@@ -281,7 +281,7 @@ namespace ZRCola {
             /// The function does not treat \\0 characters as terminators for performance reasons.
             /// Therefore \p count_a and \p count_b must represent exact string lengths.
             ///
-            static inline int CompareName(_In_ uint32_t locale, _In_z_count_(count_a) const wchar_t *str_a, _In_ uint16_t count_a, _In_z_count_(count_b) const wchar_t *str_b, _In_ uint16_t count_b)
+            static inline int CompareName(_In_ uint32_t locale, _In_z_count_(count_a) const char16_t *str_a, _In_ uint16_t count_a, _In_z_count_(count_b) const char16_t *str_b, _In_ uint16_t count_b)
             {
 #ifdef _WIN32
                 switch (::CompareString(locale, SORT_STRINGSORT | NORM_IGNORECASE, str_a, count_a, str_b, count_b)) {
@@ -291,14 +291,14 @@ namespace ZRCola {
                     default               : assert(0); return -1;
                 }
 #else
-                assert(0); // TODO: 1. Should honour locale. 2. Should use ICU for lowercase conversion.
-                std::wstring
+                assert(0); // TODO: 1. Should honour locale. 2. Should use ICU for lowercase conversion. 3. Should be UTF-16-aware.
+                std::u16string
                     a(str_a, count_a),
                     b(str_b, count_b);
-                auto tolower = [](wchar_t c){ return std::towlower(c); };
+                auto tolower = [](char16_t c){ return std::towlower(c); };
                 std::transform(a.begin(), a.end(), a.begin(), tolower);
                 std::transform(b.begin(), b.end(), b.begin(), tolower);
-                auto &coll = std::use_facet<std::collate<wchar_t>>(std::locale());
+                auto &coll = std::use_facet<std::collate<char16_t>>(std::locale());
                 return coll.compare(&*a.cbegin(), &*a.cend(), &*b.cbegin(), &*b.cend());
 #endif
             }
@@ -431,7 +431,7 @@ namespace ZRCola {
         /// \param[in   ] fn_abort  Pointer to function to periodically test for search cancellation
         /// \param[in   ] cookie    Cookie for \p fn_abort call
         ///
-        bool Search(_In_z_ const wchar_t *str, _In_ uint32_t locale, _Inout_ std::map<tagid_t, uint16_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
+        bool Search(_In_z_ const char16_t *str, _In_ uint32_t locale, _Inout_ std::map<tagid_t, uint16_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
     };
 };
 

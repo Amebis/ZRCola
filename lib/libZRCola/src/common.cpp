@@ -10,7 +10,7 @@ const ZRCola::langid_t ZRCola::langid_t::blank = {};
 
 
 _Use_decl_annotations_
-int ZRCola::CompareString(const wchar_t* str_a, size_t count_a, const wchar_t* str_b, size_t count_b)
+int ZRCola::CompareString(const char16_t* str_a, size_t count_a, const char16_t* str_b, size_t count_b)
 {
     for (size_t i = 0; ; i++) {
         if (i >= count_a && i >= count_b) return  0;
@@ -23,11 +23,11 @@ int ZRCola::CompareString(const wchar_t* str_a, size_t count_a, const wchar_t* s
 
 
 _Use_decl_annotations_
-inline std::string ZRCola::GetUnicodeDumpA(const wchar_t* str, size_t count, const char* sep)
+inline std::string ZRCola::GetUnicodeDumpA(const char16_t* str, size_t count, const char* sep)
 {
     std::string out;
     size_t sep_len = strlen(sep);
-    size_t dump_len_max = sep_len + 8 + 1;
+    size_t dump_len_max = sep_len + 4 + 1;
     char* dump;
     std::unique_ptr<char[]> dump_obj(dump = new char[dump_len_max]);
     if (count && str[0]) {
@@ -54,11 +54,11 @@ inline std::string ZRCola::GetUnicodeDumpA(const wchar_t* str, size_t count, con
 
 
 _Use_decl_annotations_
-std::wstring ZRCola::GetUnicodeDumpW(const wchar_t* str, size_t count, const wchar_t* sep)
+std::wstring ZRCola::GetUnicodeDumpW(const char16_t* str, size_t count, const wchar_t* sep)
 {
     std::wstring out;
-    size_t sep_len = wcslen(sep);
-    size_t dump_len_max = sep_len + 8 + 1;
+    size_t sep_len = ::wcslen(sep);
+    size_t dump_len_max = sep_len + 4 + 1;
     wchar_t* dump;
     std::unique_ptr<wchar_t[]> dump_obj(dump = new wchar_t[dump_len_max]);
     if (count && str[0]) {

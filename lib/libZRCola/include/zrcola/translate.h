@@ -84,7 +84,7 @@ namespace ZRCola {
         protected:
             uint16_t dst_to;    ///< Destination character end in \c data
             uint16_t src_to;    ///< Source string end in \c data
-            wchar_t data[];     ///< Destination string and source character
+            char16_t data[];    ///< Destination string and source character
 
         private:
             inline translation(_In_ const translation &other);
@@ -105,39 +105,39 @@ namespace ZRCola {
             inline translation(
                 _In_opt_                        transetid_t  set      = 0,
                 _In_opt_                        uint16_t     dst_rank = 0,
-                _In_opt_z_count_(dst_len) const wchar_t     *dst      = NULL,
+                _In_opt_z_count_(dst_len) const char16_t    *dst      = NULL,
                 _In_opt_                        size_t       dst_len  = 0,
                 _In_opt_                        uint16_t     src_rank = 0,
-                _In_opt_z_count_(src_len) const wchar_t     *src      = NULL,
+                _In_opt_z_count_(src_len) const char16_t    *src      = NULL,
                 _In_opt_                        size_t       src_len  = 0)
             {
                 this->set      = set;
                 this->dst_rank = dst_rank;
                 this->src_rank = src_rank;
                 this->dst_to = static_cast<uint16_t>(dst_len);
-                if (dst && dst_len) memcpy(this->data, dst, sizeof(wchar_t)*dst_len);
+                if (dst && dst_len) memcpy(this->data, dst, sizeof(char16_t)*dst_len);
                 this->src_to = static_cast<uint16_t>(this->dst_to + src_len);
-                if (src && src_len) memcpy(this->data + this->dst_to, src, sizeof(wchar_t)*src_len);
+                if (src && src_len) memcpy(this->data + this->dst_to, src, sizeof(char16_t)*src_len);
             }
 
-            inline const wchar_t* dst    () const { return data;          };
-            inline       wchar_t* dst    ()       { return data;          };
-            inline const wchar_t* dst_end() const { return data + dst_to; };
-            inline       wchar_t* dst_end()       { return data + dst_to; };
-            inline       uint16_t dst_len() const { return dst_to;        };
+            inline const char16_t* dst    () const { return data;          };
+            inline       char16_t* dst    ()       { return data;          };
+            inline const char16_t* dst_end() const { return data + dst_to; };
+            inline       char16_t* dst_end()       { return data + dst_to; };
+            inline       uint16_t  dst_len() const { return dst_to;        };
 
-            inline wchar_t dst_at(_In_ size_t i) const
+            inline char16_t dst_at(_In_ size_t i) const
             {
                 return i < dst_to ? data[i] : 0;
             }
 
-            inline const wchar_t* src    () const { return data + dst_to;   };
-            inline       wchar_t* src    ()       { return data + dst_to;   };
-            inline const wchar_t* src_end() const { return data + src_to;   };
-            inline       wchar_t* src_end()       { return data + src_to;   };
-            inline       uint16_t src_len() const { return src_to - dst_to; };
+            inline const char16_t* src    () const { return data + dst_to;   };
+            inline       char16_t* src    ()       { return data + dst_to;   };
+            inline const char16_t* src_end() const { return data + src_to;   };
+            inline       char16_t* src_end()       { return data + src_to;   };
+            inline       uint16_t  src_len() const { return src_to - dst_to; };
 
-            inline wchar_t src_at(_In_ size_t i) const
+            inline char16_t src_at(_In_ size_t i) const
             {
                 size_t ii = i + dst_to; // absolute index
                 return ii < src_to ? data[ii] : 0;
@@ -302,7 +302,7 @@ namespace ZRCola {
         /// \param[out] output    Output string (UTF-16)
         /// \param[out] map       The vector of source to destination index mappings (optional)
         ///
-        void Translate(_In_ transetid_t set, _In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const;
+        void Translate(_In_ transetid_t set, _In_z_count_(inputMax) const char16_t* input, _In_ size_t inputMax, _Out_ std::u16string &output, _Out_opt_ std::vector<mapping>* map = NULL) const;
 
         ///
         /// Inverse translates string
@@ -313,7 +313,7 @@ namespace ZRCola {
         /// \param[out] output    Output string (UTF-16)
         /// \param[out] map       The vector of source to destination index mappings (optional)
         ///
-        inline void TranslateInv(_In_ transetid_t set, _In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const
+        inline void TranslateInv(_In_ transetid_t set, _In_z_count_(inputMax) const char16_t* input, _In_ size_t inputMax, _Out_ std::u16string &output, _Out_opt_ std::vector<mapping>* map = NULL) const
         {
             TranslateInv(set, input, inputMax, NULL, langid_t::blank, output, map);
         }
@@ -329,7 +329,7 @@ namespace ZRCola {
         /// \param[out] output    Output string (UTF-16)
         /// \param[out] map       The vector of source to destination index mappings (optional)
         ///
-        void TranslateInv(_In_ transetid_t set, _In_z_count_(inputMax) const wchar_t* input, _In_ size_t inputMax, _In_opt_ const langchar_db *lc_db, _In_opt_ langid_t lang, _Out_ std::wstring &output, _Out_opt_ std::vector<mapping>* map = NULL) const;
+        void TranslateInv(_In_ transetid_t set, _In_z_count_(inputMax) const char16_t* input, _In_ size_t inputMax, _In_opt_ const langchar_db *lc_db, _In_opt_ langid_t lang, _Out_ std::u16string &output, _Out_opt_ std::vector<mapping>* map = NULL) const;
     };
 
 
@@ -350,7 +350,7 @@ namespace ZRCola {
         protected:
             uint16_t src_to;    ///< Source name end in \c data
             uint16_t dst_to;    ///< Sestination name end in \c data
-            wchar_t data[];     ///< Source and destination names
+            char16_t data[];    ///< Source and destination names
 
         private:
             inline transet(_In_ const transet &other);
@@ -368,29 +368,29 @@ namespace ZRCola {
             ///
             inline transet(
                 _In_opt_                        transetid_t  set     = 0,
-                _In_opt_z_count_(src_len) const wchar_t     *src     = NULL,
+                _In_opt_z_count_(src_len) const char16_t    *src     = NULL,
                 _In_opt_                        size_t       src_len = 0,
-                _In_opt_z_count_(dst_len) const wchar_t     *dst     = NULL,
+                _In_opt_z_count_(dst_len) const char16_t    *dst     = NULL,
                 _In_opt_                        size_t       dst_len = 0)
             {
                 this->set = set;
                 this->src_to = static_cast<uint16_t>(src_len);
-                if (src && src_len) memcpy(this->data, src, sizeof(wchar_t)*src_len);
+                if (src && src_len) memcpy(this->data, src, sizeof(char16_t)*src_len);
                 this->dst_to = static_cast<uint16_t>(this->src_to + dst_len);
-                if (dst && dst_len) memcpy(this->data + this->src_to, dst, sizeof(wchar_t)*dst_len);
+                if (dst && dst_len) memcpy(this->data + this->src_to, dst, sizeof(char16_t)*dst_len);
             }
 
-            inline const wchar_t* src    () const { return data;          };
-            inline       wchar_t* src    ()       { return data;          };
-            inline const wchar_t* src_end() const { return data + src_to; };
-            inline       wchar_t* src_end()       { return data + src_to; };
-            inline       uint16_t src_len() const { return src_to;        };
+            inline const char16_t* src    () const { return data;          };
+            inline       char16_t* src    ()       { return data;          };
+            inline const char16_t* src_end() const { return data + src_to; };
+            inline       char16_t* src_end()       { return data + src_to; };
+            inline       uint16_t  src_len() const { return src_to;        };
 
-            inline const wchar_t* dst    () const { return data + src_to;   };
-            inline       wchar_t* dst    ()       { return data + src_to;   };
-            inline const wchar_t* dst_end() const { return data + dst_to;   };
-            inline       wchar_t* dst_end()       { return data + dst_to;   };
-            inline       uint16_t dst_len() const { return dst_to - src_to; };
+            inline const char16_t* dst    () const { return data + src_to;   };
+            inline       char16_t* dst    ()       { return data + src_to;   };
+            inline const char16_t* dst_end() const { return data + dst_to;   };
+            inline       char16_t* dst_end()       { return data + dst_to;   };
+            inline       uint16_t  dst_len() const { return dst_to - src_to; };
         };
 #pragma pack(pop)
 
@@ -464,7 +464,7 @@ namespace ZRCola {
         protected:
             uint16_t name_to;   ///< Translation sequence name end in \c data
             uint16_t sets_to;   ///< Translation sequence sets end in \c data
-            wchar_t data[];     ///< Translation sequence name and sets
+            char16_t data[];    ///< Translation sequence name and sets
 
         private:
             inline transeq(_In_ const transeq &other);
@@ -484,7 +484,7 @@ namespace ZRCola {
             inline transeq(
                 _In_opt_                         transeqid_t  seq      = 0,
                 _In_opt_                         uint16_t     rank     = 0,
-                _In_opt_z_count_(name_len) const wchar_t     *name     = NULL,
+                _In_opt_z_count_(name_len) const char16_t    *name     = NULL,
                 _In_opt_                         size_t       name_len = 0,
                 _In_opt_count_  (sets_len) const transetid_t *sets      = NULL,
                 _In_opt_                         size_t       sets_len  = 0)
@@ -492,16 +492,16 @@ namespace ZRCola {
                 this->seq  = seq;
                 this->rank = rank;
                 this->name_to = static_cast<uint16_t>(name_len);
-                if (name && name_len) memcpy(this->data, name, sizeof(wchar_t)*name_len);
+                if (name && name_len) memcpy(this->data, name, sizeof(char16_t)*name_len);
                 this->sets_to = static_cast<uint16_t>(this->name_to + sets_len);
                 if (sets && sets_len) memcpy(this->data + this->name_to, sets, sizeof(transetid_t)*sets_len);
             }
 
-            inline const wchar_t* name    () const { return data;           };
-            inline       wchar_t* name    ()       { return data;           };
-            inline const wchar_t* name_end() const { return data + name_to; };
-            inline       wchar_t* name_end()       { return data + name_to; };
-            inline       uint16_t name_len() const { return name_to;        };
+            inline const char16_t* name    () const { return data;           };
+            inline       char16_t* name    ()       { return data;           };
+            inline const char16_t* name_end() const { return data + name_to; };
+            inline       char16_t* name_end()       { return data + name_to; };
+            inline       uint16_t  name_len() const { return name_to;        };
 
             inline const transetid_t* sets    () const { return reinterpret_cast<const transetid_t*>(data + name_to); };
             inline       transetid_t* sets    ()       { return reinterpret_cast<      transetid_t*>(data + name_to); };
@@ -592,7 +592,7 @@ namespace ZRCola {
                      if (a.rank < b.rank) return -1;
                 else if (a.rank > b.rank) return +1;
 
-                auto &coll = std::use_facet<std::collate<wchar_t>>(std::locale());
+                auto &coll = std::use_facet<std::collate<char16_t>>(std::locale());
                 return coll.compare(a.name(), a.name_end(), b.name(), b.name_end());
             }
         } idxRank;  ///< Rank index
