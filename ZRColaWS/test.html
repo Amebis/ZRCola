@@ -2,29 +2,44 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Content-Language" content="sl">
 </head>
-
-<script type="text/javascript">
-function submitJSON() {
-	var form = document.users;
-	var xhr = new XMLHttpRequest();
-	xhr.onreadystatechange = function() {
-		if (xhr.readyState == XMLHttpRequest.DONE)
-			form["res"].value = xhr.responseText;
-	}
-	xhr.open("POST", "http://localhost:8000/users", true);
-	xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-	xhr.send(form["req"].value);
-}
-</script>
+<style>
+textarea, input[type="text"]
+{
+	font-family: ZRCola;
+	font-size: 24px;
+}	
+</style>
 <body>
-<form name="users">
-	<h1>users</h1>
-	<p>
-		<textarea rows="10" name="req" cols="63">{"id":0, "name":"joe"}</textarea>
-		>>
-		<textarea rows="10" name="res" cols="63"></textarea>
-	</p>
-	<p><input type="submit" value="Submit" onclick="submitJSON(); return false"><input type="reset" value="Reset"></p>
-</form>
+	<form method="GET" name="about" action="http://localhost:8000/about">
+		<h1>about</h1>
+		<p><input type="submit" value="Submit"></p>
+	</form>
 
+	<form method="GET" name="transet" action="http://localhost:8000/transet">
+		<h1>transet</h1>
+		<p><input type="submit" value="Submit"></p>
+	</form>
+
+	<script type="text/javascript">
+	function submitJSON() {
+		var form = document.translate;
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == XMLHttpRequest.DONE)
+				form["res"].value = xhr.responseText;
+		}
+		xhr.open("POST", "http://localhost:8000/translate", true);
+		xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+		xhr.send(form["req"].value);
+	}
+	</script>
+	<form name="translate">
+		<h1>translate</h1>
+		<p>
+			<textarea rows="10" name="req" cols="40">{"transet":[0], "text":"To je test."}</textarea>
+			>>
+			<textarea rows="10" name="res" cols="40"></textarea>
+		</p>
+		<p><input type="submit" value="Submit" onclick="submitJSON(); return false"><input type="reset" value="Reset"></p>
+	</form>
 </body>

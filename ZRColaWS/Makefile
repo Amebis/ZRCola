@@ -14,6 +14,13 @@ zrcolad: ../lib/libZRCola/lib/libZRCola.a $(OBJS)
 ../lib/libZRCola/lib/libZRCola.a:
 	$(MAKE) $(MFLAGS) -C ../lib/libZRCola/build
 
+.PHONY: install
+install: zrcolad ../output/data/ZRCola.zrcdb
+	install -d $(PREFIX)/bin/
+	install -m 755 zrcolad $(PREFIX)/bin/
+	install -d $(PREFIX)/share/zrcola/
+	install -m 644 ../output/data/ZRCola.zrcdb $(PREFIX)/share/zrcola/
+
 .PHONY: clean
 clean:
 	-rm -r *.{d,o} zrcolad
