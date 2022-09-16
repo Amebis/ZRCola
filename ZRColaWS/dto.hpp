@@ -39,6 +39,7 @@ class translateOutDto : public oatpp::DTO
 {
     DTO_INIT(translateOutDto, DTO)
     DTO_FIELD(String, text);
+    DTO_FIELD(Vector<UInt32>, map);
 };
 
 #include OATPP_CODEGEN_END(DTO)

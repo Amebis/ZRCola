@@ -65,6 +65,7 @@ public:
             std::u16string dst, dst2;
             if (input->text)
                 dst = cIn.convert(*input->text);
+            size_t src_len = dst.length();
             std::vector<ZRCola::mapping_vector> mapping;
             if (input->transet) {
                 ZRCola::mapping_vector map;
@@ -92,6 +93,15 @@ public:
             utf16toutf8 cOut;
             auto dto = translateOutDto::createShared();
             dto->text = cOut.convert(dst);
+            auto map = oatpp::Vector<oatpp::UInt32>::createShared();
+            auto m_end = mapping.cend();
+            for (size_t i = 0; i < src_len; ++i) {
+                auto j = i;
+                for (auto m = mapping.cbegin(); m != m_end; ++m)
+                    j = m->to_dst(j);
+                map->push_back(j);
+            }
+            dto->map = map;
             return createDtoResponse(Status::CODE_200, dto);
         } catch (std::exception &ex) {
             OATPP_LOGE("ZRColaWS", "%s: %s", typeid(ex).name(), ex.what());
