@@ -92,7 +92,7 @@ namespace ZRCola {
     struct langid_t {
         char data[4];
 
-        inline langid_t& operator=(const langid_t &src)
+        inline langid_t& operator=(_In_ const langid_t &src)
         {
             data[0] = src.data[0];
             data[1] = src.data[1];
@@ -101,7 +101,7 @@ namespace ZRCola {
             return *this;
         }
 
-        inline langid_t& operator=(const char *src)
+        inline langid_t& operator=(_In_z_ const char *src)
         {
             data[3] = (
             data[2] = (
