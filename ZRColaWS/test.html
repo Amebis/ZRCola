@@ -20,6 +20,11 @@ textarea, input[type="text"]
 		<p><input type="submit" value="Submit"></p>
 	</form>
 
+	<form method="GET" name="language" action="http://localhost:8000/language">
+		<h1>language</h1>
+		<p><input type="submit" value="Submit"></p>
+	</form>
+
 	<script type="text/javascript">
 	function submitJSON() {
 		var form = document.translate;
@@ -37,6 +42,29 @@ textarea, input[type="text"]
 		<h1>translate</h1>
 		<p>
 			<textarea rows="10" name="req" cols="40">{"transet":[0], "text":"To je test."}</textarea>
+			>>
+			<textarea rows="10" name="res" cols="40"></textarea>
+		</p>
+		<p><input type="submit" value="Submit" onclick="submitJSON(); return false"><input type="reset" value="Reset"></p>
+	</form>
+
+	<script type="text/javascript">
+	function submitJSON() {
+		var form = document.translateInv;
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == XMLHttpRequest.DONE)
+				form["res"].value = xhr.responseText;
+		}
+		xhr.open("POST", "http://localhost:8000/translateInv", true);
+		xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+		xhr.send(form["req"].value);
+	}
+	</script>
+	<form name="translateInv">
+		<h1>translateInv</h1>
+		<p>
+			<textarea rows="10" name="req" cols="40">{"transet":[0], "text":"T\uE608 \uE9E2\uF605 \u0165\u1D49\u24E2\u1E6D.", "lang": "slv"}</textarea>
 			>>
 			<textarea rows="10" name="res" cols="40"></textarea>
 		</p>

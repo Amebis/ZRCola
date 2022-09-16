@@ -15,8 +15,8 @@ using namespace ZRCola;
 translation_db t_db;
 transet_db ts_db;
 // transeq_db tsq_db;
-// langchar_db lc_db;
-// language_db lang_db;
+langchar_db lc_db;
+language_db lang_db;
 // character_db chr_db;
 // chrcat_db cc_db;
 // chrtag_db ct_db;
@@ -61,18 +61,18 @@ static void load_database()
             //         OATPP_LOGE("ZRColaWS", "Error reading translation sequence data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
             //         tsq_db.clear();
             //     }
-            // } else if (id == langchar_rec::id()) {
-            //     dat >> langchar_rec(lc_db);
-            //     if (!dat.good()) {
-            //         OATPP_LOGE("ZRColaWS", "Error reading language character data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
-            //         lc_db.clear();
-            //     }
-            // } else if (id == language_rec::id()) {
-            //     dat >> language_rec(lang_db);
-            //     if (!dat.good()) {
-            //         OATPP_LOGE("ZRColaWS", "Error reading language character data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
-            //         lang_db.clear();
-            //     }
+            } else if (id == langchar_rec::id()) {
+                dat >> langchar_rec(lc_db);
+                if (!dat.good()) {
+                    OATPP_LOGE("ZRColaWS", "Error reading language character data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
+                    lc_db.clear();
+                }
+            } else if (id == language_rec::id()) {
+                dat >> language_rec(lang_db);
+                if (!dat.good()) {
+                    OATPP_LOGE("ZRColaWS", "Error reading language character data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
+                    lang_db.clear();
+                }
             // } else if (id == character_rec::id()) {
             //     dat >> character_rec(chr_db);
             //     if (!dat.good()) {

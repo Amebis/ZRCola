@@ -15,8 +15,8 @@
 extern ZRCola::translation_db t_db;
 extern ZRCola::transet_db ts_db;
 // extern ZRCola::transeq_db tsq_db;
-// extern ZRCola::langchar_db lc_db;
-// extern ZRCola::language_db lang_db;
+extern ZRCola::langchar_db lc_db;
+extern ZRCola::language_db lang_db;
 // extern ZRCola::character_db chr_db;
 // extern ZRCola::chrcat_db cc_db;
 // extern ZRCola::chrtag_db ct_db;

@@ -28,11 +28,19 @@ class transetDto : public oatpp::DTO
     DTO_FIELD(String, dst);
 };
 
+class languageDto : public oatpp::DTO
+{
+    DTO_INIT(languageDto, DTO)
+    DTO_FIELD(String, lang);
+    DTO_FIELD(String, name);
+};
+
 class translateInDto : public oatpp::DTO
 {
     DTO_INIT(translateInDto, DTO)
     DTO_FIELD(Vector<UInt16>, transet);
     DTO_FIELD(String, text);
+    DTO_FIELD(String, lang) = "slv";
 };
 
 class translateOutDto : public oatpp::DTO
