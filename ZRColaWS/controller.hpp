@@ -5,9 +5,9 @@
 
 #pragma once
 
-#include "dto.h"
-#include "iconverter.h"
-#include "zrcolaws.h"
+#include "dto.hpp"
+#include "iconverter.hpp"
+#include "zrcolaws.hpp"
 #include <zrcola/translate.h>
 #include <oatpp/core/macro/codegen.hpp>
 #include <oatpp/core/macro/component.hpp>
@@ -88,8 +88,6 @@ public:
                     }
                 }
             }
-
-            // TODO: Flatten mapping and return along with the translated text.
 
             utf16toutf8 cOut;
             auto dto = translateOutDto::createShared();

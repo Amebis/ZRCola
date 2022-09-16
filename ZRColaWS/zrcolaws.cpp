@@ -3,9 +3,9 @@
     Copyright © 2022 Amebis
 */
 
-#include "appcomponent.h"
-#include "controller.h"
-#include "zrcolaws.h"
+#include "appcomponent.hpp"
+#include "controller.hpp"
+#include "zrcolaws.hpp"
 #include <oatpp/network/Server.hpp>
 #include <fstream>
 
