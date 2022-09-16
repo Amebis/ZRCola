@@ -349,7 +349,7 @@ namespace ZRCola {
 
         protected:
             uint16_t src_to;    ///< Source name end in \c data
-            uint16_t dst_to;    ///< Sestination name end in \c data
+            uint16_t dst_to;    ///< Destination name end in \c data
             char_t data[];      ///< Source and destination names
 
         private:
