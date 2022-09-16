@@ -8,8 +8,9 @@ CFLAGS := $(CFLAGS) -Og -g
 CXXFLAGS := $(CXXFLAGS) -Og -g
 else
 CPPFLAGS := $(CPPFLAGS) -DNDEBUG
-CFLAGS := $(CFLAGS) -O3
-CXXFLAGS := $(CXXFLAGS) -O3
+CFLAGS := $(CFLAGS) -O3 -fdata-sections -ffunction-sections
+CXXFLAGS := $(CXXFLAGS) -O3 -fdata-sections -ffunction-sections
+LDFLAGS := $(LDFLAGS) -Wl,--gc-sections
 endif
 
 OBJS := $(SRCS:%=%.o)
