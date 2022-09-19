@@ -6,8 +6,11 @@
 #include "appcomponent.hpp"
 #include "controller.hpp"
 #include "zrcolaws.hpp"
+#include <oatpp/core/base/CommandLineArguments.hpp>
 #include <oatpp/network/Server.hpp>
+#include <signal.h>
 #include <fstream>
+#include <iostream>
 
 using namespace std;
 using namespace ZRCola;
@@ -112,22 +115,45 @@ static void load_database()
     }
 }
 
-int main()
+static void sig_handler(int s)
+{
+    OATPP_LOGD("ZRColaWS", "Caught signal %d", s);
+    OATPP_COMPONENT(std::shared_ptr<oatpp::network::Server>, server);
+    server->stop();
+}
+
+int main(int argc, const char* argv[])
 {
     oatpp::base::Environment::init();
     try {
-        load_database();
+        {
+            oatpp::base::CommandLineArguments cmdArgs(argc, argv);
+            if (cmdArgs.hasArgument("-?") || cmdArgs.hasArgument("--help")) {
+                cerr << "ZRColaWS " << PRODUCT_VERSION_STR << " Copyright © 2022 Amebis" << endl;
+                cerr << endl;
+                cerr << argv[0] << " [--host <interface name>] [--port <port number>] [-4|-6]" << endl;
+                return 1;
+            }
 
-        AppComponent components;
-        OATPP_COMPONENT(std::shared_ptr<oatpp::web::server::HttpRouter>, router);
-        auto controller = std::make_shared<Controller>();
-        router->addController(controller);
-        OATPP_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, connectionHandler);
-        OATPP_COMPONENT(std::shared_ptr<oatpp::network::ServerConnectionProvider>, connectionProvider);
-        oatpp::network::Server server(connectionProvider, connectionHandler);
-        OATPP_LOGI("ZRColaWS", "Server " PRODUCT_VERSION_STR " running on %s:%s",
-            connectionProvider->getProperty("host").getData(), connectionProvider->getProperty("port").getData());
-        server.run();
+            load_database();
+
+            struct sigaction sigIntHandler;
+            sigIntHandler.sa_handler = sig_handler;
+            sigemptyset(&sigIntHandler.sa_mask);
+            sigIntHandler.sa_flags = 0;
+            sigaction(SIGINT, &sigIntHandler, NULL);
+
+            AppComponent components(cmdArgs);
+            OATPP_COMPONENT(std::shared_ptr<oatpp::web::server::HttpRouter>, router);
+            OATPP_COMPONENT(std::shared_ptr<Controller>, controller);
+            router->addController(controller);
+            OATPP_COMPONENT(std::shared_ptr<oatpp::network::ServerConnectionProvider>, connectionProvider);
+            OATPP_LOGI("ZRColaWS", "Server " PRODUCT_VERSION_STR " starting on %s:%s",
+                connectionProvider->getProperty("host").getData(), connectionProvider->getProperty("port").getData());
+            OATPP_COMPONENT(std::shared_ptr<oatpp::network::Server>, server);
+            server->run();
+            OATPP_LOGI("ZRColaWS", "Server stopped");
+        }
         oatpp::base::Environment::destroy();
     } catch (exception &ex) {
         OATPP_LOGE("ZRColaWS", "%s: %s", typeid(ex).name(), ex.what());

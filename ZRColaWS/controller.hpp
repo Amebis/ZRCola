@@ -18,7 +18,9 @@
 class Controller : public oatpp::web::server::api::ApiController
 {
 public:
-    Controller(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper)) : oatpp::web::server::api::ApiController(objectMapper) {}
+    Controller(const std::shared_ptr<oatpp::data::mapping::ObjectMapper>& defaultObjectMapper, const oatpp::String &routerPrefix = nullptr) :
+        oatpp::web::server::api::ApiController(defaultObjectMapper, routerPrefix)
+    {}
 
     ADD_CORS(getAbout)
     ENDPOINT("GET", "/about", getAbout)
