@@ -26,7 +26,7 @@ textarea, input[type="text"]
 	</form>
 
 	<script type="text/javascript">
-	function submitJSON() {
+	function submitTranslate() {
 		var form = document.translate;
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function() {
@@ -45,11 +45,11 @@ textarea, input[type="text"]
 			>>
 			<textarea rows="10" name="res" cols="40"></textarea>
 		</p>
-		<p><input type="submit" value="Submit" onclick="submitJSON(); return false"><input type="reset" value="Reset"></p>
+		<p><input type="submit" value="Submit" onclick="submitTranslate(); return false"><input type="reset" value="Reset"></p>
 	</form>
 
 	<script type="text/javascript">
-	function submitJSON() {
+	function submitTranslateInv() {
 		var form = document.translateInv;
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function() {
@@ -68,6 +68,6 @@ textarea, input[type="text"]
 			>>
 			<textarea rows="10" name="res" cols="40"></textarea>
 		</p>
-		<p><input type="submit" value="Submit" onclick="submitJSON(); return false"><input type="reset" value="Reset"></p>
+		<p><input type="submit" value="Submit" onclick="submitTranslateInv(); return false"><input type="reset" value="Reset"></p>
 	</form>
 </body>
