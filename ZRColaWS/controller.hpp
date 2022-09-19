@@ -15,10 +15,10 @@
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
-class MyController : public oatpp::web::server::api::ApiController
+class Controller : public oatpp::web::server::api::ApiController
 {
 public:
-    MyController(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper)) : oatpp::web::server::api::ApiController(objectMapper) {}
+    Controller(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper)) : oatpp::web::server::api::ApiController(objectMapper) {}
 
     ADD_CORS(getAbout)
     ENDPOINT("GET", "/about", getAbout)
