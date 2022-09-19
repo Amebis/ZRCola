@@ -6,24 +6,24 @@ SRCS := zrcolaws.cpp
 include ../include/props.mak
 
 .PHONY: all
-all: zrcolad
+all: zrcolaws
 
-zrcolad: ../lib/libZRCola/lib/libZRCola.a $(OBJS)
+zrcolaws: ../lib/libZRCola/lib/libZRCola.a $(OBJS)
 	$(CC) $(LDFLAGS) $(OBJS) -o $@ $(LDLIBS)
 
 ../lib/libZRCola/lib/libZRCola.a:
 	$(MAKE) $(MFLAGS) -C ../lib/libZRCola/build
 
 .PHONY: install
-install: zrcolad ../output/data/ZRCola.zrcdb
+install: zrcolaws ../output/data/ZRCola.zrcdb
 	install -d $(PREFIX)/bin/
-	install -m 755 zrcolad $(PREFIX)/bin/
+	install -m 755 zrcolaws $(PREFIX)/bin/
 	install -d $(PREFIX)/share/zrcola/
 	install -m 644 ../output/data/ZRCola.zrcdb $(PREFIX)/share/zrcola/
 
 .PHONY: clean
 clean:
-	-rm -r *.{d,o} zrcolad
+	-rm -r *.{d,o} zrcolaws
 
 include ../include/targets.mak
 -include $(DEPS)
