@@ -59,9 +59,7 @@ public:
             .setContactUrl("https://zrcola.zrc-sazu.si/en/")
 
             .setLicenseName("GNU General Public License, Version 3")
-            .setLicenseUrl("https://www.gnu.org/licenses/gpl-3.0.en.html")
-
-            .addServer(oatpp::String("http://") + m_address.host + ":" + std::to_string(m_address.port), "API Server");
+            .setLicenseUrl("https://www.gnu.org/licenses/gpl-3.0.en.html");
         return builder.build();
     }());
 
