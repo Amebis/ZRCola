@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "../include/version.h"
 #include "dto.hpp"
 #include "iconverter.hpp"
 #include "zrcolaws.hpp"
@@ -23,31 +24,44 @@ public:
     {}
 
     ADD_CORS(getAbout)
+    ENDPOINT_INFO(getAbout) {
+        info->summary = "Returns service information";
+        info->addResponse<Object<dto::About>>(Status::CODE_200, "application/json");
+    }
     ENDPOINT("GET", "/about", getAbout)
     {
-        return createDtoResponse(Status::CODE_200, aboutDto::createShared());
+        auto dto = dto::About::createShared();
+        dto->vendor = PRODUCT_CFG_VENDOR;
+        dto->application = PRODUCT_CFG_APPLICATION;
+        dto->version = PRODUCT_VERSION_STR;
+        return createDtoResponse(Status::CODE_200, dto);
     }
 
     ADD_CORS(getTranset)
+    ENDPOINT_INFO(getTranset) {
+        info->summary = "Lists supported translation sets";
+        info->description = "Each translation set describes a set of replacements that are performed to translate text from one script or encoding to another. ";
+        info->addResponse<oatpp::Vector<oatpp::Object<dto::TranSet>>>(Status::CODE_200, "application/json");
+    }
     ENDPOINT("GET", "/transet", getTranset)
     {
         try {
             utf16toutf8 c;
-            auto result = oatpp::Vector<oatpp::Object<transetDto>>::createShared();
-            auto dto = transetDto::createShared();
+            auto result = oatpp::Vector<oatpp::Object<dto::TranSet>>::createShared();
+            auto dto = dto::TranSet::createShared();
             dto->set = ZRCOLA_TRANSETID_DEFAULT;
             dto->src = "ZRCola Decomposed";
             dto->dst = "ZRCola Composed";
             result->push_back(dto);
             for (size_t i = 0, n = ts_db.idxTranSet.size(); i < n; i++) {
                 const auto &ts = ts_db.idxTranSet[i];
-                dto = transetDto::createShared();
+                dto = dto::TranSet::createShared();
                 dto->set = ts.set;
                 dto->src = c.convert(ts.src(), ts.src_len());
                 dto->dst = c.convert(ts.dst(), ts.dst_len());
                 result->push_back(dto);
             }
-            dto = transetDto::createShared();
+            dto = dto::TranSet::createShared();
             dto->set = ZRCOLA_TRANSETID_UNICODE;
             dto->src = "ZRCola Decomposed";
             dto->dst = "Unicode";
@@ -60,14 +74,19 @@ public:
     }
 
     ADD_CORS(getLanguage)
+    ENDPOINT_INFO(getLanguage) {
+        info->summary = "Lists supported languages";
+        info->description = "Each language describes a set of special characters that are specific to that language (e.g. č, š, ž in Slovenian, or ä, ö, ü in German).";
+        info->addResponse<oatpp::Vector<oatpp::Object<dto::Language>>>(Status::CODE_200, "application/json");
+    }
     ENDPOINT("GET", "/language", getLanguage)
     {
         try {
             utf16toutf8 c;
-            auto result = oatpp::Vector<oatpp::Object<languageDto>>::createShared();
+            auto result = oatpp::Vector<oatpp::Object<dto::Language>>::createShared();
             for (size_t i = 0, n = lang_db.idxLang.size(); i < n; i++) {
                 const auto &lang = lang_db.idxLang[i];
-                auto dto = languageDto::createShared();
+                auto dto = dto::Language::createShared();
                 dto->lang = std::string(&lang.lang.data[0], strnlen(lang.lang.data, std::size(lang.lang.data)));
                 dto->name = c.convert(lang.name(), lang.name_len());
                 result->push_back(dto);
@@ -80,7 +99,21 @@ public:
     }
 
     ADD_CORS(postTranslate)
-    ENDPOINT("POST", "/translate", postTranslate, BODY_DTO(Object<translateInDto>, input))
+    ENDPOINT_INFO(postTranslate) {
+        info->summary = "Translate text";
+        info->description =
+            "Performs any number of supported translations (see /transet) on a given input text in a sequence. "
+            "Together with the output text, it also returns character index mapping between input and output texts.";
+        auto transet = oatpp::Vector<UInt16>::createShared();
+        transet->push_back(ZRCOLA_TRANSETID_DEFAULT);
+        auto dto = dto::TranslateIn::createShared();
+        dto->transet = transet;
+        dto->text = "To je test.";
+        info->addConsumes<Object<dto::TranslateIn>>("application/json")
+            .addExample("Perform ZRCola composition", dto);
+        info->addResponse<Object<dto::TranslateOut>>(Status::CODE_200, "application/json");
+    }
+    ENDPOINT("POST", "/translate", postTranslate, BODY_DTO(Object<dto::TranslateIn>, input))
     {
         try {
             utf8toutf16 cIn;
@@ -112,7 +145,7 @@ public:
             }
 
             utf16toutf8 cOut;
-            auto dto = translateOutDto::createShared();
+            auto dto = dto::TranslateOut::createShared();
             dto->text = cOut.convert(dst);
             auto map = oatpp::Vector<oatpp::UInt32>::createShared();
             auto m_end = mapping.cend();
@@ -131,7 +164,22 @@ public:
     }
 
     ADD_CORS(postTranslateInv)
-    ENDPOINT("POST", "/translateInv", postTranslateInv, BODY_DTO(Object<translateInDto>, input))
+    ENDPOINT_INFO(postTranslateInv) {
+        info->summary = "Inverse translate text";
+        info->description =
+            "Performs any number of supported translations (see /transet) on a given input text in a sequence in reverse. "
+            "Together with the output text, it also returns character index mapping between input and output texts.";
+        auto transet = oatpp::Vector<UInt16>::createShared();
+        transet->push_back(ZRCOLA_TRANSETID_DEFAULT);
+        auto dto = dto::TranslateIn::createShared();
+        dto->transet = transet;
+        dto->text = "T  ťᵉⓢṭ.";
+        dto->lang = "slv";
+        info->addConsumes<Object<dto::TranslateIn>>("application/json")
+            .addExample("Perform ZRCola decomposition", dto);
+        info->addResponse<Object<dto::TranslateOut>>(Status::CODE_200, "application/json");
+    }
+    ENDPOINT("POST", "/translateInv", postTranslateInv, BODY_DTO(Object<dto::TranslateIn>, input))
     {
         try {
             utf8toutf16 cIn;
@@ -165,7 +213,7 @@ public:
             }
 
             utf16toutf8 cOut;
-            auto dto = translateOutDto::createShared();
+            auto dto = dto::TranslateOut::createShared();
             dto->text = cOut.convert(dst);
             auto map = oatpp::Vector<oatpp::UInt32>::createShared();
             auto m_end = mapping.crend();

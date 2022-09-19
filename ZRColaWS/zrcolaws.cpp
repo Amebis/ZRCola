@@ -6,6 +6,7 @@
 #include "appcomponent.hpp"
 #include "controller.hpp"
 #include "zrcolaws.hpp"
+#include <oatpp-swagger/Controller.hpp>
 #include <oatpp/core/base/CommandLineArguments.hpp>
 #include <oatpp/network/Server.hpp>
 #include <signal.h>
@@ -143,10 +144,20 @@ int main(int argc, const char* argv[])
             sigIntHandler.sa_flags = 0;
             sigaction(SIGINT, &sigIntHandler, NULL);
 
-            AppComponent components(cmdArgs);
+            oatpp::String host = cmdArgs.getNamedArgumentValue("--host", "localhost");
+            v_uint16 port = oatpp::utils::conversion::strToInt32(cmdArgs.getNamedArgumentValue("--port", "8000"));
+            oatpp::network::Address::Family family = oatpp::network::Address::UNSPEC;
+            if (cmdArgs.hasArgument("-4"))
+                family = oatpp::network::Address::IP_4;
+            else if (cmdArgs.hasArgument("-6"))
+                family = oatpp::network::Address::IP_6;
+            AppComponent components({host, port, family});
             OATPP_COMPONENT(std::shared_ptr<oatpp::web::server::HttpRouter>, router);
-            OATPP_COMPONENT(std::shared_ptr<Controller>, controller);
+            OATPP_COMPONENT(std::shared_ptr<oatpp::data::mapping::ObjectMapper>, objectMapper);
+            auto controller = std::make_shared<Controller>(objectMapper);
             router->addController(controller);
+            auto swaggerController = oatpp::swagger::Controller::createShared(controller->getEndpoints());
+            router->addController(swaggerController);
             OATPP_COMPONENT(std::shared_ptr<oatpp::network::ServerConnectionProvider>, connectionProvider);
             OATPP_LOGI("ZRColaWS", "Server " PRODUCT_VERSION_STR " starting on %s:%s",
                 connectionProvider->getProperty("host").getData(), connectionProvider->getProperty("port").getData());

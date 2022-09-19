@@ -1,6 +1,6 @@
-CPPFLAGS := $(CPPFLAGS) -I../lib/libZRCola/include -I../lib/stdex/include -I/usr/local/include/oatpp-1.3.0/oatpp
+CPPFLAGS := $(CPPFLAGS) -I../lib/libZRCola/include -I../lib/stdex/include -I/usr/local/include/oatpp-1.3.0/oatpp -I/usr/local/include/oatpp-1.3.0/oatpp-swagger
 LDFLAGS := $(LDFLAGS) -L../lib/libZRCola/lib -L/usr/local/lib64/oatpp-1.3.0
-LDLIBS := $(LDLIBS) -lZRCola -loatpp -lstdc++
+LDLIBS := $(LDLIBS) -lZRCola -loatpp-swagger -loatpp -lstdc++
 SRCS := zrcolaws.cpp
 
 include ../include/props.mak

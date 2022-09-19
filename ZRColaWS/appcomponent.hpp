@@ -5,7 +5,10 @@
 
 #pragma once
 
+#include "../include/version.h"
 #include "controller.hpp"
+#include <oatpp-swagger/Model.hpp>
+#include <oatpp-swagger/Resources.hpp>
 #include <oatpp/core/base/CommandLineArguments.hpp>
 #include <oatpp/core/macro/component.hpp>
 #include <oatpp/network/Server.hpp>
@@ -16,20 +19,13 @@
 class AppComponent
 {
 protected:
-    const oatpp::base::CommandLineArguments& m_cmdArgs;
+    oatpp::network::Address m_address;
 
 public:
-    AppComponent(const oatpp::base::CommandLineArguments& cmdArgs) : m_cmdArgs(cmdArgs) {}
+    AppComponent(const oatpp::network::Address& address) : m_address(address) {}
 
     OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::ServerConnectionProvider>, serverConnectionProvider)([this] {
-        oatpp::String host = m_cmdArgs.getNamedArgumentValue("--host", "localhost");
-        v_uint16 port = oatpp::utils::conversion::strToInt32(m_cmdArgs.getNamedArgumentValue("--port", "8000"));
-        oatpp::network::Address::Family family = oatpp::network::Address::UNSPEC;
-        if (m_cmdArgs.hasArgument("-4"))
-            family = oatpp::network::Address::IP_4;
-        else if (m_cmdArgs.hasArgument("-6"))
-            family = oatpp::network::Address::IP_6;
-        return oatpp::network::tcp::server::ConnectionProvider::createShared({host, port, family});
+        return oatpp::network::tcp::server::ConnectionProvider::createShared({m_address.host, m_address.port, m_address.family});
     }());
 
     OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::web::server::HttpRouter>, httpRouter)([] {
@@ -45,14 +41,31 @@ public:
         return oatpp::parser::json::mapping::ObjectMapper::createShared();
     }());
 
-    OATPP_CREATE_COMPONENT(std::shared_ptr<Controller>, controller)([] {
-        OATPP_COMPONENT(std::shared_ptr<oatpp::data::mapping::ObjectMapper>, objectMapper);
-        return std::make_shared<Controller>(objectMapper);
-    }());
-
     OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::Server>, server)([] {
         OATPP_COMPONENT(std::shared_ptr<oatpp::network::ServerConnectionProvider>, connectionProvider);
         OATPP_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, connectionHandler);
         return oatpp::network::Server::createShared(connectionProvider, connectionHandler);
+    }());
+
+    OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::swagger::DocumentInfo>, swaggerDocumentInfo)([this] {
+        oatpp::swagger::DocumentInfo::Builder builder;
+        builder
+            .setTitle("ZRCola Web Service")
+            .setDescription(
+                "ZRCola is an input system designed mainly, although not exclusively, for linguistic use. "
+                "It allows the user to combine basic letters with any diacritic marks and insert the resulting complex characters into the texts with ease.")
+            .setVersion(PRODUCT_VERSION_STR)
+            .setContactName("ZRCola")
+            .setContactUrl("https://zrcola.zrc-sazu.si/en/")
+
+            .setLicenseName("GNU General Public License, Version 3")
+            .setLicenseUrl("https://www.gnu.org/licenses/gpl-3.0.en.html")
+
+            .addServer(oatpp::String("http://") + m_address.host + ":" + std::to_string(m_address.port), "API Server");
+        return builder.build();
+    }());
+
+    OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::swagger::Resources>, swaggerResources)([] {
+        return oatpp::swagger::Resources::loadResources(PREFIX "/include/oatpp-1.3.0/bin/oatpp-swagger/res");
     }());
 };
