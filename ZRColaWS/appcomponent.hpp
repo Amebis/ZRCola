@@ -64,6 +64,6 @@ public:
     }());
 
     OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::swagger::Resources>, swaggerResources)([] {
-        return oatpp::swagger::Resources::loadResources(PREFIX "/include/oatpp-1.3.0/bin/oatpp-swagger/res");
+        return oatpp::swagger::Resources::loadResources(PREFIX "/share/zrcola/res");
     }());
 };

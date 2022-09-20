@@ -16,3 +16,9 @@
 [submodule "Updater"]
 	path = Updater
 	url = https://github.com/Amebis/Updater.git
+[submodule "lib/oatpp"]
+	path = lib/oatpp
+	url = https://github.com/oatpp/oatpp.git
+[submodule "lib/oatpp-swagger"]
+	path = lib/oatpp-swagger
+	url = https://github.com/oatpp/oatpp-swagger.git

@@ -60,11 +60,7 @@ The `/ls` flag can be appended to the commands above to reduce NMAKE's verbosity
 
 ### Building Environment Requirements
 - Linux
-- _gcc_, _make_
-- [Oat++ 1.3.0](https://oatpp.io/)
-
-### Oat++
-ZRCola webservice is using Oat++ library. You have to compile the oatpp and oatpp-swagger libraries and install them to `/usr/local`.
+- _gcc_, _gcc-c++_, _make_, _cmake_, _libatomic_
 
 ### Building
 Use `make -C ZRColaWS all` to build the project.
