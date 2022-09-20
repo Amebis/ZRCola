@@ -147,7 +147,7 @@ int main(int argc, const char* argv[])
             sigaction(SIGINT, &sigIntHandler, NULL);
 
             oatpp::String host = cmdArgs.getNamedArgumentValue("--host", "localhost");
-            v_uint16 port = oatpp::utils::conversion::strToInt32(cmdArgs.getNamedArgumentValue("--port", "8000"));
+            v_uint16 port = oatpp::utils::conversion::strToInt32(cmdArgs.getNamedArgumentValue("--port", "54591"));
             oatpp::network::Address::Family family = oatpp::network::Address::UNSPEC;
             if (cmdArgs.hasArgument("-4"))
                 family = oatpp::network::Address::IP_4;
