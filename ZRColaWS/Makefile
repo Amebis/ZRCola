@@ -53,6 +53,35 @@ install: zrcolaws ../output/data/ZRCola.zrcdb
 	install -m 644 ../lib/oatpp-swagger/res/swagger-ui.css.map $(PREFIX)/share/zrcola/res/
 	install -m 644 ../lib/oatpp-swagger/res/swagger-ui.js $(PREFIX)/share/zrcola/res/
 	install -m 644 ../lib/oatpp-swagger/res/swagger-ui.js.map $(PREFIX)/share/zrcola/res/
+	install -d $(PREFIX)/etc/sysconfig/
+	{	echo '#!/bin/sh'; \
+		echo ''; \
+		echo '# Interface to listen on. Default: localhost'; \
+		echo '#HOST=0.0.0.0'; \
+		echo ''; \
+		echo '# Port to listen on. Default: 54591'; \
+		echo '#PORT=54591'; \
+		echo ''; \
+		echo '# Additional zrcolaws command line options'; \
+		echo '#OPTIONS=-4'; \
+	} > $(PREFIX)/etc/sysconfig/zrcolaws
+	install -d $(PREFIX)/lib/systemd/system/
+	{	echo '[Unit]'; \
+		echo 'Description=ZRCola Web Service'; \
+		echo 'After=network.target'; \
+		echo ''; \
+		echo '[Service]'; \
+		echo 'Environment="HOST=localhost" "PORT=54591"'; \
+		echo 'EnvironmentFile=-$(PREFIX)/etc/sysconfig/zrcolaws'; \
+		echo 'DynamicUser=yes'; \
+		echo 'ExecStart=/usr/local/bin/zrcolaws --host $$HOST --port $$PORT $$OPTIONS'; \
+		echo 'Type=exec'; \
+		echo 'Restart=always'; \
+		echo ''; \
+		echo '[Install]'; \
+		echo 'WantedBy=multi-user.target'; \
+		echo 'RequiredBy=network.target'; \
+	} > $(PREFIX)/lib/systemd/system/zrcolaws.service
 
 .PHONY: clean
 clean:
