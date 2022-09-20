@@ -68,7 +68,7 @@ public:
             result->push_back(dto);
             return createDtoResponse(Status::CODE_200, result);
         } catch (std::exception &ex) {
-            OATPP_LOGE("ZRColaWS", "%s: %s", typeid(ex).name(), ex.what());
+            OATPP_LOGE(__FUNCTION__, "%s: %s", typeid(ex).name(), ex.what());
             return ResponseFactory::createResponse(Status::CODE_500, ex.what());
         }
     }
@@ -93,7 +93,7 @@ public:
             }
             return createDtoResponse(Status::CODE_200, result);
         } catch (std::exception &ex) {
-            OATPP_LOGE("ZRColaWS", "%s: %s", typeid(ex).name(), ex.what());
+            OATPP_LOGE(__FUNCTION__, "%s: %s", typeid(ex).name(), ex.what());
             return ResponseFactory::createResponse(Status::CODE_500, ex.what());
         }
     }
@@ -158,7 +158,7 @@ public:
             dto->map = map;
             return createDtoResponse(Status::CODE_200, dto);
         } catch (std::exception &ex) {
-            OATPP_LOGE("ZRColaWS", "%s: %s", typeid(ex).name(), ex.what());
+            OATPP_LOGE(__FUNCTION__, "%s: %s", typeid(ex).name(), ex.what());
             return ResponseFactory::createResponse(Status::CODE_500, ex.what());
         }
     }
@@ -226,7 +226,7 @@ public:
             dto->map = map;
             return createDtoResponse(Status::CODE_200, dto);
         } catch (std::exception &ex) {
-            OATPP_LOGE("ZRColaWS", "%s: %s", typeid(ex).name(), ex.what());
+            OATPP_LOGE(__FUNCTION__, "%s: %s", typeid(ex).name(), ex.what());
             return ResponseFactory::createResponse(Status::CODE_500, ex.what());
         }
     }

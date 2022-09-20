@@ -5,6 +5,7 @@
 
 #include "appcomponent.hpp"
 #include "controller.hpp"
+#include "stdlogger.hpp"
 #include "zrcolaws.hpp"
 #include <oatpp-swagger/Controller.hpp>
 #include <oatpp/core/base/CommandLineArguments.hpp>
@@ -50,61 +51,61 @@ static void load_database()
                 if (dat.good()) {
                     has_translation_data = true;
                 } else {
-                    OATPP_LOGE("ZRColaWS", "ZRColaWS", "Error reading translation data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
+                    OATPP_LOGE(__FUNCTION__, "Error reading translation data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
                     t_db.clear();
                 }
             } else if (id == transet_rec::id()) {
                 dat >> transet_rec(ts_db);
                 if (!dat.good()) {
-                    OATPP_LOGE("ZRColaWS", "Error reading translation set data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
+                    OATPP_LOGE(__FUNCTION__, "Error reading translation set data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
                     ts_db.clear();
                 }
             // } else if (id == transeq_rec::id()) {
             //     dat >> transeq_rec(tsq_db);
             //     if (!dat.good()) {
-            //         OATPP_LOGE("ZRColaWS", "Error reading translation sequence data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
+            //         OATPP_LOGE(__FUNCTION__, "Error reading translation sequence data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
             //         tsq_db.clear();
             //     }
             } else if (id == langchar_rec::id()) {
                 dat >> langchar_rec(lc_db);
                 if (!dat.good()) {
-                    OATPP_LOGE("ZRColaWS", "Error reading language character data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
+                    OATPP_LOGE(__FUNCTION__, "Error reading language character data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
                     lc_db.clear();
                 }
             } else if (id == language_rec::id()) {
                 dat >> language_rec(lang_db);
                 if (!dat.good()) {
-                    OATPP_LOGE("ZRColaWS", "Error reading language character data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
+                    OATPP_LOGE(__FUNCTION__, "Error reading language character data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
                     lang_db.clear();
                 }
             // } else if (id == character_rec::id()) {
             //     dat >> character_rec(chr_db);
             //     if (!dat.good()) {
-            //         OATPP_LOGE("ZRColaWS", "Error reading character data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
+            //         OATPP_LOGE(__FUNCTION__, "Error reading character data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
             //         chr_db.clear();
             //     }
             // } else if (id == chrcat_rec::id()) {
             //     dat >> chrcat_rec(cc_db);
             //     if (!dat.good()) {
-            //         OATPP_LOGE("ZRColaWS", "Error reading character category data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
+            //         OATPP_LOGE(__FUNCTION__, "Error reading character category data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
             //         cc_db.clear();
             //     }
             // } else if (id == chrtag_rec::id()) {
             //     dat >> chrtag_rec(ct_db);
             //     if (!dat.good()) {
-            //         OATPP_LOGE("ZRColaWS", "Error reading character tag data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
+            //         OATPP_LOGE(__FUNCTION__, "Error reading character tag data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
             //         ct_db.clear();
             //     }
             // } else if (id == tagname_rec::id()) {
             //     dat >> tagname_rec(tn_db);
             //     if (!dat.good()) {
-            //         OATPP_LOGE("ZRColaWS", "Error reading tag name data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
+            //         OATPP_LOGE(__FUNCTION__, "Error reading tag name data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
             //         tn_db.clear();
             //     }
             // } else if (id == highlight_rec::id()) {
             //     dat >> highlight_rec(h_db);
             //     if (!dat.good()) {
-            //         OATPP_LOGE("ZRColaWS", "Error reading highlight data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
+            //         OATPP_LOGE(__FUNCTION__, "Error reading highlight data from " PREFIX "/share/zrcola/ZRCola.zrcdb.");
             //         h_db.clear();
             //     }
             } else
@@ -118,14 +119,15 @@ static void load_database()
 
 static void sig_handler(int s)
 {
-    OATPP_LOGD("ZRColaWS", "Caught signal %d", s);
+    OATPP_LOGD(__FUNCTION__, "Caught signal %d", s);
     OATPP_COMPONENT(std::shared_ptr<oatpp::network::Server>, server);
     server->stop();
 }
 
 int main(int argc, const char* argv[])
 {
-    oatpp::base::Environment::init();
+    auto logger = std::make_shared<StdLogger>();
+    oatpp::base::Environment::init(logger);
     try {
         {
             oatpp::base::CommandLineArguments cmdArgs(argc, argv);
@@ -159,15 +161,15 @@ int main(int argc, const char* argv[])
             auto swaggerController = oatpp::swagger::Controller::createShared(controller->getEndpoints());
             router->addController(swaggerController);
             OATPP_COMPONENT(std::shared_ptr<oatpp::network::ServerConnectionProvider>, connectionProvider);
-            OATPP_LOGI("ZRColaWS", "Server " PRODUCT_VERSION_STR " starting on %s:%s",
+            OATPP_LOGI(__FUNCTION__, "Server " PRODUCT_VERSION_STR " starting on %s:%s",
                 connectionProvider->getProperty("host").getData(), connectionProvider->getProperty("port").getData());
             OATPP_COMPONENT(std::shared_ptr<oatpp::network::Server>, server);
             server->run();
-            OATPP_LOGI("ZRColaWS", "Server stopped");
+            OATPP_LOGI(__FUNCTION__, "Server stopped");
         }
         oatpp::base::Environment::destroy();
     } catch (exception &ex) {
-        OATPP_LOGE("ZRColaWS", "%s: %s", typeid(ex).name(), ex.what());
+        OATPP_LOGE(__FUNCTION__, "%s: %s", typeid(ex).name(), ex.what());
         return 1;
     }
     return 0;
