@@ -65,6 +65,9 @@ The `/ls` flag can be appended to the commands above to reduce NMAKE's verbosity
 ### Building
 Use `make -C ZRColaWS all` to build the project.
 
+### Installing
+Use `sudo make -C ZRColaWS install` to install the project.
+
 ## Translating ZRCola
 Instructions how to translate ZRCola to your language can be found [here](LOCALIZATION.md).
 
