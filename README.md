@@ -1,4 +1,4 @@
-﻿# ZRCola
+# ZRCola
 
 A Microsoft Windows application for composing texts using a wide range of Slavic (and general) letters from or beyond Unicode.
 
@@ -56,17 +56,9 @@ Use Microsoft NMAKE to build the project. The resulting files can be found in ou
 
 The `/ls` flag can be appended to the commands above to reduce NMAKE's verbosity. You can combine multiple targets (e.g. nmake Unregister Clean). Please, see NMAKE reference for further reading.
 
-## Building ZRCola webservice
+## Building and installing ZRCola webservice
 
-### Building Environment Requirements
-- Linux
-- _gcc_, _gcc-c++_, _make_, _cmake_, _libatomic_
-
-### Building
-Use `make -C ZRColaWS all` to build the project.
-
-### Installing
-Use `sudo make -C ZRColaWS install` to install the project.
+ZRCola is also available as a Linux web-service. See [ZRColaWS/README.md](ZRColaWS/README.md) for instructions.
 
 ## Translating ZRCola
 Instructions how to translate ZRCola to your language can be found [here](LOCALIZATION.md).
