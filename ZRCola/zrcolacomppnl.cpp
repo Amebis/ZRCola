@@ -98,9 +98,11 @@ void wxZRColaComposerPanel::SynchronizePanels()
             // ZRCola decompose first, then re-compose.
             app->m_t_db.TranslateInv(app->m_mainWnd->m_composition_id, dst.data(), dst.size(), dst2, &map);
             m_mapping.push_back(std::move(map));
+            map.clear();
 
             app->m_t_db.Translate(app->m_mainWnd->m_composition_id, dst2.data(), dst2.size(), dst, &map);
             m_mapping.push_back(std::move(map));
+            map.clear();
         }
 
         // Other translations
@@ -109,7 +111,9 @@ void wxZRColaComposerPanel::SynchronizePanels()
         for (auto s = sets_begin; s != sets_end; ++s) {
             app->m_t_db.Translate(*s, dst.data(), dst.size(), dst2, &map);
             m_mapping.push_back(std::move(map));
+            map.clear();
             dst = std::move(dst2);
+            dst2.clear();
         }
 
         m_source->GetSelection(&m_selSource.first, &m_selSource.second);
@@ -144,18 +148,22 @@ void wxZRColaComposerPanel::SynchronizePanels()
         for (auto s = sets_end; (s--) != sets_begin;) {
             app->m_t_db.TranslateInv(*s, dst.data(), dst.size(), dst2, &map);
             dst = std::move(dst2);
+            dst2.clear();
 
             map.invert();
             m_mapping.push_back(std::move(map));
+            map.clear();
         }
 
         if (app->m_mainWnd->m_composition) {
             // ZRCola decompose.
             app->m_t_db.TranslateInv(app->m_mainWnd->m_composition_id, dst.data(), dst.size(), &app->m_lc_db, app->m_mainWnd->m_settings->m_lang, dst2, &map);
             dst = std::move(dst2);
+            dst2.clear();
 
             map.invert();
             m_mapping.push_back(std::move(map));
+            map.clear();
         }
 
         m_destination->GetSelection(&m_selDestination.first, &m_selDestination.second);

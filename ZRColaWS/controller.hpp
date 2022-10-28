@@ -132,14 +132,18 @@ public:
                         // Decompose first, then re-compose.
                         t_db.TranslateInv(*ts, dst.data(), dst.size(), dst2, &map);
                         mapping.push_back(std::move(map));
+                        map.clear();
                         t_db.Translate(*ts, dst2.data(), dst2.size(), dst, &map);
                         mapping.push_back(std::move(map));
+                        map.clear();
                         break;
 
                     default:
                         t_db.Translate(*ts, dst.data(), dst.size(), dst2, &map);
                         mapping.push_back(std::move(map));
+                        map.clear();
                         dst = std::move(dst2);
+                        dst2.clear();
                     }
                 }
             }
@@ -199,15 +203,19 @@ public:
                     case ZRCOLA_TRANSETID_UNICODE:
                         t_db.TranslateInv(*ts, dst.data(), dst.size(), &lc_db, lang, dst2, &map);
                         dst = std::move(dst2);
+                        dst2.clear();
                         map.invert();
                         mapping.push_back(std::move(map));
+                        map.clear();
                         break;
 
                     default:
                         t_db.TranslateInv(*ts, dst.data(), dst.size(), dst2, &map);
                         dst = std::move(dst2);
+                        dst2.clear();
                         map.invert();
                         mapping.push_back(std::move(map));
+                        map.clear();
                     }
                 }
             }
