@@ -47,7 +47,7 @@ public:
         return oatpp::network::Server::createShared(connectionProvider, connectionHandler);
     }());
 
-    OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::swagger::DocumentInfo>, swaggerDocumentInfo)([this] {
+    OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::swagger::DocumentInfo>, swaggerDocumentInfo)([] {
         oatpp::swagger::DocumentInfo::Builder builder;
         builder
             .setTitle("ZRCola Web Service")
