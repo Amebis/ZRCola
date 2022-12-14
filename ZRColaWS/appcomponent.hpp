@@ -38,7 +38,11 @@ public:
     }());
 
     OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::data::mapping::ObjectMapper>, apiObjectMapper)([] {
-        return oatpp::parser::json::mapping::ObjectMapper::createShared();
+        auto serializerConfig = oatpp::parser::json::mapping::Serializer::Config::createShared();
+        serializerConfig->escapeFlags &= ~oatpp::parser::json::Utils::FLAG_ESCAPE_UTF8CHAR;
+        return oatpp::parser::json::mapping::ObjectMapper::createShared(
+            serializerConfig,
+            oatpp::parser::json::mapping::Deserializer::Config::createShared());
     }());
 
     OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::Server>, server)([] {
