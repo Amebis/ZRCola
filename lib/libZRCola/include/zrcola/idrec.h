@@ -11,7 +11,7 @@
 #include "tag.h"
 #include "translate.h"
 
-#include <stdex/idrec.h>
+#include <stdex/idrec.hpp>
 
 namespace ZRCola {
     typedef stdex::idrec::record<character_db, recordid_t, 0x524843 /*"CHR"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> character_rec;

@@ -9,7 +9,7 @@
 #define _WINSOCKAPI_    // Prevent inclusion of winsock.h in windows.h.
 #include <Windows.h>
 #endif
-#include <stdex/sal.h>
+#include <stdex/sal.hpp>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>

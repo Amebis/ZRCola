@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <stdex/sal.h>
+#include <stdex/sal.hpp>
 #include <iconv.h>
 #include <cstring>
 #include <stdexcept>

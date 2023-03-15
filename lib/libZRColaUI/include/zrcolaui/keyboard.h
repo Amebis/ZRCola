@@ -7,7 +7,7 @@
 
 #include <zrcola/common.h>
 
-#include <stdex/idrec.h>
+#include <stdex/idrec.hpp>
 
 #include <wxex/common.h>
 #pragma warning(push)
