@@ -160,75 +160,76 @@ namespace ZRCola {
         /// Constructs the database
         ///
         inline chrgrp_db() : idxRank(data) {}
+
+
+        ///
+        /// Writes character group database to a stream
+        ///
+        /// \param[in] stream  Output stream
+        /// \param[in] db      Character group database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::ostream& operator <<(_In_ std::ostream& stream, _In_ const chrgrp_db& db)
+        {
+            // Write rank index.
+            if (stream.fail()) return stream;
+            stream << db.idxRank;
+
+            // Write data count.
+            auto data_count = db.data.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+            // 4G check
+            if (data_count > 0xffffffff) {
+                stream.setstate(std::ios_base::failbit);
+                return stream;
+            }
+#endif
+            if (stream.fail()) return stream;
+            uint32_t count = (uint32_t)data_count;
+            stream.write((const char*)&count, sizeof(count));
+
+            // Write data.
+            if (stream.fail()) return stream;
+            stream.write((const char*)db.data.data(), sizeof(uint16_t) * static_cast<std::streamsize>(count));
+
+            return stream;
+        }
+
+
+        ///
+        /// Reads character group database from a stream
+        ///
+        /// \param[in ] stream  Input stream
+        /// \param[out] db      Character group database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::istream& operator >>(_In_ std::istream& stream, _Out_ chrgrp_db& db)
+        {
+            // Read rank index.
+            stream >> db.idxRank;
+            if (!stream.good()) return stream;
+
+            // Read data count.
+            uint32_t count;
+            stream.read((char*)&count, sizeof(count));
+            if (!stream.good()) return stream;
+
+            if (count) {
+                // Read data.
+                db.data.resize(count);
+                stream.read((char*)db.data.data(), sizeof(uint16_t) * static_cast<std::streamsize>(count));
+            }
+            else
+                db.data.clear();
+
+            return stream;
+        }
     };
 
 
     typedef stdex::idrec::record<chrgrp_db, recordid_t, 0x524743 /*"CGR"*/, recordsize_t, ZRCOLA_RECORD_ALIGN> chrgrp_rec;
 };
-
-
-///
-/// Writes character group database to a stream
-///
-/// \param[in] stream  Output stream
-/// \param[in] db      Character group database
-///
-/// \returns The stream \p stream
-///
-inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::chrgrp_db &db)
-{
-    // Write rank index.
-    if (stream.fail()) return stream;
-    stream << db.idxRank;
-
-    // Write data count.
-    auto data_count = db.data.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (data_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    uint32_t count = (uint32_t)data_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write data.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-
-    return stream;
-}
-
-
-///
-/// Reads character group database from a stream
-///
-/// \param[in ] stream  Input stream
-/// \param[out] db      Character group database
-///
-/// \returns The stream \p stream
-///
-inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::chrgrp_db &db)
-{
-    // Read rank index.
-    stream >> db.idxRank;
-    if (!stream.good()) return stream;
-
-    // Read data count.
-    uint32_t count;
-    stream.read((char*)&count, sizeof(count));
-    if (!stream.good()) return stream;
-
-    if (count) {
-        // Read data.
-        db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-    } else
-        db.data.clear();
-
-    return stream;
-}
 
 #pragma warning(pop)

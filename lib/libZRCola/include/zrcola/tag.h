@@ -210,6 +210,80 @@ namespace ZRCola {
         /// \param[in   ] cookie    Cookie for \p fn_abort call
         ///
         bool Search(_In_ const std::map<tagid_t, uint16_t> &tags, _In_ const character_db &ch_db, _In_ const std::set<chrcatid_t> &cats, _Inout_ std::map<string_t, charrank_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
+
+
+        ///
+        /// Writes character tag database to a stream
+        ///
+        /// \param[in] stream  Output stream
+        /// \param[in] db      Character tag database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::ostream& operator <<(_In_ std::ostream& stream, _In_ const chrtag_db& db)
+        {
+            // Write character index.
+            if (stream.fail()) return stream;
+            stream << db.idxChr;
+
+            // Write tag index.
+            if (stream.fail()) return stream;
+            stream << db.idxTag;
+
+            // Write data count.
+            auto data_count = db.data.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+            // 4G check
+            if (data_count > 0xffffffff) {
+                stream.setstate(std::ios_base::failbit);
+                return stream;
+            }
+#endif
+            if (stream.fail()) return stream;
+            uint32_t count = (uint32_t)data_count;
+            stream.write((const char*)&count, sizeof(count));
+
+            // Write data.
+            if (stream.fail()) return stream;
+            stream.write((const char*)db.data.data(), sizeof(uint16_t) * static_cast<std::streamsize>(count));
+
+            return stream;
+        }
+
+
+        ///
+        /// Reads character tag database from a stream
+        ///
+        /// \param[in ] stream  Input stream
+        /// \param[out] db      Character tag database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::istream& operator >>(_In_ std::istream& stream, _Out_ chrtag_db& db)
+        {
+            // Read character index.
+            stream >> db.idxChr;
+            if (!stream.good()) return stream;
+
+            // Read tag index.
+            stream >> db.idxTag;
+            if (!stream.good()) return stream;
+
+            // Read data count.
+            uint32_t count;
+            stream.read((char*)&count, sizeof(count));
+            if (!stream.good()) return stream;
+
+            if (count) {
+                // Read data.
+                db.data.resize(count);
+                stream.read((char*)db.data.data(), sizeof(uint16_t) * static_cast<std::streamsize>(count));
+            }
+            else
+                db.data.clear();
+
+            return stream;
+        }
     };
 
 
@@ -432,153 +506,81 @@ namespace ZRCola {
         /// \param[in   ] cookie    Cookie for \p fn_abort call
         ///
         bool Search(_In_z_ const char_t *str, _In_ uint32_t locale, _Inout_ std::map<tagid_t, uint16_t> &hits, _In_opt_ bool (__cdecl *fn_abort)(void *cookie) = NULL, _In_opt_ void *cookie = NULL) const;
+
+
+        ///
+        /// Writes tag database to a stream
+        ///
+        /// \param[in] stream  Output stream
+        /// \param[in] db      Tag database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::ostream& operator <<(_In_ std::ostream& stream, _In_ const tagname_db& db)
+        {
+            // Write name index.
+            if (stream.fail()) return stream;
+            stream << db.idxName;
+
+            // Write tag index.
+            if (stream.fail()) return stream;
+            stream << db.idxTag;
+
+            // Write data count.
+            auto data_count = db.data.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+            // 4G check
+            if (data_count > 0xffffffff) {
+                stream.setstate(std::ios_base::failbit);
+                return stream;
+            }
+#endif
+            if (stream.fail()) return stream;
+            uint32_t count = (uint32_t)data_count;
+            stream.write((const char*)&count, sizeof(count));
+
+            // Write data.
+            if (stream.fail()) return stream;
+            stream.write((const char*)db.data.data(), sizeof(uint16_t) * static_cast<std::streamsize>(count));
+
+            return stream;
+        }
+
+
+        ///
+        /// Reads tag database from a stream
+        ///
+        /// \param[in ] stream  Input stream
+        /// \param[out] db      Tag database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::istream& operator >>(_In_ std::istream& stream, _Out_ tagname_db& db)
+        {
+            // Read name index.
+            stream >> db.idxName;
+            if (!stream.good()) return stream;
+
+            // Read tag index.
+            stream >> db.idxTag;
+            if (!stream.good()) return stream;
+
+            // Read data count.
+            uint32_t count;
+            stream.read((char*)&count, sizeof(count));
+            if (!stream.good()) return stream;
+
+            if (count) {
+                // Read data.
+                db.data.resize(count);
+                stream.read((char*)db.data.data(), sizeof(uint16_t) * static_cast<std::streamsize>(count));
+            }
+            else
+                db.data.clear();
+
+            return stream;
+        }
     };
 };
-
-
-///
-/// Writes character tag database to a stream
-///
-/// \param[in] stream  Output stream
-/// \param[in] db      Character tag database
-///
-/// \returns The stream \p stream
-///
-inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::chrtag_db &db)
-{
-    // Write character index.
-    if (stream.fail()) return stream;
-    stream << db.idxChr;
-
-    // Write tag index.
-    if (stream.fail()) return stream;
-    stream << db.idxTag;
-
-    // Write data count.
-    auto data_count = db.data.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (data_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    uint32_t count = (uint32_t)data_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write data.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-
-    return stream;
-}
-
-
-///
-/// Reads character tag database from a stream
-///
-/// \param[in ] stream  Input stream
-/// \param[out] db      Character tag database
-///
-/// \returns The stream \p stream
-///
-inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::chrtag_db &db)
-{
-    // Read character index.
-    stream >> db.idxChr;
-    if (!stream.good()) return stream;
-
-    // Read tag index.
-    stream >> db.idxTag;
-    if (!stream.good()) return stream;
-
-    // Read data count.
-    uint32_t count;
-    stream.read((char*)&count, sizeof(count));
-    if (!stream.good()) return stream;
-
-    if (count) {
-        // Read data.
-        db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-    } else
-        db.data.clear();
-
-    return stream;
-}
-
-
-///
-/// Writes tag database to a stream
-///
-/// \param[in] stream  Output stream
-/// \param[in] db      Tag database
-///
-/// \returns The stream \p stream
-///
-inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::tagname_db &db)
-{
-    // Write name index.
-    if (stream.fail()) return stream;
-    stream << db.idxName;
-
-    // Write tag index.
-    if (stream.fail()) return stream;
-    stream << db.idxTag;
-
-    // Write data count.
-    auto data_count = db.data.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (data_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    uint32_t count = (uint32_t)data_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write data.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-
-    return stream;
-}
-
-
-///
-/// Reads tag database from a stream
-///
-/// \param[in ] stream  Input stream
-/// \param[out] db      Tag database
-///
-/// \returns The stream \p stream
-///
-inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::tagname_db &db)
-{
-    // Read name index.
-    stream >> db.idxName;
-    if (!stream.good()) return stream;
-
-    // Read tag index.
-    stream >> db.idxTag;
-    if (!stream.good()) return stream;
-
-    // Read data count.
-    uint32_t count;
-    stream.read((char*)&count, sizeof(count));
-    if (!stream.good()) return stream;
-
-    if (count) {
-        // Read data.
-        db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-    } else
-        db.data.clear();
-
-    return stream;
-}
 
 #pragma warning(pop)

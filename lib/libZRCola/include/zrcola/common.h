@@ -9,7 +9,7 @@
 #define _WINSOCKAPI_    // Prevent inclusion of winsock.h in windows.h.
 #include <Windows.h>
 #endif
-#include <stdex/sal.hpp>
+#include <stdex/compat.hpp>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
@@ -428,6 +428,68 @@ namespace ZRCola {
             return false;
         }
 
+
+        ///
+        /// Writes index to a stream
+        ///
+        /// \param[in] stream  Output stream
+        /// \param[in] idx     Index
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::ostream& operator <<(_In_ std::ostream& stream, _In_ const index& idx)
+        {
+            // Write index count.
+            auto idx_count = idx.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+            // 4G check
+            if (idx_count > 0xffffffff) {
+                stream.setstate(std::ios_base::failbit);
+                return stream;
+            }
+#endif
+            if (stream.fail()) return stream;
+            uint32_t count = (uint32_t)idx_count;
+            stream.write((const char*)&count, sizeof(count));
+
+            // Write index data.
+            if (stream.fail()) return stream;
+            stream.write((const char*)idx.data(), sizeof(T_idx) * static_cast<std::streamsize>(count));
+
+            return stream;
+        }
+
+
+        ///
+        /// Reads index from a stream
+        ///
+        /// \param[in]  stream  Input stream
+        /// \param[out] idx     Index
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::istream& operator >>(_In_ std::istream& stream, _Out_ index& idx)
+        {
+            uint32_t count;
+
+            // Read index count.
+            stream.read((char*)&count, sizeof(count));
+            if (!stream.good()) {
+                idx.clear();
+                return stream;
+            }
+
+            if (count) {
+                // Read index data.
+                idx.resize(count);
+                stream.read((char*)idx.data(), sizeof(T_idx) * static_cast<std::streamsize>(count));
+            }
+            else
+                idx.clear();
+
+            return stream;
+        }
+
     private:
         static int __cdecl compare_s(void *p, const void *a, const void *b)
         {
@@ -500,6 +562,136 @@ namespace ZRCola {
             }
 
             return false;
+        }
+
+
+        ///
+        /// Writes text index to a stream
+        ///
+        /// \param[in] stream  Output stream
+        /// \param[in] idx     Text index
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::ostream& operator <<(_In_ std::ostream& stream, _In_ const textindex& idx)
+        {
+            uint32_t count;
+
+            // Write index count.
+            auto idx_count = idx.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+            // 4G check
+            if (idx_count > 0xffffffff) {
+                stream.setstate(std::ios_base::failbit);
+                return stream;
+            }
+#endif
+            if (stream.fail()) return stream;
+            count = (uint32_t)idx_count;
+            stream.write((const char*)&count, sizeof(count));
+
+            // Write index data.
+            if (stream.fail()) return stream;
+            auto idx_data = idx.data();
+            stream.write((const char*)idx_data, sizeof(*idx_data) * static_cast<std::streamsize>(count));
+
+            // Write key count.
+            auto key_count = idx.keys.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+            // 4G check
+            if (idx_count > 0xffffffff) {
+                stream.setstate(std::ios_base::failbit);
+                return stream;
+            }
+#endif
+            if (stream.fail()) return stream;
+            count = (uint32_t)key_count;
+            stream.write((const char*)&count, sizeof(count));
+
+            // Write key data.
+            if (stream.fail()) return stream;
+            auto idx_keys_data = idx.keys.data();
+            stream.write((const char*)idx_keys_data, sizeof(*idx_keys_data) * static_cast<std::streamsize>(count));
+
+            // Write value count.
+            auto value_count = idx.values.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+            // 4G check
+            if (idx_count > 0xffffffff) {
+                stream.setstate(std::ios_base::failbit);
+                return stream;
+            }
+#endif
+            if (stream.fail()) return stream;
+            count = (uint32_t)value_count;
+            stream.write((const char*)&count, sizeof(count));
+
+            // Write value data.
+            if (stream.fail()) return stream;
+            auto idx_values_data = idx.values.data();
+            stream.write((const char*)idx_values_data, sizeof(*idx_values_data) * static_cast<std::streamsize>(count));
+
+            return stream;
+        }
+
+
+        ///
+        /// Reads text index from a stream
+        ///
+        /// \param[in]  stream  Input stream
+        /// \param[out] idx     Text index
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::istream& operator >>(_In_ std::istream& stream, _Out_ textindex& idx)
+        {
+            uint32_t count;
+
+            // Read text index count.
+            stream.read((char*)&count, sizeof(count));
+            if (!stream.good()) {
+                idx.clear();
+                return stream;
+            }
+
+            if (count) {
+                // Read text index.
+                idx.resize(count);
+                auto p = idx.data();
+                stream.read((char*)p, sizeof(*p) * static_cast<std::streamsize>(count));
+                if (!stream.good()) return stream;
+            }
+            else
+                idx.clear();
+
+            // Read keys count.
+            stream.read((char*)&count, sizeof(count));
+            if (!stream.good()) return stream;
+
+            if (count) {
+                // Read keys.
+                idx.keys.resize(count);
+                auto p = idx.keys.data();
+                stream.read((char*)p, sizeof(*p) * static_cast<std::streamsize>(count));
+                if (!stream.good()) return stream;
+            }
+            else
+                idx.keys.clear();
+
+            // Read value count.
+            stream.read((char*)&count, sizeof(count));
+            if (!stream.good()) return stream;
+
+            if (count) {
+                // Read values.
+                idx.values.resize(count);
+                auto p = idx.values.data();
+                stream.read((char*)p, sizeof(*p) * static_cast<std::streamsize>(count));
+            }
+            else
+                idx.values.clear();
+
+            return stream;
         }
 
     protected:
@@ -617,197 +809,5 @@ namespace ZRCola {
 #define GetUnicodeDump GetUnicodeDumpA
 #endif
 };
-
-
-///
-/// Writes index to a stream
-///
-/// \param[in] stream  Output stream
-/// \param[in] idx     Index
-///
-/// \returns The stream \p stream
-///
-template <class T_data, class T_idx, class T_el>
-inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::index<T_data, T_idx, T_el> &idx)
-{
-    // Write index count.
-    auto idx_count = idx.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (idx_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    uint32_t count = (uint32_t)idx_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write index data.
-    if (stream.fail()) return stream;
-    stream.write((const char*)idx.data(), sizeof(T_idx)*static_cast<std::streamsize>(count));
-
-    return stream;
-}
-
-
-///
-/// Reads index from a stream
-///
-/// \param[in]  stream  Input stream
-/// \param[out] idx     Index
-///
-/// \returns The stream \p stream
-///
-template <class T_data, class T_idx, class T_el>
-inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::index<T_data, T_idx, T_el> &idx)
-{
-    uint32_t count;
-
-    // Read index count.
-    stream.read((char*)&count, sizeof(count));
-    if (!stream.good()) {
-        idx.clear();
-        return stream;
-    }
-
-    if (count) {
-        // Read index data.
-        idx.resize(count);
-        stream.read((char*)idx.data(), sizeof(T_idx)*static_cast<std::streamsize>(count));
-    } else
-        idx.clear();
-
-    return stream;
-}
-
-
-///
-/// Writes text index to a stream
-///
-/// \param[in] stream  Output stream
-/// \param[in] idx     Text index
-///
-/// \returns The stream \p stream
-///
-template <class T_key, class T_val, class T_idx>
-inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::textindex<T_key, T_val, T_idx> &idx)
-{
-    uint32_t count;
-
-    // Write index count.
-    auto idx_count = idx.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (idx_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    count = (uint32_t)idx_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write index data.
-    if (stream.fail()) return stream;
-    auto idx_data = idx.data();
-    stream.write((const char*)idx_data, sizeof(*idx_data)*static_cast<std::streamsize>(count));
-
-    // Write key count.
-    auto key_count = idx.keys.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (idx_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    count = (uint32_t)key_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write key data.
-    if (stream.fail()) return stream;
-    auto idx_keys_data = idx.keys.data();
-    stream.write((const char*)idx_keys_data, sizeof(*idx_keys_data)*static_cast<std::streamsize>(count));
-
-    // Write value count.
-    auto value_count = idx.values.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (idx_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    count = (uint32_t)value_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write value data.
-    if (stream.fail()) return stream;
-    auto idx_values_data = idx.values.data();
-    stream.write((const char*)idx_values_data, sizeof(*idx_values_data)*static_cast<std::streamsize>(count));
-
-    return stream;
-}
-
-
-///
-/// Reads text index from a stream
-///
-/// \param[in]  stream  Input stream
-/// \param[out] idx     Text index
-///
-/// \returns The stream \p stream
-///
-template <class T_key, class T_val, class T_idx>
-inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::textindex<T_key, T_val, T_idx> &idx)
-{
-    uint32_t count;
-
-    // Read text index count.
-    stream.read((char*)&count, sizeof(count));
-    if (!stream.good()) {
-        idx.clear();
-        return stream;
-    }
-
-    if (count) {
-        // Read text index.
-        idx.resize(count);
-        auto p = idx.data();
-        stream.read((char*)p, sizeof(*p)*static_cast<std::streamsize>(count));
-        if (!stream.good()) return stream;
-    } else
-        idx.clear();
-
-    // Read keys count.
-    stream.read((char*)&count, sizeof(count));
-    if (!stream.good()) return stream;
-
-    if (count) {
-        // Read keys.
-        idx.keys.resize(count);
-        auto p = idx.keys.data();
-        stream.read((char*)p, sizeof(*p)*static_cast<std::streamsize>(count));
-        if (!stream.good()) return stream;
-    } else
-        idx.keys.clear();
-
-    // Read value count.
-    stream.read((char*)&count, sizeof(count));
-    if (!stream.good()) return stream;
-
-    if (count) {
-        // Read values.
-        idx.values.resize(count);
-        auto p = idx.values.data();
-        stream.read((char*)p, sizeof(*p)*static_cast<std::streamsize>(count));
-    } else
-        idx.values.clear();
-
-    return stream;
-}
 
 #pragma warning(pop)

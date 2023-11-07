@@ -330,6 +330,80 @@ namespace ZRCola {
         /// \param[out] map       The vector of source to destination index mappings (optional)
         ///
         void TranslateInv(_In_ transetid_t set, _In_z_count_(inputMax) const char_t* input, _In_ size_t inputMax, _In_opt_ const langchar_db *lc_db, _In_opt_ langid_t lang, _Out_ string_t &output, _Out_opt_ std::vector<mapping>* map = NULL) const;
+
+
+        ///
+        /// Writes translation database to a stream
+        ///
+        /// \param[in] stream  Output stream
+        /// \param[in] db      Translation database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::translation_db& db)
+        {
+            // Write translation index.
+            if (stream.fail()) return stream;
+            stream << db.idxSrc;
+
+            // Write inverse translation index.
+            if (stream.fail()) return stream;
+            stream << db.idxDst;
+
+            // Write data count.
+            auto data_count = db.data.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+            // 4G check
+            if (data_count > 0xffffffff) {
+                stream.setstate(std::ios_base::failbit);
+                return stream;
+            }
+#endif
+            if (stream.fail()) return stream;
+            uint32_t count = (uint32_t)data_count;
+            stream.write((const char*)&count, sizeof(count));
+
+            // Write data.
+            if (stream.fail()) return stream;
+            stream.write((const char*)db.data.data(), sizeof(uint16_t) * static_cast<std::streamsize>(count));
+
+            return stream;
+        }
+
+
+        ///
+        /// Reads translation database from a stream
+        ///
+        /// \param[in ] stream  Input stream
+        /// \param[out] db      Translation database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::translation_db& db)
+        {
+            // Read translation index.
+            stream >> db.idxSrc;
+            if (!stream.good()) return stream;
+
+            // Read inverse translation index.
+            stream >> db.idxDst;
+            if (!stream.good()) return stream;
+
+            // Read data count.
+            uint32_t count;
+            stream.read((char*)&count, sizeof(count));
+            if (!stream.good()) return stream;
+
+            if (count) {
+                // Read data.
+                db.data.resize(count);
+                stream.read((char*)db.data.data(), sizeof(uint16_t) * static_cast<std::streamsize>(count));
+            }
+            else
+                db.data.clear();
+
+            return stream;
+        }
     };
 
 
@@ -442,6 +516,72 @@ namespace ZRCola {
         {
             idxTranSet.clear();
             data      .clear();
+        }
+
+
+        ///
+        /// Writes translation set database to a stream
+        ///
+        /// \param[in] stream  Output stream
+        /// \param[in] db      Translation set database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::transet_db& db)
+        {
+            // Write translation set index.
+            if (stream.fail()) return stream;
+            stream << db.idxTranSet;
+
+            // Write data count.
+            auto data_count = db.data.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+            // 4G check
+            if (data_count > 0xffffffff) {
+                stream.setstate(std::ios_base::failbit);
+                return stream;
+            }
+#endif
+            if (stream.fail()) return stream;
+            uint32_t count = (uint32_t)data_count;
+            stream.write((const char*)&count, sizeof(count));
+
+            // Write data.
+            if (stream.fail()) return stream;
+            stream.write((const char*)db.data.data(), sizeof(uint16_t) * static_cast<std::streamsize>(count));
+
+            return stream;
+        }
+
+
+        ///
+        /// Reads translation set database from a stream
+        ///
+        /// \param[in ] stream  Input stream
+        /// \param[out] db      Translation set database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::transet_db& db)
+        {
+            // Read translation set index.
+            stream >> db.idxTranSet;
+            if (!stream.good()) return stream;
+
+            // Read data count.
+            uint32_t count;
+            stream.read((char*)&count, sizeof(count));
+            if (!stream.good()) return stream;
+
+            if (count) {
+                // Read data.
+                db.data.resize(count);
+                stream.read((char*)db.data.data(), sizeof(uint16_t) * static_cast<std::streamsize>(count));
+            }
+            else
+                db.data.clear();
+
+            return stream;
         }
     };
 
@@ -614,218 +754,81 @@ namespace ZRCola {
             idxRank   .clear();
             data      .clear();
         }
+
+
+        ///
+        /// Writes translation sequence database to a stream
+        ///
+        /// \param[in] stream  Output stream
+        /// \param[in] db      Translation sequence database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::transeq_db& db)
+        {
+            // Write translation sequence index.
+            if (stream.fail()) return stream;
+            stream << db.idxTranSeq;
+
+            // Write rank index.
+            if (stream.fail()) return stream;
+            stream << db.idxRank;
+
+            // Write data count.
+            auto data_count = db.data.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+            // 4G check
+            if (data_count > 0xffffffff) {
+                stream.setstate(std::ios_base::failbit);
+                return stream;
+            }
+#endif
+            if (stream.fail()) return stream;
+            uint32_t count = (uint32_t)data_count;
+            stream.write((const char*)&count, sizeof(count));
+
+            // Write data.
+            if (stream.fail()) return stream;
+            stream.write((const char*)db.data.data(), sizeof(uint16_t) * static_cast<std::streamsize>(count));
+
+            return stream;
+        }
+
+
+        ///
+        /// Reads translation sequence database from a stream
+        ///
+        /// \param[in ] stream  Input stream
+        /// \param[out] db      Translation sequence database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::transeq_db& db)
+        {
+            // Read translation sequence index.
+            stream >> db.idxTranSeq;
+            if (!stream.good()) return stream;
+
+            // Read rank index.
+            stream >> db.idxRank;
+            if (!stream.good()) return stream;
+
+            // Read data count.
+            uint32_t count;
+            stream.read((char*)&count, sizeof(count));
+            if (!stream.good()) return stream;
+
+            if (count) {
+                // Read data.
+                db.data.resize(count);
+                stream.read((char*)db.data.data(), sizeof(uint16_t) * static_cast<std::streamsize>(count));
+            }
+            else
+                db.data.clear();
+
+            return stream;
+        }
     };
 };
-
-
-///
-/// Writes translation database to a stream
-///
-/// \param[in] stream  Output stream
-/// \param[in] db      Translation database
-///
-/// \returns The stream \p stream
-///
-inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::translation_db &db)
-{
-    // Write translation index.
-    if (stream.fail()) return stream;
-    stream << db.idxSrc;
-
-    // Write inverse translation index.
-    if (stream.fail()) return stream;
-    stream << db.idxDst;
-
-    // Write data count.
-    auto data_count = db.data.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (data_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    uint32_t count = (uint32_t)data_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write data.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-
-    return stream;
-}
-
-
-///
-/// Reads translation database from a stream
-///
-/// \param[in ] stream  Input stream
-/// \param[out] db      Translation database
-///
-/// \returns The stream \p stream
-///
-inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::translation_db &db)
-{
-    // Read translation index.
-    stream >> db.idxSrc;
-    if (!stream.good()) return stream;
-
-    // Read inverse translation index.
-    stream >> db.idxDst;
-    if (!stream.good()) return stream;
-
-    // Read data count.
-    uint32_t count;
-    stream.read((char*)&count, sizeof(count));
-    if (!stream.good()) return stream;
-
-    if (count) {
-        // Read data.
-        db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-    } else
-        db.data.clear();
-
-    return stream;
-}
-
-
-///
-/// Writes translation set database to a stream
-///
-/// \param[in] stream  Output stream
-/// \param[in] db      Translation set database
-///
-/// \returns The stream \p stream
-///
-inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::transet_db &db)
-{
-    // Write translation set index.
-    if (stream.fail()) return stream;
-    stream << db.idxTranSet;
-
-    // Write data count.
-    auto data_count = db.data.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (data_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    uint32_t count = (uint32_t)data_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write data.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-
-    return stream;
-}
-
-
-///
-/// Reads translation set database from a stream
-///
-/// \param[in ] stream  Input stream
-/// \param[out] db      Translation set database
-///
-/// \returns The stream \p stream
-///
-inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::transet_db &db)
-{
-    // Read translation set index.
-    stream >> db.idxTranSet;
-    if (!stream.good()) return stream;
-
-    // Read data count.
-    uint32_t count;
-    stream.read((char*)&count, sizeof(count));
-    if (!stream.good()) return stream;
-
-    if (count) {
-        // Read data.
-        db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-    } else
-        db.data.clear();
-
-    return stream;
-}
-
-
-///
-/// Writes translation sequence database to a stream
-///
-/// \param[in] stream  Output stream
-/// \param[in] db      Translation sequence database
-///
-/// \returns The stream \p stream
-///
-inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::transeq_db &db)
-{
-    // Write translation sequence index.
-    if (stream.fail()) return stream;
-    stream << db.idxTranSeq;
-
-    // Write rank index.
-    if (stream.fail()) return stream;
-    stream << db.idxRank;
-
-    // Write data count.
-    auto data_count = db.data.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (data_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    uint32_t count = (uint32_t)data_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write data.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-
-    return stream;
-}
-
-
-///
-/// Reads translation sequence database from a stream
-///
-/// \param[in ] stream  Input stream
-/// \param[out] db      Translation sequence database
-///
-/// \returns The stream \p stream
-///
-inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::transeq_db &db)
-{
-    // Read translation sequence index.
-    stream >> db.idxTranSeq;
-    if (!stream.good()) return stream;
-
-    // Read rank index.
-    stream >> db.idxRank;
-    if (!stream.good()) return stream;
-
-    // Read data count.
-    uint32_t count;
-    stream.read((char*)&count, sizeof(count));
-    if (!stream.good()) return stream;
-
-    if (count) {
-        // Read data.
-        db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-    } else
-        db.data.clear();
-
-    return stream;
-}
 
 #pragma warning(pop)

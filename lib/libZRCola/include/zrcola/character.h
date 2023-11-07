@@ -328,6 +328,88 @@ namespace ZRCola {
             indexChr::size_type start;
             return idxChr.find(*c, start) ? idxChr[start].cat : chrcatid_t::blank;
         }
+
+
+        ///
+        /// Writes character database to a stream
+        ///
+        /// \param[in] stream  Output stream
+        /// \param[in] db      Character database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::ostream& operator <<(_In_ std::ostream& stream, _In_ const character_db &db)
+        {
+            // Write character index.
+            if (stream.fail()) return stream;
+            stream << db.idxChr;
+
+            // Write description index.
+            if (!stream.good()) return stream;
+            stream << db.idxDsc;
+
+            // Write sub-term description index.
+            if (!stream.good()) return stream;
+            stream << db.idxDscSub;
+
+            // Write data count.
+            auto data_count = db.data.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+            // 4G check
+            if (data_count > 0xffffffff) {
+                stream.setstate(std::ios_base::failbit);
+                return stream;
+            }
+#endif
+            if (stream.fail()) return stream;
+            uint32_t count = (uint32_t)data_count;
+            stream.write((const char*)&count, sizeof(count));
+
+            // Write data.
+            if (stream.fail()) return stream;
+            stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
+
+            return stream;
+        }
+
+
+        ///
+        /// Reads character database from a stream
+        ///
+        /// \param[in ] stream  Input stream
+        /// \param[out] db      Character database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::istream& operator >>(_In_ std::istream& stream, _Out_ character_db& db)
+        {
+            // Read character index.
+            stream >> db.idxChr;
+            if (!stream.good()) return stream;
+
+            // Read description index.
+            stream >> db.idxDsc;
+            if (!stream.good()) return stream;
+
+            // Read sub-term description index.
+            stream >> db.idxDscSub;
+            if (!stream.good()) return stream;
+
+            // Read data count.
+            uint32_t count;
+            stream.read((char*)&count, sizeof(count));
+            if (!stream.good()) return stream;
+
+            if (count) {
+                // Read data.
+                db.data.resize(count);
+                stream.read((char*)db.data.data(), sizeof(uint16_t) * static_cast<std::streamsize>(count));
+            }
+            else
+                db.data.clear();
+
+            return stream;
+        }
     };
 
 
@@ -486,161 +568,81 @@ namespace ZRCola {
             idxRank  .clear();
             data     .clear();
         }
+
+
+        ///
+        /// Writes character category database to a stream
+        ///
+        /// \param[in] stream  Output stream
+        /// \param[in] db      Character category database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::ostream& operator <<(_In_ std::ostream& stream, _In_ const chrcat_db& db)
+        {
+            // Write character category index.
+            if (stream.fail()) return stream;
+            stream << db.idxChrCat;
+
+            // Write rank index.
+            if (stream.fail()) return stream;
+            stream << db.idxRank;
+
+            // Write data count.
+            auto data_count = db.data.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+            // 4G check
+            if (data_count > 0xffffffff) {
+                stream.setstate(std::ios_base::failbit);
+                return stream;
+            }
+#endif
+            if (stream.fail()) return stream;
+            uint32_t count = (uint32_t)data_count;
+            stream.write((const char*)&count, sizeof(count));
+
+            // Write data.
+            if (stream.fail()) return stream;
+            stream.write((const char*)db.data.data(), sizeof(uint16_t) * static_cast<std::streamsize>(count));
+
+            return stream;
+        }
+
+
+        ///
+        /// Reads character category database from a stream
+        ///
+        /// \param[in ] stream  Input stream
+        /// \param[out] db      Character category database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::istream& operator >>(_In_ std::istream& stream, _Out_ chrcat_db& db)
+        {
+            // Read character category index.
+            stream >> db.idxChrCat;
+            if (!stream.good()) return stream;
+
+            // Read rank index.
+            stream >> db.idxRank;
+            if (!stream.good()) return stream;
+
+            // Read data count.
+            uint32_t count;
+            stream.read((char*)&count, sizeof(count));
+            if (!stream.good()) return stream;
+
+            if (count) {
+                // Read data.
+                db.data.resize(count);
+                stream.read((char*)db.data.data(), sizeof(uint16_t) * static_cast<std::streamsize>(count));
+            }
+            else
+                db.data.clear();
+
+            return stream;
+        }
     };
 };
-
-
-///
-/// Reads character database from a stream
-///
-/// \param[in ] stream  Input stream
-/// \param[out] db      Character database
-///
-/// \returns The stream \p stream
-///
-inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::character_db &db)
-{
-    // Read character index.
-    stream >> db.idxChr;
-    if (!stream.good()) return stream;
-
-    // Read description index.
-    stream >> db.idxDsc;
-    if (!stream.good()) return stream;
-
-    // Read sub-term description index.
-    stream >> db.idxDscSub;
-    if (!stream.good()) return stream;
-
-    // Read data count.
-    uint32_t count;
-    stream.read((char*)&count, sizeof(count));
-    if (!stream.good()) return stream;
-
-    if (count) {
-        // Read data.
-        db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-    } else
-        db.data.clear();
-
-    return stream;
-}
-
-
-///
-/// Writes character database to a stream
-///
-/// \param[in] stream  Output stream
-/// \param[in] db      Character database
-///
-/// \returns The stream \p stream
-///
-inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::character_db &db)
-{
-    // Write character index.
-    if (stream.fail()) return stream;
-    stream << db.idxChr;
-
-    // Write description index.
-    if (!stream.good()) return stream;
-    stream << db.idxDsc;
-
-    // Write sub-term description index.
-    if (!stream.good()) return stream;
-    stream << db.idxDscSub;
-
-    // Write data count.
-    auto data_count = db.data.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (data_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    uint32_t count = (uint32_t)data_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write data.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-
-    return stream;
-}
-
-
-///
-/// Writes character category database to a stream
-///
-/// \param[in] stream  Output stream
-/// \param[in] db      Character category database
-///
-/// \returns The stream \p stream
-///
-inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::chrcat_db &db)
-{
-    // Write character category index.
-    if (stream.fail()) return stream;
-    stream << db.idxChrCat;
-
-    // Write rank index.
-    if (stream.fail()) return stream;
-    stream << db.idxRank;
-
-    // Write data count.
-    auto data_count = db.data.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (data_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    uint32_t count = (uint32_t)data_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write data.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-
-    return stream;
-}
-
-
-///
-/// Reads character category database from a stream
-///
-/// \param[in ] stream  Input stream
-/// \param[out] db      Character category database
-///
-/// \returns The stream \p stream
-///
-inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::chrcat_db &db)
-{
-    // Read character category index.
-    stream >> db.idxChrCat;
-    if (!stream.good()) return stream;
-
-    // Read rank index.
-    stream >> db.idxRank;
-    if (!stream.good()) return stream;
-
-    // Read data count.
-    uint32_t count;
-    stream.read((char*)&count, sizeof(count));
-    if (!stream.good()) return stream;
-
-    if (count) {
-        // Read data.
-        db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-    } else
-        db.data.clear();
-
-    return stream;
-}
 
 #pragma warning(pop)

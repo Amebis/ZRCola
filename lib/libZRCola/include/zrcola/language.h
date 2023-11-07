@@ -177,6 +177,84 @@ namespace ZRCola {
         /// - \c true when character is used in language
         /// - \c false otherwise
         bool IsLocalCharacter(_In_ const char_t *chr, _In_ const char_t *chr_end, _In_ langid_t lang) const;
+
+
+        ///
+        /// Writes language character database to a stream
+        ///
+        /// \param[in] stream  Output stream
+        /// \param[in] db      Language character database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::ostream& operator <<(_In_ std::ostream& stream, _In_ const langchar_db& db)
+        {
+            // Write character index.
+            if (stream.fail()) return stream;
+            stream << db.idxChr;
+
+#ifdef ZRCOLA_LANGCHAR_LANG_IDX
+            // Write language index.
+            if (stream.fail()) return stream;
+            stream << db.idxLang;
+#endif
+
+            // Write data count.
+            auto data_count = db.data.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+            // 4G check
+            if (data_count > 0xffffffff) {
+                stream.setstate(std::ios_base::failbit);
+                return stream;
+            }
+#endif
+            if (stream.fail()) return stream;
+            uint32_t count = (uint32_t)data_count;
+            stream.write((const char*)&count, sizeof(count));
+
+            // Write data.
+            if (stream.fail()) return stream;
+            stream.write((const char*)db.data.data(), sizeof(uint16_t) * static_cast<std::streamsize>(count));
+
+            return stream;
+        }
+
+
+        ///
+        /// Reads language character database from a stream
+        ///
+        /// \param[in ] stream  Input stream
+        /// \param[out] db      Language character database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::istream& operator >>(_In_ std::istream& stream, _Out_ langchar_db& db)
+        {
+            // Read character index.
+            stream >> db.idxChr;
+            if (!stream.good()) return stream;
+
+#ifdef ZRCOLA_LANGCHAR_LANG_IDX
+            // Read language index.
+            stream >> db.idxLang;
+            if (!stream.good()) return stream;
+#endif
+
+            // Read data count.
+            uint32_t count;
+            stream.read((char*)&count, sizeof(count));
+            if (!stream.good()) return stream;
+
+            if (count) {
+                // Read data.
+                db.data.resize(count);
+                stream.read((char*)db.data.data(), sizeof(uint16_t) * static_cast<std::streamsize>(count));
+            }
+            else
+                db.data.clear();
+
+            return stream;
+        }
     };
 
 
@@ -277,149 +355,73 @@ namespace ZRCola {
             idxLang.clear();
             data   .clear();
         }
+
+
+        ///
+        /// Writes language database to a stream
+        ///
+        /// \param[in] stream  Output stream
+        /// \param[in] db      Language database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::ostream& operator <<(_In_ std::ostream& stream, _In_ const language_db& db)
+        {
+            // Write language index.
+            if (stream.fail()) return stream;
+            stream << db.idxLang;
+
+            // Write data count.
+            auto data_count = db.data.size();
+#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
+            // 4G check
+            if (data_count > 0xffffffff) {
+                stream.setstate(std::ios_base::failbit);
+                return stream;
+            }
+#endif
+            if (stream.fail()) return stream;
+            uint32_t count = (uint32_t)data_count;
+            stream.write((const char*)&count, sizeof(count));
+
+            // Write data.
+            if (stream.fail()) return stream;
+            stream.write((const char*)db.data.data(), sizeof(uint16_t) * static_cast<std::streamsize>(count));
+
+            return stream;
+        }
+
+
+        ///
+        /// Reads language database from a stream
+        ///
+        /// \param[in ] stream  Input stream
+        /// \param[out] db      Language database
+        ///
+        /// \returns The stream \p stream
+        ///
+        friend std::istream& operator >>(_In_ std::istream& stream, _Out_ language_db& db)
+        {
+            // Read language index.
+            stream >> db.idxLang;
+            if (!stream.good()) return stream;
+
+            // Read data count.
+            uint32_t count;
+            stream.read((char*)&count, sizeof(count));
+            if (!stream.good()) return stream;
+
+            if (count) {
+                // Read data.
+                db.data.resize(count);
+                stream.read((char*)db.data.data(), sizeof(uint16_t) * static_cast<std::streamsize>(count));
+            }
+            else
+                db.data.clear();
+
+            return stream;
+        }
     };
 };
-
-
-///
-/// Writes language character database to a stream
-///
-/// \param[in] stream  Output stream
-/// \param[in] db      Language character database
-///
-/// \returns The stream \p stream
-///
-inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::langchar_db &db)
-{
-    // Write character index.
-    if (stream.fail()) return stream;
-    stream << db.idxChr;
-
-#ifdef ZRCOLA_LANGCHAR_LANG_IDX
-    // Write language index.
-    if (stream.fail()) return stream;
-    stream << db.idxLang;
-#endif
-
-    // Write data count.
-    auto data_count = db.data.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (data_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    uint32_t count = (uint32_t)data_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write data.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-
-    return stream;
-}
-
-
-///
-/// Reads language character database from a stream
-///
-/// \param[in ] stream  Input stream
-/// \param[out] db      Language character database
-///
-/// \returns The stream \p stream
-///
-inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::langchar_db &db)
-{
-    // Read character index.
-    stream >> db.idxChr;
-    if (!stream.good()) return stream;
-
-#ifdef ZRCOLA_LANGCHAR_LANG_IDX
-    // Read language index.
-    stream >> db.idxLang;
-    if (!stream.good()) return stream;
-#endif
-
-    // Read data count.
-    uint32_t count;
-    stream.read((char*)&count, sizeof(count));
-    if (!stream.good()) return stream;
-
-    if (count) {
-        // Read data.
-        db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-    } else
-        db.data.clear();
-
-    return stream;
-}
-
-
-///
-/// Writes language database to a stream
-///
-/// \param[in] stream  Output stream
-/// \param[in] db      Language database
-///
-/// \returns The stream \p stream
-///
-inline std::ostream& operator <<(_In_ std::ostream& stream, _In_ const ZRCola::language_db &db)
-{
-    // Write language index.
-    if (stream.fail()) return stream;
-    stream << db.idxLang;
-
-    // Write data count.
-    auto data_count = db.data.size();
-#if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
-    // 4G check
-    if (data_count > 0xffffffff) {
-        stream.setstate(std::ios_base::failbit);
-        return stream;
-    }
-#endif
-    if (stream.fail()) return stream;
-    uint32_t count = (uint32_t)data_count;
-    stream.write((const char*)&count, sizeof(count));
-
-    // Write data.
-    if (stream.fail()) return stream;
-    stream.write((const char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-
-    return stream;
-}
-
-
-///
-/// Reads language database from a stream
-///
-/// \param[in ] stream  Input stream
-/// \param[out] db      Language database
-///
-/// \returns The stream \p stream
-///
-inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::language_db &db)
-{
-    // Read language index.
-    stream >> db.idxLang;
-    if (!stream.good()) return stream;
-
-    // Read data count.
-    uint32_t count;
-    stream.read((char*)&count, sizeof(count));
-    if (!stream.good()) return stream;
-
-    if (count) {
-        // Read data.
-        db.data.resize(count);
-        stream.read((char*)db.data.data(), sizeof(uint16_t)*static_cast<std::streamsize>(count));
-    } else
-        db.data.clear();
-
-    return stream;
-}
 
 #pragma warning(pop)
