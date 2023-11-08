@@ -12,16 +12,6 @@ namespace ZRCola {
     class translation_db;
 }
 
-///
-/// Reads translation database from a stream
-///
-/// \param[in ] stream  Input stream
-/// \param[out] db      Translation database
-///
-/// \returns The stream \p stream
-///
-inline std::istream& operator >>(_In_ std::istream& stream, _Out_ ZRCola::translation_db &db);
-
 #include <algorithm>
 #include <istream>
 #include <ostream>
