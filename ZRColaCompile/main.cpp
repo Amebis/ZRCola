@@ -981,10 +981,10 @@ int _tmain(int argc, _TCHAR *argv[])
                 << "\"Content-Transfer-Encoding: 8bit\\n\"" << endl
                 << "\"X-Generator: ZRColaCompile\\n\"" << endl;
 
-            wstring_convert<codecvt_utf8<wchar_t>> conv;
+            charset_encoder<wchar_t, char> conv(stdex::wchar_t_charset, charset_id::utf8);
             for (auto p = pot.cbegin(); p != pot.cend(); ++p) {
                 // Convert UTF-16 to UTF-8 and escape.
-                string t(conv.to_bytes(*p)), u;
+                string t(conv.convert(*p)), u;
                 for (size_t i = 0, n = t.size(); i < n; i++) {
                     char c = t[i];
                     switch (c) {

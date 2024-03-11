@@ -308,7 +308,7 @@ namespace ZRCola {
         ///
         /// Character description index key comparator
         ///
-        struct character_desc_idx_less : public std::binary_function<std::wstring, std::wstring, bool>
+        struct character_desc_idx_less
         {
             inline bool operator()(const std::wstring& _Left, const std::wstring& _Right) const
             {
