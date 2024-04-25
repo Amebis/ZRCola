@@ -10,6 +10,7 @@
 #include <Windows.h>
 #endif
 #include <stdex/compat.hpp>
+#include <stdex/mapping.hpp>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
@@ -714,57 +715,15 @@ namespace ZRCola {
         }
     };
 
-
     ///
     /// Source-destination index transformation mapping
     ///
-    struct mapping {
-    public:
-        size_t src;     ///< Character index in source string
-        size_t dst;     ///< Character index in destination string
-
-        inline mapping() : src(0), dst(0) {};
-        inline mapping(_In_ size_t s, _In_ size_t d) : src(s), dst(d) {}
-
-        ///
-        /// Reverses source and destination indexes
-        ///
-        inline void invert() { size_t tmp = src; src = dst; dst = tmp; }
-    };
-
+    using mapping = stdex::mapping<size_t>;
 
     ///
     /// A vector for destination-source index transformation mapping
     ///
-    class mapping_vector : public std::vector<mapping> {
-    public:
-        ///
-        /// Transforms character index of destination to source
-        ///
-        /// \param[in] decmp  Character index in destination string
-        ///
-        /// \returns  Character index in source string
-        ///
-        size_t to_src(_In_ size_t dst) const;
-
-        ///
-        /// Transforms source index to destination index
-        ///
-        /// \param[in] cmp  Character index in source string
-        ///
-        /// \returns  Character index in destination string
-        ///
-        size_t to_dst(_In_ size_t src) const;
-
-        ///
-        /// Reverses source and destination indexes
-        ///
-        inline void invert()
-        {
-            for (iterator i = begin(), iEnd = end(); i != iEnd; ++i)
-                i->invert();
-        }
-    };
+    using mapping_vector = std::vector<mapping>;
 
     ///
     /// Binary compares two strings

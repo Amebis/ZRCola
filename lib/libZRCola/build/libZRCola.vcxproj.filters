@@ -14,9 +14,6 @@
     <ClCompile Include="..\src\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\mapping.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\translate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

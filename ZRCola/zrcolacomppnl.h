@@ -97,7 +97,7 @@ protected:
 inline size_t wxZRColaComposerPanel::MapToDestination(_In_ size_t src) const
 {
     for (auto m = m_mapping.cbegin(), m_end = m_mapping.cend(); m != m_end; ++m)
-        src = m->to_dst(src);
+        src = stdex::src2dst(*m, src);
 
     return src;
 }
@@ -106,7 +106,7 @@ inline size_t wxZRColaComposerPanel::MapToDestination(_In_ size_t src) const
 inline size_t wxZRColaComposerPanel::MapToSource(_In_ size_t dst) const
 {
     for (auto m = m_mapping.crbegin(), m_end = m_mapping.crend(); m != m_end; ++m)
-        dst = m->to_src(dst);
+        dst = stdex::dst2src(*m, dst);
 
     return dst;
 }
